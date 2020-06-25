@@ -3,24 +3,21 @@
 <jsp:include page="/WEB-INF/views/header.jsp"/>
 <script	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 <style>
-html, body {
-	background-color: #FFFFFF;
-	font-family: 'Roboto', sans-serif;
-}
 
-.main {
+
+#lessonApp_view .main {
 	width: 100%;
 	display: block;
 }
 
-.content-wrap_01 {
+#lessonApp_view .content-wrap_01 {
 	width: 30%;
 	border: 4px solid rgba(161, 161, 161, 0.5);
 	overflow: hidden;
 	background: white;
 }
 
-.content-wrap_02 {
+#lessonApp_view .content-wrap_02 {
 	width: 30%;
 	margin: 0 auto;
 	border: 4px solid rgba(161, 161, 161, 0.5);
@@ -28,7 +25,7 @@ html, body {
 	background: white;
 }
 
-.del-data {
+#lessonApp_view .del-data {
 	display: block;
 	float: left;
 	width: 10%;
@@ -40,21 +37,21 @@ html, body {
 	border-radius: 10px;
 }
 
-.content-right {
+#lessonApp_view .content-right {
 	float: left;
 	width: 100%;
 	padding: 10px;
 }
 
-.sun {
+#lessonApp_view .sun {
 	color: #ef3333;
 }
 
-.sat {
+#lessonApp_view .sat {
 	color: #2107e0;
 }
 
-.content-right table tr td {
+#lessonApp_view .content-right table tr td {
 	width: 40px;
 	height: 20px;
 	text-align: center;
@@ -62,22 +59,22 @@ html, body {
 	font-weight: bold;
 }
 
-.active {
+#lessonApp_view .active {
 	background: #0b0809;
 	border-radius: 50%;
 	color: #ffffff;
 }
 
-.title_left {
+#lessonApp_view .title_left {
 	float: left;
 }
 
-#title {
+#lessonApp_view #title {
 	width: 70%;
 }
 
 @media ( min-width : 850px) {
-	.main {
+	#lessonApp_view .main {
 		float: left;
 		display: flex;
 		align-items: center;
@@ -85,46 +82,46 @@ html, body {
 		width: 100vw;
 		height: 100vh;
 	}
-	.content-wrap_01 {
+	#lessonApp_view .content-wrap_01 {
 		width: 30%;
 		border: 4px solid rgba(161, 161, 161, 0.5);
 		overflow: hidden;
 		background: white;
 	}
-	.content-wrap_02 {
+	#lessonApp_view .content-wrap_02 {
 		width: 30%;
 		margin: 0 auto;
 		border: 4px solid rgba(161, 161, 161, 0.5);
 		overflow: hidden;
 		background: white;
 	}
-	.content-right {
+	#lessonApp_view .content-right {
 		float: left;
 		width: 100%;
 		padding: 20px 20px 20px 20px;
 	}
-	.sun {
+	#lessonApp_view .sun {
 		color: #ef3333;
 	}
-	.sat {
+	#lessonApp_view .sat {
 		color: #2107e0;
 	}
-	.content-right table tr td {
+	#lessonApp_view .content-right table tr td {
 		width: 50px;
 		height: 50px;
 		text-align: center;
 		font-size: 20px;
 		font-weight: bold;
 	}
-	.active {
+	#lessonApp_view .active {
 		background: #0b0809;
 		border-radius: 50%;
 		color: #ffffff;
 	}
-	.left {
+	#lessonApp_view .left {
 		float: left;
 	}
-	#title {
+	#lessonApp_view #title {
 		width: 70%;
 	}
 }
@@ -346,7 +343,9 @@ $(function(){
 
 	<div id="subWrap" class="hdMargin">
 		<section id="subContents">
-			<article id="discussion_list" class="inner1200">
+			<article id="lessonApp_view" class="inner1200">
+			
+			
 				<div class="title_main">
 					<div class="title_wrap">
 						<div class="left">제목 &nbsp;&nbsp;&nbsp;</div>
@@ -420,6 +419,8 @@ $(function(){
 						</div>
 					</div>
 				</div>
+			
+			
 			</article>
 		</section>
 	</div>

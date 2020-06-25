@@ -32,5 +32,10 @@ public class LanguageDTO {
 		this.language = language;
 	}
 	
+	public void Aakduck_Jojang() {
+		System.out.println("babo ");
+		System.out.println("hohohohohohoho");
+	}
+	
 	
 }

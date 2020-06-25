@@ -8,7 +8,7 @@ public class LanguageDTO {
 		super();
 		this.seq = seq;
 		this.language = language;
-		System.out.println("πË∞Ì∆Œ");
+		System.out.println("gagagaga");
 	}
 
 	public LanguageDTO() {

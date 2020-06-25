@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Discussion">
+	
+	<select id="languageList" resultType="kh.pingpong.dto.LanguageDTO">
+		select * from language
+	</select>
+
+	<insert id="insert">
+		insert into discussion values(discussion_seq.nextval, #{writer}, #{title}, #{contents}, #{caution}, #{language}, default, default, default, default)
+	</insert>
+	
+	<select id="selectAll" resultType="kh.pingpong.dto.DiscussionDTO">
+		select * from discussion order by seq desc
+	</select>
+	
+	<select id="selectOne" resultType="kh.pingpong.dto.DiscussionDTO">
+		select * from discussion where seq = #{seq}
+	</select>
+	
+	<delete id="delete">
+		delete discussion where seq = #{seq}
+	</delete>
+	
+	<update id="viewCount">
+		update discussion set view_count = view_count+1 where seq = #{seq}
+	</update>
+	
+	
+	<update id="modify">
+		update discussion set title = #{title}, contents = #{contents}, caution = #{caution}, language = #{language} where seq = ${seq}
+	</update>
+
+</mapper>

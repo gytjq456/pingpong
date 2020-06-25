@@ -1,0 +1,39 @@
+@charset "UTF-8";
+#subContents { margin-top:70px; min-height:720px;}
+
+/* 버튼 공통 */
+.btnS1 { margin:20px 0;}
+.btnS1.center {text-align:center;  }
+.btnS1.right {text-align:right; font-size:0; letter-spacing:-4px; }
+.btnS1 > p { display:inline-block; text-align:center; letter-spacing:-0.5px; margin-right:10px; }
+.btnS1 > p:last-child { mnargin:0; }
+
+.btnS1 a,
+.btnS1 button,
+.btnS1 input { border:1px solid #ddd; color:#3162a4; display:block; width:120px; height:42px; line-height:42px; border-radius:6px; overflow:hidden; font-size:14px; font-weight:500;} 
+
+.btnS1 a.on,
+.btnS1 button.on,
+.btnS1 input.on { background:#fbaab0;  color:#fff; border:none; }
+
+.btnS1 a:hover,
+.btnS1 button:hover,
+.btnS1 input:hover { color:#fff; background:#fbaab0;}
+
+/* 토론 게시판 리스트 */
+#listStyle1 { background:#fff; box-shadow: 0 7px 25px 0 rgba(0,0,0,0.1); border-radius:12px; padding:30px;}
+#listStyle1 > section { border-bottom:1px solid #ddd; padding-bottom:30px; margin-bottom:30px;}
+/* #listStyle1 {   }
+#listStyle1 > section {background:#fff;  border-radius:12px; padding:30px; margin-bottom:30px; box-shadow: 0 7px 25px 0 rgba(0,0,0,0.1);} */
+
+#listStyle1 .title { margin-bottom:10px; font-size: 23px; font-weight: 500; color: #333; word-break: break-word; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;}
+#listStyle1 .contents { color:#777;}
+#listStyle1 .countList { }
+#listStyle1 .countList > ul {  text-align:right;}
+#listStyle1 .countList > ul > li { display:inline-block; text-align:left;}
+
+    
+    
+   
+
+

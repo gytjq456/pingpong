@@ -1,16 +1,17 @@
 package kh.pingpong.dto;
 
-public class HobbyDTO {
+public class CountryDTO {
+
 	private int seq;
-	private String hobby;
+	private String name;
 	
-	public HobbyDTO(int seq, String hobby) {
+	public CountryDTO(int seq, String name) {
 		super();
 		this.seq = seq;
-		this.hobby = hobby;
+		this.name = name;
 	}
 
-	public HobbyDTO() {
+	public CountryDTO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -23,12 +24,12 @@ public class HobbyDTO {
 		this.seq = seq;
 	}
 
-	public String getHobby() {
-		return hobby;
+	public String getName() {
+		return name;
 	}
 
-	public void setHobby(String hobby) {
-		this.hobby = hobby;
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	

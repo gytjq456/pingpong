@@ -344,81 +344,84 @@ $(function(){
 
 </script>
 
-</head>
-<body>
-	<div class="title_main">
-		<div class="title_wrap">
-			<div class="left">제목 &nbsp;&nbsp;&nbsp;</div>
-			<div class="right">
-				<input type="text" id="title" name="title">
-			</div>
-		</div>
+	<div id="subWrap" class="hdMargin">
+		<section id="subContents">
+			<article id="discussion_list" class="inner1200">
+				<div class="title_main">
+					<div class="title_wrap">
+						<div class="left">제목 &nbsp;&nbsp;&nbsp;</div>
+						<div class="right">
+							<input type="text" id="title" name="title">
+						</div>
+					</div>
+				</div>
+			
+				<div class="appPeriod_main">
+					<div class="appPeriod_wrap">
+						<div class="left">모집기간 &nbsp;&nbsp;&nbsp;</div>
+						<div class="right">
+							<span id="cal1">달력1</span> <input type="text" id="start_date"
+								name="start_date"> ~ <span id="cal2">달력2</span> <input
+								type="text" id="end_date" name="end_date">
+						</div>
+					</div>
+				</div>
+			
+				<!-- 달력 1 -->
+				<div class="main">
+					<div id="content-wrap_01" class="content-wrap_01">
+						<div class="content-right">
+							<table id="calendar_01" class="calendar" align="center">
+								<thead>
+									<tr class="btn-wrap clearfix">
+										<td><label id="prev"> &#60; </label></td>
+										<td align="center" id="current-year-month_01" colspan="5"></td>
+										<td><label id="next"> &#62; </label></td>
+									</tr>
+									<tr>
+										<td class="sun" align="center">Sun</td>
+										<td align="center">Mon</td>
+										<td align="center">Tue</td>
+										<td align="center">Wed</td>
+										<td align="center">Thu</td>
+										<td align="center">Fri</td>
+										<td class="sat" align="center">Sat</td>
+									</tr>
+								</thead>
+								<tbody id="calendar-body_01" class="calendar-body"></tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			
+				<!-- 달력 2 -->
+				<div class="main">
+					<div id="content-wrap_02" class="content-wrap_02">
+						<div class="content-right">
+							<table id="calendar_02" class="calendar" align="center">
+								<thead>
+									<tr class="btn-wrap clearfix">
+										<td><label id="prev_02"> &#60; </label></td>
+										<td align="center" id="current-year-month_02" colspan="5"></td>
+										<td><label id="next_02"> &#62; </label></td>
+									</tr>
+									<tr>
+										<td class="sun" align="center">Sun</td>
+										<td align="center">Mon</td>
+										<td align="center">Tue</td>
+										<td align="center">Wed</td>
+										<td align="center">Thu</td>
+										<td align="center">Fri</td>
+										<td class="sat" align="center">Sat</td>
+									</tr>
+								</thead>
+								<tbody id="calendar-body_02" class="calendar-body"></tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</article>
+		</section>
 	</div>
-
-	<div class="appPeriod_main">
-		<div class="appPeriod_wrap">
-			<div class="left">모집기간 &nbsp;&nbsp;&nbsp;</div>
-			<div class="right">
-				<span id="cal1">달력1</span> <input type="text" id="start_date"
-					name="start_date"> ~ <span id="cal2">달력2</span> <input
-					type="text" id="end_date" name="end_date">
-			</div>
-		</div>
-	</div>
-
-	<!-- 달력 1 -->
-	<div class="main">
-		<div id="content-wrap_01" class="content-wrap_01">
-			<div class="content-right">
-				<table id="calendar_01" class="calendar" align="center">
-					<thead>
-						<tr class="btn-wrap clearfix">
-							<td><label id="prev"> &#60; </label></td>
-							<td align="center" id="current-year-month_01" colspan="5"></td>
-							<td><label id="next"> &#62; </label></td>
-						</tr>
-						<tr>
-							<td class="sun" align="center">Sun</td>
-							<td align="center">Mon</td>
-							<td align="center">Tue</td>
-							<td align="center">Wed</td>
-							<td align="center">Thu</td>
-							<td align="center">Fri</td>
-							<td class="sat" align="center">Sat</td>
-						</tr>
-					</thead>
-					<tbody id="calendar-body_01" class="calendar-body"></tbody>
-				</table>
-			</div>
-		</div>
-	</div>
-
-	<!-- 달력 2 -->
-	<div class="main">
-		<div id="content-wrap_02" class="content-wrap_02">
-			<div class="content-right">
-				<table id="calendar_02" class="calendar" align="center">
-					<thead>
-						<tr class="btn-wrap clearfix">
-							<td><label id="prev_02"> &#60; </label></td>
-							<td align="center" id="current-year-month_02" colspan="5"></td>
-							<td><label id="next_02"> &#62; </label></td>
-						</tr>
-						<tr>
-							<td class="sun" align="center">Sun</td>
-							<td align="center">Mon</td>
-							<td align="center">Tue</td>
-							<td align="center">Wed</td>
-							<td align="center">Thu</td>
-							<td align="center">Fri</td>
-							<td class="sat" align="center">Sat</td>
-						</tr>
-					</thead>
-					<tbody id="calendar-body_02" class="calendar-body"></tbody>
-				</table>
-			</div>
-		</div>
-	</div>
-
-</body>
-</html>
+	
+<jsp:include page="/WEB-INF/views/footer.jsp"/>

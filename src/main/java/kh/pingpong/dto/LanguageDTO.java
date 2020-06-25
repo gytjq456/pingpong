@@ -35,7 +35,10 @@ public class LanguageDTO {
 	public void Aakduck_Jojang() {
 		System.out.println("babo ");
 		System.out.println("hohohohohohoho");
+
 		System.out.println("baboyayayayayay boaboayayayayayayayay");
+
+		System.out.println("hyo shp");
 	}
 	
 	

@@ -132,7 +132,7 @@
 $(function(){
    $(".content-wrap_01").hide();
    $(".content-wrap_02").hide();   
-
+ 
    var currentTitle_01 = document.getElementById('current-year-month_01');
    var currentTitle_02 = document.getElementById('current-year-month_02');
    //var currentTitle = $(".current-year-month");
@@ -238,7 +238,7 @@ $(function(){
       console.log(clickedDate1);
       $(clickedDate1).addClass('active');
       //$(clickedDate1).classList.add('active'); 
-      clickStart();
+      clickStart(calendarBody, currentTitle);
 
    }
    $("#prev").on("click", function() {
@@ -273,7 +273,7 @@ $(function(){
       clickedDate1 = $("."+today.getDate());
       $(clickedDate1).addClass('active');
       //clickedDate1.classList.add('active'); 
-      clickStart();
+      clickStart(calendarBody, currentTitle);
    }
    
    $("#next").on("click", function() {
@@ -301,45 +301,44 @@ $(function(){
    
    var tdGroup = [];
    
-   function clickStart() {
-	for (let i = 1; i <= pageYear[first.getMonth()]; i++) {
-    	tdGroup[i] = $("."+i);
-    	 
-    	// console.log(tdGroup[i].html());
+   function clickStart(calendarBody, currentTitle) {
+	   console.log($(calendarBody).closest('table').attr('id'));
 
-    	tdGroup[i].on("click",function(){
-	   		console.log(tdGroup[i]);
-	   		console.log($(tdGroup[i]).attr('class'));
-	   		
-	   		for (let i = 1; i <= pageYear[first.getMonth()]; i++) {
-				 //tdGroup[i].classList.contains='active'
-	
-		   		  if ($(tdGroup[i]).hasClass('active')) {
-		   		    $(tdGroup[i]).removeClass('active');
-		   		  }
-	   		}
-	
-			clickedDate1 = tdGroup[i];
-			console.log($(clickedDate1));
-			$(clickedDate1).addClass('active');
+    	$(".calendar-body td").on("click",function(){
+
+			clickedDate1 = $(this);
+			
+			var calendar = clickedDate1.closest(".calendar-body"); 
+			
+			console.log(calendar);
+			
+			calendar.find("td").removeClass("active");
+			clickedDate1.addClass('active');
 			
 			today = new Date(today.getFullYear(), today.getMonth(), $(clickedDate1).html());
 			   	      
 			console.log($(clickedDate1));
-			console.log(today);
 			   	      
 			keyValue = today.getFullYear() + '' + (today.getMonth()+1) + '' + today.getDate();
+			
+			if(calendar.attr("id") == "calendar-body_01"){
+				$("#start_date").val(keyValue);
+			}else if(calendar.attr("id") == "calendar-body_02"){
+				$("#end_date").val(keyValue);
+			}
 
+	
    			})
-        // tdGroup[i].addEventListener('click', changeToday);
+
 		}
-	}
+
 
    clickStart();
    
 })
 
 </script>
+
 
 	<div id="subWrap" class="hdMargin">
 		<section id="subContents">

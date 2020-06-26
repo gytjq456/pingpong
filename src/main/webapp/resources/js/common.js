@@ -1,6 +1,5 @@
 $(document).ready(function(){
 	init();
-
 	$(window).on("load", function () {
 		var doc_width = $(window).width(); // 문서 로드될 때 문서 넓이 감지
 		hdlr_switch(doc_width);

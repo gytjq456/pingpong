@@ -1,0 +1,172 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="/css/member.css">
+	
+	<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script src="/script/signup.js"></script>
+	
+	<title>Insert title here</title>
+</head>
+<body>
+	<h1>MEMBER</h1>
+	<div>
+		<form action="signupProc" method="post" enctype="multipart/form-data">
+			<input type="hidden" name="mem_type" value="basic">
+			<input type="hidden" name="category" value="member">
+			
+			<div class="se_singup">
+				<div class="title">아이디</div>
+				<div class="se_con">
+					<input type="text" name="id" id="id">
+					<button type="button">중복확인</button>
+				</div>
+			</div>
+
+			<div class="se_singup">
+				<div class="title">비밀번호</div>
+				<div class="se_con">
+					<input type="password" id="pw" name="pw">
+				</div>
+			</div>
+
+			<div class="se_singup">
+				<div class="title">비밀번호</div>
+				<div class="se_con">
+					<input type="password" name="pw_ck" id="pw_ck">
+				</div>
+			</div>
+
+			<div class="se_singup">
+				<div class="title">이름</div>
+				<div class="se_con">
+					<input type="text" id="name" name="name">
+				</div>
+			</div>
+
+			<div class="se_singup">
+				<div class="title">나이</div>
+				<div class="se_con">
+					<input type="text" id="age" name="age">				
+					
+					<label><input type="radio" name="gender" value="남자" id="m"> 남자</label>
+					<label><input type="radio" name="gender" value="여자" id="g"> 여자</label>
+				</div>
+			</div>
+
+			<div class="se_singup">
+				<div class="title">e-mail</div>
+				<div class="se_con">
+					<input type="text" id="email" name="email">
+				</div>
+			</div>
+
+			<div class="se_singup">
+				<div class="title">전화번호</div>
+				<div class="se_con">
+					<select id="phone_country" name="phone_country">
+						<option value="010">010</option>
+						<option value="011">011</option>
+						<option value="070">070</option>
+					</select>
+					<input type="text" id="phone" name="phone">
+				</div>
+			</div>
+
+			<div class="se_singup">
+				<div class="title">주소</div>
+				<div class="se_con">
+					<input type="text" id="sample3_postcode" placeholder="우편번호">
+					<input type="button" id="postbtn" value="우편번호 찾기"><br>
+					<input type="text" id="sample3_address" placeholder="주소" name="address">
+					<!-- <input type="text" id="sample3_detailAddress" placeholder="상세주소">
+					<input type="text" id="sample3_extraAddress" placeholder="참고항목"> -->
+					
+					<div id="wrap" style="display:none;border:1px solid;width:500px;height:300px;margin:5px 0;position:relative">
+					<img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="foldDaumPostcode()" alt="접기 버튼">
+					</div>
+				</div>
+			</div>
+
+			<div class="se_singup">
+				<div class="title">은행</div>
+				<div class="se_con">
+					<select id="bank_name" name="bank_name">
+						<c:forEach var="i" items="${bankList}">	
+							<option value="${i.bank_name}">${i.bank_name}</option>
+						</c:forEach>
+					</select>
+					<input type="text" id="account" name="account">
+				</div>
+			</div>
+			
+			<div class="se_singup">
+				<div class="title">프로필 사진</div>
+				<div class="se_con">
+					<input type="file" id="profile" name="profile">
+				</div>
+			</div>
+
+			<div class="se_singup">
+				<div class="title">나라</div>
+				<div class="se_con">
+					<select id="country" name="country">
+						<c:forEach var="i" items="${countryList}">						
+							<option value="${i.name}">${i.name}</option>
+						</c:forEach>
+					</select>
+				</div>
+			</div>
+
+			<div class="se_singup">
+				<div class="title">구사 가능 언어</div>
+				<div class="se_con">
+					<c:forEach var="i" items="${lanList}" varStatus="status">	
+						<input type="checkbox" name="lang_can" value="${i.language}" id="test${status.index}, lang_can" name="lang_can"/>
+						<label for="test${status.index}" >${i.language}</label>
+					</c:forEach>
+				</div>
+			</div>
+
+			<div class="se_singup">
+				<div class="title">배우고 싶은 언어</div>
+				<div class="se_con">
+					<c:forEach var="i" items="${lanList}" varStatus="status">							
+						<input type="checkbox" name="lang_learn" value="${i.language}" id="test2${status.index}, lang_learn" name="lang_learn"/>
+						<label for="test2${status.index}">${i.language}</label>
+					</c:forEach>
+				</div>
+			</div>
+
+			<div class="se_singup">
+				<div class="title">취미</div>
+				<div class="se_con">
+					<c:forEach var="i" items="${hobbyList}" varStatus="status">		
+						<input type="checkbox" name="hobby" value="${i.hobby}" id="test3${status.index}" name="hobby">
+						<label for="test3${status.index}">${i.hobby}</label>
+					</c:forEach>
+				</div>
+			</div>
+
+			<div class="se_singup">
+				<div class="title">자기소개</div>
+				<div class="se_con">
+					<textarea id="introduce" name="introduce"> </textarea>
+				</div>
+			</div>
+
+			<div class="si_btn">
+				<input value="회원가입" type="submit">
+				<button type="button">뒤로가기</button>
+			</div>
+		</form>
+
+	</div>
+</body>
+</html>

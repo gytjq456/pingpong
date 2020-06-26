@@ -6,12 +6,17 @@
 		$(function(){
 			$("#listStyle1 > section").each(function(){
 				var text = $(this).find(".contents").text();
-				var textSubString;
+				var seq = $(this).data("seq");
+				$(this).children("article").wrap('<a href="/discussion/view?seq='+seq+'">')
+			
+				var tagLt = text.replace(/<a/gim,"$lta;");
+				var tagGt = tagLt.replace(/a>/gim,"a$gt;");
+				console.log(tagGt)
 				if(text.length >= 300) { 
-					textSubString = text.substring(0,299)+"...";;
-					$(this).find(".contents a").html(textSubString);
+					tagGt = tagGt.substring(0,299)+"...";;
+					$(this).find(".contents").text(tagGt);
 				}else{
-					$(this).find(".contents a").html(text);
+					$(this).find(".contents").text(tagGt);
 				}
 			})
 
@@ -34,19 +39,21 @@
 				<div id="listStyle1">
 					
 					<c:forEach var="i" items="${list}">
-						<section>
-							<div class="title"><a href="/discussion/view?seq=${i.seq}">${i.title}</a></div>
-							<div>글쓴이 : ${i.writer}</div>
-							<div class="contents"><a href="/discussion/view?seq=${i.seq}">${i.contents}</a></div>			
-							<div>언어 : ${i.language}</div>			
-							<div>날짜  : ${i.dateString}</div>	
-							<div class="countList">
-								<ul>
-									<li>조회수 : ${i.view_count}</li>
-									<li>좋아요 : ${i.like_count}</li>
-									<li>리뷰 : ${i.review_count}</li>
-								</ul>
-							</div>		
+						<section data-seq="${i.seq}">
+							<article>
+								<div class="title">${i.title}</div>
+								<div>글쓴이 : ${i.writer}</div>
+								<div class="contents">${i.contents}</div>			
+								<div>언어 : ${i.language}</div>			
+								<div>날짜  : ${i.dateString}</div>	
+								<div class="countList">
+									<ul>
+										<li>조회수 : ${i.view_count}</li>
+										<li>좋아요 : ${i.like_count}</li>
+										<li>댓글 : ${i.comment_count}</li>
+									</ul>
+								</div>		
+							</article>
 						</section>
 					</c:forEach>
 				</div>

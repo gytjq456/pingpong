@@ -19,23 +19,22 @@ $(function(){
 		}
 	}); 
 	
+	var titleObj = $("#title");
+	var cautionObj = $("#caution");
+	
+	$("input,textarea").blur(function(){
+		var thisVal = $(this).val();
+		$(this).val(textChk(thisVal));
+	})
+	$(".note-editable").blur(function(){
+		var thisVal = $(this).text();
+		$(this).text(textChk(thisVal));
+	});
+	
 	$("#writeForm").on("submit",function(){
-		var titleObj = $("#title");
 		var titleVal = titleObj.val();
-		var cautionObj = $("#caution");
 		var cautionVal = cautionObj.val();
 		var noteObj = $(".note-editable");
-		var valArr = [titleVal,cautionVal];
-	
-		for(var i=0; i<valArr.length; i++){
-			if(valArr[i].indexOf(">")){
-				alert("입력안대")
-				valArr[i].value = valArr[i].replaceAll("<", "&lt;");
-				valArr[i].value = valArr[i].replaceAll("<", "&gt;");
-			}
-			//valArr[i] = valArr[i].replace("<", "&lt;");
-			//valArr[i] = valArr[i].replace(">", "&gt;");
-		}
 	
 		if(titleVal.replace(/\s|　/gi, "").length == 0){
 			alert("제목을 입력해주세요.")
@@ -59,6 +58,17 @@ $(function(){
 	})
 	
 })
+function textChk(thisVal){
+	var replaceId  = /[<script>()]/gi;
+	var textVal = thisVal;
+    if (textVal.length > 0) {
+        if (textVal.match(replaceId)) {
+        	textVal = thisVal.replace(replaceId, "");
+        }
+    }
+    return textVal;
+}
+
 function uploadSummernoteImageFile(file, editor) {
 	data = new FormData();
 	data.append("file", file);

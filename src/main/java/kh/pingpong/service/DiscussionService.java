@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kh.pingpong.dao.DiscussionDAO;
+import kh.pingpong.dto.CommentDTO;
 import kh.pingpong.dto.DiscussionDTO;
 import kh.pingpong.dto.LanguageDTO;
 
@@ -50,6 +51,18 @@ public class DiscussionService {
 	// 토론 글 수정하기
 	public int modify(DiscussionDTO disDto) throws Exception{
 		return disDao.modify(disDto);
+	}
+	
+	
+	// 댓글 쓰기
+	public int commentInsert(CommentDTO commDTO) throws Exception{
+		return disDao.commentInsert(commDTO);
+	}
+	
+	// 토론 댓글 가져오기
+	
+	public List<CommentDTO> selectComment(int parent_Seq) throws Exception{
+		return disDao.selectComment(parent_Seq);
 	}
 	
 }

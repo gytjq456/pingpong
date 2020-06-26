@@ -9,7 +9,7 @@
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="/resources/css/style.css"/>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script> -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="/resources/js/common.js"></script>
 </head>

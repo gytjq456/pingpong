@@ -18,8 +18,7 @@ import kh.pingpong.dto.MemberDTO;
 @Repository
 public class MemberDAO {
 
-	@Autowired
-	private JdbcTemplate jdbc;
+
 	
 	@Autowired
 	private SqlSessionTemplate mybatis;

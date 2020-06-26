@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kh.pingpong.dto.CommentDTO;
 import kh.pingpong.dto.DiscussionDTO;
 import kh.pingpong.dto.LanguageDTO;
 
@@ -51,6 +52,16 @@ public class DiscussionDAO {
 	// 토론 글 수정
 	public int modify(DiscussionDTO disDto) throws Exception{
 		return mybatis.update("Discussion.modify",disDto);
+	}
+	
+	// 댓글 쓰기
+	public int commentInsert(CommentDTO commDTO) throws Exception{
+		return mybatis.insert("Discussion.commentInsert",commDTO);
+	}
+	
+	// 댓글 쓰기
+	public List<CommentDTO> selectComment(int parent_Seq) throws Exception{
+		return mybatis.selectList("Discussion.selectComment",parent_Seq);
 	}
 	
 

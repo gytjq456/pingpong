@@ -32,6 +32,20 @@
 #listStyle1 .countList > ul {  text-align:right;}
 #listStyle1 .countList > ul > li { display:inline-block; text-align:left;}
 
+
+/* 댓글  */
+.comment_wrap {}
+.comment_wrap .comment_list {}
+.comment_wrap .comment_list > article {}
+.comment_wrap .comment_list .userInfo { }
+.comment_wrap .comment_list .userInfo > div { display:inline-block; vertical-align:middle; margin-right:12px;} 
+.comment_wrap .comment_list .userInfo > div:last-child { margin:0; }
+.comment_wrap .comment_list .userInfo .thumb { width:60px; height:60px; border-radius:50%; overflow:hidden;}
+.comment_wrap .comment_list .userInfo .info { }
+.comment_wrap .comment_list .userInfo .info > div { line-height:1.4; margin-bottom:4px; }
+.comment_wrap .comment_list .userInfo .info > div:last-child { margin:0; }
+.comment_wrap .comment_list .userInfo .info .userId { font-size:16px; }
+.comment_wrap .comment_list .userInfo .info .writeDate { color:#999; }
     
     
    

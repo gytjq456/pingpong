@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import kh.pingpong.dto.CommentDTO;
 import kh.pingpong.dto.DiscussionDTO;
 import kh.pingpong.dto.LanguageDTO;
 import kh.pingpong.service.DiscussionService;
@@ -49,6 +50,8 @@ public class DiscussionController {
 	@RequestMapping("view")
 	public String view(DiscussionDTO disDto, Model model) throws Exception{
 		disDto = disService.selectOne(disDto.getSeq());
+		List<CommentDTO> commDto = disService.selectComment(disDto.getSeq());
+		model.addAttribute("commentList", commDto);
 		model.addAttribute("disDto", disDto);
 		return "board/discussion/view";
 	}
@@ -81,6 +84,19 @@ public class DiscussionController {
 	@RequestMapping("modifyProc")
 	public String modifyProc(DiscussionDTO disDto) throws Exception{
 		int result = disService.modify(disDto);
+		if(result > 0) {
+			return String.valueOf(true);
+		}else {
+			return String.valueOf(false);
+		}
+	}
+	
+	
+	// 댓글 쓰기
+	@ResponseBody
+	@RequestMapping("commentProc")
+	public String commentProc(CommentDTO commDTO) throws Exception{
+		int result = disService.commentInsert(commDTO);
 		if(result > 0) {
 			return String.valueOf(true);
 		}else {

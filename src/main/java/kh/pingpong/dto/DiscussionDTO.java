@@ -13,7 +13,7 @@ public class DiscussionDTO {
 	private Timestamp write_date;
 	private int view_count;
 	private int like_count;
-	private int review_count;
+	private int comment_count;
 	private String dateString;
 	
 	
@@ -50,7 +50,7 @@ public class DiscussionDTO {
 
 	
 	public DiscussionDTO(int seq, String writer, String title, String contents, String caution, String language, Timestamp write_date, int view_count,
-			int like_count, int review_count) {
+			int like_count, int comment_count) {
 		super();
 		this.seq = seq;
 		this.writer = writer;
@@ -61,7 +61,7 @@ public class DiscussionDTO {
 		this.write_date = write_date;
 		this.view_count = view_count;
 		this.like_count = like_count;
-		this.review_count = review_count;
+		this.comment_count = comment_count;
 		this.dateString = new SimpleDateFormat("YYYY-MM-dd").format(write_date);
 	}
 
@@ -158,15 +158,18 @@ public class DiscussionDTO {
 	}
 
 
-	public int getReview_count() {
-		return review_count;
+
+	public int getComment_count() {
+		return comment_count;
 	}
 
 
-	public void setReview_count(int review_count) {
-		this.review_count = review_count;
+
+	public void setComment_count(int comment_count) {
+		this.comment_count = comment_count;
 	}
-	
+
+
 	
 }
 

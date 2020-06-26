@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Repository
 public class FileDAO {
-	@Autowired
-	private JdbcTemplate jdbc;
+//	@Autowired
+//	private JdbcTemplate jdbc;
 	
 	@Autowired
 	private SqlSessionTemplate mybatis;

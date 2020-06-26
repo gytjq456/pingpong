@@ -19,9 +19,6 @@ import kh.pingpong.dto.MemberDTO;
 public class MemberDAO {
 
 	@Autowired
-	private JdbcTemplate jdbc;
-	
-	@Autowired
 	private SqlSessionTemplate mybatis;
 	
 	public List<BankDTO> bankList(){

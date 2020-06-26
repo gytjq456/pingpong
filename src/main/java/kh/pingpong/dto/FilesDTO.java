@@ -2,16 +2,16 @@ package kh.pingpong.dto;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public class FilseDTO {
+public class FilesDTO {
 	private MultipartFile[] files;
 	private int[] fileSeq;
 	
-	public FilseDTO() {
+	public FilesDTO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public FilseDTO(MultipartFile[] files, int[] fileSeq) {
+	public FilesDTO(MultipartFile[] files, int[] fileSeq) {
 		super();
 		this.files = files;
 		this.fileSeq = fileSeq;

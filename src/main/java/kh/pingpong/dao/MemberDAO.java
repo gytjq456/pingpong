@@ -1,11 +1,11 @@
 package kh.pingpong.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import kh.pingpong.dto.BankDTO;
@@ -17,7 +17,7 @@ import kh.pingpong.dto.MemberDTO;
 
 @Repository
 public class MemberDAO {
-
+	
 	@Autowired
 	private SqlSessionTemplate mybatis;
 	
@@ -37,8 +37,13 @@ public class MemberDAO {
 		return mybatis.selectList("Member.countryList");
 	}
 	
-	public int memberInsert(MemberDTO mdto) {
-		return mybatis.insert("Member.memberInsert",mdto);
+	public int memberInsert(MemberDTO mdto, FileDTO fdto) {
+		Map<String, Object> memberAdd = new HashMap<>();
+		memberAdd.put("mdto",mdto);
+		memberAdd.put("fdto",fdto);
+		System.out.println(mdto.getPhone_country() +"gkgkgkgkgkgkgk");
+		System.out.println(mdto.getPhone()+"밍밍");
+		return mybatis.insert("Member.memberInsert",memberAdd);
 	}
 	
 	public int memberFile(FileDTO fdto) {

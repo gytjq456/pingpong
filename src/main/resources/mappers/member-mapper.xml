@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Member">
+
+	<select id ="bankList" resultType="kh.pingpong.dto.BankDTO">
+		select * from bank_name
+	</select>
+
+	<select id ="countryList" resultType="kh.pingpong.dto.CountryDTO">
+		select * from country
+	</select>
+	
+	<select id ="lanList" resultType="kh.pingpong.dto.LanguageDTO">
+		select * from language
+	</select>
+	
+	<select id ="hobbyList" resultType="kh.pingpong.dto.HobbyDTO">
+		select * from hobby
+	</select>
+	
+	<insert id ="memberInsert">
+		insert into member values(
+			#{mdto.mem_type}, #{mdto.id}, #{mdto.pw}, #{mdto.name}, ${mdto.age},
+			#{mdto.gender}, #{mdto.email}, #{mdto.phone_country}, #{mdto.phone}, #{mdto.address}, #{mdto.bank_name},
+			#{mdto.account}, #{fdto.oriname}, #{mdto.country}, #{mdto.lang_can}, #{mdto.lang_learn}, #{mdto.hobby},
+			#{mdto.introduce}, default
+		)
+	</insert>
+	
+	<insert id="memberFile">
+		insert into files values(files_seq.nextval, #{sysname}, #{oriname}, #{category}, 0)
+	</insert>
+	
+</mapper>

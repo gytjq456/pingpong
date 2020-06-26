@@ -396,7 +396,7 @@ $(function(){
 				<div class="main">
 					<div id="content-wrap_02" class="content-wrap_02">
 						<div class="content-right">
-							<table id="calendar_02" class="calendar" align="center">
+							<table id="calendar_02" class="calendar" align="enter">
 								<thead>
 									<tr class="btn-wrap clearfix">
 										<td><label id="prev_02"> &#60; </label></td>

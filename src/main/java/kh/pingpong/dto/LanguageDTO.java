@@ -8,7 +8,6 @@ public class LanguageDTO {
 		super();
 		this.seq = seq;
 		this.language = language;
-		System.out.println("gagagaga");
 	}
 
 	public LanguageDTO() {
@@ -30,16 +29,6 @@ public class LanguageDTO {
 
 	public void setLanguage(String language) {
 		this.language = language;
-	}
-	
-	public void Aakduck_Jojang() {
-		System.out.println("babo ");
-		System.out.println("hohohohohohoho");
-
-		System.out.println("baboyayayayayay boaboayayayayayayayay");
-
-		System.out.println("hyo shp");
-	}
-	
+	}	
 	
 }

@@ -3,7 +3,10 @@
 <mapper namespace="Tutor">
 
 <insert id="insert">
-	insert into tutor_app values(tutor_app_seq.nextval,#{title},#{license},#{career},#{exp},#{introduce},#{recomm},default)
+	insert into tutor_app values(tutor_app_seq.nextval,#{title},#{career},#{exp},#{introduce},#{recomm},default)
 </insert>
 
+<insert id="insertFiles">
+	insert into files values(files_seq.nextval,#{sysname}, #{oriname}, 'X','partner', 0)
+</insert>
 </mapper>

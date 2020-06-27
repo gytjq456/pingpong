@@ -27,13 +27,13 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	
-	
+	<!-- 멀티파트리졸버 찾아주는거 / 파일전송에 필요함 -->
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<beans:property name="maxUploadSize" value="1048570"/>
 	</beans:bean>
-	
+
 	<context:component-scan base-package="kh.pingpong"/>
+
 	
 	
 	

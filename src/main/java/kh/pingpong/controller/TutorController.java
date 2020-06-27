@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import kh.pingpong.dto.FileDTO;
+import kh.pingpong.dto.FilesDTO;
 import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.dto.TutorAppDTO;
 import kh.pingpong.dto.TutorDTO;
@@ -41,23 +42,26 @@ public class TutorController {
 	public String tutorAppSend(Model model, TutorAppDTO tadto, MultipartFile[] files) throws Exception{
 		//----------------------파일업로드 
 		String filePath = session.getServletContext().getRealPath("upload/tutorLicense/");
+		System.out.println(filePath);
 		List<FileDTO> fileList = new ArrayList<>();
 		File targetLoc;
 		
+		System.out.println(files);
 		if(files.length != 0) {
 			for(MultipartFile file : files) {
 				FileDTO fdto = new FileDTO();
 				fdto.setOriname(file.getOriginalFilename());
-				fdto.setSysname(System.currentTimeMillis()+"_"+file.getOriginalFilename());
+				String systemFileName=System.currentTimeMillis()+"_"+file.getOriginalFilename(); 
+				fdto.setSysname(systemFileName);
 
-				targetLoc = new File(filePath + "/" + fdto.getSysname());
+				targetLoc = new File(filePath + "/" + systemFileName);
 				file.transferTo(targetLoc);
 				fileList.add(fdto);
 			}
 		}
 		//----------------------------------
 		
-		tservice.tutorAppSend(tadto);
+		tservice.tutorAppSend(tadto,fileList, filePath);
 
 		model.addAttribute("list", session.getAttribute("loginInfo"));
 		

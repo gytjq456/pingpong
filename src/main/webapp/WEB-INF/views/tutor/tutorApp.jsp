@@ -77,7 +77,7 @@
 		<article id="lessonApp_view" class="inner1200">
 
 			<h6>튜터 신청서</h6>
-			<form action="tutorAppSend" method="post">
+			<form action="tutorAppSend" method="post" enctype="multipart/form-data">
 			
 				<div class="top_wrapper">
 					<div class="profile">

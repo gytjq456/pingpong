@@ -7,8 +7,8 @@ public class TutorAppDTO {
 	private String title;
 	private String career;
 	private String exp;
-	private String recomm;
 	private String introduce;
+	private String recomm;
 	private String pass;
 	
 	

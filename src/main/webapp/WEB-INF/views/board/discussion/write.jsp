@@ -26,10 +26,10 @@ $(function(){
 		var thisVal = $(this).val();
 		$(this).val(textChk(thisVal));
 	})
-	$(".note-editable").blur(function(){
-		var thisVal = $(this).text();
+/* 	$(".note-editable").blur(function(){
+		var thisVal = $(this).html();
 		$(this).text(textChk(thisVal));
-	});
+	}); */
 	
 	$("#writeForm").on("submit",function(){
 		var titleVal = titleObj.val();
@@ -59,7 +59,7 @@ $(function(){
 	
 })
 function textChk(thisVal){
-	var replaceId  = /[<script>()]/gi;
+	var replaceId  = /(script)/gi;
 	var textVal = thisVal;
     if (textVal.length > 0) {
         if (textVal.match(replaceId)) {
@@ -80,7 +80,6 @@ function uploadSummernoteImageFile(file, editor) {
 		processData : false,
 		success : function(data) {
         	//항상 업로드된 파일의 url이 있어야 한다.
-        	console.log(data)
 			$(editor).summernote('insertImage', data.url);
 		}
 	});

@@ -5,6 +5,7 @@ import java.util.List;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import kh.pingpong.dto.CommentDTO;
 import kh.pingpong.dto.DiscussionDTO;
@@ -53,17 +54,43 @@ public class DiscussionDAO {
 	public int modify(DiscussionDTO disDto) throws Exception{
 		return mybatis.update("Discussion.modify",disDto);
 	}
-	
-	// 댓글 쓰기
-	public int commentInsert(CommentDTO commDTO) throws Exception{
-		return mybatis.insert("Discussion.commentInsert",commDTO);
+
+	// 댓글 좋아요
+	public int like(int seq) throws Exception{
+		return mybatis.update("Discussion.like",seq);
 	}
 	
 	// 댓글 쓰기
+	@Transactional("txManager")
+	public int commentInsert(CommentDTO commDTO) throws Exception{
+		mybatis.update("Discussion.disCommentCount", commDTO);
+		return mybatis.insert("Discussion.commentInsert",commDTO);
+	}
+	
+	// 댓글 가져오기
 	public List<CommentDTO> selectComment(int parent_Seq) throws Exception{
 		return mybatis.selectList("Discussion.selectComment",parent_Seq);
 	}
 	
+	
+	// 댓글 좋아요
+	public int commentLike(int seq) throws Exception{
+		return mybatis.update("Discussion.commentLike",seq);
+	}
+	
+	// 댓글 싫아요
+	public int commentHate(int seq) throws Exception{
+		return mybatis.update("Discussion.commentHate",seq);
+	}
 
+	// 베스트 댓글
+	public List<CommentDTO> bestComment(int seq) throws Exception{
+		return mybatis.selectList("Discussion.bestComment",seq);
+	}
+	
+	// 댓글 삭제
+	public int commentDelete(int seq) throws Exception{
+		return mybatis.delete("Discussion.commentDelete",seq);
+	}
 	
 }

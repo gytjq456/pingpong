@@ -41,7 +41,6 @@ public class DiscussionController {
 	@RequestMapping("list")
 	public String list(Model model) throws Exception{
 		List<DiscussionDTO> list = disService.selectAll();
-		
 		model.addAttribute("list", list);
 		return "board/discussion/list";
 	}
@@ -51,7 +50,11 @@ public class DiscussionController {
 	public String view(DiscussionDTO disDto, Model model) throws Exception{
 		disDto = disService.selectOne(disDto.getSeq());
 		List<CommentDTO> commDto = disService.selectComment(disDto.getSeq());
+		List<CommentDTO> bestCommDto = disService.bestComment(disDto.getSeq());
+		
+		
 		model.addAttribute("commentList", commDto);
+		model.addAttribute("bestCommentList", bestCommDto);
 		model.addAttribute("disDto", disDto);
 		return "board/discussion/view";
 	}
@@ -91,6 +94,17 @@ public class DiscussionController {
 		}
 	}
 	
+	// 게시글 좋아요
+		@ResponseBody
+		@RequestMapping("like")
+		public String like(DiscussionDTO disDto) throws Exception{
+			int result = disService.like(disDto.getSeq());
+			if(result > 0) {
+				return String.valueOf(true);
+			}else {
+				return String.valueOf(false);
+			}
+		}
 	
 	// 댓글 쓰기
 	@ResponseBody
@@ -103,6 +117,47 @@ public class DiscussionController {
 			return String.valueOf(false);
 		}
 	}
+	
+	
+	
+	
+	// 댓글 좋아요
+	@ResponseBody
+	@RequestMapping("commentLike")
+	public String commentLike(CommentDTO commDTO) throws Exception{
+		int result = disService.commentLike(commDTO.getSeq());
+		if(result > 0) {
+			return String.valueOf(true);
+		}else {
+			return String.valueOf(false);
+		}
+	}
+	
+	// 댓글 싫어요
+	@ResponseBody
+	@RequestMapping("commentHate")
+	public String commentHate(CommentDTO commDTO) throws Exception{
+		int result = disService.commentHate(commDTO.getSeq());
+		if(result > 0) {
+			return String.valueOf(true);
+		}else {
+			return String.valueOf(false);
+		}
+	}
+	
+	
+	//댓글 삭제
+	@ResponseBody
+	@RequestMapping("commentDelete")
+	public String commentDelete(CommentDTO commDTO) throws Exception{
+		int result = disService.commentDelete(commDTO.getSeq());
+		if(result > 0) {
+			return String.valueOf(true);
+		}else {
+			return String.valueOf(false);
+		}
+	}
+	
 	
 	
 }

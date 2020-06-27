@@ -42,7 +42,7 @@ public class DiscussionService {
 		disDao.viewCount(seq);
 		return disDao.selectOne(seq);
 	}
-	
+
 	// 토론 글 삭제
 	public int delete(int seq) throws Exception{
 		return disDao.delete(seq);
@@ -54,6 +54,11 @@ public class DiscussionService {
 	}
 	
 	
+	// 게시글 좋아요 
+	public int like(int seq) throws Exception{
+		return disDao.like(seq);
+	}
+	
 	// 댓글 쓰기
 	public int commentInsert(CommentDTO commDTO) throws Exception{
 		return disDao.commentInsert(commDTO);
@@ -64,5 +69,25 @@ public class DiscussionService {
 	public List<CommentDTO> selectComment(int parent_Seq) throws Exception{
 		return disDao.selectComment(parent_Seq);
 	}
+	
+	// 댓글 좋아요 
+	public int commentLike(int seq) throws Exception{
+		return disDao.commentLike(seq);
+	}
+	// 댓글 싫어요
+	public int commentHate(int seq) throws Exception{
+		return disDao.commentHate(seq);
+	}
+	
+	// 베스트 댓글
+	public List<CommentDTO> bestComment(int seq) throws Exception{
+		return disDao.bestComment(seq);
+	}
+	
+	// 토론 댓글 삭제
+	public int commentDelete(int seq) throws Exception{
+		return disDao.commentDelete(seq);
+	}
+	
 	
 }

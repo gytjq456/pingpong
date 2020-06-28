@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Group">
+	<select id="selectHobby" resultType="kh.pingpong.dto.HobbyDTO">
+		select * from hobby
+	</select>
+	
+	<insert id="insert">
+		insert into grouplist values(grouplist_seq.nextval, #{title}, 'test',
+			#{hobby_type}, #{apply_start}, #{apply_end}, #{start_date},
+			#{end_date}, #{max_num}, 1, #{location}, #{contents},
+			default, 0, 0, 0, 0, 0, default)
+	</insert>
+	
+	<select id="selectList" resultType="kh.pingpong.dto.GroupDTO">
+		select * from (select grouplist.*, row_number() over(order by ${orderBy} desc, seq desc) rnum from grouplist) where rnum between #{start} and #{end}
+	</select>
+	
+	<select id="selectBySeq" resultType="kh.pingpong.dto.GroupDTO">
+		select * from grouplist where seq = #{value}
+	</select>
+	
+	<select id="searchSeq" resultType="int">
+		select * from (select seq from grouplist where writer = #{value} order by seq desc) where rownum = 1
+	</select>
+	
+	<delete id="delete">
+		delete grouplist where seq = #{value}
+	</delete>
+	
+	<update id="update">
+		update grouplist set title = #{title}, hobby_type = #{hobby_type},
+			apply_start = #{apply_start}, apply_end = #{apply_end},
+			start_date = #{start_date}, end_date = #{end_date},
+			max_num = #{max_num}, location = #{location}, contents = #{contents}
+			where seq = #{seq}
+	</update>
+	
+	<select id="selectCount" resultType="int">
+		select count(*) from grouplist
+	</select>
+	
+	<update id="updateViewCount">
+		update grouplist set view_count = view_count + 1 where seq = #{seq}
+	</update>
+	
+	<insert id="insertApp">
+		insert into group_app values(group_app_seq.nextval, 'test', '테스트', 30, '여', 'test',
+			'test', '한국어', '영어', #{contents}, #{parent_seq})
+	</insert>
+	
+	<select id="selectApplyForm" resultType="int">
+		select seq from group_app where parent_seq = #{parent_seq} and id = 'test'
+	</select>
+	
+	<delete id="deleteApplyForm">
+		delete group_app where seq = #{seq}
+	</delete>
+	
+	<insert id="insertDeleteApply">
+		insert into delete_app values(delete_app_seq.nextval, 'test', '그룹', #{contents}, #{parent_seq})
+	</insert>
+	
+	<select id="selectDeleteApplyList" resultType="kh.pingpong.dto.DeleteApplyDTO">
+		select * from delete_app where category = '그룹' and parent_seq = #{parent_seq}
+	</select>
+	
+	<select id="selectDeleteApplySeq" resultType="int">
+		select seq from delete_app where category = '그룹' and parent_seq = #{parent_seq} and id = 'test'
+	</select>
+	
+	<delete id="deleteDeleteApply">
+		delete delete_app where seq = #{seq}
+	</delete>
+	
+	<insert id="insertLike">
+		insert into like_list values(like_list_seq.nextval, 'test', '그룹', #{parent_seq})
+	</insert>
+	
+	<select id="selectLike" resultType="Integer">
+		select seq from like_list where category = '그룹' and id = 'test' and parent_seq = #{parent_seq}
+	</select>
+	
+	<update id="updateLike">
+		update grouplist set like_count = like_count + 1 where seq = #{seq}
+	</update>
+	
+	<update id="updateApplying">
+		update grouplist set applying = 'N' where apply_end = #{today_date}
+	</update>
+	
+	<update id="updateProceeding">
+		update grouplist set proceeding = 'N' where end_date = #{today_date}
+	</update>
+	
+	<select id="selectOrderBy" resultType="kh.pingpong.dto.GroupDTO">
+		select * from grouplist order by ${value} desc
+	</select>
+</mapper>

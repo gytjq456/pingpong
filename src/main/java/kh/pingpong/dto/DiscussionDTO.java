@@ -37,6 +37,7 @@ public class DiscussionDTO {
 		}else if(getTime < 86400) {
 			return "24시간 이내";
 		}else {
+			this.dateString = new SimpleDateFormat("YYYY-MM-dd").format(write_date);
 			return dateString;
 		}
 	}
@@ -45,6 +46,7 @@ public class DiscussionDTO {
 
 	public void setDateString(String dateString) {
 		this.dateString = dateString;
+		System.out.println(dateString);
 	}
 
 
@@ -62,7 +64,8 @@ public class DiscussionDTO {
 		this.view_count = view_count;
 		this.like_count = like_count;
 		this.comment_count = comment_count;
-		this.dateString = new SimpleDateFormat("YYYY-MM-dd").format(write_date);
+		//this.dateString = dateString;
+		/*this.dateString = new SimpleDateFormat("YYYY-MM-dd").format(write_date);*/
 	}
 
 

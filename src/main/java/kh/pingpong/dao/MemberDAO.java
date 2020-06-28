@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import kh.pingpong.dto.BankDTO;
@@ -41,14 +42,26 @@ public class MemberDAO {
 		Map<String, Object> memberAdd = new HashMap<>();
 		memberAdd.put("mdto",mdto);
 		memberAdd.put("fdto",fdto);
-		System.out.println(mdto.getPhone_country() +"gkgkgkgkgkgkgk");
-		System.out.println(mdto.getPhone()+"밍밍");
 		return mybatis.insert("Member.memberInsert",memberAdd);
 	}
 	
 	public int memberFile(FileDTO fdto) {
+		
+		System.out.println(fdto.getRealpath());
 		return mybatis.insert("Member.memberFile",fdto);
+	}	
+	
+	public MemberDTO memberSelect(MemberDTO loginInfo) {		
+		return mybatis.selectOne("Member.memberSelect", loginInfo);
 	}
 	
+	/* 아디 비번 일치? */
+	public int isIdPwSame(MemberDTO mdto) {
+		return mybatis.selectOne("Member.isIdPwSame",mdto);
+	}
 	
+	/* 회원DTO 넣기 */
+	public MemberDTO loginInfo(MemberDTO mdto) {
+		return mybatis.selectOne("Member.loginInfo", mdto);
+	}
 }

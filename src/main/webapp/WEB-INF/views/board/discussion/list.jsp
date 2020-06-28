@@ -19,9 +19,6 @@
 					$(this).find(".contents").text(tagGt);
 				}
 			})
-
-
-
 		})
 	</script>
 

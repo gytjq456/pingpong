@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import kh.pingpong.dto.FileDTO;
 import kh.pingpong.dto.FilesDTO;
+import kh.pingpong.dto.LessonDTO;
 import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.dto.TutorAppDTO;
 import kh.pingpong.dto.TutorDTO;
@@ -28,10 +29,7 @@ public class TutorController {
 	
 	@Autowired
 	private TutorService tservice;
-	
-	@Autowired
-	private FileController filecon;
-	
+
 	@RequestMapping("tutorApp")
 	public String tutorApp(Model model) {
 		model.addAttribute("list", session.getAttribute("loginInfo"));
@@ -45,13 +43,14 @@ public class TutorController {
 		System.out.println(filePath);
 		List<FileDTO> fileList = new ArrayList<>();
 		File targetLoc;
+		String systemFileName=null;
 		
 		System.out.println(files);
 		if(files.length != 0) {
 			for(MultipartFile file : files) {
 				FileDTO fdto = new FileDTO();
 				fdto.setOriname(file.getOriginalFilename());
-				String systemFileName=System.currentTimeMillis()+"_"+file.getOriginalFilename(); 
+				systemFileName=System.currentTimeMillis()+"_"+file.getOriginalFilename(); 
 				fdto.setSysname(systemFileName);
 
 				targetLoc = new File(filePath + "/" + systemFileName);
@@ -60,7 +59,7 @@ public class TutorController {
 			}
 		}
 		//----------------------------------
-		
+		tadto.setLicense(systemFileName);
 		tservice.tutorAppSend(tadto,fileList, filePath);
 
 		model.addAttribute("list", session.getAttribute("loginInfo"));
@@ -68,4 +67,35 @@ public class TutorController {
 		
 		return "tutor/tutorApp";
 	}
+	
+	@RequestMapping("tutorList")
+	public String tutorList(Model model) throws Exception{
+		model.addAttribute("list", session.getAttribute("loginInfo"));
+		List<MemberDTO> tutorlist = tservice.tutorList();
+		model.addAttribute("tutorlist",tutorlist);
+		return "tutor/tutorList";
+	}
+	
+	@RequestMapping("lessonList")
+	public String lessonList(Model model) throws Exception{
+		model.addAttribute("list", session.getAttribute("loginInfo"));
+		
+		List<LessonDTO> lessonlist = tservice.lessonList();
+		System.out.println(lessonlist);
+		model.addAttribute("lessonlist",lessonlist);
+		return "tutor/lessonList";
+	}
+	
+	@RequestMapping("lessonCancle")
+	public String lessonCancle() throws Exception{
+		return "tutor/lessonCancle";
+	}
+	
+//	LessonDTO ldto = new LessonDTO();
+//	MemberDTO mdto = (MemberDTO) session.getAttribute("loginInfo");
+//	ldto.setName(mdto.getName());
+//	ldto.setEmail(mdto.getEmail());
+//	ldto.setPhone_country(mdto.getPhone_country());
+//	ldto.setPhone(mdto.getPhone());
+//	ldto.setProfile(mdto.getProfile());
 }

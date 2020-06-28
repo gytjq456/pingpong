@@ -3,10 +3,31 @@
 <mapper namespace="Tutor">
 
 <insert id="insert">
-	insert into tutor_app values(tutor_app_seq.nextval,#{title},#{career},#{exp},#{introduce},#{recomm},default)
+	insert into tutor_app values(tutor_app_seq.nextval,#{title},#{license},#{career},#{exp},#{introduce},#{recomm},default)
 </insert>
 
 <insert id="insertFiles">
-	insert into files values(files_seq.nextval,#{sysname}, #{oriname}, 'X','partner', 0)
+	insert into files values(files_seq.nextval,#{sysname}, #{oriname}, '#{realpath,jdbcType=VARCHAR}','partner', 0)
 </insert>
+
+
+<resultMap id="TutorProfile" type="kh.pingpong.dto.MemberDTO">
+   	<result property="sysname" column="profile" />
+</resultMap>
+   
+<select id="selectTutorList" resultMap="TutorProfile">
+	select * from member where grade='tutor'
+</select>
+
+
+<resultMap id="LessonProfile" type="kh.pingpong.dto.LessonDTO">
+   	<result property="sysname" column="profile" />
+</resultMap>
+   
+<select id="selectLessonList" resultMap="LessonProfile">
+	select * from lesson 
+</select>
+
+
+
 </mapper>

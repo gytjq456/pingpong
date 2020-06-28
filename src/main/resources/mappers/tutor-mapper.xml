@@ -16,7 +16,8 @@
 </resultMap>
    
 <select id="selectTutorList" resultMap="TutorProfile">
-	select * from member where grade='tutor'
+	select * from (select member.*, row_number() over(order by seq desc) rnum from lesson where grade='tutor') 
+	where rnum between #{start} and #{end}
 </select>
 
 
@@ -25,7 +26,16 @@
 </resultMap>
    
 <select id="selectLessonList" resultMap="LessonProfile">
-	select * from lesson 
+	select * from (select lesson.*, row_number() over(order by seq desc) rnum from lesson) 
+	where rnum between #{start} and #{end}
+</select>
+
+<select id="getNextVal" resultType="int">
+	select lesson_seq.nextval from dual
+</select>
+
+<select id="getArticleCount" resultType="int">
+	select count(*) from lesson
 </select>
 
 

@@ -65,6 +65,10 @@
 					</c:otherwise>
 				</c:choose>
 			</div>
+			
+			<div>
+				<div class="navi">${navi}</div>
+			</div>
 		</article>
 	</section>
 </div>

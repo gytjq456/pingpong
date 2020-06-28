@@ -74,7 +74,7 @@
 
 <div id="subWrap" class="hdMargin">
 	<section id="subContents">
-		<article id="lessonApp_view" class="inner1200">
+		<article id="tutorApp_view" class="inner1200">
 
 			<h6>튜터 신청서</h6>
 			<form action="tutorAppSend" method="post" enctype="multipart/form-data">

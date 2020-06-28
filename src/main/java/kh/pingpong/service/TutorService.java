@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import kh.pingpong.dao.FileDAO;
 import kh.pingpong.dao.TutorDAO;
 import kh.pingpong.dto.FileDTO;
+import kh.pingpong.dto.LessonDTO;
+import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.dto.TutorAppDTO;
 
 @Service
@@ -34,6 +36,16 @@ public class TutorService {
 		for(FileDTO file : fileList) {
 			fdao.tutorFileInsert(file);
 		}
+	}
+	
+	public List<MemberDTO> tutorList() throws Exception{
+		List<MemberDTO> mdto = tdao.tutorList();
+		return mdto;
+	}
+	
+	public List<LessonDTO> lessonList() throws Exception{
+		List<LessonDTO> ldto = tdao.lessonList();
+		return ldto;
 	}
 	
 }

@@ -19,7 +19,6 @@
 					$(this).find(".contents").text(tagGt);
 				}
 			})
-
 			// 정렬 
 			$("#align").on("change",function(){
 				var selVal = $(this).val();

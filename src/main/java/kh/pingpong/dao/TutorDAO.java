@@ -36,6 +36,11 @@ public class TutorDAO {
 		
 		return mybatis.selectList("Tutor.selectTutorList", param);
 	}
+	public int getArticleCount_tutor() throws SQLException, Exception {
+		return mybatis.selectOne("Tutor.getArticleCount_tutor");
+	}
+	
+	//--------------------------
 	
 	public List<LessonDTO> lessonList(int cpage) throws Exception{
 		int start = cpage*Configuration.RECORD_COUNT_PER_PAGE - (Configuration.RECORD_COUNT_PER_PAGE - 1);
@@ -49,7 +54,9 @@ public class TutorDAO {
 		return mybatis.selectList("Tutor.selectLessonList", param);
 	}
 	
-	public int getArticleCount() throws SQLException, Exception {
-		return mybatis.selectOne("Tutor.getArticleCount");
+	public int getArticleCount_lesson() throws SQLException, Exception {
+		return mybatis.selectOne("Tutor.getArticleCount_lesson");
 	}
+	
+
 }

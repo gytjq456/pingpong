@@ -76,7 +76,8 @@ public class TutorController {
         try {
            cpage = Integer.parseInt(request.getParameter("cpage"));
         } catch (Exception e) {}
-        String navi = tservice.getPageNavi(cpage);
+        
+        String navi = tservice.getPageNavi_tutor(cpage);
 		model.addAttribute("navi", navi);
         
 		List<MemberDTO> tutorlist = tservice.tutorList(cpage);
@@ -92,7 +93,7 @@ public class TutorController {
            cpage = Integer.parseInt(request.getParameter("cpage"));
         } catch (Exception e) {}
         
-		String navi = tservice.getPageNavi(cpage);
+		String navi = tservice.getPageNavi_lesson(cpage);
 		model.addAttribute("navi", navi);
 		
 		List<LessonDTO> lessonlist = tservice.lessonList(cpage);

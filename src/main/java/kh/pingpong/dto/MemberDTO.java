@@ -61,6 +61,16 @@ public class MemberDTO {
 		this.sysname = sysname;
 	}
 
+	@Override
+	public String toString() {
+		return "MemberDTO [mem_type=" + mem_type + ", id=" + id + ", pw=" + pw + ", name=" + name + ", age=" + age
+				+ ", gender=" + gender + ", email=" + email + ", phone_country=" + phone_country + ", phone=" + phone
+				+ ", address=" + address + ", bank_name=" + bank_name + ", account=" + account + ", profile=" + profile
+				+ ", country=" + country + ", lang_can=" + lang_can + ", lang_learn=" + lang_learn + ", hobby=" + hobby
+				+ ", grade=" + grade + ", introduce=" + introduce + ", signup_date=" + signup_date + ", sysname="
+				+ sysname + "]";
+	}
+
 	public String getMem_type() {
 		return mem_type;
 	}
@@ -149,77 +159,70 @@ public class MemberDTO {
 		this.bank_name = bank_name;
 	}
 
-	public String getAccount() {
-		return account;
-	}
+   public void setProfile(MultipartFile profile) {
+      this.profile = profile;
+   }
+   
+   public MultipartFile getProfile() {
+	      return profile;
+   }
 
-	public void setAccount(String account) {
-		this.account = account;
-	}
+   public String getCountry() {
+      return country;
+   }
 
-	public MultipartFile getProfile() {
-		return profile;
-	}
+   public void setCountry(String country) {
+      this.country = country;
+   }
 
-	public void setProfile(MultipartFile profile) {
-		this.profile = profile;
-	}
+   public String getLang_can() {
+      return lang_can;
+   }
 
-	public String getCountry() {
-		return country;
-	}
+   public void setLang_can(String lang_can) {
+      this.lang_can = lang_can;
+   }
 
-	public void setCountry(String country) {
-		this.country = country;
-	}
+   public String getLang_learn() {
+      return lang_learn;
+   }
 
-	public String getLang_can() {
-		return lang_can;
-	}
+   public void setLang_learn(String lang_learn) {
+      this.lang_learn = lang_learn;
+   }
 
-	public void setLang_can(String lang_can) {
-		this.lang_can = lang_can;
-	}
+   public String getHobby() {
+      return hobby;
+   }
 
-	public String getLang_learn() {
-		return lang_learn;
-	}
+   public void setHobby(String hobby) {
+      this.hobby = hobby;
+   }
 
-	public void setLang_learn(String lang_learn) {
-		this.lang_learn = lang_learn;
-	}
+   public String getGrade() {
+      return grade;
+   }
 
-	public String getHobby() {
-		return hobby;
-	}
+   public void setGrade(String grade) {
+      this.grade = grade;
+   }
 
-	public void setHobby(String hobby) {
-		this.hobby = hobby;
-	}
+   public String getIntroduce() {
+      return introduce;
+   }
 
-	public String getGrade() {
-		return grade;
-	}
+   public void setIntroduce(String introduce) {
+      this.introduce = introduce;
+   }
 
-	public void setGrade(String grade) {
-		this.grade = grade;
-	}
+   public Timestamp getSignup_date() {
+      return signup_date;
+   }
 
-	public String getIntroduce() {
-		return introduce;
-	}
+   public void setSignup_date(Timestamp signup_date) {
+      this.signup_date = signup_date;
+   }
 
-	public void setIntroduce(String introduce) {
-		this.introduce = introduce;
-	}
-
-	public Timestamp getSignup_date() {
-		return signup_date;
-	}
-
-	public void setSignup_date(Timestamp signup_date) {
-		this.signup_date = signup_date;
-	}
 
 	public String getSysname() {
 		return sysname;
@@ -228,6 +231,4 @@ public class MemberDTO {
 	public void setSysname(String sysname) {
 		this.sysname = sysname;
 	}
-	
-	
 }

@@ -2,6 +2,10 @@ package kh.pingpong.controller;
 
 import java.util.List;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,10 +22,10 @@ import kh.pingpong.service.DiscussionService;
 @Controller
 @RequestMapping("/discussion/")
 public class DiscussionController {
-	
+
 	@Autowired
 	private DiscussionService disService;
-	
+
 	// 글쓰기 페이지 
 	@RequestMapping("write")
 	public String write(Model model) throws Exception{
@@ -29,14 +33,14 @@ public class DiscussionController {
 		model.addAttribute("langList", langList);
 		return "board/discussion/write";
 	}
-	
+
 	// 글쓰기 완료 처리 
 	@RequestMapping("writeProc")
 	public String writeProc(DiscussionDTO disDTO) throws Exception{
 		int result = disService.insert(disDTO);
 		return "redirect:/discussion/list";
 	}
-	
+
 	// 글 목록 페이지
 	@RequestMapping("list")
 	public String list(Model model) throws Exception{
@@ -44,21 +48,42 @@ public class DiscussionController {
 		model.addAttribute("list", list);
 		return "board/discussion/list";
 	}
-	
+
 	// 글 보기 
 	@RequestMapping("view")
-	public String view(DiscussionDTO disDto, Model model) throws Exception{
-		disDto = disService.selectOne(disDto.getSeq());
+	public String view(DiscussionDTO disDto, Model model, HttpServletRequest req, HttpServletResponse res) throws Exception{
+
+		//쿠키변수를 만들어서 값을 저장. 쿠키변수에 값이 있으면 조회수 증가 실행 하지 않음
+		Boolean isGet=false;
+		String seq = String.valueOf(disDto.getSeq());   
+		Cookie[] cookies=req.getCookies();
+		if(cookies!=null){   
+			for(Cookie c: cookies){//    
+				//num쿠키가 있는 경우
+				if(c.getName().contentEquals("seq"+seq)){
+					isGet=true; 
+				}
+			}		
+		}
+		// num쿠키가 없는 경우
+		if(!isGet) {
+			//bDao.updateReadCount(num);//조회수증가
+			Cookie c1 = new Cookie("seq"+seq, "seq"+seq);
+			c1.setMaxAge(1*24*60*60);//하루저장
+			res.addCookie(c1);    
+		}
+		disDto = disService.selectOne(disDto.getSeq(),isGet);
 		List<CommentDTO> commDto = disService.selectComment(disDto.getSeq());
 		List<CommentDTO> bestCommDto = disService.bestComment(disDto.getSeq());
-		
-		
+		List<DiscussionDTO> moreList = disService.moreList(disDto.getSeq());
+
 		model.addAttribute("commentList", commDto);
 		model.addAttribute("bestCommentList", bestCommDto);
 		model.addAttribute("disDto", disDto);
+		model.addAttribute("moreList", moreList);
 		return "board/discussion/view";
 	}
-	
+
 	// 글 삭제
 	@ResponseBody
 	@RequestMapping("delete")
@@ -76,12 +101,12 @@ public class DiscussionController {
 	@RequestMapping("modify")
 	public String modify(DiscussionDTO disDto, Model model) throws Exception{
 		List<LanguageDTO> langList = disService.langSelectlAll();
-		disDto = disService.selectOne(disDto.getSeq());
+		disDto = disService.selectOne(disDto.getSeq(), true);
 		model.addAttribute("disDto", disDto);
 		model.addAttribute("langList", langList);
 		return "board/discussion/modify";
 	}
-	
+
 	// 수정하기 처리
 	@ResponseBody
 	@RequestMapping("modifyProc")
@@ -93,19 +118,19 @@ public class DiscussionController {
 			return String.valueOf(false);
 		}
 	}
-	
+
 	// 게시글 좋아요
-		@ResponseBody
-		@RequestMapping("like")
-		public String like(DiscussionDTO disDto) throws Exception{
-			int result = disService.like(disDto.getSeq());
-			if(result > 0) {
-				return String.valueOf(true);
-			}else {
-				return String.valueOf(false);
-			}
+	@ResponseBody
+	@RequestMapping("like")
+	public String like(DiscussionDTO disDto) throws Exception{
+		int result = disService.like(disDto.getSeq());
+		if(result > 0) {
+			return String.valueOf(true);
+		}else {
+			return String.valueOf(false);
 		}
-	
+	}
+
 	// 댓글 쓰기
 	@ResponseBody
 	@RequestMapping("commentProc")
@@ -117,10 +142,10 @@ public class DiscussionController {
 			return String.valueOf(false);
 		}
 	}
-	
-	
-	
-	
+
+
+
+
 	// 댓글 좋아요
 	@ResponseBody
 	@RequestMapping("commentLike")
@@ -132,7 +157,7 @@ public class DiscussionController {
 			return String.valueOf(false);
 		}
 	}
-	
+
 	// 댓글 싫어요
 	@ResponseBody
 	@RequestMapping("commentHate")
@@ -144,8 +169,8 @@ public class DiscussionController {
 			return String.valueOf(false);
 		}
 	}
-	
-	
+
+
 	//댓글 삭제
 	@ResponseBody
 	@RequestMapping("commentDelete")
@@ -156,6 +181,14 @@ public class DiscussionController {
 		}else {
 			return String.valueOf(false);
 		}
+	}
+
+	@RequestMapping("align")
+	public String align(HttpServletRequest req, Model model) throws Exception{
+		String alignType = req.getParameter("align");
+		List<DiscussionDTO> list = disService.searchAlign(alignType);
+		model.addAttribute("list", list);
+		return "board/discussion/list";
 	}
 	
 	

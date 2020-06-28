@@ -19,8 +19,11 @@
 					$(this).find(".contents").text(tagGt);
 				}
 			})
-
-
+			// 정렬 
+			$("#align").on("change",function(){
+				var selVal = $(this).val();
+				location.href="/discussion/align?align="+selVal
+			});
 
 		})
 	</script>
@@ -32,30 +35,50 @@
 					<h2>Discussion</h2>
 					<p>이야기하고 싶은 흥미로운 주제가 있으신가요? 여기에서 전 세계 외국어 학습자들과 <br>토론을 하고 소통해 보세요.</p>
 				</div>
-				
 				<div class="btnS1 right">
-					<p><a href="/discussion/write" class="on">토론 글쓰기</a></p>
+					<div>
+						<select name="align" id="align">
+							<option value="recent">최신 순</option>
+							<option value="like">인기 순</option>
+						</select>
+					</div>
+					<div><a href="/discussion/write" class="on">토론 글쓰기</a></div>
 				</div>
-				<div id="listStyle1">
-					
-					<c:forEach var="i" items="${list}">
-						<section data-seq="${i.seq}">
-							<article>
-								<div class="title">${i.title}</div>
-								<div>글쓴이 : ${i.writer}</div>
-								<div class="contents">${i.contents}</div>			
-								<div>언어 : ${i.language}</div>			
-								<div>날짜  : ${i.dateString}</div>	
-								<div class="countList">
-									<ul>
-										<li>조회수 : ${i.view_count}</li>
-										<li>좋아요 : ${i.like_count}</li>
-										<li>댓글 : ${i.comment_count}</li>
-									</ul>
-								</div>		
-							</article>
-						</section>
-					</c:forEach>
+				<div id="listStyle1" class="card_body">
+					<c:choose> 
+						<c:when test="${empty list}">
+							토론 게시글이 없습니다.
+						</c:when>
+						<c:otherwise>
+							<c:forEach var="i" items="${list}">
+								<section data-seq="${i.seq}">
+									<article>
+										<div class="title">${i.title}</div>
+										<div class="userInfo_s1">
+											<div class="thumb"><img src="/resources/img/sub/userThum.jpg"/></div>
+											<div class="info">
+												<p class="userId">${i.writer}</p>
+												<p class="writeDate">${i.dateString}</p>
+											</div>
+										</div>										
+										<div class="contents">${i.contents}</div>			
+										<div class="sideInfo">
+											<div class="lang_date">
+												<div class="info-language">언어 : ${i.language}</div>			
+											</div>
+											<div class="countList">
+												<ul>
+													<li><i class="fa fa-eye"></i> ${i.view_count}</li>
+													<li><i class="fa fa-commenting-o" aria-hidden="true"></i> ${i.comment_count}</li>
+													<li><i class="fa fa-thumbs-up"></i> ${i.like_count}</li>
+												</ul>
+											</div>		
+										</div>
+									</article>
+								</section>
+							</c:forEach>
+						</c:otherwise>
+					</c:choose>
 				</div>
 			</article>
 		</section>

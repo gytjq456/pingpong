@@ -5,191 +5,166 @@ import java.sql.Timestamp;
 import org.springframework.web.multipart.MultipartFile;
 
 public class MemberDTO {
-   private String mem_type;
-   private String id;
-   private String pw;
-   private String name;
-   private int age;
-   private String gender;
-   private String email;
-   private String phone_country;
-   private String phone;
-   private String address;
-   private String bank_name;
-   private String account;
-   private MultipartFile profile;
-   private String country;
-   private String lang_can;
-   private String lang_learn;
-   private String hobby;
-   private String grade;
-   private String introduce;
-   private Timestamp signup_date;
-   
-   private String sysname;
-   
-   public MemberDTO() {
-      super();
-      // TODO Auto-generated constructor stub
-   }
+	private String mem_type;
+	private String id;
+	private String pw;
+	private String name;
+	private int age;
+	private String gender;
+	private String email;
+	private String phone_country;
+	private String phone;
+	private String address;
+	private String bank_name;
+	private String account;
+	private MultipartFile profile;
+	private String country;
+	private String lang_can;
+	private String lang_learn;
+	private String hobby;
+	private String grade;
+	private String introduce;
+	private Timestamp signup_date;
+	
+	private String sysname;
+	
+	public MemberDTO() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
-   public MemberDTO(String mem_type, String id, String pw, String name, int age, String gender, String email,
-         String phone_country, String phone, String address, String bank_name, String account, MultipartFile profile,
-         String country, String lang_can, String lang_learn, String hobby, String grade, String introduce,
-         Timestamp signup_date) {
-      super();
-      this.mem_type = mem_type;
-      this.id = id;
-      this.pw = pw;
-      this.name = name;
-      this.age = age;
-      this.gender = gender;
-      this.email = email;
-      this.phone_country = phone_country;
-      this.phone = phone;
-      this.address = address;
-      this.bank_name = bank_name;
-      this.account = account;
-      this.profile = profile;
-      this.country = country;
-      this.lang_can = lang_can;
-      this.lang_learn = lang_learn;
-      this.hobby = hobby;
-      this.grade = grade;
-      this.introduce = introduce;
-      this.signup_date = signup_date;
-   }
+	public MemberDTO(String mem_type, String id, String pw, String name, int age, String gender, String email,
+			String phone_country, String phone, String address, String bank_name, String account, MultipartFile profile,
+			String country, String lang_can, String lang_learn, String hobby, String grade, String introduce,
+			Timestamp signup_date, String sysname) {
+		super();
+		this.mem_type = mem_type;
+		this.id = id;
+		this.pw = pw;
+		this.name = name;
+		this.age = age;
+		this.gender = gender;
+		this.email = email;
+		this.phone_country = phone_country;
+		this.phone = phone;
+		this.address = address;
+		this.bank_name = bank_name;
+		this.account = account;
+		this.profile = profile;
+		this.country = country;
+		this.lang_can = lang_can;
+		this.lang_learn = lang_learn;
+		this.hobby = hobby;
+		this.grade = grade;
+		this.introduce = introduce;
+		this.signup_date = signup_date;
+		this.sysname = sysname;
+	}
 
-   public MemberDTO(String mem_type, String id, String pw, String name, int age, String gender, String email,
-         String phone_country, String phone, String address, String bank_name, String account, MultipartFile profile,
-         String country, String lang_can, String lang_learn, String hobby, String grade, String introduce,
-         Timestamp signup_date, String sysname) {
-      super();
-      this.mem_type = mem_type;
-      this.id = id;
-      this.pw = pw;
-      this.name = name;
-      this.age = age;
-      this.gender = gender;
-      this.email = email;
-      this.phone_country = phone_country;
-      this.phone = phone;
-      this.address = address;
-      this.bank_name = bank_name;
-      this.account = account;
-      this.profile = profile;
-      this.country = country;
-      this.lang_can = lang_can;
-      this.lang_learn = lang_learn;
-      this.hobby = hobby;
-      this.grade = grade;
-      this.introduce = introduce;
-      this.signup_date = signup_date;
-      this.sysname = sysname;
-   }
+	@Override
+	public String toString() {
+		return "MemberDTO [mem_type=" + mem_type + ", id=" + id + ", pw=" + pw + ", name=" + name + ", age=" + age
+				+ ", gender=" + gender + ", email=" + email + ", phone_country=" + phone_country + ", phone=" + phone
+				+ ", address=" + address + ", bank_name=" + bank_name + ", account=" + account + ", profile=" + profile
+				+ ", country=" + country + ", lang_can=" + lang_can + ", lang_learn=" + lang_learn + ", hobby=" + hobby
+				+ ", grade=" + grade + ", introduce=" + introduce + ", signup_date=" + signup_date + ", sysname="
+				+ sysname + "]";
+	}
 
-   public String getMem_type() {
-      return mem_type;
-   }
+	public String getMem_type() {
+		return mem_type;
+	}
 
-   public void setMem_type(String mem_type) {
-      this.mem_type = mem_type;
-   }
+	public void setMem_type(String mem_type) {
+		this.mem_type = mem_type;
+	}
 
-   public String getId() {
-      return id;
-   }
+	public String getId() {
+		return id;
+	}
 
-   public void setId(String id) {
-      this.id = id;
-   }
+	public void setId(String id) {
+		this.id = id;
+	}
 
-   public String getPw() {
-      return pw;
-   }
+	public String getPw() {
+		return pw;
+	}
 
-   public void setPw(String pw) {
-      this.pw = pw;
-   }
+	public void setPw(String pw) {
+		this.pw = pw;
+	}
 
-   public String getName() {
-      return name;
-   }
+	public String getName() {
+		return name;
+	}
 
-   public void setName(String name) {
-      this.name = name;
-   }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-   public int getAge() {
-      return age;
-   }
+	public int getAge() {
+		return age;
+	}
 
-   public void setAge(int age) {
-      this.age = age;
-   }
+	public void setAge(int age) {
+		this.age = age;
+	}
 
-   public String getGender() {
-      return gender;
-   }
+	public String getGender() {
+		return gender;
+	}
 
-   public void setGender(String gender) {
-      this.gender = gender;
-   }
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
 
-   public String getEmail() {
-      return email;
-   }
+	public String getEmail() {
+		return email;
+	}
 
-   public void setEmail(String email) {
-      this.email = email;
-   }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-   public String getPhone_country() {
-      return phone_country;
-   }
+	public String getPhone_country() {
+		return phone_country;
+	}
 
-   public void setPhone_country(String phone_country) {
-      this.phone_country = phone_country;
-   }
+	public void setPhone_country(String phone_country) {
+		this.phone_country = phone_country;
+	}
 
-   public String getPhone() {
-      return phone;
-   }
+	public String getPhone() {
+		return phone;
+	}
 
-   public void setPhone(String phone) {
-      this.phone = phone;
-   }
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
 
-   public String getAddress() {
-      return address;
-   }
+	public String getAddress() {
+		return address;
+	}
 
-   public void setAddress(String address) {
-      this.address = address;
-   }
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
-   public String getBank_name() {
-      return bank_name;
-   }
+	public String getBank_name() {
+		return bank_name;
+	}
 
-   public void setBank_name(String bank_name) {
-      this.bank_name = bank_name;
-   }
-
-   public String getAccount() {
-      return account;
-   }
-
-   public void setAccount(String account) {
-      this.account = account;
-   }
-
-   public MultipartFile getProfile() {
-      return profile;
-   }
+	public void setBank_name(String bank_name) {
+		this.bank_name = bank_name;
+	}
 
    public void setProfile(MultipartFile profile) {
       this.profile = profile;
+   }
+   
+   public MultipartFile getProfile() {
+	      return profile;
    }
 
    public String getCountry() {
@@ -248,14 +223,12 @@ public class MemberDTO {
       this.signup_date = signup_date;
    }
 
-   public String getSysname() {
-      return sysname;
-   }
 
-   public void setSysname(String sysname) {
-      this.sysname = sysname;
-   }
+	public String getSysname() {
+		return sysname;
+	}
 
-   
-   
+	public void setSysname(String sysname) {
+		this.sysname = sysname;
+	}
 }

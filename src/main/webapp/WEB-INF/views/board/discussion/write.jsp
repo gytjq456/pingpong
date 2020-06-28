@@ -89,33 +89,56 @@ function uploadSummernoteImageFile(file, editor) {
 	<div id="subWrap" class="hdMargin">
 		<section id="subContents">
 			<article id="discussion_write" class="inner1200">
-			
-				<form action="/discussion/writeProc" method="post" enctype="multipart/form-data" id="writeForm">
-					<input type="hidden" name="writer" value="홍길동">
-					<p>토론 주제</p>
-					<input type="text" name="title" id="title">
-					
-					<div>
-						<p>토론 내용</p>
-						<textarea id="summernote" name="contents" ></textarea>
-					</div>
-					
-					<p>이 토론은 어떤 언어로 작성 되었나요?</p>
-					<select id="languageList" name="language">
-						<c:forEach var="i" items="${langList}">
-							<option value="${i.language}">${i.language}</option>
-						</c:forEach>
-					</select>
-					
-					<p>토론시 주의사항</p>
-					<p>
-						<textarea name="caution" id="caution"></textarea>
-					</p>
-					
-					<input type="submit" value="전송">
-					<a href="#;">돌아가기</a>
-				</form>
-			
+				<div class="tit_s1">
+					<h2>Discussion</h2>
+					<p>새 주제 게시하기</p>
+				</div>				
+				<div class="card_body">
+					<form action="/discussion/writeProc" method="post" enctype="multipart/form-data" id="writeForm">
+						<input type="hidden" name="writer" value="홍길동">
+						<section>
+							<div class="tit_s3">
+								<h4>토론 주제</h4>
+							</div>
+							<input type="text" name="title" id="title">
+						</section>
+						
+						<section>
+							<div class="tit_s3">
+								<h4>토론 내용</h4>
+							</div>
+							<textarea id="summernote" name="contents" ></textarea>
+						</section>
+						
+						<section>
+							<div class="tit_s3">
+								<h4>이 토론은 어떤 언어로 작성 되었나요?</h4>
+							</div>					
+							<div id="languageList" name="language">
+								<select>
+									<c:forEach var="i" items="${langList}">
+										<option value="${i.language}">${i.language}</option>
+									</c:forEach>
+								</select>
+							</div>
+						</section>
+						
+						<section>
+							<div class="tit_s3">
+								<h4>토론시 주의사항</h4>
+							</div>
+							<div>
+								<textarea name="caution" id="caution"></textarea>
+							</div>
+						</section>
+						<div class="btnS1 right">
+							<div>
+								<input type="submit" value="전송">
+							</div>
+							<div><a href="#;">돌아가기</a></div>
+						</div>						
+					</form>
+				</div>
 			</article>
 		</section>
 	</div>

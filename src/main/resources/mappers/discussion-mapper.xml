@@ -80,5 +80,18 @@
 		delete commentTb where seq = #{value}
 	</delete>
 	
+	<!-- 토론 리스트 검색 최신순 / 인기순 -->
+	<select id="alignType" resultType="kh.pingpong.dto.DiscussionDTO">
+		select * from discussion
+		<trim prefix="ORDER BY"> 
+	         <if test="alignType == 'recent'">  write_date desc</if>
+	         <if test="alignType == 'like'">  like_count desc</if>
+		</trim> 
+	</select>
+	
+	<!-- 토론 더 보기 추천순 -->
+	<select id="moreList" resultType="kh.pingpong.dto.DiscussionDTO">
+		select * from (select discussion.*, row_number() over(order by like_count desc) rnum from discussion where like_count>0) where seq != #{value} and rnum between 1 and 10
+	</select>
 	
 </mapper>

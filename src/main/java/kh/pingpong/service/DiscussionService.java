@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import kh.pingpong.dao.DiscussionDAO;
 import kh.pingpong.dto.CommentDTO;
@@ -38,8 +39,11 @@ public class DiscussionService {
 	}
 	
 	// 토론 게시글 보기
-	public DiscussionDTO selectOne(int seq) throws Exception{
-		disDao.viewCount(seq);
+	@Transactional("txManager")
+	public DiscussionDTO selectOne(int seq, Boolean isGet) throws Exception{
+		if(!isGet) {
+			disDao.viewCount(seq);
+		}
 		return disDao.selectOne(seq);
 	}
 
@@ -87,6 +91,17 @@ public class DiscussionService {
 	// 토론 댓글 삭제
 	public int commentDelete(int seq) throws Exception{
 		return disDao.commentDelete(seq);
+	}
+	
+	
+	// 토론 리스트 검색 최신순 / 인기순
+	public List<DiscussionDTO> searchAlign(String alignType){
+		return disDao.searchAlign(alignType);
+	}
+	
+	// 토론 더 보기 추천순
+	public List<DiscussionDTO> moreList(int seq){
+		return disDao.moreList(seq);
 	}
 	
 	

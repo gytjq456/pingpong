@@ -19,17 +19,40 @@
 		select * from hobby
 	</select>
 	
+	<!-- 회원가입 -->
 	<insert id ="memberInsert">
 		insert into member values(
 			#{mdto.mem_type}, #{mdto.id}, #{mdto.pw}, #{mdto.name}, ${mdto.age},
 			#{mdto.gender}, #{mdto.email}, #{mdto.phone_country}, #{mdto.phone}, #{mdto.address}, #{mdto.bank_name},
-			#{mdto.account}, #{fdto.oriname}, #{mdto.country}, #{mdto.lang_can}, #{mdto.lang_learn}, #{mdto.hobby},
+			#{mdto.account}, #{fdto.sysname}, #{mdto.country}, #{mdto.lang_can}, #{mdto.lang_learn}, #{mdto.hobby}, #{mdto.grade},
 			#{mdto.introduce}, default
 		)
 	</insert>
-	
+		
 	<insert id="memberFile">
-		insert into files values(files_seq.nextval, #{sysname}, #{oriname}, #{category}, 0)
+		insert into files values(files_seq.nextval, #{sysname}, #{oriname}, #{realpath}, #{category}, 0)
 	</insert>
+	
+	<!-- 마이페이지 출력 -->	
+	<resultMap id="MemProfile" type="kh.pingpong.dto.MemberDTO">
+    	<result property="sysname" column="profile"/>
+    	<!-- sysname에 profile을 넣겠다. -->
+    </resultMap>
+		
+	<select id ="memberSelect" resultMap="MemProfile">
+		select * from member where id=#{id}
+	</select>
+	
+	<resultMap id="MemProfileFile" type="kh.pingpong.dto.MemberDTO">
+		<result property="sysname" column="profile"></result>
+	</resultMap>
+
+	<select id="isIdPwSame" resultType="Integer">
+		select count(*) from member where id=#{id} and pw=#{pw}
+	</select>
+	
+	<select id="loginInfo" resultType="kh.pingpong.dto.MemberDTO">
+		select * from member where id=#{id}
+	</select>
 	
 </mapper>

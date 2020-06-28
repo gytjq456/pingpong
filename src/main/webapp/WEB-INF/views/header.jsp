@@ -12,6 +12,11 @@
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 <script src="/resources/js/common.js"></script>
+
+<!-- 맴버 스크립트 추가 -->
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="/script/signup.js"></script>
+
 </head>
 <body>
 	<header>
@@ -20,13 +25,13 @@
 				<div class="util">
 					<ul>
 						<li class="alram"><a href="#;"><img src="/resources/img/common/alram.png"><span class="length"></span></a></li>
-						<li><a href="#;">Login</a></li>
-						<li><a href="#;">Logout</a></li>
-						<li><a href="#;">Join</a></li>
+						<li><a href="/member/login">Login</a></li>
+						<li><a href="/member/logout">Logout</a></li>
+						<li><a href="/member/signup">Join</a></li>
 						<li>
 							<a href="#;">MyPage</a>
 							<ul class="depth2">
-								<li><a href="#;">나의 정보수정</a></li>
+								<li><a href="/member/myInfo">나의 정보수정</a></li>
 								<li><a href="#;">나의 튜터 목록</a></li>
 								<li><a href="#;">모임기록</a></li>
 								<li><a href="#;">찜목록</a></li>

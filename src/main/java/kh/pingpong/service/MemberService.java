@@ -41,9 +41,24 @@ public class MemberService {
 	@Transactional("txManager")
 	public int memberInsert(MemberDTO mdto, FileDTO fdto) throws Exception{
 		mdao.memberInsert(mdto,fdto);
-		mdao.memberFile(fdto);
-		
+		mdao.memberFile(fdto);		
 		return 1;
 	}
 	
+	public MemberDTO memberSelect(MemberDTO loginInfo) throws Exception{
+		return mdao.memberSelect(loginInfo);
+	}
+	
+	/*  */
+	public Boolean isIdPwSame(MemberDTO mdto) throws Exception{
+		if(mdao.isIdPwSame(mdto)>0) {
+			return true;
+		}else {
+			return false;
+		} 
+	}
+	
+	public MemberDTO loginInfo(MemberDTO mdto) throws Exception{
+		return mdao.loginInfo(mdto); 
+	}
 }

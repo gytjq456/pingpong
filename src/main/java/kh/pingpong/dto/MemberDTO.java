@@ -8,7 +8,6 @@ public class MemberDTO {
 	private String mem_type;
 	private String id;
 	private String pw;
-	private String pw_ck;
 	private String name;
 	private int age;
 	private String gender;
@@ -18,29 +17,30 @@ public class MemberDTO {
 	private String address;
 	private String bank_name;
 	private String account;
-	//private String profile;
 	private MultipartFile profile;
 	private String country;
 	private String lang_can;
 	private String lang_learn;
 	private String hobby;
+	private String grade;
 	private String introduce;
 	private Timestamp signup_date;
+	
+	private String sysname;
 	
 	public MemberDTO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public MemberDTO(String mem_type, String id, String pw, String pw_ck, String name, int age, String gender,
-			String email, String phone_country, String phone, String address, String bank_name, String account,
-			MultipartFile profile, String country, String lang_can, String lang_learn, String hobby, String introduce,
-			Timestamp signup_date) {
+	public MemberDTO(String mem_type, String id, String pw, String name, int age, String gender, String email,
+			String phone_country, String phone, String address, String bank_name, String account, MultipartFile profile,
+			String country, String lang_can, String lang_learn, String hobby, String grade, String introduce,
+			Timestamp signup_date, String sysname) {
 		super();
 		this.mem_type = mem_type;
 		this.id = id;
 		this.pw = pw;
-		this.pw_ck = pw_ck;
 		this.name = name;
 		this.age = age;
 		this.gender = gender;
@@ -55,8 +55,10 @@ public class MemberDTO {
 		this.lang_can = lang_can;
 		this.lang_learn = lang_learn;
 		this.hobby = hobby;
+		this.grade = grade;
 		this.introduce = introduce;
 		this.signup_date = signup_date;
+		this.sysname = sysname;
 	}
 
 	public String getMem_type() {
@@ -81,14 +83,6 @@ public class MemberDTO {
 
 	public void setPw(String pw) {
 		this.pw = pw;
-	}
-
-	public String getPw_ck() {
-		return pw_ck;
-	}
-
-	public void setPw_ck(String pw_ck) {
-		this.pw_ck = pw_ck;
 	}
 
 	public String getName() {
@@ -203,6 +197,14 @@ public class MemberDTO {
 		this.hobby = hobby;
 	}
 
+	public String getGrade() {
+		return grade;
+	}
+
+	public void setGrade(String grade) {
+		this.grade = grade;
+	}
+
 	public String getIntroduce() {
 		return introduce;
 	}
@@ -217,7 +219,15 @@ public class MemberDTO {
 
 	public void setSignup_date(Timestamp signup_date) {
 		this.signup_date = signup_date;
-	}	
+	}
 
+	public String getSysname() {
+		return sysname;
+	}
+
+	public void setSysname(String sysname) {
+		this.sysname = sysname;
+	}
+	
 	
 }

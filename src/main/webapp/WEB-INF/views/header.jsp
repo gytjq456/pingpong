@@ -53,8 +53,8 @@
 							<li>
 								<a href="#;">Group</a>
 								<ul class="depth2">
-									<li><a href="#;">그룹 찾기</a></li>
-									<li><a href="#;">그룹 등록</a></li>
+									<li><a href="/group/main?orderBy=seq">그룹 찾기</a></li>
+									<li><a href="/group/write">그룹 등록</a></li>
 								</ul>
 							</li>
 							<li>

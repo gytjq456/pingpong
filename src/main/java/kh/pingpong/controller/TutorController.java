@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
+import kh.pingpong.dto.DeleteApplyDTO;
 import kh.pingpong.dto.FileDTO;
 import kh.pingpong.dto.FilesDTO;
 import kh.pingpong.dto.LessonDTO;
@@ -107,11 +108,28 @@ public class TutorController {
 		return "tutor/lessonList";
 	}
 	
+	@RequestMapping("lessonView")
+	public String lessonView(Model model, int seq) throws Exception{
+		LessonDTO ldto = tservice.lessonView(seq);
+		model.addAttribute("ldto", ldto);
+		model.addAttribute("seq", seq);
+		return "tutor/lessonView";
+	}
+	
+	
+	
 	@RequestMapping("lessonCancle")
 	public String lessonCancle(Model model) throws Exception{
 		model.addAttribute("loginInfo", session.getAttribute("loginInfo"));
+		
 		return "tutor/lessonCancle";
 	}
 	
+	@RequestMapping("cancleProc")
+	public String lessonCancleProc(DeleteApplyDTO dadto) throws Exception{
+		System.out.println(dadto.getId()+ " : " + dadto.getSeq()+ " : " + dadto.getCategory()+ " : " + dadto.getContents()+ " : " + dadto.getParent_seq());
+		tservice.lessonCancleProc(dadto);
+		return "redirect: lessonView";
+	}
 
 }

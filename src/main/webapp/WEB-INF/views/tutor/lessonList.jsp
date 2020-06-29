@@ -12,6 +12,7 @@
 				function() {
 					var text = $(this).find(".title").text();
 					var seq = $(this).data("seq");
+					console.log(seq);
 					$(this).children("article").wrap(
 							'<a href="/tutor/lessonView?seq=' + seq + '">')
 				})
@@ -29,7 +30,6 @@
 			<div class="btnS1 right">
 				<p>
 					<a href="/tutor/lessonApp" class="on">강의 신청</a>
-					<a href="/tutor/lessonCancle" class="on">강의 신청</a>
 				</p>
 			</div>
 

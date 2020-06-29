@@ -343,13 +343,37 @@ $(function(){
 	<div id="subWrap" class="hdMargin">
 		<section id="subContents">
 			<article id="lessonApp_view" class="inner1200">
-			
-			
+
 				<div class="title_main">
 					<div class="title_wrap">
 						<div class="left">제목 &nbsp;&nbsp;&nbsp;</div>
 						<div class="right">
-							<input type="text" id="title" name="title">
+							<input type="text" id="title" name="title" 
+							placeholder="강의 성격이 드러날 키워드를 포함하여 간결한 제목으로 설정해 주세요.">
+						</div>
+						
+					</div>
+				</div>
+				
+				<div class="price_main">
+					<div class="price_wrap">
+						<div class="left">가격 &nbsp;&nbsp;&nbsp;</div>
+						<div class="right">
+							<input type="text" id="price" name="price" 
+							placeholder="시간당 가격"> 원 /시간
+						</div>
+					</div>
+				</div>
+				
+				<div class="language_main">
+					<div class="language_wrap">
+						<div class="left">언어 &nbsp;&nbsp;&nbsp;</div>
+						<div class="right">
+							<select>
+								<option>한국어</option>
+								<option>한국어</option>
+								<option>한국어</option>
+							</select>
 						</div>
 					</div>
 				</div>

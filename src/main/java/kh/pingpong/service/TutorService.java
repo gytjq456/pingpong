@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import kh.pingpong.config.Configuration;
 import kh.pingpong.dao.FileDAO;
 import kh.pingpong.dao.TutorDAO;
+import kh.pingpong.dto.DeleteApplyDTO;
 import kh.pingpong.dto.FileDTO;
 import kh.pingpong.dto.LessonDTO;
 import kh.pingpong.dto.MemberDTO;
@@ -29,7 +30,7 @@ public class TutorService {
 	public void tutorAppSend(TutorAppDTO tadto, List<FileDTO> fileList, String filePath) throws Exception{
 		
 		tdao.insert(tadto);
-		//---------------------------------------파일 업로드
+		//---------------------------------------�뙆�씪 �뾽濡쒕뱶
 		File tempFilepath = new File(filePath);
 		if (!tempFilepath.exists()) {
 			tempFilepath.mkdir();
@@ -50,21 +51,33 @@ public class TutorService {
 		return ldto;
 	}
 	
-	//레슨 페이지 만 이동 
+	public LessonDTO lessonView(int seq) throws Exception{
+		LessonDTO ldto = tdao.lessonView(seq);
+		return ldto;
+	}
+	
+	public int lessonCancleProc(DeleteApplyDTO dadto) throws Exception{
+		int result = tdao.lessonCancleProc(dadto);
+		return result;
+	}
+	
+	
+	
+	//�젅�뒯 �럹�씠吏� 留� �씠�룞 
 		public String getPageNavi_lesson(int userCurrentPage) throws SQLException, Exception {
 			int recordTotalCount = tdao.getArticleCount_lesson(); 
 			
-			int pageTotalCount = 0; // 모든 페이지 개수
+			int pageTotalCount = 0; // 紐⑤뱺 �럹�씠吏� 媛쒖닔
 			
 			if(recordTotalCount % Configuration.RECORD_COUNT_PER_PAGE > 0) {
 				pageTotalCount = recordTotalCount / Configuration.RECORD_COUNT_PER_PAGE + 1;
-				//게시글 개수를 페이지당 게시글로 나누어 나머지 값이 있으면 한 페이지를 더한다.
+				//寃뚯떆湲� 媛쒖닔瑜� �럹�씠吏��떦 寃뚯떆湲�濡� �굹�늻�뼱 �굹癒몄� 媛믪씠 �엳�쑝硫� �븳 �럹�씠吏�瑜� �뜑�븳�떎.
 			}else {
 				pageTotalCount = recordTotalCount / Configuration.RECORD_COUNT_PER_PAGE;
 			}
 			
-			int currentPage = userCurrentPage;	//현재 내가 위치한 페이지 번호.	클라이언트 요청값
-			//공격자가 currentPage를 변조할 경우에 대한 보안처리
+			int currentPage = userCurrentPage;	//�쁽�옱 �궡媛� �쐞移섑븳 �럹�씠吏� 踰덊샇.	�겢�씪�씠�뼵�듃 �슂泥�媛�
+			//怨듦꺽�옄媛� currentPage瑜� 蹂�議고븷 寃쎌슦�뿉 ���븳 蹂댁븞泥섎━
 			if(currentPage < 1) {
 				currentPage = 1;
 			}else if(currentPage > pageTotalCount) {
@@ -90,7 +103,7 @@ public class TutorService {
 			}
 			for(int i = startNavi ; i<=endNavi; i++) {
 
-				sb.append("<a href='lessonList?cpage="+i+"'>"+i+"</a>");//꾸며주는 것
+				sb.append("<a href='lessonList?cpage="+i+"'>"+i+"</a>");//袁몃ŉ二쇰뒗 寃�
 			}
 			if(needNext) {
 
@@ -100,21 +113,21 @@ public class TutorService {
 			return sb.toString();
 		}
 		
-		//튜터 페이징 만 이동 
+		//�뒠�꽣 �럹�씠吏� 留� �씠�룞 
 				public String getPageNavi_tutor(int userCurrentPage) throws SQLException, Exception {
 					int recordTotalCount = tdao.getArticleCount_tutor(); 
 					
-					int pageTotalCount = 0; // 모든 페이지 개수
+					int pageTotalCount = 0; // 紐⑤뱺 �럹�씠吏� 媛쒖닔
 					
 					if(recordTotalCount % Configuration.RECORD_COUNT_PER_PAGE > 0) {
 						pageTotalCount = recordTotalCount / Configuration.RECORD_COUNT_PER_PAGE + 1;
-						//게시글 개수를 페이지당 게시글로 나누어 나머지 값이 있으면 한 페이지를 더한다.
+						//寃뚯떆湲� 媛쒖닔瑜� �럹�씠吏��떦 寃뚯떆湲�濡� �굹�늻�뼱 �굹癒몄� 媛믪씠 �엳�쑝硫� �븳 �럹�씠吏�瑜� �뜑�븳�떎.
 					}else {
 						pageTotalCount = recordTotalCount / Configuration.RECORD_COUNT_PER_PAGE;
 					}
 					
-					int currentPage = userCurrentPage;	//현재 내가 위치한 페이지 번호.	클라이언트 요청값
-					//공격자가 currentPage를 변조할 경우에 대한 보안처리
+					int currentPage = userCurrentPage;	//�쁽�옱 �궡媛� �쐞移섑븳 �럹�씠吏� 踰덊샇.	�겢�씪�씠�뼵�듃 �슂泥�媛�
+					//怨듦꺽�옄媛� currentPage瑜� 蹂�議고븷 寃쎌슦�뿉 ���븳 蹂댁븞泥섎━
 					if(currentPage < 1) {
 						currentPage = 1;
 					}else if(currentPage > pageTotalCount) {
@@ -140,7 +153,7 @@ public class TutorService {
 					}
 					for(int i = startNavi ; i<=endNavi; i++) {
 
-						sb.append("<a href='tutorList?cpage="+i+"'>"+i+"</a>");//꾸며주는 것
+						sb.append("<a href='tutorList?cpage="+i+"'>"+i+"</a>");//袁몃ŉ二쇰뒗 寃�
 					}
 					if(needNext) {
 

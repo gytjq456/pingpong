@@ -20,7 +20,7 @@ public class FileDAO {
 	}
 	
 	public int tutorFileInsert(FileDTO fdto) throws Exception{
-		System.out.println(fdto.getOriname()+":" + fdto.getSysname());
+		System.out.println(fdto.getOriname()+":" + fdto.getSysname() + ": " + fdto.getRealpath());
 		return mybatis.insert("Tutor.insertFiles", fdto);
 	}
 	

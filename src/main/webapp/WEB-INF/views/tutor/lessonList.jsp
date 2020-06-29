@@ -29,6 +29,7 @@
 			<div class="btnS1 right">
 				<p>
 					<a href="/tutor/lessonApp" class="on">강의 신청</a>
+					<a href="/tutor/lessonCancle" class="on">강의 신청</a>
 				</p>
 			</div>
 

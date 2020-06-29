@@ -1,17 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<style>
-	div{width: 300px; border-bottom: 1px solid #ccc;}
-</style>
-</head>
-<body>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<jsp:include page="/WEB-INF/views/header.jsp"/>
 	<c:choose>
 		<c:when test="${empty glist}">
 			등록된 게시글이 없습니다.
@@ -79,5 +70,4 @@
 			location.href = '/group/main?orderBy=seq&ing=' + ing;
 		})
 	</script>
-</body>
-</html>
+<jsp:include page="/WEB-INF/views/footer.jsp"/>

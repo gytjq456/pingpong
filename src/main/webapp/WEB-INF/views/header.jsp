@@ -12,6 +12,9 @@
 <link rel="stylesheet" type="text/css" href="/resources/css/style.css"/>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="/resources/js/summernote.js"></script>
+<script src="/resources/js/summernote-ko-KR.js"></script>
+<script type="text/javascript" src="/resources/js/sojaeji.js"></script>
 <script src="/resources/js/common.js"></script>
 
 <!-- 맴버 스크립트 추가 -->
@@ -56,7 +59,7 @@
 								</ul>
 							</li>
 							<li>
-								<a href="#;">Group</a>
+								<a href="/group/main?orderBy=seq">Group</a>
 								<ul class="depth2">
 									<li><a href="/group/main?orderBy=seq">그룹 찾기</a></li>
 									<li><a href="/group/write">그룹 등록</a></li>

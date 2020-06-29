@@ -14,6 +14,7 @@ import kh.pingpong.dto.GroupApplyDTO;
 import kh.pingpong.dto.GroupDTO;
 import kh.pingpong.dto.HobbyDTO;
 import kh.pingpong.dto.LikeListDTO;
+import kh.pingpong.dto.ReviewDTO;
 
 @Service
 public class GroupService {
@@ -134,4 +135,16 @@ public class GroupService {
 		return sb.toString();
 
 	}
+	
+	// 리뷰 글쓰기
+	public int reviewWrite(ReviewDTO redto) throws Exception{
+		return gdao.reviewWrite(redto);
+	}
+	
+	//리뷰 리스트 출력
+	public List<ReviewDTO> reviewList(int seq) throws Exception{
+		return gdao.reviewList(seq);
+	}	
+	
+	
 }

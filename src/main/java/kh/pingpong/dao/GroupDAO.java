@@ -14,6 +14,7 @@ import kh.pingpong.dto.GroupApplyDTO;
 import kh.pingpong.dto.GroupDTO;
 import kh.pingpong.dto.HobbyDTO;
 import kh.pingpong.dto.LikeListDTO;
+import kh.pingpong.dto.ReviewDTO;
 
 @Repository
 public class GroupDAO {
@@ -105,4 +106,14 @@ public class GroupDAO {
 	public List<GroupDTO> selectOrderBy(String tableName) {
 		return mybatis.selectList("Group.selectOrderBy", tableName);
 	}
+	
+	//리뷰 글쓰기
+	public int reviewWrite(ReviewDTO redto) {
+		return mybatis.insert("Group.reviewWrite",redto);
+	}
+	//리뷰 글쓰기
+	public List<ReviewDTO> reviewList(int seq) {
+		return mybatis.selectList("Group.reviewList",seq);
+	}
+	
 }

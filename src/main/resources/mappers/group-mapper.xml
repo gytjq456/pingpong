@@ -96,4 +96,16 @@
 	<select id="selectOrderBy" resultType="kh.pingpong.dto.GroupDTO">
 		select * from grouplist order by ${value} desc
 	</select>
+	
+	
+	<!-- 리뷰 글쓰기  -->
+	<insert id="reviewWrite">
+		insert into review values(review_seq.nextval, #{writer}, #{point}, #{contents}, default, #{category}, #{parent_seq})
+	</insert>
+	
+	<!-- 리뷰 리스트 출력  -->
+	<select id="reviewList" resultType="kh.pingpong.dto.ReviewDTO">
+		select * from review where parent_seq = #{value}
+	</select>
+	
 </mapper>

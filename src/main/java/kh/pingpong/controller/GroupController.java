@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +29,7 @@ import kh.pingpong.dto.GroupApplyDTO;
 import kh.pingpong.dto.GroupDTO;
 import kh.pingpong.dto.HobbyDTO;
 import kh.pingpong.dto.LikeListDTO;
+import kh.pingpong.dto.ReviewDTO;
 import kh.pingpong.service.GroupService;
 
 @Controller
@@ -76,8 +78,9 @@ public class GroupController {
 		return "redirect:/group/view";
 	}
 	
+	@Transactional("txManager")
 	@RequestMapping("view")
-	public String groupView(int seq, Model model) {
+	public String groupView(int seq, Model model) throws Exception{
 		GroupDTO gdto = gservice.selectBySeq(seq);
 		
 		Map<Object, Object> param = new HashMap<>();
@@ -86,8 +89,12 @@ public class GroupController {
 		
 		boolean checkLike = gservice.selectLike(param);
 		
+		//리뷰 리스트 출력
+		List<ReviewDTO> reviewList = gservice.reviewList(seq);
+		
 		model.addAttribute("gdto", gdto);
 		model.addAttribute("checkLike", checkLike);
+		model.addAttribute("reviewList", reviewList);
 		return "/group/view";
 	}
 	
@@ -185,4 +192,21 @@ public class GroupController {
 		
 		return jsonObject;
 	}
+	
+	
+	// 리뷰 글쓰기 
+	@ResponseBody
+	@RequestMapping("reviewWrite")
+	public String reviewWrite(ReviewDTO redto) throws Exception{
+		int result = gservice.reviewWrite(redto);
+		if(result > 0) { 
+			 return String.valueOf(true); 
+		}else { 
+			return String.valueOf(false); 
+		}
+		
+	}
+	
+	
+	
 }

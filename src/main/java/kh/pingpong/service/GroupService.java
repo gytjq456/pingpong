@@ -79,6 +79,10 @@ public class GroupService {
 		return gdao.selectOrderBy(tableName);
 	}
 	
+	public List<GroupDTO> search(int cpage, Map<String, Object> search) {
+		return gdao.search(cpage, search);
+	}
+	
 	public String getPageNav(int currentPage, String orderBy) throws Exception{
 		// 총 게시물
 		int recordTotalCount = gdao.selectCount();

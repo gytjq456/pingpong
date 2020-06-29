@@ -85,10 +85,46 @@
 	        	contentType : false,
 	            processData : false 	            
 			}).done(function(resp){
-				location.reload();
+				location.href="/group/view?seq=${gdto.seq}"
 			});
 			return false;
 		})
+		
+		// 리뷰 게시글 글자수 ... 처리
+		var reviewList = $(".review_list");
+		var oriTxt = [];
+		reviewList.find("article").each(function(){
+			var reviewTxt = $(this).find(".txtBox a").text();
+			oriTxt.push(reviewTxt);
+			var reviewSize = reviewTxt.length;
+			if(reviewSize > 140){
+				var txtSubStr = reviewTxt.substr(0,140);
+				$(this).find(".txtBox a").text(txtSubStr+"...");
+			}
+			
+			var point = $(this).find(".starPoint").data("star");
+			for(var i=0; i<point; i++){
+				$(this).find(".starPoint em:eq("+i+")").addClass("on");
+			}
+			console.log(point);
+		})
+		
+		reviewList.find(".txtBox a").click(function(e){
+			e.preventDefault();
+			var idx = $(this).closest("article").index();
+			var txtSize = oriTxt[idx-1].length;
+			if($(this).text().length == 143){
+				$(this).text(oriTxt[idx-1]);
+			}else{
+				if(txtSize > 140){
+					var txtSubStr = oriTxt[idx-1].substr(0,140);
+					$(this).text(txtSubStr+"...");
+				}
+				
+			}
+		})
+		
+		
 		
 	})
 </script>
@@ -135,7 +171,7 @@
 					}
 					
 					function toList() {
-						location.href = '/group/main';
+						location.href = '/group/main?orderBy=seq';
 					}
 					
 					$('#like').on('click', function(){
@@ -181,11 +217,10 @@
 								<div class="point_box">(<span class="point">0</span>점)</div>
 							</div>
 							<div class="textInput clearfix">
-								<div class="userInfo_s1">
+								<div class="userInfo_s1 userInfo_s2">
 									<div class="thumb"><img src="/resources/img/sub/userThum.jpg"/></div>
 									<div class="info">
 										<p class="userId">홍길동</p>
-										<p class="writeDate">2020-06-28</p>
 									</div>
 								</div>
 								<div>
@@ -209,12 +244,27 @@
 						<h3>리뷰 작성</h3>
 					</div>				
 					<c:forEach var="i" items="${reviewList}">
-						<article>
+						<article class="clearfix">
 							<div class="userInfo_s1">
 								<div class="thumb"><img src="/resources/img/sub/userThum.jpg"/></div>
 								<div class="info">
 									<p class="userId">${i.writer}</p>
 									<p class="writeDate">${i.dateString}</p>
+								</div>
+							</div>
+							<div class="cont">
+								<div class="starPoint" data-star="${i.point}">
+									<div>
+										<em><i class="fa fa-star" aria-hidden="true"></i></em>
+										<em><i class="fa fa-star" aria-hidden="true"></i></em>
+										<em><i class="fa fa-star" aria-hidden="true"></i></em>
+										<em><i class="fa fa-star" aria-hidden="true"></i></em>
+										<em><i class="fa fa-star" aria-hidden="true"></i></em>
+									</div>
+									<div>(<span>${i.point}</span>점)</div>
+								</div>
+								<div class="txtBox">
+									<a href="#;">${i.contents}</a>
 								</div>
 							</div>
 						</article>

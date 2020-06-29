@@ -134,7 +134,7 @@ public class DiscussionController {
 	// 댓글 쓰기
 	@ResponseBody
 	@RequestMapping("commentProc")
-	public String commentProc(CommentDTO commDTO) throws Exception{
+	public String commentProc(CommentDTO commDTO, DiscussionDTO disDTO) throws Exception{
 		int result = disService.commentInsert(commDTO);
 		if(result > 0) {
 			return String.valueOf(true);
@@ -175,7 +175,7 @@ public class DiscussionController {
 	@ResponseBody
 	@RequestMapping("commentDelete")
 	public String commentDelete(CommentDTO commDTO) throws Exception{
-		int result = disService.commentDelete(commDTO.getSeq());
+		int result = disService.commentDelete(commDTO);
 		if(result > 0) {
 			return String.valueOf(true);
 		}else {
@@ -187,6 +187,7 @@ public class DiscussionController {
 	public String align(HttpServletRequest req, Model model) throws Exception{
 		String alignType = req.getParameter("align");
 		List<DiscussionDTO> list = disService.searchAlign(alignType);
+		model.addAttribute("alignType", alignType);
 		model.addAttribute("list", list);
 		return "board/discussion/list";
 	}

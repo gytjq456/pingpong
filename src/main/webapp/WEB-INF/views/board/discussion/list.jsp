@@ -38,8 +38,8 @@
 				<div class="btnS1 right">
 					<div>
 						<select name="align" id="align">
-							<option value="recent">최신 순</option>
-							<option value="like">인기 순</option>
+							<option value="recent" <c:if test="${alignType == 'recent'}">selected</c:if>>최신 순</option>
+							<option value="like" <c:if test="${alignType == 'like'}">selected</c:if>>인기 순</option>
 						</select>
 					</div>
 					<div><a href="/discussion/write" class="on">토론 글쓰기</a></div>

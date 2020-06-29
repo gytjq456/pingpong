@@ -105,7 +105,26 @@
 	
 	<!-- 리뷰 리스트 출력  -->
 	<select id="reviewList" resultType="kh.pingpong.dto.ReviewDTO">
-		select * from review where parent_seq = #{value}
+		select * from review where parent_seq = #{value} order by write_date desc
 	</select>
 	
+	<!-- 리큐 포인트 가져오기 -->
+	<select id="reviewAvg" resultType="java.lang.Double">
+		select round(avg(point),2) from review where parent_seq = #{value}
+	</select>
+	
+	<!-- 리큐 포인트 가져오기 -->
+	<select id="reviewCount" resultType="java.lang.Integer">
+		select count(*) from review where parent_seq = #{value}
+	</select>
+	
+	<!-- 리뷰 포인트 업데이트 -->
+	<update id="groupReviewPoint">
+		update grouplist set review_point = ${reviewAvg} where seq = ${seq}
+	</update>
+	
+	<!-- 리뷰 총 개수  -->
+	<update id="groupReviewCount">
+		update grouplist set review_count = ${reviewCount} where seq = ${seq}
+	</update>
 </mapper>

@@ -20,14 +20,14 @@ public class GroupDTO {
 	private int like_count;
 	private int app_count;
 	private int review_count;
-	private int review_point;
+	private Double review_point;
 	private String applying;
 	private String proceeding;
 	
 	public GroupDTO() {}
 	public GroupDTO(int seq, String title, String writer, String hobby_type, String apply_start, String apply_end, String start_date,
 			String end_date, int max_num, int cur_num, String location, String contents, Timestamp write_date,
-			int view_count, int like_count, int app_count, int review_count, int review_point, String applying, String proceeding) {
+			int view_count, int like_count, int app_count, int review_count, Double review_point, String applying, String proceeding) {
 		super();
 		this.seq = seq;
 		this.title = title;
@@ -151,10 +151,10 @@ public class GroupDTO {
 	public void setReview_count(int review_count) {
 		this.review_count = review_count;
 	}
-	public int getReview_point() {
+	public Double getReview_point() {
 		return review_point;
 	}
-	public void setReview_point(int review_point) {
+	public void setReview_point(Double review_point) {
 		this.review_point = review_point;
 	}
 	public String getApplying() {

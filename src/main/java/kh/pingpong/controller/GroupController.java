@@ -199,13 +199,16 @@ public class GroupController {
 	@RequestMapping("reviewWrite")
 	public String reviewWrite(ReviewDTO redto) throws Exception{
 		int result = gservice.reviewWrite(redto);
+
+		
 		if(result > 0) { 
 			 return String.valueOf(true); 
 		}else { 
 			return String.valueOf(false); 
 		}
-		
 	}
+	
+	
 	
 	
 	

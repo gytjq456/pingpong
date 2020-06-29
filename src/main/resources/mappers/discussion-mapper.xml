@@ -24,7 +24,7 @@
 		select * from discussion where seq = #{seq}
 	</select>
 	
-	<!-- 토론 댓글 쓰기 -->
+	<!-- 토론 댓글 삭제 -->
 	<delete id="delete">
 		delete discussion where seq = #{seq}
 	</delete>
@@ -45,19 +45,24 @@
 		insert into commentTb values(commentTb_seq.nextval, #{writer}, #{contents}, #{category}, default, #{opinion}, default, default, ${parent_seq})
 	</insert>
 
-	<!-- 토론 댓글 카운트 수 증가-->
+	<!-- 토론 좋아요 카운트 수 증가-->
 	<update id="like">
 		update discussion set like_count = like_count+1 where seq = #{parent_seq}
 	</update>
 	
-	<!-- 토론 댓글 카운트 수 증가-->
+	<!-- 토론 게시글에 댓글 카운트 수 증가-->
 	<update id="disCommentCount">
-		update discussion set comment_count = comment_count+1 where seq = #{parent_seq}
+		update discussion set comment_count = ${commentCount} where seq = ${parent_seq}
 	</update>
+	
+	<!-- 토론 댓글 카운트 가져오기  -->
+	<select id="commentCount" resultType="java.lang.Integer">
+		select count(*) from commentTb where parent_seq = #{value}
+	</select>
 
 	<!-- 토론 댓글 가져오기  -->
 	<select id="selectComment" resultType="kh.pingpong.dto.CommentDTO">
-		select * from commentTb where parent_seq = #{value} 
+		select * from commentTb where parent_seq = #{value} order by seq desc
 	</select>
 	
 	<!-- 토론 댓글 좋아요  -->

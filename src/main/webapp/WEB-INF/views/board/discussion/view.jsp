@@ -78,18 +78,20 @@
 			$(".comment_delete").click(function(){
 				var result = confirm("댓글을 삭제 하시겠습니까?");
 				var seq = $(this).data("seq");
+				var parentSeq = $(this).data("parent_seq");
 				if(result){
 					$.ajax({
 						url:"/discussion/commentDelete",
 						dataType:"json",
 						data:"post",
 						data:{
-							seq:seq
+							seq:seq,
+							parent_seq:parentSeq
 						}
 					}).done(function(resp){
 						if(resp){
 							alert("댓글이 삭제되었습니다.");
-							location.reload();
+							location.href="/discussion/view?seq=${disDto.seq}"
 						}
 					})
 				}
@@ -126,12 +128,12 @@
 					dataType:"json",
 					data:"post",
 					data:{
-						seq:seq
+						seq:seq,
 					}
 				}).done(function(resp){
 					if(resp){
 						//location.href="/discussion/view?seq=${disDto.seq}"
-						location.reload();
+						location.href="/discussion/view?seq=${disDto.seq}"
 					}
 				})
 			})	
@@ -238,7 +240,7 @@
 														<button class="comment_declaration" data-seq="${i.seq}"><i class="fa fa-bell color_white" aria-hidden="true"></i> 신고하기</button>
 													</li>
 													<li>
-														<button class="comment_delete normal" data-seq="${i.seq}">댓글삭제</button>
+														<button class="comment_delete normal" data-seq="${i.seq}" data-parent_seq="${disDto.seq}">댓글삭제</button>
 													</li>
 												</ul>
 											</div>
@@ -278,7 +280,7 @@
 														<button class="comment_declaration" data-seq="${i.seq}"><i class="fa fa-bell color_white" aria-hidden="true"></i> 신고하기</button>
 													</li>
 													<li>
-														<button class="comment_delete normal" data-seq="${i.seq}">댓글삭제</button>
+														<button class="comment_delete normal" data-seq="${i.seq}" data-parent_seq="${disDto.seq}">댓글삭제</button>
 													</li>
 												</ul>
 											</div>

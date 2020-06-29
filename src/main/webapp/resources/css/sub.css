@@ -52,7 +52,7 @@ textarea,
 textarea { resize:none; height:120px; line-height:1.6;}
 
 button.like-hate-btn { }
-button.likeBtn {border:1px solid #3162a4; }
+button.likeBtn {border:1px solid #3162a4 !important; border-radius:5px; padding:5px 10px; }
 button i.color_white { color:#fff; }
 button.comment_declaration i { font-size:16px; }
 button.comment_declaration,
@@ -133,23 +133,48 @@ button.normal:hover { background:#c7c7c7 !important; color:#fff; }
 .userInfo_s1 .info .userId {  }
 .userInfo_s1 .info .writeDate { color:#999; }
 
+.userInfo_s2 .thumb { margin:0 auto 10px;}
+.userInfo_s2 > div { display:block;  text-align:center; }
+
 
 /* 리뷰 */
 #review_wrap .wordsize{ text-align:right; margin-top:6px;}
 #review_wrap .textInput { position:relative;}
 #review_wrap .starPoint { text-align:right; margin-bottom:12px;}
-#review_wrap .starPoint > div { display:inline-block; vertical-align:middle; font-size:20px; margin-right:6px;}
-#review_wrap .starPoint > div:last-child { margin:0; }
-#review_wrap .starPoint button { border:none; background:none; padding:0;}
-#review_wrap .starPoint button i { font-size:20px; color:#c2c2c2;}
-#review_wrap .starPoint button.on i { color:#fbaab0;}
+.starPoint > div { display:inline-block; vertical-align:middle; font-size:20px; margin-right:6px;}
+.starPoint > div:last-child { margin:0; }
+.starPoint em,
+.starPoint span,
+.starPoint button { border:none; background:none; padding:0;}
+.starPoint span i,
+.starPoint em i,
+.starPoint button i { font-size:20px; color:#c2c2c2;}
+.starPoint span.on i,
+.starPoint em.on i,
+.starPoint button.on i { color:#fbaab0;}
 #review_wrap .textInput > div { float:left; }
-#review_wrap .textInput > div:first-child{ width:160px; margin-right:20px;}
+#review_wrap .textInput > div:first-child{ width:100px; margin-right:20px;}
 #review_wrap .textInput > div:last-child{ 
+	width:calc(100% - 120px);
+	width:-moz-calc(100% - 120px);
+	width:-webkit-calc(100% - 120px);
+}
+
+.review_list {}
+.review_list article { border-bottom:1px solid #ddd; padding-bottom:30px; margin-bottom:30px;}
+.review_list article:last-child { margin:0; padding:0; border:none;}
+.review_list article > div {  margin-right:20px; float:left;}
+.review_list article .userInfo_s1 {width:160px;}
+.review_list article .cont { margin-right:0; padding-top:12px;
 	width:calc(100% - 180px);
 	width:-moz-calc(100% - 180px);
 	width:-webkit-calc(100% - 180px);
 }
+.review_list article .starPoint {}
+.review_list article .starPoint > div {  }
+.review_list article .txtBox a { line-height:1.6; margin-top:8px; word-break:break-all; display:block;}
+
+
 
     
     

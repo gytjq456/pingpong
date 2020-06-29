@@ -65,8 +65,14 @@ public class DiscussionDAO {
 	// 댓글 쓰기
 	@Transactional("txManager")
 	public int commentInsert(CommentDTO commDTO) throws Exception{
-		mybatis.update("Discussion.disCommentCount", commDTO);
-		return mybatis.insert("Discussion.commentInsert",commDTO);
+		int writeResult = mybatis.insert("Discussion.commentInsert",commDTO);
+		int commentCount = mybatis.selectOne("Discussion.commentCount",commDTO.getParent_seq());
+		System.out.println(commentCount);
+		Map<String, Integer> result = new HashMap<>();
+		result.put("parent_seq", commDTO.getParent_seq());
+		result.put("commentCount", commentCount);	
+		mybatis.update("Discussion.disCommentCount", result);
+		return writeResult;
 	}
 
 	// 댓글 가져오기
@@ -91,10 +97,15 @@ public class DiscussionDAO {
 	}
 
 	// 댓글 삭제
-	public int commentDelete(int seq) throws Exception{
-		return mybatis.delete("Discussion.commentDelete",seq);
+	public int commentDelete(CommentDTO commDTO) throws Exception{
+		int deleteResult = mybatis.delete("Discussion.commentDelete",commDTO.getSeq());
+		int commentCount = mybatis.selectOne("Discussion.commentCount",commDTO.getSeq());
+		Map<String, Integer> result = new HashMap<>();
+		result.put("parent_seq", commDTO.getParent_seq());
+		result.put("commentCount", commentCount);
+		mybatis.update("Discussion.disCommentCount", result);
+;		return deleteResult;
 	}
-
 
 	// 토론 리스트 검색 최신순 / 인기순
 	public List<DiscussionDTO> searchAlign(String alignType){

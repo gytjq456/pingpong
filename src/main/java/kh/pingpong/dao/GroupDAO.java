@@ -44,6 +44,17 @@ public class GroupDAO {
 	}
 	
 	public GroupDTO selectBySeq(int seq) {
+		Double reviewAvg = mybatis.selectOne("Group.reviewAvg", seq);
+		if(reviewAvg != null) {
+			reviewAvg = mybatis.selectOne("Group.reviewAvg", seq);
+		}
+		int reviewCount = mybatis.selectOne("Group.reviewCount", seq);
+		Map<String, Object> paramVal = new HashMap<>();
+		paramVal.put("seq", seq);
+		paramVal.put("reviewCount", reviewCount);
+		paramVal.put("reviewAvg", reviewAvg);	
+		mybatis.update("Group.groupReviewPoint",paramVal);		
+		mybatis.update("Group.groupReviewCount",paramVal);
 		return mybatis.selectOne("Group.selectBySeq", seq);
 	}
 	
@@ -108,10 +119,10 @@ public class GroupDAO {
 	}
 	
 	//리뷰 글쓰기
-	public int reviewWrite(ReviewDTO redto) {
+	public int reviewWrite(ReviewDTO redto) throws Exception{
 		return mybatis.insert("Group.reviewWrite",redto);
 	}
-	//리뷰 글쓰기
+	//리뷰 리스트
 	public List<ReviewDTO> reviewList(int seq) {
 		return mybatis.selectList("Group.reviewList",seq);
 	}

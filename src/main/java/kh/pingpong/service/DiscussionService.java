@@ -89,8 +89,8 @@ public class DiscussionService {
 	}
 	
 	// 토론 댓글 삭제
-	public int commentDelete(int seq) throws Exception{
-		return disDao.commentDelete(seq);
+	public int commentDelete(CommentDTO commDTO) throws Exception{
+		return disDao.commentDelete(commDTO);
 	}
 	
 	

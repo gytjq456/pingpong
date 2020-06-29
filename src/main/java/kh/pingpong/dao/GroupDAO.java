@@ -1,5 +1,6 @@
 package kh.pingpong.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -116,6 +117,28 @@ public class GroupDAO {
 	
 	public List<GroupDTO> selectOrderBy(String tableName) {
 		return mybatis.selectList("Group.selectOrderBy", tableName);
+	}
+	
+	public List<GroupDTO> search(int cpage, Map<String, Object> search) {
+		int start = cpage * Configuration.RECORD_COUNT_PER_PAGE - (Configuration.RECORD_COUNT_PER_PAGE - 1);
+		int end = start + (Configuration.RECORD_COUNT_PER_PAGE - 1);
+		
+		search.put("start", start);
+		search.put("end", end);
+		
+		List<GroupDTO> glist = new ArrayList<>();
+		
+		if (search.get("searchType").toString().contentEquals("contents")) {
+			glist = mybatis.selectList("Group.searchContents", search);
+		} else {
+			glist = mybatis.selectList("Group.search", search);
+		}
+		
+//		if (!search.containsKey("hobby_type")) {
+//			search.put("hobby_type", null);
+//		}
+		
+		return glist;
 	}
 	
 	//리뷰 글쓰기

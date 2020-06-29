@@ -48,9 +48,11 @@ public class GroupController {
            cpage = Integer.parseInt(request.getParameter("cpage"));
         } catch (Exception e) {}
         
+        List<HobbyDTO> hblist = gservice.selectHobby();
 		List<GroupDTO> glist = gservice.selectList(cpage, orderBy);
 		String navi = gservice.getPageNav(cpage, orderBy);
 		
+		model.addAttribute("hblist", hblist);
 		model.addAttribute("glist", glist);
 		model.addAttribute("navi", navi);
 		
@@ -163,6 +165,34 @@ public class GroupController {
 	public int groupInsertLike(LikeListDTO ldto) {
 		int result = gservice.insertLike(ldto);
 		return result;
+	}
+	
+	@RequestMapping("search")
+	public String search(String orderBy, String hobby_type, String searchType, String searchThing, HttpServletRequest request, Model model) throws Exception {
+		int cpage = 1;
+        try {
+           cpage = Integer.parseInt(request.getParameter("cpage"));
+        } catch (Exception e) {}
+        
+		Map<String, Object> search = new HashMap<>();
+		
+		search.put("searchType", searchType);
+		search.put("searchThing", searchThing);
+		search.put("orderBy", orderBy);
+		
+		if (hobby_type != null) {
+			search.put("hobby_type", hobby_type);
+		}
+		
+		List<HobbyDTO> hblist = gservice.selectHobby();
+		List<GroupDTO> glist = gservice.search(cpage, search);
+		String navi = gservice.getPageNav(cpage, orderBy);
+
+		model.addAttribute("hblist", hblist);
+		model.addAttribute("glist", glist);
+		model.addAttribute("navi", navi);
+		
+		return "/group/main";
 	}
 	
 	@RequestMapping(value="imgUpload", produces="application/json")

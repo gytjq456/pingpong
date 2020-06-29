@@ -97,6 +97,17 @@
 		select * from grouplist order by ${value} desc
 	</select>
 	
+	<select id="search" resultType="kh.pingpong.dto.GroupDTO">
+		select * from (select grouplist.*, row_number() over(order by ${orderBy} desc, seq desc) rnum from grouplist where ${searchType} = #{searchThing} 
+		<if test="hobby_type != null">
+			and hobby_type like '%${hobby_type}%'
+		</if>
+		) where rnum between #{start} and #{end}
+	</select>
+	
+	<select id="searchContents" resultType="kh.pingpong.dto.GroupDTO">
+		select * from (select grouplist.*, row_number() over(order by ${orderBy} desc, seq desc) rnum from grouplist where DBMS_LOB.INSTR(${searchType}, #{searchThing}) > 0) where rnum between #{start} and #{end}
+	</select>
 	
 	<!-- 리뷰 글쓰기  -->
 	<insert id="reviewWrite">
@@ -127,4 +138,5 @@
 	<update id="groupReviewCount">
 		update grouplist set review_count = ${reviewCount} where seq = ${seq}
 	</update>
+
 </mapper>

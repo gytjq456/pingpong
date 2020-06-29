@@ -32,6 +32,22 @@
 .btns_s2 button { letter-spacing:-0.5px; font-size:12px; width:32%; max-width:120px; margin-right:2%; height:42px; line-height:40px; border:1px solid #ddd; background:#fff; border-radius:5px; transition:all 0.5s;}
 .btns_s2 button:hover { background:#fbaab0; color:#fff; }
 .btns_s2 button:last-child { margin:0; }
+/* 그룹 게시판 글쓰기 */
+#find_group_write select,
+#find_group_write input[type="text"] { width: 100%; padding:10px; height:42px; line-height:40px; border:1px solid #ddd; border-radius:5px; box-sizing:border-box;}
+#find_group_write input[class="cal_input"] { width: 15%; background-color: #eee; }
+#find_group_write select { width: 15%; margin-right: 10px; }
+#find_group_write #max_num { width: 10%; margin-right: 5px; }
+#find_group_write #location { display: none; }
+#find_group_write .fa-calendar { font-size: 20px; color: #999; margin-right: 8px; }
+.between_calendar, .max_num_myung { width: 30px; text-align: center; display: inline-block; font-size: 18px; }
+.calendar_icon { display: inline-block; vertical-align: text-top; }
+.group_sub_input { margin-bottom: 40px; }
+
+/* 그룹 게시판 리스트 */
+.group_each_wrapper { border: 1px solid #999; display: inline-block; padding: 15px; margin-bottom: 25px; margin-right: 20px; }
+.group_each_wrapper {  }
+#group_list .sub_title { font-weight: bold; }
 
 /* 토론 게시판 리스트 */
 .card_body { background:#fff; box-shadow: 0 7px 25px 0 rgba(0,0,0,0.1); border-radius:6px; padding:30px; margin-bottom:20px; margin-top:20px;}

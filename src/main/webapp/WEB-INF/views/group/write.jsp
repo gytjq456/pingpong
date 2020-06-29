@@ -8,7 +8,13 @@
 	.sun{color: #ef3333;}
 	.sat{color: #2107e0;}
 	.active{background-color: dodgerblue; color: #fff;}
-	#apply_start, #apply_end, #start_date, #end_date{background-color: #ccc; border: 1px solid #bbb;}
+	/* .group_sub, .group_sub_input{display: inline-block;} */
+	.group_sub{width: 10%; vertical-align: center;}
+	.vertical_top{vertical-align: top; margin-top: 3px;}
+	/* .group_sub_input{width: 89%;} */
+	#hobby_type{display: none;}
+	#map{margin-top: 10px;}
+	#apply_start, #apply_end, #start_date, #end_date{width: 50%;}
 </style>
 <script>
 	$(function(){
@@ -357,128 +363,193 @@
 		
 	})
 </script>
-	<h2>그룹 등록하기</h2>
-	<form action="/group/writeProc" id="writeProc" name="writeProc" method="post">
-		제목: <input type="text" name="title" id="title"><br>
-		유형: 
-		<c:forEach var="hbdto" items="${hblist}">
-			<input type="checkbox" name="hobby" class="hobby_list" id="${hbdto.seq}" value="${hbdto.hobby}"><label for="${hbdto.seq}">${hbdto.hobby}</label>
-		</c:forEach>
-		<input type="text" name="hobby_type" id="hobby_type">
-		<br>
-		모집 기간: 
-		<span id="apply_start_cal_btn">달력</span>
-		<input type="text" name="apply_start" id="apply_start" readonly>
-		 ~ 
-		<span id="apply_end_cal_btn">달력</span>
-		<input type="text" name="apply_end" id="apply_end" readonly><br>
-		<table id="apply_start_cal" align="center">
-			<thead>
-				<tr>
-					<td>
-						<label class="calendar_prev">◀</label>
-					</td>
-					<td align="center" class="current_year_month" colspan="5"></td>
-					<td>
-						<label class="calendar_next">▶</label>
-					</td>
-				</tr>
-				<tr>
-					<td class="sun" align="center">Sun</td>
-					<td align="center">Mon</td>
-					<td align="center">Tue</td>
-					<td align="center">Wed</td>
-					<td align="center">Thu</td>
-					<td align="center">Fri</td>
-					<td class="sat" align="center">Sat</td>
-				</tr>
-			</thead>
-			<tbody class="calendar_body"></tbody>
-		</table>
-		<table id="apply_end_cal" align="center">
-			<thead>
-				<tr>
-					<td>
-						<label class="calendar_prev">◀</label>
-					</td>
-					<td align="center" class="current_year_month" colspan="5"></td>
-					<td>
-						<label class="calendar_next">▶</label>
-					</td>
-				</tr>
-				<tr>
-					<td class="sun" align="center">Sun</td>
-					<td align="center">Mon</td>
-					<td align="center">Tue</td>
-					<td align="center">Wed</td>
-					<td align="center">Thu</td>
-					<td align="center">Fri</td>
-					<td class="sat" align="center">Sat</td>
-				</tr>
-			</thead>
-			<tbody class="calendar_body"></tbody>
-		</table>
-		진행 기간: 
-		<span id="start_date_cal_btn">달력</span>
-		<input type="text" name="start_date" id="start_date" readonly>
-		 ~ 
-		<span id="end_date_cal_btn">달력</span>
-		<input type="text" name="end_date" id="end_date" readonly><br>
-		<table id="start_date_cal" align="center">
-			<thead>
-				<tr>
-					<td>
-						<label class="calendar_prev">◀</label>
-					</td>
-					<td align="center" class="current_year_month" colspan="5"></td>
-					<td>
-						<label class="calendar_next">▶</label>
-					</td>
-				</tr>
-				<tr>
-					<td class="sun" align="center">Sun</td>
-					<td align="center">Mon</td>
-					<td align="center">Tue</td>
-					<td align="center">Wed</td>
-					<td align="center">Thu</td>
-					<td align="center">Fri</td>
-					<td class="sat" align="center">Sat</td>
-				</tr>
-			</thead>
-			<tbody class="calendar_body"></tbody>
-		</table>
-		<table id="end_date_cal" align="center">
-			<thead>
-				<tr>
-					<td>
-						<label class="calendar_prev">◀</label>
-					</td>
-					<td align="center" class="current_year_month" colspan="5"></td>
-					<td>
-						<label class="calendar_next">▶</label>
-					</td>
-				</tr>
-				<tr>
-					<td class="sun" align="center">Sun</td>
-					<td align="center">Mon</td>
-					<td align="center">Tue</td>
-					<td align="center">Wed</td>
-					<td align="center">Thu</td>
-					<td align="center">Fri</td>
-					<td class="sat" align="center">Sat</td>
-				</tr>
-			</thead>
-			<tbody class="calendar_body"></tbody>
-		</table>
-		최대 인원: <input type="text" name="max_num" id="max_num" placeholder="00"> 명<br>
-		장소: <input type="text" name="location" id="location" placeholder="**시 **구"><br>
-		<select name="sido1" id="sido1"></select>
-		<select name="gugun1" id="gugun1"></select><br>
-		<div id="map" style="width:100%;height:350px;"></div>
-		내용: <textarea name="contents" id="contents"></textarea><br>
-		<input type="button" id="write" onclick="javascript:writeProc_func()" value="등록하기">
-		<button type="button" id="back">돌아가기</button>
-	</form>
+	<div id="subWrap" class="hdMargin">
+		<section id="subContents">
+			<article id="group_write" class="inner1200">
+				<div class="tit_s1">
+					<h2>Group</h2>
+					<p>새 그룹 등록하기</p>
+				</div>
+				<div class="card_body" id="find_group_write">
+					<form action="/group/writeProc" id="writeProc" name="writeProc" method="post">
+						<div class="group_write_sub">
+							<!-- <div class="group_sub">제목</div> -->
+							<div class="tit_s3">
+								<h4>제목</h4>
+							</div>
+							<div class="group_sub_input"><input type="text" name="title" id="title"></div>
+						</div>
+						<div class="group_write_sub">
+							<!-- <div class="group_sub">유형</div> -->
+							<div class="tit_s3">
+								<h4>유형</h4>
+							</div>
+							<div class="group_sub_input">
+								<c:forEach var="hbdto" items="${hblist}">
+									<input type="checkbox" name="hobby" class="hobby_list" id="${hbdto.seq}" value="${hbdto.hobby}"><label for="${hbdto.seq}">${hbdto.hobby}</label>
+								</c:forEach>
+								<input type="text" name="hobby_type" id="hobby_type">
+							</div>
+						</div>
+						<div class="group_write_sub">
+							<!-- <div class="group_sub">모집 기간</div> -->
+							<div class="tit_s3">
+								<h4>모집 기간</h4>
+							</div>
+							<div class="group_sub_input calendar_wrapper">
+								<span id="apply_start_cal_btn" class="calendar_icon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+								<input type="text" name="apply_start" id="apply_start" class="cal_input" readonly>
+								<span class="between_calendar">~</span>
+								<span id="apply_end_cal_btn" class="calendar_icon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+								<input type="text" name="apply_end" id="apply_end" class="cal_input" readonly><br>
+								<table id="apply_start_cal" align="center">
+									<thead>
+										<tr>
+											<td>
+												<label class="calendar_prev">◀</label>
+											</td>
+											<td align="center" class="current_year_month" colspan="5"></td>
+											<td>
+												<label class="calendar_next">▶</label>
+											</td>
+										</tr>
+										<tr>
+											<td class="sun" align="center">Sun</td>
+											<td align="center">Mon</td>
+											<td align="center">Tue</td>
+											<td align="center">Wed</td>
+											<td align="center">Thu</td>
+											<td align="center">Fri</td>
+											<td class="sat" align="center">Sat</td>
+										</tr>
+									</thead>
+									<tbody class="calendar_body"></tbody>
+								</table>
+								<table id="apply_end_cal" align="center">
+									<thead>
+										<tr>
+											<td>
+												<label class="calendar_prev">◀</label>
+											</td>
+											<td align="center" class="current_year_month" colspan="5"></td>
+											<td>
+												<label class="calendar_next">▶</label>
+											</td>
+										</tr>
+										<tr>
+											<td class="sun" align="center">Sun</td>
+											<td align="center">Mon</td>
+											<td align="center">Tue</td>
+											<td align="center">Wed</td>
+											<td align="center">Thu</td>
+											<td align="center">Fri</td>
+											<td class="sat" align="center">Sat</td>
+										</tr>
+									</thead>
+									<tbody class="calendar_body"></tbody>
+								</table>
+							</div>
+						</div>
+						<div class="group_write_sub">
+							<!-- <div class="group_sub">진행 기간</div> -->
+							<div class="tit_s3">
+								<h4>진행 기간</h4>
+							</div>
+							<div class="group_sub_input">
+								<span id="start_date_cal_btn" class="calendar_icon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+								<input type="text" name="start_date" id="start_date" class="cal_input" readonly>
+								<span class="between_calendar">~</span>
+								<span id="end_date_cal_btn" class="calendar_icon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+								<input type="text" name="end_date" id="end_date" class="cal_input" readonly><br>
+								<table id="start_date_cal" align="center">
+									<thead>
+										<tr>
+											<td>
+												<label class="calendar_prev">◀</label>
+											</td>
+											<td align="center" class="current_year_month" colspan="5"></td>
+											<td>
+												<label class="calendar_next">▶</label>
+											</td>
+										</tr>
+										<tr>
+											<td class="sun" align="center">Sun</td>
+											<td align="center">Mon</td>
+											<td align="center">Tue</td>
+											<td align="center">Wed</td>
+											<td align="center">Thu</td>
+											<td align="center">Fri</td>
+											<td class="sat" align="center">Sat</td>
+										</tr>
+									</thead>
+									<tbody class="calendar_body"></tbody>
+								</table>
+								<table id="end_date_cal" align="center">
+							<thead>
+								<tr>
+									<td>
+										<label class="calendar_prev">◀</label>
+									</td>
+									<td align="center" class="current_year_month" colspan="5"></td>
+									<td>
+										<label class="calendar_next">▶</label>
+									</td>
+								</tr>
+								<tr>
+									<td class="sun" align="center">Sun</td>
+									<td align="center">Mon</td>
+									<td align="center">Tue</td>
+									<td align="center">Wed</td>
+									<td align="center">Thu</td>
+									<td align="center">Fri</td>
+									<td class="sat" align="center">Sat</td>
+								</tr>
+							</thead>
+							<tbody class="calendar_body"></tbody>
+						</table>
+							</div>
+						</div>
+						<div class="group_write_sub">
+							<!-- <div class="group_sub">최대 인원</div> -->
+							<div class="tit_s3">
+								<h4>최대 인원</h4>
+							</div>
+							<div class="group_sub_input">
+								<input type="text" name="max_num" id="max_num" placeholder="00"><span class="max_num_myung">명</span>
+							</div>
+						</div>
+						<div class="group_write_sub">
+							<!-- <div class="group_sub vertical_top">장소</div> -->
+							<div class="tit_s3">
+								<h4>장소</h4>
+							</div>
+							<div class="group_sub_input">
+								<input type="text" name="location" id="location" placeholder="**시 **구">
+								<select name="sido1" id="sido1"></select>
+								<select name="gugun1" id="gugun1"></select>
+								<div id="map" style="width: 100%; height: 350px;"></div>
+							</div>
+						</div>
+						<div class="group_write_sub">
+							<!-- <div class="group_sub vertical_top">내용</div> -->
+							<div class="tit_s3">
+								<h4>내용</h4>
+							</div>
+							<div class="group_sub_input">
+								<textarea name="contents" id="contents"></textarea>
+							</div>
+						</div>
+						<div class="btnS1 center">
+							<div>
+								<input type="button" id="write" onclick="javascript:writeProc_func()" value="등록">
+							</div>
+							<div><button type="button" id="back">목록</button></div>
+						</div>
+					</form>
+				</div>
+			</article>
+		</section>
+	</div>
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=033532d2fa35e423d2d5e723c0bfd1fe&libraries=services"></script>
 	<script>
 		function writeProc_func(){

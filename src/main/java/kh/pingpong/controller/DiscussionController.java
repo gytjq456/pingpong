@@ -17,6 +17,7 @@ import kh.pingpong.dto.CommentDTO;
 import kh.pingpong.dto.DiscussionDTO;
 import kh.pingpong.dto.LanguageDTO;
 import kh.pingpong.service.DiscussionService;
+import kh.pingpong.service.PapagoService;
 
 
 @Controller
@@ -25,6 +26,9 @@ public class DiscussionController {
 
 	@Autowired
 	private DiscussionService disService;
+	
+	@Autowired
+	private PapagoService papagoService;
 
 	// 글쓰기 페이지 
 	@RequestMapping("write")
@@ -37,7 +41,7 @@ public class DiscussionController {
 	// 글쓰기 완료 처리 
 	@RequestMapping("writeProc")
 	public String writeProc(DiscussionDTO disDTO) throws Exception{
-		int result = disService.insert(disDTO);
+		disService.insert(disDTO);
 		return "redirect:/discussion/list";
 	}
 
@@ -77,6 +81,9 @@ public class DiscussionController {
 		List<CommentDTO> bestCommDto = disService.bestComment(disDto.getSeq());
 		List<DiscussionDTO> moreList = disService.moreList(disDto.getSeq());
 
+		
+		List<LanguageDTO> langList = disService.langSelectlAll();
+		model.addAttribute("langList", langList);
 		model.addAttribute("commentList", commDto);
 		model.addAttribute("bestCommentList", bestCommDto);
 		model.addAttribute("disDto", disDto);
@@ -89,14 +96,11 @@ public class DiscussionController {
 	@RequestMapping("delete")
 	public String delete(DiscussionDTO disDto) throws Exception{
 		int result = disService.delete(disDto.getSeq());
-		System.out.println(result);
-		return String.valueOf(true);
-//		System.out.println("result" + result);
-//		if(result > 0) {
-//			return String.valueOf(true);
-//		}else {
-//			return String.valueOf(false);
-//		}
+		if(result > 0) {
+			return String.valueOf(true);
+		}else {
+			return String.valueOf(false);
+		}
 	}
 
 	// 수정하기 페이지로 이동
@@ -195,6 +199,20 @@ public class DiscussionController {
 		return "board/discussion/list";
 	}
 	
+	
+	
+	// 파파고
+	@ResponseBody
+	@RequestMapping("papago")
+	public String papago(HttpServletRequest request, HttpServletRequest response) throws Exception{
+		String original_str = (String)request.getParameter("original_str");
+		String original_lang = (String)request.getParameter("original_lang");
+		String change_lang = (String)request.getParameter("change_lang");
+		
+		LanguageDTO lang = disService.langSelectlOne(original_lang);
+		String txt = papagoService.nmtReturnRseult(original_str, lang, change_lang);
+		return txt;
+	}
 	
 	
 }

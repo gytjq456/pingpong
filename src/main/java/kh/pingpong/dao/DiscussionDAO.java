@@ -121,4 +121,9 @@ public class DiscussionDAO {
 		return mybatis.selectList("Discussion.moreList", seq);
 	}
 	
+	
+	// 토론 상세페이지 번역을 위한 기준언어 가져오기
+	public LanguageDTO langSelectlOne(String original_lang) throws Exception {
+		return mybatis.selectOne("Discussion.langSelectlOne", original_lang);
+	}
 }

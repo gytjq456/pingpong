@@ -36,7 +36,7 @@ public class GroupService {
 		return gdao.selectList(cpage, orderBy);
 	}
 	
-	public GroupDTO selectBySeq(int seq) {
+	public GroupDTO selectBySeq(int seq) throws Exception{
 		return gdao.selectBySeq(seq);
 	}
 	

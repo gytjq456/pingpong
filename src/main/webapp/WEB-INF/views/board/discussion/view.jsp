@@ -17,6 +17,7 @@
 							seq:"${disDto.seq}"
 						}
 					}).done(function(resp){
+						console.log(resp)
 						alert("글이 삭제 되었습니다.");
 						location.href="/discussion/list";
 					})		
@@ -115,33 +116,77 @@
 					});
 				}
 			})
+			
+			
+			
+			// 리뷰 글자수 체크
+			$("#discussion_view").find("#textCont").keyup(function(){
+				var word = $(this).val();
+				var wordSize = word.length;
+				console.log(wordSize)
+				if(wordSize <= 1000){
+					$(".wordsize .current").text(wordSize);
+				}else{
+					word = word.substr(0,1000);
+					$(".wordsize .current").text(word.length);
+					$(this).val(word);
+					alert("리뷰는  1000자 이하로 등록해 주세요")
+				}
+			})
+			
+			
+			// 파파고 번역하기
+			//번역을 위해서 button 이벤트를 위해서 사용하는 것
+			var langCountry = $(".langCountry")
+			var langCountryVal;
+			langCountry.find("select").on("change",function(){
+				langCountryVal = $(this).val();
+			})
+			$('#jsonConvertStringSend').click(function() {
+				//번역할 object를 생성
+				var text = $(".viewPage_style1 .originTxt").text();
+				var test = {
+					"original_str" : text,
+					"original_lang" : "${disDto.language}",
+					"change_lang" : langCountryVal
+				};
+				$.ajax({
+					type : "POST",
+					url : "/discussion/papago",
+					dataType:"json",
+					data : test, //json을 보내는 방법
+					success : function(data) { //서블렛을 통한 결과 값을 받을 수 있습니다.
+						console.log(data);
+						//결과값을 textarea에 넣기 위해서
+						console.log(data.message.result.translatedText)
+						var result = data.message.result.translatedText;
+						$(".convert").text(result);
+					},
+					error : function(e) {
+						console.log(e);
+						alert('실패했습니다.');
+					}
+				});
+			});
 		})
-		
 
-		
-		
-		function likeHateCount(btn,url){
-			btn.click(function(){
+		function likeHateCount(btn, url) {
+			btn.click(function() {
 				var seq = $(this).data("seq");
 				$.ajax({
-					url:url,
-					dataType:"json",
-					data:"post",
-					data:{
-						seq:seq,
+					url : url,
+					dataType : "json",
+					data : "post",
+					data : {
+						seq : seq,
 					}
-				}).done(function(resp){
-					if(resp){
-						//location.href="/discussion/view?seq=${disDto.seq}"
-						location.href="/discussion/view?seq=${disDto.seq}"
+				}).done(function(resp) {
+					if (resp) {
+						location.href = "/discussion/view?seq=${disDto.seq}"
 					}
 				})
-			})	
+			})
 		}
-		
-		
-		
-		
 	</Script>
 
 	<div id="subWrap" class="hdMargin">
@@ -161,14 +206,27 @@
 							</div>
 						</div>
 						<div class="language">${disDto.language}</div>	
-						<div class="contents">${disDto.contents}</div>
+						<div class="contents ">
+							<div class="originTxt">${disDto.contents}</div>
+							<div class="langCountry">
+								<select>
+									<c:forEach var="i" items="${langList}">
+										<option value="${i.language_country}">${i.language}</option>
+									</c:forEach>
+								</select>
+							</div>
+							<div><button type="button" id="jsonConvertStringSend">번역하기</button></div>
+							<div class="convert">
+							</div>
+						</div>
+						
 						<div class="countList">
 							<ul>
 								<li><i class="fa fa-eye"></i> ${disDto.view_count}</li>			
 								<li><i class="fa fa-commenting-o" aria-hidden="true"></i> ${disDto.comment_count}</li>
 								<li>
 									<button class="discussion_likeBtn likeBtn like-hate-btn" data-seq="${disDto.seq}">
-										<i class="fa fa-thumbs-up"></i> : ${disDto.like_count}
+										<i class="fa fa-thumbs-up"></i> ${disDto.like_count}
 									</button>
 								</li>
 							</ul>
@@ -198,6 +256,7 @@
 										</div>
 										<div class="textInput">
 											<textarea name="contents" id="textCont"></textarea>
+											<div class="wordsize"><span class="current">0</span>/1000</div>
 										</div>
 										<div class="btnS1 right">
 											<div><input type="submit" value="작성" class="on"></div>

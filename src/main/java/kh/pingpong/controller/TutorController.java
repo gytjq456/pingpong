@@ -16,10 +16,12 @@ import org.springframework.web.multipart.MultipartFile;
 import kh.pingpong.dto.DeleteApplyDTO;
 import kh.pingpong.dto.FileDTO;
 import kh.pingpong.dto.FilesDTO;
+import kh.pingpong.dto.LanguageDTO;
 import kh.pingpong.dto.LessonDTO;
 import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.dto.TutorAppDTO;
 import kh.pingpong.dto.TutorDTO;
+import kh.pingpong.service.MemberService;
 import kh.pingpong.service.TutorService;
 
 @Controller
@@ -32,13 +34,19 @@ public class TutorController {
 	@Autowired
 	private TutorService tservice;
 	
+	@Autowired
+	private MemberService mservice;
+	
 	@RequestMapping("lessonApp")
-	public String lessonApp() {
+	public String lessonApp(Model model) throws Exception{
+		//언어 
+		List<LanguageDTO> lanList = mservice.lanList();
+		model.addAttribute("lanList",lanList);
 		return "tutor/lessonApp";
 	}
 
 	@RequestMapping("tutorApp")
-	public String tutorApp(Model model) {
+	public String tutorApp(Model model) throws Exception{
 		model.addAttribute("loginInfo", session.getAttribute("loginInfo"));
 		return "tutor/tutorApp";
 	}
@@ -94,6 +102,11 @@ public class TutorController {
 	@RequestMapping("lessonList")
 	public String lessonList(HttpServletRequest request, Model model) throws Exception{
 		model.addAttribute("loginInfo", session.getAttribute("loginInfo"));
+		
+		//언어 
+		List<LanguageDTO> lanList = mservice.lanList();
+		model.addAttribute("lanList",lanList);
+		
 		int cpage = 1;
         try {
            cpage = Integer.parseInt(request.getParameter("cpage"));
@@ -111,6 +124,9 @@ public class TutorController {
 	@RequestMapping("lessonView")
 	public String lessonView(Model model, int seq) throws Exception{
 		LessonDTO ldto = tservice.lessonView(seq);
+		//언어 
+		List<LanguageDTO> lanList = mservice.lanList();
+		model.addAttribute("lanList",lanList);
 		model.addAttribute("ldto", ldto);
 		model.addAttribute("seq", seq);
 		return "tutor/lessonView";

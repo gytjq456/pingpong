@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
 <jsp:include page="/WEB-INF/views/header.jsp"/>
 <script	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 <style>
@@ -73,58 +74,6 @@
 	width: 70%;
 }
 
-@media ( min-width : 850px) {
-	#lessonApp_view .main {
-		float: left;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 100vw;
-		height: 100vh;
-	}
-	#lessonApp_view .content-wrap_01 {
-		width: 30%;
-		border: 4px solid rgba(161, 161, 161, 0.5);
-		overflow: hidden;
-		background: white;
-	}
-	#lessonApp_view .content-wrap_02 {
-		width: 30%;
-		margin: 0 auto;
-		border: 4px solid rgba(161, 161, 161, 0.5);
-		overflow: hidden;
-		background: white;
-	}
-	#lessonApp_view .content-right {
-		float: left;
-		width: 100%;
-		padding: 20px 20px 20px 20px;
-	}
-	#lessonApp_view .sun {
-		color: #ef3333;
-	}
-	#lessonApp_view .sat {
-		color: #2107e0;
-	}
-	#lessonApp_view .content-right table tr td {
-		width: 50px;
-		height: 50px;
-		text-align: center;
-		font-size: 20px;
-		font-weight: bold;
-	}
-	#lessonApp_view .active {
-		background: #0b0809;
-		border-radius: 50%;
-		color: #ffffff;
-	}
-	#lessonApp_view .left {
-		float: left;
-	}
-	#lessonApp_view #title {
-		width: 70%;
-	}
-}
 </style>
 
 <script>
@@ -199,7 +148,9 @@ $(function(){
     }
    
    $("#cal1").on("click", function(){
-      $(".content-wrap_01").show();
+	  console.log($(".content-wrap_01").css("display") != "none");
+	  
+	  $(".content-wrap_01").show();
       $(".content-wrap_02").hide(); 
    })
    $("#cal2").on("click", function(){
@@ -369,10 +320,10 @@ $(function(){
 					<div class="language_wrap">
 						<div class="left">언어 &nbsp;&nbsp;&nbsp;</div>
 						<div class="right">
-							<select>
-								<option>한국어</option>
-								<option>한국어</option>
-								<option>한국어</option>
+							<select id="language" name="language">
+								<c:forEach var="i" items="${lanList}">	
+									<option value="${i.language}">${i.language}</option>
+								</c:forEach>
 							</select>
 						</div>
 					</div>
@@ -438,6 +389,72 @@ $(function(){
 									</tr>
 								</thead>
 								<tbody id="calendar-body_02" class="calendar-body"></tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				
+				<!-- 수업기간 -->
+				<div class="lessonPeriod_main">
+					<div class="lessonPeriod_wrap">
+						<div class="left">모집기간 &nbsp;&nbsp;&nbsp;</div>
+						<div class="right">
+							<span id="cal1">달력3</span> <input type="text" id="start_date"
+								name="start_date"> ~ <span id="cal2">달력4</span> <input
+								type="text" id="end_date" name="end_date">
+						</div>
+					</div>
+				</div>
+			
+				<!-- 달력 3 -->
+				<div class="main">
+					<div id="content-wrap_03" class="content-wrap_03">
+						<div class="content-right">
+							<table id="calendar_03" class="calendar" align="center">
+								<thead>
+									<tr class="btn-wrap clearfix">
+										<td><label id="prev_03"> &#60; </label></td>
+										<td align="center" id="current-year-month_03" colspan="5"></td>
+										<td><label id="next_03"> &#62; </label></td>
+									</tr>
+									<tr>
+										<td class="sun" align="center">Sun</td>
+										<td align="center">Mon</td>
+										<td align="center">Tue</td>
+										<td align="center">Wed</td>
+										<td align="center">Thu</td>
+										<td align="center">Fri</td>
+										<td class="sat" align="center">Sat</td>
+									</tr>
+								</thead>
+								<tbody id="calendar-body_03" class="calendar-body"></tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			
+				<!-- 달력 4 -->
+				<div class="main">
+					<div id="content-wrap_04" class="content-wrap_04">
+						<div class="content-right">
+							<table id="calendar_04" class="calendar" align="enter">
+								<thead>
+									<tr class="btn-wrap clearfix">
+										<td><label id="prev_04"> &#60; </label></td>
+										<td align="center" id="current-year-month_04" colspan="5"></td>
+										<td><label id="next_04"> &#62; </label></td>
+									</tr>
+									<tr>
+										<td class="sun" align="center">Sun</td>
+										<td align="center">Mon</td>
+										<td align="center">Tue</td>
+										<td align="center">Wed</td>
+										<td align="center">Thu</td>
+										<td align="center">Fri</td>
+										<td class="sat" align="center">Sat</td>
+									</tr>
+								</thead>
+								<tbody id="calendar-body_04" class="calendar-body"></tbody>
 							</table>
 						</div>
 					</div>

@@ -3,12 +3,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
 <jsp:include page="/WEB-INF/views/header.jsp"/>
 
-    
     <div id="subWrap" class="hdMargin" style="padding-top: 155.8px;">
 		<section id="subContents">
 			<div id="join">
 			    <h1>MEMBER</h1>
-				<form action="signupProc" method="post" enctype="multipart/form-data">
+				<form action="joinProc" method="post" enctype="multipart/form-data">
 					<input type="hidden" name="mem_type" value="basic">
 					<input type="hidden" name="category" value="member">
 					<input type="hidden" name="grade" value="defalut">
@@ -17,7 +16,7 @@
 						<div class="title">아이디</div>
 						<div class="se_con">
 							<input type="text" name="id" id="id" class="w80">
-							<button type="button" class="w20 idck">중복확인</button>
+							<button type="button" class="w20 idck" id="duplcheckId">중복확인</button>
 						</div>
 					</div>
 		
@@ -33,6 +32,7 @@
 						<div class="se_con">
 							<input type="password" name="pw_ck" id="pw_ck" class="w100">
 						</div>
+						<div id="pwConfrom"></div>
 					</div>
 		
 					<div class="se_singup">
@@ -74,15 +74,9 @@
 					<div class="se_singup">
 						<div class="title">주소</div>
 						<div class="se_con">
-							<input type="text" id="sample3_postcode" placeholder="우편번호">
-							<input type="button" id="postbtn" value="우편번호 찾기"><br>
-							<input type="text" id="sample3_address" placeholder="주소" name="address">
-							<!-- <input type="text" id="sample3_detailAddress" placeholder="상세주소">
-							<input type="text" id="sample3_extraAddress" placeholder="참고항목"> -->
-							
-							<div id="wrap" style="display:none;border:1px solid;width:500px;height:300px;margin:5px 0;position:relative">
-							<img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="foldDaumPostcode()" alt="접기 버튼">
-							</div>
+							<select name="sido1" id="sido1"></select>
+							<select name="gugun1" id="gugun1"></select>
+							<input type="hidden" name="address" id="address">
 						</div>
 					</div>
 		
@@ -117,7 +111,7 @@
 					</div>
 		
 					<div class="se_singup">
-						<div class="title">구사 가능 언어</div>
+						<div class="title">구사 가능 언어 (최대 3개)</div>
 						<div class="se_con">
 							<c:forEach var="i" items="${lanList}" varStatus="status">	
 								<input type="checkbox" name="lang_can" value="${i.language}" id="test${status.index}, lang_can" name="lang_can"/>
@@ -127,7 +121,7 @@
 					</div>
 		
 					<div class="se_singup">
-						<div class="title">배우고 싶은 언어</div>
+						<div class="title">배우고 싶은 언어 (최대 3개)</div>
 						<div class="se_con">
 							<c:forEach var="i" items="${lanList}" varStatus="status">	
 								<span class="o_box">					
@@ -139,7 +133,7 @@
 					</div>
 		
 					<div class="se_singup">
-						<div class="title">취미</div>
+						<div class="title">취미 (최대 3개)</div>
 						<div class="se_con">
 							<c:forEach var="i" items="${hobbyList}" varStatus="status">		
 								<input type="checkbox" name="hobby" value="${i.hobby}" id="test3${status.index}" name="hobby">
@@ -156,7 +150,7 @@
 					</div>
 		
 					<div class="si_btn">
-						<input value="회원가입" type="submit">
+						<input value="회원가입" type="submit" id="joinBtn">
 						<button type="button">뒤로가기</button>
 					</div>
 				</form>

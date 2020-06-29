@@ -1,7 +1,5 @@
 package kh.pingpong.controller;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -10,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import kh.pingpong.dto.BankDTO;
 import kh.pingpong.dto.CountryDTO;
@@ -25,49 +23,17 @@ import kh.pingpong.service.MemberService;
 public class MemberController {
 	
 	@Autowired
-	private FileController fcon;
+	private HttpSession session;
 	
 	@Autowired
-	private HttpSession session;
+	private FileController fcon;
 	
 	@Autowired
 	private MemberService mservice;
 	
-	public FileDTO fileOneInsert(MemberDTO mdto, FileDTO fdto, String realPath) throws Exception{
-		
-		MultipartFile profile = mdto.getProfile();
-		
-		System.out.println(realPath + " :: 리얼패스");
-		File filePath = new File(realPath);
-		
-		//폴더 존재여부
-		if(!filePath.exists()) {
-			filePath.mkdirs(); //하위폴더를 만들려고 했는데 상위폴더가 없어! 그럼 자동으로 만들어줌			
-		}
-		
-		//현재시간
-		String write_date = new SimpleDateFormat("YYYY-MM-dd-ss").format(System.currentTimeMillis());
-		
-		/* 하드디스크 파일 업로드 */		
-		fdto.setOriname(profile.getOriginalFilename());
-		fdto.setSysname(write_date + "_" + profile.getOriginalFilename());
-		fdto.setRealpath(realPath + fdto.getSysname());
-		fdto.setCategory(fdto.getCategory());
-		String systemFileName = write_date +"_"+fdto.getOriname(); 
-		
-		//파일을 저장하기 위한 파일 객체 생성
-		File fileDownload = new File(realPath + "/" + systemFileName);		
-		profile.transferTo(fileDownload); //파일 저장
-		
-		//MemberDTO
-		mdto.setProfile(profile);
-		
-		return fdto;
-	}	
-	
 
-	/* :: 회원 가입하기  :: */
-	@RequestMapping("signup")
+	/* 회원가입 jsp로 이동 */
+	@RequestMapping("join")
 	public String signup(Model model) throws Exception{		
 		//은행
 		List<BankDTO> bankList = mservice.bankList();
@@ -84,20 +50,30 @@ public class MemberController {
 		//취미
 		List<HobbyDTO> hobbyList = mservice.hobbyList();
 		model.addAttribute("hobbyList",hobbyList);
-		return "member/signup";			
+		return "member/join";			
 	}	
 	
-	@RequestMapping("signupProc")
+	/* 회원가입 */
+	@RequestMapping("joinProc")
 	public String signupProc(MemberDTO mdto, FileDTO fdto) throws Exception{
-
+		
 		//회원 파일 하나 저장
 		String realPath = session.getServletContext().getRealPath("upload/member/" + mdto.getId() + "/");
-		fdto = this.fileOneInsert(mdto, fdto, realPath); 
+		fdto = fcon.fileOneInsert(mdto, fdto, realPath);
 		int result = mservice.memberInsert(mdto, fdto);		
 		
 		return "redirect:/member/memberComplete";
 	}
 	
+	/* 회원가입 - 아이디 중복 */
+	@ResponseBody
+	@RequestMapping("duplcheckId")
+	public String duplcheckId(MemberDTO mdto) throws Exception{	
+		Boolean result = mservice.duplcheckId(mdto);
+		return Boolean.toString(result);
+	}
+	
+	/*마이페이지 jsp로 이동*/
 	@RequestMapping("memberComplete")
 	public String memberComplete() throws Exception{
 		return "/member/memberComplete";
@@ -107,17 +83,22 @@ public class MemberController {
 	@RequestMapping("myInfo")
 	public String myInfo(Model model) throws Exception{
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
-		System.out.println(loginInfo.getId());
 		MemberDTO mdto = mservice.memberSelect(loginInfo);
 		model.addAttribute("mdto",mdto);
 		return "/member/mypage";
 	}
+
+	/*마이페이지 수정 jsp로 이동*/
+	@RequestMapping("myInfoModify")
+	public String myInfoModify() throws Exception{
+		return "/member/myInfoModify";
+	}
 	
-	/* 로그인 페이지로 이동 */
+	/* login jsp로 이동 */
 	@RequestMapping("login")	
 	public String login() throws Exception{
 		return "/member/login";
-	}
+	}		
 	
 	/* 로그인 - 아디 비번체크 + loginInfo */
 	@RequestMapping("isIdPwSame")
@@ -140,8 +121,11 @@ public class MemberController {
 	}
 	
 	
-	
-	
+	/* 이메일 jsp로 이동 */
+	@RequestMapping("joinMail")
+	public String loginMail() throws Exception{
+		return "/member/joinMail";
+	}
 	
 	
 	

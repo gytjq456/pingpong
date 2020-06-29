@@ -27,11 +27,6 @@ public class MemberDTO {
 	private Timestamp signup_date;
 	
 	private String sysname;
-	
-	public MemberDTO() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
 
 	public MemberDTO(String mem_type, String id, String pw, String name, int age, String gender, String email,
 			String phone_country, String phone, String address, String bank_name, String account, MultipartFile profile,
@@ -60,15 +55,37 @@ public class MemberDTO {
 		this.signup_date = signup_date;
 		this.sysname = sysname;
 	}
+	
+	public MemberDTO(String mem_type, String id, String pw, String name, int age, String gender, String email,
+			String phone_country, String phone, String address, String bank_name, String account, MultipartFile profile,
+			String country, String lang_can, String lang_learn, String hobby, String grade, String introduce,
+			Timestamp signup_date) {
+		super();
+		this.mem_type = mem_type;
+		this.id = id;
+		this.pw = pw;
+		this.name = name;
+		this.age = age;
+		this.gender = gender;
+		this.email = email;
+		this.phone_country = phone_country;
+		this.phone = phone;
+		this.address = address;
+		this.bank_name = bank_name;
+		this.account = account;
+		this.profile = profile;
+		this.country = country;
+		this.lang_can = lang_can;
+		this.lang_learn = lang_learn;
+		this.hobby = hobby;
+		this.grade = grade;
+		this.introduce = introduce;
+		this.signup_date = signup_date;
+	}
 
-	@Override
-	public String toString() {
-		return "MemberDTO [mem_type=" + mem_type + ", id=" + id + ", pw=" + pw + ", name=" + name + ", age=" + age
-				+ ", gender=" + gender + ", email=" + email + ", phone_country=" + phone_country + ", phone=" + phone
-				+ ", address=" + address + ", bank_name=" + bank_name + ", account=" + account + ", profile=" + profile
-				+ ", country=" + country + ", lang_can=" + lang_can + ", lang_learn=" + lang_learn + ", hobby=" + hobby
-				+ ", grade=" + grade + ", introduce=" + introduce + ", signup_date=" + signup_date + ", sysname="
-				+ sysname + "]";
+	public MemberDTO() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
 	public String getMem_type() {
@@ -159,70 +176,77 @@ public class MemberDTO {
 		this.bank_name = bank_name;
 	}
 
-   public void setProfile(MultipartFile profile) {
-      this.profile = profile;
-   }
-   
-   public MultipartFile getProfile() {
-	      return profile;
-   }
+	public String getAccount() {
+		return account;
+	}
 
-   public String getCountry() {
-      return country;
-   }
+	public void setAccount(String account) {
+		this.account = account;
+	}
 
-   public void setCountry(String country) {
-      this.country = country;
-   }
+	public MultipartFile getProfile() {
+		return profile;
+	}
 
-   public String getLang_can() {
-      return lang_can;
-   }
+	public void setProfile(MultipartFile profile) {
+		this.profile = profile;
+	}
 
-   public void setLang_can(String lang_can) {
-      this.lang_can = lang_can;
-   }
+	public String getCountry() {
+		return country;
+	}
 
-   public String getLang_learn() {
-      return lang_learn;
-   }
+	public void setCountry(String country) {
+		this.country = country;
+	}
 
-   public void setLang_learn(String lang_learn) {
-      this.lang_learn = lang_learn;
-   }
+	public String getLang_can() {
+		return lang_can;
+	}
 
-   public String getHobby() {
-      return hobby;
-   }
+	public void setLang_can(String lang_can) {
+		this.lang_can = lang_can;
+	}
 
-   public void setHobby(String hobby) {
-      this.hobby = hobby;
-   }
+	public String getLang_learn() {
+		return lang_learn;
+	}
 
-   public String getGrade() {
-      return grade;
-   }
+	public void setLang_learn(String lang_learn) {
+		this.lang_learn = lang_learn;
+	}
 
-   public void setGrade(String grade) {
-      this.grade = grade;
-   }
+	public String getHobby() {
+		return hobby;
+	}
 
-   public String getIntroduce() {
-      return introduce;
-   }
+	public void setHobby(String hobby) {
+		this.hobby = hobby;
+	}
 
-   public void setIntroduce(String introduce) {
-      this.introduce = introduce;
-   }
+	public String getGrade() {
+		return grade;
+	}
 
-   public Timestamp getSignup_date() {
-      return signup_date;
-   }
+	public void setGrade(String grade) {
+		this.grade = grade;
+	}
 
-   public void setSignup_date(Timestamp signup_date) {
-      this.signup_date = signup_date;
-   }
+	public String getIntroduce() {
+		return introduce;
+	}
 
+	public void setIntroduce(String introduce) {
+		this.introduce = introduce;
+	}
+
+	public Timestamp getSignup_date() {
+		return signup_date;
+	}
+
+	public void setSignup_date(Timestamp signup_date) {
+		this.signup_date = signup_date;
+	}
 
 	public String getSysname() {
 		return sysname;
@@ -231,4 +255,6 @@ public class MemberDTO {
 	public void setSysname(String sysname) {
 		this.sysname = sysname;
 	}
+	
+	
 }

@@ -45,7 +45,7 @@ public class TutorController {
 	
 	@RequestMapping("tutorAppSend")
 	public String tutorAppSend(Model model, TutorAppDTO tadto, MultipartFile[] files) throws Exception{
-		//----------------------�뙆�씪�뾽濡쒕뱶 
+		//----------------------파일 업로드 
 		String filePath = session.getServletContext().getRealPath("upload/tutorLicense/");
 		System.out.println(filePath);
 		List<FileDTO> fileList = new ArrayList<>();

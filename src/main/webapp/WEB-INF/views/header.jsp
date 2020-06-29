@@ -16,7 +16,7 @@
 
 <!-- 맴버 스크립트 추가 -->
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="/script/signup.js"></script>
+<script src="/resources/js/signup.js"></script>
 
 </head>
 <body>

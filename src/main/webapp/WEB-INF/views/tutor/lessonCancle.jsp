@@ -13,8 +13,16 @@
 			id: ${loginInfo.id }
 			<section data-seq="${i.seq}">
 				<article>
-				
-				
+				<div class="category">
+					<select>
+						<option>그룹</option>
+						<option>튜터</option>
+						<option>강의</option>
+					</select>
+				</div>
+				<div class="contents">
+					<textarea rows="100" cols="100"></textarea>
+				</div>
 				
 				</article>
 			</section>

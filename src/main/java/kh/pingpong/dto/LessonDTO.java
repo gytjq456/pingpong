@@ -13,6 +13,7 @@ public class LessonDTO {
 	private String phone_country;
 	private String phone;
 	private MultipartFile profile;
+	private String category;
 	private String title;
 	private int price;
 	private String language;
@@ -43,10 +44,11 @@ public class LessonDTO {
 	}
 
 	public LessonDTO(int seq, String id, String name, String email, String phone_country, String phone,
-			MultipartFile profile, String title, int price, String language, String apply_start, String apply_end,
-			String start_date, String end_date, String start_hour, String start_minute, String end_hour,
-			String end_minute, int max_num, int cur_num, String location, String curriculum, int like_count,
-			int view_count, int review_count, int review_point, String applying, String proceeding, String sysname) {
+			MultipartFile profile, String category, String title, int price, String language, String apply_start,
+			String apply_end, String start_date, String end_date, String start_hour, String start_minute,
+			String end_hour, String end_minute, int max_num, int cur_num, String location, String curriculum,
+			int like_count, int view_count, int review_count, int review_point, String applying, String proceeding,
+			String sysname) {
 		super();
 		this.seq = seq;
 		this.id = id;
@@ -55,6 +57,7 @@ public class LessonDTO {
 		this.phone_country = phone_country;
 		this.phone = phone;
 		this.profile = profile;
+		this.category = category;
 		this.title = title;
 		this.price = price;
 		this.language = language;
@@ -133,6 +136,14 @@ public class LessonDTO {
 
 	public void setProfile(MultipartFile profile) {
 		this.profile = profile;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
 	}
 
 	public String getTitle() {

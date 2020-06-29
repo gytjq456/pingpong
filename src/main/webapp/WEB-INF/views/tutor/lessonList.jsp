@@ -12,6 +12,7 @@
 				function() {
 					var text = $(this).find(".title").text();
 					var seq = $(this).data("seq");
+					console.log(seq);
 					$(this).children("article").wrap(
 							'<a href="/tutor/lessonView?seq=' + seq + '">')
 				})

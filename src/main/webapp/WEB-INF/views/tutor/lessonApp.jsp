@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
 <jsp:include page="/WEB-INF/views/header.jsp"/>
 <script	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 <style>
@@ -73,58 +74,6 @@
 	width: 70%;
 }
 
-@media ( min-width : 850px) {
-	#lessonApp_view .main {
-		float: left;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 100vw;
-		height: 100vh;
-	}
-	#lessonApp_view .content-wrap_01 {
-		width: 30%;
-		border: 4px solid rgba(161, 161, 161, 0.5);
-		overflow: hidden;
-		background: white;
-	}
-	#lessonApp_view .content-wrap_02 {
-		width: 30%;
-		margin: 0 auto;
-		border: 4px solid rgba(161, 161, 161, 0.5);
-		overflow: hidden;
-		background: white;
-	}
-	#lessonApp_view .content-right {
-		float: left;
-		width: 100%;
-		padding: 20px 20px 20px 20px;
-	}
-	#lessonApp_view .sun {
-		color: #ef3333;
-	}
-	#lessonApp_view .sat {
-		color: #2107e0;
-	}
-	#lessonApp_view .content-right table tr td {
-		width: 50px;
-		height: 50px;
-		text-align: center;
-		font-size: 20px;
-		font-weight: bold;
-	}
-	#lessonApp_view .active {
-		background: #0b0809;
-		border-radius: 50%;
-		color: #ffffff;
-	}
-	#lessonApp_view .left {
-		float: left;
-	}
-	#lessonApp_view #title {
-		width: 70%;
-	}
-}
 </style>
 
 <script>
@@ -132,12 +81,18 @@
 $(function(){
    $(".content-wrap_01").hide();
    $(".content-wrap_02").hide();   
+   $(".content-wrap_03").hide();
+   $(".content-wrap_04").hide();   
  
    var currentTitle_01 = document.getElementById('current-year-month_01');
    var currentTitle_02 = document.getElementById('current-year-month_02');
+   var currentTitle_03 = document.getElementById('current-year-month_03');
+   var currentTitle_04 = document.getElementById('current-year-month_04');
    //var currentTitle = $(".current-year-month");
    var calendarBody_01 = document.getElementById('calendar-body_01');
    var calendarBody_02 = document.getElementById('calendar-body_02');
+   var calendarBody_03 = document.getElementById('calendar-body_03');
+   var calendarBody_04 = document.getElementById('calendar-body_04');
    //var calendarBody = $(".calendar-body");
    console.log(calendarBody_01);
 
@@ -192,19 +147,31 @@ $(function(){
    }
 
    showCalendar(calendarBody_01, currentTitle_01);
-   showCalendar(calendarBody_02, currentTitle_02); 
+   showCalendar(calendarBody_02, currentTitle_02);
+   showCalendar(calendarBody_03, currentTitle_03);
+   showCalendar(calendarBody_04, currentTitle_04);
    
    function removeCalendar(calendarBody) {
        $(calendarBody).empty();
     }
    
    $("#cal1").on("click", function(){
-      $(".content-wrap_01").show();
+	  console.log($(".content-wrap_01").css("display") != "none");
+	  
+	  $(".content-wrap_01").show();
       $(".content-wrap_02").hide(); 
    })
    $("#cal2").on("click", function(){
       $(".content-wrap_02").show();
       $(".content-wrap_01").hide();
+   })
+   $("#cal3").on("click", function(){
+      $(".content-wrap_03").show();
+      $(".content-wrap_04").hide();
+   })
+   $("#cal4").on("click", function(){
+      $(".content-wrap_04").show();
+      $(".content-wrap_03").hide();
    })
    
    
@@ -247,6 +214,12 @@ $(function(){
    })
    $("#prev_02").on("click", function() {
       prev(calendarBody_02,currentTitle_02);
+   }) 
+   $("#prev_03").on("click", function() {
+      prev(calendarBody_03,currentTitle_03);
+   })  
+   $("#prev_04").on("click", function() {
+      prev(calendarBody_04,currentTitle_04);
    })  
    
    
@@ -282,6 +255,12 @@ $(function(){
    $("#next_02").on("click", function() {
       next(calendarBody_02,currentTitle_02);
    })
+   $("#next_03").on("click", function() {
+      next(calendarBody_03,currentTitle_03);
+   })
+   $("#next_04").on("click", function() {
+      next(calendarBody_04,currentTitle_04);
+   })
 
    //----------------------------누르면 색상 변하기
 
@@ -298,6 +277,16 @@ $(function(){
    var nextBtn_02 = $("#next_02");
    prevBtn_02.click;
    nextBtn_02.click;
+   
+   var prevBtn_03 = $("#prev_03");
+   var nextBtn_03 = $("#next_03");
+   prevBtn_03.click;
+   nextBtn_03.click;
+   
+   var prevBtn_04 = $("#prev_04");
+   var nextBtn_04 = $("#next_04");
+   prevBtn_04.click;
+   nextBtn_04.click;
    
    var tdGroup = [];
    
@@ -322,9 +311,13 @@ $(function(){
 			keyValue = today.getFullYear() + '' + (today.getMonth()+1) + '' + today.getDate();
 			
 			if(calendar.attr("id") == "calendar-body_01"){
-				$("#start_date").val(keyValue);
+				$("#apply_start").val(keyValue);
 			}else if(calendar.attr("id") == "calendar-body_02"){
-				$("#end_date").val(keyValue);
+				$("#apply_end").val(keyValue);
+			}else if(calendar.attr("id")=="calendar-body_03"){
+				$("start_date").val(keyValue);
+			}else if(calendar.attr("id")=="calendar-body_04"){
+				$("end_date").val(keyValue);
 			}
 
 	
@@ -343,13 +336,37 @@ $(function(){
 	<div id="subWrap" class="hdMargin">
 		<section id="subContents">
 			<article id="lessonApp_view" class="inner1200">
-			
-			
+
 				<div class="title_main">
 					<div class="title_wrap">
 						<div class="left">제목 &nbsp;&nbsp;&nbsp;</div>
 						<div class="right">
-							<input type="text" id="title" name="title">
+							<input type="text" id="title" name="title" 
+							placeholder="강의 성격이 드러날 키워드를 포함하여 간결한 제목으로 설정해 주세요.">
+						</div>
+						
+					</div>
+				</div>
+				
+				<div class="price_main">
+					<div class="price_wrap">
+						<div class="left">가격 &nbsp;&nbsp;&nbsp;</div>
+						<div class="right">
+							<input type="text" id="price" name="price" 
+							placeholder="시간당 가격"> 원 /시간
+						</div>
+					</div>
+				</div>
+				
+				<div class="language_main">
+					<div class="language_wrap">
+						<div class="left">언어 &nbsp;&nbsp;&nbsp;</div>
+						<div class="right">
+							<select id="language" name="language">
+								<c:forEach var="i" items="${lanList}">	
+									<option value="${i.language}">${i.language}</option>
+								</c:forEach>
+							</select>
 						</div>
 					</div>
 				</div>
@@ -358,9 +375,9 @@ $(function(){
 					<div class="appPeriod_wrap">
 						<div class="left">모집기간 &nbsp;&nbsp;&nbsp;</div>
 						<div class="right">
-							<span id="cal1">달력1</span> <input type="text" id="start_date"
-								name="start_date"> ~ <span id="cal2">달력2</span> <input
-								type="text" id="end_date" name="end_date">
+							<span id="cal1">달력1</span> <input type="text" id="apply_start"
+								name="apply_start"> ~ <span id="cal2">달력2</span> <input
+								type="text" id="apply_end" name="apply_end">
 						</div>
 					</div>
 				</div>
@@ -414,6 +431,72 @@ $(function(){
 									</tr>
 								</thead>
 								<tbody id="calendar-body_02" class="calendar-body"></tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				
+				<!-- 수업기간 -->
+				<div class="lessonPeriod_main">
+					<div class="lessonPeriod_wrap">
+						<div class="left">모집기간 &nbsp;&nbsp;&nbsp;</div>
+						<div class="right">
+							<span id="cal1">달력3</span> <input type="text" id="start_date"
+								name="start_date"> ~ <span id="cal2">달력4</span> <input
+								type="text" id="end_date" name="end_date">
+						</div>
+					</div>
+				</div>
+			
+				<!-- 달력 3 -->
+				<div class="main">
+					<div id="content-wrap_03" class="content-wrap_03">
+						<div class="content-right">
+							<table id="calendar_03" class="calendar" align="center">
+								<thead>
+									<tr class="btn-wrap clearfix">
+										<td><label id="prev_03"> &#60; </label></td>
+										<td align="center" id="current-year-month_03" colspan="5"></td>
+										<td><label id="next_03"> &#62; </label></td>
+									</tr>
+									<tr>
+										<td class="sun" align="center">Sun</td>
+										<td align="center">Mon</td>
+										<td align="center">Tue</td>
+										<td align="center">Wed</td>
+										<td align="center">Thu</td>
+										<td align="center">Fri</td>
+										<td class="sat" align="center">Sat</td>
+									</tr>
+								</thead>
+								<tbody id="calendar-body_03" class="calendar-body"></tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			
+				<!-- 달력 4 -->
+				<div class="main">
+					<div id="content-wrap_04" class="content-wrap_04">
+						<div class="content-right">
+							<table id="calendar_04" class="calendar" align="enter">
+								<thead>
+									<tr class="btn-wrap clearfix">
+										<td><label id="prev_04"> &#60; </label></td>
+										<td align="center" id="current-year-month_04" colspan="5"></td>
+										<td><label id="next_04"> &#62; </label></td>
+									</tr>
+									<tr>
+										<td class="sun" align="center">Sun</td>
+										<td align="center">Mon</td>
+										<td align="center">Tue</td>
+										<td align="center">Wed</td>
+										<td align="center">Thu</td>
+										<td align="center">Fri</td>
+										<td class="sat" align="center">Sat</td>
+									</tr>
+								</thead>
+								<tbody id="calendar-body_04" class="calendar-body"></tbody>
 							</table>
 						</div>
 					</div>

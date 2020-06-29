@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import kh.pingpong.config.Configuration;
 import kh.pingpong.dao.FileDAO;
 import kh.pingpong.dao.TutorDAO;
+import kh.pingpong.dto.DeleteApplyDTO;
 import kh.pingpong.dto.FileDTO;
 import kh.pingpong.dto.LessonDTO;
 import kh.pingpong.dto.MemberDTO;
@@ -29,7 +30,7 @@ public class TutorService {
 	public void tutorAppSend(TutorAppDTO tadto, List<FileDTO> fileList, String filePath) throws Exception{
 		
 		tdao.insert(tadto);
-		//---------------------------------------파일 업로드
+		//---------------------------------------�뙆�씪 �뾽濡쒕뱶
 		File tempFilepath = new File(filePath);
 		if (!tempFilepath.exists()) {
 			tempFilepath.mkdir();
@@ -50,7 +51,19 @@ public class TutorService {
 		return ldto;
 	}
 	
-	//레슨 페이지 만 이동 
+	public LessonDTO lessonView(int seq) throws Exception{
+		LessonDTO ldto = tdao.lessonView(seq);
+		return ldto;
+	}
+	
+	public int lessonCancleProc(DeleteApplyDTO dadto) throws Exception{
+		int result = tdao.lessonCancleProc(dadto);
+		return result;
+	}
+	
+	
+	
+	//레슨 페이징 만 이동
 		public String getPageNavi_lesson(int userCurrentPage) throws SQLException, Exception {
 			int recordTotalCount = tdao.getArticleCount_lesson(); 
 			
@@ -63,7 +76,7 @@ public class TutorService {
 				pageTotalCount = recordTotalCount / Configuration.RECORD_COUNT_PER_PAGE;
 			}
 			
-			int currentPage = userCurrentPage;	//현재 내가 위치한 페이지 번호.	클라이언트 요청값
+			int currentPage = userCurrentPage;//현재 내가 위치한 페이지 번호.	클라이언트 요청값
 			//공격자가 currentPage를 변조할 경우에 대한 보안처리
 			if(currentPage < 1) {
 				currentPage = 1;
@@ -90,7 +103,7 @@ public class TutorService {
 			}
 			for(int i = startNavi ; i<=endNavi; i++) {
 
-				sb.append("<a href='lessonList?cpage="+i+"'>"+i+"</a>");//꾸며주는 것
+				sb.append("<a href='lessonList?cpage="+i+"'>"+i+"</a>");//袁몃ŉ二쇰뒗 寃�
 			}
 			if(needNext) {
 
@@ -100,7 +113,7 @@ public class TutorService {
 			return sb.toString();
 		}
 		
-		//튜터 페이징 만 이동 
+		//튜터 페이징 만 이동
 				public String getPageNavi_tutor(int userCurrentPage) throws SQLException, Exception {
 					int recordTotalCount = tdao.getArticleCount_tutor(); 
 					
@@ -113,7 +126,7 @@ public class TutorService {
 						pageTotalCount = recordTotalCount / Configuration.RECORD_COUNT_PER_PAGE;
 					}
 					
-					int currentPage = userCurrentPage;	//현재 내가 위치한 페이지 번호.	클라이언트 요청값
+					int currentPage = userCurrentPage;//현재 내가 위치한 페이지 번호.	클라이언트 요청값
 					//공격자가 currentPage를 변조할 경우에 대한 보안처리
 					if(currentPage < 1) {
 						currentPage = 1;

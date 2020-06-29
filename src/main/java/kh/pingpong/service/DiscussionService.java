@@ -49,6 +49,7 @@ public class DiscussionService {
 
 	// 토론 글 삭제
 	public int delete(int seq) throws Exception{
+		System.out.println("service" + seq);
 		return disDao.delete(seq);
 	}
 	

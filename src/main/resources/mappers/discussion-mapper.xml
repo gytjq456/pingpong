@@ -26,7 +26,7 @@
 	
 	<!-- 토론 댓글 삭제 -->
 	<delete id="delete">
-		delete discussion where seq = #{seq}
+		delete discussion where seq = #{value}
 	</delete>
 	
 	<!-- 토론 조회수 증가-->

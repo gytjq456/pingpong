@@ -134,9 +134,6 @@
 		update grouplist set review_point = ${reviewAvg} where seq = ${seq}
 	</update>
 	
-	<!-- 리뷰 총 개수  -->
-	<update id="groupReviewCount">
-		update grouplist set review_count = ${reviewCount} where seq = ${seq}
-	</update>
+
 
 </mapper>

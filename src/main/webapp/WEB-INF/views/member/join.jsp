@@ -2,7 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
 <jsp:include page="/WEB-INF/views/header.jsp"/>
-
+<!-- 맴버 스크립트 추가 -->
+<script src="/resources/js/join.js"></script>
     <div id="subWrap" class="hdMargin" style="padding-top: 155.8px;">
 		<section id="subContents">
 			<div id="join">

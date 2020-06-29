@@ -89,11 +89,14 @@ public class DiscussionController {
 	@RequestMapping("delete")
 	public String delete(DiscussionDTO disDto) throws Exception{
 		int result = disService.delete(disDto.getSeq());
-		if(result > 0) {
-			return String.valueOf(true);
-		}else {
-			return String.valueOf(false);
-		}
+		System.out.println(result);
+		return String.valueOf(true);
+//		System.out.println("result" + result);
+//		if(result > 0) {
+//			return String.valueOf(true);
+//		}else {
+//			return String.valueOf(false);
+//		}
 	}
 
 	// 수정하기 페이지로 이동

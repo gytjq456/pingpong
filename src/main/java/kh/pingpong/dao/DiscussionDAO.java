@@ -49,6 +49,7 @@ public class DiscussionDAO {
 
 	// 토론 게시글 삭제
 	public int delete(int seq) throws Exception {
+		System.out.println("daop" + seq);
 		return mybatis.delete("Discussion.delete", seq);
 	}
 
@@ -104,7 +105,7 @@ public class DiscussionDAO {
 		result.put("parent_seq", commDTO.getParent_seq());
 		result.put("commentCount", commentCount);
 		mybatis.update("Discussion.disCommentCount", result);
-;		return deleteResult;
+		return deleteResult;
 	}
 
 	// 토론 리스트 검색 최신순 / 인기순

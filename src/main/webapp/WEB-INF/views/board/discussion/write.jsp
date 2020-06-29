@@ -3,10 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
 <jsp:include page="/WEB-INF/views/header.jsp"/>
 
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<script src="/resources/js/summernote.js"></script>
-<script src="/resources/js/summernote-ko-KR.js"></script>
-<link rel="stylesheet" href="/resources/css/summernote.css">  
 <script>
 $(function(){
  	$('#summernote').summernote({

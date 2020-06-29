@@ -111,8 +111,8 @@ function uploadSummernoteImageFile(file, editor) {
 							<div class="tit_s3">
 								<h4>이 토론은 어떤 언어로 작성 되었나요?</h4>
 							</div>					
-							<div id="languageList" name="language">
-								<select>
+							<div id="languageList">
+								<select name="language">
 									<c:forEach var="i" items="${langList}">
 										<option value="${i.language}">${i.language}</option>
 									</c:forEach>

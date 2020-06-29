@@ -16,7 +16,7 @@
 
 <!-- 맴버 스크립트 추가 -->
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="/script/signup.js"></script>
+<script src="/resources/js/signup.js"></script>
 
 </head>
 <body>
@@ -56,7 +56,7 @@
 								</ul>
 							</li>
 							<li>
-								<a href="#;">Group</a>
+								<a href="/group/main?orderBy=seq">Group</a>
 								<ul class="depth2">
 									<li><a href="/group/main?orderBy=seq">그룹 찾기</a></li>
 									<li><a href="/group/write">그룹 등록</a></li>

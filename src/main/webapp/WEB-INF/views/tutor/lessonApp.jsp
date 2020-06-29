@@ -98,7 +98,6 @@ $(function(){
 
    var today = new Date(); //오늘의 날짜 연도, 요일등의 정보 모두 담기 
    var first = new Date(today.getFullYear(), today.getMonth(), 1);
-
    var dayList = [ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday',
          'Friday', 'Saturday' ];
    var monthList = [ 'January', 'February', 'March', 'April', 'May',
@@ -106,7 +105,6 @@ $(function(){
          'December' ];
    var leapYear = [ 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ]; // 1월~ 12월까지 총 일수
    var notLeapYear = [ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ]; // 1월~ 12월까지 총 일수
-
    var pageFirst = first;
    var pageYear;
 
@@ -336,8 +334,12 @@ $(function(){
 	<div id="subWrap" class="hdMargin">
 		<section id="subContents">
 			<article id="lessonApp_view" class="inner1200">
-
-				<div class="title_main">
+			<div class="tit_s1">
+				<h2>Lesson</h2>
+				<p>새 강의 등록하기</p>
+			</div>
+			
+			<div class="title_main">
 					<div class="title_wrap">
 						<div class="left">제목 &nbsp;&nbsp;&nbsp;</div>
 						<div class="right">
@@ -373,8 +375,10 @@ $(function(){
 			
 				<div class="appPeriod_main">
 					<div class="appPeriod_wrap">
-						<div class="left">모집기간 &nbsp;&nbsp;&nbsp;</div>
-						<div class="right">
+					<div class="tit_s3">
+						<h4>모집 기간</h4>
+					</div>
+					<div class="right">
 							<span id="cal1">달력1</span> <input type="text" id="apply_start"
 								name="apply_start"> ~ <span id="cal2">달력2</span> <input
 								type="text" id="apply_end" name="apply_end">

@@ -34,7 +34,6 @@
 						<li><a href="/member/logout">Logout</a></li>
 						<li><a href="/member/joinMail">Join</a></li>
 						<li>
-<<<<<<< HEAD
  							<a href="#;">MyPage</a>
 							<ul class="depth2">
 								<li><a href="/member/myInfo">나의 정보수정</a></li>
@@ -95,5 +94,4 @@
 			</div>
 		</section>
 	</header>
-=======
 

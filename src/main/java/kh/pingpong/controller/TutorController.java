@@ -42,7 +42,7 @@ public class TutorController {
 		//언어 
 		List<LanguageDTO> lanList = mservice.lanList();
 		model.addAttribute("lanList",lanList);
-		return "tutor/lessonApp";
+		return "tutor/calTest";
 	}
 
 	@RequestMapping("tutorApp")

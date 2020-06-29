@@ -35,68 +35,7 @@
 						<li><a href="/member/joinMail">Join</a></li>
 						<li>
 <<<<<<< HEAD
-                     <a href="#;">MyPage</a>
-                     <ul class="depth2">
-                        <li><a href="/member/myInfo">나의 정보수정</a></li>
-                        <li><a href="#;">나의 튜터 목록</a></li>
-                        <li><a href="#;">모임기록</a></li>
-                        <li><a href="#;">찜목록</a></li>
-                     </ul>
-                  </li>
-               </ul>
-            </div>
-         </div>
-      </section>
-      <section id="hdBot">
-         <div class="inner1200 clearfix">
-            <h1 class="logo"><a href="#;"><img src="/resources/img/common/logo.png"/></a></h1>
-            <nav>
-               <div >
-                  <ul class="clearfix gnb">
-                     <li>
-                        <a href="#;">Partner</a>
-                        <ul class="depth2">
-                           <li><a href="#;">파트너 목록</a></li>
-                           <li><a href="#;">파트너 등록</a></li>
-                        </ul>
-                     </li>
-                     <li>
-                        <a href="/group/main?orderBy=seq">Group</a>
-                        <ul class="depth2">
-                           <li><a href="/group/main?orderBy=seq">그룹 찾기</a></li>
-                           <li><a href="/group/write">그룹 등록</a></li>
-                        </ul>
-                     </li>
-                     <li>
-                        <a href="#;">Tutor</a>
-                        <ul class="depth2">
-                           <li><a href="/tutor/tutorList">튜터 목록</a></li>
-                           <li><a href="/tutor/lessonList">강의 목록</a></li>
-                           <li><a href="/tutor/tutorApp">튜터 신청</a></li>
-                        </ul>
-                     </li>                                    
-                     <li>
-                        <a href="/discussion/list">Board</a>
-                        <ul class="depth2">
-                           <li><a href="/discussion/list">토론</a></li>
-                           <li><a href="#;">질문</a></li>
-                           <li><a href="#;">소식</a></li>
-                        </ul>
-                     </li>                                    
-                     <li>
-                        <a href="#;">Guide</a>
-                     </li>                                    
-                     <li>
-                        <a href="#;">Developer</a>
-                     </li>                                    
-                  </ul>
-               </div>
-            </nav>
-         </div>
-      </section>
-   </header>
-=======
-							<a href="#;">MyPage</a>
+ 							<a href="#;">MyPage</a>
 							<ul class="depth2">
 								<li><a href="/member/myInfo">나의 정보수정</a></li>
 								<li><a href="#;">나의 튜터 목록</a></li>
@@ -156,4 +95,5 @@
 			</div>
 		</section>
 	</header>
->>>>>>> da39ccbf08eb81e0287725052dd2c184a3a4a6b3
+=======
+

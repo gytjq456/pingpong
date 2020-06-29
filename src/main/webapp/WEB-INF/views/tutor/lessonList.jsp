@@ -23,7 +23,7 @@
 		<article id="lessonList" class="inner1200">
 
 			<div class="tit_s1">
-				<h2>강의 신청</h2>
+				<h2>강의 목록</h2>
 			</div>
 
 			<div class="btnS1 right">
@@ -64,6 +64,10 @@
 						</div>
 					</c:otherwise>
 				</c:choose>
+			</div>
+			
+			<div>
+				<div class="navi">${navi}</div>
 			</div>
 		</article>
 	</section>

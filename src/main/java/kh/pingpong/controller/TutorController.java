@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,18 +70,33 @@ public class TutorController {
 	}
 	
 	@RequestMapping("tutorList")
-	public String tutorList(Model model) throws Exception{
+	public String tutorList(HttpServletRequest request, Model model) throws Exception{
 		model.addAttribute("list", session.getAttribute("loginInfo"));
-		List<MemberDTO> tutorlist = tservice.tutorList();
+		int cpage = 1;
+        try {
+           cpage = Integer.parseInt(request.getParameter("cpage"));
+        } catch (Exception e) {}
+        
+        String navi = tservice.getPageNavi_tutor(cpage);
+		model.addAttribute("navi", navi);
+        
+		List<MemberDTO> tutorlist = tservice.tutorList(cpage);
 		model.addAttribute("tutorlist",tutorlist);
 		return "tutor/tutorList";
 	}
 	
 	@RequestMapping("lessonList")
-	public String lessonList(Model model) throws Exception{
+	public String lessonList(HttpServletRequest request, Model model) throws Exception{
 		model.addAttribute("list", session.getAttribute("loginInfo"));
+		int cpage = 1;
+        try {
+           cpage = Integer.parseInt(request.getParameter("cpage"));
+        } catch (Exception e) {}
+        
+		String navi = tservice.getPageNavi_lesson(cpage);
+		model.addAttribute("navi", navi);
 		
-		List<LessonDTO> lessonlist = tservice.lessonList();
+		List<LessonDTO> lessonlist = tservice.lessonList(cpage);
 		System.out.println(lessonlist);
 		model.addAttribute("lessonlist",lessonlist);
 		return "tutor/lessonList";

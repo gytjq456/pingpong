@@ -2,14 +2,14 @@
 #subContents { margin-top:70px; min-height:720px;}
 
 /*  타이틀 */
-.tit_s2 {}
+.tit_s2 { margin-bottom:12px;}
 .tit_s2 h3 { font-size:22px; }
 
 .tit_s3 { margin-bottom:12px; }
 .tit_s3 h4 { font-size:18px; }
 
 /* 버튼 공통 */
-.btnS1 { margin:20px 0;}
+.btnS1 { margin:20px 0 0;}
 .btnS1.center {text-align:center;  }
 .btnS1.right { text-align:right; font-size:0; letter-spacing:-4px; }
 .btnS1 > div { display:inline-block; text-align:center; vertical-align:middle; font-size:14px; letter-spacing:-0.5px; margin-right:10px; }
@@ -34,7 +34,7 @@
 .btns_s2 button:last-child { margin:0; }
 
 /* 토론 게시판 리스트 */
-.card_body { background:#fff; box-shadow: 0 7px 25px 0 rgba(0,0,0,0.1); border-radius:6px; padding:30px; margin-bottom:20px;}
+.card_body { background:#fff; box-shadow: 0 7px 25px 0 rgba(0,0,0,0.1); border-radius:6px; padding:30px; margin-bottom:20px; margin-top:20px;}
 .card_body:last-child { margin-bottom:0; }
 #listStyle1 a {color:#777; }
 #listStyle1 > section { border-bottom:1px solid #ddd; padding-bottom:30px; margin-bottom:30px;}
@@ -46,10 +46,10 @@
 #discussion_write {}
 #discussion_write section { margin-bottom:40px; }
 #discussion_write select,
-#discussion_write textarea,
+textarea,
 #discussion_write input[type="text"] { width:100%; padding:10px; height:42px; line-height:40px; border:1px solid #ddd; border-radius:5px; box-sizing:border-box;}
 #discussion_write select { width:auto; }
-#discussion_write textarea { resize:none; height:120px; }
+textarea { resize:none; height:120px; line-height:1.6;}
 
 button.like-hate-btn { }
 button.likeBtn {border:1px solid #3162a4; }
@@ -132,6 +132,24 @@ button.normal:hover { background:#c7c7c7 !important; color:#fff; }
 .userInfo_s1 .info > p:last-child { margin:0; }
 .userInfo_s1 .info .userId {  }
 .userInfo_s1 .info .writeDate { color:#999; }
+
+
+/* 리뷰 */
+#review_wrap .wordsize{ text-align:right; margin-top:6px;}
+#review_wrap .textInput { position:relative;}
+#review_wrap .starPoint { text-align:right; margin-bottom:12px;}
+#review_wrap .starPoint > div { display:inline-block; vertical-align:middle; font-size:20px; margin-right:6px;}
+#review_wrap .starPoint > div:last-child { margin:0; }
+#review_wrap .starPoint button { border:none; background:none; padding:0;}
+#review_wrap .starPoint button i { font-size:20px; color:#c2c2c2;}
+#review_wrap .starPoint button.on i { color:#fbaab0;}
+#review_wrap .textInput > div { float:left; }
+#review_wrap .textInput > div:first-child{ width:160px; margin-right:20px;}
+#review_wrap .textInput > div:last-child{ 
+	width:calc(100% - 180px);
+	width:-moz-calc(100% - 180px);
+	width:-webkit-calc(100% - 180px);
+}
 
     
     

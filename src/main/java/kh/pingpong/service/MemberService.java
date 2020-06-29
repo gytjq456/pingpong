@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import kh.pingpong.controller.FileController;
 import kh.pingpong.dao.MemberDAO;
 import kh.pingpong.dto.BankDTO;
 import kh.pingpong.dto.CountryDTO;
@@ -39,10 +40,10 @@ public class MemberService {
 	}
 	
 	@Transactional("txManager")
-	public int memberInsert(MemberDTO mdto, FileDTO fdto) throws Exception{
-		mdao.memberInsert(mdto,fdto);
+	public int memberInsert(MemberDTO mdto, FileDTO fdto) throws Exception{	
+		int result = mdao.memberInsert(mdto,fdto);
 		mdao.memberFile(fdto);		
-		return 1;
+		return result;
 	}
 	
 	public MemberDTO memberSelect(MemberDTO loginInfo) throws Exception{
@@ -61,4 +62,26 @@ public class MemberService {
 	public MemberDTO loginInfo(MemberDTO mdto) throws Exception{
 		return mdao.loginInfo(mdto); 
 	}
+	
+	/* 아아디 중복체크 */
+	public Boolean duplcheckId(MemberDTO mdto) throws Exception{
+		if(mdao.duplcheckId(mdto)>0) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	
+	
+	
 }
+
+
+
+
+
+
+
+
+

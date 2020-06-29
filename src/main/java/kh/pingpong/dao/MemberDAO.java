@@ -64,4 +64,25 @@ public class MemberDAO {
 	public MemberDTO loginInfo(MemberDTO mdto) {
 		return mybatis.selectOne("Member.loginInfo", mdto);
 	}
+	
+	/* 아아디 중복체크  */
+	public int duplcheckId(MemberDTO mdto) {
+		return mybatis.selectOne("Member.duplcheckId", mdto);
+	}
+	
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

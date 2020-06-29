@@ -9,7 +9,7 @@
 			
 			$(function(){
 				$("#signup").click(function(){
-					location.href="/member/signup";
+					location.href="/member/join";
 				});
 			});
 		</script>

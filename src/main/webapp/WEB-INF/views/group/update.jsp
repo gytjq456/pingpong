@@ -2,6 +2,13 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<style>
+	#apply_start_cal, #apply_end_cal, #start_date_cal, #end_date_cal{display: none;}
+	.sun{color: #ef3333;}
+	.sat{color: #2107e0;}
+	.active{background-color: dodgerblue; color: #fff;}
+	#apply_start, #apply_end, #start_date, #end_date{background-color: #ccc; border: 1px solid #bbb;}
+</style>
 <jsp:include page="/WEB-INF/views/header.jsp"/>
 <script>
 	$(function(){

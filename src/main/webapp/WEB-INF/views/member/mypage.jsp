@@ -3,6 +3,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
 
 <jsp:include page="/WEB-INF/views/header.jsp"/>
+	
+	<script>
+		$('#myInfoModify').on("click",function(){
+			location.href="/member/myInfoModify";
+		});
+	</script>
 
 	<div id="subWrap" class="hdMargin" style="padding-top: 155.8px;">
 		<section id="subContents">
@@ -14,6 +20,7 @@
 					${mdto.sysname}<br>
 					<img src ="/upload/member/${mdto.id}/${mdto.sysname}">
 				</form>
+				<button id="myInfoModify">수정하기</button>
 			</div>
 		</section>
 	</div>

@@ -10,7 +10,6 @@
 }
 </style>
 
-<!-- 튜터 테이블 필요함!!!!!!!!!!!!시퀀스 때문에 ㅜㅜㅜㅜ -->
 <div id="subWrap" class="hdMargin">
 	<section id="subContents">
 		<article id="tutorList" class="inner1200">

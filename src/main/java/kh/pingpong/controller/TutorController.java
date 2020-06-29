@@ -30,16 +30,21 @@ public class TutorController {
 	
 	@Autowired
 	private TutorService tservice;
+	
+	@RequestMapping("lessonApp")
+	public String lessonApp() {
+		return "tutor/lessonApp";
+	}
 
 	@RequestMapping("tutorApp")
 	public String tutorApp(Model model) {
-		model.addAttribute("list", session.getAttribute("loginInfo"));
+		model.addAttribute("loginInfo", session.getAttribute("loginInfo"));
 		return "tutor/tutorApp";
 	}
 	
 	@RequestMapping("tutorAppSend")
 	public String tutorAppSend(Model model, TutorAppDTO tadto, MultipartFile[] files) throws Exception{
-		//----------------------파일업로드 
+		//----------------------�뙆�씪�뾽濡쒕뱶 
 		String filePath = session.getServletContext().getRealPath("upload/tutorLicense/");
 		System.out.println(filePath);
 		List<FileDTO> fileList = new ArrayList<>();
@@ -63,7 +68,7 @@ public class TutorController {
 		tadto.setLicense(systemFileName);
 		tservice.tutorAppSend(tadto,fileList, filePath);
 
-		model.addAttribute("list", session.getAttribute("loginInfo"));
+		model.addAttribute("loginInfo", session.getAttribute("loginInfo"));
 		
 		
 		return "tutor/tutorApp";
@@ -71,7 +76,7 @@ public class TutorController {
 	
 	@RequestMapping("tutorList")
 	public String tutorList(HttpServletRequest request, Model model) throws Exception{
-		model.addAttribute("list", session.getAttribute("loginInfo"));
+		model.addAttribute("loginInfo", session.getAttribute("loginInfo"));
 		int cpage = 1;
         try {
            cpage = Integer.parseInt(request.getParameter("cpage"));
@@ -87,7 +92,7 @@ public class TutorController {
 	
 	@RequestMapping("lessonList")
 	public String lessonList(HttpServletRequest request, Model model) throws Exception{
-		model.addAttribute("list", session.getAttribute("loginInfo"));
+		model.addAttribute("loginInfo", session.getAttribute("loginInfo"));
 		int cpage = 1;
         try {
            cpage = Integer.parseInt(request.getParameter("cpage"));
@@ -103,15 +108,10 @@ public class TutorController {
 	}
 	
 	@RequestMapping("lessonCancle")
-	public String lessonCancle() throws Exception{
+	public String lessonCancle(Model model) throws Exception{
+		model.addAttribute("loginInfo", session.getAttribute("loginInfo"));
 		return "tutor/lessonCancle";
 	}
 	
-//	LessonDTO ldto = new LessonDTO();
-//	MemberDTO mdto = (MemberDTO) session.getAttribute("loginInfo");
-//	ldto.setName(mdto.getName());
-//	ldto.setEmail(mdto.getEmail());
-//	ldto.setPhone_country(mdto.getPhone_country());
-//	ldto.setPhone(mdto.getPhone());
-//	ldto.setProfile(mdto.getProfile());
+
 }

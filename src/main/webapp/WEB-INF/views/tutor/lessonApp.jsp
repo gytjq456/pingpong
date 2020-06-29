@@ -81,12 +81,18 @@
 $(function(){
    $(".content-wrap_01").hide();
    $(".content-wrap_02").hide();   
+   $(".content-wrap_03").hide();
+   $(".content-wrap_04").hide();   
  
    var currentTitle_01 = document.getElementById('current-year-month_01');
    var currentTitle_02 = document.getElementById('current-year-month_02');
+   var currentTitle_03 = document.getElementById('current-year-month_03');
+   var currentTitle_04 = document.getElementById('current-year-month_04');
    //var currentTitle = $(".current-year-month");
    var calendarBody_01 = document.getElementById('calendar-body_01');
    var calendarBody_02 = document.getElementById('calendar-body_02');
+   var calendarBody_03 = document.getElementById('calendar-body_03');
+   var calendarBody_04 = document.getElementById('calendar-body_04');
    //var calendarBody = $(".calendar-body");
    console.log(calendarBody_01);
 
@@ -141,7 +147,9 @@ $(function(){
    }
 
    showCalendar(calendarBody_01, currentTitle_01);
-   showCalendar(calendarBody_02, currentTitle_02); 
+   showCalendar(calendarBody_02, currentTitle_02);
+   showCalendar(calendarBody_03, currentTitle_03);
+   showCalendar(calendarBody_04, currentTitle_04);
    
    function removeCalendar(calendarBody) {
        $(calendarBody).empty();
@@ -156,6 +164,14 @@ $(function(){
    $("#cal2").on("click", function(){
       $(".content-wrap_02").show();
       $(".content-wrap_01").hide();
+   })
+   $("#cal3").on("click", function(){
+      $(".content-wrap_03").show();
+      $(".content-wrap_04").hide();
+   })
+   $("#cal4").on("click", function(){
+      $(".content-wrap_04").show();
+      $(".content-wrap_03").hide();
    })
    
    
@@ -198,6 +214,12 @@ $(function(){
    })
    $("#prev_02").on("click", function() {
       prev(calendarBody_02,currentTitle_02);
+   }) 
+   $("#prev_03").on("click", function() {
+      prev(calendarBody_03,currentTitle_03);
+   })  
+   $("#prev_04").on("click", function() {
+      prev(calendarBody_04,currentTitle_04);
    })  
    
    
@@ -233,6 +255,12 @@ $(function(){
    $("#next_02").on("click", function() {
       next(calendarBody_02,currentTitle_02);
    })
+   $("#next_03").on("click", function() {
+      next(calendarBody_03,currentTitle_03);
+   })
+   $("#next_04").on("click", function() {
+      next(calendarBody_04,currentTitle_04);
+   })
 
    //----------------------------누르면 색상 변하기
 
@@ -249,6 +277,16 @@ $(function(){
    var nextBtn_02 = $("#next_02");
    prevBtn_02.click;
    nextBtn_02.click;
+   
+   var prevBtn_03 = $("#prev_03");
+   var nextBtn_03 = $("#next_03");
+   prevBtn_03.click;
+   nextBtn_03.click;
+   
+   var prevBtn_04 = $("#prev_04");
+   var nextBtn_04 = $("#next_04");
+   prevBtn_04.click;
+   nextBtn_04.click;
    
    var tdGroup = [];
    
@@ -273,9 +311,13 @@ $(function(){
 			keyValue = today.getFullYear() + '' + (today.getMonth()+1) + '' + today.getDate();
 			
 			if(calendar.attr("id") == "calendar-body_01"){
-				$("#start_date").val(keyValue);
+				$("#apply_start").val(keyValue);
 			}else if(calendar.attr("id") == "calendar-body_02"){
-				$("#end_date").val(keyValue);
+				$("#apply_end").val(keyValue);
+			}else if(calendar.attr("id")=="calendar-body_03"){
+				$("start_date").val(keyValue);
+			}else if(calendar.attr("id")=="calendar-body_04"){
+				$("end_date").val(keyValue);
 			}
 
 	
@@ -333,9 +375,9 @@ $(function(){
 					<div class="appPeriod_wrap">
 						<div class="left">모집기간 &nbsp;&nbsp;&nbsp;</div>
 						<div class="right">
-							<span id="cal1">달력1</span> <input type="text" id="start_date"
-								name="start_date"> ~ <span id="cal2">달력2</span> <input
-								type="text" id="end_date" name="end_date">
+							<span id="cal1">달력1</span> <input type="text" id="apply_start"
+								name="apply_start"> ~ <span id="cal2">달력2</span> <input
+								type="text" id="apply_end" name="apply_end">
 						</div>
 					</div>
 				</div>

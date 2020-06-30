@@ -80,6 +80,9 @@
 						</c:otherwise>
 					</c:choose>
 				</div>
+				<div id="listNav">
+					${navi}
+				</div>
 			</article>
 		</section>
 	</div>

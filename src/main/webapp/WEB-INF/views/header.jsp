@@ -57,9 +57,9 @@
 					<div >
 						<ul class="clearfix gnb">
 							<li>
-								<a href="#;">Partner</a>
+								<a href="/partner/partnerList">Partner</a>
 								<ul class="depth2">
-									<li><a href="#;">파트너 목록</a></li>
+									<li><a href="/partner/partnerList">파트너 목록</a></li>
 									<li><a href="#;">파트너 등록</a></li>
 								</ul>
 							</li>
@@ -98,4 +98,3 @@
 			</div>
 		</section>
 	</header>
-

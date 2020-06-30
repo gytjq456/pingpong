@@ -27,11 +27,19 @@ public class MemberDTO {
 	private Timestamp signup_date;
 	
 	private String sysname;
+	
+	private String emailPassword;
+	private String memail;
+	
+	public MemberDTO() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	public MemberDTO(String mem_type, String id, String pw, String name, int age, String gender, String email,
 			String phone_country, String phone, String address, String bank_name, String account, MultipartFile profile,
 			String country, String lang_can, String lang_learn, String hobby, String grade, String introduce,
-			Timestamp signup_date, String sysname) {
+			Timestamp signup_date, String sysname, String emailPassword, String memail) {
 		super();
 		this.mem_type = mem_type;
 		this.id = id;
@@ -54,38 +62,8 @@ public class MemberDTO {
 		this.introduce = introduce;
 		this.signup_date = signup_date;
 		this.sysname = sysname;
-	}
-	
-	public MemberDTO(String mem_type, String id, String pw, String name, int age, String gender, String email,
-			String phone_country, String phone, String address, String bank_name, String account, MultipartFile profile,
-			String country, String lang_can, String lang_learn, String hobby, String grade, String introduce,
-			Timestamp signup_date) {
-		super();
-		this.mem_type = mem_type;
-		this.id = id;
-		this.pw = pw;
-		this.name = name;
-		this.age = age;
-		this.gender = gender;
-		this.email = email;
-		this.phone_country = phone_country;
-		this.phone = phone;
-		this.address = address;
-		this.bank_name = bank_name;
-		this.account = account;
-		this.profile = profile;
-		this.country = country;
-		this.lang_can = lang_can;
-		this.lang_learn = lang_learn;
-		this.hobby = hobby;
-		this.grade = grade;
-		this.introduce = introduce;
-		this.signup_date = signup_date;
-	}
-
-	public MemberDTO() {
-		super();
-		// TODO Auto-generated constructor stub
+		this.emailPassword = emailPassword;
+		this.memail = memail;
 	}
 
 	public String getMem_type() {
@@ -254,6 +232,22 @@ public class MemberDTO {
 
 	public void setSysname(String sysname) {
 		this.sysname = sysname;
+	}
+
+	public String getEmailPassword() {
+		return emailPassword;
+	}
+
+	public void setEmailPassword(String emailPassword) {
+		this.emailPassword = emailPassword;
+	}
+
+	public String getMemail() {
+		return memail;
+	}
+
+	public void setMemail(String memail) {
+		this.memail = memail;
 	}
 	
 	

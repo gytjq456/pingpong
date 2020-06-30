@@ -46,7 +46,7 @@ public class PapagoService {
 			int responseCode = con.getResponseCode();
 			BufferedReader br;
 			if(responseCode==200) { // 정상 호출
-				br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+				br = new BufferedReader(new InputStreamReader(con.getInputStream(),"UTF8"));
 			} else { // 에러 발생
 				br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
 			}

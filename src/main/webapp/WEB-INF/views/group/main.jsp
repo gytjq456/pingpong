@@ -41,12 +41,14 @@
 					<div><button type="button" id="proceeding" class="ing">진행중</button></div>
 					<div><button type="button" id="done" class="ing">마감</button></div>
 				</div>
-				<div class="btnS1 right">
-					<div><button type="button" id="seq" class="orderBy">최신순</button></div>
-					<div><button type="button" id="view_count" class="orderBy">조회순</button></div>
-					<div><button type="button" id="like_count" class="orderBy">추천순</button></div>
-					<div><button type="button" id="app_count" class="orderBy">인기순</button></div>
-					<div><button type="button" id="review_point" class="orderBy">평점순</button></div>
+				<div>
+					<select id="orderBy">
+						<option value="seq">최신순</option>
+						<option value="view_count">조회순</option>
+						<option value="like_count">추천순</option>
+						<option value="app_count">인기순</option>
+						<option value="review_point">평점순</option>
+					</select>
 				</div>
 				<div id="listStyle1" class="card_body">
 					<c:choose>
@@ -89,23 +91,24 @@
 		</section>
 	</div>
 	<script>
-		$('.orderBy').on('click', function(){
-			var orderBy = $(this).attr('id');
-			var ingCount = $('.ing').length;
-			var ing = [];
+		$('#orderBy').val('${orderBy}');
+		$('#orderBy').on('change', function() {
+			var orderBy = $('#orderBy').val();
 			
-			for (var i = 0; i < ingCount; i++) {
-				ing[i] = $($('.ing')[i]).attr('id');
-			}
-			
-			console.log(ing)
-			
-			//location.href = '/group/main?orderBy=' + orderBy + '&ing=' + ing;
+			location.href = '/group/main?orderBy=' + orderBy;
 		})
 		
 		$('.ing').on('click', function(){
+			var orderBy = $('#orderBy').val();
 			var ing = $(this).attr('id');
-			location.href = '/group/main?orderBy=seq&ing=' + ing;
+			
+			if (ing == 'all') {
+				location.href = '/group/main?orderBy=' + orderBy;
+				
+				return false;
+			}
+			
+			location.href = '/group/mainOption?orderBy=' + orderBy + '&ing=' + ing;
 		})
 		
 		$('#searchAsKeyword').on('click', function(){

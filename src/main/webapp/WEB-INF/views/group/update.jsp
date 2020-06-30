@@ -15,20 +15,10 @@
 <jsp:include page="/WEB-INF/views/header.jsp"/>
 <script>
 	$(function(){
-		$('#apply_start').datepicker();
-		$('#apply_end').datepicker();
-		$('#start_date').datepicker();
-		$('#end_date').datepicker();
-		
-		$('#title').val('${gdto.title}');
-		$('#hobby_type').val('${gdto.hobby_type}');
-		$('#apply_start').val('${apply_start}');
-		$('#apply_end').val('${apply_end}');
-		$('#start_date').val('${start_date}');
-		$('#end_date')val('${end_date}');
-		$('#max_num').val('${gdto.max_num}');
-		$('#location').val('${gdto.location}');
-		$('#contents').html('${gdto.contents}');
+		$('#apply_start').datepicker({ dateFormat: 'yy-mm-dd' });
+		$('#apply_end').datepicker({ dateFormat: 'yy-mm-dd' });
+		$('#start_date').datepicker({ dateFormat: 'yy-mm-dd' });
+		$('#end_date').datepicker({ dateFormat: 'yy-mm-dd' });
 		
 		var selectedHobbyList = '${gdto.hobby_type}';
 		var selectedHobbyArr = selectedHobbyList.split(',');
@@ -105,7 +95,7 @@
 							<div class="tit_s3">
 								<h4>제목</h4>
 							</div>
-							<div class="group_sub_input"><input type="text" name="title" id="title"></div>
+							<div class="group_sub_input"><input type="text" name="title" id="title" value="${gdto.title}"></div>
 						</div>
 						<div class="group_write_sub">
 							<div class="tit_s3">
@@ -115,7 +105,7 @@
 								<c:forEach var="hbdto" items="${hblist}">
 									<input type="checkbox" name="hobby" class="hobby_list" id="${hbdto.seq}" value="${hbdto.hobby}"><label for="${hbdto.seq}">${hbdto.hobby}</label>
 								</c:forEach>
-								<input type="text" name="hobby_type" id="hobby_type">
+								<input type="text" name="hobby_type" id="hobby_type" value="${gdto.hobby_type}">
 							</div>
 						</div>
 						<div class="group_write_sub">
@@ -124,10 +114,10 @@
 							</div>
 							<div class="group_sub_input calendar_wrapper">
 								<span id="apply_start_cal_btn" class="calendar_icon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
-								<input type="text" name="apply_start" id="apply_start" class="cal_input" readonly>
+								<input type="text" name="apply_start" id="apply_start" class="cal_input" value="${gdto.apply_start}" readonly>
 								<span class="between_calendar">~</span>
 								<span id="apply_end_cal_btn" class="calendar_icon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
-								<input type="text" name="apply_end" id="apply_end" class="cal_input" readonly><br>
+								<input type="text" name="apply_end" id="apply_end" class="cal_input" value="${gdto.apply_end}" readonly><br>
 							</div>
 						</div>
 						<div class="group_write_sub">
@@ -136,10 +126,10 @@
 							</div>
 							<div class="group_sub_input">
 								<span id="start_date_cal_btn" class="calendar_icon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
-								<input type="text" name="start_date" id="start_date" class="cal_input" readonly>
+								<input type="text" name="start_date" id="start_date" class="cal_input" value="${gdto.start_date}" readonly>
 								<span class="between_calendar">~</span>
 								<span id="end_date_cal_btn" class="calendar_icon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
-								<input type="text" name="end_date" id="end_date" class="cal_input" readonly><br>
+								<input type="text" name="end_date" id="end_date" class="cal_input" value="${gdto.end_date}" readonly><br>
 							</div>
 						</div>
 						<div class="group_write_sub">
@@ -147,7 +137,7 @@
 								<h4>최대 인원</h4>
 							</div>
 							<div class="group_sub_input">
-								<input type="text" name="max_num" id="max_num" placeholder="00"> 명
+								<input type="text" name="max_num" id="max_num" value="${gdto.max_num}" placeholder="00"> 명
 							</div>
 						</div>
 						<div class="group_write_sub">
@@ -155,7 +145,7 @@
 								<h4>장소</h4>
 							</div>
 							<div class="group_sub_input">
-								<input type="text" name="location" id="location" placeholder="**시 **구">
+								<input type="text" name="location" id="location" value="${gdto.location}" placeholder="**시 **구">
 								<select name="sido1" id="sido1"></select>
 								<select name="gugun1" id="gugun1"></select>
 								<div id="map" style="width: 100%; height: 350px;"></div>
@@ -166,7 +156,7 @@
 								<h4>내용</h4>
 							</div>
 							<div class="group_sub_input">
-								<textarea name="contents" id="contents"></textarea>
+								<textarea name="contents" id="contents">${gdto.contents}</textarea>
 							</div>
 						</div>
 						<div class="btnS1 center">
@@ -198,6 +188,14 @@
 		}
 		
 		new sojaeji('sido1', 'gugun1');
+		
+		var selectedLocation = $('#location').val();
+		var selectedLocationSplit = selectedLocation.split(' ');
+		var selectedSido = selectedLocationSplit[0];
+		var selectedGugun = selectedLocationSplit[1];
+		console.log(selectedSido)
+		
+		$('#sido1').val(selectedSido);
 		
 		$('#gugun1').change(function(){
 			var sido = $('#sido1 option:selected').val();

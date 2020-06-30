@@ -23,8 +23,8 @@ public class PapagoService {
 	    //String clientId = "N2TSG6ENIXxuIulXFjSw"; //애플리케이션 클라이언트 아이디값";
 		//String clientSecret = "JvPsKCMdOI";
 		//String clientSecret = "qWA5wr7LKh";
-		String clientId = "D3FPQeFtFLYFRmRyLYCv"; 
-		String clientSecret = "xC67WeJ47N";
+		String clientId = "Zprr_EnU6RonMqqOkNkU"; 
+		String clientSecret = "JvPsKCMdOI";
 
 		String[] resultString = new String[2];
 		try {

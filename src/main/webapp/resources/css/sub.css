@@ -197,8 +197,18 @@ button.normal:hover { background:#c7c7c7 !important; color:#fff; }
 
 
 
-    
-    
+ /* 탭 디자인 */
+ .tab_s1 {}   
+ .tab_s1 ul{}   
+ .tab_s1 ul li { float:left; margin-right:2%;}  
+ .tab_s1 ul li:last-child { margin-right:0; }
+ .tab_s1 ul li a { display:block; height:60px; line-height:60px; border:1px solid #ddd; border-radius:6px; font-size:18px; text-align:center;}   
+ .tab_s1 ul li.on { }
+ .tab_s1 ul li.on a { background:#f1989f; font-weight:500; color:#fff; }
+ 
+ #tabContWrap { }
+ #tabContWrap > article { display:none; }
+ #tabContWrap > article:first-child { display:block; }
    
 
 

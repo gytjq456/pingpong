@@ -1,5 +1,6 @@
 var sojaeji = function(sido, gugun) {
 	var obj = this;
+
 	obj.sido = document.getElementById(sido);
 	obj.gugun = document.getElementById(gugun);
 	obj.update_sido();

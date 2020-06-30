@@ -6,7 +6,7 @@ var sojaeji = function(sido, gugun) {
 		obj.update_sido();
 		obj.sido.onchange = function() {
 			obj.update_gugun.apply(obj);
-			obj.update_dong.apply(obj);
+			//obj.update_dong.apply(obj);
 		}
 	//}
 }

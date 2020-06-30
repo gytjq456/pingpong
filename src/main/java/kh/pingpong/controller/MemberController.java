@@ -104,7 +104,10 @@ public class MemberController {
 	@RequestMapping("isIdPwSame")
 	public String isIdPwSame(MemberDTO mdto) throws Exception{
 		if(mservice.isIdPwSame(mdto)) {
-			MemberDTO loginInfo = mservice.loginInfo(mdto);
+			MemberDTO loginInfo = mservice.loginInfo(mdto);		
+			System.out.println(loginInfo.getSysname());
+			System.out.println(loginInfo.getId());
+			
 			session.setAttribute("loginInfo",loginInfo);
 			return "/index";
 		}else {
@@ -126,11 +129,5 @@ public class MemberController {
 	public String loginMail() throws Exception{
 		return "/member/joinMail";
 	}
-	
-	
-	
-	
-	
-	
 	
 }

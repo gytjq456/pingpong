@@ -4,7 +4,7 @@
 
 <!-- 튜터 신청서 insert -->
 <insert id="insert">
-	insert into tutor_app values(tutor_app_seq.nextval,#{title},#{license},#{career},#{exp},#{introduce},#{recomm},default)
+	insert into tutor_app values(tutor_app_seq.nextval,#{id},#{title},#{license},#{career},#{exp},#{introduce},#{recomm},default)
 </insert>
 
 <!-- 자격증 파일 insert -->
@@ -12,10 +12,24 @@
 	insert into files values(files_seq.nextval,#{sysname}, #{oriname}, #{realpath,jdbcType=VARCHAR},'partner', 0)
 </insert>
 
+<!-- 강의 등록 신청서 -->
+<insert id="lessonAppProc">
+	insert into lesson values(lesson_seq.nextval, #{id}, #{name}, #{email}, #{phone_country}, #{phone}, 
+	#{profile}, default, #{title}, #{price}, #{language},#{apply_start},#{apply_end},#{start_date},#{end_date},
+	#{start_hour},#{start_minute},#{end_hour},#{end_minute},#{max_num},0,#{location},#{curriculum},
+	default,#{view_count},default,default,default,default,default);
+</insert>
+
 <!-- 강의 취소 신청서 -->
 <insert id="lessonCancleProc">
 	insert into delete_app values(delete_app_seq.nextval, #{id}, #{category}, #{contents}, #{parent_seq})
 </insert>
+
+<!-- 강의 조회수 -->
+<update id="updateViewCount">
+	update lesson set view_count = view_count + 1 where seq = #{seq}
+</update>
+
 <!-- 강의 눌렀을때 뿌려줄 강의 view -->
 <resultMap id="lessonViewProfile" type="kh.pingpong.dto.LessonDTO">
    	<result property="sysname" column="profile" />
@@ -50,7 +64,7 @@
  
 <!-- 여기서부터 세개 강의리스트 페이징 -->
 <select id="selectLessonList" resultMap="LessonProfile">
-	select * from (select lesson.*, row_number() over(order by seq desc) rnum from lesson) 
+	select * from (select lesson.*, row_number() over(order by seq desc) rnum from lesson where pass='Y') 
 	where rnum between #{start} and #{end}
 </select>
 

@@ -35,7 +35,10 @@
 /* 그룹 게시판 글쓰기 */
 #find_group_write select,
 #find_group_write input[type="text"] { width: 100%; padding:10px; height:42px; line-height:40px; border:1px solid #ddd; border-radius:5px; box-sizing:border-box;}
-#find_group_write input[class="cal_input"] { width: 15%; background-color: #eee; }
+#find_group_write #apply_start,
+#find_group_write #apply_end,
+#find_group_write #start_date,
+#find_group_write #end_date { width: 15%; background-color: #eee; }
 #find_group_write select { width: 15%; margin-right: 10px; }
 #find_group_write #max_num { width: 10%; margin-right: 5px; }
 #find_group_write #location { display: none; }
@@ -112,6 +115,8 @@ button.normal:hover { background:#c7c7c7 !important; color:#fff; }
 
 .viewPage_style1 .title { font-size:24px; margin-bottom:30px; }
 .viewPage_style1 .contents { font-size:14px; line-height:1.8; border-top:1px solid #ddd; margin:20px 0; padding-top:16px;}
+.viewPage_style1 .originTxt p,
+.viewPage_style1 .originTxt div { width:auto !important;}
 .viewPage_style1 .language { font-size:16px; color:#999; border-left:2px solid #fbaab0; padding-left:12px; }
  
 
@@ -194,8 +199,44 @@ button.normal:hover { background:#c7c7c7 !important; color:#fff; }
 
 
 
-    
-    
+ /* 탭 디자인 */
+ .tab_s1 {}   
+ .tab_s1 ul{}   
+ .tab_s1 ul li { float:left; margin-right:2%;}  
+ .tab_s1 ul li:last-child { margin-right:0; }
+ .tab_s1 ul li a { display:block; height:60px; line-height:60px; border:1px solid #ddd; border-radius:6px; font-size:18px; text-align:center;}   
+ .tab_s1 ul li.on { }
+ .tab_s1 ul li.on a { background:#f1989f; font-weight:500; color:#fff; }
+ 
+ #tabContWrap { }
+ #tabContWrap > article { display:none; }
+ #tabContWrap > article:first-child { display:block; }
    
+   
+   
+/* 페이징  */
+#listNav { margin-top:40px; }   
+#listNav ul { text-align:center; }   
+#listNav ul li { display:inline-block; margin-right:8px;} 
+#listNav ul li:last-child { margin-right:0;} 
+#listNav ul li a{ display:block; width:36px;background:#fff; height:36px; line-height:34px; border-radius:6px; border:1px solid #ddd; box-sizing:border-box;}   
+#listNav ul li.on a{ background:#3e6caa; color:#fff; }   
 
+
+
+/* 채팅 서비스 */
+#chatWrap { position:fixed; right:0; top:0; z-index:10001; height:100%; width:360px; box-shadow: 0 7px 25px 0 rgba(0,0,0,0.1); background:#fff;}
+#chatWrap .title { height:80px; background:#3162a4; margin:0 !important; padding:20px;}
+#chatWrap .title i { color:#fff; font-size:20px; border:1px solid #fff; border-radius:50%; padding:8px; margin-right:10px;}
+#chatWrap .title i, 
+#chatWrap .title p { float:left; }
+#chatWrap .title p { font-size:16px; color:#fff;
+	width:calc(100% - 50px); 
+	width:-moz-calc(100% - 50px); 
+	width:-webkit-calc(100% - 50px); 
+	
+}
+#chatWrap .chatBox { padding:10px; }
+#chatWrap .txtInput { position:absolute; left:0; bottom:0; padding:10px; border-top:1px solid #ddd; width:100%; height:120px; }
+#chatWrap .txtInput #transfer { position:absolute; padding:5px 15px; border:1px solid #ddd; background:#3162a4; color:#fff; border-radius:6px; right:10px; top:10px;}
 

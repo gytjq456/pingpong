@@ -3,85 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:include page="/WEB-INF/views/header.jsp"/>
-<<<<<<< HEAD
 
-	<div id="subWrap" class="hdMargin">
-		<section id="subContents">
-			<article id="group_view" class="inner1200 clearfix">
-	
-			<c:choose>
-				<c:when test="${empty glist}">
-					등록된 게시글이 없습니다.
-				</c:when>
-				<c:otherwise>
-					<div class="type">
-						진행: 
-						<button type="button" id="all" class="ing">전체</button>
-						<button type="button" id="applying" class="ing">모집중</button>
-						<button type="button" id="proceeding" class="ing">진행중</button>
-						<button type="button" id="done" class="ing">마감</button>
-					</div>
-					<div class="order">
-						순서: 
-						<button type="button" id="seq" class="orderBy">최신순</button>
-						<button type="button" id="view_count" class="orderBy">조회순</button>
-						<button type="button" id="like_count" class="orderBy">추천순</button>
-						<button type="button" id="app_count" class="orderBy">인기순</button>
-						<button type="button" id="review_point" class="orderBy">평점순</button>
-					</div>
-					<c:forEach var="glist" items="${glist}">
-						<a href="/group/beforeView?seq=${glist.seq}">
-							<div>
-								글번호: ${glist.seq}<br>
-								작성자: ${glist.writer}<br>
-								제목: ${glist.title}<br>
-								유형: ${glist.hobby_type}<br>
-								모집 기간: ${glist.apply_start} ~ ${glist.apply_end}<br>
-								진행 기간: ${glist.start_date} ~ ${glist.end_date}<br>
-								평점: ★ ${glist.review_point}<br>
-								조회 ${glist.view_count}  추천 ${glist.like_count}  리뷰 ${glist.review_count}<br>
-								<c:if test="${glist.applying == 'Y'}">
-									모집중  
-								</c:if>
-								<c:if test="${glist.proceeding == 'Y'}">
-									진행중
-								</c:if>
-								<c:if test="${glist.proceeding == 'N' && glist.applying == 'N'}">
-									마감
-								</c:if>
-							</div>
-						</a>
-					</c:forEach>
-				</c:otherwise>
-				</c:choose>
-				<div class="navi">${navi}</div>
-				<a href="/group/write">그룹 등록하기</a>
-				<script>
-					$('.orderBy').on('click', function(){
-						var orderBy = $(this).attr('id');
-						var ingCount = $('.ing').length;
-						var ing = [];
-						
-						for (var i = 0; i < ingCount; i++) {
-							ing[i] = $($('.ing')[i]).attr('id');
-						}
-						
-						console.log(ing)
-						
-						//location.href = '/group/main?orderBy=' + orderBy + '&ing=' + ing;
-					})
-					
-					$('.ing').on('click', function(){
-						var ing = $(this).attr('id');
-						location.href = '/group/main?orderBy=seq&ing=' + ing;
-					})
-				</script>			
-			
-			</article>
-		</section>
-	</div>		
-	
-=======
 <div id="subWrap" class="hdMargin">
 		<section id="subContents">
 			<article id="group_list" class="inner1200">
@@ -90,28 +12,58 @@
 					<p>다양한 사람들을 원하시나요?<br>관심사가 비슷한 사람들과 함께 소통해 보세요.</p>
 				</div>
 				<div class="group_search_box">
-					<div class="search_as_keyword">
-						<select id="keyword_type">
-							<option>작성자</option>
-							<option>글제목</option>
-							<option>글내용</option>
-						</select>
-						<input type="text" name="keyword" id="keyword_input" placeholder="검색어를 입력하세요.">
-						<div>
-							<span>유형</span>
-							<c:forEach var="hbdto" items="${hblist}">
-								<input type="checkbox" name="hobby" class="hobby_list" id="${hbdto.seq}" value="${hbdto.hobby}"><label for="${hbdto.seq}">${hbdto.hobby}</label>
-							</c:forEach>
-							<input type="text" id="selected_hobby" name="hobby_type">
-						</div>
-						<div>
-							<span>기간</span>
-							<input type="radio" name="period" class="period" id="short_period" value="short_period">
-							<label for="short_period">단기(1년 미만)</label>
-							<input type="radio" name="period" class="period" id="long_period" value="long_period">
-							<label for="long_period">장기(1년 이상)</label>
-						</div>
-						<button type="button" id="searchAsKeyword">이 조건으로 검색</button>
+					<div class="tit_s1">
+						<h2>튜터 목록</h2>
+					</div>
+		
+					<div class="tab_s1">
+						<ul class="clearfix">
+							<li class="on"><a href="#;">키워드 검색</a></li>
+							<li><a href="#;">달력 검색</a></li>
+							<li><a href="#;">지도 검색</a></li>
+						</ul>
+					</div>
+					
+					<div id="tabContWrap">
+						<article id="tab_1" class="kewordSch">
+							<div class="search_as_keyword">
+								<select id="keyword_type">
+									<option value="writer_name">작성자</option>
+									<option value="title">글제목</option>
+									<option value="contents">글내용</option>
+								</select>
+								<input type="text" name="keyword" id="keyword_input" placeholder="검색어를 입력하세요.">
+								<div>
+									<span>유형</span>
+									<c:forEach var="hbdto" items="${hblist}">
+										<input type="checkbox" name="hobby" class="hobby_list" id="${hbdto.seq}" value="${hbdto.hobby}"><label for="${hbdto.seq}">${hbdto.hobby}</label>
+									</c:forEach>
+									<input type="text" id="selected_hobby" name="hobby_type">
+								</div>
+								<div>
+									<span>기간</span>
+									<input type="radio" name="period" class="period" id="short_period" value="단기">
+									<label for="short_period">단기(1년 미만)</label>
+									<input type="radio" name="period" class="period" id="long_period" value="장기">
+									<label for="long_period">장기(1년 이상)</label>
+								</div>
+								<button type="button" id="searchAsKeyword">이 조건으로 검색</button>
+							</div>
+						</article>
+						<article id="tab_2" class="calendarSch">
+							<div class="search_as_calendar">
+								<span>기간 선택</span>
+								<label for="date_start" class="calendar_icon"><i class="fa fa-calendar" aria-hidden="true"></i></label>
+								<input type="text" name="date_start" id="date_start" class="cal_input" readonly>
+								<span class="between_calendar">~</span>
+								<label for="date_end" class="calendar_icon"><i class="fa fa-calendar" aria-hidden="true"></i></label>
+								<input type="text" name="date_end" id="date_end" class="cal_input" readonly><br>
+								<button type="button" id="search_cal_btn">조회</button>
+							</div>
+						</article>
+						<article id="tab_3" class="mapSch">
+							지도 검색
+						</article>
 					</div>
 				</div>
 				<div class="btnS1 left">
@@ -120,12 +72,14 @@
 					<div><button type="button" id="proceeding" class="ing">진행중</button></div>
 					<div><button type="button" id="done" class="ing">마감</button></div>
 				</div>
-				<div class="btnS1 right">
-					<div><button type="button" id="seq" class="orderBy">최신순</button></div>
-					<div><button type="button" id="view_count" class="orderBy">조회순</button></div>
-					<div><button type="button" id="like_count" class="orderBy">추천순</button></div>
-					<div><button type="button" id="app_count" class="orderBy">인기순</button></div>
-					<div><button type="button" id="review_point" class="orderBy">평점순</button></div>
+				<div>
+					<select id="orderBy">
+						<option value="seq">최신순</option>
+						<option value="view_count">조회순</option>
+						<option value="like_count">추천순</option>
+						<option value="app_count">인기순</option>
+						<option value="review_point">평점순</option>
+					</select>
 				</div>
 				<div id="listStyle1" class="card_body">
 					<c:choose>
@@ -136,7 +90,7 @@
 							<c:forEach var="glist" items="${glist}">
 								<a href="/group/beforeView?seq=${glist.seq}">
 									<div class="group_each_wrapper">
-										<div><span class="sub_title">작성자</span> ${glist.writer}</div>
+										<div><span class="sub_title">작성자</span> ${glist.writer_name}(${glist.writer_id})</div>
 										<div><span class="sub_title">제목</span> ${glist.title}</div>
 										<div><span class="sub_title">유형</span> ${glist.hobby_type}</div>
 										<div><span class="sub_title">모집 기간</span> ${glist.apply_start} ~ ${glist.apply_end}</div>
@@ -168,55 +122,76 @@
 		</section>
 	</div>
 	<script>
-		$('.orderBy').on('click', function(){
-			var orderBy = $(this).attr('id');
-			var ingCount = $('.ing').length;
-			var ing = [];
+		$('#date_start').datepicker({ dateFormat: 'yy-mm-dd' });
+		$('#date_end').datepicker({ dateFormat: 'yy-mm-dd' });
+		
+		var orderBy = '${orderBy}';
+		if (orderBy != null) {
+			$('#orderBy').val(orderBy);
+		} else {
+			$('#orderBy').val('seq');
+		}
+		
+		$('#orderBy').on('change', function() {
+			var orderByVal = $('#orderBy').val();
 			
-			for (var i = 0; i < ingCount; i++) {
-				ing[i] = $($('.ing')[i]).attr('id');
-			}
-			
-			console.log(ing)
-			
-			//location.href = '/group/main?orderBy=' + orderBy + '&ing=' + ing;
+			location.href = '/group/main?orderBy=' + orderByVal;
 		})
 		
 		$('.ing').on('click', function(){
+			var orderByVal = $('#orderBy').val();
 			var ing = $(this).attr('id');
-			location.href = '/group/main?orderBy=seq&ing=' + ing;
+			
+			if (ing == 'all') {
+				location.href = '/group/main?orderBy=' + orderByVal;
+				
+				return false;
+			}
+			
+			location.href = '/group/mainOption?orderBy=' + orderByVal + '&ing=' + ing;
 		})
 		
 		$('#searchAsKeyword').on('click', function(){
+			var orderByVal = $('#orderBy').val();
+			var selectedHobbyLength = $('.hobby_list:checked').length;
+			var selectedHobby = [];
 			var keywordType = null;
 			var keywordInput = null;
+			var periodLength = $('.period:checked').length;
+			var period = null;
 			
-			if ($('#keyword_input').val() != null) {
-				keywordType = $('#keyword_type option:selected').val();
-				keywordInput = $('#keyword_input').val();
-				
-				if (keywordType == '작성자') {
-					keywordType = 'writer';
-				} else if (keywordType == '글내용') {
-					keywordType = 'contents';
-				} else if (keywordType == '글제목') {
-					keywordType = 'title'
-				}
-				
-				var selectedHobbyListCount = $('.hobby_list:checked').length;
-				var selectedHobbyList = [];
-				
-				for (var i = 0; i < selectedHobbyListCount; i++) {
-					selectedHobbyList.push($($('.hobby_list:checked')[i]).val());
-				}
-				
-				$('#selected_hobby').val(selectedHobbyList);
-				
-				var hobby_type = $('#selected_hobby').val();
-				
-				location.href = "/group/search?searchType=" + keywordType + "&searchThing=" + keywordInput + "&orderBy=seq&hobby_type=" + hobby_type;
+			if (periodLength > 0) {
+				period = $('.period:checked').val();
 			}
+			
+			if (selectedHobbyLength > 0) {
+				for (var i = 0; i < selectedHobbyLength; i++) {
+					selectedHobby[i] = $($('.hobby_list:checked')[i]).val();
+				}
+				$('#selected_hobby').val(selectedHobby);
+			}
+			
+			var hobbyType = $('#selected_hobby').val();
+			
+			if ($('#keyword_input').val() != '') {
+				var keywordType = $('#keyword_type').val();
+				var keywordInput = $('#keyword_input').val();
+			} else {
+				if ((hobbyType == '') && (period == null)) {
+					alert('검색 조건을 선택해 주세요.');
+					return false;
+				}
+			}
+			
+			location.href = '/group/search?searchType=' + keywordType + '&searchThing=' + keywordInput + '&orderBy=' + orderByVal + '&hobbyType=' + hobbyType + '&period=' + period;
+		})
+		
+		$('#search_cal_btn').on('click', function(){
+			var orderByVal = $('#orderBy').val();
+			var dateStart = $('#date_start').val();
+			var dateEnd = $('#date_end').val();
+			
+			location.href = '/group/searchDate?dateStart=' + dateStart + '&dateEnd=' + dateEnd + '&orderBy=' + orderByVal;
 		})
 	</script>
->>>>>>> 32fee040fced899526abfd0de3c0ec92a6db14e9
 <jsp:include page="/WEB-INF/views/footer.jsp"/>

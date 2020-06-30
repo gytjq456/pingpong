@@ -1,7 +1,10 @@
 package kh.pingpong.service;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +17,7 @@ import kh.pingpong.dto.GroupApplyDTO;
 import kh.pingpong.dto.GroupDTO;
 import kh.pingpong.dto.HobbyDTO;
 import kh.pingpong.dto.LikeListDTO;
+import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.dto.ReviewDTO;
 
 @Service
@@ -21,15 +25,19 @@ public class GroupService {
 	@Autowired
 	private GroupDAO gdao;
 	
+	@Autowired
+	private HttpSession session;
+	
 	public List<HobbyDTO> selectHobby() {
 		return gdao.selectHobby();
 	}
 	
 	@Transactional("txManager")
-	public int insertGroup(GroupDTO gdto) {
+	public int insertGroup(GroupDTO gdto) throws ParseException {
+		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
+		String writer_id = loginInfo.getId();
 		gdao.insertGroup(gdto);
-		System.out.println(gdto.getApply_start());
-		return gdao.searchSeq("test");
+		return gdao.searchSeq(writer_id);
 	}
 	
 	public List<GroupDTO> selectList(int cpage, String orderBy) {
@@ -45,7 +53,7 @@ public class GroupService {
 	}
 	
 	@Transactional("txManager")
-	public int update(GroupDTO gdto) {
+	public int update(GroupDTO gdto) throws ParseException {
 		return gdao.update(gdto);
 	}
 	
@@ -81,6 +89,14 @@ public class GroupService {
 	
 	public List<GroupDTO> search(int cpage, Map<String, Object> search) {
 		return gdao.search(cpage, search);
+	}
+	
+	public List<GroupDTO> selectListOption(int cpage, Map<String, Object> param) {
+		return gdao.selectListOption(cpage, param);
+	}
+	
+	public List<GroupDTO> searchDate(int cpage, Map<String, Object> dates) {
+		return gdao.searchDate(cpage, dates);
 	}
 	
 	public String getPageNav(int currentPage, String orderBy) throws Exception{
@@ -137,7 +153,6 @@ public class GroupService {
 		sb.append("</ul>");
 
 		return sb.toString();
-
 	}
 	
 	// 리뷰 글쓰기
@@ -149,6 +164,4 @@ public class GroupService {
 	public List<ReviewDTO> reviewList(int seq) throws Exception{
 		return gdao.reviewList(seq);
 	}	
-	
-	
 }

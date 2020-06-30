@@ -21,6 +21,33 @@ $(document).ready(function(){
     	paddingTop:hdH
     });
     
+    
+    // 탭 개수에 따른 width
+    var tab = $(".tab_s1");
+    if(tab.length){
+    	var tabLength = tab.find("li").length;
+    	switch(tabLength){
+    		case 1 : tab.find("li").css({ width:100+"%"});
+    		break;
+    		case 2 : tab.find("li").css({ width:49+"%" });
+    		break;
+    		case 3 : tab.find("li").css({ width:32+"%" });
+    		break;
+    		case 4 : tab.find("li").css({ width:24.5+"%" });
+    		break;
+    	}
+    	
+    	
+    	var tabContWrap = $("#tabContWrap");
+    	tab.find("li").click(function(){
+    		var idx = $(this).index();
+    		tab.find("li").removeClass("on");
+    		$(this).addClass("on");
+    		tabContWrap.find("article").stop().hide();
+    		tabContWrap.find("article:eq("+idx+")").stop().fadeIn();
+    	})
+    }
+    
 });
 
 

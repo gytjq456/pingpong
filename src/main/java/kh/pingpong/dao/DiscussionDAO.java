@@ -126,4 +126,11 @@ public class DiscussionDAO {
 	public LanguageDTO langSelectlOne(String original_lang) throws Exception {
 		return mybatis.selectOne("Discussion.langSelectlOne", original_lang);
 	}
+	
+	
+	// 토론 게시글 페이징
+	public int getArticleCount_discussion() throws Exception{
+		return mybatis.selectOne("Discussion.getArticleCount_discussion");
+	}
+	
 }

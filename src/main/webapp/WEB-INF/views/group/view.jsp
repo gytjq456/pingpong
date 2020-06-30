@@ -42,7 +42,6 @@
 					starPoint.find("button:eq("+i+")").addClass("on");
 				}
 			}
-			
 		})
 		
 		// 리뷰 글자수 체크
@@ -120,12 +119,8 @@
 					var txtSubStr = oriTxt[idx-1].substr(0,140);
 					$(this).text(txtSubStr+"...");
 				}
-				
 			}
 		})
-		
-		
-		
 	})
 </script>
 	<div id="subWrap" class="hdMargin">
@@ -134,7 +129,7 @@
 				<span id="like">따봉</span>
 				글번호: <span id="seq">${gdto.seq}</span><br>
 				제목: ${gdto.title}<br>
-				작성자: ${gdto.writer}<br>
+				작성자: ${gdto.writer_name}(${gdto.writer_id})<br>
 				유형: ${gdto.hobby_type}<br>
 				모집 기간: ${gdto.apply_start} ~ ${gdto.apply_end}<br>
 				진행 기간: ${gdto.start_date} ~ ${gdto.end_date}<br>
@@ -148,10 +143,16 @@
 				신청수: ${gdto.app_count}<br>
 				리뷰수: ${gdto.review_count}<br>
 				리뷰 포인트: ${gdto.review_point}<br>
-				<button type="button" id="update">수정</button>
-				<button type="button" id="delete">삭제</button>
-				<button type="button" id="applyForm" onclick="javascript:applyPopup()">신청</button>
-				<button type="button" id="deleteForm" onclick="javascript:deletePopup()">탈퇴</button>
+				<c:choose>
+					<c:when test="${sessionScope.loginInfo.id == gdto.writer_id}">
+						<button type="button" id="update">수정</button>
+						<button type="button" id="delete">삭제</button>
+					</c:when>
+					<c:otherwise>
+						<button type="button" id="applyForm" onclick="javascript:applyPopup()">신청</button>
+						<button type="button" id="deleteForm" onclick="javascript:deletePopup()">탈퇴</button>
+					</c:otherwise>
+				</c:choose>
 				<button type="button" id="toList" onclick="javascript:toList()">목록</button>
 				<script>
 					function applyPopup() {

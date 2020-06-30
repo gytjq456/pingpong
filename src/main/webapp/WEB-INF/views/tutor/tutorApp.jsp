@@ -82,15 +82,15 @@
 				<div class="top_wrapper">
 					<div class="profile">
 						<img
-							src="${pageContext.request.contextPath}/resources/img/common/alram.png">
+							src="/upload/member/${loginInfo.id}/${loginInfo.sysname}">
 					</div>
 					<div class="info">
-						<p id="name">이름 : 홍길동 ${list.name}</p>
-						<p id="age">나이 : ${list.age}</p>
-						<p id="country">국적 : ${list.country}</p>
-						<p id="phone">전화번호 : ${list.phone}</p>
-						<p id="email">이메일 : ${list.email}</p>
-						<p id="lang_can">구사언어 : ${list.lang_can}</p>
+						<p id="name">이름 : ${loginInfo.name}</p>
+						<p id="age">나이 : ${loginInfo.age}</p>
+						<p id="country">국적 : ${loginInfo.country}</p>
+						<p id="phone">전화번호 : ${loginInfo.phone}</p>
+						<p id="email">이메일 : ${loginInfo.email}</p>
+						<p id="lang_can">구사언어 : ${loginInfo.lang_can}</p>
 					</div>
 				</div>
 
@@ -98,8 +98,9 @@
 					<div class="bottom_main">
 						<div class="title_main main">제목</div>
 						<div class="title_contents contents">
+							<input type="hidden" name="id" value="${loginInfo.id}">
 							<input type="text" id="title" name="title"
-								value="${list.name}-튜터신청합니다." readonly>
+								value="${loginInfo.name}-튜터신청합니다." readonly>
 
 						</div>
 					</div>

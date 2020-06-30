@@ -203,8 +203,8 @@ public class DiscussionController {
 	
 	// 파파고
 	@ResponseBody
-	@RequestMapping("papago")
-	public String papago(HttpServletRequest request, HttpServletRequest response) throws Exception{
+	@RequestMapping(value="papago", produces="application/json;charset=utf8")
+	public String papago(HttpServletRequest request) throws Exception{
 		String original_str = (String)request.getParameter("original_str");
 		String original_lang = (String)request.getParameter("original_lang");
 		String change_lang = (String)request.getParameter("change_lang");

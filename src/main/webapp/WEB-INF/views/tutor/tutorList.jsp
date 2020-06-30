@@ -19,6 +19,27 @@
 				<h2>튜터 목록</h2>
 			</div>
 
+			<div class="tab_s1">
+				<ul class="clearfix">
+					<li class="on"><a href="#;">키워드 검색</a></li>
+					<li><a href="#;">달력 검색</a></li>
+					<li><a href="#;">지도 검색</a></li>
+				</ul>
+			</div>
+			
+			<div id="tabContWrap">
+				<article id="tab_1" class="kewordSch">
+					키워드 검색
+				</article>
+				<article id="tab_2" class="calendarSch">
+					달력 검색
+				</article>
+				<article id="tab_3" class="mapSch">
+					지도 검색
+				</article>
+			</div>
+
+
 			<div>
 				<c:choose>
 					<c:when test="${empty tutorlist}">

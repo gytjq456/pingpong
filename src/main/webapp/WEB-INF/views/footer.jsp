@@ -21,16 +21,72 @@
 	<section id="chatWrap">
 		<div class="title clearfix">
 			<i class="fa fa-users" aria-hidden="true"></i>
-			<p>재경,김혜선,채나은,박선호,정은하, 이효섭(6)<p>
+			<p>재경, 김혜선, 채나은, 박선호, 정은하, 이효섭<span>6</span><p>
+			
 		</div>
-		<div class="chatBox">
-			여기에 텍스트 내용~~
+		<div class="chatBox" id="chatBox">
+		
 		</div>
-		<div class="txtInput">
-			여기에 입력 내용
+		<div class="txtInputBox">
+			<div class="txtInput" contenteditable="true">
+				
+			</div>
 			<button type="button" id="transfer">전송</button>
 		</div>
 	</section>
+	
+	<script>
+		$(function(){
+			var ws = new WebSocket("ws://localhost/chat");
+			ws.onmessage = function(e){
+				var userTag = "";
+				userTag = userTag + "<div class='userInfo_s1 other'>"
+				userTag += "<div class='thumb'><img src='/resources/img/sub/userThum.jpg'></div>"
+				userTag += "<div class='info'>"
+				userTag += "<p class='userId'>홍길동</p>"
+				userTag += "</div>"
+				userTag += "<div class='chatTxt'><p>"+e.data+"</p><span class='writeDate'>오후 11:34</span></div>"
+				userTag += "</div>"				
+				$(".chatBox").append(userTag);
+				updateScroll();
+			}
+			
+			var txtInput = $(".txtInput")
+			$(".txtInput").keydown(function(e){
+				if(e.keyCode == 13){
+					$("#transfer").click();
+					return false;
+				}
+			})
+			
+			$("#transfer").click(function(){
+				var chatTxt = $(".txtInput").text();
+				var userTag = "";
+				userTag = userTag + "<div class='userInfo_s1 my'>"
+				userTag += "<div class='info'>"
+				userTag += "<p class='userId'>홍길동</p>"
+				userTag += "</div>"
+				userTag += "<div class='thumb'><img src='/resources/img/sub/userThum.jpg'></div>"
+				userTag += "<div class='chatTxt'><span class='writeDate'>오후 11:34</span><p>"+chatTxt+"</p></div>"
+				userTag += "</div>"
+						
+				
+				$(".chatBox").append(userTag);
+				updateScroll();
+				txtInput.html("");
+				txtInput.focus();
+				
+				ws.send(chatTxt);
+				
+				return false;
+			})
+		})
+		
+		function updateScroll(){
+			var element = document.getElementById("chatBox");
+			element.scrollTop = element.scrollHeight;
+		}
+	</script>
 	
 </body>
 </html>

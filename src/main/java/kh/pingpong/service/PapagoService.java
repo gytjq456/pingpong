@@ -17,12 +17,12 @@ import kh.pingpong.dto.LanguageDTO;
 public class PapagoService {
 
 	// nmtReturnResult의 함수를 통해서 한글 - > 영어로 번역
-	public String nmtReturnRseult(String original_str, LanguageDTO lang, String change_lang){
+	public String[] nmtReturnRseult(String original_str, LanguageDTO lang, String change_lang){
 
 	    String clientId = "Zprr_EnU6RonMqqOkNkU"; //애플리케이션 클라이언트 아이디값";
 		String clientSecret = "JvPsKCMdOI";
 
-		String resultString ="";
+		String[] resultString = new String[2];
 		try {
 			//original_str 값이 우리가 변환할 값
 			String text = URLEncoder.encode(original_str, "UTF-8");
@@ -60,7 +60,8 @@ public class PapagoService {
             String langCode = (String)rs.get("langCode") ;
             System.out.println("1"+langCode);
             System.out.println("2"+change_lang);
-            resultString = this.nmtRseult(original_str, langCode, change_lang);
+            resultString[0] = langCode;
+            resultString[1] = this.nmtRseult(original_str, langCode, change_lang);
 		} catch (Exception e) {
 			System.out.println(e);
 		}

@@ -49,6 +49,7 @@ public class DiscussionDAO {
 
 	// 토론 게시글 삭제
 	public int delete(int seq) throws Exception {
+		System.out.println("daop" + seq);
 		return mybatis.delete("Discussion.delete", seq);
 	}
 
@@ -104,7 +105,7 @@ public class DiscussionDAO {
 		result.put("parent_seq", commDTO.getParent_seq());
 		result.put("commentCount", commentCount);
 		mybatis.update("Discussion.disCommentCount", result);
-;		return deleteResult;
+		return deleteResult;
 	}
 
 	// 토론 리스트 검색 최신순 / 인기순
@@ -120,4 +121,9 @@ public class DiscussionDAO {
 		return mybatis.selectList("Discussion.moreList", seq);
 	}
 	
+	
+	// 토론 상세페이지 번역을 위한 기준언어 가져오기
+	public LanguageDTO langSelectlOne(String original_lang) throws Exception {
+		return mybatis.selectOne("Discussion.langSelectlOne", original_lang);
+	}
 }

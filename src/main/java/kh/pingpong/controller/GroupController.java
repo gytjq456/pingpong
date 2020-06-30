@@ -107,7 +107,7 @@ public class GroupController {
 	}
 	
 	@RequestMapping("update")
-	public String groupUpdate(int seq, Model model) {
+	public String groupUpdate(int seq, Model model) throws Exception{
 		List<HobbyDTO> hblist = gservice.selectHobby();
 		GroupDTO gdto = gservice.selectBySeq(seq);
 		model.addAttribute("hblist", hblist);

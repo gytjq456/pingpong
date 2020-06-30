@@ -49,6 +49,7 @@ public class DiscussionService {
 
 	// 토론 글 삭제
 	public int delete(int seq) throws Exception{
+		System.out.println("service" + seq);
 		return disDao.delete(seq);
 	}
 	
@@ -95,14 +96,17 @@ public class DiscussionService {
 	
 	
 	// 토론 리스트 검색 최신순 / 인기순
-	public List<DiscussionDTO> searchAlign(String alignType){
+	public List<DiscussionDTO> searchAlign(String alignType) throws Exception{
 		return disDao.searchAlign(alignType);
 	}
 	
 	// 토론 더 보기 추천순
-	public List<DiscussionDTO> moreList(int seq){
+	public List<DiscussionDTO> moreList(int seq) throws Exception{
 		return disDao.moreList(seq);
 	}
 	
-	
+	// 토론 상세페이지 번역을 위한 기준언어 가져오기
+	public LanguageDTO langSelectlOne(String original_lang) throws Exception {
+		return disDao.langSelectlOne(original_lang);
+	}
 }

@@ -44,10 +44,12 @@ public class GroupDAO {
 		return mybatis.selectList("Group.selectList", param);
 	}
 	
-	public GroupDTO selectBySeq(int seq) {
+	public GroupDTO selectBySeq(int seq) throws Exception{
 		Double reviewAvg = mybatis.selectOne("Group.reviewAvg", seq);
 		if(reviewAvg != null) {
 			reviewAvg = mybatis.selectOne("Group.reviewAvg", seq);
+		}else {
+			reviewAvg = 0.0;
 		}
 		int reviewCount = mybatis.selectOne("Group.reviewCount", seq);
 		Map<String, Object> paramVal = new HashMap<>();

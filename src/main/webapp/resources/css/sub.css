@@ -106,7 +106,8 @@ button.normal:hover { background:#c7c7c7 !important; color:#fff; }
 .viewPage_style1 .body_right > div.moreList,
 .viewPage_style1 .body_right > div:last-child { margin:0; padding:0; border:none;  }
 .viewPage_style1 .body_right .tit_s2 { margin-bottom:10px;}
-.viewPage_style1 .body_right .moreList li { }
+.viewPage_style1 .body_right .moreList li { margin-bottom:10px;}
+.viewPage_style1 .body_right .moreList li:last-child { margin:0; }
 
 
 .viewPage_style1 .title { font-size:24px; margin-bottom:30px; }
@@ -124,7 +125,7 @@ button.normal:hover { background:#c7c7c7 !important; color:#fff; }
 .comment_wrap .comment_list .opinion > p.yes { background:#3162a4}
 .comment_wrap .comment_list .opinion > p.no { background:#fbaab0}
 .comment_wrap .comment_list .cont {   }
-.comment_wrap .comment_list .cont .contents { margin:0 0 20px; border-top:none; padding-top:0;}
+.comment_wrap .comment_list .cont .contents { margin:0 0 20px; border-top:none; padding-top:0; word-break:break-all;}
 .comment_wrap .comment_list button {background:none; border-radius:6px; padding:0 10px; height:32px; line-height:32px; transition:all 0.5s; border:1px solid #ddd; }
 .comment_wrap .comment_list button.comment_declaration { background:#fbaab0; color:#fff; border:none; }
 
@@ -154,6 +155,7 @@ button.normal:hover { background:#c7c7c7 !important; color:#fff; }
 
 
 /* 리뷰 */
+#discussion_view .wordsize,
 #review_wrap .wordsize{ text-align:right; margin-top:6px;}
 #review_wrap .textInput { position:relative;}
 #review_wrap .starPoint { text-align:right; margin-bottom:12px;}

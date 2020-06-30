@@ -26,7 +26,7 @@
 	
 	<!-- 토론 댓글 삭제 -->
 	<delete id="delete">
-		delete discussion where seq = #{seq}
+		delete discussion where seq = #{value}
 	</delete>
 	
 	<!-- 토론 조회수 증가-->
@@ -99,4 +99,9 @@
 		select * from (select discussion.*, row_number() over(order by like_count desc) rnum from discussion where like_count>0) where seq != #{value} and rnum between 1 and 10
 	</select>
 	
+	<!-- 토론 상세페이지 번역을 위한 기준언어 가져오기 -->
+	<select id="langSelectlOne" resultType="kh.pingpong.dto.LanguageDTO">
+		select language_country from language where language = #{value} 
+	</select>
+
 </mapper>

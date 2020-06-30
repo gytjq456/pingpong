@@ -121,6 +121,16 @@ public class GroupDAO {
 		return mybatis.selectList("Group.selectOrderBy", tableName);
 	}
 	
+	public List<GroupDTO> selectListOption(int cpage, Map<String, Object> param) {
+		int start = cpage * Configuration.RECORD_COUNT_PER_PAGE - (Configuration.RECORD_COUNT_PER_PAGE - 1);
+		int end = start + (Configuration.RECORD_COUNT_PER_PAGE - 1);
+		
+		param.put("start", start);
+		param.put("end", end);
+		
+		return mybatis.selectList("Group.selectListOption", param);
+	}
+	
 	public List<GroupDTO> search(int cpage, Map<String, Object> search) {
 		int start = cpage * Configuration.RECORD_COUNT_PER_PAGE - (Configuration.RECORD_COUNT_PER_PAGE - 1);
 		int end = start + (Configuration.RECORD_COUNT_PER_PAGE - 1);

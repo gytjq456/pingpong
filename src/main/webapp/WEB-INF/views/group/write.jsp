@@ -15,10 +15,10 @@
 </style>
 <script>
 	$(function(){
-		$('#apply_start').datepicker();
-		$('#apply_end').datepicker();
-		$('#start_date').datepicker();
-		$('#end_date').datepicker();
+		$('#apply_start').datepicker({ dateFormat: 'yy-mm-dd' });
+		$('#apply_end').datepicker({ dateFormat: 'yy-mm-dd' });
+		$('#start_date').datepicker({ dateFormat: 'yy-mm-dd' });
+		$('#end_date').datepicker({ dateFormat: 'yy-mm-dd' });
 
 		$('#max_num').on('keyup', function(){
 			var num = $(this).val();

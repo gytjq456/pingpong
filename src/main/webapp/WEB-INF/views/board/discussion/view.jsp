@@ -164,9 +164,12 @@
 					success : function(data) { //서블렛을 통한 결과 값을 받을 수 있습니다.
 						console.log(data);
 						//결과값을 textarea에 넣기 위해서
-						console.log("test :" + data[1].errorCode)
-						console.log("langCountryVal")
-						if(data.errorCode == undefined){
+						
+						var json = data[1];
+						console.log("qqq"+json);
+						var obj = JSON.parse(json);
+						console.log("ttt:"+obj.errorCode)
+						if(obj.errorCode == "undefined"){
 							if(data[0] == "ko"){
 								alert(lanArr.ko+"만 번역이 가능합니다.")
 							}else if(data[0] == "en"){
@@ -180,8 +183,12 @@
 							}
 							
 						}else{
-							var result = data[1].message.result.translatedText;
-							$(".convert").text(result);
+							if(obj.errorCode != "010"){
+								var text = obj.message.result.translatedText;
+								$(".convert").text(text);
+							}else{
+								alert("번역 쿼리 한도 초과")
+							}
 						}
 					},
 					error : function(e) {
@@ -396,13 +403,11 @@
 						<button type="button" id="delete">글삭제</button>
 						<button type="button" id="historyBack">뒤로가기</button>					
 					</div>			
-				</div>
+		
 				
 
 		
 	
-				
-				
 				
 				
 

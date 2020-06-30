@@ -61,6 +61,18 @@ public class TutorService {
 		return result;
 	}
 	
+	public int lessonAppProc(LessonDTO ldto) throws Exception{
+		int view_count=0;
+		ldto.setView_count(view_count);
+		int result = tdao.lessonAppProc(ldto);
+		return result;
+	}
+	
+	public int updateViewCount(int seq) throws Exception{
+		int result = tdao.updateViewCount(seq);
+		return result;
+	}
+	
 	
 	
 	//레슨 페이징 만 이동

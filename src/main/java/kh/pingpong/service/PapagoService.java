@@ -19,13 +19,18 @@ public class PapagoService {
 	// nmtReturnResult의 함수를 통해서 한글 - > 영어로 번역
 	public String[] nmtReturnRseult(String original_str, LanguageDTO lang, String change_lang){
 
-	    String clientId = "Zprr_EnU6RonMqqOkNkU"; //애플리케이션 클라이언트 아이디값";
-		String clientSecret = "JvPsKCMdOI";
+	    //String clientId = "Zprr_EnU6RonMqqOkNkU"; //애플리케이션 클라이언트 아이디값";
+	    //String clientId = "N2TSG6ENIXxuIulXFjSw"; //애플리케이션 클라이언트 아이디값";
+		//String clientSecret = "JvPsKCMdOI";
+		//String clientSecret = "qWA5wr7LKh";
+		String clientId = "D3FPQeFtFLYFRmRyLYCv"; 
+		String clientSecret = "xC67WeJ47N";
 
 		String[] resultString = new String[2];
 		try {
 			//original_str 값이 우리가 변환할 값
 			String text = URLEncoder.encode(original_str, "UTF-8");
+			System.out.println(text);
 			String apiURL = "https://openapi.naver.com/v1/papago/detectLangs";
 			URL url = new URL(apiURL);
 			HttpURLConnection con = (HttpURLConnection)url.openConnection();

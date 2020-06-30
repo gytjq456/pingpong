@@ -16,5 +16,18 @@
 			</div>
 		</section>
 	</footer>
+	
+	
+	<section id="chatWrap">
+		<div class="title"><i class="fa fa-users" aria-hidden="true"></i>재경,김혜선,채나은,박선호,정은하, 이효섭(6)</div>
+		<div class="chatBox">
+			여기에 텍스트 내용~~
+		</div>
+		<div class="txtInput">
+			여기에 입력 내용
+			<button type="button" id="transfer">전송</button>
+		</div>
+	</section>
+	
 </body>
 </html>

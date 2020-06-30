@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:include page="/WEB-INF/views/header.jsp"/>
+
 <div id="subWrap" class="hdMargin">
 		<section id="subContents">
 			<article id="group_list" class="inner1200">

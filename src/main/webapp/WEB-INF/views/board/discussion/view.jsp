@@ -398,13 +398,16 @@
 						<button type="button" id="delete">글삭제</button>
 						<button type="button" id="historyBack">뒤로가기</button>					
 					</div>			
+					
+					<span class="core_voice">
+                                    <span class="img_speech ico_voice">음성 검색</span>
+                                </span>
+                                <p class="txt_result" id="txt_result">당위</p>
 				</div>
 				
 
 		
 	
-				
-				
 				
 				
 

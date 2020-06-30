@@ -166,9 +166,10 @@
 						//결과값을 textarea에 넣기 위해서
 						
 						var json = data[1];
+						console.log("qqq"+json);
 						var obj = JSON.parse(json);
-						console.log(obj)
-						if(data.errorCode == "undefined"){
+						console.log("ttt:"+obj.errorCode)
+						if(obj.errorCode == "undefined"){
 							if(data[0] == "ko"){
 								alert(lanArr.ko+"만 번역이 가능합니다.")
 							}else if(data[0] == "en"){
@@ -182,8 +183,12 @@
 							}
 							
 						}else{
-							var text = obj.message.result.translatedText;
-							$(".convert").text(text);
+							if(obj.errorCode != "010"){
+								var text = obj.message.result.translatedText;
+								$(".convert").text(text);
+							}else{
+								alert("번역 쿼리 한도 초과")
+							}
 						}
 					},
 					error : function(e) {

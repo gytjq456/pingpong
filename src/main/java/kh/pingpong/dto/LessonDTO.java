@@ -35,6 +35,7 @@ public class LessonDTO {
 	private int review_point;
 	private String applying;
 	private String proceeding;
+	private String pass;
 	
 	private String sysname;
 	
@@ -48,7 +49,7 @@ public class LessonDTO {
 			String apply_end, String start_date, String end_date, String start_hour, String start_minute,
 			String end_hour, String end_minute, int max_num, int cur_num, String location, String curriculum,
 			int like_count, int view_count, int review_count, int review_point, String applying, String proceeding,
-			String sysname) {
+			String pass, String sysname) {
 		super();
 		this.seq = seq;
 		this.id = id;
@@ -79,6 +80,7 @@ public class LessonDTO {
 		this.review_point = review_point;
 		this.applying = applying;
 		this.proceeding = proceeding;
+		this.pass = pass;
 		this.sysname = sysname;
 	}
 
@@ -312,6 +314,14 @@ public class LessonDTO {
 
 	public void setProceeding(String proceeding) {
 		this.proceeding = proceeding;
+	}
+
+	public String getPass() {
+		return pass;
+	}
+
+	public void setPass(String pass) {
+		this.pass = pass;
 	}
 
 	public String getSysname() {

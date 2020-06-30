@@ -34,9 +34,9 @@ public class GroupService {
 	@Transactional("txManager")
 	public int insertGroup(GroupDTO gdto) {
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
-		String writer = loginInfo.getId();
+		String writer_id = loginInfo.getId();
 		gdao.insertGroup(gdto);
-		return gdao.searchSeq(writer);
+		return gdao.searchSeq(writer_id);
 	}
 	
 	public List<GroupDTO> selectList(int cpage, String orderBy) {

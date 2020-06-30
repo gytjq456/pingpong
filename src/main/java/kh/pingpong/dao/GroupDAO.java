@@ -61,8 +61,8 @@ public class GroupDAO {
 		return mybatis.selectOne("Group.selectBySeq", seq);
 	}
 	
-	public int searchSeq(String writer) {
-		return mybatis.selectOne("Group.searchSeq", writer);
+	public int searchSeq(String writer_id) {
+		return mybatis.selectOne("Group.searchSeq", writer_id);
 	}
 	
 	public int delete(int seq) {

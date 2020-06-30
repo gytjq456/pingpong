@@ -13,7 +13,7 @@
 				<div class="group_search_box">
 					<div class="search_as_keyword">
 						<select id="keyword_type">
-							<option value="writer">작성자</option>
+							<option value="writer_name">작성자</option>
 							<option value="title">글제목</option>
 							<option value="contents">글내용</option>
 						</select>
@@ -59,7 +59,7 @@
 							<c:forEach var="glist" items="${glist}">
 								<a href="/group/beforeView?seq=${glist.seq}">
 									<div class="group_each_wrapper">
-										<div><span class="sub_title">작성자</span> ${glist.writer}</div>
+										<div><span class="sub_title">작성자</span> ${glist.writer_name}(${glist.writer_id})</div>
 										<div><span class="sub_title">제목</span> ${glist.title}</div>
 										<div><span class="sub_title">유형</span> ${glist.hobby_type}</div>
 										<div><span class="sub_title">모집 기간</span> ${glist.apply_start} ~ ${glist.apply_end}</div>
@@ -121,10 +121,21 @@
 			var orderByVal = $('#orderBy').val();
 			var keywordType = null;
 			var keywordInput = null;
+			var selectedHobbyLength = $('.hobby_list:checked').length;
+			var selectedHobby = [];
 			
-			if ($('#keyword_input').val() != null) {
+			for (var i = 0; i < selectedHobbyLength; i++) {
+				selectedHobby[i] = $($('.hobby_list:checked')[i]).val();
+			}
+			console.log(selectedHobbyLength);
+			
+			if ($('#keyword_input').val() != '') {
 				var keywordType = $('#keyword_type').val();
 				var keywordInput = $('#keyword_input').val();
+			} else {
+				alert('검색어를 입력해 주세요.');
+				
+				return false;
 			}
 			
 			location.href = '/group/search?searchType=' + keywordType + '&searchThing=' + keywordInput + '&orderBy=' + orderByVal;

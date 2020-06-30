@@ -8,8 +8,8 @@
 	
 	<!-- 그룹 게시글 작성하기 -->
 	<insert id="insert">
-		insert into grouplist values(grouplist_seq.nextval, #{title}, #{writer},
-			#{hobby_type}, #{apply_start}, #{apply_end}, #{start_date},
+		insert into grouplist values(grouplist_seq.nextval, #{title}, #{writer_id},
+			#{writer_name}, #{hobby_type}, #{apply_start}, #{apply_end}, #{start_date},
 			#{end_date}, #{max_num}, 1, #{location}, #{contents},
 			default, 0, 0, 0, 0, 0, default, default)
 	</insert>
@@ -33,7 +33,7 @@
 	</select>
 	
 	<select id="searchSeq" resultType="int">
-		select * from (select seq from grouplist where writer = #{value} order by seq desc) where rownum = 1
+		select * from (select seq from grouplist where writer_id = #{value} order by seq desc) where rownum = 1
 	</select>
 	
 	<delete id="delete">

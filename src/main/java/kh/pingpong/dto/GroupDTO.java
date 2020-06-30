@@ -5,7 +5,8 @@ import java.sql.Timestamp;
 public class GroupDTO {
 	private int seq;
 	private String title;
-	private String writer;
+	private String writer_id;
+	private String writer_name;
 	private String hobby_type;
 	private String apply_start;
 	private String apply_end;
@@ -25,13 +26,14 @@ public class GroupDTO {
 	private String proceeding;
 	
 	public GroupDTO() {}
-	public GroupDTO(int seq, String title, String writer, String hobby_type, String apply_start, String apply_end, String start_date,
+	public GroupDTO(int seq, String title, String writer_id, String writer_name, String hobby_type, String apply_start, String apply_end, String start_date,
 			String end_date, int max_num, int cur_num, String location, String contents, Timestamp write_date,
 			int view_count, int like_count, int app_count, int review_count, Double review_point, String applying, String proceeding) {
 		super();
 		this.seq = seq;
 		this.title = title;
-		this.writer = writer;
+		this.writer_id = writer_id;
+		this.writer_name = writer_name;
 		this.hobby_type = hobby_type;
 		this.apply_start = apply_start;
 		this.start_date = start_date;
@@ -61,11 +63,17 @@ public class GroupDTO {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public String getWriter() {
-		return writer;
+	public String getWriter_id() {
+		return writer_id;
 	}
-	public void setWriter(String writer) {
-		this.writer = writer;
+	public void setWriter_id(String writer_id) {
+		this.writer_id = writer_id;
+	}
+	public String getWriter_name() {
+		return writer_name;
+	}
+	public void setWriter_name(String writer_name) {
+		this.writer_name = writer_name;
 	}
 	public String getHobby_type() {
 		return hobby_type;

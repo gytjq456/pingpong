@@ -73,8 +73,10 @@ public class GroupController {
 	@RequestMapping("writeProc")
 	public String groupWriteProc(GroupDTO gdto, Model model) {
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
-		String writer = loginInfo.getId();
-		gdto.setWriter(writer);
+		String id = loginInfo.getId();
+		String name = loginInfo.getName();
+		gdto.setWriter_id(id);
+		gdto.setWriter_name(name);
 		int seq = gservice.insertGroup(gdto);
 		model.addAttribute("seq", seq);
 		return "redirect:/group/view";

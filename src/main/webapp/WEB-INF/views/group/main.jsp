@@ -12,28 +12,58 @@
 					<p>다양한 사람들을 원하시나요?<br>관심사가 비슷한 사람들과 함께 소통해 보세요.</p>
 				</div>
 				<div class="group_search_box">
-					<div class="search_as_keyword">
-						<select id="keyword_type">
-							<option>작성자</option>
-							<option>글제목</option>
-							<option>글내용</option>
-						</select>
-						<input type="text" name="keyword" id="keyword_input" placeholder="검색어를 입력하세요.">
-						<div>
-							<span>유형</span>
-							<c:forEach var="hbdto" items="${hblist}">
-								<input type="checkbox" name="hobby" class="hobby_list" id="${hbdto.seq}" value="${hbdto.hobby}"><label for="${hbdto.seq}">${hbdto.hobby}</label>
-							</c:forEach>
-							<input type="text" id="selected_hobby" name="hobby_type">
-						</div>
-						<div>
-							<span>기간</span>
-							<input type="radio" name="period" class="period" id="short_period" value="short_period">
-							<label for="short_period">단기(1년 미만)</label>
-							<input type="radio" name="period" class="period" id="long_period" value="long_period">
-							<label for="long_period">장기(1년 이상)</label>
-						</div>
-						<button type="button" id="searchAsKeyword">이 조건으로 검색</button>
+					<div class="tit_s1">
+						<h2>튜터 목록</h2>
+					</div>
+		
+					<div class="tab_s1">
+						<ul class="clearfix">
+							<li class="on"><a href="#;">키워드 검색</a></li>
+							<li><a href="#;">달력 검색</a></li>
+							<li><a href="#;">지도 검색</a></li>
+						</ul>
+					</div>
+					
+					<div id="tabContWrap">
+						<article id="tab_1" class="kewordSch">
+							<div class="search_as_keyword">
+								<select id="keyword_type">
+									<option value="writer_name">작성자</option>
+									<option value="title">글제목</option>
+									<option value="contents">글내용</option>
+								</select>
+								<input type="text" name="keyword" id="keyword_input" placeholder="검색어를 입력하세요.">
+								<div>
+									<span>유형</span>
+									<c:forEach var="hbdto" items="${hblist}">
+										<input type="checkbox" name="hobby" class="hobby_list" id="${hbdto.seq}" value="${hbdto.hobby}"><label for="${hbdto.seq}">${hbdto.hobby}</label>
+									</c:forEach>
+									<input type="text" id="selected_hobby" name="hobby_type">
+								</div>
+								<div>
+									<span>기간</span>
+									<input type="radio" name="period" class="period" id="short_period" value="단기">
+									<label for="short_period">단기(1년 미만)</label>
+									<input type="radio" name="period" class="period" id="long_period" value="장기">
+									<label for="long_period">장기(1년 이상)</label>
+								</div>
+								<button type="button" id="searchAsKeyword">이 조건으로 검색</button>
+							</div>
+						</article>
+						<article id="tab_2" class="calendarSch">
+							<div class="search_as_calendar">
+								<span>기간 선택</span>
+								<label for="date_start" class="calendar_icon"><i class="fa fa-calendar" aria-hidden="true"></i></label>
+								<input type="text" name="date_start" id="date_start" class="cal_input" readonly>
+								<span class="between_calendar">~</span>
+								<label for="date_end" class="calendar_icon"><i class="fa fa-calendar" aria-hidden="true"></i></label>
+								<input type="text" name="date_end" id="date_end" class="cal_input" readonly><br>
+								<button type="button" id="search_cal_btn">조회</button>
+							</div>
+						</article>
+						<article id="tab_3" class="mapSch">
+							지도 검색
+						</article>
 					</div>
 				</div>
 				<div class="btnS1 left">
@@ -60,7 +90,7 @@
 							<c:forEach var="glist" items="${glist}">
 								<a href="/group/beforeView?seq=${glist.seq}">
 									<div class="group_each_wrapper">
-										<div><span class="sub_title">작성자</span> ${glist.writer}</div>
+										<div><span class="sub_title">작성자</span> ${glist.writer_name}(${glist.writer_id})</div>
 										<div><span class="sub_title">제목</span> ${glist.title}</div>
 										<div><span class="sub_title">유형</span> ${glist.hobby_type}</div>
 										<div><span class="sub_title">모집 기간</span> ${glist.apply_start} ~ ${glist.apply_end}</div>
@@ -92,55 +122,76 @@
 		</section>
 	</div>
 	<script>
-		$('#orderBy').val('${orderBy}');
+		$('#date_start').datepicker({ dateFormat: 'yy-mm-dd' });
+		$('#date_end').datepicker({ dateFormat: 'yy-mm-dd' });
+		
+		var orderBy = '${orderBy}';
+		if (orderBy != null) {
+			$('#orderBy').val(orderBy);
+		} else {
+			$('#orderBy').val('seq');
+		}
+		
 		$('#orderBy').on('change', function() {
-			var orderBy = $('#orderBy').val();
+			var orderByVal = $('#orderBy').val();
 			
-			location.href = '/group/main?orderBy=' + orderBy;
+			location.href = '/group/main?orderBy=' + orderByVal;
 		})
 		
 		$('.ing').on('click', function(){
-			var orderBy = $('#orderBy').val();
+			var orderByVal = $('#orderBy').val();
 			var ing = $(this).attr('id');
 			
 			if (ing == 'all') {
-				location.href = '/group/main?orderBy=' + orderBy;
+				location.href = '/group/main?orderBy=' + orderByVal;
 				
 				return false;
 			}
 			
-			location.href = '/group/mainOption?orderBy=' + orderBy + '&ing=' + ing;
+			location.href = '/group/mainOption?orderBy=' + orderByVal + '&ing=' + ing;
 		})
 		
 		$('#searchAsKeyword').on('click', function(){
+			var orderByVal = $('#orderBy').val();
+			var selectedHobbyLength = $('.hobby_list:checked').length;
+			var selectedHobby = [];
 			var keywordType = null;
 			var keywordInput = null;
+			var periodLength = $('.period:checked').length;
+			var period = null;
 			
-			if ($('#keyword_input').val() != null) {
-				keywordType = $('#keyword_type option:selected').val();
-				keywordInput = $('#keyword_input').val();
-				
-				if (keywordType == '작성자') {
-					keywordType = 'writer';
-				} else if (keywordType == '글내용') {
-					keywordType = 'contents';
-				} else if (keywordType == '글제목') {
-					keywordType = 'title'
-				}
-				
-				var selectedHobbyListCount = $('.hobby_list:checked').length;
-				var selectedHobbyList = [];
-				
-				for (var i = 0; i < selectedHobbyListCount; i++) {
-					selectedHobbyList.push($($('.hobby_list:checked')[i]).val());
-				}
-				
-				$('#selected_hobby').val(selectedHobbyList);
-				
-				var hobby_type = $('#selected_hobby').val();
-				
-				location.href = "/group/search?searchType=" + keywordType + "&searchThing=" + keywordInput + "&orderBy=seq&hobby_type=" + hobby_type;
+			if (periodLength > 0) {
+				period = $('.period:checked').val();
 			}
+			
+			if (selectedHobbyLength > 0) {
+				for (var i = 0; i < selectedHobbyLength; i++) {
+					selectedHobby[i] = $($('.hobby_list:checked')[i]).val();
+				}
+				$('#selected_hobby').val(selectedHobby);
+			}
+			
+			var hobbyType = $('#selected_hobby').val();
+			
+			if ($('#keyword_input').val() != '') {
+				var keywordType = $('#keyword_type').val();
+				var keywordInput = $('#keyword_input').val();
+			} else {
+				if ((hobbyType == '') && (period == null)) {
+					alert('검색 조건을 선택해 주세요.');
+					return false;
+				}
+			}
+			
+			location.href = '/group/search?searchType=' + keywordType + '&searchThing=' + keywordInput + '&orderBy=' + orderByVal + '&hobbyType=' + hobbyType + '&period=' + period;
+		})
+		
+		$('#search_cal_btn').on('click', function(){
+			var orderByVal = $('#orderBy').val();
+			var dateStart = $('#date_start').val();
+			var dateEnd = $('#date_end').val();
+			
+			location.href = '/group/searchDate?dateStart=' + dateStart + '&dateEnd=' + dateEnd + '&orderBy=' + orderByVal;
 		})
 	</script>
 <jsp:include page="/WEB-INF/views/footer.jsp"/>

@@ -51,7 +51,7 @@
 		select count(*) from member where id=#{id} and pw=#{pw}
 	</select>
 	
-	<select id="loginInfo" resultType="kh.pingpong.dto.MemberDTO">
+	<select id="loginInfo" resultMap="MemProfile">
 		select * from member where id=#{id}
 	</select>
 	

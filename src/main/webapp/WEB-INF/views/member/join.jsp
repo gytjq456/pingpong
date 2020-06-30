@@ -12,7 +12,7 @@
 		<section id="subContents">
 			<div id="join">
 			    <h1>MEMBER</h1>
-				<form action="joinProc" method="post" enctype="multipart/form-data">
+				<form action="joinProc" method="post" id="joinProc" enctype="multipart/form-data">
 					<input type="hidden" name="mem_type" value="basic">
 					<input type="hidden" name="category" value="member">
 					<input type="hidden" name="grade" value="defalut">
@@ -68,11 +68,12 @@
 						<div class="title">전화번호</div>
 						<div class="se_con">
 							<select id="phone_country" name="phone_country" class="w20">
+								<option value="null" id="phone_countryNull">선택 안함</option>
 								<option value="010">010</option>
 								<option value="011">011</option>
 								<option value="070">070</option>
 							</select>
-							<input type="text" id="phone" name="phone" class="w80">
+							<input type="text" id="phone" name="phone" class="w80" placeholder="'-'는 제외하고 작성">
 						</div>
 					</div>
 		
@@ -89,6 +90,7 @@
 						<div class="title">은행</div>
 						<div class="se_con">
 							<select id="bank_name" name="bank_name">
+								<option value="null">선택 안함</option>
 								<c:forEach var="i" items="${bankList}">	
 									<option value="${i.bank_name}">${i.bank_name}</option>
 								</c:forEach>
@@ -108,6 +110,7 @@
 						<div class="title">나라</div>
 						<div class="se_con">
 							<select id="country" name="country" class="w100">
+								<option value="null">선택 안함</option>
 								<c:forEach var="i" items="${countryList}">						
 									<option value="${i.name}">${i.name}</option>
 								</c:forEach>
@@ -119,7 +122,7 @@
 						<div class="title">구사 가능 언어 (최대 3개)</div>
 						<div class="se_con">
 							<c:forEach var="i" items="${lanList}" varStatus="status">	
-								<input type="checkbox" name="lang_can" value="${i.language}" id="test${status.index}, lang_can" name="lang_can"/>
+								<input type="checkbox" name="lang_can" value="${i.language}" id="test${status.index}" name="lang_can"/>
 								<label for="test${status.index}" >${i.language}</label>
 							</c:forEach>
 						</div>
@@ -130,7 +133,7 @@
 						<div class="se_con">
 							<c:forEach var="i" items="${lanList}" varStatus="status">	
 								<span class="o_box">					
-									<input type="checkbox" name="lang_learn" value="${i.language}" id="test2${status.index}, lang_learn" name="lang_learn"/>
+									<input type="checkbox" name="lang_learn" value="${i.language}" id="test2${status.index}" />
 									<label for="test2${status.index}" >${i.language}</label>
 								</span>	
 							</c:forEach>
@@ -151,12 +154,14 @@
 						<div class="title">자기소개</div>
 						<div class="se_con">
 							<textarea id="introduce" name="introduce" class="w100"> </textarea>
+							<span id="counter">(0 / 최대 500자)</span>
+
 						</div>
 					</div>
 		
 					<div class="si_btn">
 						<input value="회원가입" type="submit" id="joinBtn">
-						<button type="button">뒤로가기</button>
+						<a href="javascript:history.back();">뒤로가기</a>
 					</div>
 				</form>
 			</div>

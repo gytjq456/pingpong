@@ -223,3 +223,20 @@ button.normal:hover { background:#c7c7c7 !important; color:#fff; }
 #listNav ul li.on a{ background:#3e6caa; color:#fff; }   
 
 
+
+/* 채팅 서비스 */
+#chatWrap { position:fixed; right:0; top:0; z-index:10001; height:100%; width:360px; box-shadow: 0 7px 25px 0 rgba(0,0,0,0.1); background:#fff;}
+#chatWrap .title { height:80px; background:#3162a4; margin:0 !important; padding:20px;}
+#chatWrap .title i { color:#fff; font-size:20px; border:1px solid #fff; border-radius:50%; padding:8px; margin-right:10px;}
+#chatWrap .title i, 
+#chatWrap .title p { float:left; }
+#chatWrap .title p { font-size:16px; color:#fff;
+	width:calc(100% - 50px); 
+	width:-moz-calc(100% - 50px); 
+	width:-webkit-calc(100% - 50px); 
+	
+}
+#chatWrap .chatBox { padding:10px; }
+#chatWrap .txtInput { position:absolute; left:0; bottom:0; padding:10px; border-top:1px solid #ddd; width:100%; height:120px; }
+#chatWrap .txtInput #transfer { position:absolute; padding:5px 15px; border:1px solid #ddd; background:#3162a4; color:#fff; border-radius:6px; right:10px; top:10px;}
+

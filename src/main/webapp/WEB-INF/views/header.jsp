@@ -20,7 +20,6 @@
 <script src="/resources/js/common.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-
 </head>
 	<body>
 	   <header>
@@ -29,18 +28,24 @@
 	            <div class="util">
 	               <ul>
 						<li class="alram"><a href="#;"><img src="/resources/img/common/alram.png"><span class="length"></span></a></li>
-						<li><a href="/member/login">Login</a></li>
-						<li><a href="/member/logout">Logout</a></li>
-						<li><a href="/member/joinMail">Join</a></li>
-						<li>
- 							<a href="#;">MyPage</a>
-							<ul class="depth2">
-								<li><a href="/member/myInfo">나의 정보수정</a></li>
-								<li><a href="#;">나의 튜터 목록</a></li>
-								<li><a href="#;">모임기록</a></li>
-								<li><a href="#;">찜목록</a></li>
-							</ul>
-						</li>
+						<c:choose>
+							<c:when test="${empty sessionScope.loginInfo}">
+								<li><a href="/member/login">Login</a></li>
+								<li><a href="/member/joinMail">Join</a></li>
+							</c:when>
+							<c:otherwise>
+								<li>
+		 							<a href="#;">MyPage</a>
+									<ul class="depth2">
+										<li><a href="/member/myInfo">나의 정보수정</a></li>
+										<li><a href="#;">나의 튜터 목록</a></li>
+										<li><a href="#;">모임기록</a></li>
+										<li><a href="#;">찜목록</a></li>
+									</ul>
+								</li>
+								<li><a href="/member/logout">Logout</a></li>
+							</c:otherwise>
+						</c:choose>
 					</ul>
 				</div>
 			</div>
@@ -93,5 +98,3 @@
 			</div>
 		</section>
 	</header>
-
-

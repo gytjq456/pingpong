@@ -129,7 +129,7 @@
 				<span id="like">따봉</span>
 				글번호: <span id="seq">${gdto.seq}</span><br>
 				제목: ${gdto.title}<br>
-				작성자: ${gdto.writer}<br>
+				작성자: ${gdto.writer_name}(${gdto.writer_id})<br>
 				유형: ${gdto.hobby_type}<br>
 				모집 기간: ${gdto.apply_start} ~ ${gdto.apply_end}<br>
 				진행 기간: ${gdto.start_date} ~ ${gdto.end_date}<br>
@@ -144,7 +144,7 @@
 				리뷰수: ${gdto.review_count}<br>
 				리뷰 포인트: ${gdto.review_point}<br>
 				<c:choose>
-					<c:when test="${sessionScope.loginInfo.id == gdto.writer}">
+					<c:when test="${sessionScope.loginInfo.id == gdto.writer_id}">
 						<button type="button" id="update">수정</button>
 						<button type="button" id="delete">삭제</button>
 					</c:when>

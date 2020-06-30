@@ -20,6 +20,7 @@ $(function(){
 	$("#back").on("click", function(){
 		location.href="/tutor/lessonList";
 	})
+	
 })
 
 </script>
@@ -50,9 +51,9 @@ $(function(){
 					<div class="title">
 						${ ldto.title}
 					</div>
-					<div class="review">
+					<div class="option_btn">
 						★${ ldto.review_point}
-						<a id="like">추천</a>
+						<a id="like">좋아요</a>
 						<a id="jjim">찜하기</a>
 						<a id="report">신고</a>
 					</div>
@@ -68,14 +69,31 @@ $(function(){
 	
 				</div>
 			</div>
-			<div class="tab">
-				<ul>
+			
+			<div class="tab_s1">
+				<ul class="clearfix">
+					<li class="on"><a href="#;">커리큘럼</a></li>
+					<li><a href="#;">강의문의</a></li>
+					<li><a href="#;">환불안내</a></li>
+					<li><a href="#;">리뷰</a></li>
+					<li><a href="#;">결제하기</a></li>
+				</ul>
+			</div>
+			
+			
+			<div id="tabContWrap">
+				<article id="tab_1" class="curriTab">커리큘럼</article>
+				<article id="tab_2" class="lessonQuTab">강의문의</article>
+				<article id="tab_3" class="refundTab">환불안내</article>
+				<article id="tab_4" class="reviewTab">리뷰</article>
+				<article id="tab_5" class="payTab">결제하기</article>
+<!-- 				<ul>
 					<li><a>커리큘럼</a></li>
 					<li><a>강의문의</a></li>
 					<li><a>환불안내</a></li>
 					<li><a>리뷰</a></li>
 					<li><a>결제하기</a></li>
-				</ul>
+				</ul> -->
 			</div>
 			
 			<div class="view_main">

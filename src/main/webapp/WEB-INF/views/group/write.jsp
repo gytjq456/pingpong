@@ -8,13 +8,10 @@
 	.sun{color: #ef3333;}
 	.sat{color: #2107e0;}
 	.active{background-color: dodgerblue; color: #fff;}
-	/* .group_sub, .group_sub_input{display: inline-block;} */
 	.group_sub{width: 10%; vertical-align: center;}
 	.vertical_top{vertical-align: top; margin-top: 3px;}
-	/* .group_sub_input{width: 89%;} */
 	#hobby_type{display: none;}
 	#map{margin-top: 10px;}
-	#apply_start, #apply_end, #start_date, #end_date{width: 50%;}
 </style>
 <script>
 	$(function(){
@@ -55,8 +52,6 @@
 				}
 			})
 		}
-		
-		
 	})
 </script>
 	<div id="subWrap" class="hdMargin">
@@ -69,14 +64,12 @@
 				<div class="card_body" id="find_group_write">
 					<form action="/group/writeProc" id="writeProc" name="writeProc" method="post">
 						<div class="group_write_sub">
-							<!-- <div class="group_sub">제목</div> -->
 							<div class="tit_s3">
 								<h4>제목</h4>
 							</div>
 							<div class="group_sub_input"><input type="text" name="title" id="title"></div>
 						</div>
 						<div class="group_write_sub">
-							<!-- <div class="group_sub">유형</div> -->
 							<div class="tit_s3">
 								<h4>유형</h4>
 							</div>
@@ -88,33 +81,30 @@
 							</div>
 						</div>
 						<div class="group_write_sub">
-							<!-- <div class="group_sub">모집 기간</div> -->
 							<div class="tit_s3">
 								<h4>모집 기간</h4>
 							</div>
 							<div class="group_sub_input calendar_wrapper">
-								<span id="apply_start_cal_btn" class="calendar_icon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+								<label for="apply_start" class="calendar_icon"><i class="fa fa-calendar" aria-hidden="true"></i></label>
 								<input type="text" name="apply_start" id="apply_start" class="cal_input" readonly>
 								<span class="between_calendar">~</span>
-								<span id="apply_end_cal_btn" class="calendar_icon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+								<label for="apply_end" class="calendar_icon"><i class="fa fa-calendar" aria-hidden="true"></i></label>
 								<input type="text" name="apply_end" id="apply_end" class="cal_input" readonly><br>
 							</div>
 						</div>
 						<div class="group_write_sub">
-							<!-- <div class="group_sub">진행 기간</div> -->
 							<div class="tit_s3">
 								<h4>진행 기간</h4>
 							</div>
 							<div class="group_sub_input">
-								<span id="start_date_cal_btn" class="calendar_icon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+								<label for="start_date" class="calendar_icon"><i class="fa fa-calendar" aria-hidden="true"></i></label>
 								<input type="text" name="start_date" id="start_date" class="cal_input" readonly>
 								<span class="between_calendar">~</span>
-								<label for="end_date"><span id="end_date_cal_btn" class="calendar_icon"><i class="fa fa-calendar" aria-hidden="true"></i></span></label>
+								<label for="end_date" class="calendar_icon"><i class="fa fa-calendar" aria-hidden="true"></i></label>
 								<input type="text" name="end_date" id="end_date" class="cal_input" readonly><br>
 							</div>
 						</div>
 						<div class="group_write_sub">
-							<!-- <div class="group_sub">최대 인원</div> -->
 							<div class="tit_s3">
 								<h4>최대 인원</h4>
 							</div>
@@ -123,7 +113,6 @@
 							</div>
 						</div>
 						<div class="group_write_sub">
-							<!-- <div class="group_sub vertical_top">장소</div> -->
 							<div class="tit_s3">
 								<h4>장소</h4>
 							</div>
@@ -135,7 +124,6 @@
 							</div>
 						</div>
 						<div class="group_write_sub">
-							<!-- <div class="group_sub vertical_top">내용</div> -->
 							<div class="tit_s3">
 								<h4>내용</h4>
 							</div>

@@ -35,7 +35,10 @@
 /* 그룹 게시판 글쓰기 */
 #find_group_write select,
 #find_group_write input[type="text"] { width: 100%; padding:10px; height:42px; line-height:40px; border:1px solid #ddd; border-radius:5px; box-sizing:border-box;}
-#find_group_write input[class="cal_input"] { width: 15%; background-color: #eee; }
+#find_group_write #apply_start,
+#find_group_write #apply_end,
+#find_group_write #start_date,
+#find_group_write #end_date { width: 15%; background-color: #eee; }
 #find_group_write select { width: 15%; margin-right: 10px; }
 #find_group_write #max_num { width: 10%; margin-right: 5px; }
 #find_group_write #location { display: none; }

@@ -10,7 +10,6 @@ public class LessonAppDTO {
 	private String account;
 	private String profile;
 	private int lesson_code;
-	private String pass;
 	
 	
 	public LessonAppDTO() {
@@ -20,7 +19,7 @@ public class LessonAppDTO {
 
 
 	public LessonAppDTO(int seq, String id, String name, String email, String phone, String bank_name, String account,
-			String profile, int lesson_code, String pass) {
+			String profile, int lesson_code) {
 		super();
 		this.seq = seq;
 		this.id = id;
@@ -31,7 +30,6 @@ public class LessonAppDTO {
 		this.account = account;
 		this.profile = profile;
 		this.lesson_code = lesson_code;
-		this.pass = pass;
 	}
 
 
@@ -125,15 +123,5 @@ public class LessonAppDTO {
 	}
 
 
-	public String getPass() {
-		return pass;
-	}
-
-
-	public void setPass(String pass) {
-		this.pass = pass;
-	}
-	
-	
 	
 }

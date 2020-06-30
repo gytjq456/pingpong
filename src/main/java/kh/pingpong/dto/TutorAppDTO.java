@@ -4,6 +4,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class TutorAppDTO {
 	private int seq;
+	private String id;
 	private String title;
 	private String license;
 	private String career;
@@ -19,10 +20,11 @@ public class TutorAppDTO {
 	}
 
 
-	public TutorAppDTO(int seq, String title, String license, String career, String exp, String introduce,
+	public TutorAppDTO(int seq, String id, String title, String license, String career, String exp, String introduce,
 			String recomm, String pass) {
 		super();
 		this.seq = seq;
+		this.id = id;
 		this.title = title;
 		this.license = license;
 		this.career = career;
@@ -40,6 +42,16 @@ public class TutorAppDTO {
 
 	public void setSeq(int seq) {
 		this.seq = seq;
+	}
+
+
+	public String getId() {
+		return id;
+	}
+
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 
@@ -111,6 +123,7 @@ public class TutorAppDTO {
 	public void setPass(String pass) {
 		this.pass = pass;
 	}
+
 
 
 }

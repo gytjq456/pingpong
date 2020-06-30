@@ -146,10 +146,6 @@ public class GroupDAO {
 			glist = mybatis.selectList("Group.search", search);
 		}
 		
-//		if (!search.containsKey("hobby_type")) {
-//			search.put("hobby_type", null);
-//		}
-		
 		return glist;
 	}
 	

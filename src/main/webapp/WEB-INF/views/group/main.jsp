@@ -13,9 +13,9 @@
 				<div class="group_search_box">
 					<div class="search_as_keyword">
 						<select id="keyword_type">
-							<option>작성자</option>
-							<option>글제목</option>
-							<option>글내용</option>
+							<option value="writer">작성자</option>
+							<option value="title">글제목</option>
+							<option value="contents">글내용</option>
 						</select>
 						<input type="text" name="keyword" id="keyword_input" placeholder="검색어를 입력하세요.">
 						<div>
@@ -91,55 +91,43 @@
 		</section>
 	</div>
 	<script>
-		$('#orderBy').val('${orderBy}');
+		var orderBy = '${orderBy}';
+		if (orderBy != null) {
+			$('#orderBy').val(orderBy);
+		} else {
+			$('#orderBy').val('seq');
+		}
+		
 		$('#orderBy').on('change', function() {
-			var orderBy = $('#orderBy').val();
+			var orderByVal = $('#orderBy').val();
 			
-			location.href = '/group/main?orderBy=' + orderBy;
+			location.href = '/group/main?orderBy=' + orderByVal;
 		})
 		
 		$('.ing').on('click', function(){
-			var orderBy = $('#orderBy').val();
+			var orderByVal = $('#orderBy').val();
 			var ing = $(this).attr('id');
 			
 			if (ing == 'all') {
-				location.href = '/group/main?orderBy=' + orderBy;
+				location.href = '/group/main?orderBy=' + orderByVal;
 				
 				return false;
 			}
 			
-			location.href = '/group/mainOption?orderBy=' + orderBy + '&ing=' + ing;
+			location.href = '/group/mainOption?orderBy=' + orderByVal + '&ing=' + ing;
 		})
 		
 		$('#searchAsKeyword').on('click', function(){
+			var orderByVal = $('#orderBy').val();
 			var keywordType = null;
 			var keywordInput = null;
 			
 			if ($('#keyword_input').val() != null) {
-				keywordType = $('#keyword_type option:selected').val();
-				keywordInput = $('#keyword_input').val();
-				
-				if (keywordType == '작성자') {
-					keywordType = 'writer';
-				} else if (keywordType == '글내용') {
-					keywordType = 'contents';
-				} else if (keywordType == '글제목') {
-					keywordType = 'title'
-				}
-				
-				var selectedHobbyListCount = $('.hobby_list:checked').length;
-				var selectedHobbyList = [];
-				
-				for (var i = 0; i < selectedHobbyListCount; i++) {
-					selectedHobbyList.push($($('.hobby_list:checked')[i]).val());
-				}
-				
-				$('#selected_hobby').val(selectedHobbyList);
-				
-				var hobby_type = $('#selected_hobby').val();
-				
-				location.href = "/group/search?searchType=" + keywordType + "&searchThing=" + keywordInput + "&orderBy=seq&hobby_type=" + hobby_type;
+				var keywordType = $('#keyword_type').val();
+				var keywordInput = $('#keyword_input').val();
 			}
+			
+			location.href = '/group/search?searchType=' + keywordType + '&searchThing=' + keywordInput + '&orderBy=' + orderByVal;
 		})
 	</script>
 <jsp:include page="/WEB-INF/views/footer.jsp"/>

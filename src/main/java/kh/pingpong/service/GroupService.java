@@ -148,7 +148,6 @@ public class GroupService {
 		sb.append("</ul>");
 
 		return sb.toString();
-
 	}
 	
 	// 리뷰 글쓰기
@@ -160,6 +159,4 @@ public class GroupService {
 	public List<ReviewDTO> reviewList(int seq) throws Exception{
 		return gdao.reviewList(seq);
 	}	
-	
-	
 }

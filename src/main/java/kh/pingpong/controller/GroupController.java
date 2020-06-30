@@ -241,10 +241,6 @@ public class GroupController {
 		search.put("searchThing", searchThing);
 		search.put("orderBy", orderBy);
 		
-		if (hobby_type != null) {
-			search.put("hobby_type", hobby_type);
-		}
-		
 		List<HobbyDTO> hblist = gservice.selectHobby();
 		List<GroupDTO> glist = gservice.search(cpage, search);
 		String navi = gservice.getPageNav(cpage, orderBy);

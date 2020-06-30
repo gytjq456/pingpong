@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.Gson;
+
 import kh.pingpong.dto.CommentDTO;
 import kh.pingpong.dto.DiscussionDTO;
 import kh.pingpong.dto.LanguageDTO;
@@ -219,8 +221,9 @@ public class DiscussionController {
 		String change_lang = (String)request.getParameter("change_lang");
 		
 		LanguageDTO lang = disService.langSelectlOne(original_lang);
-		String txt = papagoService.nmtReturnRseult(original_str, lang, change_lang);
-		return txt;
+		String[] resultString = papagoService.nmtReturnRseult(original_str, lang, change_lang);
+		System.out.println(resultString);
+		return new Gson().toJson(resultString);
 	}
 	
 	

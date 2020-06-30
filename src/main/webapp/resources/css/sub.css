@@ -115,6 +115,8 @@ button.normal:hover { background:#c7c7c7 !important; color:#fff; }
 
 .viewPage_style1 .title { font-size:24px; margin-bottom:30px; }
 .viewPage_style1 .contents { font-size:14px; line-height:1.8; border-top:1px solid #ddd; margin:20px 0; padding-top:16px;}
+.viewPage_style1 .originTxt p,
+.viewPage_style1 .originTxt div { width:auto !important;}
 .viewPage_style1 .language { font-size:16px; color:#999; border-left:2px solid #fbaab0; padding-left:12px; }
  
 
@@ -210,5 +212,14 @@ button.normal:hover { background:#c7c7c7 !important; color:#fff; }
  #tabContWrap > article { display:none; }
  #tabContWrap > article:first-child { display:block; }
    
+   
+   
+/* 페이징  */
+#listNav { margin-top:40px; }   
+#listNav ul { text-align:center; }   
+#listNav ul li { display:inline-block; margin-right:8px;} 
+#listNav ul li:last-child { margin-right:0;} 
+#listNav ul li a{ display:block; width:36px;background:#fff; height:36px; line-height:34px; border-radius:6px; border:1px solid #ddd; box-sizing:border-box;}   
+#listNav ul li.on a{ background:#3e6caa; color:#fff; }   
 
 

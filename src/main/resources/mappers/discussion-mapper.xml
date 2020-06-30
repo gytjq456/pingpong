@@ -103,5 +103,11 @@
 	<select id="langSelectlOne" resultType="kh.pingpong.dto.LanguageDTO">
 		select language_country from language where language = #{value} 
 	</select>
+	
+	<!-- 토론 게시글 페이징  -->
+	<select id="getArticleCount_discussion" resultType="int">
+		select count(*) from discussion
+	</select>
+	
 
 </mapper>

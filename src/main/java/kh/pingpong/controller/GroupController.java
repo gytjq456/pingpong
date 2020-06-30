@@ -41,6 +41,7 @@ public class GroupController {
 	@Autowired
 	private HttpSession session;
 	
+	// header.jsp에서 그룹 찾기 탭 눌렀을 때 이동
 	@RequestMapping("main")
 	public String groupMain(String orderBy, HttpServletRequest request, Model model) throws Exception {
 		int cpage = 1;
@@ -59,6 +60,7 @@ public class GroupController {
 		return "/group/main";
 	}
 	
+	// 글 쓰기 페이지 이동
 	@RequestMapping("write")
 	public String groupWrite(Model model) {
 		List<HobbyDTO> hblist = gservice.selectHobby();

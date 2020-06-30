@@ -146,8 +146,10 @@ public class TutorController {
 	@RequestMapping("lessonView")
 	public String lessonView(Model model, int seq) throws Exception{
 		LessonDTO ldto = tservice.lessonView(seq);
+		tservice.updateViewCount(seq);
 		//언어 
 		List<LanguageDTO> lanList = mservice.lanList();
+		
 		model.addAttribute("lanList",lanList);
 		model.addAttribute("ldto", ldto);
 		model.addAttribute("seq", seq);

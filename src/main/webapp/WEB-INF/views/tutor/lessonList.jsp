@@ -54,9 +54,9 @@
 											가격 : ${i.price}
 											<!-- <span class="badge badge-danger">New</span> -->
 										</div>
-										<div class="review_point">리뷰 평점 : ${i.review_point}</div>
 										<div class="view_count">조회 : ${i.view_count}</div>
 										<div class="like_count">좋아요 : ${i.like_count}</div>
+										<div class="review_point">리뷰 평점 : ${i.review_point}</div>
 										<div class="review_count">리뷰 갯수 : ${i.review_count}</div>
 										<br>
 									</article>

@@ -17,13 +17,18 @@
 	insert into lesson values(lesson_seq.nextval, #{id}, #{name}, #{email}, #{phone_country}, #{phone}, 
 	#{profile}, default, #{title}, #{price}, #{language},#{apply_start},#{apply_end},#{start_date},#{end_date},
 	#{start_hour},#{start_minute},#{end_hour},#{end_minute},#{max_num},0,#{location},#{curriculum},
-	default,default,default,default,default,default,default);
+	default,#{view_count},default,default,default,default,default);
 </insert>
 
 <!-- 강의 취소 신청서 -->
 <insert id="lessonCancleProc">
 	insert into delete_app values(delete_app_seq.nextval, #{id}, #{category}, #{contents}, #{parent_seq})
 </insert>
+
+<!-- 강의 조회수 -->
+<update id="updateViewCount">
+	update lesson set view_count = view_count + 1 where seq = #{seq}
+</update>
 
 <!-- 강의 눌렀을때 뿌려줄 강의 view -->
 <resultMap id="lessonViewProfile" type="kh.pingpong.dto.LessonDTO">

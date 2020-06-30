@@ -3,6 +3,8 @@ package kh.pingpong.service;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +16,7 @@ import kh.pingpong.dto.GroupApplyDTO;
 import kh.pingpong.dto.GroupDTO;
 import kh.pingpong.dto.HobbyDTO;
 import kh.pingpong.dto.LikeListDTO;
+import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.dto.ReviewDTO;
 
 @Service
@@ -21,15 +24,19 @@ public class GroupService {
 	@Autowired
 	private GroupDAO gdao;
 	
+	@Autowired
+	private HttpSession session;
+	
 	public List<HobbyDTO> selectHobby() {
 		return gdao.selectHobby();
 	}
 	
 	@Transactional("txManager")
 	public int insertGroup(GroupDTO gdto) {
+		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
+		String writer = loginInfo.getId();
 		gdao.insertGroup(gdto);
-		System.out.println(gdto.getApply_start());
-		return gdao.searchSeq("test");
+		return gdao.searchSeq(writer);
 	}
 	
 	public List<GroupDTO> selectList(int cpage, String orderBy) {
@@ -81,6 +88,10 @@ public class GroupService {
 	
 	public List<GroupDTO> search(int cpage, Map<String, Object> search) {
 		return gdao.search(cpage, search);
+	}
+	
+	public List<GroupDTO> selectListOption(int cpage, Map<String, Object> param) {
+		return gdao.selectListOption(cpage, param);
 	}
 	
 	public String getPageNav(int currentPage, String orderBy) throws Exception{

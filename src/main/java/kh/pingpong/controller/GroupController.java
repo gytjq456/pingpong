@@ -29,6 +29,7 @@ import kh.pingpong.dto.GroupApplyDTO;
 import kh.pingpong.dto.GroupDTO;
 import kh.pingpong.dto.HobbyDTO;
 import kh.pingpong.dto.LikeListDTO;
+import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.dto.ReviewDTO;
 import kh.pingpong.service.GroupService;
 
@@ -56,6 +57,7 @@ public class GroupController {
 		model.addAttribute("hblist", hblist);
 		model.addAttribute("glist", glist);
 		model.addAttribute("navi", navi);
+		model.addAttribute("orderBy", orderBy);
 		
 		return "/group/main";
 	}
@@ -70,6 +72,9 @@ public class GroupController {
 	
 	@RequestMapping("writeProc")
 	public String groupWriteProc(GroupDTO gdto, Model model) {
+		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
+		String writer = loginInfo.getId();
+		gdto.setWriter(writer);
 		int seq = gservice.insertGroup(gdto);
 		model.addAttribute("seq", seq);
 		return "redirect:/group/view";
@@ -85,10 +90,13 @@ public class GroupController {
 	@Transactional("txManager")
 	@RequestMapping("view")
 	public String groupView(int seq, Model model) throws Exception{
+		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
+		String id = loginInfo.getId();
+		
 		GroupDTO gdto = gservice.selectBySeq(seq);
 		
 		Map<Object, Object> param = new HashMap<>();
-		param.put("id", "test");
+		param.put("id", id);
 		param.put("parent_seq", seq);
 		
 		boolean checkLike = gservice.selectLike(param);
@@ -133,6 +141,17 @@ public class GroupController {
 	@RequestMapping("apply")
 	@ResponseBody
 	public boolean groupApply(GroupApplyDTO gadto) {
+		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
+
+		gadto.setWriter(loginInfo.getId());
+		gadto.setName(loginInfo.getName());
+		gadto.setAge(loginInfo.getAge());
+		gadto.setGender(loginInfo.getGender());
+		gadto.setAddress(loginInfo.getAddress());
+		gadto.setProfile(loginInfo.getSysname());
+		gadto.setLang_can(loginInfo.getLang_can());
+		gadto.setLang_learn(loginInfo.getLang_learn());
+		
 		int result = gservice.insertApp(gadto);
 		boolean output = false;
 		
@@ -152,6 +171,10 @@ public class GroupController {
 	@RequestMapping("out")
 	@ResponseBody
 	public boolean groupApplyDelete(DeleteApplyDTO dadto) {
+		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
+		String id = loginInfo.getId();
+		
+		dadto.setId(id);
 		int result = gservice.insertDeleteApply(dadto);
 		boolean output = false;
 		
@@ -165,8 +188,44 @@ public class GroupController {
 	@RequestMapping("like")
 	@ResponseBody
 	public int groupInsertLike(LikeListDTO ldto) {
+		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
+		String id = loginInfo.getId();
+		
+		ldto.setId(id);
+		
 		int result = gservice.insertLike(ldto);
 		return result;
+	}
+	
+	@RequestMapping("mainOption")
+	public String mainOption(String orderBy, String ing, HttpServletRequest request, Model model) throws Exception {
+		int cpage = 1;
+        try {
+           cpage = Integer.parseInt(request.getParameter("cpage"));
+        } catch (Exception e) {}
+        
+        Map<String, Object> param = new HashMap<>();
+        
+        param.put("orderBy", orderBy);
+        
+        if (ing.contentEquals("done")) {
+        	param.put("option", "proceeding");
+        	param.put("optionValue", "N");
+        } else {
+        	param.put("option", ing);
+        	param.put("optionValue", "Y");
+        }
+        
+        List<HobbyDTO> hblist = gservice.selectHobby();
+		List<GroupDTO> glist = gservice.selectListOption(cpage, param);
+		String navi = gservice.getPageNav(cpage, orderBy);
+		
+		model.addAttribute("hblist", hblist);
+		model.addAttribute("glist", glist);
+		model.addAttribute("navi", navi);
+		model.addAttribute("orderBy", orderBy);
+		
+		return "/group/main";
 	}
 	
 	@RequestMapping("search")

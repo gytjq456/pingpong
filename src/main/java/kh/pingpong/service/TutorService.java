@@ -61,6 +61,11 @@ public class TutorService {
 		return result;
 	}
 	
+	public int lessonAppProc(LessonDTO ldto) throws Exception{
+		int result = tdao.lessonAppProc(ldto);
+		return result;
+	}
+	
 	
 	
 	//레슨 페이징 만 이동

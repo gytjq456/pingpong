@@ -36,6 +36,10 @@ public class TutorDAO {
 		return mybatis.insert("Tutor.insert",tadto);
 	}
 	
+	public int lessonAppProc(LessonDTO ldto) throws Exception{
+		return mybatis.insert("Tutor.lessonAppProc", ldto);
+	}
+	
 	public List<MemberDTO> tutorList(int cpage) throws Exception{
 		int start = cpage*Configuration.RECORD_COUNT_PER_PAGE - (Configuration.RECORD_COUNT_PER_PAGE - 1);
 		int end = start + (Configuration.RECORD_COUNT_PER_PAGE - 1);

@@ -42,7 +42,28 @@ public class TutorController {
 		//언어 
 		List<LanguageDTO> lanList = mservice.lanList();
 		model.addAttribute("lanList",lanList);
+		model.addAttribute("loginInfo", session.getAttribute("loginInfo"));
 		return "tutor/lessonApp";
+	}
+	
+	@RequestMapping("lessonAppProc")
+	public String lessonAppProc(Model model, LessonDTO ldto) throws Exception{
+		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
+		//세션에 프로필 안들어감 !!!
+		System.out.println(mdto.getId()+":"+mdto.getName() +":"+mdto.getSysname());
+		model.addAttribute("loginInfo", session.getAttribute("loginInfo"));
+		//System.out.println(ldto.getCurriculum()+":" +ldto.getLanguage()+":"+ldto.getStart_hour()+":"+ldto.getStart_minute());
+		ldto.setId(mdto.getId());
+		ldto.setName(mdto.getName());
+		ldto.setEmail(mdto.getEmail());
+		ldto.setPhone_country(mdto.getPhone_country());
+		ldto.setPhone(mdto.getPhone());
+		ldto.setProfile(mdto.getProfile());
+		
+		int result = tservice.lessonAppProc(ldto);
+		
+		
+		return "redirect: lessonList";
 	}
 
 	@RequestMapping("tutorApp")
@@ -53,6 +74,7 @@ public class TutorController {
 	
 	@RequestMapping("tutorAppSend")
 	public String tutorAppSend(Model model, TutorAppDTO tadto, MultipartFile[] files) throws Exception{
+		System.out.println(tadto.getId());
 		//----------------------파일 업로드 
 		String filePath = session.getServletContext().getRealPath("upload/tutorLicense/");
 		System.out.println(filePath);
@@ -80,7 +102,7 @@ public class TutorController {
 		model.addAttribute("loginInfo", session.getAttribute("loginInfo"));
 		
 		
-		return "tutor/tutorApp";
+		return "tutor/tutorAppComplete";
 	}
 	
 	@RequestMapping("tutorList")
@@ -147,5 +169,6 @@ public class TutorController {
 		tservice.lessonCancleProc(dadto);
 		return "redirect: lessonView";
 	}
+
 
 }

@@ -62,7 +62,14 @@ public class TutorService {
 	}
 	
 	public int lessonAppProc(LessonDTO ldto) throws Exception{
+		int view_count=0;
+		ldto.setView_count(view_count);
 		int result = tdao.lessonAppProc(ldto);
+		return result;
+	}
+	
+	public int updateViewCount(int seq) throws Exception{
+		int result = tdao.updateViewCount(seq);
 		return result;
 	}
 	

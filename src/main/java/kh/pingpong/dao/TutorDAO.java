@@ -30,6 +30,10 @@ public class TutorDAO {
 		return mybatis.insert("Tutor.lessonCancleProc", dadto);
 	}
 	
+	public int updateViewCount(int seq) throws Exception{
+		return mybatis.update("Tutor.updateViewCount", seq);
+	}
+	
 	
 	//�뒠�꽣 �떊泥��꽌 insert
 	public int insert(TutorAppDTO tadto) throws Exception{

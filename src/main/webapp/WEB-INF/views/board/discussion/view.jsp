@@ -164,9 +164,11 @@
 					success : function(data) { //서블렛을 통한 결과 값을 받을 수 있습니다.
 						console.log(data);
 						//결과값을 textarea에 넣기 위해서
-						console.log("test :" + data[1].errorCode)
-						console.log("langCountryVal")
-						if(data.errorCode == undefined){
+						
+						var json = data[1];
+						var obj = JSON.parse(json);
+						console.log(obj)
+						if(data.errorCode == "undefined"){
 							if(data[0] == "ko"){
 								alert(lanArr.ko+"만 번역이 가능합니다.")
 							}else if(data[0] == "en"){
@@ -180,8 +182,8 @@
 							}
 							
 						}else{
-							var result = data[1].message.result.translatedText;
-							$(".convert").text(result);
+							var text = obj.message.result.translatedText;
+							$(".convert").text(text);
 						}
 					},
 					error : function(e) {

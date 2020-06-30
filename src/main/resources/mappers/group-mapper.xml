@@ -10,7 +10,7 @@
 	<insert id="insert">
 		insert into grouplist values(grouplist_seq.nextval, #{title}, #{writer_id},
 			#{writer_name}, #{hobby_type}, #{apply_start}, #{apply_end}, #{start_date},
-			#{end_date}, #{max_num}, 1, #{location}, #{contents},
+			#{end_date}, #{period}, #{max_num}, 1, #{location}, #{contents},
 			default, 0, 0, 0, 0, 0, default, default)
 	</insert>
 	
@@ -43,7 +43,7 @@
 	<update id="update">
 		update grouplist set title = #{title}, hobby_type = #{hobby_type},
 			apply_start = #{apply_start}, apply_end = #{apply_end},
-			start_date = #{start_date}, end_date = #{end_date},
+			start_date = #{start_date}, end_date = #{end_date}, period = #{period},
 			max_num = #{max_num}, location = #{location}, contents = #{contents}
 			where seq = #{seq}
 	</update>
@@ -107,13 +107,44 @@
 	
 	<select id="search" resultType="kh.pingpong.dto.GroupDTO">
 		select * from (select grouplist.*, row_number() over(order by ${orderBy} desc, seq desc) rnum 
-		from grouplist where ${searchType} = #{searchThing}) 
+		from grouplist 
+		<trim prefix="where" prefixOverrides="and">
+			<if test="searchThing != null">
+				${searchType} = #{searchThing}
+			</if>
+			<if test="hobby_type != null">
+				and hobby_type = #{hobby_type}
+			</if>
+			<if test="period != null">
+				and period = #{period}
+			</if>
+		</trim>
+		) 
 		where rnum between #{start} and #{end}
 	</select>
 	
 	<select id="searchContents" resultType="kh.pingpong.dto.GroupDTO">
 		select * from (select grouplist.*, row_number() over(order by ${orderBy} desc, seq desc) rnum 
-		from grouplist where DBMS_LOB.INSTR(${searchType}, #{searchThing}) > 0) 
+		from grouplist 
+		<trim prefix="where" prefixOverrides="and">
+			<if test="searchThing != null">
+				DBMS_LOB.INSTR(${searchType}, #{searchThing}) > 0
+			</if>
+			<if test="hobby_type != null">
+				and hobby_type = #{hobby_type}
+			</if>
+			<if test="period != null">
+				and period = #{period}
+			</if>
+		</trim>
+		) 
+		where rnum between #{start} and #{end}
+	</select>
+	
+	<select id="searchDate" resultType="kh.pingpong.dto.GroupDTO">
+select * from 
+		(select grouplist.*, row_number() over(order by ${orderBy} desc, seq desc) rnum from grouplist
+		where to_date(start_date) > to_date(#{dateStart}) and to_date(#{dateEnd}) > to_date(end_date)) 
 		where rnum between #{start} and #{end}
 	</select>
 	

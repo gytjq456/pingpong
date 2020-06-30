@@ -1,6 +1,9 @@
 package kh.pingpong.dao;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,8 +29,32 @@ public class GroupDAO {
 		return mybatis.selectList("Group.selectHobby");
 	}
 	
-	public int insertGroup(GroupDTO gdto) {
+	public int insertGroup(GroupDTO gdto) throws ParseException {
 		System.out.println(gdto.getApply_start());
+		String start_date = gdto.getStart_date();
+		String end_date = gdto.getEnd_date();
+
+		SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
+
+		Date start = fm.parse(start_date);
+		Date end = fm.parse(end_date);
+		
+		// Date로 변환된 두 날짜를 계산한 뒤 그 리턴값으로 long type 변수를 초기화 하고 있다.
+        // 연산결과 -950400000. long type 으로 return 된다.
+        long calDate = start.getTime() - end.getTime(); 
+        
+        // Date.getTime() 은 해당날짜를 기준으로1970년 00:00:00 부터 몇 초가 흘렀는지를 반환해준다. 
+        // 이제 24*60*60*1000(각 시간값에 따른 차이점) 을 나눠주면 일수가 나온다.
+        long calDateDays = calDate / (24 * 60 * 60 * 1000); 
+ 
+        calDateDays = Math.abs(calDateDays);
+        
+        if (calDateDays >= 365) {
+        	gdto.setPeriod("장기");
+        } else {
+        	gdto.setPeriod("단기");
+        }
+
 		return mybatis.insert("Group.insert", gdto);
 	}
 	
@@ -69,7 +96,31 @@ public class GroupDAO {
 		return mybatis.delete("Group.delete", seq);
 	}
 	
-	public int update(GroupDTO gdto) {
+	public int update(GroupDTO gdto) throws ParseException {
+		String start_date = gdto.getStart_date();
+		String end_date = gdto.getEnd_date();
+
+		SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
+
+		Date start = fm.parse(start_date);
+		Date end = fm.parse(end_date);
+		
+		// Date로 변환된 두 날짜를 계산한 뒤 그 리턴값으로 long type 변수를 초기화 하고 있다.
+        // 연산결과 -950400000. long type 으로 return 된다.
+        long calDate = start.getTime() - end.getTime(); 
+        
+        // Date.getTime() 은 해당날짜를 기준으로1970년 00:00:00 부터 몇 초가 흘렀는지를 반환해준다. 
+        // 이제 24*60*60*1000(각 시간값에 따른 차이점) 을 나눠주면 일수가 나온다.
+        long calDateDays = calDate / (24 * 60 * 60 * 1000); 
+ 
+        calDateDays = Math.abs(calDateDays);
+        
+        if (calDateDays >= 365) {
+        	gdto.setPeriod("장기");
+        } else {
+        	gdto.setPeriod("단기");
+        }
+        
 		return mybatis.update("Group.update", gdto);
 	}
 	
@@ -140,13 +191,26 @@ public class GroupDAO {
 		
 		List<GroupDTO> glist = new ArrayList<>();
 		
-		if (search.get("searchType").toString().contentEquals("contents")) {
+		if (search.containsKey("searchType") && search.get("searchType").toString().contentEquals("contents")) {
 			glist = mybatis.selectList("Group.searchContents", search);
 		} else {
 			glist = mybatis.selectList("Group.search", search);
 		}
 		
 		return glist;
+	}
+	
+	public List<GroupDTO> searchDate(int cpage, Map<String, Object> dates) {
+		int start = cpage * Configuration.RECORD_COUNT_PER_PAGE - (Configuration.RECORD_COUNT_PER_PAGE - 1);
+		int end = start + (Configuration.RECORD_COUNT_PER_PAGE - 1);
+		
+		dates.put("start", start);
+		dates.put("end", end);
+		
+		System.out.println(dates.get("dateStart"));
+		System.out.println(dates.get("dateEnd"));
+		
+		return mybatis.selectList("Group.searchDate", dates);
 	}
 	
 	//리뷰 글쓰기
@@ -157,5 +221,4 @@ public class GroupDAO {
 	public List<ReviewDTO> reviewList(int seq) {
 		return mybatis.selectList("Group.reviewList",seq);
 	}
-	
 }

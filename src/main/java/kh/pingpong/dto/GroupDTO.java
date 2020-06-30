@@ -12,6 +12,7 @@ public class GroupDTO {
 	private String apply_end;
 	private String start_date;
 	private String end_date;
+	private String period;
 	private int max_num;
 	private int cur_num;
 	private String location;
@@ -27,7 +28,7 @@ public class GroupDTO {
 	
 	public GroupDTO() {}
 	public GroupDTO(int seq, String title, String writer_id, String writer_name, String hobby_type, String apply_start, String apply_end, String start_date,
-			String end_date, int max_num, int cur_num, String location, String contents, Timestamp write_date,
+			String end_date, String period, int max_num, int cur_num, String location, String contents, Timestamp write_date,
 			int view_count, int like_count, int app_count, int review_count, Double review_point, String applying, String proceeding) {
 		super();
 		this.seq = seq;
@@ -38,6 +39,7 @@ public class GroupDTO {
 		this.apply_start = apply_start;
 		this.start_date = start_date;
 		this.end_date = end_date;
+		this.period = period;
 		this.max_num = max_num;
 		this.cur_num = cur_num;
 		this.location = location;
@@ -104,6 +106,12 @@ public class GroupDTO {
 	}
 	public void setEnd_date(String end_date) {
 		this.end_date = end_date;
+	}
+	public String getPeriod() {
+		return period;
+	}
+	public void setPeriod(String period) {
+		this.period = period;
 	}
 	public int getMax_num() {
 		return max_num;

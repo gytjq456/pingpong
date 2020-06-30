@@ -1,5 +1,6 @@
 package kh.pingpong.service;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -32,7 +33,7 @@ public class GroupService {
 	}
 	
 	@Transactional("txManager")
-	public int insertGroup(GroupDTO gdto) {
+	public int insertGroup(GroupDTO gdto) throws ParseException {
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
 		String writer_id = loginInfo.getId();
 		gdao.insertGroup(gdto);
@@ -52,7 +53,7 @@ public class GroupService {
 	}
 	
 	@Transactional("txManager")
-	public int update(GroupDTO gdto) {
+	public int update(GroupDTO gdto) throws ParseException {
 		return gdao.update(gdto);
 	}
 	
@@ -92,6 +93,10 @@ public class GroupService {
 	
 	public List<GroupDTO> selectListOption(int cpage, Map<String, Object> param) {
 		return gdao.selectListOption(cpage, param);
+	}
+	
+	public List<GroupDTO> searchDate(int cpage, Map<String, Object> dates) {
+		return gdao.searchDate(cpage, dates);
 	}
 	
 	public String getPageNav(int currentPage, String orderBy) throws Exception{

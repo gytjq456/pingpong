@@ -3,6 +3,7 @@ package kh.pingpong.controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,7 +72,7 @@ public class GroupController {
 	}
 	
 	@RequestMapping("writeProc")
-	public String groupWriteProc(GroupDTO gdto, Model model) {
+	public String groupWriteProc(GroupDTO gdto, Model model) throws ParseException {
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
 		String id = loginInfo.getId();
 		String name = loginInfo.getName();
@@ -128,7 +129,7 @@ public class GroupController {
 	}
 	
 	@RequestMapping("updateProc")
-	public String groupUpdateProc(GroupDTO gdto, Model model) {
+	public String groupUpdateProc(GroupDTO gdto, Model model) throws ParseException {
 		gservice.update(gdto);
 		model.addAttribute("seq", gdto.getSeq());
 		return "redirect:/group/view";
@@ -231,7 +232,7 @@ public class GroupController {
 	}
 	
 	@RequestMapping("search")
-	public String search(String orderBy, String hobby_type, String searchType, String searchThing, HttpServletRequest request, Model model) throws Exception {
+	public String search(String orderBy, String searchType, String searchThing, String hobbyType, String period, HttpServletRequest request, Model model) throws Exception {
 		int cpage = 1;
         try {
            cpage = Integer.parseInt(request.getParameter("cpage"));
@@ -239,8 +240,19 @@ public class GroupController {
         
 		Map<String, Object> search = new HashMap<>();
 		
-		search.put("searchType", searchType);
-		search.put("searchThing", searchThing);
+		if (!hobbyType.contentEquals("")) {
+			search.put("hobby_type", hobbyType);
+		}
+		
+		if (!searchThing.contentEquals("null")) {
+			search.put("searchType", searchType);
+			search.put("searchThing", searchThing);
+		}
+		
+		if (!period.contentEquals("null")) {
+			search.put("period", period);
+		}
+		
 		search.put("orderBy", orderBy);
 		
 		List<HobbyDTO> hblist = gservice.selectHobby();
@@ -252,6 +264,30 @@ public class GroupController {
 		model.addAttribute("navi", navi);
 		
 		return "/group/main";
+	}
+	
+	@RequestMapping("searchDate")
+	public String searchDate(String orderBy, String dateStart, String dateEnd, HttpServletRequest request, Model model) throws Exception {
+		int cpage = 1;
+        try {
+           cpage = Integer.parseInt(request.getParameter("cpage"));
+        } catch (Exception e) {}
+        
+        Map<String, Object> dates = new HashMap<>();
+        
+        dates.put("orderBy", orderBy);
+        dates.put("dateStart", dateStart);
+        dates.put("dateEnd", dateEnd);
+        
+        List<HobbyDTO> hblist = gservice.selectHobby();
+        List<GroupDTO> glist = gservice.searchDate(cpage, dates);
+        String navi = gservice.getPageNav(cpage, orderBy);
+        
+        model.addAttribute("hblist", hblist);
+        model.addAttribute("glist", glist);
+        model.addAttribute("navi", navi);
+        
+        return "/group/main";
 	}
 	
 	@RequestMapping(value="imgUpload", produces="application/json")
@@ -282,7 +318,6 @@ public class GroupController {
 		return jsonObject;
 	}
 	
-	
 	// 리뷰 글쓰기 
 	@ResponseBody
 	@RequestMapping("reviewWrite")
@@ -296,9 +331,4 @@ public class GroupController {
 			return String.valueOf(false); 
 		}
 	}
-	
-	
-	
-	
-	
 }

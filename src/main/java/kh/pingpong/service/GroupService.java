@@ -1,5 +1,6 @@
 package kh.pingpong.service;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -32,11 +33,11 @@ public class GroupService {
 	}
 	
 	@Transactional("txManager")
-	public int insertGroup(GroupDTO gdto) {
+	public int insertGroup(GroupDTO gdto) throws ParseException {
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
-		String writer = loginInfo.getId();
+		String writer_id = loginInfo.getId();
 		gdao.insertGroup(gdto);
-		return gdao.searchSeq(writer);
+		return gdao.searchSeq(writer_id);
 	}
 	
 	public List<GroupDTO> selectList(int cpage, String orderBy) {
@@ -52,7 +53,7 @@ public class GroupService {
 	}
 	
 	@Transactional("txManager")
-	public int update(GroupDTO gdto) {
+	public int update(GroupDTO gdto) throws ParseException {
 		return gdao.update(gdto);
 	}
 	
@@ -92,6 +93,10 @@ public class GroupService {
 	
 	public List<GroupDTO> selectListOption(int cpage, Map<String, Object> param) {
 		return gdao.selectListOption(cpage, param);
+	}
+	
+	public List<GroupDTO> searchDate(int cpage, Map<String, Object> dates) {
+		return gdao.searchDate(cpage, dates);
 	}
 	
 	public String getPageNav(int currentPage, String orderBy) throws Exception{
@@ -148,7 +153,6 @@ public class GroupService {
 		sb.append("</ul>");
 
 		return sb.toString();
-
 	}
 	
 	// 리뷰 글쓰기
@@ -160,6 +164,4 @@ public class GroupService {
 	public List<ReviewDTO> reviewList(int seq) throws Exception{
 		return gdao.reviewList(seq);
 	}	
-	
-	
 }

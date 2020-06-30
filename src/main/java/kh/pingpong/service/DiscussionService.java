@@ -1,11 +1,13 @@
 package kh.pingpong.service;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import kh.pingpong.config.Configuration;
 import kh.pingpong.dao.DiscussionDAO;
 import kh.pingpong.dto.CommentDTO;
 import kh.pingpong.dto.DiscussionDTO;
@@ -109,4 +111,58 @@ public class DiscussionService {
 	public LanguageDTO langSelectlOne(String original_lang) throws Exception {
 		return disDao.langSelectlOne(original_lang);
 	}
+	
+	// 토론 게시글 페이징
+	public String getPageNavi_discussion(int userCurrentPage) throws SQLException, Exception {
+		int recordTotalCount = disDao.getArticleCount_discussion(); 
+		
+		int pageTotalCount = 0; // 모든 페이지 개수
+		
+		if(recordTotalCount % 10 > 0) {
+			pageTotalCount = recordTotalCount / 10 + 1;
+			//게시글 개수를 페이지당 게시글로 나누어 나머지 값이 있으면 한 페이지를 더한다.
+		}else {
+			pageTotalCount = recordTotalCount / 10;
+		}
+		
+		int currentPage = userCurrentPage;//현재 내가 위치한 페이지 번호.	클라이언트 요청값
+		//공격자가 currentPage를 변조할 경우에 대한 보안처리
+		if(currentPage < 1) {
+			currentPage = 1;
+		}else if(currentPage > pageTotalCount) {
+			currentPage = pageTotalCount;
+		}
+		
+		int startNavi = (currentPage - 1) / Configuration.NAVI_COUNT_PER_PAGE * Configuration.NAVI_COUNT_PER_PAGE + 1;
+		
+		int endNavi = startNavi + Configuration.NAVI_COUNT_PER_PAGE - 1;
+		
+		if(endNavi > pageTotalCount) {endNavi = pageTotalCount;}
+		
+		boolean needPrev = true;
+		boolean needNext = true;
+		
+		if(startNavi == 1) {needPrev = false;}
+		if(endNavi == pageTotalCount) {needNext = false;}		
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append("<ul>");
+		if(needPrev) {
+			sb.append("<li><a href='/discussion/list?cpage="+(startNavi-1)+"'><</a></li>");
+		}
+		for(int i = startNavi ; i<=endNavi; i++) {
+			if(userCurrentPage == i) {
+				sb.append("<li class='on'><a href='/discussion/list?cpage="+i+"'>"+i+"</a></li>");//袁몃ŉ二쇰뒗 寃�
+			}else {
+				sb.append("<li><a href='/discussion/list?cpage="+i+"'>"+i+"</a></li>");//袁몃ŉ二쇰뒗 寃�
+			}
+		}
+		if(needNext) {
+			sb.append("<li><a href='/discussion/list?cpage="+(endNavi+1)+"'>></a></li>");
+		}
+		sb.append("</ul>");
+		
+		return sb.toString();
+	}
+	
 }

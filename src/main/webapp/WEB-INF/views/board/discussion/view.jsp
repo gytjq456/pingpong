@@ -39,7 +39,7 @@
 			var textCont = $("#textCont");
 			$("#commentForm").submit(function(){
 		        var form = $('#commentForm')[0];
-		        var formData = new FormData(form);		
+		        var formData = new FormData(form);
 		        if(opinion.val() == ""){
 		        	alert("의견을 선택해주세요.");
 		        	opinion.focus();
@@ -118,7 +118,6 @@
 			})
 			
 			
-			
 			// 리뷰 글자수 체크
 			$("#discussion_view").find("#textCont").keyup(function(){
 				var word = $(this).val();
@@ -138,7 +137,14 @@
 			// 파파고 번역하기
 			//번역을 위해서 button 이벤트를 위해서 사용하는 것
 			var langCountry = $(".langCountry")
-			var langCountryVal;
+			var langCountryVal = "ko";
+			var lanArr = {
+				ko : "영어, 일본어, 중국어, 베트남어, 인도네시아어, 태국어, 독일어, 러시아어, 스페인어, 이탈리아어, 프랑스어",
+				en : "한국어,일본어 ,프랑스어, 중국어",
+				ja : "한국어,영어,중국어",
+				zhCN : "한국어,영어,일본어,중국어 번체",
+				zhTW : "한국어,영어,일본어,중국어 간체"
+			}
 			langCountry.find("select").on("change",function(){
 				langCountryVal = $(this).val();
 			})
@@ -158,9 +164,27 @@
 					success : function(data) { //서블렛을 통한 결과 값을 받을 수 있습니다.
 						console.log(data);
 						//결과값을 textarea에 넣기 위해서
-						console.log(data.message.result.translatedText)
-						var result = data.message.result.translatedText;
-						$(".convert").text(result);
+						
+						var json = data[1];
+						var obj = JSON.parse(json);
+						console.log(obj)
+						if(data.errorCode == "undefined"){
+							if(data[0] == "ko"){
+								alert(lanArr.ko+"만 번역이 가능합니다.")
+							}else if(data[0] == "en"){
+								alert(lanArr.en+"만 번역이 가능합니다.")
+							}else if(data[0] == "ja"){
+								alert(lanArr.ja+"만 번역이 가능합니다.")
+							}else if(data[0] == "zh-CN"){
+								alert(lanArr.zhCN+"만 번역이 가능합니다.")
+							}else if(data[0] == "zh-TW"){
+								alert(lanArr.zhTW+"만 번역이 가능합니다.")
+							}
+							
+						}else{
+							var text = obj.message.result.translatedText;
+							$(".convert").text(text);
+						}
 					},
 					error : function(e) {
 						console.log(e);

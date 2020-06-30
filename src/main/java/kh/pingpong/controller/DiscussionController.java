@@ -11,7 +11,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.google.gson.Gson;
 
 import kh.pingpong.dto.CommentDTO;
 import kh.pingpong.dto.DiscussionDTO;
@@ -47,8 +50,16 @@ public class DiscussionController {
 
 	// 글 목록 페이지
 	@RequestMapping("list")
-	public String list(Model model) throws Exception{
+	public String list(Model model, HttpServletRequest request) throws Exception{
 		List<DiscussionDTO> list = disService.selectAll();
+		
+		int cpage = 1;
+        try {
+           cpage = Integer.parseInt(request.getParameter("cpage"));
+        } catch (Exception e) {}
+        
+        String navi = disService.getPageNavi_discussion(cpage);
+		model.addAttribute("navi", navi);
 		model.addAttribute("list", list);
 		return "board/discussion/list";
 	}
@@ -203,15 +214,16 @@ public class DiscussionController {
 	
 	// 파파고
 	@ResponseBody
-	@RequestMapping(value="papago", produces="application/json;charset=utf8")
+	@RequestMapping(value="papago", produces="application/json;charset=utf8", method=RequestMethod.POST)
 	public String papago(HttpServletRequest request) throws Exception{
 		String original_str = (String)request.getParameter("original_str");
 		String original_lang = (String)request.getParameter("original_lang");
 		String change_lang = (String)request.getParameter("change_lang");
 		
 		LanguageDTO lang = disService.langSelectlOne(original_lang);
-		String txt = papagoService.nmtReturnRseult(original_str, lang, change_lang);
-		return txt;
+		String[] resultString = papagoService.nmtReturnRseult(original_str, lang, change_lang);
+		System.out.println(resultString);
+		return new Gson().toJson(resultString);
 	}
 	
 	

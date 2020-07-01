@@ -14,9 +14,14 @@ import javax.websocket.RemoteEndpoint.Basic;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
+import kh.pingpong.service.ChatService;
+
 @ServerEndpoint(value="/chat", configurator = HttpSessionCofigurator.class)
 public class WebChat {
-
+	
+	private ChatService cservice = MyApplicationContextAware.getApplicationContext().getBean(ChatService.class);
+	
+	
 	private static Set<Session> clients = Collections.synchronizedSet(new HashSet<>());
 	HttpSession session;
 	@OnOpen

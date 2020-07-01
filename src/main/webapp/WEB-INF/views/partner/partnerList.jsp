@@ -2,8 +2,6 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <jsp:include page="/WEB-INF/views/header.jsp"/>
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="/resources/js/sojaeji.js"></script>
 <script>
 	$(function() {
 		$(".box").on("click", function() {
@@ -44,18 +42,37 @@
 		})
 		
 		//시군 
-		   new sojaeji('sido1', 'gugun1');
+		new sojaeji('sido1', 'gugun1');
 		   
-		   $('#gugun1').change(function(){
-		         var sido = $('#sido1 option:selected').val();
-		         var gugun = $('#gugun1 option:selected').val();
-		         console.log(sido);
-		         console.log(gugun);
-		         console.log($('#address').val(sido + ' ' + gugun));
-		    });
+		$('#gugun1').change(function(){
+			var sido = $('#sido1 option:selected').val();
+			var gugun = $('#gugun1 option:selected').val();
+			console.log(sido);
+			console.log(gugun);
+			console.log($('#address').val(sido + ' ' + gugun));
+		});
+		
+		
+		// 채팅 
+		$(".chatting").on("click",function(){
+			$.ajax({
+				url:"/chatting/create",
+				type:"post",
+				dataType:"json",
+				data:{
+					user:"홍길동"
+				}
+			}).done(function(resp){
+				if(resp){
+					alert("채팅방 생성")
+				}else{
+					alert("채팅방 존재")
+				}
+			})
+		});
+		
 	})
 </script>
-</head>
 <body>
 	<h2>파트너를 등록해주세요</h2>
 	<div>자신의 프로필을 공유하여 다른 사람들과 소통해보세요.</div>
@@ -65,13 +82,13 @@
 	<div class="profileShareAgree">
 		<form action="/partner/insertPartner" id="partnerRegister" method="post">
 			프로필 공유 동의 <input type="checkbox" name="agree" id="agree">(필수)<br> 
-			<span><input type="checkbox" name="contactList" id="letter" value="쪽지">쪽지</span> 
-			<span><input type="checkbox" name="contactList" id="email" value="이메일">이메일</span> 
-			<span><input type="checkbox" name="contactList" id="chat" value="채팅" checked>채팅</span><br>
 			<input type="text" name="contact" id="contact">
 			1:1 기본적으로 제공되는 서비스입니다.
 			<button type="button" id="partnerBtn">등록</button>
 		</form>
+		<span><button type="button" name="contactList" id="letter" >쪽지</button></span> 
+		<span><button type="button" name="contactList" id="email" >이메일</button></span> 
+		<span><button type="button" name="contactList" id="chatting" >채팅</button></span><br>
 	</div>
 	
 	<form action="/partner/partnerSearch" method="post">
@@ -130,7 +147,7 @@
 			</div>
 			<div class="button_aa">
 				<button class="letter">쪽지</button>
-				<button class="chat">채팅</button>
+				<button class="chatting" >채팅</button>
 				<button class="email_a">이메일</button>
 			</div>
 		</div>

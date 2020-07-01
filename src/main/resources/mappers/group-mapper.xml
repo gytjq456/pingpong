@@ -164,6 +164,10 @@
 		) where 6 > rnum
 	</select>
 	
+	<update id="updateAppCount">
+		update grouplist set app_count = app_count + 1 where seq = #{seq}
+	</update>
+	
 	<!-- 리뷰 글쓰기  -->
 	<insert id="reviewWrite">
 		insert into review values(review_seq.nextval, #{writer}, #{point}, #{contents}, default, #{category}, #{parent_seq})

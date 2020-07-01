@@ -61,7 +61,9 @@ public class GroupService {
 		return gdao.updateViewCount(seq);
 	}
 	
+	@Transactional("txManager")
 	public int insertApp(GroupApplyDTO gadto) {
+		gdao.updateAppCount(gadto.getParent_seq());
 		return gdao.insertApp(gadto);
 	}
 	
@@ -104,8 +106,11 @@ public class GroupService {
 	}
 	
 	public List<GroupDTO> relatedGroup(List<String> hobby_arr) {
-		System.out.println(hobby_arr);
 		return gdao.relatedGroup(hobby_arr);
+	}
+	
+	public int selectCount() {
+		return gdao.selectCount();
 	}
 	
 	public String getPageNav(int currentPage, String orderBy) throws Exception{

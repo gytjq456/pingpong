@@ -228,6 +228,10 @@ public class GroupDAO {
 		return mybatis.selectList("Group.relatedGroup", hobby_arr);
 	}
 	
+	public int updateAppCount(int seq) {
+		return mybatis.update("Group.updateAppCount", seq);
+	}
+	
 	//리뷰 글쓰기
 	public int reviewWrite(ReviewDTO redto) throws Exception{
 		return mybatis.insert("Group.reviewWrite",redto);

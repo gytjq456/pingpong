@@ -53,31 +53,7 @@
 		});
 		
 		
-		// 채팅 
-		$(".chatting").on("click",function(){
-			var uid = $(this).data("uid");
-			var uname = $(this).data("name");
-			if("${sessionScope.loginInfo}" == ""){
-				alert("로그인후 이용이 가능합니다.")
-				location.href="/member/login";
-				return false;
-			}
-			$.ajax({
-				url:"/chatting/create",
-				type:"post",
-				dataType:"json",
-				data:{
-					userId:uid,
-					userName:uname
-				}
-			}).done(function(resp){
-				if(resp){
-					alert("채팅방 생성")
-				}else{
-					alert("채팅방 존재")
-				}
-			})
-		});
+		
 		
 	})
 </script>

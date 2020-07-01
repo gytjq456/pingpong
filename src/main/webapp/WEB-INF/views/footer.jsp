@@ -48,9 +48,35 @@
 			}).done(function(resp){
 				console.log(resp)
 				for(var i=0; i<resp.length; i++){
-					$("#chatRoom").append("<li>"+resp[i].name+"</li>")
+					$("#chatRoom").append("<li>"+resp[i].name+"<button data-uid="+resp[i].id+" data-name="+resp[i].name+" class='chatting'>채팅</button></li>")
 				};
 			})
+			
+			// 채팅 
+			$(document).on("click",".chatting",function(){
+				var uid = $(this).data("uid");
+				var uname = $(this).data("name");
+				if("${sessionScope.loginInfo}" == ""){
+					alert("로그인후 이용이 가능합니다.")
+					location.href="/member/login";
+					return false;
+				}
+				$.ajax({
+					url:"/chatting/create",
+					type:"post",
+					dataType:"json",
+					data:{
+						userId:uid,
+						userName:uname
+					}
+				}).done(function(resp){
+					if(resp){
+						alert("채팅방 생성")
+					}else{
+						alert("채팅방 존재")
+					}
+				})
+			});
 			
 			
 			//var ws = new WebSocket("ws://localhost/chat");

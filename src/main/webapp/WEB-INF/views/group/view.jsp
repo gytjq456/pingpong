@@ -7,37 +7,43 @@
 	* { box-sizing: border-box; }
 	#seq { display: none; }
 	.group_info { display: inline-block; }
+	.group_info_top { float: left; }
+	.group_title_wrapper { overflow: hidden; }
 	#writer_info { width: 30%; position: relateive; }
-	#group_base { width: 65%; position: absolute; top: 0; right: 2%; }
-	#writer_profile { width: 300px; height: 300px; border-radius: 50%; text-align: center; line-height: 300px; position: relative; top: 50%; left: 50%; transform: translate(-50%, 0); overflow: hidden; }
+	#group_base { width: 62%; margin-left: 3%; }
+	#writer_profile { width: 240px; height: 240px; border-radius: 50%; text-align: center; line-height: 300px; position: relative; top: 50%; left: 50%; transform: translate(-50%, 0); overflow: hidden; }
 	#writer_name_id { position: relative; left: 50%; transform: translate(-50%, 0); display: inline-block; margin-top: 20px; }
-	.base_info { position: relative; width: 95%; }
-	#group_title { font-size: 40px; font-weight: bold; margin: 10px; }
-	#group_base_info { padding: 15px; border-bottom: 1px solid #ddd; }
+	.base_info { position: relative; }
+	#group_title { font-size: 40px; font-weight: bold; word-break: break-all; margin-bottom: 15px; }
+	#group_base_info { padding: 15px 0; border-bottom: 1px solid #ddd; }
 	#group_base_info span { position: relative; }
 	#group_base_info span i { margin-right: 5px; }
-	#point_avg { left: 10px; }
-	#like { right: -74%; }
-	#jjim { right: -75%; }
-	#report { right: -76%; }
-	#point i { color: #fcba03; }
+	#like { right: -70%; }
+	#jjim { right: -72%; }
+	#report { right: -74%; }
+	#point_avg i { color: #fcba03; }
 	#like i { color: #3162a4; }
 	#jjim i { color: #fbaab0; }
 	#report i { color: #fc0303; }
-	.info_with_icon { width: 24.7%; display: inline-block; position: relative; text-align: center; padding-bottom: 20px; padding-top: 40px; }
+	.info_with_icon { width: 24.6%; display: inline-block; position: relative; text-align: center; padding-bottom: 20px; padding-top: 40px; vertical-align: top; }
 	.info_with_icon i { font-size: 50px; margin-bottom: 15px; }
 	#group_tab_menu { width: 100%; }
 	#group_contents_wrapper { position: relative; }
 	#group_contents { width: 69%; vertical-align: top; }
 	#group_optional { width: 30%; border-left: 1px solid #ddd; padding: 0 30px; }
 	#group_view_card { position: relative; }
-	#group_optional .optional_menu { font-size: 22px; }
+	#group_optional .optional_menu { font-size: 22px; margin-bottom: 5px; }
 	#group_optional .member_profile { display: inline-block; width: 50px; height: 50px; border-radius: 50%; border: 1px solid #ddd; line-height: 50px; text-align: center; margin-right: 5px; }
 	#group_optional .optional_sub { font-weight: bold; }
 	#group_optional span { margin-right: 5px; }
 	#group_optional #like_count { border-right: 1px solid #ddd; padding-right: 10px; }
 	#group_optional .optional_box { margin-bottom: 20px; }
 	#related_group_title { font-size: 22px; }
+	#view_btns button { width: 49%; display: inline-block; }
+	#view_btns #toList { width: 100%; margin-top: 5px; }
+	#view_btns #applyForm, #view_btns #update { margin-right: 2px; }
+	#writer_profile img { vertical-align: top; }
+	#map { width: 100%; height: 200px; margin-top: 10px; }
 </style>
 <script>
 	$(function(){
@@ -56,7 +62,9 @@
 		
 		var checkLike = ${checkLike};
 		if (checkLike) {
-			$('#like').css('color', 'red');
+			$('#like').css('color', '#3162a4');
+			$('#like i').removeClass('fa-thumbs-o-up');
+			$('#like i').addClass('fa-thumbs-up');
 		}
 		
 		// 리뷰 
@@ -163,16 +171,16 @@
 		<section id="subContents">
 			<article id="group_view" class="inner1200 clearfix">
 				<div class="group_title_wrapper card_body">
-					<div id="writer_info" class="group_info">
+					<div id="writer_info" class="group_info_top">
 						<div id="writer_profile"><img src="/resources/img/sub/userThum.jpg"/></div>
 						<div id="writer_name_id">${gdto.writer_name}(${gdto.writer_id})</div>
 					</div>
-					<div id="group_base" class="group_info">
+					<div id="group_base" class="group_info_top">
 						<span id="seq">${gdto.seq}</span>
 						<div id="group_base_info" class="base_info">
 							<div id="group_title">${gdto.title}</div>
 							<span id="point_avg"><i class="fa fa-star" aria-hidden="true"></i>${gdto.review_point}</span>
-							<span id="like"><i class="fa fa-thumbs-up" aria-hidden="true"></i>추천</span>
+							<span id="like"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>추천</span>
 							<span id="jjim"><i class="fa fa-heart-o" aria-hidden="true"></i>찜하기</span>
 							<span id="report"><i class="fa fa-exclamation" aria-hidden="true"></i>신고</span>
 						</div>
@@ -187,7 +195,7 @@
 							</div>
 							<div class="info_with_icon">
 								<i class="fa fa-users" aria-hidden="true"></i><br>
-								${gdto.max_num}
+								${gdto.max_num}명
 							</div>
 							<div class="info_with_icon">
 								<c:if test="${fn:startsWith(gdto.hobby_type, '영화')}">
@@ -251,22 +259,29 @@
 									</div>
 								</div>
 								<div class="optional_box">
+									<div class="optional_menu">위치</div>
+									<div>${gdto.location}</div>
+									<div id="map"></div>
+								</div>
+								<div class="optional_box">
 									<span class="optional_sub">추천</span>
 									<span id="like_count">${gdto.like_count}</span>
 									<span class="optional_sub">조회</span><span>${gdto.view_count}</span><br>
 									<span class="optional_sub">작성일</span><span>${gdto.write_date}</span><br>
 								</div>
-								<c:choose>
-									<c:when test="${sessionScope.loginInfo.id == gdto.writer_id}">
-										<button type="button" id="update">수정</button>
-										<button type="button" id="delete">삭제</button>
-									</c:when>
-									<c:otherwise>
-										<button type="button" id="applyForm" onclick="javascript:applyPopup()">신청</button>
-										<button type="button" id="deleteForm" onclick="javascript:deletePopup()">탈퇴</button>
-									</c:otherwise>
-								</c:choose>
-								<button type="button" id="toList" onclick="javascript:toList()">목록</button>
+								<div class="btnS1" id="view_btns">
+									<c:choose>
+										<c:when test="${sessionScope.loginInfo.id == gdto.writer_id}">
+												<button type="button" id="update">수정</button>
+												<button type="button" id="delete">삭제</button>
+										</c:when>
+										<c:otherwise>
+												<button type="button" id="applyForm">신청</button>
+												<button type="button" id="deleteForm">탈퇴</button>
+										</c:otherwise>
+									</c:choose>
+									<button type="button" id="toList" onclick="javascript:toList()">목록</button>
+								</div>
 							</div>
 						</div>
 					</article>
@@ -387,23 +402,8 @@
 			</article>
 		</section>
 	</div>
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=033532d2fa35e423d2d5e723c0bfd1fe&libraries=services"></script>
 	<script>
-		function applyPopup() {
-			var seq = $('#seq').html();
-			var url = '/group/applyForm/parent_seq/' + seq;
-			var name = 'GroupApply';
-			var option = 'width = 500, height = 500, top = 100, left = 200, location = no';
-			window.open(url, name, option);
-		}
-		
-		function deletePopup() {
-			var seq = $('#seq').html();
-			var url = '/group/outForm/parent_seq/' + seq;
-			var name = 'GroupOut';
-			var option = 'width = 500, height = 500, top = 100, left = 200, location = no';
-			window.open(url, name, option);
-		}
-		
 		function toList() {
 			location.href = '/group/main?orderBy=seq';
 		}
@@ -427,7 +427,53 @@
 				location.href = '/group/view?seq=' + seq;
 			})
 		})
+		
+		var inputLocation = '${gdto.location}';
+		
+		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+		    mapOption = { 
+		        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+		        level: 3 // 지도의 확대 레벨
+		    };  
+		
+		var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+		
+		// 주소-좌표 변환 객체를 생성합니다
+		var geocoder = new kakao.maps.services.Geocoder();
+		
+		geocoder.addressSearch(inputLocation, function(result, status) {
+
+		    // 정상적으로 검색이 완료됐으면 
+		     if (status === kakao.maps.services.Status.OK) {
+
+		        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+		        // 결과값으로 받은 위치를 마커로 표시합니다
+		        var marker = new kakao.maps.Marker({
+		            map: map,
+		            position: coords
+		        });
+
+				// 지도에 표시할 원을 생성합니다
+				var circle = new kakao.maps.Circle({
+				    center : new kakao.maps.LatLng(result[0].y, result[0].x),  // 원의 중심좌표 입니다 
+				    radius: 50, // 미터 단위의 원의 반지름입니다 
+				    strokeWeight: 1, // 선의 두께입니다 
+				    strokeColor: '#75B8FA', // 선의 색깔입니다
+				    strokeOpacity: 1, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+				    fillColor: '#CFE7FF', // 채우기 색깔입니다
+				    fillOpacity: 0.7  // 채우기 불투명도 입니다   
+				}); 
+				
+				// 지도에 원을 표시합니다 
+				circle.setMap(map); 
+		        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+		        map.setCenter(coords);
+		    } 
+		});    
+		
 	</script>
 
-
+<jsp:include page="/WEB-INF/views/group/apply.jsp" />
+<jsp:include page="/WEB-INF/views/group/out.jsp" />
 <jsp:include page="/WEB-INF/views/footer.jsp"/>

@@ -50,9 +50,28 @@ $(document).ready(function(){
     	})
     }
     
+    //tutor일때 튜터신청 이미 했다고 말해주려고
+    $("#tutorApp").on("click", function(){
+
+    	$.ajax({
+    		url: "/tutor/tutorTrue",
+    		type: 'POST'
+    	}).done(function(resp){
+    		console.log(resp);
+    		if(resp=='Y'){
+    			alert("이미 튜터입니다.");
+    			return false;
+    		}else if(resp=='N'){
+    			alert("이미 신청하셨습니다. 신청 완료가 될때까지 기다려주세요.");
+    			return false;
+    		}
+    		
+    		location.href="/tutor/tutorApp"
+    	})
+        
+    })
+
 });
-
-
 
 
 function init(){

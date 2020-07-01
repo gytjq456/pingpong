@@ -14,6 +14,11 @@
 		var tid;
 		var time = 10;
 		
+		//체크박스
+		var ckbox1 = $("input:checkbox[name=ckbox1]");
+		var ckIsNull = ckbox1.is(":checked") == true;
+		var count = $('input:checkbox[name=ckbox1]:checked').length;
+		
 		function setTimer(){
 			tid = setInterval(function(){
 				time--;
@@ -123,12 +128,29 @@
 						</dd>
 					</dl>
 				</div>
-				<div>
-					<div>개인정보취급방침</div>
-					<!-- s -->
-						
-					<!-- e -->
+				<br>
+				<div class="joinbox">
+					<h3>이용약관</h3>
+					<div class="text01">
+						<div style="border:1px solid #ddd;">
+							하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하
+						</div>
+						<input type="checkbox" name="ckbox1" value="ckbox1" id="ckbox1"/>
+						<label for="ckbox1" >이용약관 동의</label>
+					</div>					
 				</div>
+				<br>
+				<div class="joinbox">
+					<h3>개인정보 수집 및 이용동의</h3>
+					<div class="text01">
+						<div style="border:1px solid #ddd;">
+							하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하
+						</div>
+						<input type="checkbox" name="ckbox2" value="ckbox2" id="ckbox2"/>
+						<label for="ckbox2">개인정보 수집 및 이용에 동의합니다.</label>
+					</div>					
+				</div>
+				<br>
 				<button type="button" id="join" name="join">다음</button>
 			</div>
 		</div>

@@ -26,11 +26,54 @@
 			<div class="tit_s1">
 				<h2>강의 목록</h2>
 			</div>
-
+			
 			<div class="btnS1 right">
-				<p>
-					<a href="/tutor/lessonApp" class="on">강의 신청</a>
-				</p>
+				<c:choose>
+					<c:when test="${loginInfo.grade == 'tutor' }">
+						<p>
+							<a href="/tutor/lessonApp" class="on">강의 신청</a>
+						</p>
+					</c:when>
+				</c:choose>
+				
+			</div>
+			<!-- 검색 3가지 -->
+			<div class="tab_s1">
+				<ul class="clearfix">
+					<li class="on"><a href="#;">키워드 검색</a></li>
+					<li><a href="#;">달력 검색</a></li>
+					<li><a href="#;">지도 검색</a></li>
+				</ul>
+			</div>
+
+			<div id="tabContWrap">
+				<article id="tab_1" class="kewordSch">키워드 검색</article>
+				<article id="tab_2" class="calendarSch">달력 검색</article>
+				<article id="tab_3" class="mapSch">지도 검색</article>
+			</div>
+
+			<!-- 정렬 전체 모집중 진행중 마감 -->
+			<div class="btnS1 left">
+				<div>
+					<button type="button" id="all" class="ing">전체</button>
+				</div>
+				<div>
+					<button type="button" id="applying" class="ing">모집중</button>
+				</div>
+				<div>
+					<button type="button" id="proceeding" class="ing">진행중</button>
+				</div>
+				<div>
+					<button type="button" id="done" class="ing">마감</button>
+				</div>
+			</div>
+			<div>
+				<select id="orderBy">
+					<option value="seq">최신순</option>
+					<option value="view_count">조회순</option>
+					<option value="like_count">추천순</option>
+					<option value="review_point">평점순</option>
+				</select>
 			</div>
 
 			<div>

@@ -99,6 +99,15 @@ public class GroupService {
 		return gdao.searchDate(cpage, dates);
 	}
 	
+	public List<GroupDTO> searchLocation(int cpage, Map<String, Object> map) {
+		return gdao.searchLocation(cpage, map);
+	}
+	
+	public List<GroupDTO> relatedGroup(List<String> hobby_arr) {
+		System.out.println(hobby_arr);
+		return gdao.relatedGroup(hobby_arr);
+	}
+	
 	public String getPageNav(int currentPage, String orderBy) throws Exception{
 		// 총 게시물
 		int recordTotalCount = gdao.selectCount();

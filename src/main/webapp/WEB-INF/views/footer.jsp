@@ -17,7 +17,9 @@
 		</section>
 	</footer>
 	
-	
+	<section id="chatRoom">
+		<p>하하하</p>
+	</section>	
 	<section id="chatWrap">
 		<div class="title clearfix">
 			<i class="fa fa-users" aria-hidden="true"></i>
@@ -37,10 +39,21 @@
 	
 	<script>
 		$(function(){
+			$.ajax({
+				url:"/partner/chatPartner",
+				data:"post",
+				dataType:"json"
+			}).done(function(resp){
+				console.log(resp)
+				console.log("tset" + resp.length)
+			})
+			
+			
 			//var ws = new WebSocket("ws://localhost/chat");
 			var ws = new WebSocket("ws://192.168.60.58/chat");
 			ws.onmessage = function(e){
 				var msg = JSON.parse(event.data);
+				console.log("msg :" + msg)
 				var time = new Date(msg.date);
 				var timeStr = time.toLocaleTimeString();
 				
@@ -48,9 +61,9 @@
 				userTag = userTag + "<div class='userInfo_s1 other'>"
 				userTag += "<div class='thumb'><img src='/resources/img/sub/userThum.jpg'></div>"
 				userTag += "<div class='info'>"
-				userTag += "<p class='userId'>${sessionScope.loginInfo.name}</p>"
+				userTag += "<p class='userId'>"+msg.id+"</p>"
 				userTag += "</div>"
-				userTag += "<div class='chatTxt'><p>"+e.data+"</p><span class='writeDate'>오후 11:34</span></div>"
+				userTag += "<div class='chatTxt'><p>"+msg.text+"</p><span class='writeDate'>"+msg.date+"</span></div>"
 				userTag += "</div>"				
 				$(".chatBox").append(userTag);
 				updateScroll();
@@ -65,6 +78,25 @@
 			})
 			
 			$("#transfer").click(function(){
+				
+				var toTime = new Date();
+				var theYear = toTime.getFullYear();
+				var theMonth = toTime.getMonth();
+				var theDate = toTime.getDate();
+				var theHours = toTime.getHours();
+				var theMinutes = toTime.getMinutes();
+				var theSeconds = toTime.getSeconds();
+				var timeResult = "";
+				if(theMinutes < 10){
+					theMinutes = "0"+theMinutes
+				}
+				
+				if(theHours > 12){
+					timeResult = "오후" + theHours+":"+theMinutes
+				}else{
+					timeResult = "오전" + theHours+":"+theMinutes
+				}
+
 				var chatTxt = $(".txtInput").text();
 				var userTag = "";
 				userTag = userTag + "<div class='userInfo_s1 my'>"
@@ -72,14 +104,15 @@
 				userTag += "<p class='userId'>${sessionScope.loginInfo.name}</p>"
 				userTag += "</div>"
 				userTag += "<div class='thumb'><img src='/resources/img/sub/userThum.jpg'></div>"
-				userTag += "<div class='chatTxt'><span class='writeDate'>오후 11:34</span><p>"+chatTxt+"</p></div>"
+				userTag += "<div class='chatTxt'><span class='writeDate'>"+timeResult+"</span><p>"+chatTxt+"</p></div>"
 				userTag += "</div>"
-						
+				
+				
 				var msg = {
 				  type: "message",
 				  text: chatTxt,
 				  id:   "${sessionScope.loginInfo.name}",
-				  date: Date.now()
+				  date: timeResult
 				};
 				
 				$(".chatBox").append(userTag);

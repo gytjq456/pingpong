@@ -39,23 +39,15 @@ public class WebChat {
 	
 	// 메세지 보내기
 	@OnMessage
-	public void onMessage(Session session, String message) {
+	public void onMessage(Session session, String message) throws Exception{
 		System.out.println("test");
 		MemberDTO mdto = (MemberDTO)this.session.getAttribute("loginInfo");
-//		
-//		JSONParser jsonParse = new JSONParser(); 
-//		//JSONParse에 json데이터를 넣어 파싱한 다음 JSONObject로 변환한다. 
-//		JSONObject jsonObj = (JSONObject) jsonParse.parse(message); 
-//		//JSONObject에서 PersonsArray를 get하여 JSONArray에 저장한다. 
-//		JSONArray personArray = (JSONArray) jsonObj.get("Persons");
-
-
-        System.out.println("* BOOKS *");
-
-
 		
-		
-		System.out.println("mg :" + message);
+		//JSONParser jsonParse = new JSONParser(); 
+		//JSONParse에 json데이터를 넣어 파싱한 다음 JSONObject로 변환한다. 
+		//JSONObject jsonObj = (JSONObject) jsonParse.parse(message); 
+		//JSONObject에서 PersonsArray를 get하여 JSONArray에 저장한다. 
+		//JSONArray personArray = (JSONArray) jsonObj.get("Persons");
 		synchronized(clients) {
 			for(Session client : clients) {
 				if(!client.getId().contentEquals(session.getId())){

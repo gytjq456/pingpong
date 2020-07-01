@@ -45,6 +45,9 @@ public class PartnerService {
 	public List<PartnerDTO> partnerList(int cpage) throws Exception{
 		return pdao.selectByPageNo(cpage);
 	}
+	public List<PartnerDTO> partnerListAll() throws Exception{
+		return pdao.partnerListAll();
+	}
 	
 	//페이지 네비게이션
 	public String getPageNavi(int currentPage) throws Exception{

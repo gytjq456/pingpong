@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -98,6 +99,27 @@ public class GroupController {
 		
 		GroupDTO gdto = gservice.selectBySeq(seq);
 		
+		String hobby_type = gdto.getHobby_type();
+		String hobby[] = hobby_type.split(",");
+		List<String> hobby_arr = new ArrayList<>();
+		
+		for (int i = 0; i < hobby.length; i++) {
+			hobby_arr.add(hobby[i]);
+		}
+		List<GroupDTO> relatedGroup = gservice.relatedGroup(hobby_arr);
+		
+		for (int i = 0; i < relatedGroup.size(); i++) {
+			int rseq = relatedGroup.get(i).getSeq();
+			
+			if (rseq == seq) {
+				relatedGroup.remove(i);
+			}
+		}
+		
+		if (relatedGroup.size() > 4) {
+			relatedGroup.remove(4);
+		}
+		
 		Map<Object, Object> param = new HashMap<>();
 		param.put("id", id);
 		param.put("parent_seq", seq);
@@ -107,6 +129,7 @@ public class GroupController {
 		//리뷰 리스트 출력
 		List<ReviewDTO> reviewList = gservice.reviewList(seq);
 		
+		model.addAttribute("relatedGroup", relatedGroup);
 		model.addAttribute("gdto", gdto);
 		model.addAttribute("checkLike", checkLike);
 		model.addAttribute("reviewList", reviewList);
@@ -262,6 +285,7 @@ public class GroupController {
 		model.addAttribute("hblist", hblist);
 		model.addAttribute("glist", glist);
 		model.addAttribute("navi", navi);
+		model.addAttribute("orderBy", orderBy);
 		
 		return "/group/main";
 	}
@@ -286,6 +310,31 @@ public class GroupController {
         model.addAttribute("hblist", hblist);
         model.addAttribute("glist", glist);
         model.addAttribute("navi", navi);
+        model.addAttribute("orderBy", orderBy);
+        
+        return "/group/main";
+	}
+	
+	@RequestMapping("searchLocation")
+	public String searchLocation(String location, String orderBy, HttpServletRequest request, Model model) throws Exception {
+		int cpage = 1;
+        try {
+           cpage = Integer.parseInt(request.getParameter("cpage"));
+        } catch (Exception e) {}
+
+        Map<String, Object> map = new HashMap<>();
+        
+        map.put("orderBy", orderBy);
+        map.put("location", location);
+        
+        List<HobbyDTO> hblist = gservice.selectHobby();
+        List<GroupDTO> glist = gservice.searchLocation(cpage, map);
+        String navi = gservice.getPageNav(cpage, orderBy);
+        
+        model.addAttribute("hblist", hblist);
+        model.addAttribute("glist", glist);
+        model.addAttribute("navi", navi);
+        model.addAttribute("orderBy", orderBy);
         
         return "/group/main";
 	}

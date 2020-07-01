@@ -33,7 +33,9 @@ $(document).ready(function(){
     		break;
     		case 3 : tab.find("li").css({ width:32+"%" });
     		break;
-    		case 4 : tab.find("li").css({ width:24.5+"%" });
+    		case 4 : tab.find("li").css({ width:23.5+"%" });
+    		break;
+    		case 5 : tab.find("li").css({ width:18.5+"%" });
     		break;
     	}
     	

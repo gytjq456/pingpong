@@ -66,4 +66,9 @@
 		0, 0, #{contact})
 	</insert>
 	
+	<!-- 전체 파트너  -->
+	<select id="partnerListAll" resultType="kh.pingpong.dto.PartnerDTO">
+		select * from partner
+	</select>
+	
 </mapper>

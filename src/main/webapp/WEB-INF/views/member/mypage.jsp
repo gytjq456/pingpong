@@ -21,6 +21,7 @@
 					<img src ="/upload/member/${mdto.id}/${mdto.sysname}">
 				</form>
 				<button id="myInfoModify">수정하기</button>
+				<button id="">튜터 취소하기</button>
 			</div>
 		</section>
 	</div>

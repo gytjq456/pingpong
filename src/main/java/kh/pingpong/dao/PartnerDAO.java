@@ -68,4 +68,8 @@ public class PartnerDAO {
 	public int insertPartner(Map<String, Object> insertP) throws Exception{
 		return mybatis.insert("Partner.insertPartner", insertP);
 	}
+	
+	public List<PartnerDTO> partnerListAll() throws Exception{
+		return mybatis.selectList("Partner.partnerListAll");
+	}
 }

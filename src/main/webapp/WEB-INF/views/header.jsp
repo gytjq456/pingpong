@@ -60,7 +60,7 @@
 								<a href="/partner/partnerList">Partner</a>
 								<ul class="depth2">
 									<li><a href="/partner/partnerList">파트너 목록</a></li>
-									<li><a href="#;">파트너 등록</a></li>
+									<li><a href="/partner/partnerView">파트너 등록</a></li>
 								</ul>
 							</li>
 							<li>
@@ -71,11 +71,10 @@
 								</ul>
 							</li>
 							<li>
-								<a href="#;">Tutor</a>
+								<a href="/tutor/tutorList">Tutor</a>
 								<ul class="depth2">
-									<li><a href="/tutor/tutorList">튜터 목록</a></li>
 									<li><a href="/tutor/lessonList">강의 목록</a></li>
-									<li><a href="/tutor/tutorApp">튜터 신청</a></li>
+									<li><a id="tutorApp">튜터 신청</a></li>
 								</ul>
 							</li>												
 							<li>
@@ -98,3 +97,4 @@
 			</div>
 		</section>
 	</header>
+

@@ -2,6 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Tutor">
 
+<!-- 튜터신청서에 있는지 없는지-->
+<select id="tutorTrue" resultType="int">
+	select count(*) from tutor_app where id=#{id}
+</select>
+<!-- 튜터 신청서 패스했는지 안했는지 -->
+<select id="passWhether" resultType="string">
+	select pass from tutor_app where id=#{id}
+</select>
+
 <!-- 튜터 신청서 insert -->
 <insert id="insert">
 	insert into tutor_app values(tutor_app_seq.nextval,#{id},#{title},#{license},#{career},#{exp},#{introduce},#{recomm},default)
@@ -14,10 +23,7 @@
 
 <!-- 강의 등록 신청서 -->
 <insert id="lessonAppProc">
-	insert into lesson values(lesson_seq.nextval, #{id}, #{name}, #{email}, #{phone_country}, #{phone}, 
-	#{profile}, default, #{title}, #{price}, #{language},#{apply_start},#{apply_end},#{start_date},#{end_date},
-	#{start_hour},#{start_minute},#{end_hour},#{end_minute},#{max_num},0,#{location},#{curriculum},
-	default,#{view_count},default,default,default,default,default);
+	insert into lesson values(lesson_seq.nextval, #{id}, #{name}, #{email}, #{phone_country}, #{phone}, #{sysname}, default, #{title}, #{price}, #{language},#{apply_start},#{apply_end},#{start_date},#{end_date},#{start_hour},#{start_minute},#{end_hour},#{end_minute},#{max_num},0,#{location},#{curriculum},default,#{view_count},default,default,default,default,default)
 </insert>
 
 <!-- 강의 취소 신청서 -->
@@ -25,9 +31,29 @@
 	insert into delete_app values(delete_app_seq.nextval, #{id}, #{category}, #{contents}, #{parent_seq})
 </insert>
 
+<!-- 강의 취소 됬는지 확인 -->
+<select id="lessonCancle" resultType="int">
+	select count(*) from delete_app where parent_seq = #{parent_seq} and id=#{id} and category=#{category}
+</select>
+
 <!-- 강의 조회수 -->
 <update id="updateViewCount">
 	update lesson set view_count = view_count + 1 where seq = #{seq}
+</update>
+
+<!-- 강의 좋아요 -->
+<insert id="likeTrue">
+	insert into like_list values(like_list_seq.nextval, #{id}, '강의', #{parent_seq})
+</insert>
+
+<!-- 강의 좋아요 됬는지 확인 -->
+<select id="LikeIsTrue" resultType="int">
+	select count(*) from like_list where parent_seq = #{parent_seq} and id =#{id} and category='강의' 
+</select>
+
+<!-- 강의 좋아요 수 업데이트 -->
+<update id="updateLikeCount">
+	update lesson set like_count = like_count + 1 where seq = #{seq}
 </update>
 
 <!-- 강의 눌렀을때 뿌려줄 강의 view -->

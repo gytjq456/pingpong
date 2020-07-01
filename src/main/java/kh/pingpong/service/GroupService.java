@@ -61,7 +61,9 @@ public class GroupService {
 		return gdao.updateViewCount(seq);
 	}
 	
+	@Transactional("txManager")
 	public int insertApp(GroupApplyDTO gadto) {
+		gdao.updateAppCount(gadto.getParent_seq());
 		return gdao.insertApp(gadto);
 	}
 	
@@ -97,6 +99,18 @@ public class GroupService {
 	
 	public List<GroupDTO> searchDate(int cpage, Map<String, Object> dates) {
 		return gdao.searchDate(cpage, dates);
+	}
+	
+	public List<GroupDTO> searchLocation(int cpage, Map<String, Object> map) {
+		return gdao.searchLocation(cpage, map);
+	}
+	
+	public List<GroupDTO> relatedGroup(List<String> hobby_arr) {
+		return gdao.relatedGroup(hobby_arr);
+	}
+	
+	public int selectCount() {
+		return gdao.selectCount();
 	}
 	
 	public String getPageNav(int currentPage, String orderBy) throws Exception{

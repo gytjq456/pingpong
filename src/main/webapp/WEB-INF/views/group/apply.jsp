@@ -1,63 +1,50 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<style>
-	#contents{width: 450px; height: 350px;}
-</style>
 <script>
 	$(function(){
-		var parent_seq = ${parent_seq}
-		$('#parent_seq').val(parent_seq);
+		var layerPop_s2 = $("#layerPop_s2");
+		$("#applyForm").on("click", function(){
+			layerPop_s2.stop().fadeIn();
+		})
 		
-		$('#contents').focusin(function(){
+		$('#app_contents').focusin(function(){
 			var agree = $('#agree').is(':checked');
 			if (!agree) {
 				alert('프로필 공유에 동의해 주세요.');
 				$('#agree').focus();
 			}
 		})
+		
+		$("#back2").on("click", function(){
+			layerPop_s2.stop().fadeOut();
+		})
 	})
 </script>
-</head>
-<body>
-	<h3>그룹 참가 신청서</h3>
-	<input type="checkbox" id="agree" required><label for="agree">프로필 공유 동의</label><br>
-	* 프로필 공유에 동의하지 않으면 신청서 제출이 불가능합니다.<br>
-	가입 이유/포부<br>
-	<input type="text" name="parent_seq" id="parent_seq">
-	<textarea name="contents" id="contents"></textarea>
-	<button type="button" id="apply">제출</button>
-	<button type="button" id="back">닫기</button>
-	<script>
-		$('#apply').on('click', function(){
-			var parent_seq = $('#parent_seq').val();
-			console.log(parent_seq)
-			var contents = $('#contents').val();
-			$.ajax({
-				url: "/group/apply",
-				data: {'parent_seq': parent_seq, 'contents': contents},
-				type: "POST"
-			}).done(function(resp){
-				if (resp) {
-					alert('성공적으로 신청되었습니다.');
-					self.opener = self;
-					self.close();
-				} else {
-					alert('신청에 실패하였습니다. 잠시 후 다시 시도해 주세요.');
-				}
-			})
-		})
-		
-		$('#back').on('click', function(){
-			self.opener = self;
-			self.close();
-		})
-	</script>
-</body>
-</html>
+<style>
+	#layerPop_s2 { position:fixed; left:0; top:0; width:100%; height:100%; z-index:10001; display:none;  background:rgba(0,0,0,0.5); }
+	#layerPop_s2 .pop_body { position:absolute; left:50%; top:50%; transform:translate(-50%, -50%); max-width:640px; background:#fff;}
+</style>
+<article id="layerPop_s2">
+	<div class="pop_body">
+		<div class="tit_s3">
+			<h3>그룹 참가 신청서</h3>
+		</div>
+		<form action="/group/apply" method="post">
+			<input type="hidden" name="parent_seq" value="${gdto.seq}">
+			<section>
+				<article>
+					<input type="checkbox" id="agree" required><label for="agree">프로필 공유 동의</label><br>
+					* 프로필 공유에 동의하지 않으면 신청서 제출이 불가능합니다.<br>
+					<div>가입 이유/포부</div>
+					<div class="contents">
+						<textarea rows="30" cols="50" name="contents" id="app_contents"></textarea>
+					</div>
+					<div>
+						<button>제출</button>
+						<input type="button" id="back2" value="닫기">
+					</div>
+				</article>
+			</section>
+		</form>
+	</div>
+</article>

@@ -142,11 +142,31 @@
 	</select>
 	
 	<select id="searchDate" resultType="kh.pingpong.dto.GroupDTO">
-select * from 
+		select * from 
 		(select grouplist.*, row_number() over(order by ${orderBy} desc, seq desc) rnum from grouplist
 		where to_date(start_date) > to_date(#{dateStart}) and to_date(#{dateEnd}) > to_date(end_date)) 
 		where rnum between #{start} and #{end}
 	</select>
+	
+	<select id="searchLocation" resultType="kh.pingpong.dto.GroupDTO">
+		select * from 
+		(select grouplist.*, row_number() over(order by ${orderBy} desc, seq desc) rnum from grouplist
+		where location = #{location})
+		where rnum between #{start} and #{end}
+	</select>
+	
+	<select id="relatedGroup" resultType="kh.pingpong.dto.GroupDTO">
+		select * from 
+		(select grouplist.*, row_number() over(order by seq desc) rnum from grouplist
+		<foreach collection="list" item="hobby_arr" open="where " close="" separator=" or ">
+			hobby_type like '%${hobby_arr}%'
+   		</foreach>
+		) where 6 > rnum
+	</select>
+	
+	<update id="updateAppCount">
+		update grouplist set app_count = app_count + 1 where seq = #{seq}
+	</update>
 	
 	<!-- 리뷰 글쓰기  -->
 	<insert id="reviewWrite">

@@ -20,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import kh.pingpong.dto.HobbyDTO;
 import kh.pingpong.dto.LanguageDTO;
@@ -112,10 +113,21 @@ public class PartnerController {
 		model.addAttribute("navi", navi);
 		model.addAttribute("hdto", hdto);
 		model.addAttribute("ldto", ldto);
+		
 		return "partner/partnerList";
 	}
 	
+
 	//파트너 상세 뷰페이지
+
+	@ResponseBody
+	@RequestMapping("chatPartner")
+	public List<PartnerDTO> chatPartner(HttpServletRequest request, Model model) throws Exception{
+		List<PartnerDTO> plist = pservice.partnerListAll();
+		//model.addAttribute("plist", plist);
+		return plist;
+	}
+
 	@RequestMapping("partnerView")
 	public String partnerView(int seq, Model model) throws Exception{
 		PartnerDTO pdto = pservice.selectBySeq(seq);	

@@ -93,7 +93,7 @@ $(function(){
 		var regexPw = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/g;
 		var result_pw = regexPw.test(pw_ck.val());
 		if(!result_pw){
-			alert("비밀번호 : 최소 8글자, 특수문자를 넣어주세요.");
+			alert("비밀번호 : 최소 8글자, 숫자, 특수문자를 넣어주세요.");
 			pw_ck.focus();
 			return false;
 		}

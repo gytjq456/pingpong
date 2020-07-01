@@ -18,7 +18,7 @@
 	</footer>
 	
 	
-	<section id="chatWrap">
+	<!-- <section id="chatWrap">
 		<div class="title clearfix">
 			<i class="fa fa-users" aria-hidden="true"></i>
 			<p>재경, 김혜선, 채나은, 박선호, 정은하, 이효섭<span>6</span><p>
@@ -37,7 +37,7 @@
 	
 	<script>
 		$(function(){
-			var ws = new WebSocket("ws://localhost/chat");
+			var ws = new WebSocket("ws://192.168.160.171/chat");
 			ws.onmessage = function(e){
 				var userTag = "";
 				userTag = userTag + "<div class='userInfo_s1 other'>"
@@ -86,7 +86,7 @@
 			var element = document.getElementById("chatBox");
 			element.scrollTop = element.scrollHeight;
 		}
-	</script>
+	</script> -->
 	
 </body>
 </html>

@@ -57,7 +57,8 @@
 					<div class="se_singup">
 						<div class="title">e-mail</div>
 						<div class="se_con">
-							<input type="text" id="email" name="email" class="w100">
+							${mail}
+							<input type="hidden" id="email" name="email" class="w100" value="${mail}">
 						</div>
 					</div>
 		

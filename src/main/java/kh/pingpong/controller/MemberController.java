@@ -219,19 +219,16 @@ public class MemberController {
 	}
 
 	/* 로그인 - 아디 비번체크 + loginInfo */
+	@ResponseBody
 	@RequestMapping("isIdPwSame")
-	public String isIdPwSame(MemberDTO mdto) throws Exception {
-		mdto.setPw(this.getSHA512(mdto.getPw()));
-		if (mservice.isIdPwSame(mdto)) {
-			MemberDTO loginInfo = mservice.loginInfo(mdto);
-			System.out.println(loginInfo.getSysname());
-			System.out.println(loginInfo.getId());
-
-			session.setAttribute("loginInfo", loginInfo);
-			return "/index";
-		} else {
-			System.out.println("로그인 실패");
-			return "/index";
+	public String isIdPwSame(MemberDTO mdto) throws Exception{
+		Boolean result = mservice.isIdPwSame(mdto);
+		if(result) {
+			MemberDTO loginInfo = mservice.loginInfo(mdto);		
+			session.setAttribute("loginInfo",loginInfo);				
+			return result.toString();
+		}else {
+			return result.toString();
 		}
 	}
 
@@ -242,6 +239,16 @@ public class MemberController {
 		return "/member/login";
 	}
 
+	/* 아이디 찾기 jsp로 이동*/
+	@RequestMapping("idFind")
+	public String idFind() throws Exception{		
+		return "";
+	}
 	
-
+	/* 비밀번호 찾기 */
+	@RequestMapping("pwFind")
+	public String pwFind() throws Exception{
+		return "";
+	}
+	
 }

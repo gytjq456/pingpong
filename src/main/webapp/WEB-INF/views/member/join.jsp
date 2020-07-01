@@ -5,9 +5,6 @@
 
 <script src="/resources/js/join.js"></script>
 
-<!-- 맴버 스크립트 추가 -->
-<script src="/resources/js/join.js"></script>
->>>>>>> cddc7267f853084fd5363c28add0109fa44a2a83
     <div id="subWrap" class="hdMargin" style="padding-top: 155.8px;">
 		<section id="subContents">
 			<div id="join">

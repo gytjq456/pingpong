@@ -3,6 +3,7 @@ package kh.pingpong.service;
 import java.io.File;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import kh.pingpong.dao.TutorDAO;
 import kh.pingpong.dto.DeleteApplyDTO;
 import kh.pingpong.dto.FileDTO;
 import kh.pingpong.dto.LessonDTO;
+import kh.pingpong.dto.LikeListDTO;
 import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.dto.TutorAppDTO;
 
@@ -25,6 +27,16 @@ public class TutorService {
 	
 	@Autowired
 	private FileDAO fdao;
+	
+	public int tutorTrue(String id) throws Exception{
+		int result = tdao.tutorTrue(id);
+		return result;
+	}
+	
+	public String passWhether(String id) throws Exception{
+		String result= tdao.passWhether(id);
+		return result;
+	}
 	
 	@Transactional("txManager")
 	public void tutorAppSend(TutorAppDTO tadto, List<FileDTO> fileList, String filePath) throws Exception{
@@ -61,6 +73,12 @@ public class TutorService {
 		return result;
 	}
 	
+	//강위취소 판별 유무
+	public int lessonCancle(Map<Object, Object> param) throws Exception{
+		int result = tdao.lessonCancle(param);
+		return result;
+	}
+	
 	public int lessonAppProc(LessonDTO ldto) throws Exception{
 		int view_count=0;
 		ldto.setView_count(view_count);
@@ -70,6 +88,18 @@ public class TutorService {
 	
 	public int updateViewCount(int seq) throws Exception{
 		int result = tdao.updateViewCount(seq);
+		return result;
+	}
+
+	@Transactional("txManager")
+	public int likeTrue(LikeListDTO lldto) throws Exception{
+		int result = tdao.likeTrue(lldto);
+		tdao.updateLikeCount(lldto.getParent_seq());
+		return result;
+	}
+	
+	public boolean LikeIsTrue(Map<Object, Object> param) throws Exception{
+		boolean result = tdao.LikeIsTrue(param);
 		return result;
 	}
 	

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <jsp:include page="/WEB-INF/views/header.jsp" />
 
 <style>
@@ -17,8 +18,44 @@
 
 <script>
 $(function(){
-	$("#back").on("click", function(){
+	$("#backList").on("click", function(){
 		location.href="/tutor/lessonList";
+	})
+	
+	var checkLikeVal = ${checkLike};
+	
+	if(checkLikeVal==true){
+		$("#like").css('color','rgb(58, 89, 201)');
+	}
+	
+	$("#like").on("click", function(){
+		console.log($(this).css('color'));
+		var seq = ${seq};
+		
+ 		if($(this).css('color')=='rgb(58, 89, 201)'){
+			alert("이미 추천한 강의입니다.");
+			return false;
+		}
+		 
+		$.ajax({
+			url: "/tutor/likeTrue",
+			data: {
+				parent_seq : seq
+			},
+			type: 'POST'
+		}).done(function(resp){
+			console.log(resp);
+	
+			alert('추천하셨습니다.');
+			
+			$("#like").css('color','rgb(58, 89, 201)');
+			location.href = '/tutor/lessonView?seq=' + seq;
+		}).fail(function(error1, error2) {
+			console.log(error1);
+			console.log(error2);
+		})
+			
+		
 	})
 	
 })
@@ -34,12 +71,16 @@ $(function(){
 			</div>
 
 			<div class="btnS1 right">
-				<p>
-					<a href="/tutor/lessonApp" class="on">강의 수정</a>
-					<button type="button" id="popOnBtn" class="on">강의 삭제</button>
-				</p>
+				<c:choose>
+					<c:when test="${loginInfo.grade == 'tutor' }">
+						<p>
+							<a href="/tutor/lessonUpdate?seq=${ldto.seq }" class="on">강의 수정</a>
+							<button type="button" id="popOnBtn" class="on">강의 삭제</button>
+						</p>
+					</c:when>
+				</c:choose>
 			</div>
-			
+
 			<div class="view_top">
 				<div class="view_top_left">
 					<div class="profile">
@@ -53,8 +94,8 @@ $(function(){
 					</div>
 					<div class="option_btn">
 						★${ ldto.review_point}
-						<a id="like">좋아요</a>
-						<a id="jjim">찜하기</a>
+						<i id="like" class="fa fa-thumbs-up" style="color:"></i>
+						<a id="jjim"><i class="fa fa-heart" style="font-size:16px;color:blue"></i></a>
 						<a id="report">신고</a>
 					</div>
 					
@@ -129,7 +170,7 @@ $(function(){
 				<h4>리뷰 </h4>
 			</div>
 			
-			<input type="button" id="back" value="목록으로">	
+			<input type="button" id="backList" value="목록으로">	
 		
 		</article>
 	</section>

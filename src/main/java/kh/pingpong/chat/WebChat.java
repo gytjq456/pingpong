@@ -42,12 +42,12 @@ public class WebChat {
 	public void onMessage(Session session, String message) {
 		System.out.println("test");
 		MemberDTO mdto = (MemberDTO)this.session.getAttribute("loginInfo");
-		
-		JSONParser jsonParse = new JSONParser(); 
-		//JSONParse에 json데이터를 넣어 파싱한 다음 JSONObject로 변환한다. 
-		JSONObject jsonObj = (JSONObject) jsonParse.parse(jsonData); 
-		//JSONObject에서 PersonsArray를 get하여 JSONArray에 저장한다. 
-		JSONArray personArray = (JSONArray) jsonObj.get("Persons");
+//		
+//		JSONParser jsonParse = new JSONParser(); 
+//		//JSONParse에 json데이터를 넣어 파싱한 다음 JSONObject로 변환한다. 
+//		JSONObject jsonObj = (JSONObject) jsonParse.parse(message); 
+//		//JSONObject에서 PersonsArray를 get하여 JSONArray에 저장한다. 
+//		JSONArray personArray = (JSONArray) jsonObj.get("Persons");
 
 
         System.out.println("* BOOKS *");

@@ -23,7 +23,6 @@
 </head>
 	<body>
 	   <header>
-	               	asdasd ${sessionScope.loginInfo.name}
 	      <section id="hdTop">
 	         <div class="inner1200">
 	            <div class="util">
@@ -72,11 +71,10 @@
 								</ul>
 							</li>
 							<li>
-								<a href="#;">Tutor</a>
+								<a href="/tutor/tutorList">Tutor</a>
 								<ul class="depth2">
-									<li><a href="/tutor/tutorList">튜터 목록</a></li>
 									<li><a href="/tutor/lessonList">강의 목록</a></li>
-									<li><a href="/tutor/tutorApp">튜터 신청</a></li>
+									<li><a id="tutorApp">튜터 신청</a></li>
 								</ul>
 							</li>												
 							<li>

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import kh.pingpong.config.Configuration;
 import kh.pingpong.dto.DeleteApplyDTO;
 import kh.pingpong.dto.LessonDTO;
+import kh.pingpong.dto.LikeListDTO;
 import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.dto.TutorAppDTO;
 
@@ -21,6 +22,13 @@ public class TutorDAO {
 	@Autowired
 	private SqlSessionTemplate mybatis;
 	
+	public int tutorTrue(String id) throws Exception{
+		return mybatis.selectOne("Tutor.tutorTrue", id);
+	}
+	
+	public String passWhether(String id) throws Exception{
+		return mybatis.selectOne("Tutor.passWhether", id);
+	}
 	
 	public LessonDTO lessonView(int seq) throws Exception{
 		return mybatis.selectOne("Tutor.lessonView", seq);
@@ -30,8 +38,31 @@ public class TutorDAO {
 		return mybatis.insert("Tutor.lessonCancleProc", dadto);
 	}
 	
+	//레슨 취소 신청 눌렀는지 판별 유무 
+	public int lessonCancle(Map<Object, Object> param) throws Exception{
+		return mybatis.selectOne("Tutor.lessonCancle", param);
+	}
+	
 	public int updateViewCount(int seq) throws Exception{
 		return mybatis.update("Tutor.updateViewCount", seq);
+	}
+	public int updateLikeCount(int seq) throws Exception{
+		return mybatis.update("Tutor.updateLikeCount", seq);
+	}
+	
+	public int likeTrue(LikeListDTO lldto) throws Exception{
+		return mybatis.insert("Tutor.likeTrue", lldto);
+	}
+	
+	public boolean LikeIsTrue(Map<Object,Object> param) throws Exception{
+		 int result = mybatis.selectOne("Tutor.LikeIsTrue", param);
+		 boolean checkLike=false;
+		 
+		 if(result>0) {
+			 checkLike=true;
+		 }
+		 
+		 return checkLike;
 	}
 	
 	
@@ -58,6 +89,7 @@ public class TutorDAO {
 	public int getArticleCount_tutor() throws SQLException, Exception {
 		return mybatis.selectOne("Tutor.getArticleCount_tutor");
 	}
+
 	
 	//--------------------------
 	

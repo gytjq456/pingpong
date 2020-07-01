@@ -20,21 +20,27 @@ public class PartnerDAO {
 	@Autowired 
 	SqlSessionTemplate mybatis;
 	
+	// 취미 선택
 	public List<HobbyDTO> selectHobby() throws Exception{
 		return mybatis.selectList("Partner.selectHobby");
 	}
 	
+	// 언어 선택
 	public List<LanguageDTO> selectLanguage() throws Exception{
 		return mybatis.selectList("Partner.selectLanguage");
 	}
 	
+	//파트너 게시글
 	public PartnerDTO selectBySeq(int seq) throws Exception{
 		return mybatis.selectOne("Partner.selectBySeq", seq);
 	}
 	
+	//게시글 
 	public int getArticleCount() throws Exception{
 		return mybatis.selectOne("Partner.getArticleCount");
 	}
+	
+	//파트너 게시글 페이징
 	public List<PartnerDTO> selectByPageNo(int cpage) throws Exception{
 		int start =cpage * Configuration.RECORD_COUNT_PER_PAGE - (Configuration.RECORD_COUNT_PER_PAGE-1);
 		int end = start + (Configuration.RECORD_COUNT_PER_PAGE-1);
@@ -44,24 +50,21 @@ public class PartnerDAO {
 		return mybatis.selectList("Partner.selectByPageNo", param);
 	}
 	
-	public List<PartnerDTO> search(int cpage, Map<String,Object> search, PartnerDTO pdto) throws Exception{
+	//파트너 검색
+	public List<PartnerDTO> search(int cpage, Map<String, Object> search, PartnerDTO pdto) throws Exception{
 		int start =cpage * Configuration.RECORD_COUNT_PER_PAGE - (Configuration.RECORD_COUNT_PER_PAGE-1);
 		int end = start + (Configuration.RECORD_COUNT_PER_PAGE-1);
 		search.put("start", start);
 		search.put("end", end);
 		search.put("pdto", pdto);
-	
-		System.out.println(pdto.getAddress());
-		System.out.println(pdto.getGender());
-		System.out.println(pdto.getHobby());
-		System.out.println(pdto.getLang_can());
-		System.out.println(pdto.getLang_learn());
 		return mybatis.selectList("Partner.search",search);
 	}
 	
+	//멤버 선택
 	public MemberDTO selectMember(String id) throws Exception{
 		return mybatis.selectOne("Partner.selectMember", id);
 	}
+	//파트너 등록
 	public int insertPartner(Map<String, Object> insertP) throws Exception{
 		return mybatis.insert("Partner.insertPartner", insertP);
 	}

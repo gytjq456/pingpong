@@ -1,52 +1,40 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<style>
-	#contents{width: 450px; height: 350px;}
-</style>
+ <%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <script>
-	$(function(){
-		var parent_seq = ${parent_seq}
-		$('#parent_seq').val(parent_seq);
-	})
-</script>
-</head>
-<body>
-	<h3>그룹 탈퇴 신청서</h3>
-	탈퇴 이유<br>
-	<input type="text" name="parent_seq" id="parent_seq">
-	<textarea name="contents" id="contents"></textarea>
-	<button type="button" id="apply">제출</button>
-	<button type="button" id="back">닫기</button>
-	<script>
-		$('#apply').on('click', function(){
-			var parent_seq = $('#parent_seq').val();
-			var contents = $('#contents').val();
-			$.ajax({
-				url: "/group/out",
-				data: {'parent_seq': parent_seq, 'contents': contents},
-				type: "POST"
-			}).done(function(resp){
-				if (resp) {
-					alert('성공적으로 신청되었습니다.');
-					self.opener = self;
-					self.close();
-				} else {
-					alert('신청에 실패하였습니다. 잠시 후 다시 시도해 주세요.');
-				}
-			})
+	$(function() {
+		var layerPop_s1 = $("#layerPop_s1");
+		$("#deleteForm").on("click", function() {
+			layerPop_s1.stop().fadeIn();
 		})
 		
-		$('#back').on('click', function(){
-			self.opener = self;
-			self.close();
+		$("#back").on("click", function(){
+			layerPop_s1.stop().fadeOut();
 		})
-	</script>
-</body>
-</html>
+	})
+</script>
+<style>
+	#layerPop_s1 { position:fixed; left:0; top:0; width:100%; height:100%; z-index:10001; display:none;  background:rgba(0,0,0,0.5); }
+	#layerPop_s1 .pop_body { position:absolute; left:50%; top:50%; transform:translate(-50%, -50%); max-width:640px; background:#fff;}
+</style>
+<article id="layerPop_s1">
+	<div class="pop_body">
+		<div class="tit_s3">
+			<h4>그룹 탈퇴 신청서</h4>
+		</div>
+		<form action="/group/out" method="post">
+			<input type="hidden" name="parent_seq" value="${gdto.seq}">
+			<section>
+				<article>
+					<div>탈퇴 이유</div>
+					<div class="contents">
+						<textarea rows="30" cols="50" name="contents"></textarea>
+					</div>
+					<div>
+						<button>제출</button>
+						<input type="button" id="back" value="닫기">
+					</div>
+				</article>
+			</section>
+		</form>
+	</div>
+</article>

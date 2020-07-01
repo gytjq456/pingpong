@@ -17,7 +17,6 @@ public class ChatDAO {
 	}	
 	
 	public int chatRoomSch(Map<String,String> chatInfp) throws Exception{
-		System.out.println(chatInfp.get("users"));
 		return mybatis.selectOne("Chat.chatRoomSch",chatInfp);
 	}	
 	

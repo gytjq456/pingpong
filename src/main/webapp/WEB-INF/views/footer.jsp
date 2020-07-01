@@ -18,7 +18,9 @@
 	</footer>
 	
 	<section id="chatRoom">
-		<p>하하하</p>
+		<ul>
+			<li></li>
+		</ul>
 	</section>	
 	<section id="chatWrap">
 		<div class="title clearfix">
@@ -45,7 +47,9 @@
 				dataType:"json"
 			}).done(function(resp){
 				console.log(resp)
-				console.log("tset" + resp.length)
+				for(var i=0; i<resp.length; i++){
+					$("#chatRoom").append("<li>"+resp[i].name+"</li>")
+				};
 			})
 			
 			

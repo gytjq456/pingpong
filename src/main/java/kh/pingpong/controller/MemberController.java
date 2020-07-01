@@ -106,7 +106,7 @@ public class MemberController {
 	public String isIdPwSame(MemberDTO mdto) throws Exception{
 		Boolean result = mservice.isIdPwSame(mdto);
 		if(result) {
-			MemberDTO loginInfo = mservice.loginInfo(mdto);				
+			MemberDTO loginInfo = mservice.loginInfo(mdto);		
 			session.setAttribute("loginInfo",loginInfo);				
 			return result.toString();
 		}else {

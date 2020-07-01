@@ -18,7 +18,7 @@
 	</footer>
 	
 	
-	<!-- <section id="chatWrap">
+	<section id="chatWrap">
 		<div class="title clearfix">
 			<i class="fa fa-users" aria-hidden="true"></i>
 			<p>재경, 김혜선, 채나은, 박선호, 정은하, 이효섭<span>6</span><p>
@@ -37,13 +37,18 @@
 	
 	<script>
 		$(function(){
-			var ws = new WebSocket("ws://192.168.160.171/chat");
+			//var ws = new WebSocket("ws://localhost/chat");
+			var ws = new WebSocket("ws://192.168.60.58/chat");
 			ws.onmessage = function(e){
+				var msg = JSON.parse(event.data);
+				var time = new Date(msg.date);
+				var timeStr = time.toLocaleTimeString();
+				
 				var userTag = "";
 				userTag = userTag + "<div class='userInfo_s1 other'>"
 				userTag += "<div class='thumb'><img src='/resources/img/sub/userThum.jpg'></div>"
 				userTag += "<div class='info'>"
-				userTag += "<p class='userId'>홍길동</p>"
+				userTag += "<p class='userId'>${sessionScope.loginInfo.name}</p>"
 				userTag += "</div>"
 				userTag += "<div class='chatTxt'><p>"+e.data+"</p><span class='writeDate'>오후 11:34</span></div>"
 				userTag += "</div>"				
@@ -64,19 +69,25 @@
 				var userTag = "";
 				userTag = userTag + "<div class='userInfo_s1 my'>"
 				userTag += "<div class='info'>"
-				userTag += "<p class='userId'>홍길동</p>"
+				userTag += "<p class='userId'>${sessionScope.loginInfo.name}</p>"
 				userTag += "</div>"
 				userTag += "<div class='thumb'><img src='/resources/img/sub/userThum.jpg'></div>"
 				userTag += "<div class='chatTxt'><span class='writeDate'>오후 11:34</span><p>"+chatTxt+"</p></div>"
 				userTag += "</div>"
 						
+				var msg = {
+				  type: "message",
+				  text: chatTxt,
+				  id:   "${sessionScope.loginInfo.name}",
+				  date: Date.now()
+				};
 				
 				$(".chatBox").append(userTag);
 				updateScroll();
 				txtInput.html("");
 				txtInput.focus();
 				
-				ws.send(chatTxt);
+				ws.send(JSON.stringify(msg));
 				
 				return false;
 			})
@@ -86,7 +97,7 @@
 			var element = document.getElementById("chatBox");
 			element.scrollTop = element.scrollHeight;
 		}
-	</script> -->
+	</script>
 	
 </body>
 </html>

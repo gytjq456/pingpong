@@ -3,11 +3,11 @@
 <mapper namespace="Chat">
 
 	<insert id="insert">
-		insert into chatRoom values(#{roomId},#{users})
+		insert into chatRoom values(#{roomId},#{usersName},#{usersIds})
 	</insert>
 	
 	<select id="chatRoomSch" resultType="int">
-		select count(*) from chatRoom where chatMember = #{users}
+		select count(*) from chatRoom where chatMemberId = #{usersIds}
 	</select>
 
 

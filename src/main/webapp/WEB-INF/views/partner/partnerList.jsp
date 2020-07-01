@@ -55,12 +55,20 @@
 		
 		// 채팅 
 		$(".chatting").on("click",function(){
+			var uid = $(this).data("uid");
+			var uname = $(this).data("name");
+			if("${sessionScope.loginInfo}" == ""){
+				alert("로그인후 이용이 가능합니다.")
+				location.href="/member/login";
+				return false;
+			}
 			$.ajax({
 				url:"/chatting/create",
 				type:"post",
 				dataType:"json",
 				data:{
-					user:"홍길동"
+					userId:uid,
+					userName:uname
 				}
 			}).done(function(resp){
 				if(resp){
@@ -147,8 +155,8 @@
 			</div>
 			<div class="button_aa">
 				<button class="letter">쪽지</button>
-				<button class="chatting" >채팅</button>
-				<button class="email_a">이메일</button>
+				<button class="chatting" data-uid="${plist.id}" data-name="${plist.name}">채팅</button>
+				<button class="email_a" >이메일</button>
 			</div>
 		</div>
 				<hr>		

@@ -23,6 +23,7 @@
 </head>
 	<body>
 	   <header>
+	               	asdasd ${sessionScope.loginInfo.name}
 	      <section id="hdTop">
 	         <div class="inner1200">
 	            <div class="util">

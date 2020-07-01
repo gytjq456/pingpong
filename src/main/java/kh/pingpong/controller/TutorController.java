@@ -240,6 +240,7 @@ public class TutorController {
 	
 	@RequestMapping("lessonUpdate")
 	public String lessonUpdate(Model model, int seq) throws Exception{
+		//게시판 내용 보내줘야됨
 		model.addAttribute(seq);
 		return "/tutor/lessonUpdate";
 	}

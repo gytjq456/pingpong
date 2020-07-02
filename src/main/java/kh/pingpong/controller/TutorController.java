@@ -154,7 +154,7 @@ public class TutorController {
 	
 	//강의 list
 	@RequestMapping("lessonList")
-	public String lessonList(HttpServletRequest request, Model model) throws Exception{
+	public String lessonList(String orderBy,HttpServletRequest request, Model model) throws Exception{
 		model.addAttribute("loginInfo", session.getAttribute("loginInfo"));
 		
 		//언어 
@@ -166,10 +166,10 @@ public class TutorController {
            cpage = Integer.parseInt(request.getParameter("cpage"));
         } catch (Exception e) {}
         
-		String navi = tservice.getPageNavi_lesson(cpage);
+		String navi = tservice.getPageNavi_lesson(cpage, orderBy);
 		model.addAttribute("navi", navi);
 		
-		List<LessonDTO> lessonlist = tservice.lessonList(cpage);
+		List<LessonDTO> lessonlist = tservice.lessonList(cpage, orderBy);
 		System.out.println(lessonlist);
 		model.addAttribute("lessonlist",lessonlist);
 		return "/tutor/lessonList";

@@ -90,7 +90,7 @@
  
 <!-- 여기서부터 세개 강의리스트 페이징 -->
 <select id="selectLessonList" resultMap="LessonProfile">
-	select * from (select lesson.*, row_number() over(order by seq desc) rnum from lesson where pass='Y') 
+	select * from (select lesson.*, row_number() over(order by #{orderBy} desc, seq desc) rnum from lesson where pass='Y') 
 	where rnum between #{start} and #{end}
 </select>
 

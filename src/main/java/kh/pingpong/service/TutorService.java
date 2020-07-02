@@ -58,8 +58,8 @@ public class TutorService {
 		return mdto;
 	}
 	
-	public List<LessonDTO> lessonList(int cpage) throws Exception{
-		List<LessonDTO> ldto = tdao.lessonList(cpage);
+	public List<LessonDTO> lessonList(int cpage,String orderBy) throws Exception{
+		List<LessonDTO> ldto = tdao.lessonList(cpage, orderBy);
 		return ldto;
 	}
 	
@@ -106,7 +106,7 @@ public class TutorService {
 	
 	
 	//레슨 페이징 만 이동
-		public String getPageNavi_lesson(int userCurrentPage) throws SQLException, Exception {
+		public String getPageNavi_lesson(int userCurrentPage, String orderBy) throws SQLException, Exception {
 			int recordTotalCount = tdao.getArticleCount_lesson(); 
 			
 			int pageTotalCount = 0; // 모든 페이지 개수
@@ -141,15 +141,15 @@ public class TutorService {
 			StringBuilder sb = new StringBuilder();
 			
 			if(needPrev) {
-				sb.append("<a href='lessonList?cpage="+(startNavi-1)+"'><</a>");
+				sb.append("<a href='/tutor/lessonList?cpage="+(startNavi-1)+"&orderBy="+orderBy+"'><</a>");
 			}
 			for(int i = startNavi ; i<=endNavi; i++) {
 
-				sb.append("<a href='lessonList?cpage="+i+"'>"+i+"</a>");//袁몃ŉ二쇰뒗 寃�
+				sb.append("<a href='/tutor/lessonList?cpage="+i+"&orderBy="+orderBy+"'>"+i+"</a>");//袁몃ŉ二쇰뒗 寃�
 			}
 			if(needNext) {
 
-				sb.append("<a href='lessonList?cpage="+(endNavi+1)+"'>></a>");
+				sb.append("<a href='/tutor/lessonList?cpage="+(endNavi+1)+"&orderBy="+orderBy+"'>></a>");
 			}
 			
 			return sb.toString();

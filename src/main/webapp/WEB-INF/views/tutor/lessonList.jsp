@@ -16,6 +16,14 @@
 					$(this).children("article").wrap(
 							'<a href="/tutor/lessonView?seq=' + seq + '">')
 				})
+		$("#orderBy").on("change",function(){
+			console.log($("#orderBy").val());
+			
+			var orderbyVal = $("#orderBy").val();
+			location.href="/tutor/lessonList?orderBy="+orderbyVal;
+		})
+
+		
 	})
 </script>
 

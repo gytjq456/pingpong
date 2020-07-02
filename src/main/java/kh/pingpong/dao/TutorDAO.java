@@ -93,7 +93,7 @@ public class TutorDAO {
 	
 	//--------------------------
 	
-	public List<LessonDTO> lessonList(int cpage) throws Exception{
+	public List<LessonDTO> lessonList(int cpage, String orderBy) throws Exception{
 		int start = cpage*Configuration.RECORD_COUNT_PER_PAGE - (Configuration.RECORD_COUNT_PER_PAGE - 1);
 		int end = start + (Configuration.RECORD_COUNT_PER_PAGE - 1);
 		
@@ -101,6 +101,7 @@ public class TutorDAO {
 		param.put("cpage", String.valueOf(cpage));
 		param.put("start", String.valueOf(start));
 		param.put("end", String.valueOf(end));
+		param.put("orderBy", orderBy);
 		
 		return mybatis.selectList("Tutor.selectLessonList", param);
 	}

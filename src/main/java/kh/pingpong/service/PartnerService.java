@@ -27,8 +27,8 @@ public class PartnerService {
 	JavaMailSender mailSender;
 	
 	//파트너 게시글에서 파트너 찾기
-	public List<PartnerDTO> search(int cpage, Map<String, Object> search, PartnerDTO pdto) throws Exception{
-		return pdao.search(cpage, search, pdto);
+	public List<PartnerDTO> search(int cpage, Map<String, Object> search, PartnerDTO pdto/* ,String orderBy */) throws Exception{
+		return pdao.search(cpage, search, pdto/* , orderBy */);
 	}
 	
 	//취미 선택 

@@ -51,12 +51,13 @@ public class PartnerDAO {
 	}
 	
 	//파트너 검색
-	public List<PartnerDTO> search(int cpage, Map<String, Object> search, PartnerDTO pdto) throws Exception{
+	public List<PartnerDTO> search(int cpage, Map<String, Object> search, PartnerDTO pdto/* , String orderBy */) throws Exception{
 		int start =cpage * Configuration.RECORD_COUNT_PER_PAGE - (Configuration.RECORD_COUNT_PER_PAGE-1);
 		int end = start + (Configuration.RECORD_COUNT_PER_PAGE-1);
 		search.put("start", start);
 		search.put("end", end);
 		search.put("pdto", pdto);
+		//search.put("orderBy",orderBy);
 		return mybatis.selectList("Partner.search",search);
 	}
 	
@@ -70,6 +71,7 @@ public class PartnerDAO {
 	}
 	
 	public List<PartnerDTO> partnerListAll() throws Exception{
-		return mybatis.selectList("Partner.partnerListAll");
+		return mybatis.selectList("Partner.selectListAll");
 	}
+	
 }

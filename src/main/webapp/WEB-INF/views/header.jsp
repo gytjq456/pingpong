@@ -82,7 +82,7 @@
 								<a href="/discussion/list">Board</a>
 								<ul class="depth2">
 									<li><a href="/discussion/list">토론</a></li>
-									<li><a href="#;">질문</a></li>
+									<li><a href="/correct/correct_list">질문</a></li>
 									<li><a href="#;">소식</a></li>
 								</ul>
 							</li>												

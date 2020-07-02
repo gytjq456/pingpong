@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+.<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -254,8 +254,8 @@
 								<li><i class="fa fa-eye"></i> ${disDto.view_count}</li>			
 								<li><i class="fa fa-commenting-o" aria-hidden="true"></i> ${disDto.comment_count}</li>
 								<li>
-									<button class="discussion_likeBtn likeBtn like-hate-btn" data-seq="${disDto.seq}">
-										<i class="fa fa-thumbs-up"></i> ${disDto.like_count}
+									<button class="discussion_Btn Btn -hate-btn" data-seq="${disDto.seq}">
+										<i class="fa fa-thumbs-up"></i> ${disDto._count}
 									</button>
 								</li>
 							</ul>

@@ -1,7 +1,8 @@
 package kh.pingpong.controller;
 
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import kh.pingpong.config.Configuration;
 import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.service.ChatService;
 
@@ -27,25 +29,38 @@ public class ChatController {
 	@RequestMapping("create")
 	public String create(String userId, String userName) throws Exception{
 		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
-		
+		String roomId = null;
 		String myName = mdto.getName();
-		String roomId = chatService.rndTxt();
-		String usersIds = userId +","+mdto.getId();
+		String usersIds = mdto.getId() +"," +userId;
 		String usersNames = userName +","+myName;
 		
-		Map<String,String> chatInfp = new HashMap<>();
-		chatInfp.put("roomId",roomId);
-		chatInfp.put("usersName",usersNames);
-		chatInfp.put("usersIds",usersIds);
-		int isChatRoom = chatService.chatRoomSch(chatInfp);
+		Map<String,String> chatInfo = Configuration.chatCreate;
+		chatInfo.put("usersName",usersNames);
+		chatInfo.put("usersIds",usersIds);
+		chatInfo.put("master",mdto.getId());
+		chatInfo.put("partner",userId);
+		
+		
+		System.out.println("asdasd");
+		String chatRoomId = chatService.chatRoomSch(chatInfo);;
+		Boolean isChatRoom = false;
 		int result = 0;
-		if(isChatRoom == 0) {
-			result = chatService.chatInsert(chatInfp);
+		
+		if(chatRoomId == null) {
+			roomId = chatService.rndTxt();
+			chatInfo.put("roomId",roomId);
+			result = chatService.chatInsert(chatInfo);
+			System.out.println("a:"+isChatRoom);
 		}
+		chatRoomId = chatService.chatRoomSch(chatInfo); 
+		
+		System.out.println("result = " +result);
+		System.out.println("result = " +isChatRoom);
 		if(result > 0) {
-			return String.valueOf(true);
+			return chatRoomId;
 		}else {
-			return String.valueOf(false);
+			chatInfo.put("roomId",chatRoomId);
+			return chatRoomId;
 		}
 	}
 	

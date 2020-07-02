@@ -100,7 +100,7 @@ $(function(){
 			})
 		}
 	})
-
+	
 })
 
 </script>
@@ -221,5 +221,5 @@ $(function(){
 
 
 <jsp:include page="/WEB-INF/views/tutor/cancle.jsp" />
-
+<jsp:include page="/WEB-INF/views/tutor/lessonReport.jsp" />
 <jsp:include page="/WEB-INF/views/footer.jsp" />

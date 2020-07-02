@@ -95,6 +95,7 @@ public class TutorDAO {
 	}
 		
 	public int lessonAppUpdateProc(LessonDTO ldto) throws Exception{
+		System.out.println(ldto.getApply_end()+ ldto.getMax_num()+ldto.getSeq()+ldto.getCurriculum());
 		return mybatis.update("Tutor.lessonAppUpdateProc", ldto);
 	}
 	

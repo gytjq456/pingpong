@@ -18,6 +18,13 @@
 			$(this).children("article").wrap(
 					'<a href="/tutor/lessonView?seq=' + seq + '">')
 		})
+		
+		var orderBy = '${orderBy}';
+		if (orderBy != null) {
+			$('#orderBy').val(orderBy);
+		} else {
+			$('#orderBy').val('seq');
+		}
 				
 		$("#orderBy").on("change",function(){
 			var orderbyVal = $("#orderBy").val();

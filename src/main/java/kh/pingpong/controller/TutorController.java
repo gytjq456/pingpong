@@ -25,6 +25,7 @@ import kh.pingpong.dto.LanguageDTO;
 import kh.pingpong.dto.LessonDTO;
 import kh.pingpong.dto.LikeListDTO;
 import kh.pingpong.dto.MemberDTO;
+import kh.pingpong.dto.ReportListDTO;
 import kh.pingpong.dto.TutorAppDTO;
 import kh.pingpong.dto.TutorDTO;
 import kh.pingpong.service.MemberService;
@@ -339,5 +340,14 @@ public class TutorController {
 		return "/tutor/lessonView";
 	}
 
+	//같은사람이 게시물 신고했는지 확인
+	/// 신고 안끝냈음!!!!!!!!!!!!!!!!!!! 컨트롤러도 아직 안적음
+	@RequestMapping("report")
+	public String report(Model model, ReportListDTO rldto) throws Exception {
+		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
+		rldto.setReporter(mdto.getId());
+		model.addAttribute("rldto",rldto);
+		return "/tutor/lessonReport";
+	}
 
 }

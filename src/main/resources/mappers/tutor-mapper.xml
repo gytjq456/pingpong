@@ -26,6 +26,11 @@
 	insert into lesson values(lesson_seq.nextval, #{id}, #{name}, #{email}, #{phone_country}, #{phone}, #{sysname}, default, #{title}, #{price}, #{language},#{apply_start},#{apply_end},#{start_date},#{end_date},#{start_hour},#{start_minute},#{end_hour},#{end_minute},#{max_num},0,#{location},#{curriculum},default,#{view_count},default,default,default,default,default)
 </insert>
 
+<!-- 강의 수정 신청서 -->
+<update id="lessonAppUpdateProc">
+	update lesson set title = #{title}, apply_end=#{apply_end}, max_num=#{max_num}, curriculum = #{curriculum} where seq=#{seq}
+</update>
+
 <!-- 강의 취소 신청서 -->
 <insert id="lessonCancleProc">
 	insert into delete_app values(delete_app_seq.nextval, #{id}, #{category}, #{contents}, #{parent_seq})
@@ -41,7 +46,7 @@
 	update lesson set view_count = view_count + 1 where seq = #{seq}
 </update>
 
-<!-- 강의 좋아요 -->
+<!-- 강의 좋아요 테이블에 값넣기 -->
 <insert id="likeTrue">
 	insert into like_list values(like_list_seq.nextval, #{id}, '강의', #{parent_seq})
 </insert>
@@ -55,6 +60,22 @@
 <update id="updateLikeCount">
 	update lesson set like_count = like_count + 1 where seq = #{seq}
 </update>
+
+<!-- 찜 테이블에 값넣기 -->
+<insert id="insertJjim">
+	insert into jjim values(jjim_seq.nextval, #{id}, '강의', #{parent_seq})
+</insert>
+
+<!-- 찜 좋아요 됬는지 확인 -->
+<select id="JjimIsTrue" resultType="int">
+	select count(*) from jjim where parent_seq = #{parent_seq} and id=#{id} and category='강의'
+</select>
+
+<!-- 찜 테이블에서 값 삭제하기 찜 취소 -->
+<delete id="deleteJjim">
+	delete jjim where id = #{id} and parent_seq = #{parent_seq} and category='강의'
+</delete>
+
 
 <!-- 강의 눌렀을때 뿌려줄 강의 view -->
 <resultMap id="lessonViewProfile" type="kh.pingpong.dto.LessonDTO">
@@ -90,7 +111,13 @@
  
 <!-- 여기서부터 세개 강의리스트 페이징 -->
 <select id="selectLessonList" resultMap="LessonProfile">
-	select * from (select lesson.*, row_number() over(order by #{orderBy} desc, seq desc) rnum from lesson where pass='Y') 
+	select * from (select lesson.*, row_number() over(order by ${orderBy} desc) rnum from lesson where pass='Y') 
+	where rnum between #{start} and #{end}
+</select>
+
+<!-- 모집중, 진행중, 마감일 때 -->
+<select id="selectLessonListPeriod" resultMap="LessonProfile">
+	select * from (select lesson.*, row_number() over(order by ${orderBy} desc) rnum from lesson where pass='Y' and ${ing}=#{ingVal}) 
 	where rnum between #{start} and #{end}
 </select>
 

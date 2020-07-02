@@ -5,22 +5,37 @@
 
 <style>
 .profile{width:50px; height:100px;}
+.wrapper{border: 1px solid black; float: left; width: 25%;}
+.listWrapper{overflow:hidden;}
 </style>
 <script>
 	$(function() {
-		$("#listClick>section").each(
-				function() {
-					var text = $(this).find(".title").text();
-					var seq = $(this).data("seq");
-					console.log(seq);
-					$(this).children("article").wrap(
-							'<a href="/tutor/lessonView?seq=' + seq + '">')
-				})
+
+		$("#listClick>section").each(function() {
+			var text = $(this).find(".title").text();
+			var seq = $(this).data("seq");
+			console.log(seq);
+			$(this).children("article").wrap(
+					'<a href="/tutor/lessonView?seq=' + seq + '">')
+		})
+				
 		$("#orderBy").on("change",function(){
-			console.log($("#orderBy").val());
-			
 			var orderbyVal = $("#orderBy").val();
+			
 			location.href="/tutor/lessonList?orderBy="+orderbyVal;
+		})
+		
+		$(".ing").on("click", function(){
+			console.log($(this).attr('id'));
+			var orderbyVal = $("#orderBy").val();
+			var period = $(this).attr('id');
+			
+			if(period == 'all'){
+				location.href="/tutor/lessonList?orderBy="+orderbyVal;
+				return false;
+			}
+			location.href="/tutor/lessonListPeriod?orderBy="+orderbyVal+"&period="+period;
+
 		})
 
 		
@@ -33,6 +48,7 @@
 
 			<div class="tit_s1">
 				<h2>강의 목록</h2>
+				<p>전문적으로 배워보고싶나요?<br>전문 튜터를 통해 강의를 들어보세요.</p>
 			</div>
 			
 			<div class="btnS1 right">
@@ -62,18 +78,10 @@
 
 			<!-- 정렬 전체 모집중 진행중 마감 -->
 			<div class="btnS1 left">
-				<div>
-					<button type="button" id="all" class="ing">전체</button>
-				</div>
-				<div>
-					<button type="button" id="applying" class="ing">모집중</button>
-				</div>
-				<div>
-					<button type="button" id="proceeding" class="ing">진행중</button>
-				</div>
-				<div>
-					<button type="button" id="done" class="ing">마감</button>
-				</div>
+				<div><button type="button" id="all" class="ing">전체</button></div>
+				<div><button type="button" id="applying" class="ing">모집중</button></div>
+				<div><button type="button" id="proceeding" class="ing">진행중</button></div>
+				<div><button type="button" id="done" class="ing">마감</button></div>
 			</div>
 			<div>
 				<select id="orderBy">
@@ -84,7 +92,7 @@
 				</select>
 			</div>
 
-			<div>
+			<div class="listWrapper">
 				<c:choose>
 					<c:when test="${empty lessonlist}">
 						<div class="row">
@@ -95,7 +103,7 @@
 						<div id="listClick">
 							<c:forEach var="i" items="${lessonlist}">
 								<section data-seq="${i.seq}">
-									<article>
+									<article class="wrapper">
 										<div class="profile">
 											<img src="/upload/member/${i.id}/${i.sysname}">
 										</div>
@@ -105,11 +113,21 @@
 											가격 : ${i.price}
 											<!-- <span class="badge badge-danger">New</span> -->
 										</div>
+										<div class="apply_date">모집기간 : ${i.apply_start}~${i.apply_end }</div>
 										<div class="view_count">조회 : ${i.view_count}</div>
-										<div class="like_count">좋아요 : ${i.like_count}</div>
+										<div class="like_count">추천 : ${i.like_count}</div>
 										<div class="review_point">리뷰 평점 : ${i.review_point}</div>
 										<div class="review_count">리뷰 갯수 : ${i.review_count}</div>
 										<br>
+										<c:if test="${i.applying == 'Y'}">
+											<span>모집중</span>  
+										</c:if>
+										<c:if test="${i.proceeding == 'Y'}">
+											<span>진행중</span>
+										</c:if>
+										<c:if test="${i.proceeding == 'N' && i.applying == 'N'}">
+											<span>마감</span>
+										</c:if>
 									</article>
 								</section>
 							</c:forEach>

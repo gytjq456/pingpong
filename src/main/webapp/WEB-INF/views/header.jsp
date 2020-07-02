@@ -73,7 +73,7 @@
 							<li>
 								<a href="/tutor/tutorList">Tutor</a>
 								<ul class="depth2">
-									<li><a href="/tutor/lessonList">강의 목록</a></li>
+									<li><a href="/tutor/lessonList?orderBy=seq">강의 목록</a></li>
 									<li><a id="tutorApp">튜터 신청</a></li>
 								</ul>
 							</li>												

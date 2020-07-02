@@ -17,7 +17,7 @@
 		</section>
 	</footer>
 	
-	<section id="chatRoom">
+	<!-- <section id="chatRoom">
 		<ul>
 			<li></li>
 		</ul>
@@ -160,7 +160,7 @@
 			var element = document.getElementById("chatBox");
 			element.scrollTop = element.scrollHeight;
 		}
-	</script>
+	</script> -->
 	
 </body>
 </html>

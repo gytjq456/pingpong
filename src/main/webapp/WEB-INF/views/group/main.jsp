@@ -18,7 +18,7 @@
 							<li><a href="#;">지도 검색</a></li>
 						</ul>
 					</div>
-					<div id="tabContWrap">
+					<div id="tabContWrap" class="search_wrap">
 						<article id="tab_1" class="kewordSch">
 							<div class="search_as_keyword">
 								<select id="keyword_type">
@@ -67,58 +67,103 @@
 						</article>
 					</div>
 				</div>
-				<div class="btnS1 left">
-					<div><button type="button" id="all" class="ing">전체</button></div>
-					<div><button type="button" id="applying" class="ing">모집중</button></div>
-					<div><button type="button" id="proceeding" class="ing">진행중</button></div>
-					<div><button type="button" id="done" class="ing">마감</button></div>
+				<div class="search_btn_style">
+					<div class="btnS1 left">
+						<div><button type="button" id="all" class="ing">전체</button></div>
+						<div><button type="button" id="applying" class="ing">모집중</button></div>
+						<div><button type="button" id="proceeding" class="ing">진행중</button></div>
+						<div><button type="button" id="done" class="ing">마감</button></div>
+					</div>
+					<div class="btnS1 right">
+						<div>
+							<select id="orderBy">
+								<option value="seq">최신순</option>
+								<option value="view_count">조회순</option>
+								<option value="like_count">추천순</option>
+								<option value="app_count">인기순</option>
+								<option value="review_point">평점순</option>
+							</select>
+						</div>
+					</div>
 				</div>
-				<div>
-					<select id="orderBy">
-						<option value="seq">최신순</option>
-						<option value="view_count">조회순</option>
-						<option value="like_count">추천순</option>
-						<option value="app_count">인기순</option>
-						<option value="review_point">평점순</option>
-					</select>
-				</div>
-				<div id="listStyle1" class="card_body">
+				<div id="listStyle1" class="card_body group_list_wrapper">
 					<c:choose>
 						<c:when test="${empty glist}">
 							등록된 게시글이 없습니다.
 						</c:when>
 						<c:otherwise>
 							<c:forEach var="glist" items="${glist}">
-								<a href="/group/beforeView?seq=${glist.seq}">
-									<div class="group_each_wrapper">
-										<div><span class="sub_title">작성자</span> ${glist.writer_name}(${glist.writer_id})</div>
-										<div><span class="sub_title">제목</span> ${glist.title}</div>
-										<div><span class="sub_title">유형</span> ${glist.hobby_type}</div>
-										<div><span class="sub_title">모집 기간</span> ${glist.apply_start} ~ ${glist.apply_end}</div>
-										<div><span class="sub_title">진행 기간</span> ${glist.start_date} ~ ${glist.end_date}</div>
-										<div><span class="sub_title">평점</span> ★ ${glist.review_point}</div>
-										<div>
-											<span class="sub_title">조회</span> ${glist.view_count}  
-											<span class="sub_title">추천</span> ${glist.like_count}  
-											<span class="sub_title">리뷰</span> ${glist.review_count}
+								<a href="/group/beforeView?seq=${glist.seq}" class="group_list_a">
+									<div class="back_and_wrap">
+										<div class="each_profile"><img src="/resources/img/sub/userThum.jpg"/></div>
+										<c:if test="${fn:startsWith(glist.hobby_type, '영화')}">
+											<div class="group_background background_pink"></div>
+										</c:if>
+										<c:if test="${fn:startsWith(glist.hobby_type, '공연')}">
+											<div class="group_background background_purple"></div>
+										</c:if>
+										<c:if test="${fn:startsWith(glist.hobby_type, '음악')}">
+											<div class="group_background background_blue"></div>
+										</c:if>
+										<c:if test="${fn:startsWith(glist.hobby_type, '독서')}">
+											<div class="group_background background_brown"></div>
+										</c:if>
+										<c:if test="${fn:startsWith(glist.hobby_type, '스포츠')}">
+											<div class="group_background background_red"></div>
+										</c:if>
+										<c:if test="${fn:startsWith(glist.hobby_type, '게임')}">
+											<div class="group_background background_yellow"></div>
+										</c:if>
+										<c:if test="${fn:startsWith(glist.hobby_type, '여행')}">
+											<div class="group_background background_green"></div>
+										</c:if>
+										<c:if test="${fn:startsWith(glist.hobby_type, '요리')}">
+											<div class="group_background background_orange"></div>
+										</c:if>
+										<c:if test="${fn:startsWith(glist.hobby_type, '기타')}">
+											<div class="group_background background_gray"></div>
+										</c:if>
+										<div class="group_each_wrapper">
+											<div class="each_writer"><span class="each_name">${glist.writer_name}</span>(${glist.writer_id})</div>
+											<div class="each_title">${glist.title}</div>
+											<div><span class="sub_title">장소</span> ${glist.location}</div>
+											<div><span class="sub_title">유형</span> ${glist.hobby_type}</div>
+											<div><span class="sub_title">모집 기간</span>
+												<c:if test="${glist.applying == 'N'}">
+												 - 
+												</c:if>
+												<c:if test="${glist.applying == 'Y'}">
+												 ${glist.apply_start} ~ ${glist.apply_end}
+												</c:if>
+											</div>
+											<div><span class="sub_title">진행 기간</span> ${glist.start_date} ~ ${glist.end_date}</div>
+											<div><span class="sub_title">평점</span> <i class="fa fa-star" aria-hidden="true"></i> ${glist.review_point}</div>
+											<div>
+												<span class="sub_title">조회</span> ${glist.view_count}  
+												<span class="sub_title">추천</span> ${glist.like_count}  
+												<span class="sub_title">리뷰</span> ${glist.review_count}
+												<span class="sub_title">신청</span> ${glist.app_count}
+											</div>
+											<div>
+												<c:if test="${glist.applying == 'Y'}">
+													<div class="group_applying">모집중</div>  
+												</c:if>
+												<c:if test="${glist.proceeding == 'Y'}">
+													<div class="group_proceeding">진행중</div>
+												</c:if>
+												<c:if test="${glist.proceeding == 'N' && glist.applying == 'N'}">
+													<div class="group_done">마감</div>
+												</c:if>
+											</div>
 										</div>
-										<c:if test="${glist.applying == 'Y'}">
-											<span>모집중</span>  
-										</c:if>
-										<c:if test="${glist.proceeding == 'Y'}">
-											<span>진행중</span>
-										</c:if>
-										<c:if test="${glist.proceeding == 'N' && glist.applying == 'N'}">
-											<span>마감</span>
-										</c:if>
 									</div>
 								</a>
 							</c:forEach>
 						</c:otherwise>
 					</c:choose>
-					<div class="navi">${navi}</div>
-					<a href="/group/write">그룹 등록하기</a>
 				</div>
+				<a href="/group/write">그룹 등록하기</a>
+				<div id="listNav">${navi}</div>
 			</article>
 		</section>
 	</div>
@@ -153,6 +198,17 @@
 			location.href = '/group/mainOption?orderBy=' + orderByVal + '&ing=' + ing;
 		})
 		
+		$('.hobby_list').change(function(){
+			if($(this).is(':checked')) {
+				var checkedCount = $('.hobby_list:checked').length;
+				
+				if (checkedCount > 3) {
+					alert('유형은 세 개까지만 선택 가능합니다.');
+					$(this).prop('checked', false);
+				}
+			}
+		})
+		
 		$('#searchAsKeyword').on('click', function(){
 			var orderByVal = $('#orderBy').val();
 			var selectedHobbyLength = $('.hobby_list:checked').length;
@@ -161,6 +217,7 @@
 			var keywordInput = null;
 			var periodLength = $('.period:checked').length;
 			var period = null;
+			var hobbyType = null;
 			
 			if (periodLength > 0) {
 				period = $('.period:checked').val();
@@ -185,7 +242,7 @@
 				}
 			}
 			
-			location.href = '/group/search?searchType=' + keywordType + '&searchThing=' + keywordInput + '&orderBy=' + orderByVal + '&hobbyType=' + hobbyType + '&period=' + period;
+			location.href = '/group/search?keywordType=' + keywordType + '&keywordValue=' + keywordInput + '&orderBy=' + orderByVal + '&hobbyType=' + hobbyType + '&period=' + period;
 		})
 		
 		$('#search_cal_btn').on('click', function(){
@@ -193,7 +250,7 @@
 			var dateStart = $('#date_start').val();
 			var dateEnd = $('#date_end').val();
 			
-			location.href = '/group/searchDate?dateStart=' + dateStart + '&dateEnd=' + dateEnd + '&orderBy=' + orderByVal;
+			location.href = '/group/searchDate?start_date=' + dateStart + '&end_date=' + dateEnd + '&orderBy=' + orderByVal;
 		})
 		
 		$('#search_map_btn').on('click', function(){
@@ -204,6 +261,12 @@
 		})
 		
 		new sojaeji('sido1', 'gugun1');
+		
+		$('#sido1').change(function(){
+			var sido = $('#sido1 option:selected').val();
+			
+			$('#location').val(sido);
+		})
 		
 		$('#gugun1').change(function(){
 			var sido = $('#sido1 option:selected').val();

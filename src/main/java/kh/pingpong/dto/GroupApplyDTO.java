@@ -2,7 +2,7 @@ package kh.pingpong.dto;
 
 public class GroupApplyDTO {
 	private int seq;
-	private String writer;
+	private String id;
 	private String name;
 	private int age;
 	private String gender;
@@ -14,11 +14,11 @@ public class GroupApplyDTO {
 	private int parent_seq;
 	
 	public GroupApplyDTO() {}
-	public GroupApplyDTO(int seq, String writer, String name, int age, String gender, String address, String profile,
+	public GroupApplyDTO(int seq, String id, String name, int age, String gender, String address, String profile,
 			String lang_can, String lang_learn, String contents, int parent_seq) {
 		super();
 		this.seq = seq;
-		this.writer = writer;
+		this.id = id;
 		this.name = name;
 		this.age = age;
 		this.gender = gender;
@@ -35,11 +35,11 @@ public class GroupApplyDTO {
 	public void setSeq(int seq) {
 		this.seq = seq;
 	}
-	public String getWriter() {
-		return writer;
+	public String getId() {
+		return id;
 	}
-	public void setWriter(String writer) {
-		this.writer = writer;
+	public void setId(String id) {
+		this.id = id;
 	}
 	public String getName() {
 		return name;

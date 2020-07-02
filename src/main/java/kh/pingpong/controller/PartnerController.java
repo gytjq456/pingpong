@@ -20,12 +20,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import kh.pingpong.dao.PartnerDAO;
 import kh.pingpong.dto.HobbyDTO;
 import kh.pingpong.dto.LanguageDTO;
 import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.dto.PartnerDTO;
+import kh.pingpong.service.MemberService;
 import kh.pingpong.service.PartnerService;
 
 @Controller
@@ -34,14 +35,14 @@ public class PartnerController {
 
 	@Autowired
 	private PartnerService pservice;
-
+	
 	@Autowired
-	private PartnerDAO pdao;
+	private MemberService mservice;
 
 	@Autowired
 	private HttpSession session;
 
-
+	// 메일 
 	private Boolean mail(HttpServletRequest request, HttpServletResponse response, String pemail, String memail, String emailPassword) {
 		Boolean result = false;
 		String uri = request.getRequestURI();
@@ -54,7 +55,7 @@ public class PartnerController {
 		String user = memail; //자신의 네이버 계정
 		String password = emailPassword;// 자신의 패스워드
 
-		System.out.println(emailPassword);
+		//System.out.println(emailPassword);
 		//메일 받을 주소
 		//System.out.println("userMail :"+userMail);
 		String to_email = pemail;
@@ -93,23 +94,38 @@ public class PartnerController {
 			return result;
 		}
 	}
-
+	
+	//파트너 목록 페이지
 	@RequestMapping("partnerList")
 	public String partnerList(HttpServletRequest request, Model model) throws Exception{
 		int cpage = 1;
 		try {
 			cpage = Integer.parseInt(request.getParameter("cpage"));
 		}catch(Exception e) {}
-
+		
 		List<PartnerDTO> plist = pservice.partnerList(cpage);
+		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
 		String navi = pservice.getPageNavi(cpage);
 		List<HobbyDTO> hdto = pservice.selectHobby();
 		List<LanguageDTO> ldto = pservice.selectLanguage();
+		model.addAttribute("loginInfo", loginInfo);
 		model.addAttribute("plist", plist);
 		model.addAttribute("navi", navi);
 		model.addAttribute("hdto", hdto);
 		model.addAttribute("ldto", ldto);
+		
 		return "partner/partnerList";
+	}
+	
+
+	//파트너 상세 뷰페이지
+
+	@ResponseBody
+	@RequestMapping("chatPartner")
+	public List<PartnerDTO> chatPartner(HttpServletRequest request, Model model) throws Exception{
+		List<PartnerDTO> plist = pservice.partnerListAll();
+		//model.addAttribute("plist", plist);
+		return plist;
 	}
 
 	@RequestMapping("partnerView")
@@ -118,19 +134,22 @@ public class PartnerController {
 		model.addAttribute("pdto", pdto);
 		return "partner/partnerView";
 	}
-
+	
+	//멤버 선택 
 	@RequestMapping("selectMember")
 	public String selectMember(MemberDTO mdto, Model model, HttpServletRequest request) throws Exception{
-		String id = "ddong";
-		mdto = pservice.selectMember(id);
+		//String id = "ddong";
+		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
+		mdto = mservice.memberSelect(loginInfo);
 		return "partner/partnerList";
 	}
 
-
+	//파트너 등록
 	@RequestMapping("insertPartner")
 	public String insertPartner(MemberDTO mdto, String contact, Model model) throws Exception{
-		System.out.println(contact);		
-		mdto = pservice.selectMember("ddong");
+		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
+		mdto = pservice.selectMember(loginInfo.getId());
+		mdto = mservice.memberSelect(loginInfo);
 		Map<String, Object> insertP = new HashMap<>();
 		insertP.put("mdto", mdto);
 		insertP.put("contact", contact);	
@@ -138,35 +157,33 @@ public class PartnerController {
 		pservice.partnerInsert(insertP);
 		return "partner/partnerList";
 	}
-
+	
+	//이메일 작성
 	@RequestMapping("selectPartnerEmail")
 	public String selectPartnerEmail(int seq, Model model) throws Exception{
 		PartnerDTO pdto = pservice.selectBySeq(seq);
 		model.addAttribute("pdto", pdto);
 		return "email/write";
 	}
-
+	//이메일 보내기
 	@RequestMapping("send")
 	public String send(@ModelAttribute PartnerDTO pdto, MemberDTO mdto,  Model model, HttpServletRequest request, HttpServletResponse response) throws Exception{
 		//System.out.println(pdto.getEmail());
-		Boolean result = this.mail(request, response, pdto.getPemail(), mdto.getMemail(), mdto.getEmailPassword());
+		Boolean result = this.mail(request, response, pdto.getEmail(), mdto.getEmail(), mdto.getEmailPassword());
 		//System.out.println(result);	
 		return "redirect:/partner/partnerList";
 	}
 	
 	//상세 검색
 	@RequestMapping("partnerSearch")
-	public String search(PartnerDTO pdto ,HttpServletRequest request,Model model) throws Exception{
+	public String search(PartnerDTO pdto, HttpServletRequest request, Model model) throws Exception{
 		int cpage = 1;
 		try {
 			cpage = Integer.parseInt(request.getParameter("cpage"));
 		}catch(Exception e) {}
 		
-		Map<String, Object> search = new HashMap<>();
-		//String navi = pservice.getPageNavi(cpage);	
-		List<PartnerDTO> plist = pservice.search(cpage,search,pdto);
-		
-		//List<PartnerDTO> plist = pservice.partnerList(cpage);
+		Map<String, Object> search = new HashMap<>();	
+		List<PartnerDTO> plist = pservice.search(cpage, search, pdto);
 		String navi = pservice.getPageNavi(cpage);
 		List<HobbyDTO> hdto = pservice.selectHobby();
 		List<LanguageDTO> ldto = pservice.selectLanguage();
@@ -174,12 +191,9 @@ public class PartnerController {
 		model.addAttribute("navi", navi);
 		model.addAttribute("hdto", hdto);
 		model.addAttribute("ldto", ldto);
-		System.out.println("tset :" + plist.size());
-//		System.out.println("navi : " + navi);
-//		System.out.println("plist : " + plist);
-//		model.addAttribute("plist", plist);
-//		model.addAttribute(navi, "navi");
 		return "/partner/partnerList";
 	}
+	
+	
 }
 

@@ -7,12 +7,34 @@
 	$(function() {
 		var layerPop_s1 = $("#layerPop_s1");
 		$("#popOnBtn").on("click", function() {
-			layerPop_s1.stop().fadeIn();
+			var parent_seqVal = '${seq}';
+			var categoryVal = '${ldto.category}';
+			console.log(parent_seqVal);
+			$.ajax({
+				url: "/tutor/lessonCancle",
+				data:{
+					'parent_seq': parent_seqVal,
+					'category' : categoryVal
+				},
+				type: 'POST'
+			}).done(function(resp){
+				console.log(resp)
+				if(resp>0){
+					alert("이미 강의취소 요청이 되었습니다. 대기해주세요.");
+					return false;
+				}
+				layerPop_s1.stop().fadeIn();
+			}).fail(function(error1, error2) {
+				console.log(error1);
+				console.log(error2);
+			})
+
 		})
 		
 		$("#back").on("click", function(){
 			layerPop_s1.stop().fadeOut();
 		})
+		
 	})
 </script>
 <style>
@@ -23,11 +45,11 @@
 
 
 <article id="layerPop_s1">
-	<div class="pop_body">
+	<div class="pop_body"> 
 		<div class="tit_s3">
 			<h4>탈퇴 신청서</h4>
 		</div>
-		<form action="cancleProc" method="post">
+		<form action="cancleProc" id="cancleProc" method="post">
 			<input type="hidden" name="id" value="${ldto.id}">
 			<input type="hidden" name="parent_seq" value="${seq}">
 			<input type="hidden" name="category" value="${ldto.category}" />

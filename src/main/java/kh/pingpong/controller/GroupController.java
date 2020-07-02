@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,6 +54,7 @@ public class GroupController {
         
         List<HobbyDTO> hblist = gservice.selectHobby();
 		List<GroupDTO> glist = gservice.selectList(cpage, orderBy);
+		
 		String navi = gservice.getPageNav(cpage, orderBy);
 		
 		model.addAttribute("hblist", hblist);
@@ -98,6 +100,27 @@ public class GroupController {
 		
 		GroupDTO gdto = gservice.selectBySeq(seq);
 		
+		String hobby_type = gdto.getHobby_type();
+		String hobby[] = hobby_type.split(",");
+		List<String> hobby_arr = new ArrayList<>();
+		
+		for (int i = 0; i < hobby.length; i++) {
+			hobby_arr.add(hobby[i]);
+		}
+		List<GroupDTO> relatedGroup = gservice.relatedGroup(hobby_arr);
+		
+		for (int i = 0; i < relatedGroup.size(); i++) {
+			int rseq = relatedGroup.get(i).getSeq();
+			
+			if (rseq == seq) {
+				relatedGroup.remove(i);
+			}
+		}
+		
+		if (relatedGroup.size() > 4) {
+			relatedGroup.remove(4);
+		}
+		
 		Map<Object, Object> param = new HashMap<>();
 		param.put("id", id);
 		param.put("parent_seq", seq);
@@ -107,6 +130,7 @@ public class GroupController {
 		//리뷰 리스트 출력
 		List<ReviewDTO> reviewList = gservice.reviewList(seq);
 		
+		model.addAttribute("relatedGroup", relatedGroup);
 		model.addAttribute("gdto", gdto);
 		model.addAttribute("checkLike", checkLike);
 		model.addAttribute("reviewList", reviewList);
@@ -135,15 +159,8 @@ public class GroupController {
 		return "redirect:/group/view";
 	}
 	
-	@RequestMapping("applyForm/parent_seq/{parent_seq}")
-	public String groupApplyForm(@PathVariable int parent_seq, Model model) {
-		model.addAttribute("parent_seq", parent_seq);
-		return "/group/apply";
-	}
-	
 	@RequestMapping("apply")
-	@ResponseBody
-	public boolean groupApply(GroupApplyDTO gadto) {
+	public String groupApply(GroupApplyDTO gadto, Model model) {
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
 
 		gadto.setWriter(loginInfo.getId());
@@ -155,37 +172,28 @@ public class GroupController {
 		gadto.setLang_can(loginInfo.getLang_can());
 		gadto.setLang_learn(loginInfo.getLang_learn());
 		
-		int result = gservice.insertApp(gadto);
-		boolean output = false;
+		gservice.insertApp(gadto);
 		
-		if (result > 0) {
-			output = true;
-		}
+		int seq = gadto.getParent_seq();
 		
-		return output;
-	}
-	
-	@RequestMapping("outForm/parent_seq/{parent_seq}")
-	public String groupOutForm(@PathVariable int parent_seq, Model model) {
-		model.addAttribute("parent_seq", parent_seq);
-		return "/group/out";
+		model.addAttribute("seq", seq);
+
+		return "redirect:/group/view";
 	}
 	
 	@RequestMapping("out")
-	@ResponseBody
-	public boolean groupApplyDelete(DeleteApplyDTO dadto) {
+	public String groupApplyDelete(DeleteApplyDTO dadto, Model model) {
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
 		String id = loginInfo.getId();
 		
 		dadto.setId(id);
-		int result = gservice.insertDeleteApply(dadto);
-		boolean output = false;
+		gservice.insertDeleteApply(dadto);
 		
-		if (result > 0) {
-			output = true;
-		}
+		int seq = dadto.getParent_seq();
 		
-		return output;
+		model.addAttribute("seq", seq);
+		
+		return "redirect:/group/view";
 	}
 	
 	@RequestMapping("like")
@@ -221,6 +229,7 @@ public class GroupController {
         
         List<HobbyDTO> hblist = gservice.selectHobby();
 		List<GroupDTO> glist = gservice.selectListOption(cpage, param);
+		
 		String navi = gservice.getPageNav(cpage, orderBy);
 		
 		model.addAttribute("hblist", hblist);
@@ -257,11 +266,13 @@ public class GroupController {
 		
 		List<HobbyDTO> hblist = gservice.selectHobby();
 		List<GroupDTO> glist = gservice.search(cpage, search);
+		
 		String navi = gservice.getPageNav(cpage, orderBy);
 
 		model.addAttribute("hblist", hblist);
 		model.addAttribute("glist", glist);
 		model.addAttribute("navi", navi);
+		model.addAttribute("orderBy", orderBy);
 		
 		return "/group/main";
 	}
@@ -281,11 +292,38 @@ public class GroupController {
         
         List<HobbyDTO> hblist = gservice.selectHobby();
         List<GroupDTO> glist = gservice.searchDate(cpage, dates);
+        
         String navi = gservice.getPageNav(cpage, orderBy);
         
         model.addAttribute("hblist", hblist);
         model.addAttribute("glist", glist);
         model.addAttribute("navi", navi);
+        model.addAttribute("orderBy", orderBy);
+        
+        return "/group/main";
+	}
+	
+	@RequestMapping("searchLocation")
+	public String searchLocation(String location, String orderBy, HttpServletRequest request, Model model) throws Exception {
+		int cpage = 1;
+        try {
+           cpage = Integer.parseInt(request.getParameter("cpage"));
+        } catch (Exception e) {}
+
+        Map<String, Object> map = new HashMap<>();
+        
+        map.put("orderBy", orderBy);
+        map.put("location", location);
+        
+        List<HobbyDTO> hblist = gservice.selectHobby();
+        List<GroupDTO> glist = gservice.searchLocation(cpage, map);
+        
+        String navi = gservice.getPageNav(cpage, orderBy);
+        
+        model.addAttribute("hblist", hblist);
+        model.addAttribute("glist", glist);
+        model.addAttribute("navi", navi);
+        model.addAttribute("orderBy", orderBy);
         
         return "/group/main";
 	}

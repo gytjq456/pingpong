@@ -213,6 +213,25 @@ public class GroupDAO {
 		return mybatis.selectList("Group.searchDate", dates);
 	}
 	
+	public List<GroupDTO> searchLocation(int cpage, Map<String, Object> map) {
+		int start = cpage * Configuration.RECORD_COUNT_PER_PAGE - (Configuration.RECORD_COUNT_PER_PAGE - 1);
+		int end = start + (Configuration.RECORD_COUNT_PER_PAGE - 1);
+		
+		map.put("start", start);
+		map.put("end", end);
+		
+		return mybatis.selectList("Group.searchLocation", map);
+	}
+	
+	public List<GroupDTO> relatedGroup(List<String> hobby_arr) {
+		System.out.println(hobby_arr);
+		return mybatis.selectList("Group.relatedGroup", hobby_arr);
+	}
+	
+	public int updateAppCount(int seq) {
+		return mybatis.update("Group.updateAppCount", seq);
+	}
+	
 	//리뷰 글쓰기
 	public int reviewWrite(ReviewDTO redto) throws Exception{
 		return mybatis.insert("Group.reviewWrite",redto);

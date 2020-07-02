@@ -25,25 +25,33 @@ public class PartnerService {
 	
 	@Autowired
 	JavaMailSender mailSender;
-
+	
+	//파트너 게시글에서 파트너 찾기
 	public List<PartnerDTO> search(int cpage, Map<String, Object> search, PartnerDTO pdto) throws Exception{
 		return pdao.search(cpage, search, pdto);
 	}
 	
+	//취미 선택 
 	public List<HobbyDTO> selectHobby() throws Exception{
 		return pdao.selectHobby();
 	}
 	
+	//언어 선택
 	public List<LanguageDTO> selectLanguage() throws Exception{
 		return pdao.selectLanguage();
 	}
 	
+	//seq로 파트너 상세 뷰페이지 불러오기
 	public PartnerDTO selectBySeq(int seq) throws Exception{
 		return pdao.selectBySeq(seq);
 	}
 	
+	//파트너 게시글 페이징
 	public List<PartnerDTO> partnerList(int cpage) throws Exception{
 		return pdao.selectByPageNo(cpage);
+	}
+	public List<PartnerDTO> partnerListAll() throws Exception{
+		return pdao.partnerListAll();
 	}
 	
 	//페이지 네비게이션
@@ -51,7 +59,7 @@ public class PartnerService {
 
 		int recordTotalCount =pdao.getArticleCount(); 
 		int pageTotalCount = 0; 
-		System.out.println(pdao.getArticleCount());
+		//System.out.println(pdao.getArticleCount());
 	
 		if(recordTotalCount % Configuration.RECORD_COUNT_PER_PAGE > 0) {
 			pageTotalCount = recordTotalCount / Configuration.RECORD_COUNT_PER_PAGE + 1;
@@ -94,13 +102,17 @@ public class PartnerService {
 		return sb.toString();
 	}
 	
+	//회원 선택
 	public MemberDTO selectMember(String id) throws Exception{
 		return pdao.selectMember(id);
 	}
+	
+	//파트너 등록
 	public int partnerInsert(Map<String, Object> insertP) throws Exception{
 		return pdao.insertPartner(insertP);
 	}
 	
+	//이메일 전송
 	public void SendMail(PartnerDTO pdto, MemberDTO mdto) {
 		try {
 			//이메일 객체
@@ -108,13 +120,6 @@ public class PartnerService {
 			
 			//받는 사람을 설정(수신자 받는 사람의 이메일 주소 객체를 생성해서 이메일 주소를 담음)
 			msg.addRecipient(RecipientType.TO, new InternetAddress(pdto.getEmail()));
-			
-			 /*
-             * createMimeMessage() : MimeMessage객체를 생성(메시지 구성후 메일 발송)
-             * addRecipient() : 메시지의 발신자를 설정 
-             * InternetAddress() : 이메일 주소
-             * getReceiveMail() : 수신자 이메일 주소
-             */
  
             // 보내는 사람(이메일 + 주소)
             // (발신자, 보내는 사람의 이메일 주소와 이름을 담음)
@@ -125,13 +130,7 @@ public class PartnerService {
 			msg.setSubject("이메일 제목","utf-8");
 			msg.setText("이메일 내용","utf-8");
 			
-          //html로 보낼 경우        
-          //MimeMessage message = mailSender.createMimeMessage();
-          //MimeMessageHelper helper = new MimeMessageHelper(message, true);
-          //helper.setTo("test@host.com");
-          //helper.setText("<html><body><img src='cid:identifier1234'></body></html>", true);
-
-          // 이메일 보내기
+            // 이메일 보내기
 			mailSender.send(msg);
 		}catch(Exception e) {
 			e.printStackTrace();

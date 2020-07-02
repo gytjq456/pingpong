@@ -16,26 +16,25 @@
 			<if test="pdto.gender != null">
 				gender = #{pdto.gender}
 			</if>
+			<if test="pdto.name != null">
+				and name like '%'||#{pdto.name}||'%'
+			</if>
 			<if test="pdto.hobby != null">
-				and hobby = #{pdto.hobby}
+				and hobby like '%'||#{pdto.hobby}||'%'
 			</if> 
 			<if test="pdto.lang_can != null">
-				lang_can = #{pdto.lang_can}
-			</if>
-			<if test="pdto.hobby != null">
-				and hobby = #{pdto.hobby}
+				and lang_can like '%'||#{pdto.lang_can}||'%'
 			</if>
 			<if test="pdto.lang_learn != null">
-				and lang_learn = #{pdto.lang_learn}
+				and lang_learn like '%'||#{pdto.lang_learn}||'%'
 			</if>		
  	 		<if test="pdto.address != null">
-				and address = #{pdto.address}
+				and address like '%'||#{pdto.address}||'%'
 			</if>  
-			<!--
- 			<if test="age != 0">
-				age = #{age}
+ 			<if test="pdto.age != 0">
+				and age like '%'||#{pdto.age}||'%'
 			</if>
-			--> 
+			
 		</trim>
 		) where rnum between 1 and 10
 	</select>
@@ -55,15 +54,28 @@
 
 
 	<!-- 파트너 등록 -->
-	<select id="selectMember" resultType="kh.pingpong.dto.MemberDTO">
+	<resultMap id="MemProfile" type="kh.pingpong.dto.MemberDTO">
+    	<result property="sysname" column="profile"/>
+    </resultMap>
+	<select id="selectMember" resultMap="MemProfile">
 		select * from member where id= #{id}
 	</select>
+	
 	<insert id="insertPartner">
-		insert into partner
-		values(partner_seq.nextval,#{mdto.id},#{mdto.name},#{mdto.age},
-		#{mdto.gender},#{mdto.email},#{mdto.country},#{mdto.phone_country},#{mdto.phone},#{mdto.address},
-		#{mdto.profile},#{mdto.lang_can},#{mdto.lang_learn},#{mdto.hobby},#{mdto.introduce},sysdate,
-		0, 0, #{contact})
+		insert into partner values(partner_seq.nextval,#{mdto.id,jdbcType=VARCHAR},
+		#{mdto.name,jdbcType=VARCHAR},#{mdto.age,jdbcType=INTEGER},
+		#{mdto.gender,jdbcType=VARCHAR},#{mdto.email,jdbcType=VARCHAR},
+		#{mdto.country,jdbcType=VARCHAR},#{mdto.phone_country,jdbcType=VARCHAR},
+		#{mdto.phone,jdbcType=VARCHAR},#{mdto.address,jdbcType=VARCHAR},
+		#{mdto.sysname,jdbcType=VARCHAR},#{mdto.lang_can,jdbcType=VARCHAR},
+		#{mdto.lang_learn,jdbcType=VARCHAR},#{mdto.hobby,jdbcType=VARCHAR},
+		#{mdto.introduce,jdbcType=VARCHAR},sysdate,0, 0, 
+		#{contact,jdbcType=VARCHAR})
 	</insert>
+	
+	<!-- 전체 파트너  -->
+	<select id="partnerListAll" resultType="kh.pingpong.dto.PartnerDTO">
+		select * from partner
+	</select>
 	
 </mapper>

@@ -1,5 +1,6 @@
 package kh.pingpong.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -16,8 +17,11 @@ public class ChatDAO {
 		return mybatis.insert("Chat.insert",chatInfp);
 	}	
 	
-	public int chatRoomSch(Map<String,String> chatInfp) throws Exception{
-		return mybatis.selectOne("Chat.chatRoomSch",chatInfp);
+	public String chatRoomSch(Map<String,String> chatInfo) throws Exception{
+		return mybatis.selectOne("Chat.chatRoomSch",chatInfo);
+	}	
+	public List<String> chatRoomAll() throws Exception{
+		return mybatis.selectList("Chat.chatRoomAll");
 	}	
 	
 }

@@ -4,7 +4,6 @@ public class ChatRoomDTO {
 	private int roomId;
 	private String users;
 	private String chatMemberId;
-	private String chatRecord;
 	
 	public ChatRoomDTO() {
 		super();
@@ -13,12 +12,11 @@ public class ChatRoomDTO {
 	
 	
 
-	public ChatRoomDTO(int roomId, String users, String chatMemberId, String chatRecord) {
+	public ChatRoomDTO(int roomId, String users, String chatMemberId) {
 		super();
 		this.roomId = roomId;
 		this.users = users;
 		this.chatMemberId = chatMemberId;
-		this.chatRecord = chatRecord;
 	}
 
 

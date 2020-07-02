@@ -229,12 +229,12 @@ button.normal:hover { background:#c7c7c7 !important; color:#fff; }
 #chatWrap .title { height:80px; background:#3162a4; margin:0 !important; padding:20px; position:relative; }
 #chatWrap .title i { color:#fff; font-size:20px; border:1px solid #fff; border-radius:50%; padding:8px; margin-right:10px;}
 #chatWrap .title i, 
-#chatWrap .title p { float:left; position:relative; }
-#chatWrap .title span { display:block; position:absolute; right:0; top:50%; transform:translateY(-50%); background:#fff; border-radius:50%; width:20px; height:20px; color:#3162a4; line-height:20px; text-align:center; font-weight:700; font-size:12px; margin-top:3px;}
-#chatWrap .title p { padding-top:8px; padding-right:20px; font-size:14px; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-	width:calc(100% - 50px); 
-	width:-moz-calc(100% - 50px); 
-	width:-webkit-calc(100% - 50px); 
+#chatWrap .title p {display:inline-block; vertical-align:middle; position:relative; overflow:hidden;}
+#chatWrap .title span { display:block; position:absolute; right:20px; top:46%; transform:translateY(-50%); background:#fff; border-radius:50%; width:20px; height:20px; color:#3162a4; line-height:20px; text-align:center; font-weight:700; font-size:12px; margin-top:3px;}
+#chatWrap .title p { padding:5px 20px 5px 0; font-size:14px; color:#fff; white-space:nowrap; text-overflow:ellipsis;
+	max-width:calc(100% - 64px); 
+	max-width:-moz-calc(100% - 64px); 
+	max-width:-webkit-calc(100% - 64px); 
 	
 }
 
@@ -277,5 +277,5 @@ width:-moz-calc(100% - 100px);
 #chatList .list ul li:last-child { margin:0; padding:0; border:none; }
 #chatList .list ul li button { width:80px; height:32px; border:1px solid #ddd; border-radius:6px;  position:absolute; right:0; top:50%; transform:translateY(-50%); background:#fff; }
 #chatList .list ul li button:hover { color:#fff; background:#fbaab0;}
-#chatWrap #chatRoom {opacity:1; z-index:0;}
-#chatWrap #chatRoom.on { right:320px; transition:all 0.5s; opacity:1; z-index:9999;}
+#chatWrap #chatRoom {opacity:1;  right:-320px; transition:all 0.5s;}
+#chatWrap #chatRoom.on { right:0;  opacity:1; z-index:9999;}

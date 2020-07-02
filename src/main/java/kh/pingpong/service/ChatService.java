@@ -1,5 +1,6 @@
 package kh.pingpong.service;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -40,12 +41,15 @@ public class ChatService {
 	}
 	
 	
-	public int chatInsert(Map<String,String> chatInfp) throws Exception{
-		return chatDao.chatInsert(chatInfp);
+	public int chatInsert(Map<String,String> chatInfo) throws Exception{
+		return chatDao.chatInsert(chatInfo);
 	}
 	
-	public int chatRoomSch(Map<String,String> chatInfp) throws Exception{
-		return chatDao.chatRoomSch(chatInfp);
+	public String chatRoomSch(Map<String,String> chatInfo) throws Exception{
+		return chatDao.chatRoomSch(chatInfo);
+	}
+	public List<String> chatRoomAll() throws Exception{
+		return chatDao.chatRoomAll();
 	}
 
 }

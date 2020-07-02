@@ -6,8 +6,14 @@
 		insert into chatRoom values(#{roomId},#{usersName},#{usersIds})
 	</insert>
 	
-	<select id="chatRoomSch" resultType="int">
+<!-- 	<select id="chatRoomSch" resultType="int">
 		select count(*) from chatRoom where chatMemberId = #{usersIds}
+	</select> -->
+	<select id="chatRoomSch" resultType="String">
+		select roomId from chatRoom where chatMemberId like '%'||#{master}||'%' and chatMemberId like '%'||#{partner}||'%'
+	</select>
+	<select id="chatRoomAll" resultType="String">
+		select * from chatRoom;
 	</select>
 
 

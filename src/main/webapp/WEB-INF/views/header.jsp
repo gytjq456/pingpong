@@ -24,6 +24,7 @@
 	<body>
 	   <header>
 	      <section id="hdTop">
+	      		${sessionScope.loginInfo.id}
 	         <div class="inner1200">
 	            <div class="util">
 	               <ul>
@@ -73,7 +74,7 @@
 							<li>
 								<a href="/tutor/tutorList">Tutor</a>
 								<ul class="depth2">
-									<li><a href="/tutor/lessonList">강의 목록</a></li>
+									<li><a href="/tutor/lessonList?orderBy=seq">강의 목록</a></li>
 									<li><a id="tutorApp">튜터 신청</a></li>
 								</ul>
 							</li>												
@@ -81,7 +82,7 @@
 								<a href="/discussion/list">Board</a>
 								<ul class="depth2">
 									<li><a href="/discussion/list">토론</a></li>
-									<li><a href="#;">질문</a></li>
+									<li><a href="/correct/correct_list">질문</a></li>
 									<li><a href="#;">소식</a></li>
 								</ul>
 							</li>												

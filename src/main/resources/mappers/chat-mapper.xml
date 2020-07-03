@@ -1,14 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Chat">
-
+	<!-- 방 생성 -->
 	<insert id="insert">
 		insert into chatRoom values(#{roomId},#{usersName},#{usersIds})
 	</insert>
 	
-	<select id="chatRoomSch" resultType="int">
-		select count(*) from chatRoom where chatMemberId = #{usersIds}
+	
+	<!-- 방번호 검색 -->
+ 	<select id="chatRoomIdSch" resultType="String">
+		select roomId from chatRoom where chatMemberId like '%'||#{master}||'%' and chatMemberId like '%'||#{partner}||'%'
 	</select>
 
+	<!-- 채팅방 기록 가져오기 -->
+	<select id="chatRecordList" resultType="kh.pingpong.dto.ChatRecordDTO">
+		select * from chatrecord where roomId = #{roomId} order by roomId,seq
+	</select>
+	
+<!-- 	<select id="chatRoomSch" resultType="kh.pingpong.dto.ChatRoomDTO">
+		select * from chatRoom where chatMemberId like '%${master}%' and chatMemberId like '%${partner}%'
+	</select> -->
+	
+	<!-- 모든 방 가져오기 -->
+	<select id="chatRoomAll" resultType="String">
+		select * from chatRoom;
+	</select>
+
+	<!-- 채팅 내용 입력 -->
+	<insert id="chatTxtInsert">
+		insert into chatRecord values(#{roomId}, chatRecord_seq.nextval, #{sendUser}, #{chatRecord}, default)
+		<!-- TO_CHAR(SYSDATE, 'YYYYMMDD (DY)am HH24"시" MI"분"') -->
+	</insert>
 
 </mapper>

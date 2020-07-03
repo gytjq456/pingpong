@@ -39,9 +39,9 @@
 	#group_optional #like_count { border-right: 1px solid #ddd; padding-right: 10px; }
 	#group_optional .optional_box { margin-bottom: 20px; }
 	#related_group_title { font-size: 22px; }
-	#view_btns button { width: 49%; display: inline-block; }
-	#view_btns #toList { width: 100%; margin-top: 5px; }
-	#view_btns #applyForm, #view_btns #update { margin-right: 2px; }
+	#view_btns #update, #view_btns #delete { width: 49%; display: inline-block; }
+	#view_btns button { width: 100%; margin-top: 5px; }
+	#view_btns #update { margin-right: 2px; }
 	#writer_profile img { vertical-align: top; }
 	#map { width: 100%; height: 200px; margin-top: 10px; }
 </style>
@@ -60,11 +60,25 @@
 			location.href = "/group/update?seq=" + seq;
 		})
 		
+		$('#applyCancel').on('click', function(){
+			var conf = confirm('가입 신청을 취소하시겠습니까?');
+			if (conf) {
+				location.href = '/group/deleteApplyForm?seq=' + seq;
+			}
+		})
+		
 		var checkLike = ${checkLike};
 		if (checkLike) {
 			$('#like').css('color', '#3162a4');
 			$('#like i').removeClass('fa-thumbs-o-up');
 			$('#like i').addClass('fa-thumbs-up');
+		}
+		
+		var checkJjim = ${checkJjim};
+		if (checkJjim) {
+			$('#jjim').css('color', '#fbaab0');
+			$('#jjim i').removeClass('fa-heart-o');
+			$('#jjim i').addClass('fa-heart');
 		}
 		
 		// 리뷰 
@@ -276,8 +290,15 @@
 												<button type="button" id="delete">삭제</button>
 										</c:when>
 										<c:otherwise>
-												<button type="button" id="applyForm">신청</button>
-												<button type="button" id="deleteForm">탈퇴</button>
+											<c:if test="${checkApply == true}">
+												<button type="button" id="applyCancel">신청 취소</button>
+											</c:if>
+											<c:if test="${checkApply == false && (sessionScope.loginInfo.id != gdto.writer_id)}">
+												<button type="button" id="applyForm">신청하기</button>
+											</c:if>
+											<c:if test="${checkMember == true}">
+												<button type="button" id="deleteForm">탈퇴하기</button>
+											</c:if>
 										</c:otherwise>
 									</c:choose>
 									<button type="button" id="toList" onclick="javascript:toList()">목록</button>
@@ -409,8 +430,7 @@
 		}
 		
 		$('#like').on('click', function(){
-			console.log($(this).css('color'));
-			if ($(this).css('color') == 'rgb(255, 0, 0)') {
+			if ($(this).css('color') == 'rgb(49, 98, 164)') {
 				alert('이미 추천하셨습니다.');
 				
 				return false;
@@ -426,6 +446,28 @@
 				alert('추천하셨습니다.');
 				location.href = '/group/view?seq=' + seq;
 			})
+		})
+		
+		$('#jjim').on('click', function(){
+			var seq = $('#seq').html();
+			
+			if ($(this).css('color') != 'rgb(251, 170, 176)') {
+				$.ajax({
+					url: '/group/jjim',
+					data: {'parent_seq': seq},
+					type: 'POST'
+				}).done(function(resp){
+					location.href = '/group/view?seq=' + seq;
+				})
+			} else {
+				$.ajax({
+					url: '/group/delJjim',
+					data: {'parent_seq': seq},
+					type: 'POST'
+				}).done(function(resp){
+					location.href = '/group/view?seq=' + seq;
+				})
+			}
 		})
 		
 		var inputLocation = '${gdto.location}';

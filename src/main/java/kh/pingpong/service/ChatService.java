@@ -1,12 +1,17 @@
 package kh.pingpong.service;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kh.pingpong.dao.ChatDAO;
+import kh.pingpong.dto.ChatRecordDTO;
+import kh.pingpong.dto.ChatRoomDTO;
 @Service
 public class ChatService {
 	
@@ -39,13 +44,41 @@ public class ChatService {
 		return AuthenticationKey;
 	}
 	
-	
-	public int chatInsert(Map<String,String> chatInfp) throws Exception{
-		return chatDao.chatInsert(chatInfp);
+	//방 생성
+	public int chatInsert(Map<String,String> chatInfo) throws Exception{
+		return chatDao.chatInsert(chatInfo);
 	}
 	
-	public int chatRoomSch(Map<String,String> chatInfp) throws Exception{
-		return chatDao.chatRoomSch(chatInfp);
+	//방번호 검색
+	public String chatRoomIdSch(Map<String,String> chatInfo) throws Exception{
+		return chatDao.chatRoomIdSch(chatInfo);
+	}
+	
+	//모든 방 가져오기
+	public List<String> chatRoomAll() throws Exception{
+		return chatDao.chatRoomAll();
+	}
+	
+	//채팅방 기록 가져오기
+	public List<ChatRecordDTO> chatRecordList(String roomId) throws Exception{
+		return chatDao.chatRecordList(roomId);
+	}
+	
+	//채팅방 입력
+	public int chatTxtInsert(String message) throws Exception{
+		System.out.println("채팅 서비스");
+		ChatRecordDTO chatDto = new ChatRecordDTO();
+		JSONParser parser = new JSONParser();
+		Object obj = parser.parse( message );
+		JSONObject jsonObj = (JSONObject) obj;		
+		String chatRoom = (String) jsonObj.get("chatRoom");
+		String txt = (String) jsonObj.get("text");
+		String id = (String) jsonObj.get("id");
+		chatDto.setRoomId(chatRoom);
+		chatDto.setSendUser(id);
+		chatDto.setChatRecord(txt);
+		int result = chatDao.chatTxtInsert(chatDto);
+		return result;
 	}
 
 }

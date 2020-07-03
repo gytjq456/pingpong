@@ -124,7 +124,6 @@ public class PartnerController {
 	@RequestMapping("chatPartner")
 	public List<PartnerDTO> chatPartner(HttpServletRequest request, Model model) throws Exception{
 		List<PartnerDTO> plist = pservice.partnerListAll();
-		//model.addAttribute("plist", plist);
 		return plist;
 	}
 

@@ -24,6 +24,7 @@ public class MemberDTO {
 	private String hobby;
 	private String grade;
 	private String introduce;
+	private int report_count;
 	private Timestamp signup_date;
 	
 	private String sysname;
@@ -39,7 +40,7 @@ public class MemberDTO {
 	public MemberDTO(String mem_type, String id, String pw, String name, int age, String gender, String email,
 			String phone_country, String phone, String address, String bank_name, String account, MultipartFile profile,
 			String country, String lang_can, String lang_learn, String hobby, String grade, String introduce,
-			Timestamp signup_date, String sysname, String emailPassword, String memail) {
+			int report_count, Timestamp signup_date, String sysname, String emailPassword, String memail) {
 		super();
 		this.mem_type = mem_type;
 		this.id = id;
@@ -60,6 +61,7 @@ public class MemberDTO {
 		this.hobby = hobby;
 		this.grade = grade;
 		this.introduce = introduce;
+		this.report_count = report_count;
 		this.signup_date = signup_date;
 		this.sysname = sysname;
 		this.emailPassword = emailPassword;
@@ -218,6 +220,14 @@ public class MemberDTO {
 		this.introduce = introduce;
 	}
 
+	public int getReport_count() {
+		return report_count;
+	}
+
+	public void setReport_count(int report_count) {
+		this.report_count = report_count;
+	}
+
 	public Timestamp getSignup_date() {
 		return signup_date;
 	}
@@ -249,6 +259,6 @@ public class MemberDTO {
 	public void setMemail(String memail) {
 		this.memail = memail;
 	}
-	
-	
+
+		
 }

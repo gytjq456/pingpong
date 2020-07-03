@@ -1,6 +1,7 @@
 package kh.pingpong.dto;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 public class ReportListDTO {
 	private int seq;
@@ -16,7 +17,9 @@ public class ReportListDTO {
 	private int parent_seq;
 	private String category;
 	private String pass;
-
+	private String sDate;
+	
+	
 	public ReportListDTO() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -35,6 +38,7 @@ public class ReportListDTO {
 		this.parent_seq = parent_seq;
 		this.category = category;
 		this.pass = pass;
+		this.sDate = new SimpleDateFormat("YYYY-MM-dd").format(report_date);
 	}
 
 
@@ -126,6 +130,17 @@ public class ReportListDTO {
 	public void setPass(String pass) {
 		this.pass = pass;
 	}
+
+
+	public String getsDate() {
+		return sDate;
+	}
+
+
+	public void setsDate(String sDate) {
+		this.sDate = sDate;
+	}
+	
 	
 	
 }

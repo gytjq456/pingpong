@@ -342,11 +342,22 @@ public class TutorController {
 
 	//같은사람이 게시물 신고했는지 확인
 	@RequestMapping("report")
-	public String report(Model model, ReportListDTO rldto) throws Exception {
+	@ResponseBody
+	public int report(Model model, ReportListDTO rldto) throws Exception {
 		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
 		rldto.setReporter(mdto.getId());
+		
+		int result = tservice.report(rldto);
 		model.addAttribute("rldto",rldto);
-		return "/tutor/lessonReport";
+		return result;
+	}
+	
+	//신고 테이블에 저장
+	@RequestMapping("reportProc")
+	public String reportProc(Model model, ReportListDTO rldto) throws Exception{
+		tservice.reportProc(rldto);
+		
+		return "redirect : /tutor/lessonView?seq="+rldto.getParent_seq();
 	}
 
 }

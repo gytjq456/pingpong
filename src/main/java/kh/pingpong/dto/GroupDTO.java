@@ -1,6 +1,7 @@
 package kh.pingpong.dto;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 public class GroupDTO {
 	private int seq;
@@ -16,6 +17,8 @@ public class GroupDTO {
 	private int max_num;
 	private int cur_num;
 	private String location;
+	private String location_lat;
+	private String location_lng;
 	private String contents;
 	private Timestamp write_date;
 	private int view_count;
@@ -25,10 +28,11 @@ public class GroupDTO {
 	private Double review_point;
 	private String applying;
 	private String proceeding;
+	private String date;
 	
 	public GroupDTO() {}
 	public GroupDTO(int seq, String title, String writer_id, String writer_name, String hobby_type, String apply_start, String apply_end, String start_date,
-			String end_date, String period, int max_num, int cur_num, String location, String contents, Timestamp write_date,
+			String end_date, String period, int max_num, int cur_num, String location, String location_lat, String location_lng, String contents, Timestamp write_date,
 			int view_count, int like_count, int app_count, int review_count, Double review_point, String applying, String proceeding) {
 		super();
 		this.seq = seq;
@@ -43,6 +47,8 @@ public class GroupDTO {
 		this.max_num = max_num;
 		this.cur_num = cur_num;
 		this.location = location;
+		this.location_lat = location_lat;
+		this.location_lng = location_lng;
 		this.contents = contents;
 		this.write_date = write_date;
 		this.view_count = view_count;
@@ -131,6 +137,18 @@ public class GroupDTO {
 	public void setLocation(String location) {
 		this.location = location;
 	}
+	public String getLocation_lat() {
+		return location_lat;
+	}
+	public void setLocation_lat(String location_lat) {
+		this.location_lat = location_lat;
+	}
+	public String getLocation_lng() {
+		return location_lng;
+	}
+	public void setLocation_lng(String location_lng) {
+		this.location_lng = location_lng;
+	}
 	public String getContents() {
 		return contents;
 	}
@@ -184,5 +202,25 @@ public class GroupDTO {
 	}
 	public void setProceeding(String proceeding) {
 		this.proceeding = proceeding;
+	}
+	public String getDate() {
+		long write_date = this.write_date.getTime();
+		long current_date = System.currentTimeMillis();
+		long getTime = (current_date - write_date)/1000;
+		if(getTime < 60) {
+			return "방금 전";
+		}else if(getTime < 300) {
+			return "5분 이내";
+		}else if(getTime < 3600) {
+			return "1시간 이내";
+		}else if(getTime < 86400) {
+			return "24시간 이내";
+		}else {
+			this.date = new SimpleDateFormat("YYYY-MM-dd").format(write_date);
+			return date;
+		}
+	}
+	public void setDate(String date) {
+		this.date = date;
 	}
 }

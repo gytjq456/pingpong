@@ -13,7 +13,7 @@
 
 <!-- 튜터 신청서 insert -->
 <insert id="insert">
-	insert into tutor_app values(tutor_app_seq.nextval,#{id},#{title},#{license},#{career},#{exp},#{introduce},#{recomm},default)
+	insert into tutor_app values(tutor_app_seq.nextval,#{id},#{title},#{license,jdbcType=VARCHAR},#{career,jdbcType=VARCHAR},#{exp,jdbcType=VARCHAR},#{introduce},#{recomm,jdbcType=VARCHAR},default)
 </insert>
 
 <!-- 자격증 파일 insert -->
@@ -127,6 +127,12 @@
 <!-- 모집중, 진행중, 마감일 때 -->
 <select id="selectLessonListPeriod" resultMap="LessonProfile">
 	select * from (select lesson.*, row_number() over(order by ${orderBy} desc) rnum from lesson where pass='Y' and ${ing}=#{ingVal}) 
+	where rnum between #{start} and #{end}
+</select>
+
+<!-- 키워드로 검색해서 리스트 뿌려주기 -->
+<select id="searchKeword" resultMap="LessonProfile">
+	select * from (select lesson.*, row_number() over(order by ${orderBy} desc) rnum from lesson where pass='Y' and ${keywordSelect} like '%${keyword}%') 
 	where rnum between #{start} and #{end}
 </select>
 

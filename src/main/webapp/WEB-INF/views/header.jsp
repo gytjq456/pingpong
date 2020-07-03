@@ -24,6 +24,7 @@
 	<body>
 	   <header>
 	      <section id="hdTop">
+	      		${sessionScope.loginInfo.id}
 	         <div class="inner1200">
 	            <div class="util">
 	               <ul>

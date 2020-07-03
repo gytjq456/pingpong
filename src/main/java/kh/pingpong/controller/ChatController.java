@@ -36,7 +36,7 @@ public class ChatController {
 		String roomId = null;
 		String myName = mdto.getName();
 		String usersIds = mdto.getId() +"," +chatDto.getChatMemberId();
-		String usersNames = chatDto.getUser() +","+myName;
+		String usersNames = chatDto.getUsers() +","+myName;
 		
 		Map<String,String> chatInfo = Configuration.chatCreate;
 		chatInfo.put("usersName",usersNames);
@@ -47,17 +47,24 @@ public class ChatController {
 		String chatRoomId = chatService.chatRoomIdSch(chatInfo);
 		int result = 0;
 		
+		System.out.println("usersName" + chatInfo.get("usersName"));
+		System.out.println("usersIds" + chatInfo.get("usersIds"));
+		System.out.println("master" + chatInfo.get("master"));
+		System.out.println("partner" + chatInfo.get("partner"));
+		
+		System.out.println("result =" + chatRoomId);
 		if(chatRoomId == null) {
 			roomId = chatService.rndTxt();
 			chatInfo.put("roomId",roomId);
 			result = chatService.chatInsert(chatInfo);
+			System.out.println("ddd = " + result);
 		}
 		chatRoomId = chatService.chatRoomIdSch(chatInfo);
 		List<ChatRecordDTO> chatRecord = chatService.chatRecordList(chatRoomId);
 		Configuration.chatRecord = chatRecord;
 		System.out.println(chatRecord.size());
 		if(chatRecord.size() == 0) {
-			System.out.println(chatRoomId);
+			System.out.println("====" + chatRoomId);
 			return chatRoomId;
 		}else {
 			if(result > 0) {

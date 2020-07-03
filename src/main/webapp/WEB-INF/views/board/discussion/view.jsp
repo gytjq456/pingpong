@@ -255,7 +255,7 @@
 								<li><i class="fa fa-commenting-o" aria-hidden="true"></i> ${disDto.comment_count}</li>
 								<li>
 									<button class="discussion_Btn Btn -hate-btn" data-seq="${disDto.seq}">
-										<i class="fa fa-thumbs-up"></i> ${disDto_count}
+										<i class="fa fa-thumbs-up"></i> ${disDto.like_count}
 									</button>
 								</li>
 							</ul>

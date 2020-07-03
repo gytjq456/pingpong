@@ -72,6 +72,16 @@ $(document).ready(function(){
         
     })
 
+    
+    var chatWrap = $("#chatWrap");
+    $chatOpenBtn.click(function(){
+    	chatWrap.addClass("on");
+    });
+    $chatClose.click(function(){
+    	chatWrap.removeClass("on");
+    });
+    
+    
 });
 
 
@@ -79,6 +89,8 @@ function init(){
 	$gnb = $(".gnb");
 	$header = $("header");
 	$topBtn = $(".topBtn");
+	$chatOpenBtn = $("#chatOpenBtn");
+	$chatClose = $("#chatClose");
 };
 
 

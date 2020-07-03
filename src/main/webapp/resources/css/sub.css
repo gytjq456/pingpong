@@ -41,8 +41,9 @@
 #find_group_write #end_date { width: 15%; background-color: #eee; }
 #find_group_write select { width: 15%; margin-right: 10px; }
 #find_group_write #max_num { width: 10%; margin-right: 5px; }
-#find_group_write #location { display: none; }
+/* #find_group_write #location { display: none; } */
 #find_group_write .fa-calendar { font-size: 20px; color: #999; margin-right: 8px; }
+#find_group_write .notice{ font-size: 14px; color: #999; margin-top: 5px; }
 .between_calendar, .max_num_myung { width: 30px; text-align: center; display: inline-block; font-size: 18px; }
 .calendar_icon { display: inline-block; vertical-align: text-top; }
 .group_sub_input { margin-bottom: 40px; }
@@ -255,7 +256,9 @@ button.normal:hover { background:#c7c7c7 !important; color:#fff; }
 
 
 /* 채팅 서비스 */
-#chatWrap { position:fixed; right:0; bottom:0; z-index:10001; height:600px; width:320px; background:#fff; }
+#chatWrap { position:fixed; right:-320px; bottom:0; z-index:10001; height:100%; width:320px; background:#fff; transition:all 0.5s;}
+#chatWrap .noList { border:1px solid #ddd; text-align:center; padding:12px; color:#999; }
+#chatWrap.on { right:0; }
 #chatWrap .title { height:80px; background:#3162a4; margin:0 !important; padding:20px; position:relative; }
 #chatWrap .title i { color:#fff; font-size:20px; border:1px solid #fff; border-radius:50%; padding:8px; margin-right:10px;}
 #chatWrap .title i, 
@@ -265,11 +268,14 @@ button.normal:hover { background:#c7c7c7 !important; color:#fff; }
 	max-width:calc(100% - 64px); 
 	max-width:-moz-calc(100% - 64px); 
 	max-width:-webkit-calc(100% - 64px); 
-	
 }
+#chatClose { position:absolute; right:20px; top:25px; z-index:9999;}
+#chatClose button { background:none; color:#fff; border:none;}
+#chatClose button i { font-size:20px; color:#333;}
 
 #chatWrap #chatRoom .chatBox::-webkit-scrollbar {display:none;} 
 #chatWrap #chatRoom .userInfo_s1 .info { margin-top:-10px;}
+#chatWrap #chatRoom .chatBox .sysdate { text-align:center; background:#fafafc; border-radius:10px; padding:5px 0;}
 #chatWrap #chatRoom .chatBox { padding:20px; box-sizing:border-box; overflow-y:auto; -ms-overflow-style: none;
 height:calc(100% - 240px);
 height:-moz-calc(100% - 240px);
@@ -285,7 +291,8 @@ height:-webkit-calc(100% - 240px);
 #chatWrap #chatRoom .chatBox .chatTxt:before { content:""; width:11px; height:7px; display:block; position:absolute; top:5px; }
 #chatWrap #chatRoom .chatBox .my .chatTxt:before { right:0; background:url("/resources/img/common/chatBgRight.png") no-repeat;}
 #chatWrap #chatRoom .chatBox .other .chatTxt:before { left:4px; right:inherit; background:url("/resources/img/common/chatBgLeft.png") no-repeat;}
-#chatWrap #chatRoom .chatBox .chatTxt p {padding:4px 8px; border-radius:4px; background:#d9e7f4; display:inline-block; text-align:left; max-width:220px; box-sizing:border-box; word-break:break-all; margin:0 10px;}
+#chatWrap #chatRoom .chatBox .my .chatTxt p { background:#ffd100;}
+#chatWrap #chatRoom .chatBox .chatTxt p {padding:4px 8px; border-radius:4px; background:#d9e7f4; display:inline-block; text-align:left; max-width:140px; box-sizing:border-box; word-break:break-all; margin:0 10px;}
 #chatWrap #chatRoom .chatBox .chatTxt span { font-size:12px; display:inline-block; margin-right:6px; vertical-align: bottom;} 
 #chatWrap #chatRoom .userInfo_s1 .thumb { width:50px; height:50px; }
 #chatWrap #chatRoom .txtInputBox { position:absolute; left:0; bottom:0; padding:20px; border-top:1px solid #ddd; width:100%; height:120px; }
@@ -314,3 +321,6 @@ width:-moz-calc(100% - 100px);
 #chatWrap .top #close i { font-size:22px; color:#fff; font-weight:700;}
 
 
+#chatOpenBtn { position:fixed; right:20px; bottom:20px;}
+#chatOpenBtn button { border:none; width:50px; transition:all 0.5s; height:50px; border-radius:50%; color:#fff; background:#4b98ff; font-size:12px; fontt-weight:700;}
+#chatOpenBtn button:hover { background:#3162a4;}

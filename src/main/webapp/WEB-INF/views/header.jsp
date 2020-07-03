@@ -24,7 +24,6 @@
 	<body>
 	   <header>
 	      <section id="hdTop">
-	      		${sessionScope.loginInfo.id}
 	         <div class="inner1200">
 	            <div class="util">
 	               <ul>
@@ -39,9 +38,9 @@
 		 							<a href="#;">MyPage</a>
 									<ul class="depth2">
 										<li><a href="/member/myInfo">나의 정보수정</a></li>
-										<li><a href="#;">나의 튜터 목록</a></li>
-										<li><a href="#;">모임기록</a></li>
-										<li><a href="#;">찜목록</a></li>
+										<li><a href="/mypage/tutorRecord">나의 튜터 목록</a></li>
+										<li><a href="/mypage/groupRecord">모임기록</a></li>
+										<li><a href="/mypage/likeRecord">찜목록</a></li>
 									</ul>
 								</li>
 								<li><a href="/member/logout">Logout</a></li>
@@ -61,7 +60,7 @@
 								<a href="/partner/partnerList">Partner</a>
 								<ul class="depth2">
 									<li><a href="/partner/partnerList">파트너 목록</a></li>
-									<li><a href="/partner/partnerView">파트너 등록</a></li>
+									<li><a href="#;">파트너 등록</a></li>
 								</ul>
 							</li>
 							<li>

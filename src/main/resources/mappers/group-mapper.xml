@@ -10,8 +10,8 @@
 	<insert id="insert">
 		insert into grouplist values(grouplist_seq.nextval, #{title}, #{writer_id},
 			#{writer_name}, #{hobby_type}, #{apply_start}, #{apply_end}, #{start_date},
-			#{end_date}, #{period}, #{max_num}, 1, #{location}, #{contents},
-			default, 0, 0, 0, 0, 0, default, default)
+			#{end_date}, #{period}, #{max_num}, 1, #{location}, #{location_lat}, #{location_lng},
+			#{contents}, default, 0, 0, 0, 0, 0, default, #{proceeding})
 	</insert>
 	
 	<select id="selectGroupList" resultType="kh.pingpong.dto.GroupDTO">
@@ -111,7 +111,8 @@
 		update grouplist set title = #{title}, hobby_type = #{hobby_type},
 			apply_start = #{apply_start}, apply_end = #{apply_end},
 			start_date = #{start_date}, end_date = #{end_date}, period = #{period},
-			max_num = #{max_num}, location = #{location}, contents = #{contents}
+			max_num = #{max_num}, location = #{location}, location_lat = #{location_lat},
+			location_lng = #{location_lng}, contents = #{contents}
 			where seq = #{seq}
 	</update>
 	
@@ -172,8 +173,12 @@
 		update grouplist set applying = 'N' where apply_end = #{today_date}
 	</update>
 	
-	<update id="updateProceeding">
+	<update id="updateProceedingN">
 		update grouplist set proceeding = 'N' where end_date = #{today_date}
+	</update>
+	
+	<update id="updateProceedingY">
+		update grouplist set proceeding = 'Y' where start_date = #{today_date}
 	</update>
 	
 	<select id="relatedGroup" resultType="kh.pingpong.dto.GroupDTO">

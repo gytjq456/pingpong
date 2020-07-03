@@ -281,7 +281,7 @@
 									<span class="optional_sub">추천</span>
 									<span id="like_count">${gdto.like_count}</span>
 									<span class="optional_sub">조회</span><span>${gdto.view_count}</span><br>
-									<span class="optional_sub">작성일</span><span>${gdto.write_date}</span><br>
+									<span class="optional_sub">작성일</span><span>${gdto.date}</span><br>
 								</div>
 								<div class="btnS1" id="view_btns">
 									<c:choose>
@@ -471,49 +471,41 @@
 		})
 		
 		var inputLocation = '${gdto.location}';
+		var locationLat = '${gdto.location_lat}';
+		var locationLng = '${gdto.location_lng}';
 		
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 		    mapOption = { 
-		        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+		        center: new kakao.maps.LatLng(locationLat, locationLng), // 지도의 중심좌표
 		        level: 3 // 지도의 확대 레벨
 		    };  
 		
 		var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 		
-		// 주소-좌표 변환 객체를 생성합니다
-		var geocoder = new kakao.maps.services.Geocoder();
+		var circle = new kakao.maps.Circle({
+		    center : new kakao.maps.LatLng(locationLat, locationLng),  // 원의 중심좌표 입니다 
+		    radius: 50, // 미터 단위의 원의 반지름입니다 
+		    strokeWeight: 1, // 선의 두께입니다 
+		    strokeColor: '#75B8FA', // 선의 색깔입니다
+		    strokeOpacity: 1, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+		    strokeStyle: 'solid', // 선의 스타일 입니다
+		    fillColor: '#CFE7FF', // 채우기 색깔입니다
+		    fillOpacity: 0.7  // 채우기 불투명도 입니다   
+		}); 
+
+		// 지도에 원을 표시합니다 
+		circle.setMap(map); 
 		
-		geocoder.addressSearch(inputLocation, function(result, status) {
+		// 마커가 표시될 위치입니다 
+		var markerPosition  = new kakao.maps.LatLng(locationLat, locationLng); 
 
-		    // 정상적으로 검색이 완료됐으면 
-		     if (status === kakao.maps.services.Status.OK) {
+		// 마커를 생성합니다
+		var marker = new kakao.maps.Marker({
+		    position: markerPosition
+		});
 
-		        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-
-		        // 결과값으로 받은 위치를 마커로 표시합니다
-		        var marker = new kakao.maps.Marker({
-		            map: map,
-		            position: coords
-		        });
-
-				// 지도에 표시할 원을 생성합니다
-				var circle = new kakao.maps.Circle({
-				    center : new kakao.maps.LatLng(result[0].y, result[0].x),  // 원의 중심좌표 입니다 
-				    radius: 50, // 미터 단위의 원의 반지름입니다 
-				    strokeWeight: 1, // 선의 두께입니다 
-				    strokeColor: '#75B8FA', // 선의 색깔입니다
-				    strokeOpacity: 1, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
-				    fillColor: '#CFE7FF', // 채우기 색깔입니다
-				    fillOpacity: 0.7  // 채우기 불투명도 입니다   
-				}); 
-				
-				// 지도에 원을 표시합니다 
-				circle.setMap(map); 
-		        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-		        map.setCenter(coords);
-		    } 
-		});    
-		
+		// 마커가 지도 위에 표시되도록 설정합니다
+		marker.setMap(map);
 	</script>
 
 <jsp:include page="/WEB-INF/views/group/apply.jsp" />

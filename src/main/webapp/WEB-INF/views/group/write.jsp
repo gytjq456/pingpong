@@ -12,13 +12,32 @@
 	.vertical_top{vertical-align: top; margin-top: 3px;}
 	#hobby_type{display: none;}
 	#map{margin-top: 10px;}
+	#writeProc .wordsize { float: right; transform: translate(-15px, -70px); color: #999; }
+	#find_group_write #title { padding-right: 76px; }
 </style>
 <script>
 	$(function(){
-		$('#apply_start').datepicker({ dateFormat: 'yy-mm-dd' });
-		$('#apply_end').datepicker({ dateFormat: 'yy-mm-dd' });
-		$('#start_date').datepicker({ dateFormat: 'yy-mm-dd' });
-		$('#end_date').datepicker({ dateFormat: 'yy-mm-dd' });
+		$('#apply_start').datepicker({
+			dateFormat: 'yy-mm-dd',
+			minDate: 0,
+			maxDate: 0,
+			onClose: function(){
+				$('#apply_end').datepicker({
+					dateFormat: 'yy-mm-dd',
+					minDate: new Date($('#apply_start').val())
+				});
+			}
+		});
+		$('#start_date').datepicker({
+			dateFormat: 'yy-mm-dd',
+			minDate: 0,
+			onClose: function(){
+				$('#end_date').datepicker({
+					dateFormat: 'yy-mm-dd',
+					minDate: new Date($('#start_date').val())
+				})
+			}
+		});
 
 		$('#max_num').on('keyup', function(){
 			var num = $(this).val();
@@ -27,31 +46,49 @@
 				alert('숫자만 입력 가능합니다.');
 				$(this).val('');
 			}
+			if (num > 100) {
+				alert('최대 100명까지만 설정 가능합니다.');
+				$(this).val('100');
+			}
 		})
 		
-		$('#contents').summernote({
+		$("#title").keyup(function(){
+				var word = $(this).val();
+				var wordSize = word.length;
+				if(wordSize <= 100){
+					$("#writeProc .wordsize .current").text(wordSize);
+				}else{
+					word = word.substr(0,100);
+					$("#writeProc .wordsize .current").text(word.length);
+					$(this).val(word);
+					alert("제목은  100자 이하로 등록해 주세요.");
+				}
+			})
+
+			$('#contents').summernote({
 			height: 600,
+			lang: "ko-KR",
 			callbacks: {
 				onImageUpload: function(files) {
 					uploadSummernoteImageFile(files[0], this);
 				}
 			}
 		})
-		
 		function uploadSummernoteImageFile(file, editor) {
 			data = new FormData();
 			data.append("file", file);
 			$.ajax({
-				data: data,
-				type: "POST",
-				url: "/group/imgUpload",
-				contentType: false,
-				processData: false,
-				success: function(data) {
+				data : data,
+				type : "POST",
+				url : "/summerNote/uploadSummernoteImageFile",
+				contentType : false,
+				processData : false,
+				success : function(data) {
+		        	//항상 업로드된 파일의 url이 있어야 한다.
 					$(editor).summernote('insertImage', data.url);
 				}
-			})
-		}
+			});
+		}	
 	})
 </script>
 	<div id="subWrap" class="hdMargin">
@@ -68,6 +105,7 @@
 								<h4>제목</h4>
 							</div>
 							<div class="group_sub_input"><input type="text" name="title" id="title"></div>
+							<div class="wordsize"><span class="current">0</span>/100</div>
 						</div>
 						<div class="group_write_sub">
 							<div class="tit_s3">

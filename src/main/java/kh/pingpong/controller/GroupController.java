@@ -404,34 +404,6 @@ public class GroupController {
         return "/group/main";
 	}
 	
-	@RequestMapping(value="imgUpload", produces="application/json")
-	@ResponseBody
-	public JsonObject groupImgUpload(@RequestParam("file") MultipartFile multipartFile) {
-		
-		JsonObject jsonObject = new JsonObject();
-		
-		String fileRoot = "C:\\summernote_image\\";
-		String originalFileName = multipartFile.getOriginalFilename();
-		String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
-		
-		String savedFileName = UUID.randomUUID() + extension;
-		
-		File targetFile = new File(fileRoot + savedFileName);
-		
-		try {
-			InputStream fileStream = multipartFile.getInputStream();
-			FileUtils.copyInputStreamToFile(fileStream, targetFile);
-			jsonObject.addProperty("url", "/summernoteImage/" + savedFileName);
-			jsonObject.addProperty("responseCode", "success");
-		} catch (IOException e) {
-			FileUtils.deleteQuietly(targetFile);
-			jsonObject.addProperty("responseCode", "error");
-			e.printStackTrace();
-		}
-		
-		return jsonObject;
-	}
-	
 	// 리뷰 글쓰기 
 	@ResponseBody
 	@RequestMapping("reviewWrite")

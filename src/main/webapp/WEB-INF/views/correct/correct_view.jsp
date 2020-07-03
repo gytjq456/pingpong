@@ -31,7 +31,7 @@
 			location.href="/correct/correct_modify?seq=${dto.seq}"
 		})
 		
-		$("#correct_like").click(function() {
+		$(".correct_like").click(function() {
 			var seq = $(this).data("seq");
 			$.ajax({
 				url : "/correct/like",
@@ -46,10 +46,40 @@
 			
 		})
 		
-		$("#correct_hate").click(function() {
+		$(".correct_hate").click(function() {
 			var seq = $(this).data("seq");
 			$.ajax({
 				url : "/correct/hate",
+				dataType : "json",
+				type : "post",
+				data : {seq:seq}
+			}).done(function(resp) {
+				if(resp) {
+					location.href = "/correct/correct_view?seq=${dto.seq}"
+				}
+			})
+			
+		})
+		
+		$(".comment_like").click(function() {
+			var seq = $(this).data("seq");
+			$.ajax({
+				url : "/correct/commentlike",
+				dataType : "json",
+				type : "post",
+				data : {seq:seq}
+			}).done(function(resp) {
+				
+					location.href = "/correct/correct_view?seq=${dto.seq}"
+				
+			})
+			
+		})
+		
+		$(".comment_hate").click(function() {
+			var seq = $(this).data("seq");
+			$.ajax({
+				url : "/correct/commenthate",
 				dataType : "json",
 				type : "post",
 				data : {seq:seq}
@@ -97,7 +127,7 @@
 					<button id="correct_hate" data-seq ="${dto.seq}">싫어요 : ${dto.hate_count}</button>
 				</div>
 				<div>내용 : ${dto.contents}</div>
-				<div>댓글 : ${dto.reply_count}</div>
+				<div>댓글 (${dto.reply_count})</div>
 				<button type="button" id="modify">글수정</button>
 				<button type="button" id="delete" data-seq="${dto.seq}">글삭제</button>
 				<button type="button" id="historyBack">뒤로가기</button>
@@ -114,7 +144,22 @@
 						value="취소">
 				</form>
 			</div>
+			<br><div>베스트 댓글</div><br>
+			<c:forEach var="u" items="${cdto2}">
+				<div class="info">
+					<p class="userId">${u.writer}</p>
+					<p class="writeDate">${u.write_date}</p>
+				</div>
 
+				<div class="cont">
+					<div class="contents">${u.contents}</div>
+				</div>
+				<button class="comment_like" data-seq ="${dto.seq}">좋아요 : ${u.like_count}</button>
+					<button class="comment_hate" data-seq ="${dto.seq}">싫어요 : ${u.hate_count}</button>
+			</c:forEach>
+
+
+    		<br><br><div>전체댓글</div><br>
 			<c:forEach var="i" items="${cdto}">
 				<div class="info">
 					<p class="userId">${i.writer}</p>
@@ -124,6 +169,8 @@
 				<div class="cont">
 					<div class="contents">${i.contents}</div>
 				</div>
+				<button class="comment_like" data-seq ="${dto.seq}">좋아요 : ${i.like_count}</button>
+					<button class="comment_hate" data-seq ="${dto.seq}">싫어요 : ${i.hate_count}</button>
 			</c:forEach>
 
 		</article>

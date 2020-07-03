@@ -50,6 +50,10 @@ public class CorrectService {
 		return dao.selectc(parent_seq);
 	}
 	
+	public List<CorrectCDTO> bestcomm(int parent_seq) throws Exception{
+		return dao.bestcomm(parent_seq);
+	}
+	
 	public int modify(CorrectDTO dto) throws Exception{
 		return dao.modify(dto);
 	}
@@ -59,6 +63,13 @@ public class CorrectService {
 	}
 	public int hate(CorrectDTO dto) throws Exception {
 		return dao.hate(dto);
+	}
+	
+	public int commentlike(CorrectDTO dto) throws Exception {
+		return dao.commentlike(dto);
+	}
+	public int commenthate(CorrectDTO dto) throws Exception {
+		return dao.commenthate(dto);
 	}
 	
 	public int countrep(CorrectCDTO cdto) throws Exception {

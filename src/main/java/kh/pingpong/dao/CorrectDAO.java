@@ -43,6 +43,10 @@ public class CorrectDAO {
 	return mybatis.selectList("Correct.selectc",parent_seq);
 	} 
 	
+	public List<CorrectCDTO> bestcomm(int parent_seq) throws Exception{
+		return mybatis.selectList("Correct.selectc2",parent_seq);
+		} 
+	
 	public int viewcount(int seq) throws Exception {
 		return mybatis.update("Correct.viewcount",seq);
 	}
@@ -59,6 +63,14 @@ public class CorrectDAO {
 	
 	public int hate(CorrectDTO dto) throws Exception{
 		return mybatis.update("Correct.hate", dto);
+	}
+	
+	public int commentlike(CorrectDTO dto) throws Exception{
+		return mybatis.update("Correct.commentlike", dto);
+	}
+	
+	public int commenthate(CorrectDTO dto) throws Exception{
+		return mybatis.update("Correct.commenthate", dto);
 	}
 	
 	public int correctcount() throws Exception{

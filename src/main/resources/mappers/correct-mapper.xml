@@ -29,6 +29,11 @@
 		select * from correctcomm where parent_seq = #{value} order by seq desc
 		</select>
 		
+		<select id="selectc2" resultType="kh.pingpong.dto.CorrectDTO">
+		<!-- select * from discussion order by seq desc -->
+		select * from (select correctcomm.*, row_number() over(order by like_count desc) rnum from correctcomm where parent_seq = #{parent_seq} and like_count > 0) where rnum between 1 and 3
+		</select>
+		
 		<update id="viewcount">
         update correct
         set view_count = view_count + 1
@@ -50,6 +55,18 @@
 	update correct 
 	set hate_count = hate_count +1
 	where seq =${seq}
+	</update>
+	
+	<update id="commentlike">
+	update correctcomm 
+	set like_count = like_count +1
+	where parent_seq =${seq}
+	</update>
+	
+	<update id="commenthate">
+	update correctcomm 
+	set hate_count = hate_count +1
+	where parent_seq =${seq}
 	</update>
 	
 	<update id="countrep">

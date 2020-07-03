@@ -52,11 +52,14 @@ public class CorrectController {
 	
 	@RequestMapping("/correct_view")
 	public String view(CorrectDTO dto, CorrectCDTO cdto, Model model) throws Exception{
+		System.out.println("dddd");
 		boolean in = false;
 		dto = cservice.selectOne(dto.getSeq(),in);
 		System.out.println("test :" +dto.getSeq());
 		List<CorrectCDTO> ccdto = cservice.selectcAll(dto.getSeq());
+		List<CorrectCDTO> ccdto2 = cservice.bestcomm(dto.getSeq());
 		model.addAttribute("dto", dto);
+		model.addAttribute("cdto2", ccdto2);
 		model.addAttribute("cdto", ccdto);
 		return "/correct/correct_view";
 	}
@@ -113,6 +116,30 @@ public class CorrectController {
 	public String hate(CorrectDTO dto) throws Exception {
 		System.out.println("hate : " +dto.getSeq());
 		int result = cservice.hate(dto);
+		if(result > 0) {
+			return String.valueOf(true);
+		}else {
+			return String.valueOf(false);
+		}
+	}
+	
+	@ResponseBody
+	@RequestMapping("/commentlike")
+	public String commentlike(CorrectDTO dto) throws Exception {
+		System.out.println("like : " +dto.getSeq());
+		int result = cservice.commentlike(dto);
+		if(result > 0) {
+			return String.valueOf(true);
+		}else {
+			return String.valueOf(false);
+		}
+	}
+	
+	@ResponseBody
+	@RequestMapping("/commenthate")
+	public String commenthate(CorrectDTO dto) throws Exception {
+		System.out.println("hate : " +dto.getSeq());
+		int result = cservice.commenthate(dto);
 		if(result > 0) {
 			return String.valueOf(true);
 		}else {

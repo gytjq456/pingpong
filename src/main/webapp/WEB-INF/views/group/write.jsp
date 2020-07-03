@@ -17,17 +17,33 @@
 </style>
 <script>
 	$(function(){
+		$("input, textarea").blur(function(){
+			var thisVal = $(this).val();
+			$(this).val(textChk(thisVal));
+		})
+		
+		function textChk(thisVal){
+			var replaceId  = /(script)/gi;
+			var textVal = thisVal;
+		    if (textVal.length > 0) {
+		        if (textVal.match(replaceId)) {
+		        	textVal = thisVal.replace(replaceId, "");
+		        }
+		    }
+		    return textVal;
+		}
+		
 		$('#apply_start').datepicker({
 			dateFormat: 'yy-mm-dd',
 			minDate: 0,
-			maxDate: 0,
-			onClose: function(){
-				$('#apply_end').datepicker({
-					dateFormat: 'yy-mm-dd',
-					minDate: new Date($('#apply_start').val())
-				});
-			}
+			maxDate: 0
+		}).datepicker('setDate', new Date());
+		
+		$('#apply_end').datepicker({
+			dateFormat: 'yy-mm-dd',
+			minDate: new Date($('#apply_start').val())
 		});
+		
 		$('#start_date').datepicker({
 			dateFormat: 'yy-mm-dd',
 			minDate: 0,
@@ -38,7 +54,14 @@
 				})
 			}
 		});
-
+		
+		$('#start_date').on('change', function(){
+			var endDate = $('#end_date').val();
+			if (endDate != '') {
+				$('#end_date').val('');
+			}
+		})
+		
 		$('#max_num').on('keyup', function(){
 			var num = $(this).val();
 			var regex = /^[0-9]*$/;
@@ -47,8 +70,12 @@
 				$(this).val('');
 			}
 			if (num > 100) {
-				alert('최대 100명까지만 설정 가능합니다.');
+				alert('최대 100명까지 설정 가능합니다.');
 				$(this).val('100');
+			}
+			if (num < 2) {
+				alert('최소 2명부터 설정 가능합니다.');
+				$(this).val('2');
 			}
 		})
 		
@@ -121,6 +148,7 @@
 						<div class="group_write_sub">
 							<div class="tit_s3">
 								<h4>모집 기간</h4>
+								<span class="notice">*모집 기간 시작 날짜는 오늘 날짜 이외의 날짜로 설정이 불가능합니다.</span>
 							</div>
 							<div class="group_sub_input calendar_wrapper">
 								<label for="apply_start" class="calendar_icon"><i class="fa fa-calendar" aria-hidden="true"></i></label>
@@ -133,6 +161,7 @@
 						<div class="group_write_sub">
 							<div class="tit_s3">
 								<h4>진행 기간</h4>
+								<span class="notice">*시작 날짜를 설정해야만 종료 날짜를 설정하실 수 있습니다.</span>
 							</div>
 							<div class="group_sub_input">
 								<label for="start_date" class="calendar_icon"><i class="fa fa-calendar" aria-hidden="true"></i></label>
@@ -145,6 +174,7 @@
 						<div class="group_write_sub">
 							<div class="tit_s3">
 								<h4>최대 인원</h4>
+								<span class="notice">*최소 2명부터 최대 100명까지 설정 가능합니다.</span>
 							</div>
 							<div class="group_sub_input">
 								<input type="text" name="max_num" id="max_num" placeholder="00"><span class="max_num_myung">명</span>
@@ -153,6 +183,7 @@
 						<div class="group_write_sub">
 							<div class="tit_s3">
 								<h4>장소</h4>
+								<span class="notice">*정확한 장소를 클릭하여 마커 표시를 해 주세요. 마커로 표시된 장소로 저장되어 보여집니다.</span>
 							</div>
 							<div class="group_sub_input">
 								<input type="text" name="location" id="location" placeholder="**시 **구">
@@ -166,6 +197,7 @@
 						<div class="group_write_sub">
 							<div class="tit_s3">
 								<h4>내용</h4>
+								<span class="notice">*그룹을 소개할 내용을 작성하는 곳입니다. 정확한 모임 날짜, 시간, 장소, 참여 가능 기준 등을 기재하시면 도움이 됩니다.</span>
 							</div>
 							<div class="group_sub_input">
 								<textarea name="contents" id="contents"></textarea>

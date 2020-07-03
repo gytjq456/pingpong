@@ -21,6 +21,7 @@
 	#like { right: -70%; }
 	#jjim { right: -72%; }
 	#report { right: -74%; }
+	#like:hover, #jjim:hover, #report:hover { cursor: pointer; }
 	#point_avg i { color: #fcba03; }
 	#like i { color: #3162a4; }
 	#jjim i { color: #fbaab0; }
@@ -36,7 +37,7 @@
 	#group_optional .member_profile { display: inline-block; width: 50px; height: 50px; border-radius: 50%; border: 1px solid #ddd; line-height: 50px; text-align: center; margin-right: 5px; }
 	#group_optional .optional_sub { font-weight: bold; }
 	#group_optional span { margin-right: 5px; }
-	#group_optional #like_count { border-right: 1px solid #ddd; padding-right: 10px; }
+	#group_optional .sep_bar { color: #999; margin: 0 5px; font-size: 12px; vertical-align: top; }
 	#group_optional .optional_box { margin-bottom: 20px; }
 	#related_group_title { font-size: 22px; }
 	#view_btns #update, #view_btns #delete { width: 49%; display: inline-block; }
@@ -47,6 +48,22 @@
 </style>
 <script>
 	$(function(){
+		$("input, textarea").blur(function(){
+			var thisVal = $(this).val();
+			$(this).val(textChk(thisVal));
+		})
+		
+		function textChk(thisVal){
+			var replaceId  = /(script)/gi;
+			var textVal = thisVal;
+		    if (textVal.length > 0) {
+		        if (textVal.match(replaceId)) {
+		        	textVal = thisVal.replace(replaceId, "");
+		        }
+		    }
+		    return textVal;
+		}
+		
 		var seq = $('#seq').html();
 
 		$('#delete').on('click', function(){
@@ -250,7 +267,20 @@
 						<li class="on"><a href="#;">상세 정보</a></li>
 						<li><a href="#;">관련 모임</a></li>
 						<li><a href="#;">리뷰(${gdto.review_count})</a></li>
-						<li><a href="#;">신청(${gdto.app_count})</a></li>
+						<li>
+							<c:if test="${checkApply == true}">
+								<span id="applyCancel">신청 취소</span>
+							</c:if>
+							<c:if test="${checkApply == false && (sessionScope.loginInfo.id != gdto.writer_id)}">
+								<span id="applyForm">신청하기</span>
+							</c:if>
+							<c:if test="${checkMember == true}">
+								<span id="deleteForm">탈퇴하기</span>
+							</c:if>
+							<c:if test="${sessionScope.loginInfo.id == gdto.writer_id}">
+								<span id="groupApplyManage">신청 현황</span>
+							</c:if>
+						</li>
 					</ul>
 				</div>
 				<div id="tabContWrap_s2">
@@ -278,29 +308,16 @@
 									<div id="map"></div>
 								</div>
 								<div class="optional_box">
-									<span class="optional_sub">추천</span>
-									<span id="like_count">${gdto.like_count}</span>
-									<span class="optional_sub">조회</span><span>${gdto.view_count}</span><br>
+									<span class="optional_sub">조회</span><span>${gdto.view_count}</span><span class="sep_bar">|</span>
+									<span class="optional_sub">추천</span><span>${gdto.like_count}</span><span class="sep_bar">|</span>
+									<span class="optional_sub">신청</span><span>${gdto.app_count}</span><br>
 									<span class="optional_sub">작성일</span><span>${gdto.date}</span><br>
 								</div>
 								<div class="btnS1" id="view_btns">
-									<c:choose>
-										<c:when test="${sessionScope.loginInfo.id == gdto.writer_id}">
-												<button type="button" id="update">수정</button>
-												<button type="button" id="delete">삭제</button>
-										</c:when>
-										<c:otherwise>
-											<c:if test="${checkApply == true}">
-												<button type="button" id="applyCancel">신청 취소</button>
-											</c:if>
-											<c:if test="${checkApply == false && (sessionScope.loginInfo.id != gdto.writer_id)}">
-												<button type="button" id="applyForm">신청하기</button>
-											</c:if>
-											<c:if test="${checkMember == true}">
-												<button type="button" id="deleteForm">탈퇴하기</button>
-											</c:if>
-										</c:otherwise>
-									</c:choose>
+									<c:if test="${sessionScope.loginInfo.id == gdto.writer_id}">
+											<button type="button" id="update">수정</button>
+											<button type="button" id="delete">삭제</button>
+									</c:if>
 									<button type="button" id="toList" onclick="javascript:toList()">목록</button>
 								</div>
 							</div>

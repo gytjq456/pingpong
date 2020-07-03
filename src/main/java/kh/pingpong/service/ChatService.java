@@ -51,8 +51,6 @@ public class ChatService {
 	
 	//방번호 검색
 	public String chatRoomIdSch(Map<String,String> chatInfo) throws Exception{
-		System.out.println(chatInfo.get("roomId"));
-		System.out.println(chatInfo.get("usersIds"));
 		return chatDao.chatRoomIdSch(chatInfo);
 	}
 	
@@ -68,7 +66,7 @@ public class ChatService {
 	
 	//채팅방 입력
 	public int chatTxtInsert(String message) throws Exception{
-		System.out.println("채팅 서비스");
+		System.out.println(message);
 		ChatRecordDTO chatDto = new ChatRecordDTO();
 		JSONParser parser = new JSONParser();
 		Object obj = parser.parse( message );
@@ -76,9 +74,11 @@ public class ChatService {
 		String chatRoom = (String) jsonObj.get("chatRoom");
 		String txt = (String) jsonObj.get("text");
 		String id = (String) jsonObj.get("id");
+		String date = (String) jsonObj.get("date");
 		chatDto.setRoomId(chatRoom);
 		chatDto.setSendUser(id);
 		chatDto.setChatRecord(txt);
+		chatDto.setWriteDate(date);
 		int result = chatDao.chatTxtInsert(chatDto);
 		return result;
 	}

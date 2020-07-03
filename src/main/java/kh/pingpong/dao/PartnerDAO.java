@@ -51,12 +51,13 @@ public class PartnerDAO {
 	}
 	
 	//파트너 검색
-	public List<PartnerDTO> search(int cpage, Map<String, Object> search, PartnerDTO pdto) throws Exception{
+	public List<PartnerDTO> search(int cpage, Map<String, Object> search, PartnerDTO pdto/* , String orderBy */) throws Exception{
 		int start =cpage * Configuration.RECORD_COUNT_PER_PAGE - (Configuration.RECORD_COUNT_PER_PAGE-1);
 		int end = start + (Configuration.RECORD_COUNT_PER_PAGE-1);
 		search.put("start", start);
 		search.put("end", end);
 		search.put("pdto", pdto);
+		//search.put("orderBy",orderBy);
 		return mybatis.selectList("Partner.search",search);
 	}
 	
@@ -68,8 +69,18 @@ public class PartnerDAO {
 	public int insertPartner(Map<String, Object> insertP) throws Exception{
 		return mybatis.insert("Partner.insertPartner", insertP);
 	}
+	//파트너 등록 후 멤버 등급 partner로 변경
+	public int updateMemberGrade(MemberDTO mdto) throws Exception{
+		return mybatis.update("Partner.updateMemberGrade",mdto);
+	}
+	
+	//파트너 삭제
+	public int deletePartner(MemberDTO mdto) throws Exception{
+		return mybatis.delete("Partner.deletePartner", mdto);
+	}
 	
 	public List<PartnerDTO> partnerListAll() throws Exception{
 		return mybatis.selectList("Partner.partnerListAll");
 	}
+	
 }

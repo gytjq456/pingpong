@@ -17,6 +17,8 @@
 		</section>
 	</footer>
 	
+	<div id="chatOpenBtn"><button><i class="fa fa-commenting" aria-hidden="true"></i></button></div>
+	
 	<jsp:include page="chat.jsp"/>	
 </body>
 </html>

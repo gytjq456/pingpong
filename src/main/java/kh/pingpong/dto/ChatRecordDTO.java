@@ -1,11 +1,14 @@
 package kh.pingpong.dto;
 
+import java.sql.Timestamp;
+
 public class ChatRecordDTO {
 
 	private String roomId;
 	private int seq;
 	private String sendUser;
 	private String chatRecord;
+	private String realWriteDate;
 	private String writeDate;
 	
 	
@@ -14,12 +17,14 @@ public class ChatRecordDTO {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ChatRecordDTO(String roomId, int seq, String sendUser, String chatRecord, String writeDate) {
+	public ChatRecordDTO(String roomId, int seq, String sendUser, String chatRecord, String realWriteDate,
+			String writeDate) {
 		super();
 		this.roomId = roomId;
 		this.seq = seq;
 		this.sendUser = sendUser;
 		this.chatRecord = chatRecord;
+		this.realWriteDate = realWriteDate;
 		this.writeDate = writeDate;
 	}
 	
@@ -47,14 +52,20 @@ public class ChatRecordDTO {
 	public void setChatRecord(String chatRecord) {
 		this.chatRecord = chatRecord;
 	}
-
+	public String getRealWriteDate() {
+		return realWriteDate;
+	}
+	public void setRealWriteDate(String realWriteDate) {
+		this.realWriteDate = realWriteDate;
+	}
 	public String getWriteDate() {
 		return writeDate;
 	}
-
 	public void setWriteDate(String writeDate) {
 		this.writeDate = writeDate;
 	}
+	
+	
 	
 	
 	

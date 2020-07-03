@@ -17,7 +17,7 @@
 				<span></span>
 			</div>
 			<div class="chatBox" id="chatBox">
-			
+				
 			</div>
 			<div class="txtInputBox">
 				<div class="txtInput" contenteditable="true">
@@ -69,7 +69,7 @@
 					$.ajax({
 						url:"/chatting/create",
 						type:"post",
-						//dataType:"json",
+						dataType:"json",
 						data:{
 							chatMemberId:uid,
 							users:uname
@@ -77,12 +77,14 @@
 					}).done(function(resp){
 						console.log(resp)
 						console.log(resp.length)
-						if(resp.length == 10){
+						console.log(typeof resp )
+						if(typeof resp == 'string'){
 							chatRoom = resp;
 						}else{
-							var data = JSON.parse(resp);
+							var data = resp
 							console.log(data)
 							chatRoom = data[0].roomId;
+							$(".chatBox").append('<div class="sysdate">'+data[0].realWriteDate+'</div>');	
 							for(var i=0; i<data.length; i++){
 								var userTag = "";
 								if(data[i].sendUser == "${sessionScope.loginInfo.name}"){
@@ -111,101 +113,96 @@
 						}
 						$("#chatRoom").addClass("on");
 						var chatWrap = $("#chatWrap");
-						chatWrap.find(".title p").text("${sessionScope.loginInfo.id},"+uid);
+						chatWrap.find(".title p").text("${sessionScope.loginInfo.name},"+uid);
 						var member = chatWrap.find(".title p").text().split(",");
 						chatWrap.find(".title span").text(member.length);
-						
-						
 					}).fail(function(){
 						alert("error")
 					})
-					
-					var ws = new WebSocket("ws://localhost/chat");
-					ws.onmessage = function(e){
-						var msg = JSON.parse(event.data);
-						var time = new Date(msg.date);
-						var timeStr = time.toLocaleTimeString();
-						
-						var userTag = "";
-						userTag = userTag + "<div class='userInfo_s1 other'>"
-						userTag += "<div class='thumb'><img src='/resources/img/sub/userThum.jpg'></div>"
-						userTag += "<div class='info'>"
-						userTag += "<p class='userId'>"+msg.id+"</p>"
-						userTag += "</div>"
-						//userTag += "<div class='chatTxt'><p>"+msg.text+"</p><span class='writeDate'>"+msg.date+"</span></div>"
-						userTag += "<div class='chatTxt'><p>"+msg.text+"</p><span class='writeDate'>"+msg.date+"</span></div>"
-						userTag += "</div>"				
-						$(".chatBox").append(userTag);
-						updateScroll();
-					}
-					
-					$("#chatWrap #close").click(function(){
-						$("#chatRoom").removeClass("on");
-						$("#chatBox").html("");
-						ws.close();
-					})
+				}
+			})
+
+			//var ws = new WebSocket("ws://localhost/chat");
+			var ws = new WebSocket("ws://192.168.160.184/chat");
+			ws.onmessage = function(e){
+				var msg = JSON.parse(event.data);
+				var time = new Date(msg.date);
+				var timeStr = time.toLocaleTimeString();
+				
+				var userTag = "";
+				userTag = userTag + "<div class='userInfo_s1 other'>"
+				userTag += "<div class='thumb'><img src='/resources/img/sub/userThum.jpg'></div>"
+				userTag += "<div class='info'>"
+				userTag += "<p class='userId'>"+msg.id+"</p>"
+				userTag += "</div>"
+				//userTag += "<div class='chatTxt'><p>"+msg.text+"</p><span class='writeDate'>"+msg.date+"</span></div>"
+				userTag += "<div class='chatTxt'><p>"+msg.text+"</p><span class='writeDate'>"+msg.date+"</span></div>"
+				userTag += "</div>"				
+				$(".chatBox").append(userTag);
+				updateScroll();
+			}
+			
+			$("#chatWrap #close").click(function(){
+				$("#chatRoom").removeClass("on");
+				$("#chatBox").html("");
+				//ws.close();
+			})
+			$(".txtInput").keyup(function(e){
+				if(e.keyCode == 13){
+					$("#transfer").click();
+					return false;
+				}
+			})
+			$("#transfer").click(function(){
+				var txtInput = $(".txtInput")
+				
+				var toTime = new Date();
+				var today = toTime.getDay();
+				var theYear = toTime.getFullYear();
+				var theMonth = toTime.getMonth();
+				var theDate = toTime.getDate();
+				var theHours = toTime.getHours();
+				var theMinutes = toTime.getMinutes();
+				var theSeconds = toTime.getSeconds();
+				var week = new Array('일', '월', '화', '수', '목', '금', '토');
+				var todayLabel = week[today];
+				
+				if(theMinutes < 10){
+					theMinutes = "0"+theMinutes
 				}
 				
-				$(".txtInput").keyup(function(e){
-					if(e.keyCode == 13){
-						$("#transfer").click();
-						return false;
-					}
-				})
-				$("#transfer").click(function(){
-					var txtInput = $(".txtInput")
-					
-					var toTime = new Date();
-					var today = toTime.getDay();
-					var theYear = toTime.getFullYear();
-					var theMonth = toTime.getMonth();
-					var theDate = toTime.getDate();
-					var theHours = toTime.getHours();
-					var theMinutes = toTime.getMinutes();
-					var theSeconds = toTime.getSeconds();
-					var week = new Array('일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일');
-					var todayLabel = week[today];
-					
-					if(theMinutes < 10){
-						theMinutes = "0"+theMinutes
-					}
-					
-					if(theHours > 12){
-						timeResult = "("+todayLabel+")오후" + theHours+":"+theMinutes
-					}else{
-						timeResult = "("+todayLabel+")오전" + theHours+":"+theMinutes
-					}
+				if(theHours > 12){
+					timeResult = "오후" + theHours+":"+theMinutes
+				}else{
+					timeResult = "오전" + theHours+":"+theMinutes
+				}
 
-					var chatTxt = $(".txtInput").text();
-					var userTag = "";
-					userTag = userTag + "<div class='userInfo_s1 my'>"
-					userTag += "<div class='info'>"
-					userTag += "<p class='userId'>${sessionScope.loginInfo.name}</p>"
-					userTag += "</div>"
-					userTag += "<div class='thumb'><img src='/resources/img/sub/userThum.jpg'></div>"
-					userTag += "<div class='chatTxt'><span class='writeDate'>"+timeResult+"</span><p>"+chatTxt+"</p></div>"
-					userTag += "</div>"
-					
-					
-					var msg = {
-						chatRoom : chatRoom,
-						type: "message",
-						text: chatTxt,
-						id:   "${sessionScope.loginInfo.name}",
-						date: timeResult
-					};
-					
-					$(".chatBox").append(userTag);
-					updateScroll();
-					txtInput.html("");
-					txtInput.focus();
-					
-					ws.send(JSON.stringify(msg));	
-				})
-			});
-			
+				var chatTxt = $(".txtInput").text();
+				var userTag = "";
+				userTag = userTag + "<div class='userInfo_s1 my'>"
+				userTag += "<div class='info'>"
+				userTag += "<p class='userId'>${sessionScope.loginInfo.name}</p>"
+				userTag += "</div>"
+				userTag += "<div class='thumb'><img src='/resources/img/sub/userThum.jpg'></div>"
+				userTag += "<div class='chatTxt'><span class='writeDate'>"+timeResult+"</span><p>"+chatTxt+"</p></div>"
+				userTag += "</div>"
 				
-			
+				
+				var msg = {
+					chatRoom : chatRoom,
+					type: "message",
+					text: chatTxt,
+					id:   "${sessionScope.loginInfo.name}",
+					date: timeResult
+				};
+				
+				$(".chatBox").append(userTag);
+				updateScroll();
+				txtInput.html("");
+				txtInput.focus();
+				
+				ws.send(JSON.stringify(msg));	
+			})
 		})
 		
 	

@@ -270,6 +270,7 @@ button.normal:hover { background:#c7c7c7 !important; color:#fff; }
 
 #chatWrap #chatRoom .chatBox::-webkit-scrollbar {display:none;} 
 #chatWrap #chatRoom .userInfo_s1 .info { margin-top:-10px;}
+#chatWrap #chatRoom .chatBox .sysdate { text-align:center; background:#fafafc; border-radius:10px; padding:5px 0;}
 #chatWrap #chatRoom .chatBox { padding:20px; box-sizing:border-box; overflow-y:auto; -ms-overflow-style: none;
 height:calc(100% - 240px);
 height:-moz-calc(100% - 240px);

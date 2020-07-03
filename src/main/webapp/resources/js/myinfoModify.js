@@ -1,5 +1,14 @@
-/* 회원가입 */
+/* 마이페이지 수정 */
 $(function(){
+	
+	/* 회원정보 수정 버튼 클릭시 노출 */
+	$(".show_input").hide();
+
+	$(".modyBtn").on("click",function(){
+		$(this).siblings('.show_input').toggle('slow');
+	});	
+	
+	/* === 회원수정 === */ 
 	//시군 
 	new sojaeji('sido1', 'gugun1');
 	
@@ -8,29 +17,7 @@ $(function(){
          var gugun = $('#gugun1 option:selected').val();
          
          $('#address').val(sido + ' ' + gugun);
-    });
-		
-	//아이디 중복 체크
-	$("#duplcheckId").on("click",function(){
-		$.ajax({
-			url : "/member/duplcheckId",
-			type : "post",
-			data : {
-				id : $("#id").val()
-			}
-		}).done(function(resp){
-			if("true" == resp){
-				alert("이미 사용중인 아이디 입니다.");
-				$("#duplcheckId").attr("name","");
-			}else{
-				alert("사용가능한 아이디입니다.");
-				$("#duplcheckId").attr("name","true");
-			}    				
-		}).fail(function(error1, error2){
-			console.log(error1);
-			console.log(error2);
-		})
-	});
+    });	
 	
 	//비밀번호 일치
 	$("#pw_ck").on("keyup",function(){
@@ -55,15 +42,12 @@ $(function(){
 		}
 	})
 	
+	$("#phone_submit")
 	
-	$("#joinProc").submit(function(){
+	
+	$("#myInfoModifyProc").submit(function(){
 		
-		var id_ck = $("#id");
 		var pw_ck = $("#pw");
-		var name = $("#name");
-		var age = $("#age");
-		var gender = $('input:radio[name=gender]:checked').val(); //라디오
-		//이메일은 고정
 		var phone_country = $('#phone_country option:selected').val();//셀렉트
 		var phone = $('#phone');
 		var address = $("#address");
@@ -72,22 +56,6 @@ $(function(){
 		var profile = $("#profile");//파일
 		var country = $("#country option:selected").val();//셀렉트
 		var introduce = $("#introduce");	
-		
-		//아이디 정규식		
-		var regexId = /^(\w){4,20}$/g;
-		var result_id = regexId.test(id_ck.val());
-		if(!result_id){
-			alert("아이디 : 알파벳 대소문자, 숫자, _ 까지 4~20글자입니다.");
-			id_ck.focus();
-			return false;
-		}
-		
-		//아이디 중복확인 했는지 안했는지
-		if($("#duplcheckId").prop("name") == ""){
-			alert("아이디 중복체크를 확인해주세요");
-			id_ck.focus();
-			return false;
-		}
 		
 		//비밀번호		
 		var regexPw = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/g;
@@ -115,17 +83,6 @@ $(function(){
 			age.focus();
 			return false;
 		}
-		
-		//성별
-		var gender = $('input:radio[name=gender]:checked').val();
-		if($('input:radio[name=gender]:checked').length < 1){
-			alert("성별을 체크해주세요.");
-			$('input:radio[name=gender]').focus();
-			return false;
-		}
-		
-		//email
-		//이메일은 고정으로 바뀌지 않게 작업	
 		
 		//전화번호 (앞자리)
 		if(phone_country == 'null'){
@@ -252,7 +209,7 @@ $(function(){
 		}
 		
 		/* 자기소개  */
-		if(introduce.val().length < 100){
+		if(introduce.val().length < 50){
 			introduce.focus();
 			alert("자기소개를 최소 100글자 이상 작성해주세요.");
 			return false;
@@ -267,6 +224,37 @@ $(function(){
 		){
 			return false;		
 	 	}
+		
+		
+		$.ajax({
+			type : "post",
+			url : "/member/myInfoModifyProc",
+			data : {
+				pw_ck : $("#pw"),
+				phone_country : $('#phone_country option:selected').val(),
+				phone : $('#phone'),
+				address : $("#address"),
+				bank_name : $("#bank_name option:selected").val(),
+				account : $("#account"),
+				profile : $("#profile"),
+				country : $("#country option:selected").val(),
+				introduce : $("#introduce")
+				
+			}.done(function(resp){
+				if(resp == 'true'){
+					alert("로그인이 되었습니다.");
+					location.href="/";
+					
+				}else{
+					alert("로그인에 실패하였습니다.");
+					$("#id").val("");
+					$("#pw").val("");
+				}
+			}).fail(function(error1, error2){
+				alert("관리자에게 문의주세요.")
+			})
+		})
+		
 	});
 	
 });

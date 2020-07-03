@@ -27,7 +27,6 @@
 							pw : $('#pw').val()
 						}
 						}).done(function(resp){
-							console.log(resp + " :: 하하");
 							if(resp == 'true'){
 								alert("로그인이 되었습니다.");
 								location.href="/";

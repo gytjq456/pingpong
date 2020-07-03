@@ -48,13 +48,10 @@ public class MemberController {
 	public String getSHA512(String input) {
 		String toReturn = null;
 		try {
-			MessageDigest digest = MessageDigest.getInstance("SHA-512");
-			// SHA-256는 MessageDigest digest = MessageDigest.getInstance("SHA-256");
-			digest.reset();
-			digest.update(input.getBytes("utf8"));
-			toReturn = String.format("%0128x", new BigInteger(1, digest.digest()));
-			// SHA-256는 toReturn = String.format("%064x", new BigInteger(1,
-			// digest.digest()));
+			MessageDigest digest = MessageDigest.getInstance("SHA-256");
+		    digest.reset();
+		    digest.update(input.getBytes("utf8"));
+		    toReturn = String.format("%064x", new BigInteger(1, digest.digest()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -186,7 +183,6 @@ public class MemberController {
 	@ResponseBody
 	@RequestMapping("duplcheckId")
 	public String duplcheckId(MemberDTO mdto) throws Exception {
-		mdto.setPw(this.getSHA512(mdto.getPw()));
 		Boolean result = mservice.duplcheckId(mdto);
 		return Boolean.toString(result);
 	}
@@ -206,13 +202,7 @@ public class MemberController {
 		return "/member/mypage";
 	}
 
-	/* 마이페이지 수정 jsp */
-	@RequestMapping("myInfoModify")
-	public String myInfoModify() throws Exception {
-		return "/member/myInfoModify";
-	}
-
-	/* login jsp */
+	/* 로그인 jsp */
 	@RequestMapping("login")
 	public String login() throws Exception {
 		return "/member/login";
@@ -224,7 +214,6 @@ public class MemberController {
 	public String isIdPwSame(MemberDTO mdto) throws Exception{
 		mdto.setPw(this.getSHA512(mdto.getPw()));
 		Boolean result = mservice.isIdPwSame(mdto);
-		System.out.println("잉?? :: " + result);
 		if(result) {
 			MemberDTO loginInfo = mservice.loginInfo(mdto);		
 			session.setAttribute("loginInfo",loginInfo);	
@@ -300,12 +289,55 @@ public class MemberController {
 	/* 회원탈퇴 */
 	@ResponseBody
 	@RequestMapping("memWithdrawal")
-	public String memWithdrawal(MemberDTO mdto) throws Exception{
-		mdto = (MemberDTO)session.getAttribute("loginInfo");
-		System.out.println(mdto.getSysname() + " :: 파일 이름 ");
+	public String memWithdrawal() throws Exception{
+		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
 		int result = mservice.memWithdrawal(mdto);
 		session.invalidate();
 		return Integer.toString(result);
+	}
+	
+	/* 마이페이지 수정 jsp */
+	@RequestMapping("myInfoModify")
+	public String myInfoModify(Model model) throws Exception {		
+		// 은행
+		List<BankDTO> bankList = mservice.bankList();
+		model.addAttribute("bankList", bankList);
+
+		// 나라
+		List<CountryDTO> countryList = mservice.countryList();
+		model.addAttribute("countryList", countryList);
+
+		// 언어
+		List<LanguageDTO> lanList = mservice.lanList();
+		model.addAttribute("lanList", lanList);
+
+		// 취미
+		List<HobbyDTO> hobbyList = mservice.hobbyList();
+		model.addAttribute("hobbyList", hobbyList);	
+		
+		return "/member/myInfoModify";
+	}
+	
+	/* 회원정보 수정 */
+	@ResponseBody
+	@RequestMapping("myInfoModifyProc")
+	public String myInfoModifyProc(MemberDTO mdto) throws Exception{
+		MemberDTO loginMdto = (MemberDTO)session.getAttribute("loginInfo");
+		loginMdto.setPw(mdto.getPw());
+		loginMdto.setPhone_country(mdto.getPhone_country());
+		loginMdto.setPhone(mdto.getPhone());
+		loginMdto.setAddress(mdto.getAddress());
+		loginMdto.setBank_name(mdto.getBank_name());
+		loginMdto.setAccount(mdto.getAccount());
+		loginMdto.setProfile(mdto.getProfile());
+		loginMdto.setCountry(mdto.getCountry());
+		loginMdto.setIntroduce(mdto.getIntroduce());
+		
+		System.out.println(loginMdto.getPw() + " 비밀번호");
+		System.out.println(loginMdto.getPhone() + " 전화번호");
+		
+		//int result = mservice.myInfoModifyProc(loginMdto);		
+		return Integer.toString(1);		
 	}
 	
 }

@@ -12,8 +12,9 @@
 		var sendEmailCode = "";
 		var code = $("#code").val();
 		var tid;
-		var time = 10;
+		var time = 180;		
 		
+		//타이머
 		function setTimer(){
 			tid = setInterval(function(){
 				time--;
@@ -64,7 +65,7 @@
 					sendEmailCode = resp;
 					console.log(sendEmailCode + "코드");
 					clearInterval(tid);
-					time = 10;
+					time = 180;
 					setTimer();
 					
 				}).fail(function(error1, error2){
@@ -87,11 +88,50 @@
 			}
 		});
 		
+		//전체약관
+		$("#ckboxAll").click(function(){
+			if($("#ckboxAll").prop("checked")){
+				$("input[name=ckbox1]").prop("checked",true);
+				$("input[name=ckbox2]").prop("checked",true);
+			}else{
+				$("input[name=ckbox1]").prop("checked",false);
+				$("input[name=ckbox2]").prop("checked",false);
+			}
+		});
+				
 		//다음버튼을 눌렀을 때 
-		$("#join").on("click", function(){
-			if(userMailSend.val() == "" || code == ""){
-				alert("이메일과 인증번호가 입력 되어 있어야 합니다.");
+		$("#join").on("click", function(){			
+			
+			//이용약관 체크박스
+			var ckbox1 = $("input:checkbox[name=ckbox1]");
+			var ckIsNull = ckbox1.is(":checked") == true;
+			
+			//개인정보취급방침 체크박스
+			var ckbox2 = $("input:checkbox[name=ckbox2]");
+			var ckIsNull2 = ckbox2.is(":checked") == true;
+			
+			
+			
+			if(userMailSend.val() == "" || code == "" || ckIsNull == false || ckIsNull2 == false){
+	
+				if(userMailSend.val() == ""){
+					alert("이메일이 입력 되어 있어야 합니다.");	
+					
+				}else if(code == ""){
+					ckbox1.focus();
+					alert("인증번호가 입력되어 있어야합니다.");
+					
+				}else if(ckIsNull == false){
+					ckbox1.focus();
+					alert("이용약관을 체크해주세요.");
+					
+				}else if(ckIsNull2 == false){
+					ckbox2.focus();
+					alert("개인정보 취급방침을 체크해주세요.");
+				}
+				
 				return false;
+				
 			}else{
 				if(sendEmailCode == code){
 					location.href= "/member/join?mail="+ userMailSend.val();
@@ -123,12 +163,33 @@
 						</dd>
 					</dl>
 				</div>
-				<div>
-					<div>개인정보취급방침</div>
-					<!-- s -->
-						
-					<!-- e -->
+				<br>
+				<div class="joinbox">
+				
+				<input type="checkbox" name="ckboxAll" value="ckboxAll" id="ckboxAll"/>
+				<label for="ckboxAll">전체동의</label>
+				
+					<h3>이용약관 (필수)</h3>
+					<div class="text01">
+						<div style="border:1px solid #ddd;">
+							하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하
+						</div>
+						<input type="checkbox" name="ckbox1" value="ckbox1" id="ckbox1"/>
+						<label for="ckbox1" >이용약관 동의</label>
+					</div>					
 				</div>
+				<br>
+				<div class="joinbox">
+					<h3>개인정보 수집 및 이용동의 (필수)</h3>
+					<div class="text01">
+						<div style="border:1px solid #ddd;">
+							하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하
+						</div>
+						<input type="checkbox" name="ckbox2" value="ckbox2" id="ckbox2"/>
+						<label for="ckbox2">개인정보 수집 및 이용에 동의합니다.</label>
+					</div>					
+				</div>
+				<br>
 				<button type="button" id="join" name="join">다음</button>
 			</div>
 		</div>

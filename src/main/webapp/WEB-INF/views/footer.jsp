@@ -17,7 +17,6 @@
 		</section>
 	</footer>
 	
-	<jsp:include page="chat.jsp"/>
-	
+	<jsp:include page="chat.jsp"/>	
 </body>
 </html>

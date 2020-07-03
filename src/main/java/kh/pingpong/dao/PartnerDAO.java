@@ -71,7 +71,7 @@ public class PartnerDAO {
 	}
 	
 	public List<PartnerDTO> partnerListAll() throws Exception{
-		return mybatis.selectList("Partner.selectListAll");
+		return mybatis.selectList("Partner.partnerListAll");
 	}
 	
 }

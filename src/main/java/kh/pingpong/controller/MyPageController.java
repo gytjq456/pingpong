@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import kh.pingpong.dto.GroupApplyDTO;
 import kh.pingpong.dto.GroupDTO;
 import kh.pingpong.dto.LikeListDTO;
 import kh.pingpong.dto.MemberDTO;
@@ -42,6 +43,27 @@ public class MyPageController {
 	@Autowired
 	private MyPageService mpservice;
 	
+	//그룹 관련
+//	@RequestMapping("groupRecord")
+//	public String groupRecord(Model model) throws Exception{
+//		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
+//		List<GroupDTO> glist = mpservice.selectGroupList();
+//		model.addAttribute("glist", glist);
+//		return "/mypage/groupRecord";
+//	}
+	
+	@RequestMapping("groupRecord")
+	public String selectByIdInGroup(Model model) throws Exception{
+		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
+		System.out.println("현재 로그인한 회원 아이디 : " + loginInfo.getId());
+		List<GroupDTO> gl_list = mpservice.selectByIdInGroup(loginInfo);
+		List<GroupApplyDTO> gm_list = mpservice.selectByIdInGroupMem(loginInfo);
+		model.addAttribute("gl_list", gl_list); // 그룹 리더의 경우
+		model.addAttribute("gm_list", gm_list); // 그룹 멤버의 경우
+		return "/mypage/groupRecord";
+	}
+	
+	//파트너 관련
 	@RequestMapping("partnerRecord")
 	public String partnerRecord(Model model) throws Exception{
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
@@ -59,13 +81,7 @@ public class MyPageController {
 		return "/mypage/tutorRecord"; 
 	}
 	
-	@RequestMapping("groupRecord")
-	public String groupRecord(Model model) throws Exception{
-		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
-		List<GroupDTO> glist = mpservice.selectGroupList();
-		model.addAttribute("glist", glist);
-		return "/mypage/groupRecord";
-	}
+	
 	@RequestMapping("likeRecord")
 	public String likeRecord(Model model) throws Exception{
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");

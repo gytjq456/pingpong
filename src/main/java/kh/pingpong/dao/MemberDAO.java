@@ -70,6 +70,22 @@ public class MemberDAO {
 		return mybatis.selectOne("Member.duplcheckId", mdto);
 	}
 	
+	/* 아이디찾기 */
+	public List<MemberDTO> idFindProc(MemberDTO mdto) {		
+		System.out.println(mdto.getName() + mdto.getEmail() + "  DAO");
+		return mybatis.selectList("Member.idFindProc", mdto);
+	}
+	
+	/* 비밀번호찾기 */
+	public int pwFindProc(MemberDTO mdto) {		
+		return mybatis.selectOne("Member.pwFindProc", mdto);
+	}
+	
+	/* 비밀번호수정 */
+	public int pwModifyProc(MemberDTO mdto) {
+		System.out.println(mdto.getPw());
+		return mybatis.update("Member.pwModifyProc", mdto);
+	}
 	
 }
 

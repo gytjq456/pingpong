@@ -50,7 +50,7 @@
 				
 				//회원가입
 				$("#signup").click(function(){
-					location.href="/member/join";
+					location.href="/member/joinMail";
 				});
 			});
 			

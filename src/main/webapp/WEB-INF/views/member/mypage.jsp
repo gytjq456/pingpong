@@ -6,7 +6,7 @@
 	
 	<script>
 		$('#myInfoModify').on("click",function(){
-			location.href="/member/myInfoModify";
+			location.href="/mypage/myInfoModify";
 		});
 	</script>
 
@@ -22,6 +22,7 @@
 				</form>
 				<button id="myInfoModify">수정하기</button>
 				<button id="">튜터 취소하기</button>
+				<button id="">회원탈퇴</button>
 			</div>
 		</section>
 	</div>

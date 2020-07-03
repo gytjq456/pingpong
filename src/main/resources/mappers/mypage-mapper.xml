@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Mypage">
+		
+	<!-- 회원정보 수정 -->
+	<update id ="mypageUpdate">
+		update member set #{mdto.mem_type}, #{mdto.id}, #{mdto.pw}, #{mdto.name}, ${mdto.age},
+			#{mdto.gender}, #{mdto.email}, #{mdto.phone_country}, #{mdto.phone}, #{mdto.address}, #{mdto.bank_name},
+			#{mdto.account}, #{fdto.sysname}, #{mdto.country}, #{mdto.lang_can}, #{mdto.lang_learn}, #{mdto.hobby}, #{mdto.grade},
+			#{mdto.introduce}, default where id=#{id}
+	</update>
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+

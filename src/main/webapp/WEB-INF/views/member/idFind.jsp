@@ -30,11 +30,9 @@
 					email : f_email
 				}
 			}).done(function(resp){
-				alert(resp);
 				if(resp==0){
 					alert("입력하신 값이 일치하지 않습니다.");					
 				}else{
-					alert("일치!");	
 					location.href="/member/idResult?name="+f_name+"&email="+f_email;
 				}
 			}).fail(function(error1, error2){

@@ -27,8 +27,8 @@ public class PartnerService {
 	JavaMailSender mailSender;
 	
 	//파트너 게시글에서 파트너 찾기
-	public List<PartnerDTO> search(int cpage, Map<String, Object> search, PartnerDTO pdto) throws Exception{
-		return pdao.search(cpage, search, pdto);
+	public List<PartnerDTO> search(int cpage, Map<String, Object> search, PartnerDTO pdto/* ,String orderBy */) throws Exception{
+		return pdao.search(cpage, search, pdto/* , orderBy */);
 	}
 	
 	//취미 선택 
@@ -110,6 +110,16 @@ public class PartnerService {
 	//파트너 등록
 	public int partnerInsert(Map<String, Object> insertP) throws Exception{
 		return pdao.insertPartner(insertP);
+	}
+	
+	//파트너 등록 후 멤버 등급 변경
+	public int updateMemberGrade(MemberDTO mdto) throws Exception{
+		return pdao.updateMemberGrade(mdto);
+	}
+	
+	//파트너 삭제
+	public int deletePartner(MemberDTO mdto) throws Exception{
+		return pdao.deletePartner(mdto);
 	}
 	
 	//이메일 전송

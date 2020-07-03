@@ -25,7 +25,7 @@
 			#{mdto.mem_type}, #{mdto.id}, #{mdto.pw}, #{mdto.name}, ${mdto.age},
 			#{mdto.gender}, #{mdto.email}, #{mdto.phone_country}, #{mdto.phone}, #{mdto.address}, #{mdto.bank_name},
 			#{mdto.account}, #{fdto.sysname}, #{mdto.country}, #{mdto.lang_can}, #{mdto.lang_learn}, #{mdto.hobby}, #{mdto.grade},
-			#{mdto.introduce}, default
+			#{mdto.introduce}, default, default
 		)
 	</insert>
 		
@@ -73,6 +73,24 @@
 	<!-- 비밀번호 수정 -->
 	<update id ="pwModifyProc">
 		update member set pw=#{pw} where id=#{id} and name=#{name} and email=#{email}
+	</update>
+	
+	<!-- 회원탈퇴 -->
+	<delete id="memWithdrawal">
+		delete from member where id=#{id} 
+	</delete>
+	
+	<!-- 회원 탈퇴시 프로필 삭제 -->
+	<delete id="memProfileDele">
+		delete from files where sysname=#{sysname} 
+	</delete>
+	
+	<!-- 회원정보 수정 -->
+	<update id="myInfoModifyProc">
+		update member set #{mdto.mem_type}, #{mdto.id}, #{mdto.pw}, #{mdto.name}, ${mdto.age},
+			#{mdto.gender}, #{mdto.email}, #{mdto.phone_country}, #{mdto.phone}, #{mdto.address}, #{mdto.bank_name},
+			#{mdto.account}, #{fdto.sysname}, #{mdto.country}, #{mdto.lang_can}, #{mdto.lang_learn}, #{mdto.hobby}, #{mdto.grade},
+			#{mdto.introduce}, default, default where id = #{id}
 	</update>
 	
 </mapper>

@@ -15,7 +15,9 @@ import kh.pingpong.dao.GroupDAO;
 import kh.pingpong.dto.DeleteApplyDTO;
 import kh.pingpong.dto.GroupApplyDTO;
 import kh.pingpong.dto.GroupDTO;
+import kh.pingpong.dto.GroupMemberDTO;
 import kh.pingpong.dto.HobbyDTO;
+import kh.pingpong.dto.JjimDTO;
 import kh.pingpong.dto.LikeListDTO;
 import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.dto.ReviewDTO;
@@ -38,10 +40,6 @@ public class GroupService {
 		String writer_id = loginInfo.getId();
 		gdao.insertGroup(gdto);
 		return gdao.searchSeq(writer_id);
-	}
-	
-	public List<GroupDTO> selectList(int cpage, String orderBy) {
-		return gdao.selectList(cpage, orderBy);
 	}
 	
 	public GroupDTO selectBySeq(int seq) throws Exception{
@@ -67,8 +65,22 @@ public class GroupService {
 		return gdao.insertApp(gadto);
 	}
 	
+	@Transactional("txManager")
+	public int cancelApply(GroupApplyDTO gadto) {
+		int seq = gdao.selectApplySeq(gadto);
+		return gdao.cancelApply(seq);
+	}
+	
+	public boolean selectApplyForm(GroupApplyDTO gadto) {
+		return gdao.selectApplyForm(gadto);
+	}
+	
 	public int insertDeleteApply(DeleteApplyDTO dadto) {
 		return gdao.insertDeleteApply(dadto);
+	}
+	
+	public GroupMemberDTO selectGroupMemberById(GroupMemberDTO gmdto) {
+		return gdao.selectGroupMemberById(gmdto);
 	}
 	
 	@Transactional("txManager")
@@ -85,37 +97,34 @@ public class GroupService {
 		return gdao.updateIngDate(today_date);
 	}
 	
-	public List<GroupDTO> selectOrderBy(String tableName) {
-		return gdao.selectOrderBy(tableName);
-	}
-	
-	public List<GroupDTO> search(int cpage, Map<String, Object> search) {
-		return gdao.search(cpage, search);
-	}
-	
-	public List<GroupDTO> selectListOption(int cpage, Map<String, Object> param) {
-		return gdao.selectListOption(cpage, param);
-	}
-	
-	public List<GroupDTO> searchDate(int cpage, Map<String, Object> dates) {
-		return gdao.searchDate(cpage, dates);
-	}
-	
-	public List<GroupDTO> searchLocation(int cpage, Map<String, Object> map) {
-		return gdao.searchLocation(cpage, map);
-	}
-	
 	public List<GroupDTO> relatedGroup(List<String> hobby_arr) {
 		return gdao.relatedGroup(hobby_arr);
 	}
 	
-	public int selectCount() {
-		return gdao.selectCount();
+	public List<GroupDTO> selectGroupList(int cpage, Map<String, Object> search) {
+		return gdao.selectGroupList(cpage, search);
 	}
 	
-	public String getPageNav(int currentPage, String orderBy) throws Exception{
+	public int selectGroupCount(Map<String, Object> search) {
+		return gdao.selectGroupCount(search);
+	}
+	
+	public int insertJjim(JjimDTO jdto) {
+		return gdao.insertJjim(jdto);
+	}
+	
+	public int deleteJjim(JjimDTO jdto) {
+		return gdao.deleteJjim(jdto);
+	}
+	
+	public boolean selectJjim(JjimDTO jdto) {
+		return gdao.selectJjim(jdto);
+	}
+	
+	public String getPageNav(int currentPage, Map<String, Object> search) throws Exception{
 		// 총 게시물
-		int recordTotalCount = gdao.selectCount();
+		int recordTotalCount = gdao.selectGroupCount(search);
+		String orderBy = search.get("orderBy").toString();
 
 		int pageTotalCount = 0; //전체페이지 개수
 
@@ -149,20 +158,79 @@ public class GroupService {
 
 		StringBuilder sb = new StringBuilder();
 		sb.append("<ul>");
+		
+		String pagingUrl = "/group/";
+		
+		if (!search.containsKey("ing") && !search.containsKey("keywordType") && !search.containsKey("hobbyType") && !search.containsKey("period") && !search.containsKey("start_date") && !search.containsKey("location")) {
+			pagingUrl = pagingUrl + "main?orderBy=" + orderBy;
+		}
+		
+		if (search.containsKey("ing")) {
+			if (search.get("ing").toString().contentEquals("applying = 'N' and proceeding")) {
+				pagingUrl = pagingUrl + "mainOption?orderBy=" + orderBy + "&ing=done";
+			} else {
+				pagingUrl = pagingUrl + "mainOption?orderBy=" + orderBy + "&ing=" + search.get("ing").toString();
+			}
+		} 
+		
+		if (search.containsKey("keywordType")) {
+			if (search.containsKey("hobbyType")) {
+				if (search.containsKey("period")) {
+					pagingUrl = pagingUrl + "search?orderBy=" + orderBy + "&keywordType=" + search.get("keywordType").toString() +
+							"&keywordValue=" + search.get("keywordValue").toString() + "&hobbyType=" + search.get("hobbyType").toString() +
+							"&period=" + search.get("period").toString();
+				} else {
+					pagingUrl = pagingUrl + "search?orderBy=" + orderBy + "&keywordType=" + search.get("keywordType").toString() +
+							"&keywordValue=" + search.get("keywordValue").toString() + "&hobbyType=" + search.get("hobbyType").toString() +
+							"&period=null";
+				}
+			} else {
+				if (search.containsKey("period")) {
+					pagingUrl = pagingUrl + "search?orderBy=" + orderBy + "&keywordType=" + search.get("keywordType").toString() +
+							"&keywordValue=" + search.get("keywordValue").toString() + "&hobbyType=&period=" + search.get("period").toString();
+				} else {
+					pagingUrl = pagingUrl + "search?orderBy=" + orderBy + "&keywordType=" + search.get("keywordType").toString() +
+							"&keywordValue=" + search.get("keywordValue").toString() + "&hobbyType=&period=null";
+				}
+			}
+		} else {
+			if (search.containsKey("hobbyType")) {
+				if (search.containsKey("period")) {
+					pagingUrl = pagingUrl + "search?orderBy=" + orderBy + "&keywordType=null&keywordValue=null&hobbyType=" + search.get("hobbyType").toString() +
+							"&period=" + search.get("period").toString();
+				} else {
+					pagingUrl = pagingUrl + "search?orderBy=" + orderBy + "&keywordType=null&keywordValue=null&hobbyType=" + search.get("hobbyType").toString() +
+							"&period=null";
+				}
+			} else {
+				if (search.containsKey("period")) {
+					pagingUrl = pagingUrl + "search?orderBy=" + orderBy + "&keywordType=null&keywordValue=null&hobbyType=&period=" + search.get("period").toString();
+				}
+			}
+		} 
+		
+		if (search.containsKey("start_date")) {
+			pagingUrl = pagingUrl + "searchDate?orderBy=" + orderBy + "&start_date=" + search.get("start_date").toString() + "&end_date=" + search.get("end_date").toString();
+		}
+		
+		if (search.containsKey("location")) {
+			pagingUrl = pagingUrl + "searchLocation?orderBy=" + orderBy + "&location=" + search.get("location").toString();
+		}
+		
 		if(needPrev) {
-			sb.append("<li><a href='/group/main?orderBy=" + orderBy + "&cpage=" + (startNav - 1) + "' id='prevPage'><</a></li>");
+			sb.append("<li><a href='" + pagingUrl + "&cpage=" + (startNav - 1) + "' id='prevPage'><</a></li>");
 		}
 
 		for(int i=startNav; i<= endNav; i++) {
 			if(currentPage == i) {
-				sb.append("<li class='on'><a href='/group/main?orderBy=" + orderBy + "&cpage=" + i + "'>" + i + "</a></li>");
+				sb.append("<li class='on'><a href='" + pagingUrl + "&cpage=" + i + "'>" + i + "</a></li>");
 			}else {
-				sb.append("<li><a href='/group/main?orderBy=" + orderBy + "&cpage=" + i + "'>" + i + "</a></li>");
+				sb.append("<li><a href='" + pagingUrl + "&cpage=" + i + "'>" + i + "</a></li>");
 			}
 		}
 
 		if(needNext) {
-			sb.append("<li><a href='/group/main?orderBy=" + orderBy + "&cpage=" + (endNav + 1) + "' id='prevPage'>></a></li>");
+			sb.append("<li><a href='" + pagingUrl + "&cpage=" + (endNav + 1) + "' id='prevPage'>></a></li>");
 		}
 		sb.append("</ul>");
 

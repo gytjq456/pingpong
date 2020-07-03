@@ -5,9 +5,25 @@
 <jsp:include page="/WEB-INF/views/header.jsp"/>
 	
 	<script>
-		$('#myInfoModify').on("click",function(){
-			location.href="/mypage/myInfoModify";
-		});
+		$(function(){
+			$('#myInfoModify').on("click",function(){
+				location.href="/member/myInfoModify";
+			});
+			
+			$('#memWithdrawal').on("click",function(){
+				var id = '${mdto.id}';
+				$.ajax({
+					type : "post",
+					url : "/member/memWithdrawal"					
+				}).done(function(resp){
+					alert("회원 탈퇴 되었습니다.");
+					location.href="/";
+					
+				}).fail(function(error1, error2){
+					alert("관리자에게 문의 주세요");
+				});
+			});
+		});	
 	</script>
 
 	<div id="subWrap" class="hdMargin" style="padding-top: 155.8px;">
@@ -22,7 +38,7 @@
 				</form>
 				<button id="myInfoModify">수정하기</button>
 				<button id="">튜터 취소하기</button>
-				<button id="">회원탈퇴</button>
+				<button id="memWithdrawal">회원탈퇴</button>
 			</div>
 		</section>
 	</div>

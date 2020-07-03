@@ -21,6 +21,7 @@
 	#like { right: -70%; }
 	#jjim { right: -72%; }
 	#report { right: -74%; }
+	#like:hover, #jjim:hover, #report:hover { cursor: pointer; }
 	#point_avg i { color: #fcba03; }
 	#like i { color: #3162a4; }
 	#jjim i { color: #fbaab0; }
@@ -36,17 +37,33 @@
 	#group_optional .member_profile { display: inline-block; width: 50px; height: 50px; border-radius: 50%; border: 1px solid #ddd; line-height: 50px; text-align: center; margin-right: 5px; }
 	#group_optional .optional_sub { font-weight: bold; }
 	#group_optional span { margin-right: 5px; }
-	#group_optional #like_count { border-right: 1px solid #ddd; padding-right: 10px; }
+	#group_optional .sep_bar { color: #999; margin: 0 5px; font-size: 12px; vertical-align: top; }
 	#group_optional .optional_box { margin-bottom: 20px; }
 	#related_group_title { font-size: 22px; }
-	#view_btns button { width: 49%; display: inline-block; }
-	#view_btns #toList { width: 100%; margin-top: 5px; }
-	#view_btns #applyForm, #view_btns #update { margin-right: 2px; }
+	#view_btns #update, #view_btns #delete { width: 49%; display: inline-block; }
+	#view_btns button { width: 100%; margin-top: 5px; }
+	#view_btns #update { margin-right: 2px; }
 	#writer_profile img { vertical-align: top; }
 	#map { width: 100%; height: 200px; margin-top: 10px; }
 </style>
 <script>
 	$(function(){
+		$("input, textarea").blur(function(){
+			var thisVal = $(this).val();
+			$(this).val(textChk(thisVal));
+		})
+		
+		function textChk(thisVal){
+			var replaceId  = /(script)/gi;
+			var textVal = thisVal;
+		    if (textVal.length > 0) {
+		        if (textVal.match(replaceId)) {
+		        	textVal = thisVal.replace(replaceId, "");
+		        }
+		    }
+		    return textVal;
+		}
+		
 		var seq = $('#seq').html();
 
 		$('#delete').on('click', function(){
@@ -60,11 +77,25 @@
 			location.href = "/group/update?seq=" + seq;
 		})
 		
+		$('#applyCancel').on('click', function(){
+			var conf = confirm('가입 신청을 취소하시겠습니까?');
+			if (conf) {
+				location.href = '/group/deleteApplyForm?seq=' + seq;
+			}
+		})
+		
 		var checkLike = ${checkLike};
 		if (checkLike) {
 			$('#like').css('color', '#3162a4');
 			$('#like i').removeClass('fa-thumbs-o-up');
 			$('#like i').addClass('fa-thumbs-up');
+		}
+		
+		var checkJjim = ${checkJjim};
+		if (checkJjim) {
+			$('#jjim').css('color', '#fbaab0');
+			$('#jjim i').removeClass('fa-heart-o');
+			$('#jjim i').addClass('fa-heart');
 		}
 		
 		// 리뷰 
@@ -236,7 +267,20 @@
 						<li class="on"><a href="#;">상세 정보</a></li>
 						<li><a href="#;">관련 모임</a></li>
 						<li><a href="#;">리뷰(${gdto.review_count})</a></li>
-						<li><a href="#;">신청(${gdto.app_count})</a></li>
+						<li>
+							<c:if test="${checkApply == true}">
+								<span id="applyCancel">신청 취소</span>
+							</c:if>
+							<c:if test="${checkApply == false && (sessionScope.loginInfo.id != gdto.writer_id)}">
+								<span id="applyForm">신청하기</span>
+							</c:if>
+							<c:if test="${checkMember == true}">
+								<span id="deleteForm">탈퇴하기</span>
+							</c:if>
+							<c:if test="${sessionScope.loginInfo.id == gdto.writer_id}">
+								<span id="groupApplyManage">신청 현황</span>
+							</c:if>
+						</li>
 					</ul>
 				</div>
 				<div id="tabContWrap_s2">
@@ -264,22 +308,16 @@
 									<div id="map"></div>
 								</div>
 								<div class="optional_box">
-									<span class="optional_sub">추천</span>
-									<span id="like_count">${gdto.like_count}</span>
-									<span class="optional_sub">조회</span><span>${gdto.view_count}</span><br>
-									<span class="optional_sub">작성일</span><span>${gdto.write_date}</span><br>
+									<span class="optional_sub">조회</span><span>${gdto.view_count}</span><span class="sep_bar">|</span>
+									<span class="optional_sub">추천</span><span>${gdto.like_count}</span><span class="sep_bar">|</span>
+									<span class="optional_sub">신청</span><span>${gdto.app_count}</span><br>
+									<span class="optional_sub">작성일</span><span>${gdto.date}</span><br>
 								</div>
 								<div class="btnS1" id="view_btns">
-									<c:choose>
-										<c:when test="${sessionScope.loginInfo.id == gdto.writer_id}">
-												<button type="button" id="update">수정</button>
-												<button type="button" id="delete">삭제</button>
-										</c:when>
-										<c:otherwise>
-												<button type="button" id="applyForm">신청</button>
-												<button type="button" id="deleteForm">탈퇴</button>
-										</c:otherwise>
-									</c:choose>
+									<c:if test="${sessionScope.loginInfo.id == gdto.writer_id}">
+											<button type="button" id="update">수정</button>
+											<button type="button" id="delete">삭제</button>
+									</c:if>
 									<button type="button" id="toList" onclick="javascript:toList()">목록</button>
 								</div>
 							</div>
@@ -409,8 +447,7 @@
 		}
 		
 		$('#like').on('click', function(){
-			console.log($(this).css('color'));
-			if ($(this).css('color') == 'rgb(255, 0, 0)') {
+			if ($(this).css('color') == 'rgb(49, 98, 164)') {
 				alert('이미 추천하셨습니다.');
 				
 				return false;
@@ -428,50 +465,64 @@
 			})
 		})
 		
+		$('#jjim').on('click', function(){
+			var seq = $('#seq').html();
+			
+			if ($(this).css('color') != 'rgb(251, 170, 176)') {
+				$.ajax({
+					url: '/group/jjim',
+					data: {'parent_seq': seq},
+					type: 'POST'
+				}).done(function(resp){
+					location.href = '/group/view?seq=' + seq;
+				})
+			} else {
+				$.ajax({
+					url: '/group/delJjim',
+					data: {'parent_seq': seq},
+					type: 'POST'
+				}).done(function(resp){
+					location.href = '/group/view?seq=' + seq;
+				})
+			}
+		})
+		
 		var inputLocation = '${gdto.location}';
+		var locationLat = '${gdto.location_lat}';
+		var locationLng = '${gdto.location_lng}';
 		
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 		    mapOption = { 
-		        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+		        center: new kakao.maps.LatLng(locationLat, locationLng), // 지도의 중심좌표
 		        level: 3 // 지도의 확대 레벨
 		    };  
 		
 		var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 		
-		// 주소-좌표 변환 객체를 생성합니다
-		var geocoder = new kakao.maps.services.Geocoder();
+		var circle = new kakao.maps.Circle({
+		    center : new kakao.maps.LatLng(locationLat, locationLng),  // 원의 중심좌표 입니다 
+		    radius: 50, // 미터 단위의 원의 반지름입니다 
+		    strokeWeight: 1, // 선의 두께입니다 
+		    strokeColor: '#75B8FA', // 선의 색깔입니다
+		    strokeOpacity: 1, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+		    strokeStyle: 'solid', // 선의 스타일 입니다
+		    fillColor: '#CFE7FF', // 채우기 색깔입니다
+		    fillOpacity: 0.7  // 채우기 불투명도 입니다   
+		}); 
+
+		// 지도에 원을 표시합니다 
+		circle.setMap(map); 
 		
-		geocoder.addressSearch(inputLocation, function(result, status) {
+		// 마커가 표시될 위치입니다 
+		var markerPosition  = new kakao.maps.LatLng(locationLat, locationLng); 
 
-		    // 정상적으로 검색이 완료됐으면 
-		     if (status === kakao.maps.services.Status.OK) {
+		// 마커를 생성합니다
+		var marker = new kakao.maps.Marker({
+		    position: markerPosition
+		});
 
-		        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-
-		        // 결과값으로 받은 위치를 마커로 표시합니다
-		        var marker = new kakao.maps.Marker({
-		            map: map,
-		            position: coords
-		        });
-
-				// 지도에 표시할 원을 생성합니다
-				var circle = new kakao.maps.Circle({
-				    center : new kakao.maps.LatLng(result[0].y, result[0].x),  // 원의 중심좌표 입니다 
-				    radius: 50, // 미터 단위의 원의 반지름입니다 
-				    strokeWeight: 1, // 선의 두께입니다 
-				    strokeColor: '#75B8FA', // 선의 색깔입니다
-				    strokeOpacity: 1, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
-				    fillColor: '#CFE7FF', // 채우기 색깔입니다
-				    fillOpacity: 0.7  // 채우기 불투명도 입니다   
-				}); 
-				
-				// 지도에 원을 표시합니다 
-				circle.setMap(map); 
-		        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-		        map.setCenter(coords);
-		    } 
-		});    
-		
+		// 마커가 지도 위에 표시되도록 설정합니다
+		marker.setMap(map);
 	</script>
 
 <jsp:include page="/WEB-INF/views/group/apply.jsp" />

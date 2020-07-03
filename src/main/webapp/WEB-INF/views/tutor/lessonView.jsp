@@ -19,13 +19,17 @@
 <script>
 $(function(){
 	$("#backList").on("click", function(){
-		location.href="/tutor/lessonList";
+		location.href="/tutor/lessonList?orderBy=seq";
 	})
 	
 	var checkLikeVal = ${checkLike};
+	var checkJjimVal = ${checkJjim};
 	
 	if(checkLikeVal==true){
 		$("#like").css('color','rgb(58, 89, 201)');
+	}
+	if(checkJjimVal==true){
+		$("#jjim").css('color','rgb(240,7,7)')
 	}
 	
 	$("#like").on("click", function(){
@@ -54,8 +58,47 @@ $(function(){
 			console.log(error1);
 			console.log(error2);
 		})
-			
+	})
+	
+	$("#jjim").on("click", function(){
+		console.log($(this).css('color'));
+		var seq = ${seq};
 		
+		if($(this).css('color')=='rgb(240, 7, 7)'){
+			$.ajax({
+				url:"/tutor/deleteJjim",
+				data:{
+					parent_seq: seq
+				},
+				type:'POST'
+			}).done(function(resp){
+				console.log(resp);
+				alert("찜을 취소합니다.");
+				$("#jjim").css('color','rgb(51, 51, 51)')
+				location.href="/tutor/lessonView?seq="+seq;
+				return false;
+			}).fail(function(error1, error2) {
+				console.log(error1);
+				console.log(error2);
+			})
+		}else{
+			$.ajax({
+				url: "/tutor/insertJjim",
+				data:{
+					parent_seq: seq
+				},
+				type: 'POST'
+			}).done(function(resp){
+				console.log(resp);
+				alert("찜에 등록되었습니다.");
+				$("#jjim").css('color','rgb(240, 7, 7)')
+				location.href="/tutor/lessonView?seq="+seq;
+				return false;
+			}).fail(function(error1, error2) {
+				console.log(error1);
+				console.log(error2);
+			})
+		}
 	})
 	
 })
@@ -72,7 +115,7 @@ $(function(){
 
 			<div class="btnS1 right">
 				<c:choose>
-					<c:when test="${loginInfo.grade == 'tutor' }">
+					<c:when test="${loginInfo.grade == 'tutor' && loginInfo.id== ldto.id }">
 						<p>
 							<a href="/tutor/lessonUpdate?seq=${ldto.seq }" class="on">강의 수정</a>
 							<button type="button" id="popOnBtn" class="on">강의 삭제</button>
@@ -95,7 +138,7 @@ $(function(){
 					<div class="option_btn">
 						★${ ldto.review_point}
 						<i id="like" class="fa fa-thumbs-up" style="color:"></i>
-						<a id="jjim"><i class="fa fa-heart" style="font-size:16px;color:blue"></i></a>
+						<i id="jjim" class="fa fa-heart" style="font-size:16px; color:rgb(51, 51, 51)"></i>
 						<a id="report">신고</a>
 					</div>
 					
@@ -178,5 +221,5 @@ $(function(){
 
 
 <jsp:include page="/WEB-INF/views/tutor/cancle.jsp" />
-
+<jsp:include page="/WEB-INF/views/tutor/lessonReport.jsp" />
 <jsp:include page="/WEB-INF/views/footer.jsp" />

@@ -62,7 +62,6 @@
 				location.href="/member/login";
 				
 			}).fail(function(error1, error2){
-				alert(" :: 실패");
 				console.log(error1);
 				console.log(error2);
 				return false;

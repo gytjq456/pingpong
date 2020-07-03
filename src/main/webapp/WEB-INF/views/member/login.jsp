@@ -27,11 +27,13 @@
 							pw : $('#pw').val()
 						}
 						}).done(function(resp){
-							if(resp){
+							if(resp == 'true'){
 								alert("로그인이 되었습니다.");
 								location.href="/";
 							}else{
 								alert("로그인에 실패하였습니다.");
+								$("#id").val("");
+								$("#pw").val("");
 							}
 						}).fail(function(error1, error2){
 							alert("관리자에게 문의주세요.")

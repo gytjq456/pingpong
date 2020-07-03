@@ -59,6 +59,7 @@ $(document).ready(function(){
     	}).done(function(resp){
     		console.log(resp);
     		if(resp=='Y'){
+    			//관리자에서 튜터신청서 pass Y로 만들어주고 멤버 grade도 tutor로 바꿔줘야함.
     			alert("이미 튜터입니다.");
     			return false;
     		}else if(resp=='N'){
@@ -71,6 +72,16 @@ $(document).ready(function(){
         
     })
 
+    
+    var chatWrap = $("#chatWrap");
+    $chatOpenBtn.click(function(){
+    	chatWrap.addClass("on");
+    });
+    $chatClose.click(function(){
+    	chatWrap.removeClass("on");
+    });
+    
+    
 });
 
 
@@ -78,6 +89,8 @@ function init(){
 	$gnb = $(".gnb");
 	$header = $("header");
 	$topBtn = $(".topBtn");
+	$chatOpenBtn = $("#chatOpenBtn");
+	$chatClose = $("#chatClose");
 };
 
 

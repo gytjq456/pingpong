@@ -254,7 +254,7 @@
 								<li><i class="fa fa-eye"></i> ${disDto.view_count}</li>			
 								<li><i class="fa fa-commenting-o" aria-hidden="true"></i> ${disDto.comment_count}</li>
 								<li>
-									<button class="discussion_likeBtn likeBtn like-hate-btn" data-seq="${disDto.seq}">
+									<button class="discussion_Btn Btn -hate-btn" data-seq="${disDto.seq}">
 										<i class="fa fa-thumbs-up"></i> ${disDto.like_count}
 									</button>
 								</li>

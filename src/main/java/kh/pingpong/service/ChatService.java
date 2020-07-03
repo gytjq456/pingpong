@@ -51,6 +51,8 @@ public class ChatService {
 	
 	//방번호 검색
 	public String chatRoomIdSch(Map<String,String> chatInfo) throws Exception{
+		System.out.println(chatInfo.get("roomId"));
+		System.out.println(chatInfo.get("usersIds"));
 		return chatDao.chatRoomIdSch(chatInfo);
 	}
 	

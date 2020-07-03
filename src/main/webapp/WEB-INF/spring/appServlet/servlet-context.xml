@@ -45,4 +45,17 @@
 			<aop:around pointcut-ref="group" method="aroundBoardLog"/>
 		</aop:aspect>
 	</aop:config>
+
+	<aop:config>
+		<aop:pointcut expression="execution(* kh.pingpong.controller.TutorController.*(..))" id="tutor"/>
+		<aop:aspect id="logCheck" ref="logaop">
+			<aop:around pointcut-ref="tutor" method="aroundBoardLog"/>
+		</aop:aspect>
+	</aop:config>
+	
+	
+	
 </beans:beans>
+
+
+

@@ -20,10 +20,12 @@ import org.springframework.web.multipart.MultipartFile;
 import kh.pingpong.dto.DeleteApplyDTO;
 import kh.pingpong.dto.FileDTO;
 import kh.pingpong.dto.FilesDTO;
+import kh.pingpong.dto.JjimDTO;
 import kh.pingpong.dto.LanguageDTO;
 import kh.pingpong.dto.LessonDTO;
 import kh.pingpong.dto.LikeListDTO;
 import kh.pingpong.dto.MemberDTO;
+import kh.pingpong.dto.ReportListDTO;
 import kh.pingpong.dto.TutorAppDTO;
 import kh.pingpong.dto.TutorDTO;
 import kh.pingpong.service.MemberService;
@@ -91,7 +93,7 @@ public class TutorController {
 		
 		int result = tservice.lessonAppProc(ldto);
 		
-		return "redirect: /tutor/lessonList";
+		return "redirect: /tutor/lessonList?orderBy=seq";
 	}
 
 	//헤더에서 튜터신청 버튼 누르기
@@ -154,22 +156,61 @@ public class TutorController {
 	
 	//강의 list
 	@RequestMapping("lessonList")
-	public String lessonList(HttpServletRequest request, Model model) throws Exception{
+	public String lessonList(String orderBy,HttpServletRequest request, Model model) throws Exception{
 		model.addAttribute("loginInfo", session.getAttribute("loginInfo"));
 		
 		//언어 
 		List<LanguageDTO> lanList = mservice.lanList();
 		model.addAttribute("lanList",lanList);
 		
+		
 		int cpage = 1;
         try {
            cpage = Integer.parseInt(request.getParameter("cpage"));
         } catch (Exception e) {}
         
-		String navi = tservice.getPageNavi_lesson(cpage);
+		String navi = tservice.getPageNavi_lesson(cpage, orderBy);
 		model.addAttribute("navi", navi);
 		
-		List<LessonDTO> lessonlist = tservice.lessonList(cpage);
+		List<LessonDTO> lessonlist = tservice.lessonList(cpage, orderBy);
+		System.out.println(lessonlist);
+		model.addAttribute("lessonlist",lessonlist);
+		return "/tutor/lessonList";
+	}
+	
+	//모집중, 진행중, 마감 클릭했을때 리스트 새로 뽑기
+	@RequestMapping("lessonListPeriod")
+	public String lessonListPeriod(String period, String orderBy, HttpServletRequest request, Model model) throws Exception{
+		model.addAttribute("loginInfo", session.getAttribute("loginInfo"));
+
+		//언어 
+		List<LanguageDTO> lanList = mservice.lanList();
+		model.addAttribute("lanList",lanList);
+		
+		Map<String,String> param = new HashMap<>();
+		param.put("orderBy", orderBy);
+		
+		//ing 는 컬럼에 들어갈 값임
+		if(period.contentEquals("applying")) {
+			param.put("ing",period);
+			param.put("ingVal", "Y");
+		}else if(period.contentEquals("proceeding")) {
+			param.put("ing",period);
+			param.put("ingVal", "Y");
+		}else if(period.contentEquals("done")) {
+			param.put("ing", "applying='N' and proceeding");
+			param.put("ingVal", "N");
+		}
+
+		int cpage = 1;
+		try {
+			cpage = Integer.parseInt(request.getParameter("cpage"));
+		} catch (Exception e) {}
+
+		String navi = tservice.getPageNavi_lesson(cpage, orderBy);
+		model.addAttribute("navi", navi);
+
+		List<LessonDTO> lessonlist = tservice.lessonListPeriod(cpage, param);
 		System.out.println(lessonlist);
 		model.addAttribute("lessonlist",lessonlist);
 		return "/tutor/lessonList";
@@ -185,8 +226,8 @@ public class TutorController {
 		param.put("parent_seq", seq);
 		
 		boolean checkLike = tservice.LikeIsTrue(param);
-		model.addAttribute(checkLike);
-		
+		boolean checkJjim = tservice.JjimIsTrue(param);
+	
 		LessonDTO ldto = tservice.lessonView(seq);
 		tservice.updateViewCount(seq);
 		
@@ -198,6 +239,7 @@ public class TutorController {
 		model.addAttribute("ldto", ldto);
 		model.addAttribute("seq", seq);
 		model.addAttribute("checkLike", checkLike);
+		model.addAttribute("checkJjim",checkJjim);
 		return "/tutor/lessonView";
 	}
 	
@@ -212,6 +254,29 @@ public class TutorController {
 		int result = tservice.likeTrue(lldto);
 		return result;
 	}
+	
+	//찜 누르면 찜테이블에 저장하기
+	@RequestMapping("insertJjim")
+	@ResponseBody
+	public int insertJjim(JjimDTO jdto) throws Exception{
+		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
+		String id = mdto.getId();
+		jdto.setId(id);
+		int result = tservice.insertJjim(jdto);
+		return result;
+	}
+	
+	//찜 다시 누르면 찜테이블에서 삭제하기
+	@RequestMapping("deleteJjim")
+	@ResponseBody
+	public int deleteJjim(JjimDTO jdto) throws Exception{
+		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
+		String id = mdto.getId();
+		jdto.setId(id);
+		int result = tservice.deleteJjim(jdto);
+		return result;
+	}
+	
 	
 	//강의 취소 누르면 강의취소신청서 테이블에 저장하기
 	@RequestMapping("cancleProc")
@@ -238,11 +303,61 @@ public class TutorController {
 		return result;
 	}
 	
+	//강의 신청서 수정버튼
 	@RequestMapping("lessonUpdate")
 	public String lessonUpdate(Model model, int seq) throws Exception{
-		model.addAttribute(seq);
+		
+		LessonDTO ldto = tservice.lessonView(seq);
+		model.addAttribute("seq", seq);
+		model.addAttribute("ldto",ldto);
 		return "/tutor/lessonUpdate";
 	}
+	
+	//강의 신청서 수정
+	@RequestMapping("lessonAppUpdateProc")
+	public String lessonAppUpdateProc(LessonDTO ldto, Model model) throws Exception{
+		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
+		
+		System.out.println(ldto.getPrice());
+		model.addAttribute("loginInfo", session.getAttribute("loginInfo"));
+		String id = mdto.getId();
+		Map<Object, Object> param = new HashMap<>();
+		param.put("id", id);
+		param.put("parent_seq", ldto.getSeq());
+		
+		boolean checkLike = tservice.LikeIsTrue(param);
+		model.addAttribute(checkLike);
+//		ldto.setId(mdto.getId());
+//		ldto.setName(mdto.getName());
+//		ldto.setEmail(mdto.getEmail());
+//		ldto.setPhone_country(mdto.getPhone_country());
+//		ldto.setPhone(mdto.getPhone());
+//		ldto.setSysname(mdto.getSysname());
 
+		tservice.lessonAppUpdateProc(ldto);
+		model.addAttribute("ldto",ldto);
+		
+		return "/tutor/lessonView";
+	}
+
+	//같은사람이 게시물 신고했는지 확인
+	@RequestMapping("report")
+	@ResponseBody
+	public int report(Model model, ReportListDTO rldto) throws Exception {
+		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
+		rldto.setReporter(mdto.getId());
+		
+		int result = tservice.report(rldto);
+		model.addAttribute("rldto",rldto);
+		return result;
+	}
+	
+	//신고 테이블에 저장
+	@RequestMapping("reportProc")
+	public String reportProc(Model model, ReportListDTO rldto) throws Exception{
+		tservice.reportProc(rldto);
+		
+		return "redirect : /tutor/lessonView?seq="+rldto.getParent_seq();
+	}
 
 }

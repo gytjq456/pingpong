@@ -14,9 +14,11 @@ import kh.pingpong.dao.FileDAO;
 import kh.pingpong.dao.TutorDAO;
 import kh.pingpong.dto.DeleteApplyDTO;
 import kh.pingpong.dto.FileDTO;
+import kh.pingpong.dto.JjimDTO;
 import kh.pingpong.dto.LessonDTO;
 import kh.pingpong.dto.LikeListDTO;
 import kh.pingpong.dto.MemberDTO;
+import kh.pingpong.dto.ReportListDTO;
 import kh.pingpong.dto.TutorAppDTO;
 
 @Service
@@ -58,8 +60,15 @@ public class TutorService {
 		return mdto;
 	}
 	
-	public List<LessonDTO> lessonList(int cpage) throws Exception{
-		List<LessonDTO> ldto = tdao.lessonList(cpage);
+	//리스트 전부 뽑기
+	public List<LessonDTO> lessonList(int cpage,String orderBy) throws Exception{
+		List<LessonDTO> ldto = tdao.lessonList(cpage, orderBy);
+		return ldto;
+	}
+	
+	//모집중, 진행중, 마감 눌렀을 때 리스트
+	public List<LessonDTO> lessonListPeriod(int cpage, Map<String,String> param) throws Exception{
+		List<LessonDTO> ldto = tdao.lessonListPeriod(cpage, param);
 		return ldto;
 	}
 	
@@ -86,27 +95,58 @@ public class TutorService {
 		return result;
 	}
 	
+	public int lessonAppUpdateProc(LessonDTO ldto) throws Exception{
+		int result = tdao.lessonAppUpdateProc(ldto);
+		return result;
+	}
+	
 	public int updateViewCount(int seq) throws Exception{
 		int result = tdao.updateViewCount(seq);
 		return result;
 	}
 
+	//좋아요 테이블 값넣기 & 카운트세기
 	@Transactional("txManager")
 	public int likeTrue(LikeListDTO lldto) throws Exception{
 		int result = tdao.likeTrue(lldto);
 		tdao.updateLikeCount(lldto.getParent_seq());
 		return result;
 	}
-	
+	//좋아요 눌러있는지 아닌지 확인하기
 	public boolean LikeIsTrue(Map<Object, Object> param) throws Exception{
 		boolean result = tdao.LikeIsTrue(param);
 		return result;
 	}
+	//찜 테이블 값넣기
+	public int insertJjim(JjimDTO jdto) throws Exception{
+		int result = tdao.insertJjim(jdto);
+		return result;
+	}
+	//찜 눌러져있는지 아닌지 확인하기
+	public boolean JjimIsTrue(Map<Object, Object> param) throws Exception{
+		boolean result = tdao.JjimIsTrue(param);
+		return result;
+	}
+	//찜 테이블에서 값 삭제하기 찜취소
+	public int deleteJjim(JjimDTO jdto) throws Exception{
+		int result = tdao.deleteJjim(jdto);
+		return result;
+	}
 	
+	//같은게시물 같은사람이 신고했는지
+	public int report(ReportListDTO rldto) throws Exception{
+		int result = tdao.report(rldto);
+		return result;
+	}
 	
+	//신고테이블에 저장
+	public int reportProc(ReportListDTO rldto) throws Exception{
+		int result = tdao.reportProc(rldto);
+		return result;
+	}
 	
 	//레슨 페이징 만 이동
-		public String getPageNavi_lesson(int userCurrentPage) throws SQLException, Exception {
+		public String getPageNavi_lesson(int userCurrentPage, String orderBy) throws SQLException, Exception {
 			int recordTotalCount = tdao.getArticleCount_lesson(); 
 			
 			int pageTotalCount = 0; // 모든 페이지 개수
@@ -141,15 +181,15 @@ public class TutorService {
 			StringBuilder sb = new StringBuilder();
 			
 			if(needPrev) {
-				sb.append("<a href='lessonList?cpage="+(startNavi-1)+"'><</a>");
+				sb.append("<a href='/tutor/lessonList?cpage="+(startNavi-1)+"&orderBy="+orderBy+"'><</a>");
 			}
 			for(int i = startNavi ; i<=endNavi; i++) {
 
-				sb.append("<a href='lessonList?cpage="+i+"'>"+i+"</a>");//袁몃ŉ二쇰뒗 寃�
+				sb.append("<a href='/tutor/lessonList?cpage="+i+"&orderBy="+orderBy+"'>"+i+"</a>");//袁몃ŉ二쇰뒗 寃�
 			}
 			if(needNext) {
 
-				sb.append("<a href='lessonList?cpage="+(endNavi+1)+"'>></a>");
+				sb.append("<a href='/tutor/lessonList?cpage="+(endNavi+1)+"&orderBy="+orderBy+"'>></a>");
 			}
 			
 			return sb.toString();

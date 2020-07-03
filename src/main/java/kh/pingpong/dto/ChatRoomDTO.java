@@ -25,25 +25,38 @@ public class ChatRoomDTO {
 		return roomId;
 	}
 
+
+
 	public void setRoomId(int roomId) {
 		this.roomId = roomId;
 	}
 
-	public String getUser() {
+
+
+	public String getUsers() {
 		return users;
 	}
 
-	public void setUser(String user) {
-		this.users = user;
+
+
+	public void setUsers(String users) {
+		this.users = users;
 	}
+
+
 
 	public String getChatMemberId() {
 		return chatMemberId;
 	}
 
+
+
 	public void setChatMemberId(String chatMemberId) {
 		this.chatMemberId = chatMemberId;
 	}
+
+
+
 
 	
 	

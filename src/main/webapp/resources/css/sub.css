@@ -271,9 +271,9 @@ button.normal:hover { background:#c7c7c7 !important; color:#fff; }
 #chatWrap #chatRoom .chatBox::-webkit-scrollbar {display:none;} 
 #chatWrap #chatRoom .userInfo_s1 .info { margin-top:-10px;}
 #chatWrap #chatRoom .chatBox { padding:20px; box-sizing:border-box; overflow-y:auto; -ms-overflow-style: none;
-height:calc(100% - 200px);
-height:-moz-calc(100% - 200px);
-height:-webkit-calc(100% - 200px); 
+height:calc(100% - 240px);
+height:-moz-calc(100% - 240px);
+height:-webkit-calc(100% - 240px); 
 }
 #chatWrap #chatRoom .chatBox > div { margin-bottom:20px;}
 #chatWrap #chatRoom .chatBox > div:last-child { margin:0; }
@@ -309,3 +309,8 @@ width:-moz-calc(100% - 100px);
 #chatList .list ul li button:hover { color:#fff; background:#fbaab0;}
 #chatWrap #chatRoom {opacity:1;  right:-320px; transition:all 0.5s;}
 #chatWrap #chatRoom.on { right:0;  opacity:1; z-index:9999;}
+#chatWrap .top { background:#f0989e; padding:5px 20px;}
+#chatWrap .top #close { background:none; border:none; }
+#chatWrap .top #close i { font-size:22px; color:#fff; font-weight:700;}
+
+

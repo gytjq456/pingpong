@@ -35,36 +35,15 @@ public class WebChat {
 	@OnOpen
 	public void onConnect(Session client, EndpointConfig config) {
 		System.out.println(client.getId() + "님이 접속했습니다.");
-		String chatRoom = null;
-		try {
-			chatRoom = chatService.chatRoomIdSch(Configuration.chatCreate);
-			System.out.println("test :" + chatRoom);
-			Configuration.chatCreate.put("roomId",chatRoom);
-		} catch (Exception e) {
-			e.printStackTrace();
-			// TODO: handle exception
-		}
-		if(Configuration.chatCreate.get("roomId").contentEquals(chatRoom)) {
-			clients.add(client);
-			try {
-				//Configuration.chatRecord = chatService.chatRecordList(chatRoom);
-			} catch (Exception e) {
-				// TODO: handle exception
-			}
-			System.out.println("clients"+ client.getId());
-		}
+		clients.add(client);
 		this.session = (HttpSession)config.getUserProperties().get("session");
-		
-//		for (String mapkey : Configuration.chatCreate.keySet()){
-//			System.out.println("key1:"+mapkey+",value1:"+Configuration.chatCreate.get(mapkey));
-//		}
 	}
 
 
 	// 메세지 보내기
 	@OnMessage
 	public void onMessage(Session session, String message) throws Exception{
-		System.out.println("message :" + message);
+		//System.out.println("message :" + message);
 		JSONParser parser = new JSONParser();
 		Object obj = parser.parse( message );
 		JSONObject jsonObj = (JSONObject) obj;		
@@ -72,11 +51,10 @@ public class WebChat {
 		synchronized(clients) {
 			chatService.chatTxtInsert(message);
 			for(Session client : clients) {
-				System.out.println("clients2"+ client.getId());
-				if(!client.getId().contentEquals(session.getId())){
-					Basic basic = client.getBasicRemote();
-					if(Configuration.chatCreate.get("roomId").contentEquals(chatRoom)) {
+				if(Configuration.chatCreate.get("roomId").contentEquals(chatRoom)) {
+					if(!client.getId().contentEquals(session.getId())){
 						try {
+							Basic basic = client.getBasicRemote();
 							System.out.println(message);
 							basic.sendText(message);
 						} catch (Exception e) {

@@ -32,17 +32,10 @@
 			alert("이메일 페이지로 이동하실께요.");
 			var seq = $(this).closest('.button_aa').siblings('.box').find('.seq').html();
 			location.href = "/partner/selectPartnerEmail?seq=" + seq;
-		}) 
+		})   
 		
-		$(".partnerSearch").on("click",function(){
-			//var searchCount = $(".partnerSearch [name='gender']").length;
-			//console.log(searchCount);
-			//var search = $(".partnerSearch option:selected:eq("+i+")").text();
-			//console.log(search);
-		})
-		
+	
 		//시군 
-
 		   new sojaeji('sido1', 'gugun1');
 				 var addrTxt = "";
 		   
@@ -68,34 +61,45 @@
 			console.log($('#address').val(sido + ' ' + gugun));
 		});
 		
+		//최신순, 평점순
+		var orderBy = '${orderBy}';
+		if(orderBy != null){
+			$("#orderBy").val(orderBy);
+			console.log(orderBy);
+		}else{
+			$('#orderBy').val('seq');
+		}
+		
+		$('#orderBy').on('change',function(){
+			var orderByVal = $('#orderBy').val();
+			location.href='/partner/partnerList?orderBy='+orderByVal;
+		})
 		
 	})
 </script>
 <body>
 	<br>
 	<br>
-	<br><br>
 	<br>
-	<br><br>
+	<br>
+	<br>
 	<br>
 	<br>	
 	<br>
 	<br>
 	<br>
-
-	
 	<div class="profileShareAgree">
 		<form action="/partner/insertPartner" id="partnerRegister" method="post">
 			<h2>파트너를 등록해주세요</h2>
 			<div>자신의 프로필을 공유하여 다른 사람들과 소통해보세요.</div>
 			프로필 공유 동의 <input type="checkbox" name="agree" id="agree">(필수)<br> 
-			<input type="text" name="contact" id="contact">
+			<span><input type="checkbox" name="contactList" id="letter" >쪽지</span> 
+			<span><input type="checkbox" name="contactList" id="email" >이메일</span> 
+			<span><input type="checkbox" name="contactList" id="chatting" >채팅</span><br>
+			<input type="hidden" name="contact" id="contact">
 			1:1 기본적으로 제공되는 서비스입니다.
 			<button type="button" id="partnerBtn">등록</button>
 		</form>
-		<span><button type="button" name="contactList" id="letter" >쪽지</button></span> 
-		<span><button type="button" name="contactList" id="email" >이메일</button></span> 
-		<span><button type="button" name="contactList" id="chatting" >채팅</button></span><br>
 	</div>
 	
 	
@@ -146,31 +150,45 @@
 		</div>
 		<input type="submit" value="검색">
 	</form>
-
-	<div class="partnerBox">
-		<c:forEach var="plist" items="${plist}">
-		<div>
-			<div class="box">
-				<span class="seq">${plist.seq}</span> 
-				<img src ="/upload/member/${plist.id}/${plist.sysname}">
-				${plist.name}, ${plist.age}<br> 
-				아이디 : ${plist.id}<br> 
-				성별 :${plist.gender}<br> 
-				이메일 : ${plist.email}<br> 
-				구사 가능한 언어 :${plist.lang_can}<br> 
-				배우고 싶은 언어 : ${plist.lang_learn}<br>
-				취미 : ${plist.hobby}<br> 
-				자기 소개 : ${plist.introduce}
-			</div>
-			<div class="button_aa">
-				<button class="letter">쪽지</button>
-				<button class="chatting" data-uid="${plist.id}" data-name="${plist.name}">채팅</button>
-				<button class="email_a" >이메일</button>
-			</div>
-		</div>
-				<hr>		
-		</c:forEach>
+	
+	<div class="orderBy">
+		<select id="orderBy">
+			<option value="seq">최신순</option>
+			<option value="review_point">평점순</option>
+		</select>
 	</div>
+	
+	<div class="partnerBox">
+		<c:choose>
+			<c:when test="${empty plist}">
+				등록된 파트너가 없습니다.
+			</c:when>
+			<c:otherwise>
+				<c:forEach var="plist" items="${plist}">
+					<div>
+						<div class="box">
+							<span class="seq">${plist.seq}</span> 
+							<img src ="/upload/member/${plist.id}/${plist.sysname}">
+							${plist.name}, ${plist.age}<br> 
+							아이디 : ${plist.id}<br> 
+							성별 :${plist.gender}<br> 
+							이메일 : ${plist.email}<br> 
+							구사 가능한 언어 :${plist.lang_can}<br> 
+							배우고 싶은 언어 : ${plist.lang_learn}<br>
+							취미 : ${plist.hobby}<br> 
+							자기 소개 : ${plist.introduce}
+						</div>
+						<div class="button_aa">
+							<button class="letter">쪽지</button>
+							<button class="chatting" data-uid="${plist.id}" data-name="${plist.name}">채팅</button>
+							<button class="email_a">이메일</button>
+						</div>
+					</div><hr>						
+				</c:forEach>
+			</c:otherwise>
+		</c:choose>	
+	</div>
+	
 	<div class="navi">${navi}</div>
 
 <jsp:include page="/WEB-INF/views/footer.jsp"/>

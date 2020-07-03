@@ -43,6 +43,7 @@
 #find_group_write #max_num { width: 10%; margin-right: 5px; }
 /* #find_group_write #location { display: none; } */
 #find_group_write .fa-calendar { font-size: 20px; color: #999; margin-right: 8px; }
+#find_group_write .notice{ font-size: 14px; color: #999; margin-top: 5px; }
 .between_calendar, .max_num_myung { width: 30px; text-align: center; display: inline-block; font-size: 18px; }
 .calendar_icon { display: inline-block; vertical-align: text-top; }
 .group_sub_input { margin-bottom: 40px; }

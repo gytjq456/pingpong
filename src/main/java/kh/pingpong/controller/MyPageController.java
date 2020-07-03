@@ -94,4 +94,5 @@ public class MyPageController {
 		model.addAttribute("llist", llist);
 		return "/mypage/likeRecord";
 	}
+
 }

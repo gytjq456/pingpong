@@ -12,13 +12,32 @@
 	.vertical_top{vertical-align: top; margin-top: 3px;}
 	#hobby_type{display: none;}
 	#map{margin-top: 10px;}
+	#writeProc .wordsize { float: right; transform: translate(-15px, -70px); color: #999; }
+	#find_group_write #title { padding-right: 76px; }
 </style>
 <script>
 	$(function(){
-		$('#apply_start').datepicker({ dateFormat: 'yy-mm-dd' });
-		$('#apply_end').datepicker({ dateFormat: 'yy-mm-dd' });
-		$('#start_date').datepicker({ dateFormat: 'yy-mm-dd' });
-		$('#end_date').datepicker({ dateFormat: 'yy-mm-dd' });
+		$('#apply_start').datepicker({
+			dateFormat: 'yy-mm-dd',
+			minDate: 0,
+			maxDate: 0,
+			onClose: function(){
+				$('#apply_end').datepicker({
+					dateFormat: 'yy-mm-dd',
+					minDate: new Date($('#apply_start').val())
+				});
+			}
+		});
+		$('#start_date').datepicker({
+			dateFormat: 'yy-mm-dd',
+			minDate: 0,
+			onClose: function(){
+				$('#end_date').datepicker({
+					dateFormat: 'yy-mm-dd',
+					minDate: new Date($('#start_date').val())
+				})
+			}
+		});
 
 		$('#max_num').on('keyup', function(){
 			var num = $(this).val();
@@ -27,31 +46,49 @@
 				alert('숫자만 입력 가능합니다.');
 				$(this).val('');
 			}
+			if (num > 100) {
+				alert('최대 100명까지만 설정 가능합니다.');
+				$(this).val('100');
+			}
 		})
 		
-		$('#contents').summernote({
+		$("#title").keyup(function(){
+				var word = $(this).val();
+				var wordSize = word.length;
+				if(wordSize <= 100){
+					$("#writeProc .wordsize .current").text(wordSize);
+				}else{
+					word = word.substr(0,100);
+					$("#writeProc .wordsize .current").text(word.length);
+					$(this).val(word);
+					alert("제목은  100자 이하로 등록해 주세요.");
+				}
+			})
+
+			$('#contents').summernote({
 			height: 600,
+			lang: "ko-KR",
 			callbacks: {
 				onImageUpload: function(files) {
 					uploadSummernoteImageFile(files[0], this);
 				}
 			}
 		})
-		
 		function uploadSummernoteImageFile(file, editor) {
 			data = new FormData();
 			data.append("file", file);
 			$.ajax({
-				data: data,
-				type: "POST",
-				url: "/group/imgUpload",
-				contentType: false,
-				processData: false,
-				success: function(data) {
+				data : data,
+				type : "POST",
+				url : "/summerNote/uploadSummernoteImageFile",
+				contentType : false,
+				processData : false,
+				success : function(data) {
+		        	//항상 업로드된 파일의 url이 있어야 한다.
 					$(editor).summernote('insertImage', data.url);
 				}
-			})
-		}
+			});
+		}	
 	})
 </script>
 	<div id="subWrap" class="hdMargin">
@@ -68,6 +105,7 @@
 								<h4>제목</h4>
 							</div>
 							<div class="group_sub_input"><input type="text" name="title" id="title"></div>
+							<div class="wordsize"><span class="current">0</span>/100</div>
 						</div>
 						<div class="group_write_sub">
 							<div class="tit_s3">
@@ -118,6 +156,8 @@
 							</div>
 							<div class="group_sub_input">
 								<input type="text" name="location" id="location" placeholder="**시 **구">
+								<input type="text" name="location_lat" id="location_lat">
+								<input type="text" name="location_lng" id="location_lng">
 								<select name="sido1" id="sido1"></select>
 								<select name="gugun1" id="gugun1"></select>
 								<div id="map" style="width: 100%; height: 350px;"></div>
@@ -160,6 +200,18 @@
 		}
 		
 		new sojaeji('sido1', 'gugun1');
+		var marker;
+		var circle;
+		// 지도
+		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+	    mapOption = { 
+	        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+	        level: 2 // 지도의 확대 레벨
+	    };  
+		
+		if ($('#map').html() == '') {
+			var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+		}
 		
 		$('#gugun1').change(function(){
 			var sido = $('#sido1 option:selected').val();
@@ -175,18 +227,9 @@
 		if (inputLocation == '') {
 			inputLocation = '서울시 중구';
 		}
-		
 		kakaoMapLocation(inputLocation);
 		
 		function kakaoMapLocation(inputLocation){
-			// 지도
-			var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-		    mapOption = { 
-		        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-		        level: 2 // 지도의 확대 레벨
-		    };  
-		
-			var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 			var geocoder = new kakao.maps.services.Geocoder(); // 주소-좌표 변환 객체를 생성합니다.
 			
 			// 지도에 클릭 이벤트를 등록합니다
@@ -196,27 +239,59 @@
 			    // 클릭한 위도, 경도 정보를 가져옵니다 
 			    var latlng = mouseEvent.latLng; 
 			    
-				// 지도를 클릭한 위치에 표출할 마커입니다
-				var marker = new kakao.maps.Marker({ 
-				    // 지도 중심좌표에 마커를 생성합니다 
-				    position: map.getCenter() 
-				}); 
-			    
-			    // 마커 위치를 클릭한 위치로 옮깁니다
-			    marker.setPosition(latlng);
+			    geocoder.addressSearch(inputLocation, function(result, status) {
+				    // 정상적으로 검색이 완료됐으면 
+				     if (status === kakao.maps.services.Status.OK) {
+				    	
+				        var coords = new kakao.maps.LatLng(latlng.getLat(), latlng.getLng());
+						
+				        // 결과값으로 받은 위치를 마커로 표시합니다
+				        if (marker == null) {
+					        marker = new kakao.maps.Marker({
+					            map: map,
+					            position: coords
+					        });
+				        }
+				        
+				        marker.setPosition(coords);
+		
+				        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+						// 지도에 표시할 원을 생성합니다
+						if (circle == null) {
+							circle = new kakao.maps.Circle({
+							    center : new kakao.maps.LatLng(latlng.getLat(), latlng.getLng()),  // 원의 중심좌표 입니다 
+							    radius: 50, // 미터 단위의 원의 반지름입니다 
+							    strokeWeight: 1, // 선의 두께입니다 
+							    strokeColor: '#75B8FA', // 선의 색깔입니다
+							    strokeOpacity: 1, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+							    strokeStyle: 'solid', // 선의 스타일 입니다
+							    fillColor: '#CFE7FF', // 채우기 색깔입니다
+							    fillOpacity: 0.7  // 채우기 불투명도 입니다   
+							}); 
+						}
+				        
+				        map.setCenter(coords);
+				        circle.setPosition(coords);
+					
+						// 지도에 원을 표시합니다 
+						circle.setMap(map); 
+				    }
+				});
 			    
 			    var message = '클릭한 위치의 위도는 ' + latlng.getLat() + ' 이고, ';
 			    message += '경도는 ' + latlng.getLng() + ' 입니다';
+			    console.log(message)
+			    var locationLat = latlng.getLat();
+				var locationLng = latlng.getLng();
+			    $('#location_lat').val(locationLat);
+			    $('#location_lng').val(locationLng);
 			    
 			    coords = new kakao.maps.LatLng(latlng.getLat(), latlng.getLng());
 			    
-			 	// 현재 지도 중심좌표로 주소를 검색해서 지도 좌측 상단에 표시합니다
-			    searchAddrFromCoords(map.getCenter(), displayCenterInfo);
-			 
-			 	// 중심 좌표나 확대 수준이 변경됐을 때 지도 중심 좌표에 대한 주소 정보를 표시하도록 이벤트를 등록합니다
+			 	// 지도 마커 좌표에 대한 주소 정보를 표시하도록 이벤트를 등록합니다
 			    kakao.maps.event.addListener(map, 'idle', function() {
-			        searchAddrFromCoords(map.getCenter(), displayCenterInfo);
-			    });
+			        searchAddrFromCoords(marker.getPosition(), displayCenterInfo);
+			    }); 
 			    
 			    function searchAddrFromCoords(coords, callback) {
 				    // 좌표로 행정동 주소 정보를 요청합니다
@@ -231,10 +306,16 @@
 			                if (result[i].region_type === 'H') {
 			                    var detailClickedLocation = result[i].address_name;
 			                    var detailSplit = detailClickedLocation.split(' ');
-			                    inputLocation = detailSplit[0] + ' ' + detailSplit[1];
+			                    var detailThird = detailSplit[2];
+			                    var detailThirdLast = detailThird.charAt(detailThird.length - 1);
+			                    if (detailThirdLast == '구') {
+			                    	detailSplit[1] = detailSplit[1] + ' ' + detailSplit[2];
+			                    }
+		                    	inputLocation = detailSplit[0] + ' ' + detailSplit[1];
 			                    console.log(inputLocation);
 			                    $('#location').val(inputLocation);
 			                    $('#sido1').val(detailSplit[0]);
+							    new sojaeji('sido1', 'gugun1');
 			                    $('#gugun1').val(detailSplit[1]);
 			                    break;
 			                }
@@ -242,32 +323,42 @@
 			        }    
 			    }
 			});
-			
 			geocoder.addressSearch(inputLocation, function(result, status) {
 			    // 정상적으로 검색이 완료됐으면 
 			     if (status === kakao.maps.services.Status.OK) {
+			    	
 			        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-	
+			        var locationLat = result[0].y;
+					var locationLng = result[0].x;
+					$('#location_lat').val(locationLat);
+				    $('#location_lng').val(locationLng);
 			        // 결과값으로 받은 위치를 마커로 표시합니다
-			        var marker = new kakao.maps.Marker({
-			            map: map,
-			            position: coords
-			        });
+			        if (marker == null) {
+				        marker = new kakao.maps.Marker({
+				            map: map,
+				            position: coords
+				        });
+			        }
+			        
+			        marker.setPosition(coords);
 	
 			        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
 					// 지도에 표시할 원을 생성합니다
-					var circle = new kakao.maps.Circle({
-					    center : new kakao.maps.LatLng(result[0].y, result[0].x),  // 원의 중심좌표 입니다 
-					    radius: 50, // 미터 단위의 원의 반지름입니다 
-					    strokeWeight: 1, // 선의 두께입니다 
-					    strokeColor: '#75B8FA', // 선의 색깔입니다
-					    strokeOpacity: 1, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
-					    strokeStyle: 'solid', // 선의 스타일 입니다
-					    fillColor: '#CFE7FF', // 채우기 색깔입니다
-					    fillOpacity: 0.7  // 채우기 불투명도 입니다   
-					}); 
+					if (circle == null) {
+						circle = new kakao.maps.Circle({
+						    center : new kakao.maps.LatLng(result[0].y, result[0].x),  // 원의 중심좌표 입니다 
+						    radius: 50, // 미터 단위의 원의 반지름입니다 
+						    strokeWeight: 1, // 선의 두께입니다 
+						    strokeColor: '#75B8FA', // 선의 색깔입니다
+						    strokeOpacity: 1, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+						    strokeStyle: 'solid', // 선의 스타일 입니다
+						    fillColor: '#CFE7FF', // 채우기 색깔입니다
+						    fillOpacity: 0.7  // 채우기 불투명도 입니다   
+						});
+					}
 			        
 			        map.setCenter(coords);
+			        circle.setPosition(coords);
 				
 					// 지도에 원을 표시합니다 
 					circle.setMap(map); 

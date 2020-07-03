@@ -31,7 +31,6 @@ public class GroupDAO {
 	}
 	
 	public int insertGroup(GroupDTO gdto) throws ParseException {
-		System.out.println(gdto.getApply_start());
 		String start_date = gdto.getStart_date();
 		String end_date = gdto.getEnd_date();
 
@@ -39,6 +38,14 @@ public class GroupDAO {
 
 		Date start = fm.parse(start_date);
 		Date end = fm.parse(end_date);
+		
+		Date today = new Date();
+		
+		if (start.getTime() - today.getTime() > 0) {
+			gdto.setProceeding("N");
+		} else {
+			gdto.setProceeding("Y");
+		}
 		
 		// Date로 변환된 두 날짜를 계산한 뒤 그 리턴값으로 long type 변수를 초기화 하고 있다.
         // 연산결과 -950400000. long type 으로 return 된다.
@@ -169,8 +176,9 @@ public class GroupDAO {
 	
 	public int updateIngDate(String today_date) {
 		int resultApplying = mybatis.update("Group.updateApplying", today_date);
-		int resultProceeding = mybatis.update("Group.updateProceeding", today_date);
-		return resultApplying + resultProceeding;
+		int resultProceedingN = mybatis.update("Group.updateProceedingN", today_date);
+		int resultProceedingY = mybatis.update("Group.updateProceedingY", today_date);
+		return resultApplying + resultProceedingN + resultProceedingY;
 	}
 	
 	public List<GroupDTO> relatedGroup(List<String> hobby_arr) {

@@ -48,7 +48,7 @@ $(function(){
 		<div class="tit_s3">
 			<h4>강의 신고</h4>
 		</div>
-		<form action="reportProc" id="reportProc" method="post">
+		<form action="/tutor/reportProc" id="reportProc" method="post">
 			<input type="hidden" name="reporter" value="${loginInfo.id}">
 			<input type="hidden" name="parent_seq" value="${seq }">
 			<input type="hidden" name="id" value="${ldto.id }">

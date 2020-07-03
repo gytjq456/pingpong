@@ -48,9 +48,39 @@
 .group_sub_input { margin-bottom: 40px; }
 
 /* 그룹 게시판 리스트 */
-.group_each_wrapper { border: 1px solid #999; display: inline-block; padding: 15px; margin-bottom: 25px; margin-right: 20px; }
-.group_each_wrapper {  }
+.back_and_wrap { position: relative; width: 22.4%; display: inline-block; margin-right: 36px; margin-top: 35px; }
+.group_background { height: 88px; border-radius: 20px 20px 0 0; }
+.group_each_wrapper { position: relative; border: 1px solid #ddd; border-top: none; border-radius: 0 0 20px 20px; padding: 20px; overflow: hidden; }
+.group_list_a:nth-child(4n)>div { margin-right: 0; }
+.group_list_a:first-child>div,
+.group_list_a:nth-child(2)>div,
+.group_list_a:nth-child(3)>div,
+.group_list_a:nth-child(4)>div { margin-top: 0; }
+.group_each_wrapper .each_writer { text-align: center; margin-top: 25px; margin-bottom: 10px; }
+.group_each_wrapper .each_writer .each_name { font-weight: bold; }
+.each_profile { border: 3px solid #fff; position: absolute; top: 13%; left: 34.8%; width: 80px; height: 80px; line-height: 80px; text-align: center; border-radius: 50%; overflow: hidden; }
+.each_profile img { vertical-align: top; }
+.background_pink { background-color: #ffc3c5; }
+.background_purple { background-color: #a18ec1; }
+.background_blue { background-color: #3063a2; }
+.background_brown { background-color: #F2A057; }
+.background_red { background-color: #F25C69; }
+.background_yellow { background-color: #F2CB57; }
+.background_green { background-color: #1F818C; }
+.background_orange { background-color: #F2845C; }
+.background_gray { background-color: #7a848a; }
+.group_each_wrapper .each_title { width: 100%; font-size: 20px; font-weight: bold; text-align: center; margin-bottom: 10px; text-overflow: ellipsis; overflow:hidden; white-space:nowrap; }
+.group_each_wrapper i { color: #fcba03; }
+.group_each_wrapper .group_applying,
+.group_each_wrapper .group_proceeding,
+.group_each_wrapper .group_done { width: 50px; height: 20px; border-radius: 5px; text-align: center; float: left; font-size: 12px; margin-right: 5px; margin-top: 8px; color: #fff; }
+.group_each_wrapper .group_applying { background-color: #fbaab0; }
+.group_each_wrapper .group_proceeding { background-color: #3162a4; }
+.group_each_wrapper .group_done { background-color: #ddd; }
 #group_list .sub_title { font-weight: bold; }
+.search_btn_style { position: relative; margin-top: 40px; }
+.search_btn_style .right { position: absolute; right: 0; top: 0; margin: 0; }
+.group_search_box .search_wrap { padding: 30px; border: 1px solid #ddd; background: #fff; margin-top: 20px; border-radius: 6px; }
 
 /* 토론 게시판 리스트 */
 .card_body { background:#fff; box-shadow: 0 7px 25px 0 rgba(0,0,0,0.1); border-radius:6px; padding:30px; margin-bottom:20px; margin-top:20px;}
@@ -229,12 +259,12 @@ button.normal:hover { background:#c7c7c7 !important; color:#fff; }
 #chatWrap .title { height:80px; background:#3162a4; margin:0 !important; padding:20px; position:relative; }
 #chatWrap .title i { color:#fff; font-size:20px; border:1px solid #fff; border-radius:50%; padding:8px; margin-right:10px;}
 #chatWrap .title i, 
-#chatWrap .title p { float:left; position:relative; }
-#chatWrap .title span { display:block; position:absolute; right:0; top:50%; transform:translateY(-50%); background:#fff; border-radius:50%; width:20px; height:20px; color:#3162a4; line-height:20px; text-align:center; font-weight:700; font-size:12px; margin-top:3px;}
-#chatWrap .title p { padding-top:8px; padding-right:20px; font-size:14px; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-	width:calc(100% - 50px); 
-	width:-moz-calc(100% - 50px); 
-	width:-webkit-calc(100% - 50px); 
+#chatWrap .title p {display:inline-block; vertical-align:middle; position:relative; overflow:hidden;}
+#chatWrap .title span { display:block; position:absolute; right:20px; top:46%; transform:translateY(-50%); background:#fff; border-radius:50%; width:20px; height:20px; color:#3162a4; line-height:20px; text-align:center; font-weight:700; font-size:12px; margin-top:3px;}
+#chatWrap .title p { padding:5px 20px 5px 0; font-size:14px; color:#fff; white-space:nowrap; text-overflow:ellipsis;
+	max-width:calc(100% - 64px); 
+	max-width:-moz-calc(100% - 64px); 
+	max-width:-webkit-calc(100% - 64px); 
 	
 }
 
@@ -277,5 +307,5 @@ width:-moz-calc(100% - 100px);
 #chatList .list ul li:last-child { margin:0; padding:0; border:none; }
 #chatList .list ul li button { width:80px; height:32px; border:1px solid #ddd; border-radius:6px;  position:absolute; right:0; top:50%; transform:translateY(-50%); background:#fff; }
 #chatList .list ul li button:hover { color:#fff; background:#fbaab0;}
-#chatWrap #chatRoom {opacity:1; z-index:0;}
-#chatWrap #chatRoom.on { right:320px; transition:all 0.5s; opacity:1; z-index:9999;}
+#chatWrap #chatRoom {opacity:1;  right:-320px; transition:all 0.5s;}
+#chatWrap #chatRoom.on { right:0;  opacity:1; z-index:9999;}

@@ -5,11 +5,12 @@ public class JjimDTO {
 	private String id;
 	private String category;
 	private int parent_seq;
-	
+
 	public JjimDTO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+
 	public JjimDTO(int seq, String id, String category, int parent_seq) {
 		super();
 		this.seq = seq;
@@ -41,6 +42,4 @@ public class JjimDTO {
 	public void setParent_seq(int parent_seq) {
 		this.parent_seq = parent_seq;
 	}
-	
-
 }

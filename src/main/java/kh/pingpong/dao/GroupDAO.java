@@ -2,7 +2,6 @@ package kh.pingpong.dao;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +15,9 @@ import kh.pingpong.config.Configuration;
 import kh.pingpong.dto.DeleteApplyDTO;
 import kh.pingpong.dto.GroupApplyDTO;
 import kh.pingpong.dto.GroupDTO;
+import kh.pingpong.dto.GroupMemberDTO;
 import kh.pingpong.dto.HobbyDTO;
+import kh.pingpong.dto.JjimDTO;
 import kh.pingpong.dto.LikeListDTO;
 import kh.pingpong.dto.ReviewDTO;
 
@@ -56,19 +57,6 @@ public class GroupDAO {
         }
 
 		return mybatis.insert("Group.insert", gdto);
-	}
-	
-	public List<GroupDTO> selectList(int cpage, String orderBy) {
-		Map<String, Object> param = new HashMap<>();
-
-		int start = cpage * Configuration.RECORD_COUNT_PER_PAGE - (Configuration.RECORD_COUNT_PER_PAGE - 1);
-		int end = start + (Configuration.RECORD_COUNT_PER_PAGE - 1);
-		
-		param.put("start", start);
-		param.put("end", end);
-		param.put("orderBy", orderBy);
-		
-		return mybatis.selectList("Group.selectList", param);
 	}
 	
 	public GroupDTO selectBySeq(int seq) throws Exception{
@@ -136,8 +124,25 @@ public class GroupDAO {
 		return mybatis.insert("Group.insertApp", gadto);
 	}
 	
-	public int selectApplyForm(int parent_seq) {
-		return mybatis.selectOne("Group.selectApplyForm", parent_seq);
+	public int selectApplySeq(GroupApplyDTO gadto) {
+		return mybatis.selectOne("Group.selectApplyForm", gadto);
+	}
+	
+	public int cancelApply(int seq) {
+		return mybatis.delete("Group.deleteApplyForm", seq);
+	}
+	
+	public boolean selectApplyForm(GroupApplyDTO gadto) {
+		Integer result = mybatis.selectOne("Group.selectApplyForm", gadto);
+		boolean checkApply = true;
+		if (result == null) {
+			checkApply = false;
+		}
+		return checkApply;
+	}
+	
+	public GroupMemberDTO selectGroupMemberById(GroupMemberDTO gmdto) {
+		return mybatis.selectOne("Group.selectGroupMemberById", gmdto);
 	}
 	
 	public int insertDeleteApply(DeleteApplyDTO dadto) {
@@ -168,68 +173,47 @@ public class GroupDAO {
 		return resultApplying + resultProceeding;
 	}
 	
-	public List<GroupDTO> selectOrderBy(String tableName) {
-		return mybatis.selectList("Group.selectOrderBy", tableName);
+	public List<GroupDTO> relatedGroup(List<String> hobby_arr) {
+		return mybatis.selectList("Group.relatedGroup", hobby_arr);
 	}
 	
-	public List<GroupDTO> selectListOption(int cpage, Map<String, Object> param) {
-		int start = cpage * Configuration.RECORD_COUNT_PER_PAGE - (Configuration.RECORD_COUNT_PER_PAGE - 1);
-		int end = start + (Configuration.RECORD_COUNT_PER_PAGE - 1);
-		
-		param.put("start", start);
-		param.put("end", end);
-		
-		return mybatis.selectList("Group.selectListOption", param);
+	public int updateAppCount(int seq) {
+		return mybatis.update("Group.updateAppCount", seq);
 	}
 	
-	public List<GroupDTO> search(int cpage, Map<String, Object> search) {
+	public List<GroupDTO> selectGroupList(int cpage, Map<String, Object> search) {
 		int start = cpage * Configuration.RECORD_COUNT_PER_PAGE - (Configuration.RECORD_COUNT_PER_PAGE - 1);
 		int end = start + (Configuration.RECORD_COUNT_PER_PAGE - 1);
 		
 		search.put("start", start);
 		search.put("end", end);
 		
-		List<GroupDTO> glist = new ArrayList<>();
-		
-		if (search.containsKey("searchType") && search.get("searchType").toString().contentEquals("contents")) {
-			glist = mybatis.selectList("Group.searchContents", search);
-		} else {
-			glist = mybatis.selectList("Group.search", search);
+		return mybatis.selectList("Group.selectGroupList", search);
+	}
+	
+	public int selectGroupCount(Map<String, Object> search) {
+		return mybatis.selectOne("Group.selectGroupCount", search);
+	}
+	
+	// 찜하기
+	public int insertJjim(JjimDTO jdto) {
+		return mybatis.insert("Group.insertJjim", jdto);
+	}
+	
+	// 찜 취소
+	public int deleteJjim(JjimDTO jdto) {
+		return mybatis.delete("Group.deleteJjim", jdto);
+	}
+	
+	// 찜 확인
+	public boolean selectJjim(JjimDTO jdto) {
+		Integer result = mybatis.selectOne("Group.selectJjim", jdto);
+		boolean checkJjim = true;
+		if (result == null) {
+			checkJjim = false;
 		}
 		
-		return glist;
-	}
-	
-	public List<GroupDTO> searchDate(int cpage, Map<String, Object> dates) {
-		int start = cpage * Configuration.RECORD_COUNT_PER_PAGE - (Configuration.RECORD_COUNT_PER_PAGE - 1);
-		int end = start + (Configuration.RECORD_COUNT_PER_PAGE - 1);
-		
-		dates.put("start", start);
-		dates.put("end", end);
-		
-		System.out.println(dates.get("dateStart"));
-		System.out.println(dates.get("dateEnd"));
-		
-		return mybatis.selectList("Group.searchDate", dates);
-	}
-	
-	public List<GroupDTO> searchLocation(int cpage, Map<String, Object> map) {
-		int start = cpage * Configuration.RECORD_COUNT_PER_PAGE - (Configuration.RECORD_COUNT_PER_PAGE - 1);
-		int end = start + (Configuration.RECORD_COUNT_PER_PAGE - 1);
-		
-		map.put("start", start);
-		map.put("end", end);
-		
-		return mybatis.selectList("Group.searchLocation", map);
-	}
-	
-	public List<GroupDTO> relatedGroup(List<String> hobby_arr) {
-		System.out.println(hobby_arr);
-		return mybatis.selectList("Group.relatedGroup", hobby_arr);
-	}
-	
-	public int updateAppCount(int seq) {
-		return mybatis.update("Group.updateAppCount", seq);
+		return checkJjim;
 	}
 	
 	//리뷰 글쓰기

@@ -59,6 +59,7 @@ $(document).ready(function(){
     	}).done(function(resp){
     		console.log(resp);
     		if(resp=='Y'){
+    			//관리자에서 튜터신청서 pass Y로 만들어주고 멤버 grade도 tutor로 바꿔줘야함.
     			alert("이미 튜터입니다.");
     			return false;
     		}else if(resp=='N'){

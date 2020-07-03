@@ -26,15 +26,14 @@
 			
 			$('#partnerRegister').submit();
 		})
-		
-		$(".button_aa .email_a").on("click", function(e) {
-			//e.stopPropagation(); // 부모의 태그를 막음
+		 
+		//이메일 팝업창 생성
+		$(".button_aa .email_a").on("click",function(e){
 			alert("이메일 페이지로 이동하실께요.");
 			var seq = $(this).closest('.button_aa').siblings('.box').find('.seq').html();
-			location.href = "/partner/selectPartnerEmail?seq=" + seq;
-		})   
-		
-	
+			window.open("http://localhost/partner/selectPartnerEmail?seq="+seq,"ㅎㅇㅎㅇ","width=800,height=400");
+		})
+				
 		//시군 
 		   new sojaeji('sido1', 'gugun1');
 				 var addrTxt = "";
@@ -60,6 +59,7 @@
 			console.log(gugun);
 			console.log($('#address').val(sido + ' ' + gugun));
 		});
+		
 		
 		//최신순, 평점순
 		var orderBy = '${orderBy}';
@@ -102,8 +102,6 @@
 		</form>
 	</div>
 	
-	
-	${loginInfo}
 	<form action="/partner/partnerSearch" method="post" id="test">
 		<div>
 			<input type="text" name="name" placeholder="파트너의 이름">

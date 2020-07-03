@@ -72,7 +72,28 @@ public class MemberService {
 		}
 	}
 	
+	/* 아이디 찾기 */
+	public List<MemberDTO> idFindProc(MemberDTO mdto) throws Exception{
+		return mdao.idFindProc(mdto);
+	}
 	
+	/* 비밀번호 찾기 */
+	public int pwFindProc(MemberDTO mdto) throws Exception{
+		return mdao.pwFindProc(mdto);
+	}
+	
+	/* 비밀번호 수정 */
+	public int pwModifyProc(MemberDTO mdto) throws Exception{
+		return mdao.pwModifyProc(mdto);
+	}
+	
+	/* 회원탈퇴 */
+	@Transactional("txManager")
+	public int memWithdrawal(MemberDTO mdto) throws Exception{
+		System.out.println(mdto.getSysname());
+		mdto.getSysname();
+		return mdao.memWithdrawal(mdto);
+	}
 	
 	
 }

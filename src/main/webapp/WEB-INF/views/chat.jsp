@@ -10,6 +10,7 @@
 			</div>
 		</section>	
 		<div id="chatRoom">
+			<div class="top"><button id="close"><i class="fa fa-angle-left" aria-hidden="true"></i></button></div>
 			<div class="title clearfix">
 				<i class="fa fa-users" aria-hidden="true"></i>
 				<p></p>
@@ -110,7 +111,7 @@
 						}
 						$("#chatRoom").addClass("on");
 						var chatWrap = $("#chatWrap");
-						chatWrap.find(".title p").prepend("${sessionScope.loginInfo.id},"+uid);
+						chatWrap.find(".title p").text("${sessionScope.loginInfo.id},"+uid);
 						var member = chatWrap.find(".title p").text().split(",");
 						chatWrap.find(".title span").text(member.length);
 						
@@ -137,9 +138,12 @@
 						$(".chatBox").append(userTag);
 						updateScroll();
 					}
-							
 					
-					
+					$("#chatWrap #close").click(function(){
+						$("#chatRoom").removeClass("on");
+						$("#chatBox").html("");
+						ws.close();
+					})
 				}
 				
 				$(".txtInput").keyup(function(e){

@@ -39,7 +39,7 @@ $(function(){
 		if(pwResult1 == pwResult2){
 			$("#pwConfrom").text("비밀번호가 일치합니다.");
 		}else{
-			$("#pwConfrom").text("비밀번호가 하지 않습니다.");
+			$("#pwConfrom").text("비밀번호 일치 하지 않습니다.");
 		}
 	});		
 	
@@ -203,7 +203,7 @@ $(function(){
 		
 		if(ckIsNull == false){
 			langCan.focus();
-			alert("구사가능 언어를 선택해주세요"); //return false;
+			alert("구사가능 언어를 선택해주세요");
 			return false;
 		}else{
 			if(count > 3){

@@ -69,6 +69,15 @@ public class PartnerDAO {
 	public int insertPartner(Map<String, Object> insertP) throws Exception{
 		return mybatis.insert("Partner.insertPartner", insertP);
 	}
+	//파트너 등록 후 멤버 등급 partner로 변경
+	public int updateMemberGrade(MemberDTO mdto) throws Exception{
+		return mybatis.update("Partner.updateMemberGrade",mdto);
+	}
+	
+	//파트너 삭제
+	public int deletePartner(MemberDTO mdto) throws Exception{
+		return mybatis.delete("Partner.deletePartner", mdto);
+	}
 	
 	public List<PartnerDTO> partnerListAll() throws Exception{
 		return mybatis.selectList("Partner.partnerListAll");

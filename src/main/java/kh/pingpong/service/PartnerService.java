@@ -112,6 +112,16 @@ public class PartnerService {
 		return pdao.insertPartner(insertP);
 	}
 	
+	//파트너 등록 후 멤버 등급 변경
+	public int updateMemberGrade(MemberDTO mdto) throws Exception{
+		return pdao.updateMemberGrade(mdto);
+	}
+	
+	//파트너 삭제
+	public int deletePartner(MemberDTO mdto) throws Exception{
+		return pdao.deletePartner(mdto);
+	}
+	
 	//이메일 전송
 	public void SendMail(PartnerDTO pdto, MemberDTO mdto) {
 		try {

@@ -1,6 +1,8 @@
 package kh.pingpong.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -54,14 +56,12 @@ public class MypageController {
 //	}
 	
 	@RequestMapping("groupRecord")
-	public String selectByIdInGroup(Model model, GroupMemberDTO gmdto, GroupDTO gdto) throws Exception{
+	public String selectByIdInGroup(Model model) throws Exception{
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
 		System.out.println("현재 로그인한 회원 아이디 : " + loginInfo.getId());
+		
 		List<GroupDTO> gl_list = mpservice.selectByIdInGroup(loginInfo);
 		List<GroupApplyDTO> gm_list = mpservice.selectByIdInGroupMem(loginInfo);
-		
-		if(gdto.getSeq() == gmdto.getParent_seq()) {
-		}
 		
 		model.addAttribute("gl_list", gl_list); // 그룹 리더의 경우
 		model.addAttribute("gm_list", gm_list); // 그룹 멤버의 경우

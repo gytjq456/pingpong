@@ -18,6 +18,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -154,12 +155,22 @@ public class PartnerController {
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
 		mdto = pservice.selectMember(loginInfo.getId());
 		mdto = mservice.memberSelect(loginInfo);
+		pservice.updateMemberGrade(mdto);
 		Map<String, Object> insertP = new HashMap<>();
 		insertP.put("mdto", mdto);
 		insertP.put("contact", contact);	
-
 		pservice.partnerInsert(insertP);
 		return "partner/partnerList";
+	}
+	
+	//파트너 삭제
+	@RequestMapping("deletePartner")
+	public String deletePartner(Model model) throws Exception{
+		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
+		//PartnerDTO pdto = pservice.selectBySeq(seq)
+		pservice.deletePartner(loginInfo);
+		//model.addAttribute(attributeName, attributeValue)
+		return "redirect:/partner/partnerList";
 	}
 	
 	//이메일 작성

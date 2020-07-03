@@ -38,6 +38,7 @@
 				<button class="email">이메일</button>
 				<button class="report">신고하기</button><br><br>
 				<button class="back">목록으로</button>
+				<button class="delete">파트너 삭제</button>
 			</div>
 		</c:otherwise>
 	</c:choose>
@@ -47,7 +48,11 @@
 		})
 		$(".button_aa .email").on("click",function(e){
 			var seq = $(this).closest('.email').siblings('.box').find('.seq').html();
-			location.href="/par tner/selectPartnerEmail?seq="+seq;
+			location.href="/partner/selectPartnerEmail?seq="+seq;
+		})
+		$(".button_aa .delete").on("click",function(){
+			confirm("정말 파트너 취소 하시겠습니까?");
+			location.href="/partner/deletePartner";
 		})
 	</script>
 	

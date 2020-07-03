@@ -76,6 +76,15 @@
 	delete jjim where id = #{id} and parent_seq = #{parent_seq} and category='강의'
 </delete>
 
+<!-- 같은게시물에 같은사람이 신고했는지 검사 -->
+<select id="report" resultType="int">
+	select count(*) from reportlist where parent_seq = #{parent_seq} and id=#{id} and category='강의'
+</select>
+
+<!-- 신고테이블에 저장 -->
+<insert id="reportProc">
+	insert into reportlist values(reportlist_seq.nextval, #{id}, #{reason}, #{reporter}, sysdate, #{parent_seq}, '강의', default)
+</insert>
 
 <!-- 강의 눌렀을때 뿌려줄 강의 view -->
 <resultMap id="lessonViewProfile" type="kh.pingpong.dto.LessonDTO">

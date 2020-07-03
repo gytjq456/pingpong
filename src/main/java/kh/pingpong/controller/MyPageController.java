@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import kh.pingpong.dto.GroupApplyDTO;
 import kh.pingpong.dto.GroupDTO;
+import kh.pingpong.dto.GroupMemberDTO;
 import kh.pingpong.dto.LikeListDTO;
 import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.dto.PartnerDTO;
@@ -53,11 +54,15 @@ public class MyPageController {
 //	}
 	
 	@RequestMapping("groupRecord")
-	public String selectByIdInGroup(Model model) throws Exception{
+	public String selectByIdInGroup(Model model, GroupMemberDTO gmdto, GroupDTO gdto) throws Exception{
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
 		System.out.println("현재 로그인한 회원 아이디 : " + loginInfo.getId());
 		List<GroupDTO> gl_list = mpservice.selectByIdInGroup(loginInfo);
 		List<GroupApplyDTO> gm_list = mpservice.selectByIdInGroupMem(loginInfo);
+		
+		if(gdto.getSeq() == gmdto.getParent_seq()) {
+		}
+		
 		model.addAttribute("gl_list", gl_list); // 그룹 리더의 경우
 		model.addAttribute("gm_list", gm_list); // 그룹 멤버의 경우
 		return "/mypage/groupRecord";

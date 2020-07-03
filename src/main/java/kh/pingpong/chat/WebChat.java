@@ -48,8 +48,11 @@ public class WebChat {
 		Object obj = parser.parse( message );
 		JSONObject jsonObj = (JSONObject) obj;		
 		String chatRoom = (String) jsonObj.get("chatRoom");
+		//System.out.println(message);
+		chatService.chatTxtInsert(message);
 		synchronized(clients) {
-			chatService.chatTxtInsert(message);
+			System.out.println("roomId =" + Configuration.chatCreate.get("roomId"));
+			System.out.println("chatRoom = " + chatRoom);
 			for(Session client : clients) {
 				if(Configuration.chatCreate.get("roomId").contentEquals(chatRoom)) {
 					if(!client.getId().contentEquals(session.getId())){

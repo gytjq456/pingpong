@@ -286,7 +286,8 @@ height:-webkit-calc(100% - 240px);
 #chatWrap #chatRoom .chatBox .chatTxt:before { content:""; width:11px; height:7px; display:block; position:absolute; top:5px; }
 #chatWrap #chatRoom .chatBox .my .chatTxt:before { right:0; background:url("/resources/img/common/chatBgRight.png") no-repeat;}
 #chatWrap #chatRoom .chatBox .other .chatTxt:before { left:4px; right:inherit; background:url("/resources/img/common/chatBgLeft.png") no-repeat;}
-#chatWrap #chatRoom .chatBox .chatTxt p {padding:4px 8px; border-radius:4px; background:#d9e7f4; display:inline-block; text-align:left; max-width:220px; box-sizing:border-box; word-break:break-all; margin:0 10px;}
+#chatWrap #chatRoom .chatBox .my .chatTxt p { background:#ffd100;}
+#chatWrap #chatRoom .chatBox .chatTxt p {padding:4px 8px; border-radius:4px; background:#d9e7f4; display:inline-block; text-align:left; max-width:140px; box-sizing:border-box; word-break:break-all; margin:0 10px;}
 #chatWrap #chatRoom .chatBox .chatTxt span { font-size:12px; display:inline-block; margin-right:6px; vertical-align: bottom;} 
 #chatWrap #chatRoom .userInfo_s1 .thumb { width:50px; height:50px; }
 #chatWrap #chatRoom .txtInputBox { position:absolute; left:0; bottom:0; padding:20px; border-top:1px solid #ddd; width:100%; height:120px; }

@@ -123,7 +123,7 @@
 			})
 
 			//var ws = new WebSocket("ws://localhost/chat");
-			var ws = new WebSocket("ws://192.168.160.184/chat");
+			var ws = new WebSocket("ws://192.168.60.58/chat");
 			ws.onmessage = function(e){
 				var msg = JSON.parse(event.data);
 				var time = new Date(msg.date);

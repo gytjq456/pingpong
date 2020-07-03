@@ -56,6 +56,8 @@ public class ChatController {
 		}
 		List<ChatRecordDTO> chatRecord = chatService.chatRecordList(chatRoomId);
 		Configuration.chatRecord = chatRecord;
+		Configuration.chatCreate.put("roomId",chatRoomId);
+		
 		if(chatRecord.size() == 0) {
 			return new Gson().toJson(chatRoomId);
 		}else {

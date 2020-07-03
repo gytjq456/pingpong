@@ -18,6 +18,7 @@ import kh.pingpong.dto.JjimDTO;
 import kh.pingpong.dto.LessonDTO;
 import kh.pingpong.dto.LikeListDTO;
 import kh.pingpong.dto.MemberDTO;
+import kh.pingpong.dto.ReportListDTO;
 import kh.pingpong.dto.TutorAppDTO;
 
 @Service
@@ -132,6 +133,17 @@ public class TutorService {
 		return result;
 	}
 	
+	//같은게시물 같은사람이 신고했는지
+	public int report(ReportListDTO rldto) throws Exception{
+		int result = tdao.report(rldto);
+		return result;
+	}
+	
+	//신고테이블에 저장
+	public int reportProc(ReportListDTO rldto) throws Exception{
+		int result = tdao.reportProc(rldto);
+		return result;
+	}
 	
 	//레슨 페이징 만 이동
 		public String getPageNavi_lesson(int userCurrentPage, String orderBy) throws SQLException, Exception {

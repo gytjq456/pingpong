@@ -15,6 +15,7 @@ import kh.pingpong.dto.JjimDTO;
 import kh.pingpong.dto.LessonDTO;
 import kh.pingpong.dto.LikeListDTO;
 import kh.pingpong.dto.MemberDTO;
+import kh.pingpong.dto.ReportListDTO;
 import kh.pingpong.dto.TutorAppDTO;
 
 @Repository
@@ -83,6 +84,16 @@ public class TutorDAO {
 	//찜취소
 	public int deleteJjim(JjimDTO jdto) throws Exception{
 		return mybatis.delete("Tutor.deleteJjim", jdto);
+	}
+	
+	//같은게시물에 같은사람이 신고했는지 확인
+	public int report(ReportListDTO rldto) throws Exception{
+		return mybatis.selectOne("Tutor.report", rldto);
+	}
+	
+	//신고테이블에 저장
+	public int reportProc(ReportListDTO rldto) throws Exception{
+		return mybatis.insert("Tutor.reportProc", rldto);
 	}
 	
 	//�뒠�꽣 �떊泥��꽌 insert

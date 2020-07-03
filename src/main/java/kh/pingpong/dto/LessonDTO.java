@@ -32,7 +32,7 @@ public class LessonDTO {
 	private int like_count;
 	private int view_count;
 	private int review_count;
-	private int review_point;
+	private float review_point;
 	private String applying;
 	private String proceeding;
 	private String pass;
@@ -48,7 +48,7 @@ public class LessonDTO {
 			MultipartFile profile, String category, String title, int price, String language, String apply_start,
 			String apply_end, String start_date, String end_date, String start_hour, String start_minute,
 			String end_hour, String end_minute, int max_num, int cur_num, String location, String curriculum,
-			int like_count, int view_count, int review_count, int review_point, String applying, String proceeding,
+			int like_count, int view_count, int review_count, float review_point, String applying, String proceeding,
 			String pass, String sysname) {
 		super();
 		this.seq = seq;
@@ -292,11 +292,11 @@ public class LessonDTO {
 		this.review_count = review_count;
 	}
 
-	public int getReview_point() {
+	public float getReview_point() {
 		return review_point;
 	}
 
-	public void setReview_point(int review_point) {
+	public void setReview_point(float review_point) {
 		this.review_point = review_point;
 	}
 

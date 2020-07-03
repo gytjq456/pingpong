@@ -54,6 +54,7 @@ public class ChatController {
 			result = chatService.chatInsert(chatInfo);
 			chatRoomId = chatService.chatRoomIdSch(chatInfo);
 		}
+		System.out.println("아이디 뭐지 :"+ chatRoomId);
 		List<ChatRecordDTO> chatRecord = chatService.chatRecordList(chatRoomId);
 		Configuration.chatRecord = chatRecord;
 		Configuration.chatCreate.put("roomId",chatRoomId);

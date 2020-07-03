@@ -2,8 +2,6 @@ package kh.pingpong.chat;
 
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpSession;
@@ -20,15 +18,12 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import kh.pingpong.config.Configuration;
-import kh.pingpong.dto.ChatRecordDTO;
-import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.service.ChatService;
 
 @ServerEndpoint(value="/chat", configurator = HttpSessionCofigurator.class)
 public class WebChat {
 
 	private ChatService chatService = MyApplicationContextAware.getApplicationContext().getBean(ChatService.class);
-
 
 	private static Set<Session> clients = Collections.synchronizedSet(new HashSet<>());
 	HttpSession session;
@@ -44,18 +39,17 @@ public class WebChat {
 	@OnMessage
 	public void onMessage(Session session, String message) throws Exception{
 		//System.out.println("message :" + message);
-		JSONParser parser = new JSONParser();
-		Object obj = parser.parse( message );
-		JSONObject jsonObj = (JSONObject) obj;		
-		String chatRoom = (String) jsonObj.get("chatRoom");
 		//System.out.println(message);
-		chatService.chatTxtInsert(message);
 		synchronized(clients) {
-			System.out.println("roomId =" + Configuration.chatCreate.get("roomId"));
-			System.out.println("chatRoom = " + chatRoom);
+			JSONParser parser = new JSONParser();
+			Object obj = parser.parse( message );
+			JSONObject jsonObj = (JSONObject) obj;		
+			String chatRoom = (String) jsonObj.get("chatRoom");
+			String result = chatService.chatRoomIdSch(Configuration.chatCreate);
+			chatService.chatTxtInsert(message);
 			for(Session client : clients) {
-				if(Configuration.chatCreate.get("roomId").contentEquals(chatRoom)) {
-					if(!client.getId().contentEquals(session.getId())){
+				if(!client.getId().contentEquals(session.getId())){
+					if(result.contentEquals(chatRoom)) {
 						try {
 							Basic basic = client.getBasicRemote();
 							System.out.println(message);

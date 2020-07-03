@@ -15,12 +15,12 @@
 	<!-- 채팅방 기록 가져오기 -->
 	<select id="chatRecordList" resultType="kh.pingpong.dto.ChatRecordDTO">
 		<!-- select * from chatrecord where roomId = #{roomId} order by roomId,seq -->
-		select * from chatrecord where roomId = #{roomId} and realWriteDate = to_char(sysdate,'yyyy"년"mm"월"dd"일" DAY') order by roomid,seq
+		select * from chatrecord where roomId = #{roomId} and realWriteDate = to_char(sysdate,'yyyy"년" mm"월" dd"일" DAY') order by roomid,seq
 		
 	</select>
 	
 <!-- 	<select id="chatRoomSch" resultType="kh.pingpong.dto.ChatRoomDTO">
-		select * from chatRoom where chatMemberId like '%${master}%' and chatMemberId like '%${partner}%'
+		select * from chatRoom where chatMemberId like '%${master}%' and chatMembezrId like '%${partner}%'
 	</select> -->
 	
 	<!-- 모든 방 가져오기 -->
@@ -30,7 +30,7 @@
 
 	<!-- 채팅 내용 입력 -->
 	<insert id="chatTxtInsert">
-		insert into chatRecord values(#{roomId}, chatRecord_seq.nextval, #{sendUser}, #{chatRecord}, to_char(sysdate,'yyyy"년"mm"월"dd"일" DAY'), #{writeDate})
+		insert into chatRecord values(#{roomId}, chatRecord_seq.nextval, #{sendUser}, #{chatRecord}, to_char(sysdate,'yyyy"년" mm"월" dd"일" DAY'), #{writeDate})
 	</insert>
 
 </mapper>

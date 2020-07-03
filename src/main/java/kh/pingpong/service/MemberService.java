@@ -90,9 +90,13 @@ public class MemberService {
 	/* 회원탈퇴 */
 	@Transactional("txManager")
 	public int memWithdrawal(MemberDTO mdto) throws Exception{
-		System.out.println(mdto.getSysname());
-		mdto.getSysname();
+		mdao.memProfileDele(mdto);
 		return mdao.memWithdrawal(mdto);
+	}
+	
+	/* 회원정보수정 */
+	public int myInfoModifyProc(MemberDTO mdto) throws Exception{
+		return mdao.myInfoModifyProc(mdto);
 	}
 	
 	

@@ -7,17 +7,14 @@
 	<script>
 		$(function(){
 			$('#myInfoModify').on("click",function(){
-				location.href="/mypage/myInfoModify";
+				location.href="/member/myInfoModify";
 			});
 			
 			$('#memWithdrawal').on("click",function(){
 				var id = '${mdto.id}';
 				$.ajax({
 					type : "post",
-					url : "/member/memWithdrawal",
-					data : {
-						'id' : id
-					}
+					url : "/member/memWithdrawal"					
 				}).done(function(resp){
 					alert("회원 탈퇴 되었습니다.");
 					location.href="/";

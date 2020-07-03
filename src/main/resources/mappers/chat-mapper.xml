@@ -9,7 +9,7 @@
 	
 	<!-- 방번호 검색 -->
  	<select id="chatRoomIdSch" resultType="String">
-		select roomId from chatRoom where chatMemberId like '%'||#{master}||'%' and chatMemberId like '%'||#{partner}||'%'
+		select roomId from chatRoom where chatMemberId like '%'||#{master}||'%' and chatMemberId like '%'||#{partner}||'%' and users = #{usersName}
 	</select>
 
 	<!-- 채팅방 기록 가져오기 -->

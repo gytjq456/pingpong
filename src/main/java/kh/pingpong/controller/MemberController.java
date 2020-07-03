@@ -222,10 +222,12 @@ public class MemberController {
 	@ResponseBody
 	@RequestMapping("isIdPwSame")
 	public String isIdPwSame(MemberDTO mdto) throws Exception{
+		mdto.setPw(this.getSHA512(mdto.getPw()));
 		Boolean result = mservice.isIdPwSame(mdto);
+		System.out.println("잉?? :: " + result);
 		if(result) {
 			MemberDTO loginInfo = mservice.loginInfo(mdto);		
-			session.setAttribute("loginInfo",loginInfo);				
+			session.setAttribute("loginInfo",loginInfo);	
 			return result.toString();
 		}else {
 			return result.toString();
@@ -242,13 +244,83 @@ public class MemberController {
 	/* 아이디 찾기 jsp로 이동*/
 	@RequestMapping("idFind")
 	public String idFind() throws Exception{		
-		return "";
+		return "/member/idFind";
 	}
 	
-	/* 비밀번호 찾기 */
+	/* 아이디 찾기  */
+	@ResponseBody
+	@RequestMapping("idFindProc")
+	public String idFindProc(MemberDTO mdto) throws Exception{
+		List<MemberDTO> mlist = mservice.idFindProc(mdto);		
+		return Integer.toString(mlist.size());
+	}
+	
+	/* 아이디 결과 jsp */
+	@RequestMapping("idResult")
+	public String idResult(MemberDTO mdto, Model model) throws Exception{
+		System.out.println(mdto.getEmail() + " ::이메일 나오는 것");
+		List<MemberDTO> mlist = mservice.idFindProc(mdto);
+		model.addAttribute("mlist",mlist);
+		return "/member/idResult";
+	}
+	
+	/* 비밀번호 찾기  jsp 이동*/
 	@RequestMapping("pwFind")
 	public String pwFind() throws Exception{
-		return "";
+		return "/member/pwFind";
+	}
+	
+	/* 비번 찾기  */	
+	@ResponseBody
+	@RequestMapping(value="pwFindProc")
+	public String pwFindProc(MemberDTO mdto) throws Exception{
+		System.out.println(mdto.getName() + "   :: 이름");
+		System.out.println(mdto.getEmail() + "   :: 이메일");
+		System.out.println(mdto.getId() + "   :: 아이디");
+		int result = mservice.pwFindProc(mdto);		
+		return Integer.toString(result);
+	}
+	
+	/* 비번 수정 jsp */	
+	@RequestMapping("pwModify")
+	public String pwModify(MemberDTO mdto, Model modle) throws Exception{			
+		modle.addAttribute("mdto",mdto);
+		return "/member/pwModify";
+	}
+	
+	/* 비번 수정  */	
+	@ResponseBody
+	@RequestMapping("pwModifyProc")
+	public String pwModifyProc(MemberDTO mdto) throws Exception{
+		mdto.setPw(this.getSHA512(mdto.getPw()));
+		int result = mservice.pwModifyProc(mdto);	
+		return Integer.toString(result);
+	}
+	
+	/* 회원탈퇴 */
+	@ResponseBody
+	@RequestMapping("memWithdrawal")
+	public String memWithdrawal(MemberDTO mdto) throws Exception{
+		mdto = (MemberDTO)session.getAttribute("loginInfo");
+		System.out.println(mdto.getSysname() + " :: 파일 이름 ");
+		int result = mservice.memWithdrawal(mdto);
+		session.invalidate();
+		return Integer.toString(result);
 	}
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

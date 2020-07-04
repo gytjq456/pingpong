@@ -9,11 +9,10 @@
 		<section id="subContents">
 			<div id="join">
 			    <h1>MEMBER</h1>
-				<form id="myInfoModifyProc">
-					<input type="hidden" name="mem_type" value="basic">
-					<input type="hidden" name="category" value="member">
-					<input type="hidden" name="grade" value="defalut">
-					
+			    <input type="hidden" id="id" name="id" value="${sessionScope.loginInfo.id}">
+				<input type="hidden" id="name" name="name" value="${sessionScope.loginInfo.name}">
+				<input type="hidden" id="email" name="email" value="${sessionScope.loginInfo.email}">
+			    
 					<div class="se_singup">
 						<div class="title">아이디</div>
 						<div class="se_con">
@@ -28,7 +27,7 @@
 												
 						<div class="se_con">
 							<div>
-								<button type="button" class="modyBtn">링크연결 수정</button>								
+								<button type="button" id="modyPwBtn">비밀번호 수정 바로가기</button>								
 							</div>
 						</div>
 						
@@ -123,8 +122,10 @@
 							<div>
 								<button type="button" class="modyBtn">수정</button>
 								<div class="show_input">
-									<input type="file" id="profile" name="profile">
-									<button type="button" id="profile_Result">수정완료</button>
+									<form id="profile_form">
+										<input type="file" id="profile" name="profile">
+										<input type="submit" value="수정완료">
+									</form>
 								</div>
 							</div>
 						</div>
@@ -216,12 +217,6 @@
 							</div>
 						</div>
 					</div>
-		
-					<div class="si_btn">
-						<input value="회원가입" type="submit" id="myInfoModifyBtn">
-						<a href="javascript:history.back();">뒤로가기</a>
-					</div>
-				</form>
 			</div>
 		</section>
 	</div>

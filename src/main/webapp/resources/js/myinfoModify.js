@@ -1,5 +1,8 @@
 /* 마이페이지 수정 */
 $(function() {
+	var id = $("#id").val();
+	var name = $("#name").val();
+	var email = $("#email").val();
 
 	/* 회원정보 수정 버튼 클릭시 노출 */
 	$(".show_input").hide();
@@ -29,7 +32,12 @@ $(function() {
 			$("#pwConfrom").text("비밀번호 일치 하지 않습니다.");
 		}
 	});
-
+	
+	//비밀번호 페이지로 넘어가기
+	$("#modyPwBtn").on("click",function(){
+		location.href="/member/pwModify?name="+name+"&email="+email+"&id="+id;
+	});
+	
 	/* 자기소개 */
 	$('#introduce').keyup(function(e) {
 		var content = $(this).val();
@@ -79,6 +87,7 @@ $(function() {
 		}).done(function(resp) {
 			if (resp > 0) {
 				alert("전화번호 수정이 완료되었습니다.");
+				location.reload();
 			} else {
 				alert("전화번호 수정이 실패하였습니다.");
 			}
@@ -122,6 +131,7 @@ $(function() {
 		}).done(function(resp) {
 			if (resp > 0) {
 				alert("주소 수정이 완료되었습니다.");
+				location.reload();
 			} else {
 				alert("주소 수정이 실패하였습니다.");
 			}
@@ -161,6 +171,7 @@ $(function() {
 		}).done(function(resp) {
 			if (resp > 0) {
 				alert("계좌번호 수정이 완료되었습니다.");
+				location.reload();
 			} else {
 				alert("계좌번호 수정이 실패하였습니다.");
 			}
@@ -170,8 +181,10 @@ $(function() {
 	});
 	
 	//프로필사진 수정
-	$("#profile_Result").on("click", function() {
+	$("#profile_form").submit(function() {		
 		var profile = $("#profile");// 파일
+		var formData = new FormData($("#profile_form")[0]);
+		
 		// 프로필
 		if (profile.val() == "") {
 			alert("프로필 사진을 넣어주세요");
@@ -181,13 +194,16 @@ $(function() {
 		
 		$.ajax({
 			type : "post",
-			url : "/member/myInfoCountry",
-			data : {
-				'profile' : profile.val()
-			}
+			url : "/member/myInfoProfile",
+			data : formData,
+			cache : false,
+			contentType : false,
+			processData : false
+			
 		}).done(function(resp) {
 			if (resp > 0) {
 				alert("프로필사진 수정이 완료되었습니다.");
+				location.reload();
 			} else {
 				alert("프로필사진 수정이 실패하였습니다.");
 			}
@@ -198,8 +214,7 @@ $(function() {
 	
 	//나라 수정
 	$("#country_Result").on("click", function() {
-		var country = $("#country option:selected").val();// 셀렉트
-		
+		var country = $("#country option:selected").val();// 셀렉트		
 		// 나라
 		if (country == "null") {
 			alert("나라를 선택해주세요.");
@@ -216,6 +231,7 @@ $(function() {
 		}).done(function(resp) {
 			if (resp > 0) {
 				alert("나라 수정이 완료되었습니다.");
+				location.reload();
 			} else {
 				alert("나라 수정이 실패하였습니다.");
 			}
@@ -236,6 +252,7 @@ $(function() {
 		if (ckIsNull == false) {
 			langCan.focus();
 			alert("구사가능 언어를 선택해주세요");
+			location.reload();
 			return false;
 		} else {
 			if (count > 3) {
@@ -246,15 +263,24 @@ $(function() {
 			}
 		};
 		
+		//배열로 담기
+		var langArray = new Array();
+		langCan2.each(function(){
+			langArray.push(this.value);
+		});
+		
+		//배열을 리스트로 담기
+		var allData = { "langArrayA": langArray };
+		
 		$.ajax({
 			type : "post",
 			url : "/member/myInfoLang_can",
-			data : {
-				'lang_can' : langCan2.val()
-			}
+			data : allData
+			
 		}).done(function(resp) {
 			if (resp > 0) {
 				alert("구사가능언어 수정이 완료되었습니다.");
+				location.reload();				
 			} else {
 				alert("구사가능언어 수정이 실패하였습니다.");
 			}
@@ -286,15 +312,23 @@ $(function() {
 			}
 		}
 		
+		//배열로 담기
+		var langArray = new Array();
+		langLearn2.each(function(){
+			langArray.push(this.value);
+		});
+		
+		//배열을 리스트로 담기
+		var allData = { "langArrayA": langArray };
+		
 		$.ajax({
 			type : "post",
 			url : "/member/myInfoLang_learn",
-			data : {
-				'lang_learn' : langLearn2.val()
-			}
+			data : allData
 		}).done(function(resp) {
 			if (resp > 0) {
 				alert("배우고 싶은 언어 수정이 완료되었습니다.");
+				location.reload();
 			} else {
 				alert("배우고 싶은 언어 수정이 실패하였습니다.");
 			}
@@ -325,15 +359,23 @@ $(function() {
 			}
 		}
 		
+		//배열로 담기
+		var hobbyArray = new Array();
+		hobby2.each(function(){
+			hobbyArray.push(this.value);
+		});
+		
+		//배열을 리스트로 담기
+		var allData = { "hobbyArrayA": hobbyArray};
+		
 		$.ajax({
 			type : "post",
 			url : "/member/myInfoHobby",
-			data : {
-				'hobby' : hobby2.val()
-			}
+			data : allData
 		}).done(function(resp) {
 			if (resp > 0) {
 				alert("취미 수정이 완료되었습니다.");
+				location.reload();
 			} else {
 				alert("취미 수정이 실패하였습니다.");
 			}
@@ -362,6 +404,7 @@ $(function() {
 		}).done(function(resp) {
 			if (resp > 0) {
 				alert("자기소개 수정이 완료되었습니다.");
+				location.reload();
 			} else {
 				alert("자기소개 수정이 실패하였습니다.");
 			}

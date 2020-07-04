@@ -110,6 +110,13 @@ public class MemberService {
 		return mdao.myInfoMobank(mdto);
 	}
 	
+	/* 프로필 */
+	@Transactional("txManager")
+	public int myInfoProfile(MemberDTO mdto, FileDTO fdto) throws Exception{
+		mdao.myInfoProfileFile(mdto, fdto);
+		return mdao.myInfoProfile(mdto, fdto);
+	}
+	
 	/* 나라 */
 	public int myInfoCountry(MemberDTO mdto) throws Exception{
 		return mdao.myInfoCountry(mdto);

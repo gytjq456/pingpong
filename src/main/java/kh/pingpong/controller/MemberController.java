@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kh.pingpong.dto.BankDTO;
@@ -261,7 +262,7 @@ public class MemberController {
 	
 	/* 비번 찾기  */	
 	@ResponseBody
-	@RequestMapping(value="pwFindProc")
+	@RequestMapping("pwFindProc")
 	public String pwFindProc(MemberDTO mdto) throws Exception{
 		System.out.println(mdto.getName() + "   :: 이름");
 		System.out.println(mdto.getEmail() + "   :: 이메일");
@@ -330,7 +331,12 @@ public class MemberController {
 		System.out.println(mdto.getPhone_country());
 		System.out.println(mdto.getId());
 		
-		int result = mservice.myInfoMoPhone(mdto);		
+		int result = mservice.myInfoMoPhone(mdto);
+		
+		//세션값 다시 불러오기
+		MemberDTO loginInfo = mservice.loginInfo(mdto);		
+		session.setAttribute("loginInfo",loginInfo);
+		
 		return Integer.toString(result);		
 	}
 	
@@ -341,7 +347,12 @@ public class MemberController {
 		MemberDTO loginMdto = (MemberDTO)session.getAttribute("loginInfo");
 		mdto.setId(loginMdto.getId());
 		
-		int result = mservice.myInfoMoAddress(mdto);		
+		int result = mservice.myInfoMoAddress(mdto);
+		
+		//세션값 다시 불러오기
+		MemberDTO loginInfo = mservice.loginInfo(mdto);		
+		session.setAttribute("loginInfo",loginInfo);
+				
 		return Integer.toString(result);		
 	}
 	
@@ -352,7 +363,32 @@ public class MemberController {
 		MemberDTO loginMdto = (MemberDTO)session.getAttribute("loginInfo");
 		mdto.setId(loginMdto.getId());
 		
-		int result = mservice.myInfoMobank(mdto);		
+		int result = mservice.myInfoMobank(mdto);
+		
+		//세션값 다시 불러오기
+		MemberDTO loginInfo = mservice.loginInfo(mdto);		
+		session.setAttribute("loginInfo",loginInfo);
+		
+		return Integer.toString(result);		
+	}
+	
+	/* 프로필 */
+	@ResponseBody
+	@RequestMapping("myInfoProfile")
+	public String myInfoProfile(MemberDTO mdto, FileDTO fdto) throws Exception{
+		MemberDTO loginMdto = (MemberDTO)session.getAttribute("loginInfo");
+		mdto.setId(loginMdto.getId());
+		mdto.setSysname(loginMdto.getSysname());
+		
+		// 회원 파일 하나 저장
+		String realPath = session.getServletContext().getRealPath("upload/member/" + mdto.getId() + "/");
+		fdto = fcon.fileOneInsert(mdto, fdto, realPath);
+		int result = mservice.myInfoProfile(mdto, fdto);
+		
+		//세션값 다시 불러오기
+		MemberDTO loginInfo = mservice.loginInfo(mdto);		
+		session.setAttribute("loginInfo",loginInfo);
+		
 		return Integer.toString(result);		
 	}
 	
@@ -363,40 +399,103 @@ public class MemberController {
 		MemberDTO loginMdto = (MemberDTO)session.getAttribute("loginInfo");
 		mdto.setId(loginMdto.getId());
 		
-		int result = mservice.myInfoCountry(mdto);		
+		int result = mservice.myInfoCountry(mdto);
+		
+		//세션값 다시 불러오기
+		MemberDTO loginInfo = mservice.loginInfo(mdto);		
+		session.setAttribute("loginInfo",loginInfo);
+		
 		return Integer.toString(result);		
 	}
 	
-	/* 할 수 있는 언어  */
+	/* 구사 언어  */
 	@ResponseBody
 	@RequestMapping("myInfoLang_can")
-	public String myInfoLang_can(MemberDTO mdto) throws Exception{
+	public String myInfoLang_can(@RequestParam(value="langArrayA[]") List<String> lang_can, MemberDTO mdto) throws Exception{
+		
+		StringBuilder sb = new StringBuilder();
+		int size = lang_can.size();
+		System.out.println(size);
+		
+		int count = 0;
+		for( String a : lang_can) {
+			sb.append(a);
+			if(count < lang_can.size()-1) {
+				sb.append(","); 
+			}
+			count++;
+		}
+		
 		MemberDTO loginMdto = (MemberDTO)session.getAttribute("loginInfo");
 		mdto.setId(loginMdto.getId());
+		mdto.setLang_can(sb.toString());
 		
-		int result = mservice.myInfoLang_can(mdto);		
+		int result = mservice.myInfoLang_can(mdto);
+		
+		//세션값 다시 불러오기
+		MemberDTO loginInfo = mservice.loginInfo(mdto);		
+		session.setAttribute("loginInfo",loginInfo);
+		
 		return Integer.toString(result);		
 	}
 	
 	/* 배우고 싶은 언어  */
 	@ResponseBody
 	@RequestMapping("myInfoLang_learn")
-	public String myInfoLang_learn(MemberDTO mdto) throws Exception{
+	public String myInfoLang_learn(@RequestParam(value="langArrayA[]") List<String> lang_learn, MemberDTO mdto) throws Exception{
+		
+		StringBuilder sb = new StringBuilder();
+		int size = lang_learn.size();
+		System.out.println(size);
+		
+		int count = 0;
+		for( String a : lang_learn) {
+			sb.append(a);
+			if(count < lang_learn.size()-1) {
+				sb.append(","); 
+			}
+			count++;
+		}
+		
 		MemberDTO loginMdto = (MemberDTO)session.getAttribute("loginInfo");
 		mdto.setId(loginMdto.getId());
+		mdto.setLang_learn(sb.toString());
 		
-		int result = mservice.myInfoLang_learn(mdto);		
+		int result = mservice.myInfoLang_learn(mdto);
+		
+		//세션값 다시 불러오기
+		MemberDTO loginInfo = mservice.loginInfo(mdto);		
+		session.setAttribute("loginInfo",loginInfo);
+		
 		return Integer.toString(result);		
 	}
 	
 	/* 취미  */
 	@ResponseBody
 	@RequestMapping("myInfoHobby")
-	public String myInfoHobby(MemberDTO mdto) throws Exception{
+	public String myInfoHobby(@RequestParam(value="hobbyArrayA[]") List<String> hobby, MemberDTO mdto) throws Exception{
+		
+		StringBuilder sb = new StringBuilder();
+		int size = hobby.size();
+		int count = 0;
+		for( String a : hobby) {
+			sb.append(a);
+			if(count < hobby.size()-1) {
+				sb.append(","); 
+			}
+			count++;
+		}
+		
 		MemberDTO loginMdto = (MemberDTO)session.getAttribute("loginInfo");
 		mdto.setId(loginMdto.getId());
+		mdto.setHobby(sb.toString());
 		
-		int result = mservice.myInfoHobby(mdto);		
+		int result = mservice.myInfoHobby(mdto);
+		
+		//세션값 다시 불러오기
+		MemberDTO loginInfo = mservice.loginInfo(mdto);		
+		session.setAttribute("loginInfo",loginInfo);
+		
 		return Integer.toString(result);		
 	}
 	
@@ -407,7 +506,12 @@ public class MemberController {
 		MemberDTO loginMdto = (MemberDTO)session.getAttribute("loginInfo");
 		mdto.setId(loginMdto.getId());
 		
-		int result = mservice.myInfoIntroduce(mdto);		
+		int result = mservice.myInfoIntroduce(mdto);
+		
+		//세션값 다시 불러오기
+		MemberDTO loginInfo = mservice.loginInfo(mdto);		
+		session.setAttribute("loginInfo",loginInfo);
+		
 		return Integer.toString(result);		
 	}
 	

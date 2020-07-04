@@ -100,7 +100,9 @@
 					<div class="se_singup">
 						<div class="title">프로필 사진</div>
 						<div class="se_con">
-							<input type="file" id="profile" name="profile">
+							<form id="profile_form">
+								<input type="file" id="profile" name="profile">
+							</form>							
 						</div>
 					</div>
 		

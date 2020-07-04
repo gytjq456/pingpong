@@ -38,6 +38,7 @@ public class MemberDAO {
 		return mybatis.selectList("Member.countryList");
 	}
 	
+	/* 회원가입 */
 	public int memberInsert(MemberDTO mdto, FileDTO fdto) throws Exception{
 		Map<String, Object> memberAdd = new HashMap<>();
 		memberAdd.put("mdto",mdto);
@@ -45,8 +46,8 @@ public class MemberDAO {
 		return mybatis.insert("Member.memberInsert",memberAdd);
 	}
 	
-	public int memberFile(FileDTO fdto) throws Exception{
-		
+	/* 사진파일 데이터베이스에 저장 */
+	public int memberFile(FileDTO fdto) throws Exception{		
 		System.out.println(fdto.getRealpath());
 		return mybatis.insert("Member.memberFile",fdto);
 	}	
@@ -111,6 +112,25 @@ public class MemberDAO {
 	public int myInfoMobank(MemberDTO mdto) throws Exception{
 		return mybatis.update("Member.myInfoMobank", mdto);
 	}
+	
+	/* 프로필 */
+	public int myInfoProfile(MemberDTO mdto,FileDTO fdto) throws Exception{
+		Map<String, Object> myInfoPAdd = new HashMap<>();
+		myInfoPAdd.put("mdto",mdto);
+		myInfoPAdd.put("fdto",fdto);
+		return mybatis.insert("Member.myInfoProfile",myInfoPAdd);
+	}
+	
+	/* 프로필 데이터베이스에 update 저장 */
+	public int myInfoProfileFile(MemberDTO mdto, FileDTO fdto) throws Exception{
+		Map<String, Object> myInfoPAdd = new HashMap<>();
+		myInfoPAdd.put("mdto",mdto);
+		myInfoPAdd.put("fdto",fdto);
+		
+		System.out.println(fdto.getRealpath());
+		
+		return mybatis.update("Member.myInfoProfileFile",myInfoPAdd);
+	}	
 	
 	/* 나라 */
 	public int myInfoCountry(MemberDTO mdto) throws Exception{

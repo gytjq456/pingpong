@@ -225,7 +225,7 @@ button.normal:hover { background:#c7c7c7 !important; color:#fff; }
 
 
 /* 채팅 서비스 */
-#chatWrap {position:fixed; right:0; bottom:0; z-index:10001; height:600px; width:320px; background:#fff; }
+#chatWrap {display:none; position:fixed; right:0; bottom:0; z-index:10001; height:600px; width:320px; background:#fff; }
 #chatWrap .title { height:80px; background:#3162a4; margin:0 !important; padding:20px; position:relative; }
 #chatWrap .title i { color:#fff; font-size:20px; border:1px solid #fff; border-radius:50%; padding:8px; margin-right:10px;}
 #chatWrap .title i, 
@@ -267,7 +267,7 @@ width:-moz-calc(100% - 100px);
 }
 #chatWrap .txtInputBox #transfer { position:absolute; padding:5px 15px; border:1px solid #ddd; background:#3162a4; color:#fff; border-radius:6px; right:10px; top:10px;}
 #chatWrap #chatRoom,
-#chatList { position:absolute; right:0; top:0; background:#fff;  z-index:9999; width:100%; height:100%;     box-shadow: 0 7px 25px 0 rgba(0,0,0,0.1);}
+#chatList {position:absolute; right:0; top:0; background:#fff;  z-index:9999; width:100%; height:100%;     box-shadow: 0 7px 25px 0 rgba(0,0,0,0.1);}
 #chatList {padding:20px; }
 #chatList .userInfo_s1 .thumb { width:50px; height:50px; }
 #chatList .tit { font-size:20px; font-weight:700; margin-bottom:20px;}

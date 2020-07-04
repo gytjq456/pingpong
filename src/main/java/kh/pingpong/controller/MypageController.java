@@ -76,16 +76,16 @@ public class MypageController {
 		model.addAttribute("plist", plist);
 		return "/mypage/partnerRecord";
 	}
+	
 	@RequestMapping("tutorRecord")
 	public String tutorRecord(Model model) throws Exception{
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
-		List<TutorDTO> trlist = mpservice.selectTutorList();
-		List<TuteeDTO> telist = mpservice.selectTuteeList(); 
+		List<TutorDTO> trlist = mpservice.selectTutorList(loginInfo);
+		//List<TuteeDTO> telist = mpservice.selectTuteeList(); 
 		model.addAttribute("trlist", trlist);
-		model.addAttribute("telist", telist);
+		//model.addAttribute("telist", telist);
 		return "/mypage/tutorRecord"; 
 	}
-	
 	
 	@RequestMapping("likeRecord")
 	public String likeRecord(Model model) throws Exception{

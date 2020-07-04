@@ -14,7 +14,7 @@
 	<!-- post방식으로 자료를 컨트롤러로 보냄 -->
 		<input type="hidden" name="seq" value="${pdto.seq}">
 		받는 사람  : <input name="senderName" value=${pdto.name}><br>
-		발신자 이메일 : <input name="memail"><br>
+		발신자 이메일 : <input name="memail" value="${loginInfo.email}"><br>
 		이메일 비밀번호 : <input type="password" name="emailPassword"><br>
 		수신자 이메일 : <input name="pemail" value=${pdto.email}><br>
 		제목 : <input name="subject"><br>
@@ -24,7 +24,7 @@
 	<script>
 		$("#send").on("click",function(){
 			alert('이메일 전송이 완료되었습니다.');
-			location.href="/partner/partnerList";
+			window.close();
 		})
 	</script>
 </body>

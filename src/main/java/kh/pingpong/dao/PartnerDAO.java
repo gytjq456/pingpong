@@ -13,6 +13,7 @@ import kh.pingpong.dto.HobbyDTO;
 import kh.pingpong.dto.LanguageDTO;
 import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.dto.PartnerDTO;
+import kh.pingpong.dto.ReviewDTO;
 
 @Repository
 public class PartnerDAO {	
@@ -95,5 +96,17 @@ public class PartnerDAO {
 	public List<PartnerDTO> partnerListAll() throws Exception{
 		return mybatis.selectList("Partner.partnerListAll");
 	}
+	
+	//리뷰 글쓰기
+	public int reviewWrite(ReviewDTO redto) throws Exception{
+		return mybatis.insert("Partner.reviewWrite",redto);
+	}
+	
+	//리뷰 리스트
+	public List<ReviewDTO> reviewList(int seq){
+		return mybatis.selectList("Partner.reviewList",seq);
+	}
+	
+	
 	
 }

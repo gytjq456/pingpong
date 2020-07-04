@@ -39,13 +39,14 @@ public class MyPageService {
 	public List<GroupDTO> selectByIdInGroup(MemberDTO loginInfo){
 		return mpdao.selectByIdInGroup(loginInfo);
 	}
+	
 	public List<GroupApplyDTO> selectByIdInGroupMem(MemberDTO loginInfo){
 		return mpdao.selectByIdInGroupMem(loginInfo);
 	}
 	
 	//튜터 / 튜티 관련
-	public List<TutorDTO> selectTutorList(){
-		return mpdao.selectTutorList();
+	public List<TutorDTO> selectTutorList(MemberDTO loginInfo){
+		return mpdao.selectTutorList(loginInfo);
 	}
 	public List<TuteeDTO> selectTuteeList(){
 		return mpdao.selectTuteeList();

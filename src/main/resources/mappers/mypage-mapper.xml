@@ -13,7 +13,7 @@
 	</select>
 	
 	<select id="tutorList" resultType="kh.pingpong.dto.TutorDTO">
-		select * from tutor where id = #{id}
+		select * from lesson where id = #{id}
 	</select>
 	
 	<select id="tuteeList" resultType="kh.pingpong.dto.TuteeDTO">

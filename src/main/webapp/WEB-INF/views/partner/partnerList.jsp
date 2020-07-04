@@ -31,7 +31,7 @@
 		$(".button_aa .email_a").on("click",function(e){
 			alert("이메일 페이지로 이동하실께요.");
 			var seq = $(this).closest('.button_aa').siblings('.box').find('.seq').html();
-			window.open("http://localhost/partner/selectPartnerEmail?seq="+seq,"ㅎㅇㅎㅇ","width=800,height=400");
+			window.open("http://localhost:8888/partner/selectPartnerEmail?seq="+seq,"width=800,height=400");
 		})
 				
 		//시군 

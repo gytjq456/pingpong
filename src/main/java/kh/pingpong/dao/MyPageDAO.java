@@ -31,8 +31,8 @@ public class MyPageDAO {
 		return mybatis.selectList("Mypage.selectByIdInGroup_app",loginInfo);
 	}
 	
-	public List<TutorDTO> selectTutorList(){
-		return mybatis.selectList("Mypage.tutorList");
+	public List<TutorDTO> selectTutorList(MemberDTO loginInfo){
+		return mybatis.selectList("Mypage.tutorList",loginInfo);
 	}
 	
 	public List<TuteeDTO> selectTuteeList(){

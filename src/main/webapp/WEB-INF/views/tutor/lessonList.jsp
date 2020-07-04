@@ -24,6 +24,7 @@
 		})
 		
 		var orderBy = '${orderBy}';
+		console.log(orderBy);
 		if (orderBy != null) {
 			$('#orderBy').val(orderBy);
 		} else {
@@ -63,15 +64,21 @@
 		
 		//달력으로 검색
 		$("#searchcalendar").on("click", function(){
+			var orderByVal = $('#orderBy').val();
 			var start_dateVal = $("#start_date").val();
-			var end_dateVal = $("end_date").val();
-			console.log(start_dateVal);
-			console.log(end_dateVal);
+			var end_dateVal = $("#end_date").val();
+			location.href="/tutor/searchDate?start_date="+start_dateVal+"&end_date="+end_dateVal+"&orderBy="+orderByVal;
 		})
 		
+		//지도로 검색
+		$("#searchMap").on("click", function(){
+			var locationVal = $("#sidogugun").val();
+			var orderByVal = $('#orderBy').val();
+			
+			location.href="/tutor/searchMap?location="+locationVal+"&orderBy="+orderByVal;
+		})
 	})
 </script>
-
 
 
 <div id="subWrap" class="hdMargin">
@@ -132,6 +139,8 @@
 					<select name="sido1" id="sido1"></select> 
 					<select name="gugun1" id="gugun1"></select>
 					<div id="map" style="width:500px;height:400px;"></div>
+					
+					<input type="button" id="searchMap" value="검색하기">
 				
 				</article>
 			</div>
@@ -171,10 +180,11 @@
 										<div class="title">${i.title}</div>
 										<div class="language">언어 : ${i.language}</div>
 										<div class="price">
-											가격 : ${i.price}
+											가격 : ${i.price} 원/시간
 											<!-- <span class="badge badge-danger">New</span> -->
 										</div>
 										<div class="apply_date">모집기간 : ${i.apply_start}~${i.apply_end }</div>
+										<div class="lesson_date">수업기간 : ${i.start_date}~${i.end_date }</div>
 										<div class="view_count">조회 : ${i.view_count}</div>
 										<div class="like_count">추천 : ${i.like_count}</div>
 										<div class="review_point">리뷰 평점 : ${i.review_point}</div>
@@ -220,7 +230,7 @@
 			var gugun = $("#gugun1").val();
 			sidogugun = sido + ' ' + gugun;
 			
-			$(this).wrap('<input type="text" name="location" value="'+sidogugun+'">');
+			$(this).wrap('<input type="text" id="sidogugun" name="location" value="'+sidogugun+'">');
 			
 			// 주소-좌표 변환 객체를 생성합니다
 			var geocoder = new kakao.maps.services.Geocoder();

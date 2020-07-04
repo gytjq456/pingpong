@@ -158,7 +158,7 @@ public class TutorDAO {
 	}
 	
 	//키워드로 검색해서 리스트 뽑기
-	public List<LessonDTO> searchKeword(int cpage, Map<String, String> param) throws Exception{
+	public List<LessonDTO> search(int cpage, Map<String, String> param) throws Exception{
 		int start = cpage*Configuration.RECORD_COUNT_PER_PAGE - (Configuration.RECORD_COUNT_PER_PAGE - 1);
 		int end = start + (Configuration.RECORD_COUNT_PER_PAGE - 1);
 		
@@ -166,7 +166,7 @@ public class TutorDAO {
 		param.put("start", String.valueOf(start));
 		param.put("end", String.valueOf(end));
 		
-		return mybatis.selectList("Tutor.searchKeword", param);
+		return mybatis.selectList("Tutor.search", param);
 	}
 
 }

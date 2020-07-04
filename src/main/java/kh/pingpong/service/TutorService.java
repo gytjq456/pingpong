@@ -73,8 +73,8 @@ public class TutorService {
 	}
 	
 	//키워드로 검색해서 리스트뽑기
-	public List<LessonDTO> searchKeword(int cpage, Map<String,String> param) throws Exception{
-		List<LessonDTO> ldto = tdao.searchKeword(cpage, param);
+	public List<LessonDTO> search(int cpage, Map<String,String> param) throws Exception{
+		List<LessonDTO> ldto = tdao.search(cpage, param);
 		return ldto;
 	}
 	

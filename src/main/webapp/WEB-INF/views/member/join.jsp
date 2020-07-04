@@ -158,7 +158,6 @@
 					</div>
 		
 					<div class="si_btn">
-						<input value="회원가입" type="submit" id="joinBtn">
 						<a href="javascript:history.back();">뒤로가기</a>
 					</div>
 				</form>

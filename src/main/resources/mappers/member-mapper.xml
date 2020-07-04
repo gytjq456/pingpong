@@ -25,7 +25,7 @@
 			#{mdto.mem_type}, #{mdto.id}, #{mdto.pw}, #{mdto.name}, ${mdto.age},
 			#{mdto.gender}, #{mdto.email}, #{mdto.phone_country}, #{mdto.phone}, #{mdto.address}, #{mdto.bank_name},
 			#{mdto.account}, #{fdto.sysname}, #{mdto.country}, #{mdto.lang_can}, #{mdto.lang_learn}, #{mdto.hobby}, #{mdto.grade},
-			#{mdto.introduce}, default
+			#{mdto.introduce}, default, default
 		)
 	</insert>
 		
@@ -58,10 +58,78 @@
 	<!-- 아아디 중복체크  -->
 	<select id="duplcheckId" resultType="Integer">
 		select count(*) from member where id=#{id}
+	</select>	
+	
+	<!-- 아이디 찾기 -->
+	<select id ="idFindProc" resultType="kh.pingpong.dto.MemberDTO">
+		select * from member where name=#{name} and email=#{email}
 	</select>
 	
+	<!-- 비밀번호  찾기 -->
+	<select id ="pwFindProc" resultType="Integer">
+		select count(*) from member where id=#{id} and name=#{name} and email=#{email}
+	</select>
 	
+	<!-- 비밀번호 수정 -->
+	<update id ="pwModifyProc">
+		update member set pw=#{pw} where id=#{id} and name=#{name} and email=#{email}
+	</update>
 	
+	<!-- 회원탈퇴 -->
+	<delete id="memWithdrawal">
+		delete from member where id=#{id} 
+	</delete>
+	
+	<!-- 회원 탈퇴시 프로필 삭제 -->
+	<delete id="memProfileDele">
+		delete from files where sysname=#{sysname} 
+	</delete>
+	
+	<!-- :::::: 회원정보 수정  :::::: -->
+	<!-- 전화번호 -->
+	<update id="myInfoMoPhone">
+		update member set phone_country=#{phone_country}, phone=#{phone} where id = #{id}
+	</update>
+	
+	<!-- 주소 -->
+	<update id="myInfoMoAddress">
+		update member set address=#{address} where id = #{id}
+	</update>
+	
+	<!-- 은행 -->
+	<update id="myInfoMobank">
+		update member set bank_name = #{bank_name}, account = #{account} where id = #{id}
+	</update>
+	
+	<!-- 프로필 ?? 멀티파트 에이작스로 해야함 -->
+	<update id="myInfoProfile">
+		update member set bank_name = #{bank_name}, account = #{account} where id = #{id}
+	</update>
+	
+	<!-- 나라 -->
+	<update id="myInfoCountry">
+		update member set country = #{country} where id = #{id}
+	</update>
+	
+	<!-- 할 수 있는 언어 -->
+	<update id="myInfoLang_can">
+		update member set lang_can = #{lang_can} where id = #{id}
+	</update>
+	
+	<!-- 배우고 싶은 언어 -->
+	<update id="myInfoLang_learn">
+		update member set lang_learn = #{lang_learn} where id = #{id}
+	</update>
+	
+	<!-- 취미 -->
+	<update id="myInfoHobby">
+		update member set hobby = #{hobby} where id = #{id}
+	</update>
+	
+	<!-- introduce -->
+	<update id="myInfoIntroduce">
+		update member set introduce = #{introduce} where id = #{id}
+	</update>
 	
 </mapper>
 

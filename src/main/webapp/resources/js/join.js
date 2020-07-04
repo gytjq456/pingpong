@@ -39,7 +39,7 @@ $(function(){
 		if(pwResult1 == pwResult2){
 			$("#pwConfrom").text("비밀번호가 일치합니다.");
 		}else{
-			$("#pwConfrom").text("비밀번호가 하지 않습니다.");
+			$("#pwConfrom").text("비밀번호 일치 하지 않습니다.");
 		}
 	});		
 	
@@ -83,7 +83,7 @@ $(function(){
 		}
 		
 		//아이디 중복확인 했는지 안했는지
-		if($("#duplcheckId").attr("name") == ""){
+		if($("#duplcheckId").prop("name") == ""){
 			alert("아이디 중복체크를 확인해주세요");
 			id_ck.focus();
 			return false;
@@ -203,7 +203,7 @@ $(function(){
 		
 		if(ckIsNull == false){
 			langCan.focus();
-			alert("구사가능 언어를 선택해주세요"); //return false;
+			alert("구사가능 언어를 선택해주세요");
 			return false;
 		}else{
 			if(count > 3){
@@ -260,7 +260,7 @@ $(function(){
 		
 		//값이 비워있을 때
 		if(
-				id_ck.val() == "" || $("#duplcheckId").attr("name") == "" || pw_ck.val() == "" || name.val() == "" ||
+				id_ck.val() == "" || $("#duplcheckId").prpp("name") == "" || pw_ck.val() == "" || name.val() == "" ||
 				age.val() == "" || phone_country == "" || address.val() == "" || bank_name =="" ||
 				account.val() =="" || phone.val() == "" || !profile.val() || ckIsNull == false ||
 				ckIsNull2 == false || ckIsNull3 == false || introduce.val().length < 100

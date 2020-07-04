@@ -72,8 +72,68 @@ public class MemberService {
 		}
 	}
 	
+	/* 아이디 찾기 */
+	public List<MemberDTO> idFindProc(MemberDTO mdto) throws Exception{
+		return mdao.idFindProc(mdto);
+	}
 	
+	/* 비밀번호 찾기 */
+	public int pwFindProc(MemberDTO mdto) throws Exception{
+		return mdao.pwFindProc(mdto);
+	}
 	
+	/* 비밀번호 수정 */
+	public int pwModifyProc(MemberDTO mdto) throws Exception{
+		return mdao.pwModifyProc(mdto);
+	}
+
+	/* 회원탈퇴 */
+	@Transactional("txManager")
+	public int memWithdrawal(MemberDTO mdto) throws Exception{
+		mdao.memProfileDele(mdto);
+		return mdao.memWithdrawal(mdto);
+	}
+	
+	/* :::: 회원정보수정 :::: */
+	/* 전화번호 */
+	public int myInfoMoPhone(MemberDTO mdto) throws Exception{
+		return mdao.myInfoMoPhone(mdto);
+	}
+	
+	/* 주소 */
+	public int myInfoMoAddress(MemberDTO mdto) throws Exception{
+		return mdao.myInfoMoAddress(mdto);
+	}
+	
+	/* 은행 */
+	public int myInfoMobank(MemberDTO mdto) throws Exception{
+		return mdao.myInfoMobank(mdto);
+	}
+	
+	/* 나라 */
+	public int myInfoCountry(MemberDTO mdto) throws Exception{
+		return mdao.myInfoCountry(mdto);
+	}
+	
+	/* 할 수 있는 언어  */
+	public int myInfoLang_can(MemberDTO mdto) throws Exception{
+		return mdao.myInfoLang_can(mdto);
+	}
+	
+	/* 배우고 싶은 언어  */
+	public int myInfoLang_learn(MemberDTO mdto) throws Exception{
+		return mdao.myInfoLang_learn(mdto);
+	}
+	
+	/* 취미  */
+	public int myInfoHobby(MemberDTO mdto) throws Exception{
+		return mdao.myInfoHobby(mdto);
+	}
+	
+	/* introduce */
+	public int myInfoIntroduce(MemberDTO mdto) throws Exception{
+		return mdao.myInfoIntroduce(mdto);
+	}
 	
 }
 

@@ -16,7 +16,7 @@
 			<input type="button" value="Login" id="isIdPwSame">  
 
 			<a id="login-form-btn" href="#;" onclick="loginFormWithKakao()">
-			 <span class="icon"><img src="/resources/img/login/kakao_login_large_wide.png" alt=""></span>카카오 로그인
+			 <span class="icon"><img src="/resources/img/login/kakao_login_large_wide.png" alt="카카오 로그인"></span>
 			</a>
 
 			<div id="other_text">
@@ -32,7 +32,6 @@
 	<form id="kakoForm" action="/member/snsSignUp?mem_type='kakao'" method="post">
 		<input type="hidden" name="kakaoId" id="kakaoId">
 		<input type="hidden" name="kakaoNickname" id="kakaoNickname">
-		<input type="hidden" name="kakaoEmail" id="kakaoEmail">
 	</form>
 	<script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 	<script>
@@ -60,8 +59,6 @@
                                 document.getElementById("kakaoNickname").value = res.properties.nickname;
                                 alert(res.properties.nickname)
                                 alert(res.id)
-                                alert(res.kaccount_email)
-                                document.getElementById("kakaoEmail").value = res.kaccount_email;
                                 //document.getElementById("kakoForm").submit()
                                 return false;
                             }, fail: function (error) {

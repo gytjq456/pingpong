@@ -22,10 +22,10 @@
 		<input type="submit" value="전송" id="send">
 	</form>
 	<script>
-		$("#send").on("click",function(){
+		/* $("#send").on("click",function(){
 			alert('이메일 전송이 완료되었습니다.');
-			window.close();
-		})
+			window.close(); 
+		})*/
 	</script>
 </body>
 

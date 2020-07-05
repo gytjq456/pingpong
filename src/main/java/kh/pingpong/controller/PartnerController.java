@@ -57,6 +57,7 @@ public class PartnerController {
 	// 메일 
 	private Boolean mail(HttpServletRequest request, HttpServletResponse response, String pemail, String memail, String emailPassword) {
 		Boolean result = false;
+		System.out.println("mail start");
 		String uri = request.getRequestURI();
 		String contextPath = request.getContextPath();
 		String cmd = uri.substring(contextPath.length());
@@ -72,6 +73,7 @@ public class PartnerController {
 
 		//메일 받을 주소
 		String to_email = pemail;
+		System.out.println("to_email : " + to_email);
 		
 		//SMTP 서버 정보를 설정한다.
 		Properties props = new Properties();
@@ -79,7 +81,7 @@ public class PartnerController {
 		props.put("mail.smtp.port", 465);
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.ssl.enable", "true");
-
+		System.out.println("1");
 
 		//session 생성
 		Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
@@ -87,7 +89,7 @@ public class PartnerController {
 				return new PasswordAuthentication(user, password);
 			}
 		});
-
+		System.out.println("2");
 		//email 전송
 		//System.out.println("to_email:"+to_email);
 		try {
@@ -104,6 +106,7 @@ public class PartnerController {
 			System.out.println("메시지를 성공적으로 보냈습니다.");   
 			return !result;
 		}catch (Exception e) {
+			System.out.println(e.getStackTrace().toString());
 			return result;
 		}
 	}
@@ -114,6 +117,7 @@ public class PartnerController {
 		PartnerDTO pdto = pservice.selectBySeq(seq);
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
 		model.addAttribute("pdto", pdto);
+		System.out.println("in selectPartnerEmail");
 		System.out.println(pdto);
 		System.out.println(loginInfo.getEmail());
 		return "email/write";
@@ -123,7 +127,7 @@ public class PartnerController {
 	public String send(@ModelAttribute PartnerDTO pdto, MemberDTO mdto,  Model model, HttpServletRequest request, HttpServletResponse response) throws Exception{
 		System.out.println(pdto.getEmail());
 		Boolean result = this.mail(request, response, pdto.getEmail(), mdto.getMemail(), mdto.getEmailPassword());
-		System.out.println(result);	
+		System.out.println("in send: " + result);	
 		return "redirect:/partner/partnerList";
 	}
 

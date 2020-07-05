@@ -13,7 +13,6 @@ import kh.pingpong.dto.LikeListDTO;
 import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.dto.PartnerDTO;
 import kh.pingpong.dto.TuteeDTO;
-import kh.pingpong.dto.TutorDTO;
 
 @Repository
 public class MyPageDAO {
@@ -32,10 +31,12 @@ public class MyPageDAO {
 		return mybatis.selectList("Mypage.selectByIdInGroup_app",loginInfo);
 	}
 	
-	public List<TutorDTO> selectTutorList(MemberDTO loginInfo){
-		return mybatis.selectList("Mypage.tutorList",loginInfo);
-	}
+
+//	public List<TutorDTO> selectTutorList(MemberDTO loginInfo){
+//		return mybatis.selectList("Mypage.tutorList",loginInfo);
+//	}
 	
+
 	public List<TuteeDTO> selectTuteeList(){
 		return mybatis.selectList("Mypage.tuteeList");
 	}

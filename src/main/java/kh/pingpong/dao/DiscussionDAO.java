@@ -33,14 +33,13 @@ public class DiscussionDAO {
 	}
 
 	// 토론 전체 목록 가져오기
-	public List<DiscussionDTO> selectAll(int cpage) throws Exception{
-		Map<String, Integer> search = new HashMap<>();
-		int start = cpage * Configuration.DISCUSSION_COUNT_PER_PAGE - (Configuration.DISCUSSION_COUNT_PER_PAGE - 1);
-		int end = start + (Configuration.DISCUSSION_COUNT_PER_PAGE - 1);
-		
-		search.put("start", start);
-		search.put("end", end);
+	public List<DiscussionDTO> selectAll(Map<String, Object> search) throws Exception{
 		List<DiscussionDTO> result = mybatis.selectList("Discussion.selectAll",search);
+		return result;
+	} 
+	// 토론 키워드 목록 검색 
+	public List<DiscussionDTO> kewordSch(Map<String, Object> search) throws Exception{
+		List<DiscussionDTO> result = mybatis.selectList("Discussion.kewordSch",search);
 		return result;
 	} 
 
@@ -129,14 +128,11 @@ public class DiscussionDAO {
 	}
 
 	// 토론 리스트 검색 최신순 / 인기순
-	public List<DiscussionDTO> searchAlign(String alignType){
-		Map<String, Object> condition = new HashMap<String, Object>();
-		condition.put("alignType" , alignType );
-
-		return mybatis.selectList("Discussion.alignType", condition);
+	public List<DiscussionDTO> searchAlign(String alignType, Map<String, Object> search){
+		return mybatis.selectList("Discussion.alignType", search);
 	}
 
-	// 토론 더 보기 추천순
+	// 토론 더 보기 추천순a
 	public List<DiscussionDTO> moreList(int seq){
 		return mybatis.selectList("Discussion.moreList", seq);
 	}
@@ -149,8 +145,8 @@ public class DiscussionDAO {
 	
 	
 	// 토론 게시글 페이징
-	public int getArticleCount_discussion() throws Exception{
-		return mybatis.selectOne("Discussion.getArticleCount_discussion");
+	public int getArticleCount_discussion(Map<String, Object> search) throws Exception{
+		return mybatis.selectOne("Discussion.getArticleCount_discussion",search);
 	}
 	
 	// like_list insert

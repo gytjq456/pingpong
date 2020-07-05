@@ -65,14 +65,35 @@ public class DiscussionController {
         try {
            cpage = Integer.parseInt(request.getParameter("cpage"));
         } catch (Exception e) {}
+        Map<String, Object> search = new HashMap<>();
         List<DiscussionDTO> list = disService.selectAll(cpage);
         
-        String navi = disService.getPageNavi_discussion(cpage);
+        String navi = disService.getPageNavi_discussion(cpage,search);
 		model.addAttribute("navi", navi);
 		model.addAttribute("list", list);
 		return "board/discussion/list";
 	}
 
+	// 토론 작성자/제목 / 내용 검색
+	@RequestMapping("kewordSch")
+	public String kewordSch(String type, String keyword, HttpServletRequest request, Model model) throws Exception{
+		int cpage = 1;
+        try {
+           cpage = Integer.parseInt(request.getParameter("cpage"));
+        } catch (Exception e) {}		
+        Map<String, Object> search = new HashMap<>();
+		search.put("type", type);
+		search.put("keyword", keyword);
+		List<DiscussionDTO> list = disService.kewordSch(cpage,search);
+		String navi = disService.getPageNavi_discussion(cpage,search);
+		model.addAttribute("type",type);
+		model.addAttribute("keyword",keyword);
+		model.addAttribute("list",list);
+		model.addAttribute("navi",navi);
+		return "board/discussion/list";
+	}
+	
+	
 	// 글 보기 
 	@Transactional("txManager")
 	@RequestMapping("view")
@@ -302,14 +323,27 @@ public class DiscussionController {
 	}
 
 	@RequestMapping("align")
-	public String align(HttpServletRequest req, Model model) throws Exception{
+	public String align(String type, String keyword,HttpServletRequest req, Model model) throws Exception{
 		String alignType = req.getParameter("align");
-		List<DiscussionDTO> list = disService.searchAlign(alignType);
+		int cpage = 1;
+        try {
+           cpage = Integer.parseInt(req.getParameter("cpage"));
+        } catch (Exception e) {}	
+        
+		Map<String, Object> search = new HashMap<>();
+		search.put("alignType" , alignType );
+		search.put("type", type);
+		search.put("keyword", keyword);
+		List<DiscussionDTO> list = disService.searchAlign(alignType,search,cpage);
+        String navi = disService.getPageNavi_discussion(cpage,search);
+        
+		model.addAttribute("navi", navi);		
 		model.addAttribute("alignType", alignType);
 		model.addAttribute("list", list);
+		model.addAttribute("type", type);
+		model.addAttribute("keyword", keyword);
 		return "board/discussion/list";
 	}
-	
 	
 	
 	// 파파고
@@ -326,5 +360,6 @@ public class DiscussionController {
 		return new Gson().toJson(resultString);
 	}
 	
+
 	
 }

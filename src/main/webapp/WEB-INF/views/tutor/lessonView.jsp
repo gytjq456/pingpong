@@ -163,7 +163,8 @@ $(function(){
             processData : false 	            
 		}).done(function(resp){
 			console.log(resp)
-			location.href="/tutor/lessonView?seq=${ldto.seq}"
+			var categoryVal= $("#category").val();
+			location.href="/tutor/reviewUpdate?parent_seq=${ldto.seq}&category="+categoryVal;
 		});
 		return false;
 	})
@@ -260,7 +261,7 @@ $(function(){
 					<li><a href="#;">강의문의</a></li>
 					<li><a href="#;">환불안내</a></li>
 					<li><a href="#;">리뷰</a></li>
-					<li><a href="#;">결제하기</a></li>
+					<li><a href="/tutor/payMain?parent_seq=${ldto.seq }&title=${ldto.title}">결제하기</a></li>
 				</ul>
 			</div>
 			
@@ -319,7 +320,7 @@ $(function(){
 								<form id="reviewtForm">
 									<input type="hidden" name="writer" value="${loginInfo.id }">
 									<input type="hidden" name="point" value="0" id="point">
-									<input type="hidden" name="category" value="review">
+									<input type="hidden" id ="category" name="category" value="강의">
 									<input type="hidden" name="parent_seq" value="${ldto.seq}">
 									<div class="starPoint">
 										<div>

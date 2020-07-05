@@ -23,14 +23,14 @@
 					'<a href="/tutor/lessonView?seq=' + seq + '">')
 		})
 		
-		var orderBy = '${orderBy}';
+ 		var orderBy = '${orderBy}';
 		console.log(orderBy);
 		if (orderBy != null) {
 			$('#orderBy').val(orderBy);
 		} else {
-			$('#orderBy').val('seq');
+			$('#orderBy').val(seq);
 		}
-				
+			
 		$("#orderBy").on("change",function(){
 			var orderbyVal = $("#orderBy").val();
 			
@@ -40,6 +40,7 @@
 		$(".ing").on("click", function(){
 			console.log($(this).attr('id'));
 			var orderbyVal = $("#orderBy").val();
+			console.log(orderbyVal);
 			var period = $(this).attr('id');
 			
 			if(period == 'all'){

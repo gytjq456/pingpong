@@ -19,6 +19,7 @@ import kh.pingpong.dto.LessonDTO;
 import kh.pingpong.dto.LikeListDTO;
 import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.dto.ReportListDTO;
+import kh.pingpong.dto.ReviewDTO;
 import kh.pingpong.dto.TutorAppDTO;
 
 @Service
@@ -151,9 +152,17 @@ public class TutorService {
 		return result;
 	}
 	
+	//리뷰 평점/갯수 늘리기
+	public void reviewUpdate(ReviewDTO rdto) throws Exception{
+
+		System.out.println(rdto.getParent_seq() + rdto.getCategory());
+		tdao.reviewUpdate(rdto);
+	}
+	
 	//레슨 페이징 만 이동
-		public String getPageNavi_lesson(int userCurrentPage, String orderBy) throws SQLException, Exception {
-			int recordTotalCount = tdao.getArticleCount_lesson(); 
+		public String getPageNavi_lesson(int userCurrentPage, Map<String, String> param) throws SQLException, Exception {
+			int recordTotalCount = tdao.getArticleCount_lesson(param); 
+			String orderBy = param.get("orderBy").toString();
 			
 			int pageTotalCount = 0; // 모든 페이지 개수
 			
@@ -186,69 +195,97 @@ public class TutorService {
 			
 			StringBuilder sb = new StringBuilder();
 			
+			String pagingUrl = null;
+			
+			if (!param.containsKey("ing")&& !param.containsKey("keyword") && !param.containsKey("end_date") && !param.containsKey("location")) {
+				pagingUrl = "lessonList?orderBy=" + orderBy;
+			}
+			
+			if (param.containsKey("ing")) {
+				if (param.get("ing").toString().contentEquals("applying='N' and proceeding")) {
+					pagingUrl = "lessonListPeriod?orderBy=" + orderBy + "&ing=done";
+				} else {
+					pagingUrl = "lessonListPeriod?orderBy=" + orderBy + "&ing=" + param.get("ing").toString();
+				}
+			}
+			
+			if(param.containsKey("keyword")) {
+				pagingUrl = "searchKeword?orderBy=" +orderBy + "&keywordSelect=" + param.get("keywordSelect").toString()+ "&keyword="+ param.get("keyword").toString();
+			}
+			
+			if (param.containsKey("start_date")) {
+				pagingUrl = "searchDate?orderBy=" + orderBy + "&start_date=" + param.get("start_date").toString() + "&end_date=" + param.get("end_date").toString();
+			}
+			
+			if (param.containsKey("location")) {
+				pagingUrl = "searchMap?orderBy=" + orderBy + "&location=" + param.get("location").toString();
+			}
+			
+			
+			
 			if(needPrev) {
-				sb.append("<a href='/tutor/lessonList?cpage="+(startNavi-1)+"&orderBy="+orderBy+"'><</a>");
+				sb.append("<a href='/tutor/"+pagingUrl+"&cpage="+(startNavi-1)+"'><</a>");
 			}
 			for(int i = startNavi ; i<=endNavi; i++) {
 
-				sb.append("<a href='/tutor/lessonList?cpage="+i+"&orderBy="+orderBy+"'>"+i+"</a>");//袁몃ŉ二쇰뒗 寃�
+				sb.append("<a href='/tutor/"+pagingUrl+"&cpage="+i+"'>"+i+"</a>");//袁몃ŉ二쇰뒗 寃�
 			}
 			if(needNext) {
 
-				sb.append("<a href='/tutor/lessonList?cpage="+(endNavi+1)+"&orderBy="+orderBy+"'>></a>");
+				sb.append("<a href='/tutor/"+pagingUrl+"&cpage="+(endNavi+1)+"'>></a>");
 			}
 			
 			return sb.toString();
 		}
 		
 		//튜터 페이징 만 이동
-				public String getPageNavi_tutor(int userCurrentPage) throws SQLException, Exception {
-					int recordTotalCount = tdao.getArticleCount_tutor(); 
-					
-					int pageTotalCount = 0; // 모든 페이지 개수
-					
-					if(recordTotalCount % Configuration.RECORD_COUNT_PER_PAGE > 0) {
-						pageTotalCount = recordTotalCount / Configuration.RECORD_COUNT_PER_PAGE + 1;
-						//게시글 개수를 페이지당 게시글로 나누어 나머지 값이 있으면 한 페이지를 더한다.
-					}else {
-						pageTotalCount = recordTotalCount / Configuration.RECORD_COUNT_PER_PAGE;
-					}
-					
-					int currentPage = userCurrentPage;//현재 내가 위치한 페이지 번호.	클라이언트 요청값
-					//공격자가 currentPage를 변조할 경우에 대한 보안처리
-					if(currentPage < 1) {
-						currentPage = 1;
-					}else if(currentPage > pageTotalCount) {
-						currentPage = pageTotalCount;
-					}
-					
-					int startNavi = (currentPage - 1) / Configuration.NAVI_COUNT_PER_PAGE * Configuration.NAVI_COUNT_PER_PAGE + 1;
-					
-					int endNavi = startNavi + Configuration.NAVI_COUNT_PER_PAGE - 1;
-					
-					if(endNavi > pageTotalCount) {endNavi = pageTotalCount;}
-					
-					boolean needPrev = true;
-					boolean needNext = true;
-					
-					if(startNavi == 1) {needPrev = false;}
-					if(endNavi == pageTotalCount) {needNext = false;}		
-					
-					StringBuilder sb = new StringBuilder();
-					
-					if(needPrev) {
-						sb.append("<a href='tutorList?cpage="+(startNavi-1)+"'><</a>");
-					}
-					for(int i = startNavi ; i<=endNavi; i++) {
-
-						sb.append("<a href='tutorList?cpage="+i+"'>"+i+"</a>");//꾸며주는 것
-					}
-					if(needNext) {
-
-						sb.append("<a href='tutorList?cpage="+(endNavi+1)+"'>></a>");
-					}
-					
-					return sb.toString();
+			public String getPageNavi_tutor(int userCurrentPage) throws SQLException, Exception {
+				int recordTotalCount = tdao.getArticleCount_tutor(); 
+				
+				int pageTotalCount = 0; // 모든 페이지 개수
+				
+				if(recordTotalCount % Configuration.RECORD_COUNT_PER_PAGE > 0) {
+					pageTotalCount = recordTotalCount / Configuration.RECORD_COUNT_PER_PAGE + 1;
+					//게시글 개수를 페이지당 게시글로 나누어 나머지 값이 있으면 한 페이지를 더한다.
+				}else {
+					pageTotalCount = recordTotalCount / Configuration.RECORD_COUNT_PER_PAGE;
 				}
+				
+				int currentPage = userCurrentPage;//현재 내가 위치한 페이지 번호.	클라이언트 요청값
+				//공격자가 currentPage를 변조할 경우에 대한 보안처리
+				if(currentPage < 1) {
+					currentPage = 1;
+				}else if(currentPage > pageTotalCount) {
+					currentPage = pageTotalCount;
+				}
+				
+				int startNavi = (currentPage - 1) / Configuration.NAVI_COUNT_PER_PAGE * Configuration.NAVI_COUNT_PER_PAGE + 1;
+				
+				int endNavi = startNavi + Configuration.NAVI_COUNT_PER_PAGE - 1;
+				
+				if(endNavi > pageTotalCount) {endNavi = pageTotalCount;}
+				
+				boolean needPrev = true;
+				boolean needNext = true;
+				
+				if(startNavi == 1) {needPrev = false;}
+				if(endNavi == pageTotalCount) {needNext = false;}		
+				
+				StringBuilder sb = new StringBuilder();
+				
+				if(needPrev) {
+					sb.append("<a href='tutorList?cpage="+(startNavi-1)+"'><</a>");
+				}
+				for(int i = startNavi ; i<=endNavi; i++) {
+
+					sb.append("<a href='tutorList?cpage="+i+"'>"+i+"</a>");//꾸며주는 것
+				}
+				if(needNext) {
+
+					sb.append("<a href='tutorList?cpage="+(endNavi+1)+"'>></a>");
+				}
+				
+				return sb.toString();
+			}
 	
 }

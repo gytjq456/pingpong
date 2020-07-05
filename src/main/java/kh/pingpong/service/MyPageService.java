@@ -12,7 +12,6 @@ import kh.pingpong.dto.LikeListDTO;
 import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.dto.PartnerDTO;
 import kh.pingpong.dto.TuteeDTO;
-import kh.pingpong.dto.TutorDTO;
 
 @Service
 public class MyPageService {
@@ -43,10 +42,7 @@ public class MyPageService {
 		return mpdao.selectByIdInGroupMem(loginInfo);
 	}
 	
-	//튜터 / 튜티 관련
-	public List<TutorDTO> selectTutorList(){
-		return mpdao.selectTutorList();
-	}
+
 	public List<TuteeDTO> selectTuteeList(){
 		return mpdao.selectTuteeList();
 	}

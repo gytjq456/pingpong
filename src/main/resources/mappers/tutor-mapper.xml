@@ -92,7 +92,7 @@
 </resultMap>
 
 <select id="lessonView" resultMap="lessonViewProfile">
-	select * from lesson where seq=#{seq}
+	select * from lesson where seq=#{value}
 </select>
 
 <!-- 튜터 프로필 뿌려주려고 -->
@@ -110,7 +110,7 @@
 </select>
 
 <select id="getArticleCount_tutor" resultType="int">
-	select count(*) from member
+	select count(*) from (select member.*, row_number() over(order by grade desc) rnum from member where grade='tutor') 
 </select>
 
 <!-- 강의 리스트에 프로플 뿌려주려고 -->
@@ -152,9 +152,42 @@
 </select>
 
 <select id="getArticleCount_lesson" resultType="int">
-	select count(*) from lesson
+	select count(*) from (select lesson.*, row_number() over(order by ${orderBy} desc) rnum from lesson
+	<trim prefixOverrides="and" prefix="where">
+		<if test="ing!=null">
+			pass='Y' and ${ing} = #{ingVal}
+		</if>
+		<if test="keyword!=null">
+			pass='Y' and ${keywordSelect} like '%${keyword}%'
+		</if>
+		<if test="end_date!=null">
+			pass='Y' and to_char(start_date) >= to_char(#{start_date}) and to_char(#{end_date}) >= to_char(end_date)
+		</if>
+		<if test="location!=null">
+			pass='Y' and location like '%${location}%'
+		</if>
+	</trim>
+	)
 </select>
 
-
+	<!-- 리큐 포인트 가져오기 -->
+	<select id="reviewAvg" resultType="java.lang.Double">
+		select round(avg(point),2) from review where parent_seq = #{parent_seq} and category= #{category}
+	</select>
+	
+	<!-- 리큐 개수 가져오기 -->
+	<select id="reviewCount" resultType="java.lang.Integer">
+		select count(*) from review where parent_seq = #{parent_seq} and category= #{category}
+	</select>
+	
+	<!-- 리뷰 포인트 업데이트 -->
+	<update id="groupReviewPoint">
+		update lesson set review_point = ${reviewAvg} where seq = ${seq}
+	</update>
+	
+	<!-- 리뷰 총 개수  -->
+	<update id="groupReviewCount">
+		update lesson set review_count = ${reviewCount} where seq = ${seq}
+	</update>
 
 </mapper>

@@ -16,6 +16,7 @@ import kh.pingpong.dto.LessonDTO;
 import kh.pingpong.dto.LikeListDTO;
 import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.dto.ReportListDTO;
+import kh.pingpong.dto.ReviewDTO;
 import kh.pingpong.dto.TutorAppDTO;
 
 @Repository
@@ -36,6 +37,25 @@ public class TutorDAO {
 		return mybatis.selectOne("Tutor.lessonView", seq);
 	}
 
+	//리뷰 갯수랑 평점 업데이트
+	public void reviewUpdate(ReviewDTO rdto) throws Exception{
+		System.out.println(rdto.getParent_seq() + rdto.getCategory());
+		Double reviewAvg = mybatis.selectOne("Tutor.reviewAvg", rdto);
+		if(reviewAvg != null) {
+			reviewAvg = mybatis.selectOne("Tutor.reviewAvg", rdto);
+		}else {
+			reviewAvg = 0.0;
+		}
+		int reviewCount = mybatis.selectOne("Tutor.reviewCount", rdto);
+		Map<String, Object> paramVal = new HashMap<>();
+		int seq = rdto.getParent_seq();
+		paramVal.put("seq", seq);
+		paramVal.put("reviewCount", reviewCount);
+		paramVal.put("reviewAvg", reviewAvg);	
+		mybatis.update("Tutor.groupReviewPoint",paramVal);		
+		mybatis.update("Tutor.groupReviewCount",paramVal);
+		
+	}
 	
 	public int lessonCancleProc(DeleteApplyDTO dadto) throws Exception{
 		return mybatis.insert("Tutor.lessonCancleProc", dadto);
@@ -153,8 +173,8 @@ public class TutorDAO {
 		return mybatis.selectList("Tutor.selectLessonListPeriod", param);
 	}
 	
-	public int getArticleCount_lesson() throws SQLException, Exception {
-		return mybatis.selectOne("Tutor.getArticleCount_lesson");
+	public int getArticleCount_lesson(Map<String, String> param) throws SQLException, Exception {
+		return mybatis.selectOne("Tutor.getArticleCount_lesson",param);
 	}
 	
 	//키워드로 검색해서 리스트 뽑기

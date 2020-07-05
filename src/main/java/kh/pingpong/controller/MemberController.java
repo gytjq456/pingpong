@@ -515,6 +515,23 @@ public class MemberController {
 		return Integer.toString(result);		
 	}
 	
+	
+	/* sns로그인 */
+	@ResponseBody
+	@RequestMapping("snsSingUp")
+	public String snsSingUp(MemberDTO mdto) throws Exception{
+		MemberDTO loginMdto = (MemberDTO)session.getAttribute("loginInfo");
+		mdto.setId(loginMdto.getId());
+		
+		int result = mservice.myInfoIntroduce(mdto);
+		
+		//세션값 다시 불러오기
+		MemberDTO loginInfo = mservice.loginInfo(mdto);		
+		session.setAttribute("loginInfo",loginInfo);
+		
+		return Integer.toString(result);		
+	}
+	
 }
 
 

@@ -24,8 +24,11 @@ $(document).ready(function(){
     
     // 탭 개수에 따른 width
     var tab = $(".tab_s1");
-    if(tab.length){
+    var tab2 = $(".tab_s2");
+    if(tab.length || tab2.length){
+    	
     	var tabLength = tab.find("li").length;
+    	var tabLength2 = tab2.find("li").length;
     	switch(tabLength){
     		case 1 : tab.find("li").css({ width:100+"%"});
     		break;
@@ -37,6 +40,18 @@ $(document).ready(function(){
     		break;
     		case 5 : tab.find("li").css({ width:18.5+"%" });
     		break;
+    	}
+    	switch(tabLength2){
+    	case 1 : tab2.find("li").css({ width:100+"%"});
+    	break;
+    	case 2 : tab2.find("li").css({ width:50+"%" });
+    	break;
+    	case 3 : tab2.find("li").css({ width:33.3333333+"%" });
+    	break;
+    	case 4 : tab2.find("li").css({ width:25+"%" });
+    	break;
+    	case 5 : tab2.find("li").css({ width:20+"%" });
+    	break;
     	}
     	
     	

@@ -2,6 +2,7 @@ package kh.pingpong.service;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import kh.pingpong.dao.DiscussionDAO;
 import kh.pingpong.dto.CommentDTO;
 import kh.pingpong.dto.DiscussionDTO;
 import kh.pingpong.dto.LanguageDTO;
+import kh.pingpong.dto.LikeListDTO;
 
 @Service
 public class DiscussionService {
@@ -30,8 +32,8 @@ public class DiscussionService {
 	}
 	
 	// 토론 전체 목록 가져오기
-	public List<DiscussionDTO> selectAll() throws Exception{
-		List<DiscussionDTO> list = disDao.selectAll();
+	public List<DiscussionDTO> selectAll(int cpage) throws Exception{
+		List<DiscussionDTO> list = disDao.selectAll(cpage);
 		for(DiscussionDTO disDto : list) {
 			String contents = disDto.getContents();
 			String contReplace = contents.replaceAll("(<img.+\">)", "");
@@ -66,6 +68,11 @@ public class DiscussionService {
 		return disDao.like(seq);
 	}
 	
+	// 게시글 좋아요 취소
+	public int likedelete(int seq) throws Exception{
+		return disDao.likedelete(seq);
+	}
+	
 	// 댓글 쓰기
 	public int commentInsert(CommentDTO commDTO) throws Exception{
 		return disDao.commentInsert(commDTO);
@@ -81,6 +88,17 @@ public class DiscussionService {
 	public int commentLike(int seq) throws Exception{
 		return disDao.commentLike(seq);
 	}
+	
+	// 댓글 좋아요 취소
+	public int commentLikeCancel(int seq) throws Exception{
+		return disDao.commentLikeCancel(seq);
+	}
+	// 댓글 싫아요 취소
+	public int commentHateCancel(int seq) throws Exception{
+		return disDao.commentHateCancel(seq);
+	}
+	
+	
 	// 댓글 싫어요
 	public int commentHate(int seq) throws Exception{
 		return disDao.commentHate(seq);
@@ -163,6 +181,35 @@ public class DiscussionService {
 		sb.append("</ul>");
 		
 		return sb.toString();
+	}
+	
+	
+	// 좋아요 체크
+	public Boolean selectLike(Map<Object, Object> param) throws Exception {
+		return disDao.selectLike(param);
+	}
+	
+	// 좋아요 취소
+	public int deletetLike(LikeListDTO ldto) throws Exception {
+		return disDao.deleteLike(ldto);
+	}
+	
+	// 싫어요 취소
+	public int deletetHate(LikeListDTO ldto) throws Exception {
+		return disDao.deletetHate(ldto);
+	}
+	
+	// 싫어요 체크
+	public Boolean selecHate(Map<Object, Object> param) throws Exception {
+		return disDao.selecHate(param);
+	}
+	
+	public int insertLike(LikeListDTO ldto) throws Exception {
+		return disDao.insertLike(ldto);
+	}
+	
+	public int insertHate(LikeListDTO ldto) throws Exception {
+		return disDao.insertHate(ldto);
 	}
 	
 }

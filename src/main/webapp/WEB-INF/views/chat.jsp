@@ -148,9 +148,10 @@
 				}
 			})
 
-			//var ws = new WebSocket("ws://localhost/chat");
+			var ws = new WebSocket("ws://localhost/chat");
 			//var ws = new WebSocket("ws://192.168.60.58/chat");
-			/* ws.onmessage = function(e){
+			//var ws = new WebSocket("ws://youngram.duckdns.org/chat");
+			ws.onmessage = function(e){
 				var msg = JSON.parse(event.data);
 				var time = new Date(msg.date);
 				var timeStr = time.toLocaleTimeString();
@@ -162,7 +163,7 @@
 				
 				$(".chatBox .txtRow").append(userInfo_s1);
 				updateScroll();
-			} */
+			} 
 			
 			$("#chatWrap #close").click(function(){
 				$("#chatRoom").removeClass("on");
@@ -205,7 +206,7 @@
 				txtInput.html("");
 				txtInput.focus();
 				
-				//ws.send(JSON.stringify(msg));	
+				ws.send(JSON.stringify(msg));	
 			})
 		})
 		

@@ -53,7 +53,12 @@
 		</aop:aspect>
 	</aop:config>
 	
-	
+	<aop:config>
+		<aop:pointcut expression="execution(* kh.pingpong.controller.DiscussionController.*(..))" id="discussion"/>
+		<aop:aspect id="logCheck" ref="logaop">
+			<aop:around pointcut-ref="discussion" method="aroundBoardLog"/>
+		</aop:aspect>
+	</aop:config>	
 	
 </beans:beans>
 

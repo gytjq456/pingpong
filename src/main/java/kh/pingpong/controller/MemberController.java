@@ -516,9 +516,8 @@ public class MemberController {
 	
 	
 	/* sns로그인 */
-	@ResponseBody
 	@RequestMapping("snsSingUp")
-	public String snsSingUp(MemberDTO mdto) throws Exception{
+	public String snsSingUp(MemberDTO mdto, String kakaoId, String kakaoNickname) throws Exception{
 		MemberDTO loginMdto = (MemberDTO)session.getAttribute("loginInfo");
 		mdto.setId(loginMdto.getId());
 		

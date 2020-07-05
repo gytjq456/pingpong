@@ -4,10 +4,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kh.pingpong.dao.ChatDAO;
+import kh.pingpong.dto.ChatRecordDTO;
+import kh.pingpong.dto.ChatRoomDTO;
 @Service
 public class ChatService {
 	
@@ -40,16 +44,48 @@ public class ChatService {
 		return AuthenticationKey;
 	}
 	
-	
-	public int chatInsert(Map<String,String> chatInfo) throws Exception{
-		return chatDao.chatInsert(chatInfo);
+	//방 생성
+	public int chatInsert(ChatRoomDTO chatDto) throws Exception{
+		return chatDao.chatInsert(chatDto);
 	}
 	
-	public String chatRoomSch(Map<String,String> chatInfo) throws Exception{
-		return chatDao.chatRoomSch(chatInfo);
+	//방번호 검색
+	public String chatRoomIdSch(String master, String partner) throws Exception{
+		return chatDao.chatRoomIdSch(master,partner);
 	}
+	
+	//모든 방 가져오기
 	public List<String> chatRoomAll() throws Exception{
 		return chatDao.chatRoomAll();
+	}
+	
+	//아이디 모든 방 가져오기
+	public String chatMyRoom(String roomId) throws Exception{
+		return chatDao.chatMyRoom(roomId);
+	}
+	
+	//채팅방 기록 가져오기
+	public List<ChatRecordDTO> chatRecordList(String roomId) throws Exception{
+		return chatDao.chatRecordList(roomId);
+	}
+	
+	//채팅방 입력
+	public int chatTxtInsert(String message) throws Exception{
+		System.out.println(message);
+		ChatRecordDTO chatDto = new ChatRecordDTO();
+		JSONParser parser = new JSONParser();
+		Object obj = parser.parse( message );
+		JSONObject jsonObj = (JSONObject) obj;		
+		String chatRoom = (String) jsonObj.get("chatRoom");
+		String txt = (String) jsonObj.get("text");
+		String id = (String) jsonObj.get("id");
+		String date = (String) jsonObj.get("date");
+		chatDto.setRoomId(chatRoom);
+		chatDto.setSendUser(id);
+		chatDto.setChatRecord(txt);
+		chatDto.setWriteDate(date);
+		int result = chatDao.chatTxtInsert(chatDto);
+		return result;
 	}
 
 }

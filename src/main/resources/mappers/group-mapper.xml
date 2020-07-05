@@ -10,22 +10,89 @@
 	<insert id="insert">
 		insert into grouplist values(grouplist_seq.nextval, #{title}, #{writer_id},
 			#{writer_name}, #{hobby_type}, #{apply_start}, #{apply_end}, #{start_date},
-			#{end_date}, #{period}, #{max_num}, 1, #{location}, #{contents},
-			default, 0, 0, 0, 0, 0, default, default)
+			#{end_date}, #{period}, #{max_num}, 1, #{location}, #{location_lat}, #{location_lng},
+			#{contents}, default, 0, 0, 0, 0, 0, default, #{proceeding})
 	</insert>
 	
-	<!-- 그룹 목록 출력 -->
-	<select id="selectList" resultType="kh.pingpong.dto.GroupDTO">
-		select * from 
-		(select grouplist.*, row_number() over(order by ${orderBy} desc, seq desc) rnum from grouplist) 
+	<select id="selectGroupList" resultType="kh.pingpong.dto.GroupDTO">
+		select * from
+		(select grouplist.*, row_number() over(order by ${orderBy} desc, seq desc) rnum
+		from grouplist
+		<trim prefix="where" prefixOverrides="and">
+			<if test="ing != null">
+				${ing} = #{ingValue}
+			</if>
+			<if test="keywordType != null">
+				and
+				<if test="keywordType == 'contents'">
+					DBMS_LOB.INSTR(contents, #{keywordValue}) > 0
+				</if>
+				<if test="keywordType != 'contents'">
+					${keywordType} = #{keywordValue}
+				</if>
+			</if>
+			<if test="hobby_type0 != null">
+				and (hobby_type like '%${hobby_type0}%'
+				<if test="hobby_type1 != null">
+					or hobby_type like '%${hobby_type1}%'
+				</if>
+				<if test="hobby_type2 != null">
+					or hobby_type like '%${hobby_type2}%'
+				</if>
+				)
+			</if>
+			<if test="period != null">
+				and period = #{period}
+			</if>
+			<if test="start_date != null">
+				and to_date(start_date) > to_date(#{start_date}) and to_date(#{end_date}) > to_date(end_date)
+			</if>
+			<if test="location != null">
+				and location like '%${location}%'
+			</if>
+		</trim>
+		)
 		where rnum between #{start} and #{end}
 	</select>
 	
-	<select id="selectListOption" resultType="kh.pingpong.dto.GroupDTO">
-		select * from 
-		(select grouplist.*, row_number() over(order by ${orderBy} desc, seq desc) rnum 
-		from grouplist where ${option} = #{optionValue}) 
-		where rnum between #{start} and #{end}
+	<select id="selectGroupCount" resultType="int">
+		select count(*) from
+		(select grouplist.*, row_number() over(order by ${orderBy} desc, seq desc) rnum
+		from grouplist
+		<trim prefix="where" prefixOverrides="and">
+			<if test="ing != null">
+				${ing} = #{ingValue}
+			</if>
+			<if test="keywordType != null">
+				and
+				<if test="keywordType == 'contents'">
+					DBMS_LOB.INSTR(contents, #{keywordValue}) > 0
+				</if>
+				<if test="keywordType != 'contents'">
+					${keywordType} = #{keywordValue}
+				</if>
+			</if>
+			<if test="hobby_type0 != null">
+				and (hobby_type like '%${hobby_type0}%'
+				<if test="hobby_type1 != null">
+					or hobby_type like '%${hobby_type1}%'
+				</if>
+				<if test="hobby_type2 != null">
+					or hobby_type like '%${hobby_type2}%'
+				</if>
+				)
+			</if>
+			<if test="period != null">
+				and period = #{period}
+			</if>
+			<if test="start_date != null">
+				and to_date(start_date) > to_date(#{start_date}) and to_date(#{end_date}) > to_date(end_date)
+			</if>
+			<if test="location != null">
+				and location like '%${location}%'
+			</if>
+		</trim>
+		)
 	</select>
 	
 	<select id="selectBySeq" resultType="kh.pingpong.dto.GroupDTO">
@@ -44,7 +111,8 @@
 		update grouplist set title = #{title}, hobby_type = #{hobby_type},
 			apply_start = #{apply_start}, apply_end = #{apply_end},
 			start_date = #{start_date}, end_date = #{end_date}, period = #{period},
-			max_num = #{max_num}, location = #{location}, contents = #{contents}
+			max_num = #{max_num}, location = #{location}, location_lat = #{location_lat},
+			location_lng = #{location_lng}, contents = #{contents}
 			where seq = #{seq}
 	</update>
 	
@@ -57,7 +125,7 @@
 	</update>
 	
 	<insert id="insertApp">
-		insert into group_app values(group_app_seq.nextval, #{writer}, #{name}, #{age}, #{gender}, #{address},
+		insert into group_app values(group_app_seq.nextval, #{id}, #{name}, #{age}, #{gender}, #{address},
 			#{profile}, #{lang_can}, #{lang_learn}, #{contents}, #{parent_seq})
 	</insert>
 	
@@ -72,6 +140,10 @@
 	<insert id="insertDeleteApply">
 		insert into delete_app values(delete_app_seq.nextval, #{id}, '그룹', #{contents}, #{parent_seq})
 	</insert>
+	
+	<select id="selectGroupMemberById" resultType="kh.pingpong.dto.GroupMemberDTO">
+		select * from groupmember where id = #{id} and parent_seq = #{parent_seq}
+	</select>
 	
 	<select id="selectDeleteApplyList" resultType="kh.pingpong.dto.DeleteApplyDTO">
 		select * from delete_app where category = '그룹' and parent_seq = #{parent_seq}
@@ -101,59 +173,13 @@
 		update grouplist set applying = 'N' where apply_end = #{today_date}
 	</update>
 	
-	<update id="updateProceeding">
+	<update id="updateProceedingN">
 		update grouplist set proceeding = 'N' where end_date = #{today_date}
 	</update>
 	
-	<select id="search" resultType="kh.pingpong.dto.GroupDTO">
-		select * from (select grouplist.*, row_number() over(order by ${orderBy} desc, seq desc) rnum 
-		from grouplist 
-		<trim prefix="where" prefixOverrides="and">
-			<if test="searchThing != null">
-				${searchType} = #{searchThing}
-			</if>
-			<if test="hobby_type != null">
-				and hobby_type = #{hobby_type}
-			</if>
-			<if test="period != null">
-				and period = #{period}
-			</if>
-		</trim>
-		) 
-		where rnum between #{start} and #{end}
-	</select>
-	
-	<select id="searchContents" resultType="kh.pingpong.dto.GroupDTO">
-		select * from (select grouplist.*, row_number() over(order by ${orderBy} desc, seq desc) rnum 
-		from grouplist 
-		<trim prefix="where" prefixOverrides="and">
-			<if test="searchThing != null">
-				DBMS_LOB.INSTR(${searchType}, #{searchThing}) > 0
-			</if>
-			<if test="hobby_type != null">
-				and hobby_type = #{hobby_type}
-			</if>
-			<if test="period != null">
-				and period = #{period}
-			</if>
-		</trim>
-		) 
-		where rnum between #{start} and #{end}
-	</select>
-	
-	<select id="searchDate" resultType="kh.pingpong.dto.GroupDTO">
-		select * from 
-		(select grouplist.*, row_number() over(order by ${orderBy} desc, seq desc) rnum from grouplist
-		where to_date(start_date) > to_date(#{dateStart}) and to_date(#{dateEnd}) > to_date(end_date)) 
-		where rnum between #{start} and #{end}
-	</select>
-	
-	<select id="searchLocation" resultType="kh.pingpong.dto.GroupDTO">
-		select * from 
-		(select grouplist.*, row_number() over(order by ${orderBy} desc, seq desc) rnum from grouplist
-		where location = #{location})
-		where rnum between #{start} and #{end}
-	</select>
+	<update id="updateProceedingY">
+		update grouplist set proceeding = 'Y' where start_date = #{today_date}
+	</update>
 	
 	<select id="relatedGroup" resultType="kh.pingpong.dto.GroupDTO">
 		select * from 
@@ -168,6 +194,18 @@
 		update grouplist set app_count = app_count + 1 where seq = #{seq}
 	</update>
 	
+	<insert id="insertJjim">
+		insert into jjim values(jjim_seq.nextval, #{id}, '그룹', #{parent_seq})
+	</insert>
+	
+	<delete id="deleteJjim">
+		delete jjim where id = #{id} and parent_seq = #{parent_seq} and category = '그룹'
+	</delete>
+	
+	<select id="selectJjim" resultType="int">
+		select seq from jjim where id = #{id} and parent_seq = #{parent_seq} and category = '그룹'
+	</select>
+	
 	<!-- 리뷰 글쓰기  -->
 	<insert id="reviewWrite">
 		insert into review values(review_seq.nextval, #{writer}, #{point}, #{contents}, default, #{category}, #{parent_seq})
@@ -180,7 +218,7 @@
 	
 	<!-- 리큐 포인트 가져오기 -->
 	<select id="reviewAvg" resultType="java.lang.Double">
-		select round(avg(point),2) from review where parent_seq = #{value}
+		select round(avg(point),2) from review where parent_seq = #{value} 
 	</select>
 	
 	<!-- 리큐 포인트 가져오기 -->

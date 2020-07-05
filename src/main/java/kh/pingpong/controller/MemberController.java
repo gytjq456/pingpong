@@ -253,7 +253,6 @@ public class MemberController {
 		model.addAttribute("mlist",mlist);
 		return "/member/idResult";
 	}
-	
 	/* 비밀번호 찾기  jsp 이동*/
 	@RequestMapping("pwFind")
 	public String pwFind() throws Exception{

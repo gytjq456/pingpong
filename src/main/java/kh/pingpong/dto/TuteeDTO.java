@@ -1,34 +1,43 @@
 package kh.pingpong.dto;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class TuteeDTO {
 	private int seq;
 	private String id;
 	private String name;
 	private String email;
+	private String phone_country;
 	private String phone;
 	private String bank_name;
 	private String account;
-	private String profile;
+	private MultipartFile profile;
+	private String title;
+	private String address;
 	private int parent_seq;
-	
+	private String sysname;
 	
 	public TuteeDTO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public TuteeDTO(int seq, String id, String name, String email, String phone, String bank_name,
-			String account, String profile, int parent_seq) {
+	public TuteeDTO(int seq, String id, String name, String email, String phone_country, String phone, String bank_name,
+			String account, MultipartFile profile, String title, String address, int parent_seq, String sysname) {
 		super();
 		this.seq = seq;
 		this.id = id;
 		this.name = name;
 		this.email = email;
+		this.phone_country = phone_country;
 		this.phone = phone;
 		this.bank_name = bank_name;
 		this.account = account;
 		this.profile = profile;
+		this.title = title;
+		this.address = address;
 		this.parent_seq = parent_seq;
+		this.sysname = sysname;
 	}
 
 	public int getSeq() {
@@ -63,6 +72,14 @@ public class TuteeDTO {
 		this.email = email;
 	}
 
+	public String getPhone_country() {
+		return phone_country;
+	}
+
+	public void setPhone_country(String phone_country) {
+		this.phone_country = phone_country;
+	}
+
 	public String getPhone() {
 		return phone;
 	}
@@ -87,12 +104,28 @@ public class TuteeDTO {
 		this.account = account;
 	}
 
-	public String getProfile() {
+	public MultipartFile getProfile() {
 		return profile;
 	}
 
-	public void setProfile(String profile) {
+	public void setProfile(MultipartFile profile) {
 		this.profile = profile;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	public int getParent_seq() {
@@ -102,7 +135,13 @@ public class TuteeDTO {
 	public void setParent_seq(int parent_seq) {
 		this.parent_seq = parent_seq;
 	}
-	
-	
-	
+
+	public String getSysname() {
+		return sysname;
+	}
+
+	public void setSysname(String sysname) {
+		this.sysname = sysname;
+	}
+
 }

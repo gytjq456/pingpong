@@ -14,9 +14,12 @@ import kh.pingpong.dao.FileDAO;
 import kh.pingpong.dao.TutorDAO;
 import kh.pingpong.dto.DeleteApplyDTO;
 import kh.pingpong.dto.FileDTO;
+import kh.pingpong.dto.JjimDTO;
 import kh.pingpong.dto.LessonDTO;
 import kh.pingpong.dto.LikeListDTO;
 import kh.pingpong.dto.MemberDTO;
+import kh.pingpong.dto.ReportListDTO;
+import kh.pingpong.dto.ReviewDTO;
 import kh.pingpong.dto.TutorAppDTO;
 
 @Service
@@ -58,8 +61,21 @@ public class TutorService {
 		return mdto;
 	}
 	
-	public List<LessonDTO> lessonList(int cpage) throws Exception{
-		List<LessonDTO> ldto = tdao.lessonList(cpage);
+	//리스트 전부 뽑기
+	public List<LessonDTO> lessonList(int cpage,String orderBy) throws Exception{
+		List<LessonDTO> ldto = tdao.lessonList(cpage, orderBy);
+		return ldto;
+	}
+	
+	//모집중, 진행중, 마감 눌렀을 때 리스트
+	public List<LessonDTO> lessonListPeriod(int cpage, Map<String,String> param) throws Exception{
+		List<LessonDTO> ldto = tdao.lessonListPeriod(cpage, param);
+		return ldto;
+	}
+	
+	//키워드로 검색해서 리스트뽑기
+	public List<LessonDTO> search(int cpage, Map<String,String> param) throws Exception{
+		List<LessonDTO> ldto = tdao.search(cpage, param);
 		return ldto;
 	}
 	
@@ -86,28 +102,67 @@ public class TutorService {
 		return result;
 	}
 	
+	public int lessonAppUpdateProc(LessonDTO ldto) throws Exception{
+		int result = tdao.lessonAppUpdateProc(ldto);
+		return result;
+	}
+	
 	public int updateViewCount(int seq) throws Exception{
 		int result = tdao.updateViewCount(seq);
 		return result;
 	}
 
+	//좋아요 테이블 값넣기 & 카운트세기
 	@Transactional("txManager")
 	public int likeTrue(LikeListDTO lldto) throws Exception{
 		int result = tdao.likeTrue(lldto);
 		tdao.updateLikeCount(lldto.getParent_seq());
 		return result;
 	}
-	
+	//좋아요 눌러있는지 아닌지 확인하기
 	public boolean LikeIsTrue(Map<Object, Object> param) throws Exception{
 		boolean result = tdao.LikeIsTrue(param);
 		return result;
 	}
+	//찜 테이블 값넣기
+	public int insertJjim(JjimDTO jdto) throws Exception{
+		int result = tdao.insertJjim(jdto);
+		return result;
+	}
+	//찜 눌러져있는지 아닌지 확인하기
+	public boolean JjimIsTrue(Map<Object, Object> param) throws Exception{
+		boolean result = tdao.JjimIsTrue(param);
+		return result;
+	}
+	//찜 테이블에서 값 삭제하기 찜취소
+	public int deleteJjim(JjimDTO jdto) throws Exception{
+		int result = tdao.deleteJjim(jdto);
+		return result;
+	}
 	
+	//같은게시물 같은사람이 신고했는지
+	public int report(ReportListDTO rldto) throws Exception{
+		int result = tdao.report(rldto);
+		return result;
+	}
 	
+	//신고테이블에 저장
+	public int reportProc(ReportListDTO rldto) throws Exception{
+		int result = tdao.reportProc(rldto);
+		return result;
+	}
+	
+	//리뷰 평점/갯수 늘리기
+	public void reviewUpdate(ReviewDTO rdto) throws Exception{
+
+		System.out.println(rdto.getParent_seq() + rdto.getCategory());
+		tdao.reviewUpdate(rdto);
+	}
 	
 	//레슨 페이징 만 이동
-		public String getPageNavi_lesson(int userCurrentPage) throws SQLException, Exception {
-			int recordTotalCount = tdao.getArticleCount_lesson(); 
+		public String getPageNavi_lesson(int userCurrentPage, Map<String, String> param) throws SQLException, Exception {
+			int recordTotalCount = tdao.getArticleCount_lesson(param); 
+			String orderBy = param.get("orderBy").toString();
 			
 			int pageTotalCount = 0; // 모든 페이지 개수
 			
@@ -140,69 +195,97 @@ public class TutorService {
 			
 			StringBuilder sb = new StringBuilder();
 			
+			String pagingUrl = null;
+			
+			if (!param.containsKey("ing")&& !param.containsKey("keyword") && !param.containsKey("end_date") && !param.containsKey("location")) {
+				pagingUrl = "lessonList?orderBy=" + orderBy;
+			}
+			
+			if (param.containsKey("ing")) {
+				if (param.get("ing").toString().contentEquals("applying='N' and proceeding")) {
+					pagingUrl = "lessonListPeriod?orderBy=" + orderBy + "&ing=done";
+				} else {
+					pagingUrl = "lessonListPeriod?orderBy=" + orderBy + "&ing=" + param.get("ing").toString();
+				}
+			}
+			
+			if(param.containsKey("keyword")) {
+				pagingUrl = "searchKeword?orderBy=" +orderBy + "&keywordSelect=" + param.get("keywordSelect").toString()+ "&keyword="+ param.get("keyword").toString();
+			}
+			
+			if (param.containsKey("start_date")) {
+				pagingUrl = "searchDate?orderBy=" + orderBy + "&start_date=" + param.get("start_date").toString() + "&end_date=" + param.get("end_date").toString();
+			}
+			
+			if (param.containsKey("location")) {
+				pagingUrl = "searchMap?orderBy=" + orderBy + "&location=" + param.get("location").toString();
+			}
+			
+			
+			
 			if(needPrev) {
-				sb.append("<a href='lessonList?cpage="+(startNavi-1)+"'><</a>");
+				sb.append("<a href='/tutor/"+pagingUrl+"&cpage="+(startNavi-1)+"'><</a>");
 			}
 			for(int i = startNavi ; i<=endNavi; i++) {
 
-				sb.append("<a href='lessonList?cpage="+i+"'>"+i+"</a>");//袁몃ŉ二쇰뒗 寃�
+				sb.append("<a href='/tutor/"+pagingUrl+"&cpage="+i+"'>"+i+"</a>");//袁몃ŉ二쇰뒗 寃�
 			}
 			if(needNext) {
 
-				sb.append("<a href='lessonList?cpage="+(endNavi+1)+"'>></a>");
+				sb.append("<a href='/tutor/"+pagingUrl+"&cpage="+(endNavi+1)+"'>></a>");
 			}
 			
 			return sb.toString();
 		}
 		
 		//튜터 페이징 만 이동
-				public String getPageNavi_tutor(int userCurrentPage) throws SQLException, Exception {
-					int recordTotalCount = tdao.getArticleCount_tutor(); 
-					
-					int pageTotalCount = 0; // 모든 페이지 개수
-					
-					if(recordTotalCount % Configuration.RECORD_COUNT_PER_PAGE > 0) {
-						pageTotalCount = recordTotalCount / Configuration.RECORD_COUNT_PER_PAGE + 1;
-						//게시글 개수를 페이지당 게시글로 나누어 나머지 값이 있으면 한 페이지를 더한다.
-					}else {
-						pageTotalCount = recordTotalCount / Configuration.RECORD_COUNT_PER_PAGE;
-					}
-					
-					int currentPage = userCurrentPage;//현재 내가 위치한 페이지 번호.	클라이언트 요청값
-					//공격자가 currentPage를 변조할 경우에 대한 보안처리
-					if(currentPage < 1) {
-						currentPage = 1;
-					}else if(currentPage > pageTotalCount) {
-						currentPage = pageTotalCount;
-					}
-					
-					int startNavi = (currentPage - 1) / Configuration.NAVI_COUNT_PER_PAGE * Configuration.NAVI_COUNT_PER_PAGE + 1;
-					
-					int endNavi = startNavi + Configuration.NAVI_COUNT_PER_PAGE - 1;
-					
-					if(endNavi > pageTotalCount) {endNavi = pageTotalCount;}
-					
-					boolean needPrev = true;
-					boolean needNext = true;
-					
-					if(startNavi == 1) {needPrev = false;}
-					if(endNavi == pageTotalCount) {needNext = false;}		
-					
-					StringBuilder sb = new StringBuilder();
-					
-					if(needPrev) {
-						sb.append("<a href='tutorList?cpage="+(startNavi-1)+"'><</a>");
-					}
-					for(int i = startNavi ; i<=endNavi; i++) {
-
-						sb.append("<a href='tutorList?cpage="+i+"'>"+i+"</a>");//꾸며주는 것
-					}
-					if(needNext) {
-
-						sb.append("<a href='tutorList?cpage="+(endNavi+1)+"'>></a>");
-					}
-					
-					return sb.toString();
+			public String getPageNavi_tutor(int userCurrentPage) throws SQLException, Exception {
+				int recordTotalCount = tdao.getArticleCount_tutor(); 
+				
+				int pageTotalCount = 0; // 모든 페이지 개수
+				
+				if(recordTotalCount % Configuration.RECORD_COUNT_PER_PAGE > 0) {
+					pageTotalCount = recordTotalCount / Configuration.RECORD_COUNT_PER_PAGE + 1;
+					//게시글 개수를 페이지당 게시글로 나누어 나머지 값이 있으면 한 페이지를 더한다.
+				}else {
+					pageTotalCount = recordTotalCount / Configuration.RECORD_COUNT_PER_PAGE;
 				}
+				
+				int currentPage = userCurrentPage;//현재 내가 위치한 페이지 번호.	클라이언트 요청값
+				//공격자가 currentPage를 변조할 경우에 대한 보안처리
+				if(currentPage < 1) {
+					currentPage = 1;
+				}else if(currentPage > pageTotalCount) {
+					currentPage = pageTotalCount;
+				}
+				
+				int startNavi = (currentPage - 1) / Configuration.NAVI_COUNT_PER_PAGE * Configuration.NAVI_COUNT_PER_PAGE + 1;
+				
+				int endNavi = startNavi + Configuration.NAVI_COUNT_PER_PAGE - 1;
+				
+				if(endNavi > pageTotalCount) {endNavi = pageTotalCount;}
+				
+				boolean needPrev = true;
+				boolean needNext = true;
+				
+				if(startNavi == 1) {needPrev = false;}
+				if(endNavi == pageTotalCount) {needNext = false;}		
+				
+				StringBuilder sb = new StringBuilder();
+				
+				if(needPrev) {
+					sb.append("<a href='tutorList?cpage="+(startNavi-1)+"'><</a>");
+				}
+				for(int i = startNavi ; i<=endNavi; i++) {
+
+					sb.append("<a href='tutorList?cpage="+i+"'>"+i+"</a>");//꾸며주는 것
+				}
+				if(needNext) {
+
+					sb.append("<a href='tutorList?cpage="+(endNavi+1)+"'>></a>");
+				}
+				
+				return sb.toString();
+			}
 	
 }

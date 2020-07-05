@@ -1,4 +1,4 @@
-.<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -70,9 +70,9 @@
 			var comment_likeBtn = $(".comment_likeBtn");
 			var comment_hateBtn = $(".comment_hateBtn");
 			var discussion_likeBtn = $(".discussion_likeBtn");
-			likeHateCount(comment_likeBtn,"/discussion/commentLike");
-			likeHateCount(comment_hateBtn,"/discussion/commentHate");
-			likeHateCount(discussion_likeBtn,"/discussion/like");
+			likeHateCount(comment_likeBtn,"/discussion/commentLike","토론 댓글");
+			likeHateCount(comment_hateBtn,"/discussion/commentHate","토론 댓글");
+			likeHateCount(discussion_likeBtn,"/discussion/like","토론 게시글");
 			
 			
 			// 댓글 삭제
@@ -197,25 +197,58 @@
 					}
 				});
 			});
+			
+			
+			
+			$(".like-hate-btn").each(function(){
+				var dataCheck = $(this).data("check");
+				if(dataCheck){
+					$(this).addClass("checkOn")
+				}
+			})
+			$(".discussion_likeBtn").each(function(){
+				var dataCheck = $(this).data("check");
+				if(dataCheck){
+					$(this).addClass("checkOn")
+				}
+			})
 		})
 
-		function likeHateCount(btn, url) {
+		function likeHateCount(btn, url,category) {
 			btn.click(function() {
 				var seq = $(this).data("seq");
 				$.ajax({
 					url : url,
-					dataType : "json",
+					//dataType : "json",
 					data : "post",
 					data : {
-						seq : seq,
+						category:category,
+						parent_seq:seq
 					}
 				}).done(function(resp) {
-					if (resp) {
-						location.href = "/discussion/view?seq=${disDto.seq}"
+					if(resp == "cancel"){
+						if(btn.hasClass("comment_likeBtn")){
+							alert("좋아요 취소")
+						}else if(btn.hasClass("comment_hateBtn")){
+							alert('싫어요 취소');
+						}
+					}else{
+						var isBoolean = JSON.parse(resp);
+						if (!isBoolean) {
+							if(btn.hasClass("comment_likeBtn")){
+								alert('이미 싫어요 된 게시글 입니다.');
+							}else if(btn.hasClass("comment_hateBtn")){
+								alert('이미 좋아요 된 게시글 입니다.');
+							}
+						}
 					}
+					
+					location.href = "/discussion/view?seq=${disDto.seq}"
 				})
 			})
 		}
+		
+		
 	</Script>
 
 	<div id="subWrap" class="hdMargin">
@@ -254,8 +287,8 @@
 								<li><i class="fa fa-eye"></i> ${disDto.view_count}</li>			
 								<li><i class="fa fa-commenting-o" aria-hidden="true"></i> ${disDto.comment_count}</li>
 								<li>
-									<button class="discussion_Btn Btn -hate-btn" data-seq="${disDto.seq}">
-										<i class="fa fa-thumbs-up"></i> ${disDto._count}
+									<button class="discussion_likeBtn likeBtn" data-check="${boardCheckLike}" data-seq="${disDto.seq}">
+										<i class="fa fa-thumbs-up"></i> ${disDto.like_count}
 									</button>
 								</li>
 							</ul>
@@ -301,7 +334,7 @@
 								<div class="tit_s2">
 									<h3>베스트 댓글(${fn:length(bestCommentList)})</h3>
 								</div>
-								<c:forEach var="i" items="${bestCommentList}">
+								<c:forEach var="i" items="${bestCommentList}" varStatus="status">
 									<article>
 										<div class="userInfo_s1">
 											<div class="thumb"><img src="/resources/img/sub/userThum.jpg"/></div>
@@ -319,10 +352,10 @@
 											<div class="countList">
 												<ul>
 													<li>
-														<button class="comment_likeBtn likeBtn like-hate-btn" data-seq="${i.seq}"><i class="fa fa-thumbs-up"></i> ${i.like_count}</button>
+														<button class="comment_likeBtn likeBtn like-hate-btn" data-check="${checkLike[status.index]}" data-seq="${i.seq}"><i class="fa fa-thumbs-up"></i> ${i.like_count}</button>
 													</li>
 													<li>
-														<button class="comment_hateBtn hateBtn like-hate-btn" data-seq="${i.seq}"><i class="fa fa-thumbs-down"></i> ${i.hate_count}</button>
+														<button class="comment_hateBtn hateBtn like-hate-btn" data-check="${checkHate[status.index]}" data-seq="${i.seq}"><i class="fa fa-thumbs-down"></i> ${i.hate_count}</button>
 													</li>
 													<li>
 														<button class="comment_declaration" data-seq="${i.seq}"><i class="fa fa-bell color_white" aria-hidden="true"></i> 신고하기</button>
@@ -341,7 +374,7 @@
 								<div class="tit_s2">
 									<h3>댓글(${fn:length(commentList)})</h3>
 								</div>
-								<c:forEach var="i" items="${commentList}">
+								<c:forEach var="i" items="${commentList}" varStatus="status">
 									<article>
 										<div class="userInfo_s1">
 											<div class="thumb"><img src="/resources/img/sub/userThum.jpg"/></div>
@@ -359,10 +392,10 @@
 											<div class="countList">
 												<ul>
 													<li>
-														<button class="comment_likeBtn likeBtn like-hate-btn" data-seq="${i.seq}"><i class="fa fa-thumbs-up"></i> ${i.like_count}</button>
+														<button class="comment_likeBtn likeBtn like-hate-btn" data-check="${checkLike[status.index]}" data-seq="${i.seq}"><i class="fa fa-thumbs-up"></i> ${i.like_count}</button>
 													</li>
 													<li>
-														<button class="comment_hateBtn hateBtn like-hate-btn" data-seq="${i.seq}"><i class="fa fa-thumbs-down"></i> ${i.hate_count}</button>
+														<button class="comment_hateBtn hateBtn like-hate-btn" data-check="${checkHate[status.index]}" data-seq="${i.seq}"><i class="fa fa-thumbs-down"></i> ${i.hate_count}</button>
 													</li>
 													<li>
 														<button class="comment_declaration" data-seq="${i.seq}"><i class="fa fa-bell color_white" aria-hidden="true"></i> 신고하기</button>

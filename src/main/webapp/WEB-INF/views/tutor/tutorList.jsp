@@ -14,23 +14,9 @@
 	<section id="subContents">
 		<article id="tutorList" class="inner1200">
 
-
 			<div class="tit_s1">
 				<h2>튜터 목록</h2>
 			</div>
-
-			<div class="tab_s1">
-				<ul class="clearfix">
-					<li class="on"><a href="#;">키워드 검색</a></li>
-				</ul>
-			</div>
-			
-			<div id="tabContWrap">
-				<article id="tab_1" class="kewordSch">
-					키워드 검색
-				</article>
-			</div>
-
 
 			<div>
 				<c:choose>

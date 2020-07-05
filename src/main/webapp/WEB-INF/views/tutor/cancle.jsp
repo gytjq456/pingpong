@@ -47,7 +47,7 @@
 <article id="layerPop_s1">
 	<div class="pop_body"> 
 		<div class="tit_s3">
-			<h4>탈퇴 신청서</h4>
+			<h4>강의 취소 신청서</h4>
 		</div>
 		<form action="cancleProc" id="cancleProc" method="post">
 			<input type="hidden" name="id" value="${ldto.id}">
@@ -56,7 +56,7 @@
 			id: ${ldto.id }
 			<section data-seq="${seq}">
 				<article>
-					<div>탈퇴이유</div>
+					<div>취소이유</div>
 					<div class="contents">
 						<textarea rows="30" cols="50" name="contents"></textarea>
 					</div>

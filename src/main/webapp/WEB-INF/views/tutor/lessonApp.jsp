@@ -5,15 +5,84 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=521d781cfe9fe7597693f2dc29a10601&libraries=services"></script>
 
+<style>
+	#title{width:80%;}
+</style>
 <script>
 	$(function() {
 		//오늘날짜 전에 클릭 안되게 걸어주기 
-		$('#apply_start').datepicker({ dateFormat: 'yy-mm-dd' });
-	    $('#apply_end').datepicker({ dateFormat: 'yy-mm-dd' });
-	    $('#start_date').datepicker({ dateFormat: 'yy-mm-dd' });
-	    $('#end_date').datepicker({ dateFormat: 'yy-mm-dd' });
+		$('#apply_start').datepicker({ dateFormat: 'yy-mm-dd',minDate: 0});
+	    $('#apply_end').datepicker({ dateFormat: 'yy-mm-dd', minDate: 0 });
+	    $('#start_date').datepicker({ dateFormat: 'yy-mm-dd', minDate: 0 });
+	    $('#end_date').datepicker({ dateFormat: 'yy-mm-dd', minDate: 0 });
 
-		        
+		$("#price").on("keyup", function(){
+			var priceVal =$(this).val();
+			var regex = /^[0-9]*$/g;
+			if(!regex.test(priceVal)){
+				alert("시간당 가격을 입력해주세요. 숫자만 입력 가능합니다.");
+				$(this).val('');
+			}
+		}) 
+
+		var start_hourVal = $("#start_hour").val();
+		var end_hourVal = $("#end_hour").val();
+		
+		$("#max_num").on("keyup", function(){
+			var maxVal = $(this).val();
+			var regex = /[5-9]{1}|[1-2]{1}[0-9]{1}|30/g;
+			if(!regex.test(maxVal)){
+				alert("최소 5명부터 최대 30명까지 입니다.");
+				$(this).val('');
+			}
+		})
+		
+		$("#frm").on("submit", function(){
+			var titleVal = $("#title").val();
+			var summernoteVal = $("#summernote").val();
+			var priceVal = $("#price").val()
+			var apply_startVal = $("#apply_start").val();
+			var apply_endVal = $("#apply_end").val();
+			var start_dateVal= $("#start_date").val();
+			var end_dateVal = $("#end_date").val();
+			var max_numVal = $("#max_num").val();
+			var sidoVal = $("#sido1").val();
+			var gugunVal = $("#gugun1").val();
+			
+			if(titleVal.length==0){
+				alert("제목을 입력해주세요");
+				return false;
+			}else if(priceVal==0){
+				alert("가격을 입력해주세요");
+				return false;
+			}else if(apply_startVal.length==0){
+				alert("모집시작 기간을 선택해주세요");
+				return false;
+			}else if(apply_endVal.length==0){
+				alert("모집마감 기간을 선택해주세요");
+				return false;
+			}else if(start_dateVal.length==0){
+				alert("수업시작 기간을 선택해주세요");
+				return false;
+			}else if(end_dateVal.length==0){
+				alert("수업마감 기간을 선택해주세요");
+				return false;
+			}else if(max_numVal.length==0){
+				alert("인원을 입력해주세요");
+				return false;
+			}else if(sidoVal=='시, 도 선택'){
+				alert("시,도 를 선택해주세요.");
+				return false;
+			}else if(gugunVal=='구, 군 선택'){
+				alert("구,군 을 선택해주세요.");
+				return false;
+			}else if(summernoteVal.length==0){
+				alert("내용을 입력해주세요");
+				return false;
+			}
+		})
+
+	    
 		$('#summernote').summernote({
 			height : 300,
 			lang : 'ko-KR',
@@ -25,6 +94,22 @@
 		});
 
 	});
+	
+	function uploadSummernoteImageFile(file, editor) {
+		data = new FormData();
+		data.append("file", file);
+		$.ajax({
+			data : data,
+			type : "POST",
+			url : "/summerNote/uploadSummernoteImageFile",
+			contentType : false,
+			processData : false,
+			success : function(data) {
+	        	//항상 업로드된 파일의 url이 있어야 한다.
+				$(editor).summernote('insertImage', data.url);
+			}
+		});
+	}	
 </script>
 
 <div id="subWrap" class="hdMargin">
@@ -35,7 +120,7 @@
 				<p>새 강의 등록하기</p>
 			</div>
 
-			<form action="lessonAppProc" method="post">
+			<form action="lessonAppProc" id="frm" method="post">
 				<div class="title_wrap">
 					<div class="tit_s3">
 						<h4>제목</h4>
@@ -80,9 +165,9 @@
 					</div>
 					<input type="text" id="apply_start" name="apply_start" size="12">
 					<label for="apply_start" class="calendar_icon"><i
-						class="fa fa-calendar" aria-hidden="true"></i></label> ~ <input
-						type="text" id="apply_end" name="apply_end" size="12"> <label
-						for="apply_end" class="calendar_icon"><i
+						class="fa fa-calendar" aria-hidden="true"></i></label> ~ 
+					<input type="text" id="apply_end" name="apply_end" size="12"> 
+						<label for="apply_end" class="calendar_icon"><i
 						class="fa fa-calendar" aria-hidden="true"></i></label>
 				</div>
 
@@ -102,8 +187,10 @@
 					<div class="tit_s3">
 						<h4>수업 시간</h4>
 					</div>
+					<!-- <input type="time" id="start_hour" name="start_hour"> : 
+					<input type="time" id="end_hour" name="end_hour"> -->
 					<select id="start_hour" name="start_hour">
-						<!-- 수정좀 ^^^^ -->
+						수정좀 ^^^^
 						<option>01</option>
 						<option>02</option>
 						<option>03</option>
@@ -192,7 +279,7 @@
 					<textarea id="summernote" name="curriculum"></textarea>
 				</div>
 				<div>
-					<button>신청하기</button>
+					<button id="submit">신청하기</button>
 				</div>
 			</form>
 		</article>

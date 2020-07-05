@@ -1,6 +1,7 @@
 package kh.pingpong.chat;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -26,28 +27,27 @@ import kh.pingpong.service.ChatService;
 public class WebChat {
 
 	private ChatService chatService = MyApplicationContextAware.getApplicationContext().getBean(ChatService.class);
-
-
 	private static Set<Session> clients = Collections.synchronizedSet(new HashSet<>());
-	//private String roomId;
+	public static Map<String,String> test = new HashMap<>();
 	HttpSession session;
 	@OnOpen
 	public void onConnect(Session client, EndpointConfig config) {
 		System.out.println(client.getId() + "님이 접속했습니다.");
-		String chatRoom = null;
+		this.session = (HttpSession)config.getUserProperties().get("session");
+		//Configuration.chatCreate.put("client",client.getId());
+		clients.add(client);
 		try {
-			chatRoom = chatService.chatRoomSch(Configuration.chatCreate);
-			System.out.println("test :" + chatRoom);
+			MemberDTO mdto = (MemberDTO)this.session.getAttribute("loginInfo");
+			if(mdto.getId() != null) {
+				test.put(client.getId(),mdto.getId());
+				System.out.println(mdto.getId());
+			}
+
+			for (Map.Entry<String, String> entry : test.entrySet()) {
+				System.out.println("[key]:" + entry.getKey() + ", [value]:" + entry.getValue());
+			}
 		} catch (Exception e) {
 			// TODO: handle exception
-		}
-
-		if(Configuration.chatCreate.get("roomId").contentEquals(chatRoom)) {
-			clients.add(client);
-		}
-		this.session = (HttpSession)config.getUserProperties().get("session");
-		for (String mapkey : Configuration.chatCreate.keySet()){
-			System.out.println("key1:"+mapkey+",value1:"+Configuration.chatCreate.get(mapkey));
 		}
 	}
 
@@ -55,24 +55,37 @@ public class WebChat {
 	// 메세지 보내기
 	@OnMessage
 	public void onMessage(Session session, String message) throws Exception{
-		MemberDTO mdto = (MemberDTO)this.session.getAttribute("loginInfo");
 
-		System.out.println("message :" + message);
-		JSONParser parser = new JSONParser();
-		Object obj = parser.parse( message );
-		JSONObject jsonObj = (JSONObject) obj;		
-		String chatRoom = (String) jsonObj.get("chatRoom");
 
+		//System.out.println("뭘까~~ =" + Configuration.chatCreate.get("chatRoomId"));
+		//String roomId = Configuration.chatCreate.get("roomId");
+		//System.out.println("채팅 roomId" + roomId);
 		synchronized(clients) {
-			for(Session client : clients) {
+			MemberDTO mdto = (MemberDTO)this.session.getAttribute("loginInfo");
+			//System.out.println("message :" + message);
+			//System.out.println(message);
+			JSONParser parser = new JSONParser();
+			Object obj = parser.parse( message );
+			JSONObject jsonObj = (JSONObject) obj;		
+			String chatRoom = (String) jsonObj.get("chatRoom");
+			System.out.println("chatRoom222 = " + chatRoom);
+		
+			for(Session client : clients) { 
+				System.out.println("스태틱" + Configuration.chatCreate.get(chatRoom).getMemberId());
+				System.out.println("아니야" + test.get(session.getId()));
 				if(!client.getId().contentEquals(session.getId())){
-					Basic basic = client.getBasicRemote();
-					try {
-						if(Configuration.chatCreate.get("roomId").contentEquals(chatRoom)) {
-							System.out.println("방번호가 같아여");
-							basic.sendText(message);
+					if(Configuration.chatCreate.containsKey(chatRoom)){
+						if(Configuration.chatCreate.get(chatRoom).getMemberId().contains(mdto.getId())) {
+							try {
+								Basic basic = client.getBasicRemote();
+								System.out.println(message);
+								basic.sendText(message);
+								chatService.chatTxtInsert(message);
+							} catch (Exception e) {
+								e.printStackTrace();
+								// TODO: handle exception
+							}
 						}
-					} catch (Exception e) {
 					}
 				}
 			}
@@ -80,12 +93,15 @@ public class WebChat {
 	}
 
 	@OnClose
-	public void onClose(Session session) {
+	public void onClose(Session session){
+		System.out.println("종료");
 		clients.remove(session);
 	}
 
 	@OnError
 	public void onError(Session session, Throwable t) {
+		System.out.println("에러");
+		t.printStackTrace();
 		clients.remove(session);
 	}
 

@@ -19,13 +19,17 @@
 <script>
 $(function(){
 	$("#backList").on("click", function(){
-		location.href="/tutor/lessonList";
+		location.href="/tutor/lessonList?orderBy=seq";
 	})
 	
 	var checkLikeVal = ${checkLike};
+	var checkJjimVal = ${checkJjim};
 	
 	if(checkLikeVal==true){
 		$("#like").css('color','rgb(58, 89, 201)');
+	}
+	if(checkJjimVal==true){
+		$("#jjim").css('color','rgb(240,7,7)')
 	}
 	
 	$("#like").on("click", function(){
@@ -54,9 +58,149 @@ $(function(){
 			console.log(error1);
 			console.log(error2);
 		})
-			
-		
 	})
+	
+	$("#jjim").on("click", function(){
+		console.log($(this).css('color'));
+		var seq = ${seq};
+		
+		if($(this).css('color')=='rgb(240, 7, 7)'){
+			$.ajax({
+				url:"/tutor/deleteJjim",
+				data:{
+					parent_seq: seq
+				},
+				type:'POST'
+			}).done(function(resp){
+				console.log(resp);
+				alert("찜을 취소합니다.");
+				$("#jjim").css('color','rgb(51, 51, 51)')
+				location.href="/tutor/lessonView?seq="+seq;
+				return false;
+			}).fail(function(error1, error2) {
+				console.log(error1);
+				console.log(error2);
+			})
+		}else{
+			$.ajax({
+				url: "/tutor/insertJjim",
+				data:{
+					parent_seq: seq
+				},
+				type: 'POST'
+			}).done(function(resp){
+				console.log(resp);
+				alert("찜에 등록되었습니다.");
+				$("#jjim").css('color','rgb(240, 7, 7)')
+				location.href="/tutor/lessonView?seq="+seq;
+				return false;
+			}).fail(function(error1, error2) {
+				console.log(error1);
+				console.log(error2);
+			})
+		}
+	})
+	
+	// 리뷰 
+	var reviewtForm = $("#reviewtForm");
+	var starPoint = $(".starPoint");
+	var point_box = $(".point_box")
+	var point_input = $("#point");
+	starPoint.find("button").click(function(){
+		var idx = $(this).index()+1;
+		var point = point_box.find(".point").text();
+		point_box.find(".point").text(idx)
+		point_input.val(idx);
+		for(var i=0; i<idx; i++){
+			starPoint.find("button:eq("+i+")").addClass("on");
+		}
+		if(idx < point){
+			starPoint.find("button").removeClass("on");
+			for(var i=0; i<idx; i++){
+				starPoint.find("button:eq("+i+")").addClass("on");
+			}
+		}
+	})
+		
+	// 리뷰 글자수 체크
+	reviewtForm.find("#textCont").keyup(function(){
+		var word = $(this).val();
+		var wordSize = word.length;
+		console.log(wordSize)
+		if(wordSize <= 1000){
+			$(".wordsize .current").text(wordSize);
+		}else{
+			word = word.substr(0,1000);
+			$(".wordsize .current").text(word.length);
+			$(this).val(word);
+			alert("리뷰는  1000자 이하로 등록해 주세요")
+		}
+	})
+		
+	// 리뷰 데이터 전송
+	var textCont = $("#textCont");
+	$("#reviewtForm").submit(function(){
+		var form = $("#reviewtForm")[0];
+		var formData = new FormData(form);
+		
+		if(point_input.val() == 0){
+			alert("평점을 입력해주세요.");
+			return false;
+		}
+		
+		if(textCont.val() == "" || textCont.val().replace(/\s|　/gi, "").length == 0){
+			alert("리뷰 내용을 작성해주세요.")
+			textCont.focus();
+			return false;
+		}
+		
+		$.ajax({
+			url:"/group/reviewWrite",
+			type:"post",
+			dataType:"json",
+			data:formData,
+        	contentType : false,
+            processData : false 	            
+		}).done(function(resp){
+			console.log(resp)
+			var categoryVal= $("#category").val();
+			location.href="/tutor/reviewUpdate?parent_seq=${ldto.seq}&category="+categoryVal;
+		});
+		return false;
+	})
+		
+		// 리뷰 게시글 글자수 ... 처리
+		var reviewList = $(".review_list");
+		var oriTxt = [];
+		reviewList.find("article").each(function(){
+			var reviewTxt = $(this).find(".txtBox a").text();
+			oriTxt.push(reviewTxt);
+			var reviewSize = reviewTxt.length;
+			if(reviewSize > 140){
+				var txtSubStr = reviewTxt.substr(0,140);
+				$(this).find(".txtBox a").text(txtSubStr+"...");
+			}
+			
+			var point = $(this).find(".starPoint").data("star");
+			for(var i=0; i<point; i++){
+				$(this).find(".starPoint em:eq("+i+")").addClass("on");
+			}
+			console.log(point);
+		})
+		
+		reviewList.find(".txtBox a").click(function(e){
+			e.preventDefault();
+			var idx = $(this).closest("article").index();
+			var txtSize = oriTxt[idx-1].length;
+			if($(this).text().length == 143){
+				$(this).text(oriTxt[idx-1]);
+			}else{
+				if(txtSize > 140){
+					var txtSubStr = oriTxt[idx-1].substr(0,140);
+					$(this).text(txtSubStr+"...");
+				}
+			}
+		})
 	
 })
 
@@ -72,7 +216,7 @@ $(function(){
 
 			<div class="btnS1 right">
 				<c:choose>
-					<c:when test="${loginInfo.grade == 'tutor' }">
+					<c:when test="${loginInfo.grade == 'tutor' && loginInfo.id== ldto.id }">
 						<p>
 							<a href="/tutor/lessonUpdate?seq=${ldto.seq }" class="on">강의 수정</a>
 							<button type="button" id="popOnBtn" class="on">강의 삭제</button>
@@ -95,7 +239,7 @@ $(function(){
 					<div class="option_btn">
 						★${ ldto.review_point}
 						<i id="like" class="fa fa-thumbs-up" style="color:"></i>
-						<a id="jjim"><i class="fa fa-heart" style="font-size:16px;color:blue"></i></a>
+						<i id="jjim" class="fa fa-heart" style="font-size:16px; color:rgb(51, 51, 51)"></i>
 						<a id="report">신고</a>
 					</div>
 					
@@ -117,7 +261,7 @@ $(function(){
 					<li><a href="#;">강의문의</a></li>
 					<li><a href="#;">환불안내</a></li>
 					<li><a href="#;">리뷰</a></li>
-					<li><a href="#;">결제하기</a></li>
+					<li><a href="/tutor/payMain?parent_seq=${ldto.seq }&title=${ldto.title}">결제하기</a></li>
 				</ul>
 			</div>
 			
@@ -166,9 +310,81 @@ $(function(){
 				</ul>
 			</div>
 			
-			<div class="tit_s3">
-				<h4>리뷰 </h4>
-			</div>
+			<article id="tab_3" class="mapSch">
+						<!-- 리뷰  -->
+						<div id="review_wrap" class="card_body">
+							<div class="review_box">
+								<div class="tit_s2">
+									<h3>리뷰 작성</h3>
+								</div>
+								<form id="reviewtForm">
+									<input type="hidden" name="writer" value="${loginInfo.id }">
+									<input type="hidden" name="point" value="0" id="point">
+									<input type="hidden" id ="category" name="category" value="강의">
+									<input type="hidden" name="parent_seq" value="${ldto.seq}">
+									<div class="starPoint">
+										<div>
+											<button type="button"><i class="fa fa-star" aria-hidden="true"></i></button>
+											<button type="button"><i class="fa fa-star" aria-hidden="true"></i></button>
+											<button type="button"><i class="fa fa-star" aria-hidden="true"></i></button>
+											<button type="button"><i class="fa fa-star" aria-hidden="true"></i></button>
+											<button type="button"><i class="fa fa-star" aria-hidden="true"></i></button>
+										</div>
+										<div class="point_box">(<span class="point">0</span>점)</div>
+									</div>
+									<div class="textInput clearfix">
+										<div class="userInfo_s1 userInfo_s2">
+											<div class="thumb"><img src="/resources/img/sub/userThum.jpg"/></div>
+											<div class="info">
+												<p class="userId">${loginInfo.id }</p>
+											</div>
+										</div>
+										<div>
+											<textarea name="contents" id="textCont"></textarea>
+											<div class="wordsize"><span class="current">0</span>/1000</div>
+										</div>
+									</div>
+									<div class="btnS1 right">
+										<div><input type="submit" value="작성" class="on"></div>
+										<div>
+											<input type="reset" value="취소">
+										</div>
+									</div>										
+								</form>
+							</div>
+						</div>	
+						<div class="review_list card_body" >
+							<div class="tit_s2">
+								<h3>리뷰 작성</h3>
+							</div>				
+							<c:forEach var="i" items="${reviewList}">
+								<article class="clearfix">
+									<div class="userInfo_s1">
+										<div class="thumb"><img src="/resources/img/sub/userThum.jpg"/></div>
+										<div class="info">
+											<p class="userId">${i.writer}</p>
+											<p class="writeDate">${i.dateString}</p>
+										</div>
+									</div>
+									<div class="cont">
+										<div class="starPoint" data-star="${i.point}">
+											<div>
+												<em><i class="fa fa-star" aria-hidden="true"></i></em>
+												<em><i class="fa fa-star" aria-hidden="true"></i></em>
+												<em><i class="fa fa-star" aria-hidden="true"></i></em>
+												<em><i class="fa fa-star" aria-hidden="true"></i></em>
+												<em><i class="fa fa-star" aria-hidden="true"></i></em>
+											</div>
+											<div>(<span>${i.point}</span>점)</div>
+										</div>
+										<div class="txtBox">
+											<a href="#;">${i.contents}</a>
+										</div>
+									</div>
+								</article>
+							</c:forEach>
+						</div>
+					</article>
 			
 			<input type="button" id="backList" value="목록으로">	
 		
@@ -178,5 +394,5 @@ $(function(){
 
 
 <jsp:include page="/WEB-INF/views/tutor/cancle.jsp" />
-
+<jsp:include page="/WEB-INF/views/tutor/lessonReport.jsp" />
 <jsp:include page="/WEB-INF/views/footer.jsp" />

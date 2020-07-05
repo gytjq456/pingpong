@@ -92,7 +92,7 @@
 
 /* -- 이효섭 그룹 css 추가 */
 .search_as_keyword select,
-.search_as_keyword input { font-size:12px; border:1px solid #ddd; padding:5px;}
+.search_as_keyword input { font-size:14px; border:1px solid #ddd; }
 .search_as_keyword > section { margin-bottom:14px; }
 .search_as_keyword > section { overflow:hidden; font-size:0; letter-spacing:-4px; }
 .search_as_keyword > section > div { display:inline-block; vertical-align:middle; letter-spacing:-0.5px; font-size:12px; }

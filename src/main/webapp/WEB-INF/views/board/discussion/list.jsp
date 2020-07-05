@@ -25,6 +25,9 @@
 				location.href="/discussion/align?align="+selVal
 			});
 
+			
+			// 제목 / 글제목 / 글내욕
+			
 		})
 	</script>
 
@@ -37,20 +40,23 @@
 				</div>
 				<div id="tabContWrap" class="search_wrap">
 					<div class="search_as_keyword">
-						<section class="defaultSch">
-							<div class="tit">검색어</div>
-							<div class="schCon ">
-								<select id="keyword_type">
-									<option value="writer_name">작성자</option>
-									<option value="title">글제목</option>
-									<option value="contents">글내용</option>
-								</select>
-								<input type="text" name="keyword" id="keyword_input" placeholder="검색어를 입력하세요.">
+						<form action="/discussion/kewordSch" method="post">
+							<section class="defaultSch">
+								<div class="tit">검색어</div>
+								<div class="schCon ">
+									<select id="keyword_type">
+										<option value="writer_name">작성자</option>
+										<option value="title">글제목</option>
+										<option value="contents">글내용</option>
+									</select>
+									<input type="text" name="keyword" id="keyword_input" placeholder="검색어를 입력하세요.">
+								</div>
+							</section>
+							<div class="btnS1 center">
+								<div><input type="submit" id="searchAsKeyword" value="검색"></div>
+								<!-- <div><button type="button" id="searchAsKeyword">검색</button></div> -->
 							</div>
-						</section>
-						<div class="btnS1 center">
-							<div><button type="button" id="searchAsKeyword">검색</button></div>
-						</div>
+						</form>
 					</div>
 				</div>
 				<div class="btnS1 right">

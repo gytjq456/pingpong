@@ -20,7 +20,7 @@
 						amount : '${money}', // 결제 금액
 						buyer_email : '${ttdto.email}', // 구매자 email
 						buyer_name : '${ttdto.name}', // 구매자 이름
-						buyer_tel : '${ttdto.phone_contry}${ttdto.phone}', // 구매자 전화번호
+						buyer_tel : '${ttdto.phone_country}${ttdto.phone}', // 구매자 전화번호
 						buyer_addr : '${ttdto.address}', // 구매자 주소
 						buyer_account : '${ttdto.account}', // 구매자 계좌번호
 						//m_redirect_url : 'http://www.iamport.kr/mobile/landing' // 결제 완료 후 보낼 컨트롤러의 메소드명

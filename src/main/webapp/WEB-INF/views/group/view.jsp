@@ -331,7 +331,7 @@
 								<form id="reviewtForm">
 									<input type="hidden" name="writer" value="홍길동">
 									<input type="hidden" name="point" value="0" id="point">
-									<input type="hidden" name="category" value="review">
+									<input type="hidden" name="category" value="그룹">
 									<input type="hidden" name="parent_seq" value="${gdto.seq}">
 									<div class="starPoint">
 										<div>

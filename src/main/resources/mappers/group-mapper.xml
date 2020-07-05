@@ -218,7 +218,7 @@
 	
 	<!-- 리큐 포인트 가져오기 -->
 	<select id="reviewAvg" resultType="java.lang.Double">
-		select round(avg(point),2) from review where parent_seq = #{value}
+		select round(avg(point),2) from review where parent_seq = #{value} 
 	</select>
 	
 	<!-- 리큐 포인트 가져오기 -->

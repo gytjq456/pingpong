@@ -1,7 +1,6 @@
 package kh.pingpong.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 
+import kh.pingpong.chat.Room;
 import kh.pingpong.config.Configuration;
 import kh.pingpong.dto.ChatRecordDTO;
 import kh.pingpong.dto.ChatRoomDTO;
@@ -29,35 +29,35 @@ public class ChatController {
 	private HttpSession session;
 	
 	@ResponseBody
-	@RequestMapping(value="create", produces="application/text;charset=utf8"
-)
+	@RequestMapping(value="create", produces="application/text;charset=utf8")
 	public String create(ChatRoomDTO chatDto) throws Exception{
 		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
 		String roomId = null;
-		String myName = mdto.getName();
 		String usersIds = mdto.getId() +"," +chatDto.getChatMemberId();
-		String usersNames = chatDto.getUsers() +","+myName;
+		String usersId = chatDto.getChatMemberId();
+		String usersNames = chatDto.getUsers() +","+mdto.getName();
 		
-		Map<String,String> chatInfo = Configuration.chatCreate;
-		chatInfo.put("usersName",usersNames);
-		chatInfo.put("usersIds",usersIds);
-		chatInfo.put("master",mdto.getId());
-		chatInfo.put("partner",chatDto.getChatMemberId());
 		
-		String chatRoomId = chatService.chatRoomIdSch(chatInfo);
+//		chatInfo.put("usersName",usersNames);
+//		chatInfo.put("usersIds",usersIds);
+//		chatInfo.put("master",mdto.getId());
+//		chatInfo.put("partner",chatDto.getChatMemberId());
+		String chatRoomId = chatService.chatRoomIdSch(mdto.getId(),usersId);
 		System.out.println("chatRoomId = " +chatRoomId);
 		int result = 0;
 		
 		if(chatRoomId == null) {
 			roomId = chatService.rndTxt();
-			chatInfo.put("roomId",roomId);
-			result = chatService.chatInsert(chatInfo);
-			chatRoomId = chatService.chatRoomIdSch(chatInfo);
+			//Configuration.chatCreate.put(roomId,new Room(roomId,usersIds));
+			chatDto.setUsers(usersNames);
+			chatDto.setChatMemberId(usersIds);	
+			chatDto.setRoomId(roomId);
+			result = chatService.chatInsert(chatDto);
+			chatRoomId = chatService.chatRoomIdSch(mdto.getId(),usersId);
 		}
-		System.out.println("아이디 뭐지 :"+ chatRoomId);
+		//Configuration.chatCreate.put(chatRoomId,new Room(chatRoomId,usersIds));
 		List<ChatRecordDTO> chatRecord = chatService.chatRecordList(chatRoomId);
 		Configuration.chatRecord = chatRecord;
-		Configuration.chatCreate.put("roomId",chatRoomId);
 		
 		if(chatRecord.size() == 0) {
 			return new Gson().toJson(chatRoomId);
@@ -65,10 +65,12 @@ public class ChatController {
 			if(result > 0) {
 				return new Gson().toJson(chatRecord);
 			}else{
-				chatInfo.put("roomId",chatRoomId);
+				//chatInfo.put("roomId",chatRoomId);
 				return new Gson().toJson(chatRecord);
 			}
 		}
 	}
+
+	
 	
 }

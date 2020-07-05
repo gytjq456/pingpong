@@ -35,6 +35,24 @@
 					<h2>Discussion</h2>
 					<p>이야기하고 싶은 흥미로운 주제가 있으신가요? 여기에서 전 세계 외국어 학습자들과 <br>토론을 하고 소통해 보세요.</p>
 				</div>
+				<div id="tabContWrap" class="search_wrap">
+					<div class="search_as_keyword">
+						<section class="defaultSch">
+							<div class="tit">검색어</div>
+							<div class="schCon ">
+								<select id="keyword_type">
+									<option value="writer_name">작성자</option>
+									<option value="title">글제목</option>
+									<option value="contents">글내용</option>
+								</select>
+								<input type="text" name="keyword" id="keyword_input" placeholder="검색어를 입력하세요.">
+							</div>
+						</section>
+						<div class="btnS1 center">
+							<div><button type="button" id="searchAsKeyword">검색</button></div>
+						</div>
+					</div>
+				</div>
 				<div class="btnS1 right">
 					<div>
 						<select name="align" id="align">

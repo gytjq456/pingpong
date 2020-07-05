@@ -45,18 +45,23 @@ public class ChatService {
 	}
 	
 	//방 생성
-	public int chatInsert(Map<String,String> chatInfo) throws Exception{
-		return chatDao.chatInsert(chatInfo);
+	public int chatInsert(ChatRoomDTO chatDto) throws Exception{
+		return chatDao.chatInsert(chatDto);
 	}
 	
 	//방번호 검색
-	public String chatRoomIdSch(Map<String,String> chatInfo) throws Exception{
-		return chatDao.chatRoomIdSch(chatInfo);
+	public String chatRoomIdSch(String master, String partner) throws Exception{
+		return chatDao.chatRoomIdSch(master,partner);
 	}
 	
 	//모든 방 가져오기
 	public List<String> chatRoomAll() throws Exception{
 		return chatDao.chatRoomAll();
+	}
+	
+	//아이디 모든 방 가져오기
+	public String chatMyRoom(String roomId) throws Exception{
+		return chatDao.chatMyRoom(roomId);
 	}
 	
 	//채팅방 기록 가져오기

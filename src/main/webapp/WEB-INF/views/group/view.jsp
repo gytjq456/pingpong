@@ -4,47 +4,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:include page="/WEB-INF/views/header.jsp"/>
 <style>
-	* { box-sizing: border-box; }
-	#seq { display: none; }
-	.group_info { display: inline-block; }
-	.group_info_top { float: left; }
-	.group_title_wrapper { overflow: hidden; }
-	#writer_info { width: 30%; position: relateive; }
-	#group_base { width: 62%; margin-left: 3%; }
-	#writer_profile { width: 240px; height: 240px; border-radius: 50%; text-align: center; line-height: 300px; position: relative; top: 50%; left: 50%; transform: translate(-50%, 0); overflow: hidden; }
-	#writer_name_id { position: relative; left: 50%; transform: translate(-50%, 0); display: inline-block; margin-top: 20px; }
-	.base_info { position: relative; }
-	#group_title { font-size: 40px; font-weight: bold; word-break: break-all; margin-bottom: 15px; }
-	#group_base_info { padding: 15px 0; border-bottom: 1px solid #ddd; }
-	#group_base_info span { position: relative; }
-	#group_base_info span i { margin-right: 5px; }
-	#like { right: -70%; }
-	#jjim { right: -72%; }
-	#report { right: -74%; }
-	#like:hover, #jjim:hover, #report:hover { cursor: pointer; }
-	#point_avg i { color: #fcba03; }
-	#like i { color: #3162a4; }
-	#jjim i { color: #fbaab0; }
-	#report i { color: #fc0303; }
-	.info_with_icon { width: 24.6%; display: inline-block; position: relative; text-align: center; padding-bottom: 20px; padding-top: 40px; vertical-align: top; }
-	.info_with_icon i { font-size: 50px; margin-bottom: 15px; }
-	#group_tab_menu { width: 100%; }
-	#group_contents_wrapper { position: relative; }
-	#group_contents { width: 69%; vertical-align: top; }
-	#group_optional { width: 30%; border-left: 1px solid #ddd; padding: 0 30px; }
-	#group_view_card { position: relative; }
-	#group_optional .optional_menu { font-size: 22px; margin-bottom: 5px; }
-	#group_optional .member_profile { display: inline-block; width: 50px; height: 50px; border-radius: 50%; border: 1px solid #ddd; line-height: 50px; text-align: center; margin-right: 5px; }
-	#group_optional .optional_sub { font-weight: bold; }
-	#group_optional span { margin-right: 5px; }
-	#group_optional .sep_bar { color: #999; margin: 0 5px; font-size: 12px; vertical-align: top; }
-	#group_optional .optional_box { margin-bottom: 20px; }
-	#related_group_title { font-size: 22px; }
-	#view_btns #update, #view_btns #delete { width: 49%; display: inline-block; }
-	#view_btns button { width: 100%; margin-top: 5px; }
-	#view_btns #update { margin-right: 2px; }
-	#writer_profile img { vertical-align: top; }
-	#map { width: 100%; height: 200px; margin-top: 10px; }
+	
 </style>
 <script>
 	$(function(){
@@ -215,14 +175,14 @@
 							<span id="jjim"><i class="fa fa-heart-o" aria-hidden="true"></i>찜하기</span>
 							<span id="report"><i class="fa fa-exclamation" aria-hidden="true"></i>신고</span>
 						</div>
-						<div id="group_detail" class="base_info">
+						<div id="group_detail" class="base_info clearfix">
 							<div class="info_with_icon">
 								<i class="fa fa-map-marker" aria-hidden="true"></i><br>
 								${gdto.location}
 							</div>
 							<div class="info_with_icon">
 								<i class="fa fa-calendar" aria-hidden="true"></i><br>
-								${gdto.start_date} ~ ${gdto.end_date}
+								<span>${gdto.start_date}</span> <span>~</span> <span>${gdto.end_date}</span>
 							</div>
 							<div class="info_with_icon">
 								<i class="fa fa-users" aria-hidden="true"></i><br>
@@ -272,7 +232,7 @@
 								<span id="applyCancel">신청 취소</span>
 							</c:if>
 							<c:if test="${checkApply == false && (sessionScope.loginInfo.id != gdto.writer_id)}">
-								<span id="applyForm">신청하기</span>
+								<button type="button" id="applyForm">신청하기</button>
 							</c:if>
 							<c:if test="${checkMember == true}">
 								<span id="deleteForm">탈퇴하기</span>
@@ -285,18 +245,18 @@
 				</div>
 				<div id="tabContWrap_s2">
 					<article id="tab_1" class="kewordSch">
-						<div id="group_contents_wrapper" class="card_body">
+						<div id="group_contents_wrapper" class="card_body clearfix">
 							<div id="group_contents" class="group_info">
 								${gdto.contents}
 							</div>
 							<div id="group_optional" class="group_info">
 								<div class="optional_box">
 									<div class="optional_menu">모집 기간</div>
-									<div>${gdto.apply_start} ~ ${gdto.apply_end}</div>
+									<div class="optional_body">${gdto.apply_start} ~ ${gdto.apply_end}</div>
 								</div>
 								<div class="optional_box">
 									<div class="optional_menu">참여자 인원(${gdto.cur_num})</div>
-									<div class="group_members">
+									<div class="group_members optional_body">
 										<div class="member_profile">플</div>
 										<div class="member_profile">플</div>
 										<div class="member_profile">플</div>
@@ -304,14 +264,14 @@
 								</div>
 								<div class="optional_box">
 									<div class="optional_menu">위치</div>
-									<div>${gdto.location}</div>
+									<div class="optional_body">${gdto.location}</div>
 									<div id="map"></div>
 								</div>
-								<div class="optional_box">
-									<span class="optional_sub">조회</span><span>${gdto.view_count}</span><span class="sep_bar">|</span>
-									<span class="optional_sub">추천</span><span>${gdto.like_count}</span><span class="sep_bar">|</span>
-									<span class="optional_sub">신청</span><span>${gdto.app_count}</span><br>
-									<span class="optional_sub">작성일</span><span>${gdto.date}</span><br>
+								<div class="optional_box countList_s2" >
+									<span class="optional_sub"><i class="fa fa-eye"></i>${gdto.view_count}</span>
+									<span class="optional_sub"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> ${gdto.like_count}</span>
+									<span class="optional_sub"><i class="fa fa-file-text-o" aria-hidden="true"></i> ${gdto.app_count}</span>
+									<%-- <span class="optional_sub">작성일</span><span>${gdto.date}</span><br> --%>
 								</div>
 								<div class="btnS1" id="view_btns">
 									<c:if test="${sessionScope.loginInfo.id == gdto.writer_id}">

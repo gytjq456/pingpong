@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import kh.pingpong.config.Configuration;
 import kh.pingpong.dto.CommentDTO;
 import kh.pingpong.dto.DiscussionDTO;
 import kh.pingpong.dto.LanguageDTO;
+import kh.pingpong.dto.LikeListDTO;
 
 
 @Repository
@@ -31,8 +33,14 @@ public class DiscussionDAO {
 	}
 
 	// 토론 전체 목록 가져오기
-	public List<DiscussionDTO> selectAll() throws Exception{
-		List<DiscussionDTO> result = mybatis.selectList("Discussion.selectAll");
+	public List<DiscussionDTO> selectAll(int cpage) throws Exception{
+		Map<String, Integer> search = new HashMap<>();
+		int start = cpage * Configuration.DISCUSSION_COUNT_PER_PAGE - (Configuration.DISCUSSION_COUNT_PER_PAGE - 1);
+		int end = start + (Configuration.DISCUSSION_COUNT_PER_PAGE - 1);
+		
+		search.put("start", start);
+		search.put("end", end);
+		List<DiscussionDTO> result = mybatis.selectList("Discussion.selectAll",search);
 		return result;
 	} 
 
@@ -62,6 +70,10 @@ public class DiscussionDAO {
 	public int like(int seq) throws Exception{
 		return mybatis.update("Discussion.like",seq);
 	}
+	// 댓글 좋아요 취소
+	public int likedelete(int seq) throws Exception{
+		return mybatis.update("Discussion.likedelete",seq);
+	}
 
 	// 댓글 쓰기
 	@Transactional("txManager")
@@ -85,6 +97,14 @@ public class DiscussionDAO {
 	// 댓글 좋아요
 	public int commentLike(int seq) throws Exception{
 		return mybatis.update("Discussion.commentLike",seq);
+	}
+	// 댓글 좋아요 취소
+	public int commentLikeCancel(int seq) throws Exception{
+		return mybatis.update("Discussion.commentLikeCancel",seq);
+	}
+	// 댓글 싫어요 취소
+	public int commentHateCancel(int seq) throws Exception{
+		return mybatis.update("Discussion.commentHateCancel",seq);
 	}
 
 	// 댓글 싫아요
@@ -132,5 +152,46 @@ public class DiscussionDAO {
 	public int getArticleCount_discussion() throws Exception{
 		return mybatis.selectOne("Discussion.getArticleCount_discussion");
 	}
+	
+	// like_list insert
+	// 좋아요 
+	public int insertLike(LikeListDTO ldto) throws Exception{
+		return mybatis.insert("Discussion.insertLike",ldto);
+	}
+	
+	// 좋아요 취소
+	public int deleteLike(LikeListDTO ldto) throws Exception{
+		return mybatis.delete("Discussion.deletetLike",ldto);
+	}
+	
+	// 싫어요
+	public int insertHate(LikeListDTO ldto) throws Exception{
+		return mybatis.insert("Discussion.insertHate",ldto);
+	}
+	// 싫어요 취소
+	public int deletetHate(LikeListDTO ldto) throws Exception{
+		return mybatis.delete("Discussion.deletetHate",ldto);
+	}
+	
+	public Boolean selectLike(Map<Object, Object> param) throws Exception{
+		Integer result = mybatis.selectOne("Discussion.selectLike", param);
+		boolean checkLike = true;
+		if (result == null) {
+			checkLike = false;
+		}
+		
+		return checkLike;
+	}
+	public Boolean selecHate(Map<Object, Object> param) throws Exception{
+		Integer result = mybatis.selectOne("Discussion.selecHate", param);
+		boolean checkLike = true;
+		if (result == null) {
+			checkLike = false;
+		}
+		
+		return checkLike;
+	}
+	
+	
 	
 }

@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kh.pingpong.dto.HobbyDTO;
+import kh.pingpong.dto.JjimDTO;
 import kh.pingpong.dto.LanguageDTO;
 import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.dto.PartnerDTO;
@@ -109,9 +110,12 @@ public class PartnerController {
 
 	//이메일 작성
 	@RequestMapping("selectPartnerEmail")
-	public String selectPartnerEmail(int seq, Model model) throws Exception{
+	public String selectPartnerEmail(int seq,Model model) throws Exception{
 		PartnerDTO pdto = pservice.selectBySeq(seq);
+		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
 		model.addAttribute("pdto", pdto);
+		System.out.println(pdto);
+		System.out.println(loginInfo.getEmail());
 		return "email/write";
 	}
 	//이메일 보내기
@@ -130,7 +134,7 @@ public class PartnerController {
 		try {
 			cpage = Integer.parseInt(request.getParameter("cpage"));
 		}catch(Exception e) {}
-
+		
 		List<PartnerDTO> plist = pservice.partnerList(cpage);
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
 		String navi = pservice.getPageNavi(cpage);
@@ -159,6 +163,18 @@ public class PartnerController {
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
 		String id = loginInfo.getId();
 		PartnerDTO pdto = pservice.selectBySeq(seq);
+		
+		Map<Object, Object> param = new HashMap<>();
+		param.put("id", id);
+		param.put("parent_seq", seq);
+		
+		JjimDTO jdto = new JjimDTO();
+		jdto.setId(id);
+		jdto.setParent_seq(seq);
+		
+		boolean checkJjim = pservice.selectJjim(jdto);
+		System.out.println(checkJjim);
+		model.addAttribute("checkJjim",checkJjim);
 		model.addAttribute("pdto", pdto);
 
 		//리뷰 리스트 출력
@@ -203,14 +219,15 @@ public class PartnerController {
 
 	//상세 검색
 	@RequestMapping("partnerSearch")
-	public String search(String orderBy,PartnerDTO pdto, HttpServletRequest request, Model model) throws Exception{
+	public String search(PartnerDTO pdto, HttpServletRequest request, Model model) throws Exception{
 		int cpage = 1;
 		try {
 			cpage = Integer.parseInt(request.getParameter("cpage"));
 		}catch(Exception e) {}
 
 		Map<String, Object> search = new HashMap<>();	
-		List<PartnerDTO> plist = pservice.search(cpage, search, pdto/* , orderBy */);
+		
+		List<PartnerDTO> plist = pservice.search(cpage, search, pdto);
 		String navi = pservice.getPageNavi(cpage);
 		List<HobbyDTO> hdto = pservice.selectHobby();
 		List<LanguageDTO> ldto = pservice.selectLanguage();
@@ -219,7 +236,6 @@ public class PartnerController {
 		model.addAttribute("navi", navi);
 		model.addAttribute("hdto", hdto);
 		model.addAttribute("ldto", ldto);
-		//model.addAttribute("orderBy",orderBy);
 
 		return "/partner/partnerList";
 	}
@@ -236,9 +252,42 @@ public class PartnerController {
 			return String.valueOf(false);
 		}
 	}
+	
+	//찜하기
+	@RequestMapping("jjim")
+	@ResponseBody
+	public int partnerInsertJjim(JjimDTO jdto) {
+		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
+		String id = loginInfo.getId();
+		
+		jdto.setId(id);
+		
+		int result = pservice.insertJjim(jdto);
+		return result;
+	}
+	
 
-
-
+	@RequestMapping("delJjim")
+	@ResponseBody
+	public int groupDeleteJjim(JjimDTO jdto) {
+		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
+		String id = loginInfo.getId();
+		
+		jdto.setId(id);
+		
+		int result = pservice.deleteJjim(jdto);
+		return result;
+	}
+	
+	//최신순, 평점순
+	@RequestMapping("align")
+	public String align(HttpServletRequest request, Model model) throws Exception{
+		String alignType = request.getParameter("align");
+		List<PartnerDTO> alist = pservice.searchAlign(alignType);
+		model.addAttribute("alignType", alignType);
+		model.addAttribute("alist", alist);
+		return "/partner/partnerList";
+	}
 	//	<aop:config>
 	//	<aop:pointcut expression="execution(* kh.pingpong.controller.GroupController.*(..))" id="group"/>
 	//	<aop:pointcut expression="execution(* kh.pingpong.controller.PartnerController.*(..))" id="partner"/>

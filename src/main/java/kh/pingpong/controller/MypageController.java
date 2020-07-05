@@ -1,8 +1,6 @@
 package kh.pingpong.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -13,11 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import kh.pingpong.dto.GroupApplyDTO;
 import kh.pingpong.dto.GroupDTO;
-import kh.pingpong.dto.GroupMemberDTO;
-import kh.pingpong.dto.LikeListDTO;
+import kh.pingpong.dto.LessonDTO;
 import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.dto.PartnerDTO;
-import kh.pingpong.dto.TuteeDTO;
 import kh.pingpong.dto.TutorDTO;
 import kh.pingpong.service.MyPageService;
 
@@ -90,8 +86,12 @@ public class MypageController {
 	@RequestMapping("likeRecord")
 	public String likeRecord(Model model) throws Exception{
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
-		List<LikeListDTO> llist = mpservice.selectLikeList();
-		model.addAttribute("llist", llist);
+		List<PartnerDTO> plist = mpservice.selectPartnerJjim(loginInfo);
+		List<GroupDTO> glist = mpservice.selectGroupJjim(loginInfo);
+		List<LessonDTO> tlist = mpservice.selectTutorJjim(loginInfo);
+		model.addAttribute("plist", plist);
+		model.addAttribute("glist", glist);
+		model.addAttribute("tlist", tlist);
 		return "/mypage/likeRecord";
 	}
 

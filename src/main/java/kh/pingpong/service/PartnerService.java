@@ -15,6 +15,7 @@ import kh.pingpong.config.Configuration;
 import kh.pingpong.dao.GroupDAO;
 import kh.pingpong.dao.PartnerDAO;
 import kh.pingpong.dto.HobbyDTO;
+import kh.pingpong.dto.JjimDTO;
 import kh.pingpong.dto.LanguageDTO;
 import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.dto.PartnerDTO;
@@ -26,8 +27,8 @@ public class PartnerService {
 	private PartnerDAO pdao;
 	
 	//파트너 게시글에서 파트너 찾기
-	public List<PartnerDTO> search(int cpage, Map<String, Object> search, PartnerDTO pdto/* ,String orderBy */) throws Exception{
-		return pdao.search(cpage, search, pdto/* , orderBy */);
+	public List<PartnerDTO> search(int cpage, Map<String, Object> search, PartnerDTO pdto) throws Exception{
+		return pdao.search(cpage, search, pdto);
 	}
 	
 	//취미 선택 
@@ -55,8 +56,7 @@ public class PartnerService {
 	
 	//페이지 네비게이션
 	public String getPageNavi(int currentPage) throws Exception{
-
-		int recordTotalCount =pdao.getArticleCount(); 
+		int recordTotalCount = pdao.getArticleCount(); 
 		int pageTotalCount = 0; 
 		//System.out.println(pdao.getArticleCount());
 	
@@ -87,8 +87,8 @@ public class PartnerService {
 		if(startNavi ==1) {needPrev = false;}
 		if(endNavi == pageTotalCount) {needNext = false;}		
 
-		StringBuilder sb = new StringBuilder(); // jsp濡� �꽆寃⑥＜湲� �쐞�빐 �꽔�� 寃�
-
+		StringBuilder sb = new StringBuilder();
+		
 		if(needPrev) {
 			sb.append("<a href ='partnerList?cpage="+(startNavi-1)+"'>"+" <<  " + "</a>");
 		}
@@ -155,5 +155,19 @@ public class PartnerService {
 		return pdao.reviewWrite(redto);
 	}
 	
+	//찜하기
+	public int insertJjim(JjimDTO jdto) {
+		return pdao.insertJjim(jdto);
+	}
+	public int deleteJjim(JjimDTO jdto) {
+		return pdao.deleteJjim(jdto);
+	}
+	public boolean selectJjim(JjimDTO jdto) {
+		return pdao.selectJjim(jdto);
+	}
 	
+	//검색 최신순 / 평점순
+	public List<PartnerDTO> searchAlign(String alignType) throws Exception{
+		return pdao.searchAlign(alignType);
+	}
 }

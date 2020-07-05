@@ -149,10 +149,10 @@
 		<input type="submit" value="검색">
 	</form>
 	
-	<div class="orderBy">
-		<select id="orderBy">
-			<option value="seq">최신순</option>
-			<option value="review_point">평점순</option>
+	<div>
+		<select name="align" id="align">
+			<option value="recent" <c:if test="${alignType == 'recent'}">selected</c:if>>최신 순</option>
+			<option value="like" <c:if test="${alignType == 'like'}">selected</c:if>>인기 순</option>
 		</select>
 	</div>
 	

@@ -1,9 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:include page="/WEB-INF/views/header.jsp"/>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-
+<style>
+	#jjim { right: -72%; }
+	#jjim i { color: #fbaab0; }
+</style>
 <script>
 	$(function(){
 		//리뷰 
@@ -104,8 +108,10 @@
 				}
 			}
 		})
+		
+		
 	})
-
+	
 </script>
 
 <body>
@@ -116,7 +122,8 @@
 		</c:when>
 		<c:otherwise>
 			<div class="box">
-				<img src ="/upload/member/${plist.id}/${plist.sysname}"><br>
+				<img src ="/upload/member/${plist.id}/${plist.sysname}">
+				<span class="jjim"><i class="fa fa-heart-o" aria-hidden="true"></i>찜하기</span><br>
 				<span class="seq">${pdto.seq}</span> <br>
 				${pdto.id}<br>
 				${pdto.name}<br>
@@ -163,6 +170,38 @@
 		$(".button_aa .delete").on("click",function(){
 			confirm("정말 파트너 취소 하시겠습니까?");
 			location.href="/partner/deletePartner";
+		})
+		
+		//찜하기
+		var checkJjim = ${checkJjim};
+		console.log(checkJjim);
+		if(checkJjim){
+			$('.jjim').css('color','#fbaab0');
+			$('.jjim i').removeClass('fa-heart-o');
+			$('.jjim i').addClass('fa-heart');
+		}
+		
+		$('.jjim').on('click', function(){
+			var seq = $('.seq').html();
+			
+			if ($(this).css('color') != 'rgb(251, 170, 176)') {
+				$.ajax({
+					url: '/partner/jjim',
+					data: {'parent_seq': seq},
+					type: 'POST'
+				}).done(function(resp){
+					console.log(resp);
+					location.href = '/partner/partnerView?seq=' + seq;
+				})
+			} else {
+				$.ajax({
+					url: '/partner/delJjim',
+					data: {'parent_seq': seq},
+					type: 'POST'
+				}).done(function(resp){
+					location.href = '/partner/partnerView?seq=' + seq;
+				})
+			}
 		})
 	</script>
 	

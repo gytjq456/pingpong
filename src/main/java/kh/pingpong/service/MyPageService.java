@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import kh.pingpong.dao.MyPageDAO;
 import kh.pingpong.dto.GroupApplyDTO;
 import kh.pingpong.dto.GroupDTO;
+import kh.pingpong.dto.LessonDTO;
 import kh.pingpong.dto.LikeListDTO;
 import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.dto.PartnerDTO;
@@ -59,6 +60,15 @@ public class MyPageService {
 	//찜 관련
 	public List<LikeListDTO> selectLikeList(){
 		return mpdao.selectLikeList();
+	}
+	public List<PartnerDTO> selectPartnerJjim(MemberDTO loginInfo){
+		return mpdao.selectPartnerJjim(loginInfo);
+	}
+	public List<GroupDTO> selectGroupJjim(MemberDTO loginInfo){
+		return mpdao.selectGroupJjim(loginInfo);
+	}
+	public List<LessonDTO> selectTutorJjim(MemberDTO loginInfo){
+		return mpdao.selectTutorJjim(loginInfo);
 	}
 	
 }

@@ -28,5 +28,16 @@
 		select * from jjim 
 	</select>
 	
+	<select id="partnerJjim" resultType="kh.pingpong.dto.PartnerDTO">
+		select * from partner where seq in (select parent_seq from jjim where category = '파트너')
+	</select>
+	
+	<select id="groupJjim" resultType="kh.pingpong.dto.GroupDTO">
+		select * from grouplist where seq in (select parent_seq from jjim where category = '그룹')
+	</select>
+	
+	<select id="tutorJjim" resultType="kh.pingpong.dto.LessonDTO">
+		select * from lesson where seq in (select parent_seq from jjim where category = '강의')
+	</select>
 	
 </mapper>

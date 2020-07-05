@@ -216,11 +216,42 @@ public class TutorController {
 		return "/tutor/lessonList";
 	}
 	
+
+	//키워드로 검색해서 리스트 뽑기
+	@RequestMapping("searchKeword")
+	public String searchKeyord(String orderBy, String keyword, String keywordSelect,HttpServletRequest request, Model model) throws Exception{
+		model.addAttribute("loginInfo", session.getAttribute("loginInfo"));
+
+		//언어 
+		List<LanguageDTO> lanList = mservice.lanList();
+		model.addAttribute("lanList",lanList);
+		
+		Map<String,String> param = new HashMap<>();
+		param.put("keywordSelect", keywordSelect);
+		param.put("keyword", keyword);
+		param.put("orderBy", orderBy);
+
+		int cpage = 1;
+		try {
+			cpage = Integer.parseInt(request.getParameter("cpage"));
+		} catch (Exception e) {}
+
+		String navi = tservice.getPageNavi_lesson(cpage, orderBy);
+		model.addAttribute("navi", navi);
+
+		List<LessonDTO> lessonlist = tservice.searchKeword(cpage, param);
+		System.out.println(lessonlist);
+		model.addAttribute("lessonlist",lessonlist);
+		return "/tutor/lessonList";
+
+	}
+	
 	//강의 view
 	@RequestMapping("lessonView")
 	public String lessonView(Model model, int seq) throws Exception{
 		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
 		String id = mdto.getId();
+		
 		Map<Object, Object> param = new HashMap<>();
 		param.put("id", id);
 		param.put("parent_seq", seq);
@@ -356,8 +387,8 @@ public class TutorController {
 	@RequestMapping("reportProc")
 	public String reportProc(Model model, ReportListDTO rldto) throws Exception{
 		tservice.reportProc(rldto);
-		
-		return "redirect : /tutor/lessonView?seq="+rldto.getParent_seq();
+		return "redirect: /tutor/lessonView?seq="+rldto.getParent_seq();
 	}
 
+	
 }

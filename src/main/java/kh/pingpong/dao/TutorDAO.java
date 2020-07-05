@@ -157,5 +157,16 @@ public class TutorDAO {
 		return mybatis.selectOne("Tutor.getArticleCount_lesson");
 	}
 	
+	//키워드로 검색해서 리스트 뽑기
+	public List<LessonDTO> searchKeword(int cpage, Map<String, String> param) throws Exception{
+		int start = cpage*Configuration.RECORD_COUNT_PER_PAGE - (Configuration.RECORD_COUNT_PER_PAGE - 1);
+		int end = start + (Configuration.RECORD_COUNT_PER_PAGE - 1);
+		
+		param.put("cpage", String.valueOf(cpage));
+		param.put("start", String.valueOf(start));
+		param.put("end", String.valueOf(end));
+		
+		return mybatis.selectList("Tutor.searchKeword", param);
+	}
 
 }

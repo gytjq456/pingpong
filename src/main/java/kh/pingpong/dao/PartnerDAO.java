@@ -30,8 +30,21 @@ public class PartnerDAO {
 		return mybatis.selectList("Partner.selectLanguage");
 	}
 	
-	//파트너 게시글
+	//리뷰
 	public PartnerDTO selectBySeq(int seq) throws Exception{
+		Double reviewAvg = mybatis.selectOne("Partner.reviewAvg",seq);
+		if(reviewAvg != null) {
+			reviewAvg = mybatis.selectOne("Partner.reviewAvg",seq);
+		}else {
+			reviewAvg = 0.0;
+		}
+		int reviewCount = mybatis.selectOne("Partner.reviewCount",seq);
+		Map<String, Object> paramVal = new HashMap<>();
+		paramVal.put("seq", seq);
+		paramVal.put("reviewCount", reviewCount);
+		paramVal.put("reviewAvg", reviewAvg);
+		mybatis.update("Partner.partnerReviewPoint",paramVal);
+		mybatis.update("Partner.partnerReviewCount",paramVal);
 		return mybatis.selectOne("Partner.selectBySeq", seq);
 	}
 	

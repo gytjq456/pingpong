@@ -12,10 +12,6 @@
 		select * from grouplist where seq = (select parent_seq from groupmember where id = #{id})
 	</select>
 	
-	<select id="tutorList" resultType="kh.pingpong.dto.TutorDTO">
-		select * from tutor where id = #{id}
-	</select>
-	
 	<select id="tuteeList" resultType="kh.pingpong.dto.TuteeDTO">
 		select * from tutee
 	</select>

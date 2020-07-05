@@ -18,7 +18,6 @@ import kh.pingpong.dto.LikeListDTO;
 import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.dto.PartnerDTO;
 import kh.pingpong.dto.TuteeDTO;
-import kh.pingpong.dto.TutorDTO;
 import kh.pingpong.service.MyPageService;
 
 @Controller
@@ -79,9 +78,7 @@ public class MypageController {
 	@RequestMapping("tutorRecord")
 	public String tutorRecord(Model model) throws Exception{
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
-		List<TutorDTO> trlist = mpservice.selectTutorList();
 		List<TuteeDTO> telist = mpservice.selectTuteeList(); 
-		model.addAttribute("trlist", trlist);
 		model.addAttribute("telist", telist);
 		return "/mypage/tutorRecord"; 
 	}

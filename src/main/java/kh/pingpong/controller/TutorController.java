@@ -406,7 +406,6 @@ public class TutorController {
 	//강의 신청서 수정버튼
 	@RequestMapping("lessonUpdate")
 	public String lessonUpdate(Model model, int seq) throws Exception{
-		
 		LessonDTO ldto = tservice.lessonView(seq);
 		model.addAttribute("seq", seq);
 		model.addAttribute("ldto",ldto);

@@ -210,6 +210,7 @@ public class PartnerController {
 		return "/partner/partnerList";
 	}
 	
+	
 	//리뷰 글쓰기
 //	@ResponseBody
 //	@RequestMapping("reviewWrite")

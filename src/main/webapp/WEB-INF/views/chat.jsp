@@ -110,8 +110,10 @@
 							
 							ws.onopen = function(){
 								var msg = {
+									chatRoom : chatRoom,
 									type:"register",
-									userid:"${sessionScope.loginInfo.id}"
+									userid:"${sessionScope.loginInfo.id}",
+									targetId:uid
 								}
 								ws.send(JSON.stringify(msg));
 								
@@ -163,9 +165,9 @@
 									chatRoom : chatRoom,
 									type: "message",
 									text: chatTxt,
-									id:   "${sessionScope.loginInfo.name}",
+									userid:   "${sessionScope.loginInfo.name}",
 									date: timeResult,
-									target:uid
+									targetId:uid
 								};
 								
 								$(".chatBox .txtRow").append(userInfo_s1);

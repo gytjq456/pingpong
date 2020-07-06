@@ -21,8 +21,10 @@
 			전화번호: ${ttdto.phone}<br>
 			계좌번호: (${ttdto.bank_name})${ttdto.account}<br>
 			프로필: ${ttdto.profile}<br>
-			부모: ${ttdto.parent_seq}
+			부모: ${ttdto.parent_seq}<br>
 		</c:otherwise>
 	</c:choose>
+	<a href="/admin/deleteBySeq?pageName=tuteeList&seq=${ttdto.seq}">삭제</a>
+	<a href="/admin/tuteeList">목록으로</a>
 </body>
 </html>

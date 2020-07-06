@@ -33,8 +33,11 @@
 			리뷰수: ${ladto.review_count}<br>
 			평점: ${ladto.review_point}<br>
 			모집중: ${ladto.applying}<br>
-			진행중: ${ladto.proceeding}
+			진행중: ${ladto.proceeding}<br>
 		</c:otherwise>
 	</c:choose>
+	<a href="/admin/lessonPass?seq=${ladto.seq}">승인</a>
+	<a href="/admin/deleteBySeq?pageName=lessonAppList&seq=${ladto.seq}">삭제</a>
+	<a href="/admin/lessonAppList">목록으로</a>
 </body>
 </html>

@@ -15,6 +15,7 @@
 		</c:when>
 		<c:otherwise>
 			<c:forEach var="lalist" items="${lalist}">
+				<input type="checkbox" value="${lalist.seq}">
 				${lalist.seq} : 
 				<a href="/admin/lessonAppView?seq=${lalist.seq}">${lalist.id}</a>
 				 : ${lalist.name} : ${lalist.email} : 
@@ -23,5 +24,7 @@
 			</c:forEach>
 		</c:otherwise>
 	</c:choose>
+	<div class="navi">${navi}</div>
+	<a href="/admin">관리자 메인</a>
 </body>
 </html>

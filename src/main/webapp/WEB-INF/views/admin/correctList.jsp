@@ -15,11 +15,14 @@
 		</c:when>
 		<c:otherwise>
 			<c:forEach var="clist" items="${clist}">
+				<input type="checkbox" value="${clist.seq}">
 				${clist.seq} : ${clist.writer} : ${clist.language} : 
 				 <a href="/admin/correctView?seq=${clist.seq}">${clist.title}</a>
 				  : ${clist.type} : ${clist.write_date}<br>
 			</c:forEach>
 		</c:otherwise>
 	</c:choose>
+	<div class="navi">${navi}</div>
+	<a href="/admin">관리자 메인</a>
 </body>
 </html>

@@ -35,5 +35,6 @@
 			<a href="/admin/logout">로그아웃</a>
 		</c:otherwise>
 	</c:choose>
+	<a href="/">메인으로</a>
 </body>
 </html>

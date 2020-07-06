@@ -113,6 +113,7 @@ public class GroupController {
 			hobby_arr.add(hobby[i]);
 		}
 		List<GroupDTO> relatedGroup = gservice.relatedGroup(hobby_arr);
+		List<GroupMemberDTO> memberList = gservice.selectGroupMemberList(seq);
 		
 		for (int i = 0; i < relatedGroup.size(); i++) {
 			int rseq = relatedGroup.get(i).getSeq();
@@ -144,21 +145,17 @@ public class GroupController {
 		gmdto.setId(id);
 		gmdto.setParent_seq(seq);
 		
-		GroupMemberDTO checkGmdto = gservice.selectGroupMemberById(gmdto);
-		
 		boolean checkLike = gservice.selectLike(param);
 		boolean checkJjim = gservice.selectJjim(jdto);
 		boolean checkApply = gservice.selectApplyForm(gadto);
-		boolean checkMember = true;
-		if (checkGmdto == null) {
-			checkMember = false;
-		}
+		boolean checkMember = gservice.selectGroupMemberById(gmdto);
 		
 		//리뷰 리스트 출력
 		List<ReviewDTO> reviewList = gservice.reviewList(seq);
 		
 		model.addAttribute("relatedGroup", relatedGroup);
 		model.addAttribute("gdto", gdto);
+		model.addAttribute("memberList", memberList);
 		model.addAttribute("checkLike", checkLike);
 		model.addAttribute("checkJjim", checkJjim);
 		model.addAttribute("checkApply", checkApply);

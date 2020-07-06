@@ -15,6 +15,7 @@
 		</c:when>
 		<c:otherwise>
 			<c:forEach var="dlist" items="${dlist}">
+				<input type="checkbox" value="${dlist.seq}">
 				${dlist.seq} : 
 				<a href="/admin/discussionView?seq=${dlist.seq}">${dlist.writer}</a>
 				 : ${dlist.title} : ${dlist.caution} : 
@@ -22,5 +23,7 @@
 			</c:forEach>
 		</c:otherwise>
 	</c:choose>
+	<div class="navi">${navi}</div>
+	<a href="/admin">관리자 메인</a>
 </body>
 </html>

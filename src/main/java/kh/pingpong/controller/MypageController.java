@@ -1,8 +1,6 @@
 package kh.pingpong.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -13,8 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import kh.pingpong.dto.GroupApplyDTO;
 import kh.pingpong.dto.GroupDTO;
-import kh.pingpong.dto.GroupMemberDTO;
-import kh.pingpong.dto.LikeListDTO;
+import kh.pingpong.dto.LessonDTO;
 import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.dto.PartnerDTO;
 import kh.pingpong.dto.TuteeDTO;
@@ -46,14 +43,6 @@ public class MypageController {
 	private MyPageService mpservice;
 	
 	//그룹 관련
-//	@RequestMapping("groupRecord")
-//	public String groupRecord(Model model) throws Exception{
-//		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
-//		List<GroupDTO> glist = mpservice.selectGroupList();
-//		model.addAttribute("glist", glist);
-//		return "/mypage/groupRecord";
-//	}
-	
 	@RequestMapping("groupRecord")
 	public String selectByIdInGroup(Model model) throws Exception{
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
@@ -75,20 +64,27 @@ public class MypageController {
 		model.addAttribute("plist", plist);
 		return "/mypage/partnerRecord";
 	}
+	
 	@RequestMapping("tutorRecord")
 	public String tutorRecord(Model model) throws Exception{
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
+		List<LessonDTO> trlist = mpservice.selectTutorList(loginInfo);
 		List<TuteeDTO> telist = mpservice.selectTuteeList(); 
+		model.addAttribute("trlist", trlist);
 		model.addAttribute("telist", telist);
+
 		return "/mypage/tutorRecord"; 
 	}
-	
 	
 	@RequestMapping("likeRecord")
 	public String likeRecord(Model model) throws Exception{
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
-		List<LikeListDTO> llist = mpservice.selectLikeList();
-		model.addAttribute("llist", llist);
+		List<PartnerDTO> plist = mpservice.selectPartnerJjim(loginInfo);
+		List<GroupDTO> glist = mpservice.selectGroupJjim(loginInfo);
+		List<LessonDTO> tlist = mpservice.selectTutorJjim(loginInfo);
+		model.addAttribute("plist", plist);
+		model.addAttribute("glist", glist);
+		model.addAttribute("tlist", tlist);
 		return "/mypage/likeRecord";
 	}
 

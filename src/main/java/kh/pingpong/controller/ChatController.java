@@ -32,11 +32,12 @@ public class ChatController {
 	@RequestMapping(value="create", produces="application/text;charset=utf8")
 	public String create(ChatRoomDTO chatDto) throws Exception{
 		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
-		String roomId = null;
+		String roomId = Configuration.room;
+		
+		
 		String usersIds = mdto.getId() +"," +chatDto.getChatMemberId();
 		String usersId = chatDto.getChatMemberId();
 		String usersNames = chatDto.getUsers() +","+mdto.getName();
-		
 		
 		String chatRoomId = chatService.chatRoomIdSch(mdto.getId(),usersId);
 		//System.out.println("chatRoomId = " +chatRoomId);
@@ -44,13 +45,14 @@ public class ChatController {
 		
 		if(chatRoomId == null) {
 			roomId = chatService.rndTxt();
+			session.setAttribute("roomId", roomId);
 			chatDto.setUsers(usersNames);
 			chatDto.setChatMemberId(usersIds);	
 			chatDto.setRoomId(roomId);
 			result = chatService.chatInsert(chatDto);
 			chatRoomId = chatService.chatRoomIdSch(mdto.getId(),usersId);
 		}
-		
+		session.setAttribute("roomId", chatRoomId);
 		List<ChatRecordDTO> chatRecord = chatService.chatRecordList(chatRoomId);
 		Configuration.chatRecord = chatRecord;
 		

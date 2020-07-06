@@ -9,11 +9,10 @@
 		<section id="subContents">
 			<div id="join">
 			    <h1>MEMBER</h1>
-				<form id="myInfoModifyProc">
-					<input type="hidden" name="mem_type" value="basic">
-					<input type="hidden" name="category" value="member">
-					<input type="hidden" name="grade" value="defalut">
-					
+			    <input type="hidden" id="id" name="id" value="${sessionScope.loginInfo.id}">
+				<input type="hidden" id="name" name="name" value="${sessionScope.loginInfo.name}">
+				<input type="hidden" id="email" name="email" value="${sessionScope.loginInfo.email}">
+			    
 					<div class="se_singup">
 						<div class="title">아이디</div>
 						<div class="se_con">
@@ -28,7 +27,7 @@
 												
 						<div class="se_con">
 							<div>
-								<button type="button" class="modyBtn">링크연결 수정</button>								
+								<button type="button" id="modyPwBtn">비밀번호 수정 바로가기</button>								
 							</div>
 						</div>
 						
@@ -63,8 +62,7 @@
 							${sessionScope.loginInfo.phone}
 							<div>
 								<button type="button" class="modyBtn">수정</button>
-								
-								<div class="show_input" id="phone_submit">
+								<div class="show_input">
 									<select id="phone_country" name="phone_country" class="w20">
 										<option value="null" id="phone_countryNull">선택 안함</option>
 										<option value="010">010</option>
@@ -72,6 +70,7 @@
 										<option value="070">070</option>
 									</select>
 									<input type="text" id="phone" name="phone" class="w80" placeholder="'-'는 제외하고 작성">
+									<button type="button" id="phone_Result">수정완료</button>
 								</div>
 							</div>							
 						</div>
@@ -89,7 +88,7 @@
 										<select name="gugun1" id="gugun1"></select>
 										<input type="hidden" name="address" id="address">
 									</div>
-									<button type="button" id="addressBtn">수정완료</button>
+									<button type="button" id="address_Result">수정완료</button>
 								</div>
 							</div>
 						</div>
@@ -110,6 +109,7 @@
 										</c:forEach>
 									</select>
 									<input type="text" id="account" name="account" class="w80">
+									<button type="button" id="bank_Result">수정완료</button>
 								</div>
 							</div>
 						</div>
@@ -122,7 +122,10 @@
 							<div>
 								<button type="button" class="modyBtn">수정</button>
 								<div class="show_input">
-									<input type="file" id="profile" name="profile">
+									<form id="profile_form">
+										<input type="file" id="profile" name="profile">
+										<input type="submit" value="수정완료">
+									</form>
 								</div>
 							</div>
 						</div>
@@ -141,6 +144,7 @@
 											<option value="${i.name}">${i.name}</option>
 										</c:forEach>
 									</select>
+									<button type="button" id="country_Result">수정완료</button>
 								</div>
 							</div>
 						</div>
@@ -157,6 +161,7 @@
 										<input type="checkbox" name="lang_can" value="${i.language}" id="test${status.index}" name="lang_can"/>
 										<label for="test${status.index}" >${i.language}</label>
 									</c:forEach>
+									<button type="button" id="lang_can_Result">수정완료</button>
 								</div>
 							</div>
 						</div>
@@ -175,6 +180,7 @@
 											<label for="test2${status.index}" >${i.language}</label>
 										</span>	
 									</c:forEach>
+									<button type="button" id="lang_learn_Result">수정완료</button>
 								</div>
 							</div>
 						</div>
@@ -191,6 +197,7 @@
 										<input type="checkbox" name="hobby" value="${i.hobby}" id="test3${status.index}" name="hobby">
 										<label for="test3${status.index}">${i.hobby}</label>
 									</c:forEach>
+									<button type="button" id="hobby_Result">수정완료</button>
 								</div>
 							</div>
 						</div>
@@ -205,16 +212,11 @@
 								<div class="show_input">							
 									<textarea id="introduce" name="introduce" class="w100" placeholder="50글자 이상 작성해주세요"></textarea>
 									<span id="counter">(0 / 최대 500자)</span>
+									<button type="button" id="introduce_Result">수정완료</button>
 								</div>
 							</div>
 						</div>
 					</div>
-		
-					<div class="si_btn">
-						<input value="회원가입" type="submit" id="myInfoModifyBtn">
-						<a href="javascript:history.back();">뒤로가기</a>
-					</div>
-				</form>
 			</div>
 		</section>
 	</div>

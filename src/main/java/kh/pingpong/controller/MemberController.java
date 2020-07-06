@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kh.pingpong.dto.BankDTO;
@@ -174,7 +175,7 @@ public class MemberController {
 		// 회원 파일 하나 저장
 		String realPath = session.getServletContext().getRealPath("upload/member/" + mdto.getId() + "/");
 		fdto = fcon.fileOneInsert(mdto, fdto, realPath);
-		int result = mservice.memberInsert(mdto, fdto);
+		mservice.memberInsert(mdto, fdto);
 
 		return "redirect:/member/memberComplete";
 	}
@@ -252,7 +253,6 @@ public class MemberController {
 		model.addAttribute("mlist",mlist);
 		return "/member/idResult";
 	}
-	
 	/* 비밀번호 찾기  jsp 이동*/
 	@RequestMapping("pwFind")
 	public String pwFind() throws Exception{
@@ -261,7 +261,7 @@ public class MemberController {
 	
 	/* 비번 찾기  */	
 	@ResponseBody
-	@RequestMapping(value="pwFindProc")
+	@RequestMapping("pwFindProc")
 	public String pwFindProc(MemberDTO mdto) throws Exception{
 		System.out.println(mdto.getName() + "   :: 이름");
 		System.out.println(mdto.getEmail() + "   :: 이메일");
@@ -318,26 +318,216 @@ public class MemberController {
 		return "/member/myInfoModify";
 	}
 	
-	/* 회원정보 수정 */
+	/* :::: 회원정보 수정 ::::  */
+	/* 전화번호 */
 	@ResponseBody
-	@RequestMapping("myInfoModifyProc")
-	public String myInfoModifyProc(MemberDTO mdto) throws Exception{
+	@RequestMapping("myInfoMoPhone")
+	public String myInfoMoPhone(MemberDTO mdto) throws Exception{
 		MemberDTO loginMdto = (MemberDTO)session.getAttribute("loginInfo");
-		loginMdto.setPw(mdto.getPw());
-		loginMdto.setPhone_country(mdto.getPhone_country());
-		loginMdto.setPhone(mdto.getPhone());
-		loginMdto.setAddress(mdto.getAddress());
-		loginMdto.setBank_name(mdto.getBank_name());
-		loginMdto.setAccount(mdto.getAccount());
-		loginMdto.setProfile(mdto.getProfile());
-		loginMdto.setCountry(mdto.getCountry());
-		loginMdto.setIntroduce(mdto.getIntroduce());
+		mdto.setId(loginMdto.getId());
 		
-		System.out.println(loginMdto.getPw() + " 비밀번호");
-		System.out.println(loginMdto.getPhone() + " 전화번호");
+		System.out.println(mdto.getPhone());
+		System.out.println(mdto.getPhone_country());
+		System.out.println(mdto.getId());
 		
-		//int result = mservice.myInfoModifyProc(loginMdto);		
-		return Integer.toString(1);		
+		int result = mservice.myInfoMoPhone(mdto);
+		
+		//세션값 다시 불러오기
+		MemberDTO loginInfo = mservice.loginInfo(mdto);		
+		session.setAttribute("loginInfo",loginInfo);
+		
+		return Integer.toString(result);		
+	}
+	
+	/* 주소 */
+	@ResponseBody
+	@RequestMapping("myInfoMoAddress")
+	public String myInfoMoAddress(MemberDTO mdto) throws Exception{
+		MemberDTO loginMdto = (MemberDTO)session.getAttribute("loginInfo");
+		mdto.setId(loginMdto.getId());
+		
+		int result = mservice.myInfoMoAddress(mdto);
+		
+		//세션값 다시 불러오기
+		MemberDTO loginInfo = mservice.loginInfo(mdto);		
+		session.setAttribute("loginInfo",loginInfo);
+				
+		return Integer.toString(result);		
+	}
+	
+	/* 은행 */
+	@ResponseBody
+	@RequestMapping("myInfoMobank")
+	public String myInfoMobank(MemberDTO mdto) throws Exception{
+		MemberDTO loginMdto = (MemberDTO)session.getAttribute("loginInfo");
+		mdto.setId(loginMdto.getId());
+		
+		int result = mservice.myInfoMobank(mdto);
+		
+		//세션값 다시 불러오기
+		MemberDTO loginInfo = mservice.loginInfo(mdto);		
+		session.setAttribute("loginInfo",loginInfo);
+		
+		return Integer.toString(result);		
+	}
+	
+	/* 프로필 */
+	@ResponseBody
+	@RequestMapping("myInfoProfile")
+	public String myInfoProfile(MemberDTO mdto, FileDTO fdto) throws Exception{
+		MemberDTO loginMdto = (MemberDTO)session.getAttribute("loginInfo");
+		mdto.setId(loginMdto.getId());
+		mdto.setSysname(loginMdto.getSysname());
+		
+		// 회원 파일 하나 저장
+		String realPath = session.getServletContext().getRealPath("upload/member/" + mdto.getId() + "/");
+		fdto = fcon.fileOneInsert(mdto, fdto, realPath);
+		int result = mservice.myInfoProfile(mdto, fdto);
+		
+		//세션값 다시 불러오기
+		MemberDTO loginInfo = mservice.loginInfo(mdto);		
+		session.setAttribute("loginInfo",loginInfo);
+		
+		return Integer.toString(result);		
+	}
+	
+	/* 나라 */
+	@ResponseBody
+	@RequestMapping("myInfoCountry")
+	public String myInfoCountry(MemberDTO mdto) throws Exception{
+		MemberDTO loginMdto = (MemberDTO)session.getAttribute("loginInfo");
+		mdto.setId(loginMdto.getId());
+		
+		int result = mservice.myInfoCountry(mdto);
+		
+		//세션값 다시 불러오기
+		MemberDTO loginInfo = mservice.loginInfo(mdto);		
+		session.setAttribute("loginInfo",loginInfo);
+		
+		return Integer.toString(result);		
+	}
+	
+	/* 구사 언어  */
+	@ResponseBody
+	@RequestMapping("myInfoLang_can")
+	public String myInfoLang_can(@RequestParam(value="langArrayA[]") List<String> lang_can, MemberDTO mdto) throws Exception{
+		
+		StringBuilder sb = new StringBuilder();
+		int size = lang_can.size();
+		System.out.println(size);
+		
+		int count = 0;
+		for( String a : lang_can) {
+			sb.append(a);
+			if(count < lang_can.size()-1) {
+				sb.append(","); 
+			}
+			count++;
+		}
+		
+		MemberDTO loginMdto = (MemberDTO)session.getAttribute("loginInfo");
+		mdto.setId(loginMdto.getId());
+		mdto.setLang_can(sb.toString());
+		
+		int result = mservice.myInfoLang_can(mdto);
+		
+		//세션값 다시 불러오기
+		MemberDTO loginInfo = mservice.loginInfo(mdto);		
+		session.setAttribute("loginInfo",loginInfo);
+		
+		return Integer.toString(result);		
+	}
+	
+	/* 배우고 싶은 언어  */
+	@ResponseBody
+	@RequestMapping("myInfoLang_learn")
+	public String myInfoLang_learn(@RequestParam(value="langArrayA[]") List<String> lang_learn, MemberDTO mdto) throws Exception{
+		
+		StringBuilder sb = new StringBuilder();
+		int size = lang_learn.size();
+		System.out.println(size);
+		
+		int count = 0;
+		for( String a : lang_learn) {
+			sb.append(a);
+			if(count < lang_learn.size()-1) {
+				sb.append(","); 
+			}
+			count++;
+		}
+		
+		MemberDTO loginMdto = (MemberDTO)session.getAttribute("loginInfo");
+		mdto.setId(loginMdto.getId());
+		mdto.setLang_learn(sb.toString());
+		
+		int result = mservice.myInfoLang_learn(mdto);
+		
+		//세션값 다시 불러오기
+		MemberDTO loginInfo = mservice.loginInfo(mdto);		
+		session.setAttribute("loginInfo",loginInfo);
+		
+		return Integer.toString(result);		
+	}
+	
+	/* 취미  */
+	@ResponseBody
+	@RequestMapping("myInfoHobby")
+	public String myInfoHobby(@RequestParam(value="hobbyArrayA[]") List<String> hobby, MemberDTO mdto) throws Exception{
+		
+		StringBuilder sb = new StringBuilder();
+		int size = hobby.size();
+		int count = 0;
+		for( String a : hobby) {
+			sb.append(a);
+			if(count < hobby.size()-1) {
+				sb.append(","); 
+			}
+			count++;
+		}
+		
+		MemberDTO loginMdto = (MemberDTO)session.getAttribute("loginInfo");
+		mdto.setId(loginMdto.getId());
+		mdto.setHobby(sb.toString());
+		
+		int result = mservice.myInfoHobby(mdto);
+		
+		//세션값 다시 불러오기
+		MemberDTO loginInfo = mservice.loginInfo(mdto);		
+		session.setAttribute("loginInfo",loginInfo);
+		
+		return Integer.toString(result);		
+	}
+	
+	/* introduce */
+	@ResponseBody
+	@RequestMapping("myInfoIntroduce")
+	public String myInfoIntroduce(MemberDTO mdto) throws Exception{
+		MemberDTO loginMdto = (MemberDTO)session.getAttribute("loginInfo");
+		mdto.setId(loginMdto.getId());
+		
+		int result = mservice.myInfoIntroduce(mdto);
+		
+		//세션값 다시 불러오기
+		MemberDTO loginInfo = mservice.loginInfo(mdto);		
+		session.setAttribute("loginInfo",loginInfo);
+		
+		return Integer.toString(result);		
+	}
+	
+	
+	/* sns로그인 */
+	@RequestMapping("snsSingUp")
+	public String snsSingUp(MemberDTO mdto, String kakaoId, String kakaoNickname) throws Exception{
+		MemberDTO loginMdto = (MemberDTO)session.getAttribute("loginInfo");
+		mdto.setId(loginMdto.getId());
+		
+		int result = mservice.myInfoIntroduce(mdto);
+		
+		//세션값 다시 불러오기
+		MemberDTO loginInfo = mservice.loginInfo(mdto);		
+		session.setAttribute("loginInfo",loginInfo);
+		
+		return Integer.toString(result);		
 	}
 	
 }

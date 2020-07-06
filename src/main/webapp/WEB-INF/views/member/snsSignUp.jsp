@@ -3,15 +3,14 @@
 			<div id="join">
 			    <h1>MEMBER</h1>
 				<form action="joinProc" method="post" id="joinProc" enctype="multipart/form-data">
-					<input type="hidden" name="mem_type" value="basic">
+					<input type="hidden" name="mem_type" value="${mdto.mem_type}">
 					<input type="hidden" name="category" value="member">
 					<input type="hidden" name="grade" value="defalut">
 					
 					<div class="se_singup">
 						<div class="title">아이디</div>
 						<div class="se_con">
-							<input type="text" name="id" id="id" class="w80">
-							<button type="button" class="w20 idck" id="duplcheckId">중복확인</button>
+							${mdto.id}
 						</div>
 					</div>
 		
@@ -33,7 +32,7 @@
 					<div class="se_singup">
 						<div class="title">이름</div>
 						<div class="se_con">
-							<input type="text" id="name" name="name" class="w100">
+							${mdto.name}
 						</div>
 					</div>
 		

@@ -100,9 +100,7 @@
 					<div class="se_singup">
 						<div class="title">프로필 사진</div>
 						<div class="se_con">
-							<form id="profile_form">
-								<input type="file" id="profile" name="profile">
-							</form>							
+							<input type="file" id="profile" name="profile">
 						</div>
 					</div>
 		
@@ -153,13 +151,14 @@
 					<div class="se_singup">
 						<div class="title">자기소개</div>
 						<div class="se_con">
-							<textarea id="introduce" name="introduce" class="w100"> </textarea>
+							<textarea id="introduce" name="introduce" class="w100" placeholder="자기소개를 최소 50글자 이상 작성해주세요."></textarea>
 							<span id="counter">(0 / 최대 500자)</span>
 
 						</div>
 					</div>
 		
 					<div class="si_btn">
+						<input value="회원가입" type="submit" id="joinBtn">
 						<a href="javascript:history.back();">뒤로가기</a>
 					</div>
 				</form>

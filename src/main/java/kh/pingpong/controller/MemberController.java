@@ -375,9 +375,12 @@ public class MemberController {
 	@ResponseBody
 	@RequestMapping("myInfoProfile")
 	public String myInfoProfile(MemberDTO mdto, FileDTO fdto) throws Exception{
+		System.out.println("아아아");
 		MemberDTO loginMdto = (MemberDTO)session.getAttribute("loginInfo");
 		mdto.setId(loginMdto.getId());
-		mdto.setSysname(loginMdto.getSysname());
+		System.out.println("아아아??");
+		System.out.println(mdto.getProfile());
+		//mdto.setSysname(loginMdto.getSysname());
 		
 		// 회원 파일 하나 저장
 		String realPath = session.getServletContext().getRealPath("upload/member/" + mdto.getId() + "/");
@@ -479,7 +482,7 @@ public class MemberController {
 		int count = 0;
 		for( String a : hobby) {
 			sb.append(a);
-			if(count < hobby.size()-1) {
+			if(count < size-1) {
 				sb.append(","); 
 			}
 			count++;
@@ -515,19 +518,28 @@ public class MemberController {
 	}
 	
 	
-	/* sns로그인 */
+	/* sns jsp */
 	@RequestMapping("snsSingUp")
-	public String snsSingUp(MemberDTO mdto, String kakaoId, String kakaoNickname) throws Exception{
-		MemberDTO loginMdto = (MemberDTO)session.getAttribute("loginInfo");
-		mdto.setId(loginMdto.getId());
+	public String snsSingUp(String mem_type, String kakaoId, String kakaoNickname, Model model) throws Exception{
+		MemberDTO mdto = new MemberDTO();
+		mdto.setMem_type(mem_type);
+		mdto.setId(kakaoId);
+		mdto.setName(kakaoNickname);
+		model.addAttribute("mdto",mdto);
 		
+		return "/member/snsSingUp";		
+	}
+	
+	/* sns로그인 */
+	@RequestMapping("snsSingUpProc")
+	public String snsSingUpProc(MemberDTO mdto) throws Exception{
 		int result = mservice.myInfoIntroduce(mdto);
 		
 		//세션값 다시 불러오기
 		MemberDTO loginInfo = mservice.loginInfo(mdto);		
 		session.setAttribute("loginInfo",loginInfo);
 		
-		return Integer.toString(result);		
+		return "/member/memberComplete";		
 	}
 	
 }

@@ -252,9 +252,9 @@ $(function(){
 		}
 		
 		/* 자기소개  */
-		if(introduce.val().length < 100){
+		if(introduce.val().length < 50){
 			introduce.focus();
-			alert("자기소개를 최소 100글자 이상 작성해주세요.");
+			alert("자기소개를 최소 50글자 이상 작성해주세요.");
 			return false;
 		}
 		

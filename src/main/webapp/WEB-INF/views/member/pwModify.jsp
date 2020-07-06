@@ -81,7 +81,7 @@
 					<input type="hidden" name="email" id="email" value="${mdto.email}">
 					<div><input type="password" id="pw" name="pw" placeholder="수정할 비밀번호를 입력해주세요"></div>
 					<div><input type="password" id="pw_ck" name="pw_ck" placeholder="수정할 비밀번호를 재입력해주세요"></div>				
-					<div id="pwConfrom">ㅇㅇ</div>
+					<div id="pwConfrom"></div>
 					<div><input type="submit" id="submitBtn"></div>
 				</form>
 			</div>

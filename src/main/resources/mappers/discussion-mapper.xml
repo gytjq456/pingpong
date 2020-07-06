@@ -16,7 +16,25 @@
 	<select id="selectAll" resultType="kh.pingpong.dto.DiscussionDTO">
 		<!-- select * from discussion order by seq desc -->
 		select * from ( select discussion.*, row_number() over(order by seq desc) rnum from discussion ) where rnum between #{start} and #{end}
-		
+	</select>
+	<!-- 토론 전체 글 조회  -->
+	<select id="kewordSch" resultType="kh.pingpong.dto.DiscussionDTO">
+		select * from ( select discussion.*, row_number() over(order by seq desc) rnum 
+		from discussion 
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="type != null">
+				<if test="type == 'writer'">
+					writer like '%${keyword}%'
+				</if>
+				<if test="type == 'title'">
+					title like '%${keyword}%'
+				</if>
+				<if test="type == 'contents'">
+					contents like '%${keyword}%'
+				</if>
+			</if>
+		</trim>
+		) where rnum between #{start} and #{end}
 	</select>
 	
 	<!-- 토론 해당 글 조회  -->
@@ -103,11 +121,27 @@
 	
 	<!-- 토론 리스트 검색 최신순 / 인기순 -->
 	<select id="alignType" resultType="kh.pingpong.dto.DiscussionDTO">
-		select * from discussion
+		select * from ( select discussion.*, row_number() over(
 		<trim prefix="ORDER BY"> 
 	         <if test="alignType == 'recent'">  write_date desc</if>
 	         <if test="alignType == 'like'">  like_count desc</if>
 		</trim> 
+		) rnum 
+		from discussion 
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="type != null">
+				<if test="type == 'writer'">
+					writer like '%${keyword}%'
+				</if>
+				<if test="type == 'title'">
+					title like '%${keyword}%'
+				</if>
+				<if test="type == 'contents'">
+					contents like '%${keyword}%'
+				</if>
+			</if>
+		</trim>
+		) where rnum between #{start} and #{end}
 	</select>
 	
 	<!-- 토론 더 보기 추천순 -->
@@ -122,7 +156,23 @@
 	
 	<!-- 토론 게시글 페이징  -->
 	<select id="getArticleCount_discussion" resultType="int">
-		select count(*) from discussion
+		<!-- select count(*) from discussion -->
+		select count(*) from ( select discussion.*, row_number() over(order by seq desc) rnum 
+		from discussion 
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="type != null">
+				<if test="type == 'writer'">
+					writer = #{keyword}
+				</if>
+				<if test="type == 'title'">
+					title = #{keyword}
+				</if>
+				<if test="type == 'contents'">
+					contents like '%${keyword}%'
+				</if>
+			</if>
+		</trim>
+		)
 	</select>
 	
 	

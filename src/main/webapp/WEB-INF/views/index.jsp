@@ -3,7 +3,24 @@
 <jsp:include page="header.jsp"/>
 	
 	<div id="main" class="hdMargin">
+        <script src="/resources/js/main.js"></script>
+        
+        <section id="mainVisual">
+            <div class="visu">
+                <article class="item item1">
 
+                </article>
+                <article class="item item2">
+
+                </article>
+                <article class="item item3">
+
+                </article>
+            </div>
+            <div class="txt_box">
+                <h2>텍스트 텍스트 텍스트 텍스트 텍스트 </h2>
+            </div>
+        </section>
 	</div>
 	
 	

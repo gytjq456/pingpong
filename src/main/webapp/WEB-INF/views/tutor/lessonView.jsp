@@ -32,6 +32,28 @@ $(function(){
 		$("#jjim").css('color','rgb(240,7,7)')
 	}
 	
+	//같은사람이 결제하기 또 눌렀는지 확인
+	$("#pay").on("click", function(){
+		var seq = ${seq};
+		$.ajax({
+			url:"/payments/payTrue",
+			data:{
+				parent_seq : seq
+			},
+			type: "POST"
+		}).done(function(resp){
+			console(resp);
+			if(result>0){
+				alert("이미 결제한 강의 입니다.");
+				location.href="/tutor/lessonView?seq="+seq;
+				return false;
+			}
+		}).fail(function(error1, error2) {
+			console.log(error1);
+			console.log(error2);
+		})
+	})
+	
 	$("#like").on("click", function(){
 		console.log($(this).css('color'));
 		var seq = ${seq};
@@ -261,7 +283,7 @@ $(function(){
 					<li><a href="#;">강의문의</a></li>
 					<li><a href="#;">환불안내</a></li>
 					<li><a href="#;">리뷰</a></li>
-					<li><a href="/tutor/payMain?parent_seq=${ldto.seq }&title=${ldto.title}">결제하기</a></li>
+					<li><a href="/payments/payMain?parent_seq=${ldto.seq }&title=${ldto.title}&price=${ldto.price}" id="pay">결제하기</a></li>
 				</ul>
 			</div>
 			

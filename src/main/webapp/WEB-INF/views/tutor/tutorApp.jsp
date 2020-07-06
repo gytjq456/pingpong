@@ -61,16 +61,24 @@
 	float: left;
 	width: 90%;
 }
+.file{float:left;}
 </style>
 
 <script>
 	$(function() {
+		//파일 첨부 여러개
 		$("#fileAdd").on("click", function() {
-			var fileComp = $("<div><input type=file name=files></div>");
+			var fileComp = $("<div><input type=file class='file' name=files><input type='button' value='-' class='fileDelete'></div>");
 			$("#fileAdd").after(fileComp);
 		})
 		
-		// 글자수 체크
+		//파일 첨부한거 지우기
+		$(".license_contents").on("click",".fileDelete", function(){
+			console.log($(this).parent());
+			$(this).parent().remove();
+		})
+		
+		// 글자수 체크 -3개 다
 		$("#tutorApp_view").find("#career").keyup(function(){
 			var word = $(this).val();
 			var wordSize = word.length;

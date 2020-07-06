@@ -23,5 +23,20 @@
         </section>
 	</div>
 	
+	<div id="mainCont">
+		<section>
+			<div class="inner1200">
+				<div class="tit_main">
+					<h3>Partner & Tuttor</h3>
+				</div>
+				<div class="personList">
+					<ul>
+						<li></li>
+					</ul>
+				</div>
+			</div>
+		</section>
+	</div>
+	
 	
 <jsp:include page="footer.jsp"/>

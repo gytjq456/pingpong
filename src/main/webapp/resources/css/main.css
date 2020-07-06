@@ -1,1 +1,63 @@
-@charset "UTF-8";
+/* slick-slider 필수 css */
+.slick-slider{position:relative; display:block; box-sizing:border-box; -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; user-select:none; -webkit-touch-callout:none; -khtml-user-select:none; -ms-touch-action:pan-y; touch-action:pan-y; -webkit-tap-highlight-color:transparent;}
+.slick-list{position:relative; display:block; overflow:hidden; margin:0; padding:0;}
+.slick-list:focus{outline:none;}
+.slick-list.dragging{cursor:pointer; cursor:hand;}
+.slick-slider .slick-track,.slick-slider .slick-list{-webkit-transform:translate3d(0, 0, 0); -moz-transform:translate3d(0, 0, 0); -ms-transform:translate3d(0, 0, 0); -o-transform:translate3d(0, 0, 0); transform:translate3d(0, 0, 0);}
+.slick-track{position:relative; top:0; left:0; display:block;}
+.slick-track:before,.slick-track:after{display:table; content:'';}
+.slick-track:after{clear:both;}
+.slick-loading .slick-track{visibility:hidden;}
+.slick-slide{display:none; float:left; height:100%; min-height:1px;}
+[dir='rtl'] .slick-slide{float:right;}
+.slick-slide img{display: block; margin:0 auto;}
+.slick-slide.slick-loading img{display:none;}
+.slick-slide.dragging img{pointer-events:none;}
+.slick-initialized .slick-slide{display:block;}
+.slick-loading .slick-slide{visibility:hidden;}
+.slick-vertical .slick-slide{display:block;height:auto; border:1px solid transparent;}
+.slick-arrow.slick-hidden{display:none;}
+
+#main,
+#mainVisual { position:relative; overflow:hidden; }
+#mainVisual .visu {}
+#mainVisual .visu article { background-size:cover !important; height:640px;}
+#mainVisual .visu article.item1 { background:url("/resources/img/main/mainVisual01.jpg") no-repeat center;}
+#mainVisual .visu article.item2 { background:url("/resources/img/main/mainVisual02.jpg") no-repeat center;}
+#mainVisual .visu article.item3 { background:url("/resources/img/main/mainVisual03.jpg") no-repeat center;}
+#mainVisual .txt_box { position:absolute; left:50%; top:50%; width:100%; max-width:1200px; transform:translate(-50%,-50%); text-align:center; }
+#mainVisual .txt_box h2 { text-shadow:0 0 5px rgba(0,0,0,0.2); color:#fff; font-family: 'Sunflower', sans-serif; font-size:68px; font-weight:300; text-shadow: 0 5px 4px rgba(0, 0, 0, 0.2);}
+#mainVisual .txt_box .tagList { margin-top:60px; }
+#mainVisual .txt_box .tagList ul { font-size:0; letter-spacing:-4px;}
+#mainVisual .txt_box .tagList ul li { display:inline-block; letter-spacing: -1px; margin-right:10px; }
+#mainVisual .txt_box .tagList ul li:last-child { margin:0; }
+#mainVisual .txt_box .tagList ul li a { display:block; font-size:16px; background:rgba(255,255,255,0.8); color:#333; padding:16px 24px; border-radius:5px; }
+#mainVisual .txt_box .tagList ul li a:hover { color:#fff; background:#e47312;}
+#mainVisual .slick-arrow { position:absolute; top:50%; transform:translateY(-50%); z-index:10; width:80px; height:80px; z-index:10; border:none; text-indent: -9999px; background-size:100% !important;}
+#mainVisual .slick-next {right:20px; background:url("/resources/img/main/slide_next_off.png") no-repeat center top;}
+#mainVisual .slick-prev {left:20px; background:url("/resources/img/main/slide_prev_off.png") no-repeat center top; }
+#mainVisual .slick-next:hover { background:url("/resources/img/main/slide_next_on.png") no-repeat center top;}
+#mainVisual .slick-prev:hover { background:url("/resources/img/main/slide_prev_on.png") no-repeat center top; }
+
+
+#mainVisual .slick-dots { position:absolute; left:0; bottom:80px; width:100%;  text-align:center;}
+#mainVisual .slick-dots > li { display:inline-block; margin-right:16px;}
+#mainVisual .slick-dots > li:last-child { margin:0; }
+#mainVisual .slick-dots > li button { text-indent: -9999px; width:16px; height:16px; background:#fff; border-radius: 50%;  padding:0; border:none; }
+#mainVisual .slick-dots > li.slick-active button  { background:#e5d8bf;}
+
+
+
+/* 타이틀  */
+.tit_main { text-align:center;}
+.tit_main h3 { font-size:32px; font-weight:700;}
+
+/* 메인 컨텐츠 */
+#mainCont > section { position:relative; padding:70px 0; }
+
+
+
+
+
+
+

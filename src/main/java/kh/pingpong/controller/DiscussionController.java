@@ -1,10 +1,14 @@
 package kh.pingpong.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +23,8 @@ import com.google.gson.Gson;
 import kh.pingpong.dto.CommentDTO;
 import kh.pingpong.dto.DiscussionDTO;
 import kh.pingpong.dto.LanguageDTO;
+import kh.pingpong.dto.LikeListDTO;
+import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.service.DiscussionService;
 import kh.pingpong.service.PapagoService;
 
@@ -32,6 +38,9 @@ public class DiscussionController {
 	
 	@Autowired
 	private PapagoService papagoService;
+	
+	@Autowired
+	private HttpSession session;
 
 	// 글쓰기 페이지 
 	@RequestMapping("write")
@@ -51,23 +60,45 @@ public class DiscussionController {
 	// 글 목록 페이지
 	@RequestMapping("list")
 	public String list(Model model, HttpServletRequest request) throws Exception{
-		List<DiscussionDTO> list = disService.selectAll();
 		
 		int cpage = 1;
         try {
            cpage = Integer.parseInt(request.getParameter("cpage"));
         } catch (Exception e) {}
+        Map<String, Object> search = new HashMap<>();
+        List<DiscussionDTO> list = disService.selectAll(cpage);
         
-        String navi = disService.getPageNavi_discussion(cpage);
+        String navi = disService.getPageNavi_discussion(cpage,search);
 		model.addAttribute("navi", navi);
 		model.addAttribute("list", list);
 		return "board/discussion/list";
 	}
 
+	// 토론 작성자/제목 / 내용 검색
+	@RequestMapping("kewordSch")
+	public String kewordSch(String type, String keyword, HttpServletRequest request, Model model) throws Exception{
+		int cpage = 1;
+        try {
+           cpage = Integer.parseInt(request.getParameter("cpage"));
+        } catch (Exception e) {}		
+        Map<String, Object> search = new HashMap<>();
+		search.put("type", type);
+		search.put("keyword", keyword);
+		List<DiscussionDTO> list = disService.kewordSch(cpage,search);
+		String navi = disService.getPageNavi_discussion(cpage,search);
+		model.addAttribute("type",type);
+		model.addAttribute("keyword",keyword);
+		model.addAttribute("list",list);
+		model.addAttribute("navi",navi);
+		return "board/discussion/list";
+	}
+	
+	
 	// 글 보기 
+	@Transactional("txManager")
 	@RequestMapping("view")
 	public String view(DiscussionDTO disDto, Model model, HttpServletRequest req, HttpServletResponse res) throws Exception{
-
+		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
 		//쿠키변수를 만들어서 값을 저장. 쿠키변수에 값이 있으면 조회수 증가 실행 하지 않음
 		Boolean isGet=false;
 		String seq = String.valueOf(disDto.getSeq());   
@@ -92,11 +123,31 @@ public class DiscussionController {
 		List<CommentDTO> bestCommDto = disService.bestComment(disDto.getSeq());
 		List<DiscussionDTO> moreList = disService.moreList(disDto.getSeq());
 
+		List<Boolean> checkLike = new ArrayList<>();
+		List<Boolean> checkHate = new ArrayList<>();
+		Boolean boardCheckLike = false;
+		Map<Object, Object> param = new HashMap<>();
+		for(CommentDTO checkLikeHate : commDto) {
+			System.out.println(checkLikeHate.getSeq());
+			param.put("id", loginInfo.getId());
+			param.put("parent_seq", checkLikeHate.getSeq());
+			param.put("category", "토론 댓글");
+			checkLike.add(disService.selectLike(param));
+			checkHate.add(disService.selecHate(param));
+		}
+		
+		param.put("id", loginInfo.getId());
+		param.put("parent_seq", disDto.getSeq());
+		param.put("category", "토론 게시글");
+		boardCheckLike = disService.selectLike(param);
 		
 		List<LanguageDTO> langList = disService.langSelectlAll();
 		model.addAttribute("langList", langList);
 		model.addAttribute("commentList", commDto);
 		model.addAttribute("bestCommentList", bestCommDto);
+		model.addAttribute("boardCheckLike", boardCheckLike);
+		model.addAttribute("checkLike", checkLike);
+		model.addAttribute("checkHate", checkHate);
 		model.addAttribute("disDto", disDto);
 		model.addAttribute("moreList", moreList);
 		return "board/discussion/view";
@@ -140,9 +191,31 @@ public class DiscussionController {
 	// 게시글 좋아요
 	@ResponseBody
 	@RequestMapping("like")
-	public String like(DiscussionDTO disDto) throws Exception{
-		int result = disService.like(disDto.getSeq());
-		if(result > 0) {
+	public String like(LikeListDTO ldto) throws Exception{
+		
+		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
+		Map<Object, Object> param = new HashMap<>();
+		param.put("id", loginInfo.getId());
+		param.put("parent_seq", ldto.getParent_seq());
+		param.put("category", ldto.getCategory());
+		int likeResult = 0;
+		System.out.println("나나나나나나나나나");
+		Boolean checkLike = disService.selectLike(param);
+		System.out.println(checkLike);
+		if(checkLike) {
+			ldto.setId(loginInfo.getId());
+			disService.likedelete(ldto.getParent_seq());
+			disService.deletetLike(ldto);
+			return String.valueOf("cancel");
+		}
+		
+		if(!checkLike) {
+			ldto.setId(loginInfo.getId());
+			disService.like(ldto.getParent_seq());
+			likeResult = disService.insertLike(ldto);
+		}
+		
+		if(likeResult > 0) {
 			return String.valueOf(true);
 		}else {
 			return String.valueOf(false);
@@ -166,22 +239,70 @@ public class DiscussionController {
 
 	// 댓글 좋아요
 	@ResponseBody
-	@RequestMapping("commentLike")
-	public String commentLike(CommentDTO commDTO) throws Exception{
-		int result = disService.commentLike(commDTO.getSeq());
-		if(result > 0) {
+	@RequestMapping(value="commentLike")
+	public String commentLike(LikeListDTO ldto) throws Exception{
+		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
+		Map<Object, Object> param = new HashMap<>();
+		param.put("id", loginInfo.getId());
+		param.put("parent_seq", ldto.getParent_seq());
+		param.put("category", ldto.getCategory());
+		int likeResult = 0;
+		Boolean checkLike = disService.selectLike(param);
+		Boolean checkHate = disService.selecHate(param);
+		if(checkLike) {
+			System.out.println(checkLike);
+			ldto.setId(loginInfo.getId());
+			disService.commentLikeCancel(ldto.getParent_seq());
+			disService.deletetLike(ldto);
+			return String.valueOf("cancel");
+		}
+		
+		
+		if(!checkLike && !checkHate) {
+			ldto.setId(loginInfo.getId());
+			disService.commentLike(ldto.getParent_seq());
+			likeResult = disService.insertLike(ldto);
+		}
+		
+		if(likeResult > 0) {
 			return String.valueOf(true);
 		}else {
 			return String.valueOf(false);
 		}
+		
 	}
 
 	// 댓글 싫어요
 	@ResponseBody
 	@RequestMapping("commentHate")
-	public String commentHate(CommentDTO commDTO) throws Exception{
-		int result = disService.commentHate(commDTO.getSeq());
-		if(result > 0) {
+	public String commentHate(LikeListDTO ldto) throws Exception{
+		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
+		Map<Object, Object> param = new HashMap<>();
+		param.put("id", loginInfo.getId());
+		param.put("parent_seq", ldto.getParent_seq());
+		param.put("category", ldto.getCategory());
+		int likeResult = 0;
+		
+		Boolean checkHate = disService.selecHate(param);
+		Boolean checkLike = disService.selectLike(param);
+		System.out.println(checkLike);
+		
+		if(checkHate) {
+			ldto.setId(loginInfo.getId());
+			System.out.println(ldto.getId());
+			System.out.println(ldto.getParent_seq());
+			disService.commentHateCancel(ldto.getParent_seq());
+			likeResult = disService.deletetHate(ldto);
+			return String.valueOf("cancel");
+		}
+		
+		if(!checkLike && !checkHate) {
+			ldto.setId(loginInfo.getId());
+			disService.commentHate(ldto.getParent_seq());
+			likeResult = disService.insertHate(ldto);
+		}
+		
+		if(likeResult > 0) {
 			return String.valueOf(true);
 		}else {
 			return String.valueOf(false);
@@ -202,14 +323,27 @@ public class DiscussionController {
 	}
 
 	@RequestMapping("align")
-	public String align(HttpServletRequest req, Model model) throws Exception{
+	public String align(String type, String keyword,HttpServletRequest req, Model model) throws Exception{
 		String alignType = req.getParameter("align");
-		List<DiscussionDTO> list = disService.searchAlign(alignType);
+		int cpage = 1;
+        try {
+           cpage = Integer.parseInt(req.getParameter("cpage"));
+        } catch (Exception e) {}	
+        
+		Map<String, Object> search = new HashMap<>();
+		search.put("alignType" , alignType );
+		search.put("type", type);
+		search.put("keyword", keyword);
+		List<DiscussionDTO> list = disService.searchAlign(alignType,search,cpage);
+        String navi = disService.getPageNavi_discussion(cpage,search);
+        
+		model.addAttribute("navi", navi);		
 		model.addAttribute("alignType", alignType);
 		model.addAttribute("list", list);
+		model.addAttribute("type", type);
+		model.addAttribute("keyword", keyword);
 		return "board/discussion/list";
 	}
-	
 	
 	
 	// 파파고
@@ -226,5 +360,6 @@ public class DiscussionController {
 		return new Gson().toJson(resultString);
 	}
 	
+
 	
 }

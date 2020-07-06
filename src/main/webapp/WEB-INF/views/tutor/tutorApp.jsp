@@ -69,6 +69,47 @@
 			var fileComp = $("<div><input type=file name=files></div>");
 			$("#fileAdd").after(fileComp);
 		})
+		
+		// 글자수 체크
+		$("#tutorApp_view").find("#career").keyup(function(){
+			var word = $(this).val();
+			var wordSize = word.length;
+			console.log(wordSize)
+			if(wordSize <= 1000){
+				$(".wordsize .current1").text(wordSize);
+			}else{
+				word = word.substr(0,1000);
+				$(".wordsize .current1").text(word.length);
+				$(this).val(word);
+				alert("1000자 이하로 등록해 주세요")
+			}
+		})
+		$("#tutorApp_view").find("#exp").keyup(function(){
+			var word = $(this).val();
+			var wordSize = word.length;
+			console.log(wordSize)
+			if(wordSize <= 1000){
+				$(".wordsize .current2").text(wordSize);
+			}else{
+				word = word.substr(0,1000);
+				$(".wordsize .current2").text(word.length);
+				$(this).val(word);
+				alert("1000자 이하로 등록해 주세요")
+			}
+		})
+		$("#tutorApp_view").find("#introduce").keyup(function(){
+			var word = $(this).val();
+			var wordSize = word.length;
+			console.log(wordSize)
+			if(wordSize <= 1000){
+				$(".wordsize .current3").text(wordSize);
+			}else{
+				word = word.substr(0,1000);
+				$(".wordsize .current3").text(word.length);
+				$(this).val(word);
+				alert("1000자 이하로 등록해 주세요")
+			}
+		})
 	})
 </script>
 
@@ -114,19 +155,22 @@
 					<div class="bottom_main">
 						<div class="career_main main">경력</div>
 						<div class="career_contents contents">
-							<textarea id="career" name="career" placeholder="경력"></textarea>
+							<textarea class="wordCheck" id="career" name="career" placeholder="경력"></textarea>
+							<div class="wordsize"><span class="current1">0</span>/1000</div>
 						</div>
 					</div>
 					<div class="bottom_main">
 						<div class="exp_main main">해외경험</div>
 						<div class="exp_contents contents">
-							<textarea id="exp" name="exp" placeholder="해외경험"></textarea>
+							<textarea class="wordCheck" id="exp" name="exp" placeholder="해외경험"></textarea>
+							<div class="wordsize"><span class="current2">0</span>/1000</div>
 						</div>
 					</div>
 					<div class="bottom_main">
 						<div class="introduce_main main">자기소개</div>
 						<div class="introduce_contents contents">
-							<textarea id="introduce" name="introduce" placeholder="자기소개"></textarea>
+							<textarea class="wordCheck" id="introduce" name="introduce" placeholder="자기소개"></textarea>
+							<div class="wordsize"><span class="current3">0</span>/1000</div>
 						</div>
 					</div>
 					<div class="bottom_main">

@@ -11,9 +11,12 @@ import org.springframework.stereotype.Repository;
 
 import kh.pingpong.config.Configuration;
 import kh.pingpong.dto.DeleteApplyDTO;
+import kh.pingpong.dto.JjimDTO;
 import kh.pingpong.dto.LessonDTO;
 import kh.pingpong.dto.LikeListDTO;
 import kh.pingpong.dto.MemberDTO;
+import kh.pingpong.dto.ReportListDTO;
+import kh.pingpong.dto.ReviewDTO;
 import kh.pingpong.dto.TutorAppDTO;
 
 @Repository
@@ -32,6 +35,26 @@ public class TutorDAO {
 	
 	public LessonDTO lessonView(int seq) throws Exception{
 		return mybatis.selectOne("Tutor.lessonView", seq);
+	}
+
+	//리뷰 갯수랑 평점 업데이트
+	public void reviewUpdate(ReviewDTO rdto) throws Exception{
+		System.out.println(rdto.getParent_seq() + rdto.getCategory());
+		Double reviewAvg = mybatis.selectOne("Tutor.reviewAvg", rdto);
+		if(reviewAvg != null) {
+			reviewAvg = mybatis.selectOne("Tutor.reviewAvg", rdto);
+		}else {
+			reviewAvg = 0.0;
+		}
+		int reviewCount = mybatis.selectOne("Tutor.reviewCount", rdto);
+		Map<String, Object> paramVal = new HashMap<>();
+		int seq = rdto.getParent_seq();
+		paramVal.put("seq", seq);
+		paramVal.put("reviewCount", reviewCount);
+		paramVal.put("reviewAvg", reviewAvg);	
+		mybatis.update("Tutor.groupReviewPoint",paramVal);		
+		mybatis.update("Tutor.groupReviewCount",paramVal);
+		
 	}
 	
 	public int lessonCancleProc(DeleteApplyDTO dadto) throws Exception{
@@ -65,6 +88,33 @@ public class TutorDAO {
 		 return checkLike;
 	}
 	
+	public int insertJjim(JjimDTO jdto) throws Exception{
+		return mybatis.insert("Tutor.insertJjim",jdto);
+	}
+	
+	public boolean JjimIsTrue(Map<Object, Object> param) throws Exception{
+		int result = mybatis.selectOne("Tutor.JjimIsTrue", param);
+		boolean checkJjim=false;
+		
+		if(result>0) {
+			checkJjim=true;
+		}
+		return checkJjim;
+	}
+	//찜취소
+	public int deleteJjim(JjimDTO jdto) throws Exception{
+		return mybatis.delete("Tutor.deleteJjim", jdto);
+	}
+	
+	//같은게시물에 같은사람이 신고했는지 확인
+	public int report(ReportListDTO rldto) throws Exception{
+		return mybatis.selectOne("Tutor.report", rldto);
+	}
+	
+	//신고테이블에 저장
+	public int reportProc(ReportListDTO rldto) throws Exception{
+		return mybatis.insert("Tutor.reportProc", rldto);
+	}
 	
 	//�뒠�꽣 �떊泥��꽌 insert
 	public int insert(TutorAppDTO tadto) throws Exception{
@@ -73,6 +123,11 @@ public class TutorDAO {
 	
 	public int lessonAppProc(LessonDTO ldto) throws Exception{
 		return mybatis.insert("Tutor.lessonAppProc", ldto);
+	}
+		
+	public int lessonAppUpdateProc(LessonDTO ldto) throws Exception{
+		System.out.println(ldto.getApply_end()+ ldto.getMax_num()+ldto.getSeq()+ldto.getCurriculum());
+		return mybatis.update("Tutor.lessonAppUpdateProc", ldto);
 	}
 	
 	public List<MemberDTO> tutorList(int cpage) throws Exception{
@@ -92,8 +147,8 @@ public class TutorDAO {
 
 	
 	//--------------------------
-	
-	public List<LessonDTO> lessonList(int cpage) throws Exception{
+	//이건 전체리스트 뽑는거
+	public List<LessonDTO> lessonList(int cpage, String orderBy) throws Exception{
 		int start = cpage*Configuration.RECORD_COUNT_PER_PAGE - (Configuration.RECORD_COUNT_PER_PAGE - 1);
 		int end = start + (Configuration.RECORD_COUNT_PER_PAGE - 1);
 		
@@ -101,13 +156,37 @@ public class TutorDAO {
 		param.put("cpage", String.valueOf(cpage));
 		param.put("start", String.valueOf(start));
 		param.put("end", String.valueOf(end));
+		param.put("orderBy", orderBy);
 		
 		return mybatis.selectList("Tutor.selectLessonList", param);
 	}
 	
-	public int getArticleCount_lesson() throws SQLException, Exception {
-		return mybatis.selectOne("Tutor.getArticleCount_lesson");
+	//모집중, 진행중, 마감 클릭했을 때 뽑는거. 
+	public List<LessonDTO> lessonListPeriod(int cpage, Map<String, String> param) throws Exception{
+		int start = cpage*Configuration.RECORD_COUNT_PER_PAGE - (Configuration.RECORD_COUNT_PER_PAGE - 1);
+		int end = start + (Configuration.RECORD_COUNT_PER_PAGE - 1);
+		
+		param.put("cpage", String.valueOf(cpage));
+		param.put("start", String.valueOf(start));
+		param.put("end", String.valueOf(end));
+		
+		return mybatis.selectList("Tutor.selectLessonListPeriod", param);
 	}
 	
+	public int getArticleCount_lesson(Map<String, String> param) throws SQLException, Exception {
+		return mybatis.selectOne("Tutor.getArticleCount_lesson",param);
+	}
+	
+	//키워드로 검색해서 리스트 뽑기
+	public List<LessonDTO> search(int cpage, Map<String, String> param) throws Exception{
+		int start = cpage*Configuration.RECORD_COUNT_PER_PAGE - (Configuration.RECORD_COUNT_PER_PAGE - 1);
+		int end = start + (Configuration.RECORD_COUNT_PER_PAGE - 1);
+		
+		param.put("cpage", String.valueOf(cpage));
+		param.put("start", String.valueOf(start));
+		param.put("end", String.valueOf(end));
+		
+		return mybatis.selectList("Tutor.search", param);
+	}
 
 }

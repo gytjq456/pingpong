@@ -1,8 +1,8 @@
 package kh.pingpong.dto;
 
 public class ChatRoomDTO {
-	private int roomId;
-	private String user;
+	private String roomId;
+	private String users;
 	private String chatMemberId;
 	
 	public ChatRoomDTO() {
@@ -12,41 +12,52 @@ public class ChatRoomDTO {
 	
 	
 
-	public ChatRoomDTO(int roomId, String user, String chatMemberId) {
+	public ChatRoomDTO(String roomId, String users, String chatMemberId) {
 		super();
 		this.roomId = roomId;
-		this.user = user;
+		this.users = users;
 		this.chatMemberId = chatMemberId;
 	}
 
 
 
-	public int getRoomId() {
+	public String getRoomId() {
 		return roomId;
 	}
 
-	public void setRoomId(int roomId) {
+
+
+	public void setRoomId(String roomId) {
 		this.roomId = roomId;
 	}
 
-	public String getUser() {
-		return user;
+
+
+	public String getUsers() {
+		return users;
 	}
 
-	public void setUser(String user) {
-		this.user = user;
+
+
+	public void setUsers(String users) {
+		this.users = users;
 	}
+
+
 
 	public String getChatMemberId() {
 		return chatMemberId;
 	}
 
+
+
 	public void setChatMemberId(String chatMemberId) {
 		this.chatMemberId = chatMemberId;
 	}
-	
 
-	
+
+
+
 	
 	
 }

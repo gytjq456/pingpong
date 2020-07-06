@@ -33,7 +33,7 @@
 	
 	<!-- 멀티파트리졸버 찾아주는거 / 파일전송에 필요함 -->
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<beans:property name="maxUploadSize" value="1048570"/>
+		<beans:property name="maxUploadSize" value="10485760"/>
 	</beans:bean>
 
 	<context:component-scan base-package="kh.pingpong"/>
@@ -45,4 +45,22 @@
 			<aop:around pointcut-ref="group" method="aroundBoardLog"/>
 		</aop:aspect>
 	</aop:config>
+
+	<aop:config>
+		<aop:pointcut expression="execution(* kh.pingpong.controller.TutorController.*(..))" id="tutor"/>
+		<aop:aspect id="logCheck" ref="logaop">
+			<aop:around pointcut-ref="tutor" method="aroundBoardLog"/>
+		</aop:aspect>
+	</aop:config>
+	
+	<aop:config>
+		<aop:pointcut expression="execution(* kh.pingpong.controller.DiscussionController.*(..))" id="discussion"/>
+		<aop:aspect id="logCheck" ref="logaop">
+			<aop:around pointcut-ref="discussion" method="aroundBoardLog"/>
+		</aop:aspect>
+	</aop:config>	
+	
 </beans:beans>
+
+
+

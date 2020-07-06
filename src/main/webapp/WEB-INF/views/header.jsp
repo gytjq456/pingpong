@@ -18,6 +18,7 @@
 <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script> -->
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="/resources/js/sojaeji.js"></script>
+<script src="/resources/js/slick.min.js"></script>
 <script src="/resources/js/common.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
@@ -39,9 +40,9 @@
 		 							<a href="#;">MyPage</a>
 									<ul class="depth2">
 										<li><a href="/member/myInfo">나의 정보수정</a></li>
-										<li><a href="#;">나의 튜터 목록</a></li>
-										<li><a href="#;">모임기록</a></li>
-										<li><a href="#;">찜목록</a></li>
+										<li><a href="/mypage/tutorRecord">나의 튜터 목록</a></li>
+										<li><a href="/mypage/groupRecord">모임기록</a></li>
+										<li><a href="/mypage/likeRecord">찜목록</a></li>
 									</ul>
 								</li>
 								<li><a href="/member/logout">Logout</a></li>
@@ -61,7 +62,7 @@
 								<a href="/partner/partnerList">Partner</a>
 								<ul class="depth2">
 									<li><a href="/partner/partnerList">파트너 목록</a></li>
-									<li><a href="/partner/partnerView">파트너 등록</a></li>
+									<li><a href="#;">파트너 등록</a></li>
 								</ul>
 							</li>
 							<li>
@@ -74,14 +75,14 @@
 							<li>
 								<a href="/tutor/tutorList">Tutor</a>
 								<ul class="depth2">
-									<li><a href="/tutor/lessonList">강의 목록</a></li>
+									<li><a href="/tutor/lessonList?orderBy=seq">강의 목록</a></li>
 									<li><a id="tutorApp">튜터 신청</a></li>
 								</ul>
 							</li>												
 							<li>
 								<a href="/discussion/list">Board</a>
 								<ul class="depth2">
-									<li><a href="/discussion/list">토론</a></li>
+									<li><a href="/discussion/list?cpage=1">토론</a></li>
 									<li><a href="/correct/correct_list">질문</a></li>
 									<li><a href="#;">소식</a></li>
 								</ul>

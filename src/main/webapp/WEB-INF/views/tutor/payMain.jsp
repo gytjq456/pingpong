@@ -5,7 +5,7 @@
 
 <div id="subWrap" class="hdMargin">
 	<section id="subContents">
-		<article id="lessonApp_view" class="inner1200">
+		<article id="payMain" class="inner1200">
 			<script>
 			//결제 스크립트
 				$(function() {
@@ -16,13 +16,13 @@
 						pg : 'kakao', // 결제방식
 						pay_method : 'card', // 결제 수단
 						merchant_uid : 'merchant_' + new Date().getTime(),
-						name : '주문명: 테스트입니다.', // order 테이블에 들어갈 주문명 혹은 주문 번호
+						name : '${title}', // order 테이블에 들어갈 주문명 혹은 주문 번호
 						amount : '${money}', // 결제 금액
-						buyer_email : '${email}', // 구매자 email
-						buyer_name : '${name}', // 구매자 이름
-						buyer_tel : '010-2929-4502', // 구매자 전화번호
-						buyer_addr : '용산구 산천동', // 구매자 주소
-						buyer_account : '10265', // 구매자 계좌번호
+						buyer_email : '${ttdto.email}', // 구매자 email
+						buyer_name : '${ttdto.name}', // 구매자 이름
+						buyer_tel : '${ttdto.phone_country}${ttdto.phone}', // 구매자 전화번호
+						buyer_addr : '${ttdto.address}', // 구매자 주소
+						buyer_account : '${ttdto.account}', // 구매자 계좌번호
 						//m_redirect_url : 'http://www.iamport.kr/mobile/landing' // 결제 완료 후 보낼 컨트롤러의 메소드명
 					}, function(rsp) {
 						if (rsp.success) {
@@ -58,7 +58,7 @@
 				        		}
 							});
 							alert("결제가 완료되었습니다.");
-							location.href='${pageContext.request.contextPath}/payments/lessonView'
+							location.href='${pageContext.request.contextPath}/payments/paySuccess';
 			
 						} else { // 실패시
 							var msg = '결제에 실패하였습니다.';

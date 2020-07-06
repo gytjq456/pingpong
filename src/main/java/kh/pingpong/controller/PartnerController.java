@@ -17,6 +17,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +27,7 @@ import kh.pingpong.dto.HobbyDTO;
 import kh.pingpong.dto.LanguageDTO;
 import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.dto.PartnerDTO;
+import kh.pingpong.service.GroupService;
 import kh.pingpong.service.MemberService;
 import kh.pingpong.service.PartnerService;
 
@@ -38,7 +40,10 @@ public class PartnerController {
 	
 	@Autowired
 	private MemberService mservice;
-
+	
+	@Autowired
+	private GroupService gservice;
+	
 	@Autowired
 	private HttpSession session;
 
@@ -117,17 +122,15 @@ public class PartnerController {
 		return "partner/partnerList";
 	}
 	
-
 	//파트너 상세 뷰페이지
-
 	@ResponseBody
 	@RequestMapping("chatPartner")
 	public List<PartnerDTO> chatPartner(HttpServletRequest request, Model model) throws Exception{
 		List<PartnerDTO> plist = pservice.partnerListAll();
-		//model.addAttribute("plist", plist);
 		return plist;
 	}
-
+	
+	@Transactional("txManager")
 	@RequestMapping("partnerView")
 	public String partnerView(int seq, Model model) throws Exception{
 		PartnerDTO pdto = pservice.selectBySeq(seq);	
@@ -150,12 +153,22 @@ public class PartnerController {
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
 		mdto = pservice.selectMember(loginInfo.getId());
 		mdto = mservice.memberSelect(loginInfo);
+		pservice.updateMemberGrade(mdto);
 		Map<String, Object> insertP = new HashMap<>();
 		insertP.put("mdto", mdto);
 		insertP.put("contact", contact);	
-
 		pservice.partnerInsert(insertP);
 		return "partner/partnerList";
+	}
+	
+	//파트너 삭제
+	@RequestMapping("deletePartner")
+	public String deletePartner(Model model) throws Exception{
+		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
+		//PartnerDTO pdto = pservice.selectBySeq(seq)
+		pservice.deletePartner(loginInfo);
+		//model.addAttribute(attributeName, attributeValue)
+		return "redirect:/partner/partnerList";
 	}
 	
 	//이메일 작성
@@ -176,24 +189,47 @@ public class PartnerController {
 	
 	//상세 검색
 	@RequestMapping("partnerSearch")
-	public String search(PartnerDTO pdto, HttpServletRequest request, Model model) throws Exception{
+	public String search(String orderBy,PartnerDTO pdto, HttpServletRequest request, Model model) throws Exception{
 		int cpage = 1;
 		try {
 			cpage = Integer.parseInt(request.getParameter("cpage"));
 		}catch(Exception e) {}
 		
 		Map<String, Object> search = new HashMap<>();	
-		List<PartnerDTO> plist = pservice.search(cpage, search, pdto);
+		List<PartnerDTO> plist = pservice.search(cpage, search, pdto/* , orderBy */);
 		String navi = pservice.getPageNavi(cpage);
 		List<HobbyDTO> hdto = pservice.selectHobby();
 		List<LanguageDTO> ldto = pservice.selectLanguage();
+		
 		model.addAttribute("plist", plist);
 		model.addAttribute("navi", navi);
 		model.addAttribute("hdto", hdto);
 		model.addAttribute("ldto", ldto);
+		//model.addAttribute("orderBy",orderBy);
+		
 		return "/partner/partnerList";
 	}
 	
+	//리뷰 글쓰기
+//	@ResponseBody
+//	@RequestMapping("reviewWrite")
+//	public String reviewWrite(ReviewDTO redto) throws Exception{
+//		int result = gservice.reviewWrite(redto);
+//		
+//		if(result>0) {
+//			return String.valueOf(true);
+//		}else {
+//			return String.valueOf(false);
+//		}
+//	}
+//	<aop:config>
+//	<aop:pointcut expression="execution(* kh.pingpong.controller.GroupController.*(..))" id="group"/>
+//	<aop:pointcut expression="execution(* kh.pingpong.controller.PartnerController.*(..))" id="partner"/>
+//	<aop:aspect id="logPrint" ref="logaop">
+//		<aop:around pointcut-ref="group" method="aroundBoardLog"/>
+//		<aop:around pointcut-ref="partner" method="aroundBoardLog"/>
+//	</aop:aspect>
+//	</aop:config>
 	
 }
 

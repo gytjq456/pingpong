@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Admin">
+	<!-- 회원 목록 -->
+	<select id="memberList" resultType="kh.pingpong.dto.MemberDTO">
+		select * from member order by signup_date desc
+	</select>
+	
+	<!-- 회원 뷰 -->
+	<select id="memberView" resultType="kh.pingpong.dto.MemberDTO">
+		select * from member where id = #{value}
+	</select>
+	
+	<!-- 파트너 목록 -->
+	<select id="partnerList" resultType="kh.pingpong.dto.PartnerDTO">
+		select * from partner order by seq desc
+	</select>
+	
+	<!-- 파트너 뷰 -->
+	<select id="partnerView" resultType="kh.pingpong.dto.PartnerDTO">
+		select * from partner where seq = #{value}
+	</select>
+	
+	<!-- 그룹 목록 -->
+	<select id="groupList" resultType="kh.pingpong.dto.GroupDTO">
+		select * from grouplist order by seq desc
+	</select>
+	
+	<!-- 그룹 뷰 -->
+	<select id="groupView" resultType="kh.pingpong.dto.GroupDTO">
+		select * from grouplist where seq = #{value}
+	</select>
+	
+	<!-- 튜터 목록 -->
+	<select id="tutorList" resultType="kh.pingpong.dto.MemberDTO">
+		select * from member where grade = 'tutor' order by signup_date desc
+	</select>
+	
+	<!-- 튜터 뷰 -->
+	<select id="tutorView" resultType="kh.pingpong.dto.MemberDTO">
+		select * from member where grade = 'tutor' and id = #{value}
+	</select>
+	
+	<!-- 튜터 신청 목록 -->
+	<select id="tutorAppList" resultType="kh.pingpong.dto.TutorAppDTO">
+		select * from tutor_app order by seq desc
+	</select>
+	
+	<!-- 튜터 신청 뷰 -->
+	<select id="tutorAppView" resultType="kh.pingpong.dto.TutorAppDTO">
+		select * from tutor_app where seq = #{value}
+	</select>
+	
+	<!-- 강의 목록 -->
+	<select id="lessonList" resultType="kh.pingpong.dto.LessonDTO">
+		select * from lesson where pass = 'Y' order by seq desc
+	</select>
+	
+	<!-- 강의 뷰 -->
+	<select id="lessonView" resultType="kh.pingpong.dto.LessonDTO">
+		select * from lesson where pass = 'Y' and seq = #{value}
+	</select>
+	
+	<!-- 강의 신청 목록 -->
+	<select id="lessonAppList" resultType="kh.pingpong.dto.LessonDTO">
+		select * from lesson where pass = 'N' order by seq desc
+	</select>
+	
+	<!-- 강의 신청 뷰 -->
+	<select id="lessonAppView" resultType="kh.pingpong.dto.LessonDTO">
+		select * from lesson where pass = 'N' and seq = #{value}
+	</select>
+
+	<!-- 강의 삭제 목록 -->
+	<select id="lessonDelList" resultType="kh.pingpong.dto.DeleteApplyDTO">
+		select * from delete_app where category = '강의' order by seq desc
+	</select>
+	
+	<!-- 강의 삭제 뷰 -->
+	<select id="lessonDelView" resultType="kh.pingpong.dto.DeleteApplyDTO">
+		select * from delete_app where category = '강의' and seq = #{value}
+	</select>
+	
+	<!-- 튜티 목록 -->
+	<select id="tuteeList" resultType="kh.pingpong.dto.TuteeDTO">
+		select * from tutee order by seq desc
+	</select>
+	
+	<!-- 튜티 뷰 -->
+	<select id="tuteeView" resultType="kh.pingpong.dto.TuteeDTO">
+		select * from tutee where seq = #{value}
+	</select>
+	
+	<!-- 토론 게시글 목록 -->
+	<select id="discussionList" resultType="kh.pingpong.dto.DiscussionDTO">
+		select * from discussion order by seq desc
+	</select>
+	
+	<!-- 토론 게시글 뷰 -->
+	<select id="discussionView" resultType="kh.pingpong.dto.DiscussionDTO">
+		select * from discussion where seq = #{value}
+	</select>
+	
+	<!-- 첨삭 게시글 목록 -->
+	<select id="correctList" resultType="kh.pingpong.dto.CorrectDTO">
+		select * from correct order by seq desc
+	</select>
+	
+	<!-- 첨삭 게시글 뷰 -->
+	<select id="correctView" resultType="kh.pingpong.dto.CorrectDTO">
+		select * from correct where seq = #{value}
+	</select>
+	
+	<!-- 신고 목록 -->
+	<select id="reportList" resultType="kh.pingpong.dto.ReportListDTO">
+		select * from reportlist order by seq desc
+	</select>
+	
+	<!-- 신고 뷰 -->
+	<select id="reportView" resultType="kh.pingpong.dto.ReportListDTO">
+		select * from reportlist where seq = #{value}
+	</select>
+</mapper>

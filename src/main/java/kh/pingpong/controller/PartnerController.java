@@ -9,7 +9,6 @@ import javax.mail.Message;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
-import javax.mail.Message.RecipientType;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
@@ -55,7 +54,7 @@ public class PartnerController {
 	JavaMailSender mailSender;
 
 	// 메일 
-	private Boolean mail(HttpServletRequest request, HttpServletResponse response, String pemail, String memail, String emailPassword) {
+	private Boolean mail(HttpServletRequest request, HttpServletResponse response, String pemail, String memail, String emailPassword,String contents) {
 		Boolean result = false;
 		System.out.println("mail start");
 		String uri = request.getRequestURI();
@@ -78,57 +77,63 @@ public class PartnerController {
 		//SMTP 서버 정보를 설정한다.
 		Properties props = new Properties();
 		props.put("mail.smtp.host", host);
-		props.put("mail.smtp.port", 465);
+		props.put("mail.smtp.port", 587);
 		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.ssl.enable", "true");
+		//props.put("mail.smtp.ssl.enable", "true");
 		System.out.println("1");
 
-		//session 생성
-		Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
-			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(user, password);
-			}
-		});
+		 //session 생성
+        Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
+           protected PasswordAuthentication getPasswordAuthentication() {
+              return new PasswordAuthentication(user, password);
+           }
+        });
+
 		System.out.println("2");
 		//email 전송
 		//System.out.println("to_email:"+to_email);
 		try {
 			MimeMessage msg = new MimeMessage(session);
-			msg.setFrom(new InternetAddress(user, "tt"));
-			msg.setFrom(new InternetAddress(user));
-			msg.addRecipient(Message.RecipientType.TO, new InternetAddress(to_email));
+            msg.setFrom(new InternetAddress(user));
+            msg.addRecipient(Message.RecipientType.TO, new InternetAddress(to_email));
 
+			System.out.println("msg2 = "+ msg);
+			System.out.println("contents : " + contents);
+			msg.setContent(contents,"text/plain");
 			//메일 제목
-			msg.setSubject(memail+"님이 보낸 메일입니다.");
+			msg.setSubject(user + "님이 보낸 메일입니다.");
+			
 			//메일 내용
 			//msg.setText("인증번호는 :");
 			Transport.send(msg);
 			System.out.println("메시지를 성공적으로 보냈습니다.");   
 			return !result;
 		}catch (Exception e) {
+			e.printStackTrace();
 			System.out.println(e.getStackTrace().toString());
 			return result;
 		}
 	}
 
 	//이메일 작성
-	@RequestMapping("selectPartnerEmail")
-	public String selectPartnerEmail(int seq,Model model) throws Exception{
-		PartnerDTO pdto = pservice.selectBySeq(seq);
-		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
-		model.addAttribute("pdto", pdto);
-		System.out.println("in selectPartnerEmail");
-		System.out.println(pdto);
-		System.out.println(loginInfo.getEmail());
-		return "email/write";
-	}
+	/*
+	 * @RequestMapping("selectPartnerEmail") public String selectPartnerEmail(int
+	 * seq,Model model) throws Exception{ PartnerDTO pdto =
+	 * pservice.selectBySeq(seq); MemberDTO loginInfo =
+	 * (MemberDTO)session.getAttribute("loginInfo"); model.addAttribute("pdto",
+	 * pdto); System.out.println("in selectPartnerEmail"); System.out.println(pdto);
+	 * System.out.println(loginInfo.getEmail()); return "email/write"; }
+	 */
 	//이메일 보내기
+	@ResponseBody
 	@RequestMapping("send")
-	public String send(@ModelAttribute PartnerDTO pdto, MemberDTO mdto,  Model model, HttpServletRequest request, HttpServletResponse response) throws Exception{
+	public String send(PartnerDTO pdto, MemberDTO mdto,  Model model, HttpServletRequest request, HttpServletResponse response) throws Exception{
+		System.out.println("?????");
 		System.out.println(pdto.getEmail());
-		Boolean result = this.mail(request, response, pdto.getEmail(), mdto.getMemail(), mdto.getEmailPassword());
+		Boolean result = this.mail(request, response, pdto.getEmail(), mdto.getMemail(), mdto.getEmailPassword(),mdto.getContents());
 		System.out.println("in send: " + result);	
-		return "redirect:/partner/partnerList";
+		//return "redirect:/partner/partnerList";
+		return String.valueOf(result);
 	}
 
 	//파트너 목록 페이지

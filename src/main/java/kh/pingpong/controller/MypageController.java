@@ -43,14 +43,6 @@ public class MypageController {
 	private MyPageService mpservice;
 	
 	//그룹 관련
-//	@RequestMapping("groupRecord")
-//	public String groupRecord(Model model) throws Exception{
-//		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
-//		List<GroupDTO> glist = mpservice.selectGroupList();
-//		model.addAttribute("glist", glist);
-//		return "/mypage/groupRecord";
-//	}
-	
 	@RequestMapping("groupRecord")
 	public String selectByIdInGroup(Model model) throws Exception{
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
@@ -76,12 +68,9 @@ public class MypageController {
 	@RequestMapping("tutorRecord")
 	public String tutorRecord(Model model) throws Exception{
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
-		//List<TutorDTO> trlist = mpservice.selectTutorList(loginInfo);
-		//List<TuteeDTO> telist = mpservice.selectTuteeList(); 
-		//model.addAttribute("trlist", trlist);
-		//model.addAttribute("telist", telist);
-
+		List<LessonDTO> trlist = mpservice.selectTutorList(loginInfo);
 		List<TuteeDTO> telist = mpservice.selectTuteeList(); 
+		model.addAttribute("trlist", trlist);
 		model.addAttribute("telist", telist);
 
 		return "/mypage/tutorRecord"; 

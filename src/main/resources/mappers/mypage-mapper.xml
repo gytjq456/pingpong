@@ -14,9 +14,9 @@
 	</select>
 	
 
-	<!-- <select id="tutorList" resultType="kh.pingpong.dto.TutorDTO">
+	<select id="tutorList" resultType="kh.pingpong.dto.LessonDTO">
 		select * from lesson where id = #{id}
-	</select> -->
+	</select>
 	
 
 	<select id="tuteeList" resultType="kh.pingpong.dto.TuteeDTO">

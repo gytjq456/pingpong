@@ -24,12 +24,12 @@
 							<c:forEach var="trlist" items="${trlist}">	
 								<table>
 									<tr>
-										<td>강의번호:${trlist.class_num}</td>
-										<td><a href="#;">강의명:${trlist.class_name}</a></td>
-										<td>언어:${trlist.lang_can}</td>
-										<td>강의 기간:없음</td>
+										<td>강의번호:${trlist.seq}</td>
+										<td><a href="#;">강의명:${trlist.curriculum}</a></td>
+										<td>언어:${trlist.language}</td>
+										<td>강의 기간:${trlist_start_date}~${trlist.end_date}</td>
 										<td>인원(현재인원/최대인원):${trlist.cur_num}/${trlist.max_num}</td>
-										<td>만남장소:${trlist.address}</td>
+										<td>만남장소:${trlist.location}</td>
 										<td>추천수:${trlist.like_count}</td>
 										<td>리뷰수:${trlist.review_count}</td>
 										<td>평점:${trlist.review_point}</td>

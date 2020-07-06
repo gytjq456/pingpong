@@ -46,9 +46,9 @@ public class MyPageService {
 	
 
 	//튜터 / 튜티 관련
-//	public List<TutorDTO> selectTutorList(MemberDTO loginInfo){
-//		return mpdao.selectTutorList(loginInfo);
-//	}
+	public List<LessonDTO> selectTutorList(MemberDTO loginInfo){
+		return mpdao.selectTutorList(loginInfo);
+	}
 
 	public List<TuteeDTO> selectTuteeList(){
 		return mpdao.selectTuteeList();

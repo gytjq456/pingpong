@@ -32,9 +32,9 @@ public class MyPageDAO {
 	}
 	
 
-//	public List<TutorDTO> selectTutorList(MemberDTO loginInfo){
-//		return mybatis.selectList("Mypage.tutorList",loginInfo);
-//	}
+	public List<LessonDTO> selectTutorList(MemberDTO loginInfo){
+		return mybatis.selectList("Mypage.tutorList",loginInfo);
+	}
 	
 
 	public List<TuteeDTO> selectTuteeList(){

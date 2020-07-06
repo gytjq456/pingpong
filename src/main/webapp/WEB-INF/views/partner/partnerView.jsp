@@ -122,7 +122,7 @@
 		</c:when>
 		<c:otherwise>
 			<div class="box">
-				<img src ="/upload/member/${plist.id}/${plist.sysname}">
+				<%-- <img src ="/upload/member/${plist.id}/${plist.sysname}"> --%>
 				<span class="jjim"><i class="fa fa-heart-o" aria-hidden="true"></i>찜하기</span><br>
 				<span class="seq">${pdto.seq}</span> <br>
 				${pdto.id}<br>
@@ -164,7 +164,7 @@
 		$(".button_aa .email").on("click",function(e){
 			alert("이메일 페이지로 이동하실께요.");
 			var seq = $(this).closest('.button_aa').siblings('.box').find('.seq').html();
-			window.open("http://localhost:8888/partner/selectPartnerEmail?seq="+seq,"ㅎㅇㅎㅇ","width=800,height=400");
+			//window.open("http://localhost:8888/partner/selectPartnerEmail?seq="+seq,"ㅎㅇㅎㅇ","width=800,height=400");
 		})
 		
 		$(".button_aa .delete").on("click",function(){
@@ -281,5 +281,5 @@
 							</c:forEach>
 						</div>
 	</article>
-
+<jsp:include page="/WEB-INF/views/email/write.jsp"/>	
 <jsp:include page="/WEB-INF/views/footer.jsp"/>	

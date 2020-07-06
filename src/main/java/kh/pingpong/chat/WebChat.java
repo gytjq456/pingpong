@@ -53,8 +53,11 @@ public class WebChat {
 
 		// members 내에 roomNum 방번호가 존재하면 방을 만들지 않음, 존재하지 않으면 방을 만듬
 		boolean memberExist = true;
+		System.out.println("key set =" +  members.keySet());
 		for(String i : members.keySet()) {
-			if(i == roomId) {
+			System.out.println("i = " + 	i);
+			if(i.contentEquals(roomId)) {
+				System.out.println("중복");
 				memberExist = false;
 				break;
 			}
@@ -62,7 +65,6 @@ public class WebChat {
 		if(memberExist) {
 			members.put(roomId, new ArrayList<>());
 		}
-
 		members.get(roomId).add(client);
 		System.out.println("사이즈 =" + members.get(roomId).size());
 		for(Session a : members.get(roomId)) {
@@ -84,7 +86,6 @@ public class WebChat {
 		String type = (String) jsonObj.get("type");
 		System.out.println("message = " + message);
 
-		//String room = chatService.chatRoomIdSch(userid,targetId);
 
 		synchronized(members.get(roomId)) {
 			for(Session client : members.get(roomId)) {	
@@ -92,17 +93,33 @@ public class WebChat {
 				System.out.println("client =" + client.getId());
 				System.out.println("client222 =" + clients.get(client));
 				//room.contentEquals(chatRoom)
-				if(clients.get(client)==roomId) {
-					Basic basic = client.getBasicRemote();
-					try {
-						if(!client.equals(session)) {
-							//System.out.println(message);
-							basic.sendText(message);
-							//chatService.chatTxtInsert(message);
+				if(type.contentEquals("message")) {
+					if(clients.get(client).contentEquals(chatRoom)) {
+						try {
+							if(!client.getId().contentEquals(session.getId())) {
+								Basic basic = client.getBasicRemote();
+								//System.out.println(message);
+								basic.sendText(message);
+								//chatService.chatTxtInsert(message);
+							}
+						} catch (Exception e) {
+							e.printStackTrace();
+							// TODO: handle exception
 						}
-					} catch (Exception e) {
-						e.printStackTrace();
-						// TODO: handle exception
+					}
+				}else if(type.contentEquals("register")) {
+					if(clients.get(client).contentEquals(roomId)) {
+						try {
+							if(!client.getId().contentEquals(session.getId())) {
+								Basic basic = client.getBasicRemote();
+								//System.out.println(message);
+								basic.sendText(message);
+								//chatService.chatTxtInsert(message);
+							}
+						} catch (Exception e) {
+							e.printStackTrace();
+							// TODO: handle exception
+						}
 					}
 				}
 			}

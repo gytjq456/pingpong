@@ -102,10 +102,14 @@
 						}
 					}).done(function(resp){
 						// 채팅방 열림
-						
+						$("#chatRoom").addClass("on");
+						var chatWrap = $("#chatWrap");
+						chatWrap.find(".title p").text("${sessionScope.loginInfo.name},"+uname);
+						var member = chatWrap.find(".title p").text().split(",");
+						chatWrap.find(".title span").text(member.length);
+						txtInput.focus();
 						
 						if(typeof resp == 'string'){
-							
 							$(".chatBox .sysdate").html(theYear+"년 "+theMonth+"월 "+theDate+"일 "+todayLabel);
 							chatRoom = resp;
 						}else{
@@ -136,18 +140,13 @@
 							}
 							updateScroll();
 						}
-						$("#chatRoom").addClass("on");
-						var chatWrap = $("#chatWrap");
-						chatWrap.find(".title p").text("${sessionScope.loginInfo.name},"+uname);
-						var member = chatWrap.find(".title p").text().split(",");
-						chatWrap.find(".title span").text(member.length);
-						txtInput.focus();
+
 					}).fail(function(){
 						alert("error")
 					})
 				}
 			})
-
+			
 			if("${sessionScope.loginInfo.id}" != ""){
 				var ws = new WebSocket("ws://localhost/chat");
 				//var ws = new WebSocket("ws://192.168.60.58/chat/${sessionScope.loginInfo.id}");
@@ -182,7 +181,6 @@
 				$("#chatWrap #close").click(function(){
 					$("#chatRoom").removeClass("on");
 					$("#chatBox .txtRow").html("");
-					ws.onclose();
 				})
 				txtInput.keyup(function(e){
 					if(e.keyCode == 13){
@@ -226,9 +224,13 @@
 				})
 			}
 			
+			
+			
+			
 		})
 		
-
+	
+		
 		function updateScroll(){
 			var element = document.getElementById("chatBox");
 			element.scrollTop = element.scrollHeight;

@@ -1,10 +1,14 @@
 package kh.pingpong.admin;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import kh.pingpong.config.Configuration;
 import kh.pingpong.dto.CorrectDTO;
 import kh.pingpong.dto.DeleteApplyDTO;
 import kh.pingpong.dto.DiscussionDTO;
@@ -22,8 +26,16 @@ public class AdminService {
 	private AdminDAO adao;
 	
 	// 회원 목록
-	public List<MemberDTO> memberList() {
-		return adao.memberList();
+	public List<MemberDTO> memberList(int cpage) {
+		Map<String, Integer> page = new HashMap<>();
+		
+		int start = cpage * Configuration.DISCUSSION_COUNT_PER_PAGE - (Configuration.DISCUSSION_COUNT_PER_PAGE - 1);
+		int end = start + (Configuration.DISCUSSION_COUNT_PER_PAGE - 1);
+		
+		page.put("start", start);
+		page.put("end", end);
+		
+		return adao.memberList(page);
 	}
 	
 	// 회원 뷰
@@ -32,8 +44,16 @@ public class AdminService {
 	}
 	
 	// 파트너 목록
-	public List<PartnerDTO> partnerList() {
-		return adao.partnerList();
+	public List<PartnerDTO> partnerList(int cpage) {
+		Map<String, Integer> page = new HashMap<>();
+		
+		int start = cpage * Configuration.DISCUSSION_COUNT_PER_PAGE - (Configuration.DISCUSSION_COUNT_PER_PAGE - 1);
+		int end = start + (Configuration.DISCUSSION_COUNT_PER_PAGE - 1);
+		
+		page.put("start", start);
+		page.put("end", end);
+		
+		return adao.partnerList(page);
 	}
 	
 	// 파트너 뷰
@@ -42,8 +62,16 @@ public class AdminService {
 	}
 	
 	// 그룹 목록
-	public List<GroupDTO> groupList() {
-		return adao.groupList();
+	public List<GroupDTO> groupList(int cpage) {
+		Map<String, Integer> page = new HashMap<>();
+		
+		int start = cpage * Configuration.DISCUSSION_COUNT_PER_PAGE - (Configuration.DISCUSSION_COUNT_PER_PAGE - 1);
+		int end = start + (Configuration.DISCUSSION_COUNT_PER_PAGE - 1);
+		
+		page.put("start", start);
+		page.put("end", end);
+		
+		return adao.groupList(page);
 	}
 	
 	// 그룹 뷰
@@ -52,8 +80,16 @@ public class AdminService {
 	}
 	
 	// 튜터 목록
-	public List<MemberDTO> tutorList() {
-		return adao.tutorList();
+	public List<MemberDTO> tutorList(int cpage) {
+		Map<String, Integer> page = new HashMap<>();
+		
+		int start = cpage * Configuration.DISCUSSION_COUNT_PER_PAGE - (Configuration.DISCUSSION_COUNT_PER_PAGE - 1);
+		int end = start + (Configuration.DISCUSSION_COUNT_PER_PAGE - 1);
+		
+		page.put("start", start);
+		page.put("end", end);
+		
+		return adao.tutorList(page);
 	}
 	
 	// 튜터 뷰
@@ -62,8 +98,16 @@ public class AdminService {
 	}
 	
 	// 튜터 신청 목록
-	public List<TutorAppDTO> tutorAppList() {
-		return adao.tutorAppList();
+	public List<TutorAppDTO> tutorAppList(int cpage) {
+		Map<String, Integer> page = new HashMap<>();
+		
+		int start = cpage * Configuration.DISCUSSION_COUNT_PER_PAGE - (Configuration.DISCUSSION_COUNT_PER_PAGE - 1);
+		int end = start + (Configuration.DISCUSSION_COUNT_PER_PAGE - 1);
+		
+		page.put("start", start);
+		page.put("end", end);
+		
+		return adao.tutorAppList(page);
 	}
 	
 	// 튜터 신청 뷰
@@ -72,8 +116,16 @@ public class AdminService {
 	}
 	
 	// 강의 목록
-	public List<LessonDTO> lessonList() {
-		return adao.lessonList();
+	public List<LessonDTO> lessonList(int cpage) {
+		Map<String, Integer> page = new HashMap<>();
+		
+		int start = cpage * Configuration.DISCUSSION_COUNT_PER_PAGE - (Configuration.DISCUSSION_COUNT_PER_PAGE - 1);
+		int end = start + (Configuration.DISCUSSION_COUNT_PER_PAGE - 1);
+		
+		page.put("start", start);
+		page.put("end", end);
+		
+		return adao.lessonList(page);
 	}
 	
 	// 강의 뷰
@@ -82,8 +134,16 @@ public class AdminService {
 	}
 	
 	// 강의 신청 목록
-	public List<LessonDTO> lessonAppList() {
-		return adao.lessonAppList();
+	public List<LessonDTO> lessonAppList(int cpage) {
+		Map<String, Integer> page = new HashMap<>();
+		
+		int start = cpage * Configuration.DISCUSSION_COUNT_PER_PAGE - (Configuration.DISCUSSION_COUNT_PER_PAGE - 1);
+		int end = start + (Configuration.DISCUSSION_COUNT_PER_PAGE - 1);
+		
+		page.put("start", start);
+		page.put("end", end);
+		
+		return adao.lessonAppList(page);
 	}
 	
 	// 강의 신청 뷰
@@ -92,8 +152,16 @@ public class AdminService {
 	}
 	
 	// 강의 삭제 목록
-	public List<DeleteApplyDTO> lessonDelList() {
-		return adao.lessonDelList();
+	public List<DeleteApplyDTO> lessonDelList(int cpage) {
+		Map<String, Integer> page = new HashMap<>();
+		
+		int start = cpage * Configuration.DISCUSSION_COUNT_PER_PAGE - (Configuration.DISCUSSION_COUNT_PER_PAGE - 1);
+		int end = start + (Configuration.DISCUSSION_COUNT_PER_PAGE - 1);
+		
+		page.put("start", start);
+		page.put("end", end);
+		
+		return adao.lessonDelList(page);
 	}
 	
 	// 강의 삭제 뷰
@@ -102,8 +170,16 @@ public class AdminService {
 	}
 	
 	// 튜티 목록
-	public List<TuteeDTO> tuteeList() {
-		return adao.tuteeList();
+	public List<TuteeDTO> tuteeList(int cpage) {
+		Map<String, Integer> page = new HashMap<>();
+		
+		int start = cpage * Configuration.DISCUSSION_COUNT_PER_PAGE - (Configuration.DISCUSSION_COUNT_PER_PAGE - 1);
+		int end = start + (Configuration.DISCUSSION_COUNT_PER_PAGE - 1);
+		
+		page.put("start", start);
+		page.put("end", end);
+		
+		return adao.tuteeList(page);
 	}
 	
 	// 튜티 뷰
@@ -112,8 +188,16 @@ public class AdminService {
 	}
 	
 	// 토론 게시글 목록
-	public List<DiscussionDTO> discussionList() {
-		return adao.discussionList();
+	public List<DiscussionDTO> discussionList(int cpage) {
+		Map<String, Integer> page = new HashMap<>();
+		
+		int start = cpage * Configuration.DISCUSSION_COUNT_PER_PAGE - (Configuration.DISCUSSION_COUNT_PER_PAGE - 1);
+		int end = start + (Configuration.DISCUSSION_COUNT_PER_PAGE - 1);
+		
+		page.put("start", start);
+		page.put("end", end);
+		
+		return adao.discussionList(page);
 	}
 	
 	// 토론 게시글 뷰
@@ -122,8 +206,16 @@ public class AdminService {
 	}
 	
 	// 첨삭 게시글 목록
-	public List<CorrectDTO> correctList() {
-		return adao.correctList();
+	public List<CorrectDTO> correctList(int cpage) {
+		Map<String, Integer> page = new HashMap<>();
+		
+		int start = cpage * Configuration.DISCUSSION_COUNT_PER_PAGE - (Configuration.DISCUSSION_COUNT_PER_PAGE - 1);
+		int end = start + (Configuration.DISCUSSION_COUNT_PER_PAGE - 1);
+		
+		page.put("start", start);
+		page.put("end", end);
+		
+		return adao.correctList(page);
 	}
 	
 	// 첨삭 게시글 뷰
@@ -132,12 +224,138 @@ public class AdminService {
 	}
 	
 	// 신고 목록
-	public List<ReportListDTO> reportList() {
-		return adao.reportList();
+	public List<ReportListDTO> reportList(int cpage) {
+		Map<String, Integer> page = new HashMap<>();
+		
+		int start = cpage * Configuration.DISCUSSION_COUNT_PER_PAGE - (Configuration.DISCUSSION_COUNT_PER_PAGE - 1);
+		int end = start + (Configuration.DISCUSSION_COUNT_PER_PAGE - 1);
+		
+		page.put("start", start);
+		page.put("end", end);
+		
+		return adao.reportList(page);
 	}
 	
 	// 신고 뷰
 	public ReportListDTO reportView(int seq) {
 		return adao.reportView(seq);
+	}
+	
+	// 삭제
+	public int deleteOne(Map<String, Object> param) {
+		return adao.deleteOne(param);
+	}
+	
+	// 튜터 삭제
+	public int deleteTutor(String id) {
+		return adao.deleteTutor(id);
+	}
+	
+	// 파트너 삭제
+	@Transactional("txManager")
+	public int deletePartner(Map<String, Object> param) {
+		adao.deleteOne(param);
+		return adao.deletePartner(param.get("columnValue").toString());
+	}
+	
+	// 튜티 삭제
+	@Transactional("txManager")
+	public int deleteTutee(Map<String, Object> param) {
+		adao.deleteOne(param);
+		return adao.deleteTutee((int)param.get("parent_seq"));
+	}
+	
+	// 튜터 승인
+	@Transactional("txManager")
+	public int updateTutorApp(int seq, String id) {
+		adao.updateTutorAppPass(seq);
+		return adao.updateTutorAppGrade(id);
+	}
+	
+	// 강의 신청 승인
+	public int updateLessonPass(int seq) {
+		return adao.updateLessonPass(seq);
+	}
+	
+	// 강의 삭제 승인
+	@Transactional("txManager")
+	public int deleteApplyLesson(int seq) {
+		Map<String, Object> param = new HashMap<>();
+		
+		param.put("tableName", "delete_app");
+		param.put("columnName", "parent_seq");
+		param.put("columnValue", seq);
+		
+		adao.deleteOne(param);
+		return adao.deleteApplyLesson(seq);
+	}
+	
+	// 신고 승인
+	@Transactional("txManager")
+	public int updateReportList(Map<String, Object> param) {
+		if (param.containsKey("tableName")) {
+			adao.deleteOne(param);
+		}
+		
+		adao.updateReportListPass((int)param.get("seq"));
+		return adao.updateReportCount(param.get("id").toString());
+	}
+	
+	// 페이징
+	public String getPageNav(int currentPage, Map<String, String> param) throws Exception{
+		// 총 게시물
+		int recordTotalCount = adao.selectCount(param);
+
+		int pageTotalCount = 0; //전체페이지 개수
+
+		if(recordTotalCount % Configuration.DISCUSSION_COUNT_PER_PAGE > 0) {
+			pageTotalCount = recordTotalCount / Configuration.DISCUSSION_COUNT_PER_PAGE + 1;
+		}else {
+			pageTotalCount = recordTotalCount / Configuration.DISCUSSION_COUNT_PER_PAGE;
+		}
+
+		if(currentPage < 1) {
+			currentPage = 1;
+		}else if(currentPage > pageTotalCount) {
+			currentPage = pageTotalCount;
+		}
+
+		int startNav = (currentPage - 1) / Configuration.NAVI_COUNT_PER_PAGE * Configuration.NAVI_COUNT_PER_PAGE + 1;
+		int endNav = startNav + Configuration.NAVI_COUNT_PER_PAGE - 1;
+		if(endNav > pageTotalCount) {
+			endNav = pageTotalCount;
+		} 
+
+		boolean needPrev = true;
+		boolean needNext = true;	
+
+		if(startNav == 1) {
+			needPrev = false;
+		}
+		if(endNav == pageTotalCount) {
+			needNext = false;
+		}					
+
+		StringBuilder sb = new StringBuilder();
+		sb.append("<ul>");
+		if(needPrev) {
+			sb.append("<li><a href='/admin/" + param.get("pageName") + "?cpage=" + (startNav - 1) + "' id='prevPage'><</a></li>");
+		}
+
+		for(int i=startNav; i<= endNav; i++) {
+			if(currentPage == i) {
+				sb.append("<li class='on'><a href='/admin/" + param.get("pageName") + "?cpage=" + i + "'>" + i + "</a></li>");
+			}else {
+				sb.append("<li><a href='/admin/" + param.get("pageName") + "?cpage=" + i + "'>" + i + "</a></li>");
+			}
+		}
+
+		if(needNext) {
+			sb.append("<li><a href='/admin/" + param.get("pageName") + "?cpage=" + (endNav + 1) + "' id='prevPage'>></a></li>");
+		}
+		sb.append("</ul>");
+
+		return sb.toString();
+
 	}
 }

@@ -54,7 +54,7 @@
 		</section>
 		<section id="hdBot">
 			<div class="inner1200 clearfix">
-				<h1 class="logo"><a href="#;"><img src="/resources/img/common/logo.png"/></a></h1>
+				<h1 class="logo"><a href="/"><img src="/resources/img/common/logo.png"/></a></h1>
 				<nav>
 					<div >
 						<ul class="clearfix gnb">

@@ -15,6 +15,7 @@
 		</c:when>
 		<c:otherwise>
 			<c:forEach var="talist" items="${talist}">
+				<input type="checkbox" value="${talist.seq}">
 				${talist.seq} : ${talist.id} : 
 				<a href="/admin/tutorAppView?seq=${talist.seq}">${talist.title}</a>
 				 : ${talist.license} : 
@@ -22,5 +23,7 @@
 			</c:forEach>
 		</c:otherwise>
 	</c:choose>
+	<div class="navi">${navi}</div>
+	<a href="/admin">관리자 메인</a>
 </body>
 </html>

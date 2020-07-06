@@ -30,8 +30,10 @@
 			등급: ${mdto.grade}<br>
 			소개: ${mdto.introduce}<br>
 			신고수: ${mdto.report_count}<br>
-			가입일: ${mdto.signup_date}
+			가입일: ${mdto.signup_date}<br>
 		</c:otherwise>
 	</c:choose>
+	<a href="/admin/deleteById?pageName=memberList&id=${mdto.id}">삭제</a>
+	<a href="/admin/memberList">목록으로</a>
 </body>
 </html>

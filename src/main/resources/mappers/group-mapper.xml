@@ -142,9 +142,21 @@
 		insert into delete_app values(delete_app_seq.nextval, #{id}, '그룹', #{contents}, #{parent_seq})
 	</insert>
 	
-	<select id="selectGroupMemberById" resultType="kh.pingpong.dto.GroupMemberDTO">
-		select * from groupmember where id = #{id} and parent_seq = #{parent_seq}
+	<select id="selectGroupMemberList" resultType="kh.pingpong.dto.GroupMemberDTO">
+		select * from groupmember where parent_seq = #{parent_seq}
 	</select>
+	
+	<select id="selectGroupMemberById" resultType="int">
+		select seq from groupmember where id = #{id} and parent_seq = #{parent_seq}
+	</select>
+	
+	<update id="updateGroupMemberOut">
+		update grouplist set cur_num = cur_num - 1 where seq = #{seq}
+	</update>
+	
+	<delete id="deleteGroupMember">
+		delete groupmember where id = #{id} and parent_seq = #{parent_seq}
+	</delete>
 	
 	<select id="selectDeleteApplyList" resultType="kh.pingpong.dto.DeleteApplyDTO">
 		select * from delete_app where category = '그룹' and parent_seq = #{parent_seq}

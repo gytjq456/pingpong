@@ -66,16 +66,19 @@
 
 <script>
 	$(function() {
+		//파일 첨부 여러개
 		$("#fileAdd").on("click", function() {
 			var fileComp = $("<div><input type=file class='file' name=files><input type='button' value='-' class='fileDelete'></div>");
 			$("#fileAdd").after(fileComp);
 		})
 		
-		$(".fileDelete").on("click", function(){
-			console.log($(this).vla());
+		//파일 첨부한거 지우기
+		$(".license_contents").on("click",".fileDelete", function(){
+			console.log($(this).parent());
+			$(this).parent().remove();
 		})
 		
-		// 글자수 체크
+		// 글자수 체크 -3개 다
 		$("#tutorApp_view").find("#career").keyup(function(){
 			var word = $(this).val();
 			var wordSize = word.length;

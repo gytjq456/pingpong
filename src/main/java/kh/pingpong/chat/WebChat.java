@@ -64,6 +64,7 @@ public class WebChat {
 		}
 
 		members.get(roomId).add(client);
+		System.out.println("사이즈 =" + members.get(roomId).size());
 		for(Session a : members.get(roomId)) {
 			System.out.println("a = " + a.getId());
 		}
@@ -94,12 +95,10 @@ public class WebChat {
 				if(clients.get(client)==roomId) {
 					Basic basic = client.getBasicRemote();
 					try {
-						if(client.equals(session)) {
+						if(!client.equals(session)) {
 							//System.out.println(message);
 							basic.sendText(message);
 							//chatService.chatTxtInsert(message);
-						}else {
-							basic.sendText(message);	
 						}
 					} catch (Exception e) {
 						e.printStackTrace();

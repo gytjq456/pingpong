@@ -33,6 +33,10 @@
 			$("#searchAsKeyword").click(function(){
 				var keywordType = $("#keyword_type").val();
 				var keywordInput = $("#keyword_input").val();
+				if(keywordInput == ""){
+					alert("검색어를 입력해주세요.")
+					return false;
+				}
 				location.href = "/discussion/kewordSch?cpage=1&type="+keywordType+"&keyword=" + keywordInput	
 			});
 			
@@ -122,7 +126,8 @@
 									<article>
 										<div class="title">${i.title}</div>
 										<div class="userInfo_s1">
-											<div class="thumb"><img src="/resources/img/sub/userThum.jpg"/></div>
+											<!-- <div class="thumb"><img src="/resources/img/sub/userThum.jpg"/></div> -->
+											<div class="thumb"><img src="/resources/img/sub/${sessionScope.loginInfo.profile}"/></div>
 											<div class="info">
 												<p class="userId">${i.writer}</p>
 												<p class="writeDate">${i.dateString}</p>

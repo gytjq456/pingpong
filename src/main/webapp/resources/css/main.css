@@ -45,3 +45,19 @@
 #mainVisual .slick-dots > li:last-child { margin:0; }
 #mainVisual .slick-dots > li button { text-indent: -9999px; width:16px; height:16px; background:#fff; border-radius: 50%;  padding:0; border:none; }
 #mainVisual .slick-dots > li.slick-active button  { background:#e5d8bf;}
+
+
+
+/* 타이틀  */
+.tit_main { text-align:center;}
+.tit_main h3 { font-size:32px; font-weight:700;}
+
+/* 메인 컨텐츠 */
+#mainCont > section { position:relative; padding:70px 0; }
+
+
+
+
+
+
+

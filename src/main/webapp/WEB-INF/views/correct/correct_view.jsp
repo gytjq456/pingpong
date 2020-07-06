@@ -123,8 +123,8 @@
 				<div>유형 : ${dto.type}</div>
 				<div>
 					<button>조회수 : ${dto.view_count}</button>
-					<button id="correct_like" data-seq ="${dto.seq}">좋아요 : ${dto.like_count}</button>
-					<button id="correct_hate" data-seq ="${dto.seq}">싫어요 : ${dto.hate_count}</button>
+					<button class="correct_like" data-seq ="${dto.seq}">좋아요 : ${dto.like_count}</button>
+					<button class="correct_hate" data-seq ="${dto.seq}">싫어요 : ${dto.hate_count}</button>
 				</div>
 				<div>내용 : ${dto.contents}</div>
 				<div>댓글 (${dto.reply_count})</div>

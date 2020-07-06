@@ -1,6 +1,8 @@
 package kh.pingpong.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import kh.pingpong.config.Configuration;
 import kh.pingpong.dto.CorrectCDTO;
 import kh.pingpong.dto.CorrectDTO;
 
@@ -25,9 +28,15 @@ public class CorrectDAO {
 		return mybatis.insert("Correct.insert", dto);
 	}
 	
-	public List<CorrectDTO> selectAll() throws Exception{
-		List<CorrectDTO> result = mybatis.selectList("Correct.selectAll");
-		return result;
+	public List<CorrectDTO> selectAll(int cpage) throws Exception{
+		
+		Map <String, Integer> param = new HashMap<>();
+		int start =cpage * 10 - (10-1);
+		int end = start + (10-1);
+		param.put("start", start);
+		param.put("end", end);
+		return mybatis.selectList("Correct.selectAll", param);
+		
 	} 
 	
 	public CorrectDTO selectOne(int seq) throws Exception{

@@ -26,22 +26,27 @@ public class CorrectService {
 		return dao.insert(dto);
 	}
 	
-	public List<CorrectDTO> selectAll() throws Exception{
-		List<CorrectDTO> list = dao.selectAll();
-		for(CorrectDTO disDto : list) {
-			String contents = disDto.getContents();
+	public List<CorrectDTO> selectAll(int cpage) throws Exception{
+		List<CorrectDTO> list = dao.selectAll(cpage);
+		for(CorrectDTO dto : list) {
+			String contents = dto.getContents();
 			String contReplace = contents.replaceAll("(<img.+\">)", "");
-			disDto.setContents(contReplace);
+			dto.setContents(contReplace);
 		}		
 		return list;
 	}
 	@Transactional("txManager")
-	public CorrectDTO selectOne(int seq, Boolean in) throws Exception{
+	public CorrectDTO selectOne(int seq) throws Exception{
+		return dao.selectOne(seq);
+	}
+	
+	public CorrectDTO viewcount(int seq,boolean in) throws Exception{
 		if(!in) {
 			dao.viewcount(seq);
 		}
 		return dao.selectOne(seq);
 	}
+	
 	public int commentInsert(CorrectCDTO cdto) throws Exception{
 		return dao.commentInsert(cdto);
 	}
@@ -81,7 +86,7 @@ public class CorrectService {
 	}
 	public String correct_paging (int userCurrentPage) throws Exception {
 		int recordTotalCount = dao.correctcount(); 
-		
+		System.out.println(recordTotalCount);
 		int pageTotalCount = 0; // 모든 페이지 개수
 		
 		if(recordTotalCount % 10 > 0) {
@@ -118,7 +123,7 @@ public class CorrectService {
 		}
 		for(int i = startNavi ; i<=endNavi; i++) {
 			if(userCurrentPage == i) {
-				sb.append("<li class='on'><a href='/correct/correct_list?cpage="+i+"'>"+i+"</a></li>");//袁몃ŉ二쇰뒗 寃�
+				sb.append("<li class='on'><a href='/correct/correct_list?cpage="+i+"'>"+i+"</a></li>");
 			}else {
 				sb.append("<li><a href='/correct/correct_list?cpage="+i+"'>"+i+"</a></li>");
 			}

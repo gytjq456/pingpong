@@ -14,7 +14,9 @@
 	
 	<select id="selectAll" resultType="kh.pingpong.dto.CorrectDTO">
 		<!-- select * from discussion order by seq desc -->
-		select * from ( select correct.*, row_number() over(order by seq desc) rnum from correct ) where rnum between 1 and 10
+		select * from ( select correct.*, row_number() 
+		over(order by seq desc) rnum from correct ) 
+		where rnum between #{start} and #{end}
 	</select>
 	
 	<select id="selectOne" resultType="kh.pingpong.dto.CorrectDTO">

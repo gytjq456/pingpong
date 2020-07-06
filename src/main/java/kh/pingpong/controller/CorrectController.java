@@ -26,15 +26,19 @@ public class CorrectController {
 	
 
 	@RequestMapping("/correct_list")
-	public String signUp(Model model, HttpServletRequest request) throws Exception{
+	public String list(CorrectDTO dto, Model model, HttpServletRequest request) throws Exception{
 		int cpage =1;
-		List<CorrectDTO> list = cservice.selectAll();
 		try {
 		cpage =Integer.parseInt(request.getParameter("cpage"));
 		} catch (Exception e) {}
+		System.out.println("시퀀"+dto.getSeq());
+		boolean in = false;
+		dto = cservice.viewcount(dto.getSeq(),in);
+		List<CorrectDTO> list = cservice.selectAll(cpage);
 		String navi = cservice.correct_paging(cpage);
 		model.addAttribute("navi", navi);
 		model.addAttribute("list", list);
+		model.addAttribute("dto", dto);
 		return "/correct/correct_list";
 	}
 	
@@ -43,18 +47,10 @@ public class CorrectController {
 		return "/correct/correct_write";
 	}
 	
-	@RequestMapping("/writeProc")
-	public String writeProc(CorrectDTO dto) throws Exception{
-		System.out.println("test :" +dto.getContents());
-		cservice.insert(dto);
-		return "redirect:/correct/correct_list";
-	}
-	
 	@RequestMapping("/correct_view")
 	public String view(CorrectDTO dto, CorrectCDTO cdto, Model model) throws Exception{
 		System.out.println("dddd");
-		boolean in = false;
-		dto = cservice.selectOne(dto.getSeq(),in);
+		dto = cservice.selectOne(dto.getSeq());
 		System.out.println("test :" +dto.getSeq());
 		List<CorrectCDTO> ccdto = cservice.selectcAll(dto.getSeq());
 		List<CorrectCDTO> ccdto2 = cservice.bestcomm(dto.getSeq());
@@ -63,11 +59,18 @@ public class CorrectController {
 		model.addAttribute("cdto", ccdto);
 		return "/correct/correct_view";
 	}
+	@RequestMapping("/writeProc")
+	public String writeProc(CorrectDTO dto) throws Exception{
+		System.out.println("test :" +dto.getContents());
+		cservice.insert(dto);
+		return "redirect:/correct/correct_list";
+	}
+	
 	
 	
 	@RequestMapping("/correct_modify")
 	public String modify(CorrectDTO dto, Model model) throws Exception {
-	dto = cservice.selectOne(dto.getSeq(), true);
+	dto = cservice.selectOne(dto.getSeq());
 		model.addAttribute("dto",dto);
 	return "/correct/correct_modify";
 	}

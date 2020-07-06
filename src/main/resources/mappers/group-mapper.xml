@@ -17,7 +17,8 @@
 	<!-- 그룹 목록 출력 -->
 	<select id="selectList" resultType="kh.pingpong.dto.GroupDTO">
 		select * from 
-		(select grouplist.*, row_number() over(order by ${orderBy} desc, seq desc) rnum from grouplist) 
+		(select grouplist.*, row_number() 
+		over(order by ${orderBy} desc, seq desc) rnum from grouplist) 
 		where rnum between #{start} and #{end}
 	</select>
 	

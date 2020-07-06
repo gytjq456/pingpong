@@ -101,7 +101,7 @@ public class PartnerController {
 			System.out.println("contents : " + contents);
 			msg.setContent(contents,"text/plain");
 			//메일 제목
-			msg.setSubject(user + "님이 보낸 메일입니다.");
+			msg.setSubject(user + "님이 보낸 메일입니다."); 
 			
 			//메일 내용
 			//msg.setText("인증번호는 :");

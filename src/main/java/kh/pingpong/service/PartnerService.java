@@ -12,23 +12,23 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import kh.pingpong.config.Configuration;
+import kh.pingpong.dao.GroupDAO;
 import kh.pingpong.dao.PartnerDAO;
 import kh.pingpong.dto.HobbyDTO;
+import kh.pingpong.dto.JjimDTO;
 import kh.pingpong.dto.LanguageDTO;
 import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.dto.PartnerDTO;
+import kh.pingpong.dto.ReviewDTO;
 
 @Service
 public class PartnerService {
 	@Autowired
 	private PartnerDAO pdao;
 	
-	@Autowired
-	JavaMailSender mailSender;
-	
 	//파트너 게시글에서 파트너 찾기
-	public List<PartnerDTO> search(int cpage, Map<String, Object> search, PartnerDTO pdto/* ,String orderBy */) throws Exception{
-		return pdao.search(cpage, search, pdto/* , orderBy */);
+	public List<PartnerDTO> search(int cpage, Map<String, Object> search, PartnerDTO pdto) throws Exception{
+		return pdao.search(cpage, search, pdto);
 	}
 	
 	//취미 선택 
@@ -56,8 +56,7 @@ public class PartnerService {
 	
 	//페이지 네비게이션
 	public String getPageNavi(int currentPage) throws Exception{
-
-		int recordTotalCount =pdao.getArticleCount(); 
+		int recordTotalCount = pdao.getArticleCount(); 
 		int pageTotalCount = 0; 
 		//System.out.println(pdao.getArticleCount());
 	
@@ -88,8 +87,8 @@ public class PartnerService {
 		if(startNavi ==1) {needPrev = false;}
 		if(endNavi == pageTotalCount) {needNext = false;}		
 
-		StringBuilder sb = new StringBuilder(); // jsp濡� �꽆寃⑥＜湲� �쐞�빐 �꽔�� 寃�
-
+		StringBuilder sb = new StringBuilder();
+		
 		if(needPrev) {
 			sb.append("<a href ='partnerList?cpage="+(startNavi-1)+"'>"+" <<  " + "</a>");
 		}
@@ -122,29 +121,53 @@ public class PartnerService {
 		return pdao.deletePartner(mdto);
 	}
 	
-	//이메일 전송
-	public void SendMail(PartnerDTO pdto, MemberDTO mdto) {
-		try {
-			//이메일 객체
-			MimeMessage msg = mailSender.createMimeMessage();
-			
-			//받는 사람을 설정(수신자 받는 사람의 이메일 주소 객체를 생성해서 이메일 주소를 담음)
-			msg.addRecipient(RecipientType.TO, new InternetAddress(pdto.getEmail()));
- 
-            // 보내는 사람(이메일 + 주소)
-            // (발신자, 보내는 사람의 이메일 주소와 이름을 담음)
-            // 이메일 발신자
-			msg.addFrom(new InternetAddress[] { new InternetAddress(mdto.getEmail(), mdto.getName()) });
-			
-			//이메일 제목(인코딩해야 한글이 깨지지 않음)
-			msg.setSubject("이메일 제목","utf-8");
-			msg.setText("이메일 내용","utf-8");
-			
-            // 이메일 보내기
-			mailSender.send(msg);
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
+//	//이메일 전송
+//	public void SendMail(PartnerDTO pdto, MemberDTO mdto) {
+//		try {
+//			//이메일 객체
+//			MimeMessage msg = mailSender.createMimeMessage();
+//			
+//			//받는 사람을 설정(수신자 받는 사람의 이메일 주소 객체를 생성해서 이메일 주소를 담음)
+//			msg.addRecipient(RecipientType.TO, new InternetAddress(pdto.getEmail()));
+// 
+//            // 보내는 사람(이메일 + 주소)
+//            // (발신자, 보내는 사람의 이메일 주소와 이름을 담음)
+//            // 이메일 발신자
+//			msg.addFrom(new InternetAddress[] { new InternetAddress(mdto.getEmail(), mdto.getName()) });
+//			
+//			//이메일 제목(인코딩해야 한글이 깨지지 않음)
+//			msg.setSubject("이메일 제목","utf-8");
+//			msg.setText("이메일 내용","utf-8");
+//			System.out.println("MSG : " + msg);
+//            // 이메일 보내기
+//			mailSender.send(msg);
+//		}catch(Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
+	
+	//리뷰 리스트 출력
+	public List<ReviewDTO> reviewList(int seq) throws Exception{
+		return pdao.reviewList(seq);
+	}
+	//리뷰 글쓰기
+	public int reviewWrite(ReviewDTO redto) throws Exception{
+		return pdao.reviewWrite(redto);
 	}
 	
+	//찜하기
+	public int insertJjim(JjimDTO jdto) {
+		return pdao.insertJjim(jdto);
+	}
+	public int deleteJjim(JjimDTO jdto) {
+		return pdao.deleteJjim(jdto);
+	}
+	public boolean selectJjim(JjimDTO jdto) {
+		return pdao.selectJjim(jdto);
+	}
+	
+	//검색 최신순 / 평점순
+	public List<PartnerDTO> searchAlign(String alignType) throws Exception{
+		return pdao.searchAlign(alignType);
+	}
 }

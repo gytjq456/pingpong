@@ -75,11 +75,23 @@ public class GroupService {
 		return gdao.selectApplyForm(gadto);
 	}
 	
+	@Transactional("txManager")
 	public int insertDeleteApply(DeleteApplyDTO dadto) {
+		GroupMemberDTO gmdto = new GroupMemberDTO();
+		
+		gmdto.setId(dadto.getId());
+		gmdto.setParent_seq(dadto.getParent_seq());
+		
+		gdao.updateGroupMemberOut(dadto.getParent_seq());
+		gdao.deleteGroupMember(gmdto);
 		return gdao.insertDeleteApply(dadto);
 	}
 	
-	public GroupMemberDTO selectGroupMemberById(GroupMemberDTO gmdto) {
+	public List<GroupMemberDTO> selectGroupMemberList(int parent_seq) {
+		return gdao.selectGroupMemberList(parent_seq);
+	}
+	
+	public boolean selectGroupMemberById(GroupMemberDTO gmdto) {
 		return gdao.selectGroupMemberById(gmdto);
 	}
 	

@@ -15,6 +15,7 @@
 		</c:when>
 		<c:otherwise>
 			<c:forEach var="plist" items="${plist}">
+				<input type="checkbox" value="${plist.seq}">
 				${plist.seq} : 
 				<a href="/admin/partnerView?seq=${plist.seq}">${plist.id}</a>
 				 : ${plist.name} : ${plist.age} : ${plist.gender} : 
@@ -22,5 +23,7 @@
 			</c:forEach>
 		</c:otherwise>
 	</c:choose>
+	<div class="navi">${navi}</div>
+	<a href="/admin">관리자 메인</a>
 </body>
 </html>

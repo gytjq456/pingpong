@@ -15,6 +15,7 @@
 		</c:when>
 		<c:otherwise>
 			<c:forEach var="glist" items="${glist}">
+				<input type="checkbox" value="${glist.seq}">
 				${glist.seq} : 
 				<a href="/admin/groupView?seq=${glist.seq}">${glist.title}</a>
 				 : ${glist.writer_id} : ${glist.writer_name} : 
@@ -22,5 +23,7 @@
 			</c:forEach>
 		</c:otherwise>
 	</c:choose>
+	<div class="navi">${navi}</div>
+	<a href="/admin">관리자 메인</a>
 </body>
 </html>

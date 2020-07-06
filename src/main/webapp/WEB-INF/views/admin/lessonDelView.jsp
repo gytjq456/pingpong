@@ -18,8 +18,11 @@
 			작성자: ${lddto.id}<br>
 			카테고리: ${lddto.category}<br>
 			내용: ${lddto.contents}<br>
-			부모: ${lddto.parent_seq}
+			부모: ${lddto.parent_seq}<br>
 		</c:otherwise>
 	</c:choose>
+	<a href="/admin/deleteAppLesson?seq=${lddto.parent_seq}">승인</a>
+	<a href="/admin/deleteBySeq?pageName=lessonDelList&seq=${lddto.seq}">삭제</a>
+	<a href="/admin/lessonDelList">목록으로</a>
 </body>
 </html>

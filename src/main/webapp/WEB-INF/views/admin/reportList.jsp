@@ -15,6 +15,7 @@
 		</c:when>
 		<c:otherwise>
 			<c:forEach var="rlist" items="${rlist}">
+				<input type="checkbox" value="${rlist.seq}">
 				${rlist.seq} : ${rlist.id} : 
 				<a href="/admin/reportView?seq=${rlist.seq}">${rlist.reason}</a>
 				 : ${rlist.reporter} : 
@@ -22,5 +23,7 @@
 			</c:forEach>
 		</c:otherwise>
 	</c:choose>
+	<div class="navi">${navi}</div>
+	<a href="/admin">관리자 메인</a>
 </body>
 </html>

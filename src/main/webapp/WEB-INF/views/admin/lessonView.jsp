@@ -33,8 +33,10 @@
 			리뷰수: ${ldto.review_count}<br>
 			평점: ${ldto.review_point}<br>
 			모집중: ${ldto.applying}<br>
-			진행중: ${ldto.proceeding}
+			진행중: ${ldto.proceeding}<br>
 		</c:otherwise>
 	</c:choose>
+	<a href="/admin/deleteBySeq?pageName=lessonList&seq=${ldto.seq}">삭제</a>
+	<a href="/admin/lessonList">목록으로</a>
 </body>
 </html>

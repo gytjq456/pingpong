@@ -80,19 +80,19 @@
 		})
 		
 		$("#title").keyup(function(){
-				var word = $(this).val();
-				var wordSize = word.length;
-				if(wordSize <= 100){
-					$("#writeProc .wordsize .current").text(wordSize);
-				}else{
-					word = word.substr(0,100);
-					$("#writeProc .wordsize .current").text(word.length);
-					$(this).val(word);
-					alert("제목은  100자 이하로 등록해 주세요.");
-				}
-			})
+			var word = $(this).val();
+			var wordSize = word.length;
+			if(wordSize <= 100){
+				$("#writeProc .wordsize .current").text(wordSize);
+			}else{
+				word = word.substr(0,100);
+				$("#writeProc .wordsize .current").text(word.length);
+				$(this).val(word);
+				alert("제목은  100자 이하로 등록해 주세요.");
+			}
+		})
 
-			$('#contents').summernote({
+		$('#contents').summernote({
 			height: 600,
 			lang: "ko-KR",
 			callbacks: {

@@ -30,8 +30,10 @@
 			등록일: ${pdto.partner_date}<br>
 			리뷰수: ${pdto.review_count}<br>
 			평점: ${pdto.review_point}<br>
-			연락 수단: ${pdto.contact}
+			연락 수단: ${pdto.contact}<br>
 		</c:otherwise>
 	</c:choose>
+	<a href="/admin/deleteById?pageName=partnerList&id=${pdto.id}">삭제</a>
+	<a href="/admin/partnerList">목록으로</a>
 </body>
 </html>

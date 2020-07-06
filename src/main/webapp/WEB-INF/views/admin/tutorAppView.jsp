@@ -22,8 +22,11 @@
 			경험: ${tadto.exp}<br>
 			소개: ${tadto.introduce}<br>
 			추천인: ${tadto.recomm}<br>
-			패스: ${tadto.pass}
+			패스: ${tadto.pass}<br>
 		</c:otherwise>
 	</c:choose>
+	<a href="/admin/tutorAppUpdate?seq=${tadto.seq}&id=${tadto.id}">승인</a>
+	<a href="/admin/deleteBySeq?pageName=tutorAppList&seq=${tadto.seq}">삭제</a>
+	<a href="/admin/tutorAppList">목록으로</a>
 </body>
 </html>

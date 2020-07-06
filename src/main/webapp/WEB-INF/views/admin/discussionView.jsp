@@ -23,8 +23,10 @@
 			작성일: ${ddto.dateString}<br>
 			조회수: ${ddto.view_count}<br>
 			추천수: ${ddto.like_count}<br>
-			댓글수: ${ddto.comment_count}
+			댓글수: ${ddto.comment_count}<br>
 		</c:otherwise>
 	</c:choose>
+	<a href="/admin/deleteBySeq?pageName=discussionList&seq=${ddto.seq}">삭제</a>
+	<a href="/admin/discussionList">목록으로</a>
 </body>
 </html>

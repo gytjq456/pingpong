@@ -21,7 +21,7 @@ $(function() {
 
 		$('#address').val(sido + ' ' + gugun);
 	});
-
+	
 	// 비밀번호 일치
 	$("#pw_ck").on("keyup", function() {
 		var pwResult1 = $("#pw").val();

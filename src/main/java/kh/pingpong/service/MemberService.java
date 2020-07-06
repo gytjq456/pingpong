@@ -140,9 +140,8 @@ public class MemberService {
 	/* introduce */
 	public int myInfoIntroduce(MemberDTO mdto) throws Exception{
 		return mdao.myInfoIntroduce(mdto);
-	}	
-	
-	
+	}
+		
 }
 
 

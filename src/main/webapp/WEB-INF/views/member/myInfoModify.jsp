@@ -19,19 +19,19 @@
 							${sessionScope.loginInfo.id}
 						</div>
 					</div>
-		
-					<div class="se_singup">
-						<div class="title">
-							비밀번호 							
+					
+					<c:if test="${mdto.mem_type != 'kakao'}">
+						<div class="se_singup" id="kakaoNot">
+							<div class="title">
+								비밀번호 							
+							</div>												
+							<div class="se_con">
+								<div>
+									<button type="button" id="modyPwBtn">비밀번호 수정 바로가기</button>								
+								</div>
+							</div>						
 						</div>
-												
-						<div class="se_con">
-							<div>
-								<button type="button" id="modyPwBtn">비밀번호 수정 바로가기</button>								
-							</div>
-						</div>
-						
-					</div>
+					</c:if>
 		
 					<div class="se_singup">
 						<div class="title">이름</div>
@@ -122,9 +122,11 @@
 							<div>
 								<button type="button" class="modyBtn">수정</button>
 								<div class="show_input">
-									<input type="file" id="profile" name="profile">
-									<button type="button" id="profile_Result">수정완료</button>
-								</div>
+									<form id="profile_form">
+										<input type="file" id="profile" name="profile">
+										<input type="submit" id="profile_Result" value="수정완료">
+									</form>
+								</div>								
 							</div>
 						</div>
 					</div>

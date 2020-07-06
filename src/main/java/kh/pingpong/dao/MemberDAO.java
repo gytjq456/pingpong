@@ -157,6 +157,12 @@ public class MemberDAO {
 		return mybatis.update("Member.myInfoIntroduce", mdto);
 	}
 	
+	/* introduce */
+	public int scheduleAgeUp() throws Exception{
+		System.out.println("크론식에 들어 왔나요?");
+		return mybatis.update("Member.scheduleAgeUp");
+	}
+	
 }
 
 

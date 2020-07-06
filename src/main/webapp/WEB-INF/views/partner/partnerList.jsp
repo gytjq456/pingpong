@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+	<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <jsp:include page="/WEB-INF/views/header.jsp"/>
@@ -31,7 +31,7 @@
 		$(".button_aa .email_a").on("click",function(e){
 			alert("이메일 페이지로 이동하실께요.");
 			var seq = $(this).closest('.button_aa').siblings('.box').find('.seq').html();
-			window.open("http://localhost/partner/selectPartnerEmail?seq="+seq,"ㅎㅇㅎㅇ","width=800,height=400");
+			window.open("http://localhost:8888/partner/selectPartnerEmail?seq="+seq,"width=800,height=400");
 		})
 				
 		//시군 
@@ -149,10 +149,10 @@
 		<input type="submit" value="검색">
 	</form>
 	
-	<div class="orderBy">
-		<select id="orderBy">
-			<option value="seq">최신순</option>
-			<option value="review_point">평점순</option>
+	<div>
+		<select name="align" id="align">
+			<option value="recent" <c:if test="${alignType == 'recent'}">selected</c:if>>최신 순</option>
+			<option value="like" <c:if test="${alignType == 'like'}">selected</c:if>>인기 순</option>
 		</select>
 	</div>
 	

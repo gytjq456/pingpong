@@ -228,8 +228,7 @@
 			
 		})
 		
-	
-		
+
 		function updateScroll(){
 			var element = document.getElementById("chatBox");
 			element.scrollTop = element.scrollHeight;

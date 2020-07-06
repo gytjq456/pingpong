@@ -261,7 +261,7 @@ $(function(){
 					<li><a href="#;">강의문의</a></li>
 					<li><a href="#;">환불안내</a></li>
 					<li><a href="#;">리뷰</a></li>
-					<li><a href="/payments/payMain?parent_seq=${ldto.seq }&title=${ldto.title}">결제하기</a></li>
+					<li><a href="/payments/payMain?parent_seq=${ldto.seq }&title=${ldto.title}&price=${ldto.price}">결제하기</a></li>
 				</ul>
 			</div>
 			

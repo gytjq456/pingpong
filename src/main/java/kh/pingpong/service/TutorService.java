@@ -20,6 +20,7 @@ import kh.pingpong.dto.LikeListDTO;
 import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.dto.ReportListDTO;
 import kh.pingpong.dto.ReviewDTO;
+import kh.pingpong.dto.TuteeDTO;
 import kh.pingpong.dto.TutorAppDTO;
 
 @Service
@@ -163,6 +164,11 @@ public class TutorService {
 
 		System.out.println(rdto.getParent_seq() + rdto.getCategory());
 		tdao.reviewUpdate(rdto);
+	}
+	
+	//튜티 인서트
+	public int tuteeInsert(TuteeDTO ttdto) throws Exception{
+		return tdao.tuteeInsert(ttdto);
 	}
 	
 	//레슨 페이징 만 이동

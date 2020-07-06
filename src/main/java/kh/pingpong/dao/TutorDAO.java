@@ -17,6 +17,7 @@ import kh.pingpong.dto.LikeListDTO;
 import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.dto.ReportListDTO;
 import kh.pingpong.dto.ReviewDTO;
+import kh.pingpong.dto.TuteeDTO;
 import kh.pingpong.dto.TutorAppDTO;
 
 @Repository
@@ -195,6 +196,11 @@ public class TutorDAO {
 		param.put("end", String.valueOf(end));
 		
 		return mybatis.selectList("Tutor.search", param);
+	}
+	
+	//튜티 insert
+	public int tuteeInsert(TuteeDTO ttdto) throws Exception{
+		return mybatis.insert("Tutor.tuteeInsert", ttdto);
 	}
 
 }

@@ -2,6 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Tutor">
 
+<!-- 튜티 insert -->
+<insert id="tuteeInsert">
+	insert into tutee values(tutee_seq.nextval, #{id}, #{name}, #{email}, #{phone_country}, #{phone}, #{bank_name}, #{price}, #{account}, #{sysname}, #{parent_seq})
+</insert>
+
 <!-- 튜터신청서에 있는지 없는지-->
 <select id="tutorTrue" resultType="int">
 	select count(*) from tutor_app where id=#{id}

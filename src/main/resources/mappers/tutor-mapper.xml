@@ -7,6 +7,16 @@
 	insert into tutee values(tutee_seq.nextval, #{id}, #{name}, #{email}, #{phone_country}, #{phone}, #{bank_name}, #{price}, #{account}, #{sysname}, #{parent_seq})
 </insert>
 
+<!-- 튜티 현재인원 늘리기 -->
+<update id="tuteeCurnumCount">
+	update lesson set cur_num = cur_num+1 where seq = #{parent_seq}
+</update>
+
+<!-- 결제한사람이 또 결제하는지 -->
+<select id="payTrue" resultType="int">
+	select count(*) from tutee where parent_seq = #{parent_seq} and id =#{id}
+</select>
+
 <!-- 튜터신청서에 있는지 없는지-->
 <select id="tutorTrue" resultType="int">
 	select count(*) from tutor_app where id=#{id}

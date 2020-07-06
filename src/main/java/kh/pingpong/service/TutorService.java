@@ -125,6 +125,13 @@ public class TutorService {
 		boolean result = tdao.LikeIsTrue(param);
 		return result;
 	}
+	
+	//강의 결제한사람이 또 결제하는지
+	public int payTrue(TuteeDTO ttdto) throws Exception{
+		int result = tdao.payTrue(ttdto);
+		return result;
+		
+	}
 	//찜 테이블 값넣기
 	public int insertJjim(JjimDTO jdto) throws Exception{
 		int result = tdao.insertJjim(jdto);
@@ -169,6 +176,11 @@ public class TutorService {
 	//튜티 인서트
 	public int tuteeInsert(TuteeDTO ttdto) throws Exception{
 		return tdao.tuteeInsert(ttdto);
+	}
+	
+	//현재인원 늘리기
+	public int tuteeCurnumCount(TuteeDTO ttdto) throws Exception{
+		return tdao.tuteeCurnumCount(ttdto);
 	}
 	
 	//레슨 페이징 만 이동

@@ -202,5 +202,15 @@ public class TutorDAO {
 	public int tuteeInsert(TuteeDTO ttdto) throws Exception{
 		return mybatis.insert("Tutor.tuteeInsert", ttdto);
 	}
+	
+	//튜티 현재인원 늘리기
+	public int tuteeCurnumCount(TuteeDTO ttdto) throws Exception{
+		return mybatis.update("Tutor.tuteeCurnumCount", ttdto);
+	}
+	
+	//결제한 사람이 또 결제하는지
+	public int payTrue(TuteeDTO ttdto) throws Exception{
+		return mybatis.selectOne("Tutor.payTrue", ttdto);
+	}
 
 }

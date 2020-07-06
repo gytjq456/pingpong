@@ -24,6 +24,18 @@ public class PaymentsController {
 	@Autowired
 	private TutorService tservice;
 
+	
+	
+	//결제한사람이 또 결제하는지
+	@RequestMapping("payTrue")
+	@ResponseBody
+	public int payTrue(TuteeDTO ttdto) throws Exception{
+		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
+		String id = mdto.getId();
+		ttdto.setId(id);
+		int result = tservice.payTrue(ttdto);
+		return result;
+	}
 	//튜티 결제
 	@RequestMapping("payMain")
 	public String payMain(Model model, int parent_seq, String title, int price) throws Exception{
@@ -73,6 +85,7 @@ public class PaymentsController {
 			ttdto.setParent_seq(parent_seq);
 			
 			tservice.tuteeInsert(ttdto);
+			tservice.tuteeCurnumCount(ttdto);
 			return "redirect: /tutor/lessonView?seq="+parent_seq;
 		}
 

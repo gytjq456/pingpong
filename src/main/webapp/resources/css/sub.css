@@ -257,7 +257,10 @@ button.normal:hover { background:#c7c7c7 !important; color:#fff; }
 .viewPage_style1 .originTxt p,
 .viewPage_style1 .originTxt div { width:auto !important;}
 .viewPage_style1 .language { font-size:16px; color:#999; border-left:2px solid #fbaab0; padding-left:12px; }
- 
+.convertWrap {margin-top:20px; margin-bottom:12px;}
+.convertWrap > div{ float:left;}
+.convertWrap > div select,
+.convertWrap > div button { height:32px; border:1px solid #ddd; line-height:30px; box-sizing:border-box;}
 
 /* 댓글  */
 .comment_wrap {}

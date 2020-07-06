@@ -148,8 +148,25 @@ public class GroupDAO {
 		return checkApply;
 	}
 	
-	public GroupMemberDTO selectGroupMemberById(GroupMemberDTO gmdto) {
-		return mybatis.selectOne("Group.selectGroupMemberById", gmdto);
+	public List<GroupMemberDTO> selectGroupMemberList(int parent_seq) {
+		return mybatis.selectList("Group.selectGroupMemberList", parent_seq);
+	}
+	
+	public boolean selectGroupMemberById(GroupMemberDTO gmdto) {
+		Integer result = mybatis.selectOne("Group.selectGroupMemberById", gmdto);
+		boolean checkMember = true;
+		if (result == null) {
+			checkMember = false;
+		}
+		return checkMember;
+	}
+	
+	public int updateGroupMemberOut(int seq) {
+		return mybatis.update("Group.updateGroupMemberOut", seq);
+	}
+	
+	public int deleteGroupMember(GroupMemberDTO gmdto) {
+		return mybatis.delete("Group.deleteGroupMember", gmdto);
 	}
 	
 	public int insertDeleteApply(DeleteApplyDTO dadto) {

@@ -15,6 +15,7 @@
 		</c:when>
 		<c:otherwise>
 			<c:forEach var="trlist" items="${trlist}">
+				<input type="checkbox" value="${trlist.id}">
 				${trlist.mem_type} : 
 				<a href="/admin/tutorView?id=${trlist.id}">${trlist.id}</a>
 				 : ${trlist.name} : ${trlist.age} : 
@@ -22,5 +23,7 @@
 			</c:forEach>
 		</c:otherwise>
 	</c:choose>
+	<div class="navi">${navi}</div>
+	<a href="/admin">관리자 메인</a>
 </body>
 </html>

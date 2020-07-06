@@ -15,6 +15,7 @@
 		</c:when>
 		<c:otherwise>
 			<c:forEach var="ttlist" items="${ttlist}">
+				<input type="checkbox" value="${ttlist.seq}">
 				${ttlist.seq} : 
 				<a href="/admin/tuteeView?seq=${ttlist.seq}">${ttlist.id}</a>
 				 : ${ttlist.name} : ${ttlist.email} : ${ttlist.phone} : 
@@ -22,5 +23,7 @@
 			</c:forEach>
 		</c:otherwise>
 	</c:choose>
+	<div class="navi">${navi}</div>
+	<a href="/admin">관리자 메인</a>
 </body>
 </html>

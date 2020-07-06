@@ -52,6 +52,12 @@ input:read-only {background-color: #e4e4e4;color:#a9a9a9;}
 .between_calendar, .max_num_myung { width: 30px; text-align: center; display: inline-block; font-size: 18px; }
 .calendar_icon { display: inline-block; vertical-align: text-top; }
 .group_sub_input { margin-bottom: 40px; }
+#writeProc #location,
+#writeProc #location_lat,
+#writeProc #location_lng { display: none; }
+#updateProc #location,
+#updateProc #location_lat,
+#updateProc #location_lng { display: none; }
 
 /* 그룹 게시판 리스트 */
 .back_and_wrap { position: relative; width: 23.5%; display: inline-block; margin-right:2%; margin-top: 35px; }
@@ -192,6 +198,8 @@ width:-webkit-calc(100% - 340px);
 #group_view #view_btns #update { margin-right: 2px; }
 #group_view #writer_profile img { vertical-align: top; }
 #group_view #map { width: 100%; height: 200px; margin-top: 10px; }
+#group_view .member_profile img { vertical-align: top; }
+#group_view .member_profile { overflow: hidden; }
 
 
 

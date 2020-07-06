@@ -1,5 +1,8 @@
 package kh.pingpong.controller;
 
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -7,9 +10,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 
+import kh.pingpong.dto.MemberDTO;
+import kh.pingpong.dto.TuteeDTO;
+
 @Controller
 @RequestMapping("/payments/")
 public class PaymentsController {
+	
+	@Autowired
+	private HttpSession session;
 
 	@RequestMapping("test")
 	public String test(Model model, String money, String name, String email) {
@@ -17,6 +26,27 @@ public class PaymentsController {
 		model.addAttribute("money", money);
 		model.addAttribute("name", name);
 		return "tutor/payMain";
+	}
+	
+	//튜티 결제
+	@RequestMapping("payMain")
+	public String payMain(Model model, int parent_seq, String title) throws Exception{
+		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
+		TuteeDTO ttdto = new TuteeDTO();
+		ttdto.setId(mdto.getId());
+		ttdto.setName(mdto.getName());
+		ttdto.setEmail(mdto.getEmail());
+		ttdto.setPhone_country(mdto.getPhone_country());
+		ttdto.setPhone(mdto.getPhone());
+		ttdto.setBank_name(mdto.getBank_name());
+		ttdto.setAccount(mdto.getAccount());
+		ttdto.setSysname(mdto.getSysname());
+		ttdto.setAddress(mdto.getAddress());
+		ttdto.setTitle(title);
+		ttdto.setParent_seq(parent_seq);
+		
+		model.addAttribute("ttdto", ttdto);
+		return "/tutor/payMain";
 	}
 
 	@RequestMapping(value="complete", produces="application/json; charset=utf8")

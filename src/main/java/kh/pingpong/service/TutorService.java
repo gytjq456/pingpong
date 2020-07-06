@@ -152,6 +152,12 @@ public class TutorService {
 		return result;
 	}
 	
+	//모집중 진행중 마감 시간에따라 알아서 바뀌게하기
+	public int updateIngDate(String today_date) throws Exception{
+		int result = tdao.updateIngDate(today_date);
+		return result;
+	}
+	
 	//리뷰 평점/갯수 늘리기
 	public void reviewUpdate(ReviewDTO rdto) throws Exception{
 

@@ -83,8 +83,9 @@
 			if(theDate < 10){
 				theDate = '0' + theDate
 			}			
+			var uid = "";
 			$(document).on("click",".chatting",function(){
-				var uid = $(this).data("uid");
+				uid = $(this).data("uid");
 				var uname = $(this).data("name");
 				if("${sessionScope.loginInfo}" == ""){
 					alert("로그인후 이용이 가능합니다.")
@@ -101,9 +102,8 @@
 						}
 					}).done(function(resp){
 						// 채팅방 열림
-						console.log(resp)
-						console.log(resp.length)
-						console.log(typeof resp )
+						
+						
 						if(typeof resp == 'string'){
 							
 							$(".chatBox .sysdate").html(theYear+"년 "+theMonth+"월 "+theDate+"일 "+todayLabel);
@@ -148,70 +148,87 @@
 				}
 			})
 
-			var ws = new WebSocket("ws://localhost/chat");
-			//var ws = new WebSocket("ws://192.168.60.58/chat");
-			//var ws = new WebSocket("ws://youngram.duckdns.org/chat");
-			ws.onmessage = function(e){
-				var msg = JSON.parse(event.data);
-				var time = new Date(msg.date);
-				var timeStr = time.toLocaleTimeString();
+			if("${sessionScope.loginInfo.id}" != ""){
+				var ws = new WebSocket("ws://localhost/chat");
+				//var ws = new WebSocket("ws://192.168.60.58/chat/${sessionScope.loginInfo.id}");
+				//var ws = new WebSocket("ws://192.168.160.184/chat/${sessionScope.loginInfo.id}");
+				//var ws = new WebSocket("ws://youngram.duckdns.org/chat");
 				
-				var userInfo_s1 = $("<div class='userInfo_s1 other'>");
-				userInfo_s1.append("<div class='thumb'><img src='/resources/img/sub/userThum.jpg'>")
-				userInfo_s1.append("<div class='info'><p class='userId'>"+msg.id+"</p>")
-				userInfo_s1.append("<div class='chatTxt'><p>"+msg.text+"</p><span class='writeDate'>"+msg.date+"</span></div>")
+				ws.onopen = function(){
+					var msg = {
+						chatRoom : chatRoom,
+						type:"register",
+						userid:"${sessionScope.loginInfo.id}",
+						targetId:uid
+					}
+					ws.send(JSON.stringify(msg));
+					
+				}
 				
-				$(".chatBox .txtRow").append(userInfo_s1);
-				updateScroll();
+				
+				ws.onmessage = function(e){
+					var msg = JSON.parse(event.data);
+					var time = new Date(msg.date);
+					var timeStr = time.toLocaleTimeString();
+					
+					var userInfo_s1 = $("<div class='userInfo_s1 other'>");
+					userInfo_s1.append("<div class='thumb'><img src='/resources/img/sub/userThum.jpg'>")
+					userInfo_s1.append("<div class='info'><p class='userId'>"+msg.id+"</p>")
+					userInfo_s1.append("<div class='chatTxt'><p>"+msg.text+"</p><span class='writeDate'>"+msg.date+"</span></div>")
+					
+					$(".chatBox .txtRow").append(userInfo_s1);
+					updateScroll();
+				}
+				$("#chatWrap #close").click(function(){
+					$("#chatRoom").removeClass("on");
+					$("#chatBox .txtRow").html("");
+					ws.onclose();
+				})
+				txtInput.keyup(function(e){
+					if(e.keyCode == 13){
+						$("#transfer").click();
+						return false;
+					}
+				})
+				$("#transfer").click(function(){
+					
+					if(theMinutes < 10){
+						theMinutes = "0"+theMinutes
+					}
+					
+					if(theHours > 12){
+						timeResult = "오후 " + theHours+":"+theMinutes
+					}else{
+						timeResult = "오전 " + theHours+":"+theMinutes
+					}
+	
+					var chatTxt = txtInput.text();
+					var userInfo_s1 = $("<div class='userInfo_s1 my'>");
+					userInfo_s1.append("<div class='info'><p class='userId'>${sessionScope.loginInfo.name}</p>")
+					userInfo_s1.append("<div class='thumb'><img src='/resources/img/sub/userThum.jpg'>")
+					userInfo_s1.append("<div class='chatTxt'><span class='writeDate'>"+timeResult+"</span><p>"+chatTxt+"</p>")
+					
+					var msg = {
+						chatRoom : chatRoom,
+						type: "message",
+						text: chatTxt,
+						userid:   "${sessionScope.loginInfo.id}",
+						date: timeResult,
+						targetId:uid
+					};
+					
+					$(".chatBox .txtRow").append(userInfo_s1);
+					updateScroll();
+					txtInput.html("");
+					txtInput.focus();
+					
+					ws.send(JSON.stringify(msg));	
+				})
 			}
 			
-			$("#chatWrap #close").click(function(){
-				$("#chatRoom").removeClass("on");
-				$("#chatBox .txtRow").html("");
-			})
-			txtInput.keyup(function(e){
-				if(e.keyCode == 13){
-					$("#transfer").click();
-					return false;
-				}
-			})
-			$("#transfer").click(function(){
-				
-				if(theMinutes < 10){
-					theMinutes = "0"+theMinutes
-				}
-				
-				if(theHours > 12){
-					timeResult = "오후 " + theHours+":"+theMinutes
-				}else{
-					timeResult = "오전 " + theHours+":"+theMinutes
-				}
-
-				var chatTxt = txtInput.text();
-				var userInfo_s1 = $("<div class='userInfo_s1 my'>");
-				userInfo_s1.append("<div class='info'><p class='userId'>${sessionScope.loginInfo.name}</p>")
-				userInfo_s1.append("<div class='thumb'><img src='/resources/img/sub/userThum.jpg'>")
-				userInfo_s1.append("<div class='chatTxt'><span class='writeDate'>"+timeResult+"</span><p>"+chatTxt+"</p>")
-				
-				var msg = {
-					chatRoom : chatRoom,
-					type: "message",
-					text: chatTxt,
-					id:   "${sessionScope.loginInfo.name}",
-					date: timeResult
-				};
-				
-				$(".chatBox .txtRow").append(userInfo_s1);
-				updateScroll();
-				txtInput.html("");
-				txtInput.focus();
-				
-				ws.send(JSON.stringify(msg));	
-			})
 		})
 		
-	
-		
+
 		function updateScroll(){
 			var element = document.getElementById("chatBox");
 			element.scrollTop = element.scrollHeight;

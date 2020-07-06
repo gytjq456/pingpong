@@ -32,30 +32,27 @@ public class ChatController {
 	@RequestMapping(value="create", produces="application/text;charset=utf8")
 	public String create(ChatRoomDTO chatDto) throws Exception{
 		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
-		String roomId = null;
+		String roomId = Configuration.room;
+		
+		
 		String usersIds = mdto.getId() +"," +chatDto.getChatMemberId();
 		String usersId = chatDto.getChatMemberId();
 		String usersNames = chatDto.getUsers() +","+mdto.getName();
 		
-		
-//		chatInfo.put("usersName",usersNames);
-//		chatInfo.put("usersIds",usersIds);
-//		chatInfo.put("master",mdto.getId());
-//		chatInfo.put("partner",chatDto.getChatMemberId());
 		String chatRoomId = chatService.chatRoomIdSch(mdto.getId(),usersId);
-		System.out.println("chatRoomId = " +chatRoomId);
+		//System.out.println("chatRoomId = " +chatRoomId);
 		int result = 0;
 		
 		if(chatRoomId == null) {
 			roomId = chatService.rndTxt();
-			//Configuration.chatCreate.put(roomId,new Room(roomId,usersIds));
+			session.setAttribute("roomId", roomId);
 			chatDto.setUsers(usersNames);
 			chatDto.setChatMemberId(usersIds);	
 			chatDto.setRoomId(roomId);
 			result = chatService.chatInsert(chatDto);
 			chatRoomId = chatService.chatRoomIdSch(mdto.getId(),usersId);
 		}
-		//Configuration.chatCreate.put(chatRoomId,new Room(chatRoomId,usersIds));
+		session.setAttribute("roomId", chatRoomId);
 		List<ChatRecordDTO> chatRecord = chatService.chatRecordList(chatRoomId);
 		Configuration.chatRecord = chatRecord;
 		

@@ -31,7 +31,7 @@ public class MemberDTO {
 	
 	private String emailPassword;
 	private String memail;
-	
+	private String contents;
 	public MemberDTO() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -40,7 +40,7 @@ public class MemberDTO {
 	public MemberDTO(String mem_type, String id, String pw, String name, int age, String gender, String email,
 			String phone_country, String phone, String address, String bank_name, String account, MultipartFile profile,
 			String country, String lang_can, String lang_learn, String hobby, String grade, String introduce,
-			int report_count, Timestamp signup_date, String sysname, String emailPassword, String memail) {
+			int report_count, Timestamp signup_date, String sysname, String emailPassword, String memail,String contents) {
 		super();
 		this.mem_type = mem_type;
 		this.id = id;
@@ -66,6 +66,15 @@ public class MemberDTO {
 		this.sysname = sysname;
 		this.emailPassword = emailPassword;
 		this.memail = memail;
+		this.contents = contents;
+	}
+	
+	public String getContents() {
+		return contents;
+	}
+
+	public void setContents(String contents) {
+		this.contents = contents;
 	}
 
 	public String getMem_type() {

@@ -169,6 +169,12 @@
 						console.log("qqq"+json);
 						var obj = JSON.parse(json);
 						console.log("ttt:"+obj.errorCode)
+						if(obj.errorCode == "N2MT04"){
+							alert("지원하지 않는 언어 입니다.");
+						}
+						if(obj.errorCode == "N2MT05"){
+							alert("원본언어와 동일합니다.");
+						}
 						if(obj.errorCode == "undefined"){
 							if(data[0] == "ko"){
 								alert(lanArr.ko+"만 번역이 가능합니다.")
@@ -270,15 +276,18 @@
 						<div class="language">${disDto.language}</div>	
 						<div class="contents ">
 							<div class="originTxt">${disDto.contents}</div>
-							<div class="langCountry">
-								<select>
-									<c:forEach var="i" items="${langList}">
-										<option value="${i.language_country}">${i.language}</option>
-									</c:forEach>
-								</select>
+							<div class="langCountry convertWrap clearfix">
+								<div>
+									<select>
+										<c:forEach var="i" items="${langList}">
+											<option value="${i.language_country}">${i.language}</option>
+										</c:forEach>
+									</select>
+								</div>
+								<div id="convertBtn"><button type="button" id="jsonConvertStringSend">번역하기</button></div>
 							</div>
-							<div><button type="button" id="jsonConvertStringSend">번역하기</button></div>
 							<div class="convert">
+							
 							</div>
 						</div>
 						

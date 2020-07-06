@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import kh.pingpong.dto.GroupApplyDTO;
 import kh.pingpong.dto.GroupDTO;
+import kh.pingpong.dto.LessonDTO;
 import kh.pingpong.dto.LikeListDTO;
 import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.dto.PartnerDTO;
@@ -30,6 +31,12 @@ public class MyPageDAO {
 		return mybatis.selectList("Mypage.selectByIdInGroup_app",loginInfo);
 	}
 	
+
+	public List<LessonDTO> selectTutorList(MemberDTO loginInfo){
+		return mybatis.selectList("Mypage.tutorList",loginInfo);
+	}
+	
+
 	public List<TuteeDTO> selectTuteeList(){
 		return mybatis.selectList("Mypage.tuteeList");
 	}
@@ -40,5 +47,17 @@ public class MyPageDAO {
 	
 	public List<LikeListDTO> selectLikeList(){
 		return mybatis.selectList("Mypage.likeList");
+	}
+	
+	public List<PartnerDTO> selectPartnerJjim(MemberDTO loginInfo){
+		return mybatis.selectList("Mypage.partnerJjim",loginInfo);
+	}
+	
+	public List<GroupDTO> selectGroupJjim(MemberDTO loginInfo){
+		return mybatis.selectList("Mypage.groupJjim",loginInfo);
+	}
+	
+	public List<LessonDTO> selectTutorJjim(MemberDTO loginInfo){
+		return mybatis.selectList("Mypage.tutorJjim",loginInfo);
 	}
 }

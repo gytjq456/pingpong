@@ -61,13 +61,18 @@
 	float: left;
 	width: 90%;
 }
+.file{float:left;}
 </style>
 
 <script>
 	$(function() {
 		$("#fileAdd").on("click", function() {
-			var fileComp = $("<div><input type=file name=files></div>");
+			var fileComp = $("<div><input type=file class='file' name=files><input type='button' value='-' class='fileDelete'></div>");
 			$("#fileAdd").after(fileComp);
+		})
+		
+		$(".fileDelete").on("click", function(){
+			console.log($(this).vla());
 		})
 		
 		// 글자수 체크

@@ -38,24 +38,19 @@ public class ChatController {
 		String usersNames = chatDto.getUsers() +","+mdto.getName();
 		
 		
-//		chatInfo.put("usersName",usersNames);
-//		chatInfo.put("usersIds",usersIds);
-//		chatInfo.put("master",mdto.getId());
-//		chatInfo.put("partner",chatDto.getChatMemberId());
 		String chatRoomId = chatService.chatRoomIdSch(mdto.getId(),usersId);
-		System.out.println("chatRoomId = " +chatRoomId);
+		//System.out.println("chatRoomId = " +chatRoomId);
 		int result = 0;
 		
 		if(chatRoomId == null) {
 			roomId = chatService.rndTxt();
-			//Configuration.chatCreate.put(roomId,new Room(roomId,usersIds));
 			chatDto.setUsers(usersNames);
 			chatDto.setChatMemberId(usersIds);	
 			chatDto.setRoomId(roomId);
 			result = chatService.chatInsert(chatDto);
 			chatRoomId = chatService.chatRoomIdSch(mdto.getId(),usersId);
 		}
-		//Configuration.chatCreate.put(chatRoomId,new Room(chatRoomId,usersIds));
+		
 		List<ChatRecordDTO> chatRecord = chatService.chatRecordList(chatRoomId);
 		Configuration.chatRecord = chatRecord;
 		

@@ -30,8 +30,10 @@
 			등급: ${trdto.grade}<br>
 			소개: ${trdto.introduce}<br>
 			신고수: ${trdto.report_count}<br>
-			가입일: ${trdto.signup_date}
+			가입일: ${trdto.signup_date}<br>
 		</c:otherwise>
 	</c:choose>
+	<a href="/admin/deleteById?pageName=tutorList&id=${trdto.id}">삭제</a>
+	<a href="/admin/tutorList">목록으로</a>
 </body>
 </html>

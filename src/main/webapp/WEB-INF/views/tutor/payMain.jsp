@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <jsp:include page="/WEB-INF/views/header.jsp" />
-
+ <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 
 <div id="subWrap" class="hdMargin">
 	<section id="subContents">
@@ -16,8 +16,8 @@
 						pg : 'kakao', // 결제방식
 						pay_method : 'card', // 결제 수단
 						merchant_uid : 'merchant_' + new Date().getTime(),
-						name : '${title}', // order 테이블에 들어갈 주문명 혹은 주문 번호
-						amount : '${money}', // 결제 금액
+						name : '${ttdto.title}', // order 테이블에 들어갈 주문명 혹은 주문 번호
+						amount : '${ttdto.price}', // 결제 금액
 						buyer_email : '${ttdto.email}', // 구매자 email
 						buyer_name : '${ttdto.name}', // 구매자 이름
 						buyer_tel : '${ttdto.phone_country}${ttdto.phone}', // 구매자 전화번호
@@ -58,13 +58,15 @@
 				        		}
 							});
 							alert("결제가 완료되었습니다.");
-							location.href='${pageContext.request.contextPath}/payments/paySuccess';
+							
+							
+							location.href='/payments/paySuccess?parent_seq=${ttdto.parent_seq}&price=${ttdto.price}&title=${ttdto.title}';
 			
 						} else { // 실패시
 							var msg = '결제에 실패하였습니다.';
 							msg += '에러내용 : ' + rsp.error_msg;
 							//실패시 이동할 페이지
-							location.href = "${pageContext.request.contextPath}/payments/payFail";
+							location.href = "/tutor/lessonView?seq=${ttdto.parent_seq}";
 							alert(msg);
 						}
 					});

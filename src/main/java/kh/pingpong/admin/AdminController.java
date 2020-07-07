@@ -1,7 +1,10 @@
 package kh.pingpong.admin;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,9 +56,23 @@ public class AdminController {
 	
 	// 회원 리스트
 	@RequestMapping("/memberList")
-	public String member(Model model) {
-		List<MemberDTO> mlist = aservice.memberList();
+	public String member(HttpServletRequest request, Model model) throws Exception {
+		int cpage = 1;
+        try {
+           cpage = Integer.parseInt(request.getParameter("cpage"));
+        } catch (Exception e) {}
+        
+		List<MemberDTO> mlist = aservice.memberList(cpage);
+		Map<String, String> param = new HashMap<>();
+		
+		param.put("tableName", "member");
+		param.put("pageName", "memberList");
+		
+		String navi = aservice.getPageNav(cpage, param);
+		
 		model.addAttribute("mlist", mlist);
+		model.addAttribute("navi", navi);
+		
 		return "/admin/memberList";
 	}
 	
@@ -69,9 +86,23 @@ public class AdminController {
 	
 	// 파트너 리스트
 	@RequestMapping("/partnerList")
-	public String partner(Model model) {
-		List<PartnerDTO> plist = aservice.partnerList();
+	public String partner(HttpServletRequest request, Model model) throws Exception {
+		int cpage = 1;
+        try {
+           cpage = Integer.parseInt(request.getParameter("cpage"));
+        } catch (Exception e) {}
+        
+		List<PartnerDTO> plist = aservice.partnerList(cpage);
+		Map<String, String> param = new HashMap<>();
+		
+		param.put("tableName", "partner");
+		param.put("pageName", "partnerList");
+		
+		String navi = aservice.getPageNav(cpage, param);
+		
 		model.addAttribute("plist", plist);
+		model.addAttribute("navi", navi);
+		
 		return "/admin/partnerList";
 	}
 	
@@ -85,9 +116,23 @@ public class AdminController {
 	
 	// 그룹 리스트
 	@RequestMapping("/groupList")
-	public String group(Model model) {
-		List<GroupDTO> glist = aservice.groupList();
+	public String group(HttpServletRequest request, Model model) throws Exception {
+		int cpage = 1;
+        try {
+           cpage = Integer.parseInt(request.getParameter("cpage"));
+        } catch (Exception e) {}
+        
+		List<GroupDTO> glist = aservice.groupList(cpage);
+		Map<String, String> param = new HashMap<>();
+
+		param.put("tableName", "grouplist");
+		param.put("pageName", "groupList");
+		
+		String navi = aservice.getPageNav(cpage, param);
+		
 		model.addAttribute("glist", glist);
+		model.addAttribute("navi", navi);
+		
 		return "/admin/groupList";
 	}
 	
@@ -101,9 +146,25 @@ public class AdminController {
 	
 	// 튜터 리스트
 	@RequestMapping("/tutorList")
-	public String tutorList(Model model) {
-		List<MemberDTO> trlist = aservice.tutorList();
+	public String tutorList(HttpServletRequest request, Model model) throws Exception {
+		int cpage = 1;
+        try {
+           cpage = Integer.parseInt(request.getParameter("cpage"));
+        } catch (Exception e) {}
+        
+		List<MemberDTO> trlist = aservice.tutorList(cpage);
+		Map<String, String> param = new HashMap<>();
+		
+		param.put("tableName", "member");
+		param.put("pageName", "tutorList");
+		param.put("columnName", "grade");
+		param.put("columnValue", "N");
+		
+		String navi = aservice.getPageNav(cpage, param);
+		
 		model.addAttribute("trlist", trlist);
+		model.addAttribute("navi", navi);
+		
 		return "/admin/tutorList";
 	}
 	
@@ -117,9 +178,23 @@ public class AdminController {
 	
 	// 튜터 신청 리스트
 	@RequestMapping("/tutorAppList")
-	public String tutorAppList(Model model) {
-		List<TutorAppDTO> talist = aservice.tutorAppList();
+	public String tutorAppList(HttpServletRequest request, Model model) throws Exception {
+		int cpage = 1;
+        try {
+           cpage = Integer.parseInt(request.getParameter("cpage"));
+        } catch (Exception e) {}
+        
+		List<TutorAppDTO> talist = aservice.tutorAppList(cpage);
+		Map<String, String> param = new HashMap<>();
+		
+		param.put("tableName", "tutor_app");
+		param.put("pageName", "tutorAppList");
+		
+		String navi = aservice.getPageNav(cpage, param);
+		
 		model.addAttribute("talist", talist);
+		model.addAttribute("navi", navi);
+		
 		return "/admin/tutorAppList";
 	}
 	
@@ -131,11 +206,35 @@ public class AdminController {
 		return "/admin/tutorAppView";
 	}
 	
+	// 튜터 신청 승인
+	@RequestMapping("/tutorAppUpdate")
+	public String tutorAppUpdate(int seq, String id, Model model) {
+		aservice.updateTutorApp(seq, id);
+		model.addAttribute("seq", seq);
+		return "redirect:/admin/tutorAppView";
+	}
+	
 	// 강의 리스트
 	@RequestMapping("/lessonList")
-	public String lessonList(Model model) {
-		List<LessonDTO> llist = aservice.lessonList();
+	public String lessonList(HttpServletRequest request, Model model) throws Exception {
+		int cpage = 1;
+        try {
+           cpage = Integer.parseInt(request.getParameter("cpage"));
+        } catch (Exception e) {}
+        
+		List<LessonDTO> llist = aservice.lessonList(cpage);
+		Map<String, String> param = new HashMap<>();
+		
+		param.put("tableName", "lesson");
+		param.put("pageName", "lessonList");
+		param.put("columnName", "pass");
+		param.put("columnValue", "Y");
+		
+		String navi = aservice.getPageNav(cpage, param);
+		
 		model.addAttribute("llist", llist);
+		model.addAttribute("navi", navi);
+		
 		return "/admin/lessonList";
 	}
 	
@@ -149,9 +248,25 @@ public class AdminController {
 	
 	// 강의 신청 리스트
 	@RequestMapping("/lessonAppList")
-	public String lessonAppList(Model model) {
-		List<LessonDTO> lalist = aservice.lessonAppList();
+	public String lessonAppList(HttpServletRequest request, Model model) throws Exception {
+		int cpage = 1;
+        try {
+           cpage = Integer.parseInt(request.getParameter("cpage"));
+        } catch (Exception e) {}
+        
+		List<LessonDTO> lalist = aservice.lessonAppList(cpage);
+		Map<String, String> param = new HashMap<>();
+		
+		param.put("tableName", "lesson");
+		param.put("pageName", "lessonAppList");
+		param.put("columnName", "pass");
+		param.put("columnValue", "N");
+		
+		String navi = aservice.getPageNav(cpage, param);
+		
 		model.addAttribute("lalist", lalist);
+		model.addAttribute("navi", navi);
+		
 		return "/admin/lessonAppList";
 	}
 	
@@ -163,11 +278,34 @@ public class AdminController {
 		return "/admin/lessonAppView";
 	}
 	
+	// 강의 신청 승인
+	@RequestMapping("/lessonPass")
+	public String lessonPass(int seq) {
+		aservice.updateLessonPass(seq);
+		return "redirect:/admin/lessonAppList";
+	}
+	
 	// 강의 삭제 리스트
 	@RequestMapping("/lessonDelList")
-	public String lessonDelList(Model model) {
-		List<DeleteApplyDTO> ldlist = aservice.lessonDelList();
+	public String lessonDelList(HttpServletRequest request, Model model) throws Exception {
+		int cpage = 1;
+        try {
+           cpage = Integer.parseInt(request.getParameter("cpage"));
+        } catch (Exception e) {}
+        
+		List<DeleteApplyDTO> ldlist = aservice.lessonDelList(cpage);
+		Map<String, String> param = new HashMap<>();
+		
+		param.put("tableName", "delete_app");
+		param.put("pageName", "lessonDelList");
+		param.put("columnName", "category");
+		param.put("columnValue", "강의");
+		
+		String navi = aservice.getPageNav(cpage, param);
+		
 		model.addAttribute("ldlist", ldlist);
+		model.addAttribute("navi", navi);
+		
 		return "/admin/lessonDelList";
 	}
 	
@@ -179,11 +317,32 @@ public class AdminController {
 		return "/admin/lessonDelView";
 	}
 	
+	// 강의 삭제 승인
+	@RequestMapping("/deleteAppLesson")
+	public String deleteAppLesson(int seq) {
+		aservice.deleteApplyLesson(seq);
+		return "redirect:/admin/lessonDelList";
+	}
+	
 	// 튜티 리스트
 	@RequestMapping("/tuteeList")
-	public String tuteeList(Model model) {
-		List<TuteeDTO> ttlist = aservice.tuteeList();
+	public String tuteeList(HttpServletRequest request, Model model) throws Exception {
+		int cpage = 1;
+        try {
+           cpage = Integer.parseInt(request.getParameter("cpage"));
+        } catch (Exception e) {}
+        
+		List<TuteeDTO> ttlist = aservice.tuteeList(cpage);
+		Map<String, String> param = new HashMap<>();
+		
+		param.put("tableName", "tutee");
+		param.put("pageName", "tuteeList");
+		
+		String navi = aservice.getPageNav(cpage, param);
+		
 		model.addAttribute("ttlist", ttlist);
+		model.addAttribute("navi", navi);
+		
 		return "/admin/tuteeList";
 	}
 	
@@ -197,9 +356,23 @@ public class AdminController {
 	
 	// 토론 리스트
 	@RequestMapping("/discussionList")
-	public String discussionList(Model model) {
-		List<DiscussionDTO> dlist = aservice.discussionList();
+	public String discussionList(HttpServletRequest request, Model model) throws Exception {
+		int cpage = 1;
+        try {
+           cpage = Integer.parseInt(request.getParameter("cpage"));
+        } catch (Exception e) {}
+        
+		List<DiscussionDTO> dlist = aservice.discussionList(cpage);
+		Map<String, String> param = new HashMap<>();
+		
+		param.put("tableName", "discussion");
+		param.put("pageName", "discussionList");
+		
+		String navi = aservice.getPageNav(cpage, param);
+		
 		model.addAttribute("dlist", dlist);
+		model.addAttribute("navi", navi);
+		
 		return "/admin/discussionList";
 	}
 	
@@ -213,9 +386,23 @@ public class AdminController {
 	
 	// 첨삭 리스트
 	@RequestMapping("/correctList")
-	public String correctList(Model model) {
-		List<CorrectDTO> clist = aservice.correctList();
+	public String correctList(HttpServletRequest request, Model model) throws Exception {
+		int cpage = 1;
+        try {
+           cpage = Integer.parseInt(request.getParameter("cpage"));
+        } catch (Exception e) {}
+        
+		List<CorrectDTO> clist = aservice.correctList(cpage);
+		Map<String, String> param = new HashMap<>();
+		
+		param.put("tableName", "correct");
+		param.put("pageName", "correctList");
+		
+		String navi = aservice.getPageNav(cpage, param);
+		
 		model.addAttribute("clist", clist);
+		model.addAttribute("navi", navi);
+		
 		return "/admin/correctList";
 	}
 	
@@ -229,9 +416,23 @@ public class AdminController {
 	
 	// 신고 리스트
 	@RequestMapping("/reportList")
-	public String reportList(Model model) {
-		List<ReportListDTO> rlist = aservice.reportList();
+	public String reportList(HttpServletRequest request, Model model) throws Exception {
+		int cpage = 1;
+        try {
+           cpage = Integer.parseInt(request.getParameter("cpage"));
+        } catch (Exception e) {}
+        
+		List<ReportListDTO> rlist = aservice.reportList(cpage);
+		Map<String, String> param = new HashMap<>();
+		
+		param.put("tableName", "reportlist");
+		param.put("pageName", "reportList");
+		
+		String navi = aservice.getPageNav(cpage, param);
+		
 		model.addAttribute("rlist", rlist);
+		model.addAttribute("navi", navi);
+		
 		return "/admin/reportList";
 	}
 	
@@ -241,5 +442,97 @@ public class AdminController {
 		ReportListDTO rdto = aservice.reportView(seq);
 		model.addAttribute("rdto", rdto);
 		return "/admin/reportView";
+	}
+	
+	// 신고 승인
+	@RequestMapping("/reportUpdate")
+	public String reportUpdate(ReportListDTO rdto, Model model) {
+		Map<String, Object> param = new HashMap<>();
+		
+		param.put("seq", rdto.getSeq());
+		param.put("id", rdto.getId());
+		
+		if (rdto.getCategory().contentEquals("그룹")) {
+			param.put("tableName", "grouplist");
+			param.put("columnName", "seq");
+			param.put("columnValue", rdto.getParent_seq());
+		} else if (rdto.getCategory().contentEquals("토론")) {
+			param.put("tableName", "discussion");
+			param.put("columnName", "seq");
+			param.put("columnValue", rdto.getParent_seq());
+		} else if (rdto.getCategory().contentEquals("첨삭")) {
+			param.put("tableName", "correct");
+			param.put("columnName", "seq");
+			param.put("columnValue", rdto.getParent_seq());
+		}
+		
+		aservice.updateReportList(param);
+		model.addAttribute("seq", rdto.getSeq());
+		return "redirect:/admin/reportView";
+	}
+	
+	// 아이디로 삭제
+	@RequestMapping("/deleteById")
+	public String deleteById(String id, String pageName) {
+		Map<String, Object> param = new HashMap<>();
+		
+		param.put("columnName", "id");
+		param.put("columnValue", id);
+		
+		if (pageName.contentEquals("memberList")) {
+			param.put("tableName", "member");
+			
+			aservice.deleteOne(param);
+		} else if(pageName.contentEquals("tutorList")) {
+			aservice.deleteTutor(id);
+		} else if(pageName.contentEquals("partnerList")) {
+			param.put("tableName", "partner");
+			
+			aservice.deletePartner(param);
+		}
+		
+		return "redirect:/admin/" + pageName;
+	}
+	
+	// 시퀀스로 삭제
+	@RequestMapping("/deleteBySeq")
+	public String deleteBySeq(int seq, String pageName) {
+		Map<String, Object> param = new HashMap<>();
+		
+		param.put("columnName", "seq");
+		param.put("columnValue", seq);
+		
+		if (pageName.contentEquals("partnerList")) {
+			param.put("tableName", "partner");
+		} else if (pageName.contentEquals("groupList")) {
+			param.put("tableName", "grouplist");
+		} else if (pageName.contentEquals("tutorAppList")) {
+			param.put("tableName", "tutor_app");
+		} else if (pageName.contentEquals("lessonList")) {
+			param.put("tableName", "lesson");
+		} else if (pageName.contentEquals("lessonAppList")) {
+			param.put("tableName", "lesson");
+		} else if (pageName.contentEquals("lessonDelList")) {
+			param.put("tableName", "delete_app");
+		} else if (pageName.contentEquals("tuteeList")) {
+			TuteeDTO tdto = aservice.tuteeView(seq);
+			int parent_seq = tdto.getParent_seq();
+			param.put("tableName", "tutee");
+			param.put("parent_seq", parent_seq);
+		} else if (pageName.contentEquals("discussionList")) {
+			param.put("tableName", "discussion");
+		} else if (pageName.contentEquals("correctList")) {
+			param.put("tableName", "correct");
+		} else if (pageName.contentEquals("reportList")) {
+			param.put("tableName", "reportlist");
+		}
+		
+		if (pageName.contentEquals("tuteeList")) {
+			aservice.deleteTutee(param);
+		} else {
+			aservice.deleteOne(param);
+		}
+		
+		return "redirect:/admin/" + pageName;
 	}
 }

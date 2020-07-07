@@ -406,7 +406,6 @@ public class TutorController {
 	//강의 신청서 수정버튼
 	@RequestMapping("lessonUpdate")
 	public String lessonUpdate(Model model, int seq) throws Exception{
-		
 		LessonDTO ldto = tservice.lessonView(seq);
 		model.addAttribute("seq", seq);
 		model.addAttribute("ldto",ldto);
@@ -467,24 +466,5 @@ public class TutorController {
 		return "redirect: /tutor/lessonView?seq="+ rdto.getParent_seq();
 	}
 
-	//튜티 결제
-	@RequestMapping("payMain")
-	public String payMain(Model model, int parent_seq, String title) throws Exception{
-		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
-		TuteeDTO ttdto = new TuteeDTO();
-		ttdto.setId(mdto.getId());
-		ttdto.setName(mdto.getName());
-		ttdto.setEmail(mdto.getEmail());
-		ttdto.setPhone_country(mdto.getPhone_country());
-		ttdto.setPhone(mdto.getPhone());
-		ttdto.setBank_name(mdto.getBank_name());
-		ttdto.setAccount(mdto.getAccount());
-		ttdto.setSysname(mdto.getSysname());
-		ttdto.setAddress(mdto.getAddress());
-		ttdto.setTitle(title);
-		ttdto.setParent_seq(parent_seq);
-		
-		model.addAttribute("ttdto", ttdto);
-		return "/tutor/payMain";
-	}
+
 }

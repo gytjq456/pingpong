@@ -15,6 +15,7 @@
 		</c:when>
 		<c:otherwise>
 			<c:forEach var="mlist" items="${mlist}">
+				<input type="checkbox" value="${mlist.id}">
 				${mlist.mem_type} : 
 				<a href="/admin/memberView?id=${mlist.id}">${mlist.id}</a>
 				 : ${mlist.name} : ${mlist.age} : ${mlist.gender} : 
@@ -22,5 +23,7 @@
 			</c:forEach>
 		</c:otherwise>
 	</c:choose>
+	<div class="navi">${navi}</div>
+	<a href="/admin">관리자 메인</a>
 </body>
 </html>

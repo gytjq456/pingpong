@@ -1,39 +1,34 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
+<jsp:include page="/WEB-INF/views/header.jsp"/>
+
+<script src="/resources/js/snsSignUp.js"></script>
+
 <div id="subWrap" class="hdMargin" style="padding-top: 155.8px;">
 		<section id="subContents">
 			<div id="join">
 			    <h1>MEMBER</h1>
-				<form action="joinProc" method="post" id="joinProc" enctype="multipart/form-data">
-					<input type="hidden" name="mem_type" value="basic">
+				<form action="snsSingUpProc" method="post" id="joinProc" enctype="multipart/form-data">
+					<input type="hidden" name="mem_type" value="${mdto.mem_type}">
 					<input type="hidden" name="category" value="member">
 					<input type="hidden" name="grade" value="defalut">
+					<input type="hidden" name="id" value="${mdto.id}">
+					<input type="hidden" name="name" value="${mdto.name}">
+					<input type="hidden" name="pw" value="${mdto.pw}">
+					
 					
 					<div class="se_singup">
 						<div class="title">아이디</div>
 						<div class="se_con">
-							<input type="text" name="id" id="id" class="w80">
-							<button type="button" class="w20 idck" id="duplcheckId">중복확인</button>
+							${mdto.id}
 						</div>
-					</div>
-		
-					<div class="se_singup">
-						<div class="title">비밀번호</div>
-						<div class="se_con">
-							<input type="password" id="pw" name="pw" class="w100">
-						</div>
-					</div>
-		
-					<div class="se_singup">
-						<div class="title">비밀번호확인</div>
-						<div class="se_con">
-							<input type="password" name="pw_ck" id="pw_ck" class="w100">
-						</div>
-						<div id="pwConfrom"></div>
 					</div>
 		
 					<div class="se_singup">
 						<div class="title">이름</div>
 						<div class="se_con">
-							<input type="text" id="name" name="name" class="w100">
+							${mdto.name}
 						</div>
 					</div>
 		
@@ -50,8 +45,7 @@
 					<div class="se_singup">
 						<div class="title">e-mail</div>
 						<div class="se_con">
-							${mail}
-							<input type="hidden" id="email" name="email" class="w100" value="${mail}">
+							<input type="text" id="email" name="email" class="w100" placeholder="이메일을 올려주세요">
 						</div>
 					</div>
 		
@@ -93,9 +87,7 @@
 					<div class="se_singup">
 						<div class="title">프로필 사진</div>
 						<div class="se_con">
-							<form id="profile_form">
-								<input type="file" id="profile" name="profile">
-							</form>							
+							<input type="file" id="profile" name="profile">
 						</div>
 					</div>
 		
@@ -153,9 +145,12 @@
 					</div>
 		
 					<div class="si_btn">
+						<input value="회원가입" type="submit">
 						<a href="javascript:history.back();">뒤로가기</a>
 					</div>
 				</form>
 			</div>
 		</section>
 	</div>
+	
+<jsp:include page="/WEB-INF/views/footer.jsp"/>

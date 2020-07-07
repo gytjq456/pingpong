@@ -38,14 +38,23 @@ select:focus, input:focus, checkbox:focus {box-shadow: 0 5px 8px 0 rgba(0,0,0,0.
 .idck{margin-left:-5px;}
 .o_box{width:20%; display:inline-block;}
 
-/* login */
+/* 이메일 인증 */
+#loginMail{box-sizing: border-box; width:400px; margin:0 auto; font-size:13px; box-size:border-box;}
+#loginMail h1{text-align:center; font-size: 44px; font-family: 'Muli', sans-serif; margin-bottom: 40px; font-weight: 600;}
+#loginMail .title{margin-top:20px; margin-bottom:5px;}
+#loginMail dt{padding:10px 0 7px; font-weight: 500; font-size:14px;}
+#loginMail input[type=text]{padding: 12px; margin-bottom: 10px; border-radius: 5px; border: 1px solid #d0d0d0;}
+#loginMail label{margin-left:10px;}
+#loginMail #userMailSend{width:70%; display:inline; float:left;}
+#loginMail #sendEmail{display:inline; width:28%; padding: 12px; margin-bottom: 10px; border-radius: 5px; border: 1px solid #d0d0d0; float:right;}
+#loginMail .ov{overflow:auto;}
+#loginMail #code{width:100%;}
+#loginMail .private{word-break:break-all; border:1px solid #ddd; width:100%;max-height:200px; overflow:auto; padding:20px; margin-bottom: 10px;}
+#loginMail h3 {padding:20px 0 7px 0; font-weight: 500; font-size:14px;}
+#loginMail h3 span{color:red;}
+#loginMail .allck{border-top:1px solid #ddd; padding-top:25px;}
+#loginMail #join{padding: 12px; margin-bottom: 10px; border-radius: 5px; border: 1px solid #d0d0d0;}
 
-/* myinfoModify - 회원정보 수정 */
-
-
-/* login */
-
-/* login */
         
         
         

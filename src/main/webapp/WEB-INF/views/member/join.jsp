@@ -12,7 +12,7 @@
 				<form action="joinProc" method="post" id="joinProc" enctype="multipart/form-data">
 					<input type="hidden" name="mem_type" value="basic">
 					<input type="hidden" name="category" value="member">
-					<input type="hidden" name="grade" value="defalut">
+					<input type="hidden" name="grade" value="default">
 					
 					<div class="se_singup">
 						<div class="title">아이디</div>

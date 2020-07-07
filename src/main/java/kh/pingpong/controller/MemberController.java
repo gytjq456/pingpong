@@ -378,10 +378,10 @@ public class MemberController {
 	@ResponseBody
 	@RequestMapping("myInfoProfile")
 	public String myInfoProfile(MemberDTO mdto, FileDTO fdto) throws Exception {
+		System.out.println(mdto.getProfile().getName());
 		MemberDTO loginMdto = (MemberDTO) session.getAttribute("loginInfo");
 		mdto.setId(loginMdto.getId());
 		mdto.setSysname(loginMdto.getSysname());
-		System.out.println("여기까지 들어오나?");
 
 		// 회원 파일 하나 저장
 		String realPath = session.getServletContext().getRealPath("upload/member/" + mdto.getId() + "/");

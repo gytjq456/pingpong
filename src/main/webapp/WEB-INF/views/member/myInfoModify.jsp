@@ -122,7 +122,7 @@
 							<div>
 								<button type="button" class="modyBtn">수정</button>
 								<div class="show_input">
-									<form id="profile_form">
+									<form id="profile_form" enctype="multipart/form-data">
 										<input type="file" id="profile" name="profile">
 										<input type="submit" id="profile_Result" value="수정완료">
 									</form>

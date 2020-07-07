@@ -16,5 +16,6 @@ public class Configuration {
 	
 	public static Map<String,Room> chatCreate = new HashMap<>();
 	public static List<ChatRecordDTO> chatRecord = new ArrayList();
-	public static String room;
+	//public static String room;
+	public static List<String> room = new ArrayList();
 }

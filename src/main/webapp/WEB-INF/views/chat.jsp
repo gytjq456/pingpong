@@ -84,14 +84,15 @@
 				theDate = '0' + theDate
 			}			
 			var uid = "";
-			$(document).on("click",".chatting",function(){
-				uid = $(this).data("uid");
-				var uname = $(this).data("name");
-				if("${sessionScope.loginInfo}" == ""){
-					alert("로그인후 이용이 가능합니다.")
-					location.href="/member/login";
-					return false;
-				}else{
+			
+			
+			if("${sessionScope.loginInfo.id}" != ""){
+				var ws = new WebSocket("ws://localhost/chat");
+				
+				$(document).on("click",".chatting",function(){
+					uid = $(this).data("uid");
+					var uname = $(this).data("name");
+					
 					$.ajax({
 						url:"/chatting/create",
 						type:"post",
@@ -108,6 +109,14 @@
 						var member = chatWrap.find(".title p").text().split(",");
 						chatWrap.find(".title span").text(member.length);
 						txtInput.focus();
+						
+						var msg = {
+								chatRoom : chatRoom,
+								type:"register",
+								userid:"${sessionScope.loginInfo.id}",
+								targetId:uid
+							}
+							ws.send(JSON.stringify(msg));
 						
 						if(typeof resp == 'string'){
 							$(".chatBox .sysdate").html(theYear+"년 "+theMonth+"월 "+theDate+"일 "+todayLabel);
@@ -138,22 +147,18 @@
 									$(".chatBox .txtRow").append(userInfo_s1);								
 								}
 							}
+							
+							
 							updateScroll();
 						}
 
 					}).fail(function(){
 						alert("error")
 					})
-				}
-			})
-			
-			if("${sessionScope.loginInfo.id}" != ""){
-				var ws = new WebSocket("ws://localhost/chat");
-				//var ws = new WebSocket("ws://192.168.60.58/chat/${sessionScope.loginInfo.id}");
-				//var ws = new WebSocket("ws://192.168.160.184/chat/${sessionScope.loginInfo.id}");
-				//var ws = new WebSocket("ws://youngram.duckdns.org/chat");
+				})
 				
-				ws.onopen = function(){
+				/*
+				 ws.onopen = function(){
 					var msg = {
 						chatRoom : chatRoom,
 						type:"register",
@@ -162,8 +167,8 @@
 					}
 					ws.send(JSON.stringify(msg));
 					
-				}
-				
+				} 
+				*/
 				
 				ws.onmessage = function(e){
 					var msg = JSON.parse(event.data);
@@ -222,10 +227,9 @@
 					
 					ws.send(JSON.stringify(msg));	
 				})
+			
+			
 			}
-			
-			
-			
 			
 		})
 		

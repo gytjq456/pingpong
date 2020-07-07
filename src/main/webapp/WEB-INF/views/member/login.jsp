@@ -20,23 +20,25 @@
 			</a>
 
 			<div id="other_text">
-				<a href="#" class="side" id="idFind">id찾기</a> <a href="#"
-					class="side" id="pwFind">비밀번호 찾기</a> <a href="#" class="side"
-					id="signup">회원가입</a>
+				<a href="#" class="side" id="idFind">id찾기</a>
+				<a href="#"	class="side" id="pwFind">비밀번호 찾기</a>
+				<a href="#" class="side" id="signup">회원가입</a>
 			</div>
 		</div>
 	</section>
 </div>
 
 	<!--  카카오 회원가입 -->
-	<form id="kakoForm" action="/member/snsSignUp?mem_type='kakao'" method="post">
+	<form id="kakoForm" action="/member/snsSignUp?mem_type=kakao" method="post">
 		<input type="hidden" name="kakaoId" id="kakaoId">
 		<input type="hidden" name="kakaoNickname" id="kakaoNickname">
+		<input type="hidden" name="pw" value="defalut">
+		<!--  <input type="hidden" name="kakaoEmail" id="kakaoEmail">-->
 	</form>
 	<script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 	<script>
             // @details 카카오톡 Developer API 사이트에서 발급받은 JavaScript Key
-            Kakao.init("624f66d0202aa29191dddf3ca7f99972");
+            Kakao.init("67c7c1d4f175618189bdbaf82c2e4f4c");
             // @breif 카카오 로그인 버튼을 생성합니다.
             
             function loginFormWithKakao() {
@@ -48,19 +50,17 @@
                             success: function (res) {
                                 /*
                                 	res.id
+                                	res.kaccount_email
                                 	res.properties.nickname;
                                		res.properties.profile_image;
                                		res.properties.thumbnail_image;
                                 */
                              // @breif 아이디
                                 document.getElementById("kakaoId").value = res.id;
-
                                 // @breif 닉네임
                                 document.getElementById("kakaoNickname").value = res.properties.nickname;
-                                alert(res.properties.nickname)
-                                alert(res.id)
-                                //document.getElementById("kakoForm").submit()
-                                return false;
+                                document.getElementById("kakoForm").submit();
+                               
                             }, fail: function (error) {
                                 alert(JSON.stringify(error));
                             }

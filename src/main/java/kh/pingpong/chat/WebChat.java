@@ -33,7 +33,7 @@ public class WebChat {
 	private static Map<Session , String> clients = Collections.synchronizedMap(new HashMap<>());
 
 	// memebers : 방번호마다 현재 접속하고 있는 멤버의 목록을 저장  
-	private static Map<String , List<Session>> members = Collections.synchronizedMap(new HashMap<>());
+	private static Map<String , List<String>> members = Collections.synchronizedMap(new HashMap<>());
 	// 세션값
 	private HttpSession session;
 	// 로그인 정보,들어온 방의 번호 : 세션값을 통해 가져옴
@@ -45,6 +45,7 @@ public class WebChat {
 		System.out.println(client.getId() + "님이 접속했습니다.");
 		this.session = (HttpSession)config.getUserProperties().get("session");
 
+		/*
 		//mdto = (MemberDTO)this.session.getAttribute("loginInfo");
 		roomId = (String)this.session.getAttribute("roomId");
 		System.out.println("roomId = " + roomId);
@@ -70,6 +71,7 @@ public class WebChat {
 		for(Session a : members.get(roomId)) {
 			System.out.println("a = " + a.getId());
 		}
+		*/
 	}
 
 
@@ -85,45 +87,53 @@ public class WebChat {
 		String userid = (String) jsonObj.get("userid");
 		String type = (String) jsonObj.get("type");
 		System.out.println("message = " + message);
-
-
-		synchronized(members.get(roomId)) {
-			for(Session client : members.get(roomId)) {	
-				System.out.println("session =" + session.getId());
-				System.out.println("client =" + client.getId());
-				System.out.println("client222 =" + clients.get(client));
-				//room.contentEquals(chatRoom)
-				if(type.contentEquals("message")) {
-					if(clients.get(client).contentEquals(chatRoom)) {
-						try {
-							if(!client.getId().contentEquals(session.getId())) {
-								Basic basic = client.getBasicRemote();
-								//System.out.println(message);
-								basic.sendText(message);
-								//chatService.chatTxtInsert(message);
-							}
-						} catch (Exception e) {
-							e.printStackTrace();
-							// TODO: handle exception
-						}
-					}
-				}else if(type.contentEquals("register")) {
-					if(clients.get(client).contentEquals(roomId)) {
-						try {
-							if(!client.getId().contentEquals(session.getId())) {
-								Basic basic = client.getBasicRemote();
-								//System.out.println(message);
-								basic.sendText(message);
-								//chatService.chatTxtInsert(message);
-							}
-						} catch (Exception e) {
-							e.printStackTrace();
-							// TODO: handle exception
-						}
-					}
-				}
-			}
+		
+		if(type.contains("register")) {
+			//String room = Configuration.room;
+			System.out.println("room =" + Configuration.room);
+//			members.put(room,new ArrayList<>());
+//			members.get(room).add(userid);
+//			members.get(room).add(targetId);
 		}
+
+//		synchronized(members.get(roomId)) {
+//			for(Session client : members.get(roomId)) {	
+//				System.out.println("session =" + session.getId());
+//				System.out.println("client =" + client.getId());
+//				System.out.println("client222 =" + clients.get(client));
+//				//room.contentEquals(chatRoom)
+//				if(type.contentEquals("message")) {
+//					if(clients.get(client).contentEquals(chatRoom)) {
+//						try {
+//							if(!client.getId().contentEquals(session.getId())) {
+//								Basic basic = client.getBasicRemote();
+//								//System.out.println(message);
+//								basic.sendText(message);
+//								chatService.chatTxtInsert(message);
+//							}
+//						} catch (Exception e) {
+//							e.printStackTrace();
+//							// TODO: handle exception
+//						}
+//					}
+//				}
+////				else if(type.contentEquals("register")) {
+////					if(clients.get(client).contentEquals(roomId)) {
+////						try {
+////							if(!client.getId().contentEquals(session.getId())) {
+////								Basic basic = client.getBasicRemote();
+////								//System.out.println(message);
+////								basic.sendText(message);
+////								chatService.chatTxtInsert(message);
+////							}
+////						} catch (Exception e) {
+////							e.printStackTrace();
+////							// TODO: handle exception
+////						}
+////					}
+////				}
+//			}
+//		}
 	}
 	@OnClose
 	public void onClose(Session session){

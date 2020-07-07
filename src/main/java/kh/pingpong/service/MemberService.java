@@ -141,7 +141,7 @@ public class MemberService {
 	public int myInfoIntroduce(MemberDTO mdto) throws Exception{
 		return mdao.myInfoIntroduce(mdto);
 	}
-	
+		
 }
 
 

@@ -78,16 +78,333 @@
 	})
 </script>
 <body>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>	
-	<br>
-	<br>
-	<br>
+	<div id="subWrap" class="hdMargin" style="padding-top: 155.924px;">
+		<section id=""></section>
+		<section id="subContents">
+			<article id="group_list" class="inner1200">
+				<div class="tit_s1">
+					<h2>Partner</h2>
+					<p>다양한 사람들을 원하시나요?<br>관심사가 비슷한 사람들과 함께 소통해 보세요.</p>
+				</div>
+				<div class="partner_search_box">
+					<div id="tabContWrap" class="search_wrap">
+						<article id="tab_1" class="kewordSch">
+							<div class="search_as_keyword">
+							<form action="/partner/partnerSearch" method="post" id="test">
+								<section class="defaultSch">
+									<div class="tit">검색어</div>
+									<div class="schCon ">
+										<input type="text" name="name" id="keyword_input" placeholder="파트너의 이름을 입력하세요.">
+									</div>
+								</section>
+								<section>
+									<div class="tit">유형</div>
+									<div class="schCon">
+										<ul class="checkBox_s1">
+											<li class="">
+												<select name="age" id="age" onchange="setSelectBox(this)">
+													<option value="" disabled selected >나이대</option>
+													<option value="1">10대</option>	
+													<option value="2">20대</option>	
+													<option value="3">30대</option>	
+													<option value="4">40대</option>	
+													<option value="5">50대</option>
+												</select>
+											</li>
+											<li class="">
+												<select name="gender" id="gender">
+													<option value="" disabled selected >성별</option>
+													<!-- <option value="전체">전체</option> -->
+													<option value="남자">남자</option>	
+													<option value="여자">여자</option>
+												</select>
+											</li>
+											<li>
+												<input type="hidden" id="address" name="address">
+												<select name="sido1" id="sido1"></select>
+											</li>
+											<li>
+												<select name="gugun1" id="gugun1"></select>
+											</li>
+											<li>
+												<select name="lang_can" id="lang_can">
+													<option value="" disabled selected >구사언어</option>
+													<c:forEach var="ldto" items="${ldto}">
+														<option value="${ldto.language}">${ldto.language}</option>
+													</c:forEach>
+												</select>
+											</li>
+											<li>
+												<select name="lang_learn" id="lang_learn">
+													<option value="" disabled selected >학습언어</option>
+													<c:forEach var="ldto" items="${ldto}">
+														<option value="${ldto.language}">${ldto.language}</option>
+													</c:forEach>	
+												</select>
+											</li>
+											<li>
+												<select name="hobby" id="hobby">
+													<option value="" disabled selected >취미</option>
+													<c:forEach var="hdto" items="${hdto}">
+														<option value="${hdto.hobby}">${hdto.hobby}</option>
+													</c:forEach>
+												</select>
+											</li>
+										</ul>
+									</div>
+								</section>
+							</div>
+							</form>
+						</article>
+					</div>
+				</div>
+				<div class="search_btn_style">
+					<div class="btnS1 right">
+						<select name="align" id="align">
+							<option value="recent" <c:if test="${alignType == 'recent'}">selected</c:if>>최신 순</option>
+							<option value="like" <c:if test="${alignType == 'like'}">selected</c:if>>인기 순</option>
+						</select>
+					</div>
+				</div>
+				<div id="listStyle1" class="card_body group_list_wrapper">
+					
+						
+						
+							
+								<div class="back_and_wrap item">
+									<a href="/group/beforeView?seq=130" class="group_list_a">
+										<div class="each_profile"><img src="/resources/img/sub/userThum.jpg"></div>
+										
+											<div class="group_background background_pink"></div>
+										
+										<div class="group_each_wrapper">
+											<div class="each_writer"><span class="each_name">이효섭</span>(aaaa)</div>
+											<div class="each_title">여기가 어디지?</div>
+											<div class="each_body">
+												<div><span class="sub_title">장소</span> 서울특별시 서대문구</div>
+												<div><span class="sub_title">유형</span> 영화,공연,음악,독서,스포츠,게임,여행,요리,기타</div>
+												<div><span class="sub_title">모집 기간</span>
+													
+													
+													 2020-07-07 ~ 2020-07-31
+													
+												</div>
+												<div><span class="sub_title">진행 기간</span> 2020-07-31 ~ 2020-08-31</div>
+												<div><span class="sub_title">평점</span> <i class="fa fa-star" aria-hidden="true"></i> 0.0</div>
+											</div>
+											<div class="countList_s2">
+												<span class="sub_title"><i class="fa fa-eye"></i>0</span>   
+												<span class="sub_title"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>1</span>   
+												<span class="sub_title"><i class="fa fa-commenting-o" aria-hidden="true"></i>0</span> 
+												<span class="sub_title"><i class="fa fa-file-text-o" aria-hidden="true"></i>0</span> 
+											</div>
+											<div class="status">
+												
+													<div class="group_applying">모집중</div>  
+												
+												
+												
+											</div>
+										</div>
+									</a>
+								</div>
+							
+								<div class="back_and_wrap item">
+									<a href="/group/beforeView?seq=129" class="group_list_a">
+										<div class="each_profile"><img src="/resources/img/sub/userThum.jpg"></div>
+										
+											<div class="group_background background_pink"></div>
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										<div class="group_each_wrapper">
+											<div class="each_writer"><span class="each_name">이효섭</span>(aaaa)</div>
+											<div class="each_title">여기가 어디지?</div>
+											<div class="each_body">
+												<div><span class="sub_title">장소</span> 서울특별시 구로구</div>
+												<div><span class="sub_title">유형</span> 영화,공연,음악,독서,스포츠,게임,여행,요리,기타</div>
+												<div><span class="sub_title">모집 기간</span>
+													
+													
+													 2020-07-07 ~ 2020-07-31
+													
+												</div>
+												<div><span class="sub_title">진행 기간</span> 2020-07-31 ~ 2020-08-31</div>
+												<div><span class="sub_title">평점</span> <i class="fa fa-star" aria-hidden="true"></i> 0.0</div>
+											</div>
+											<div class="countList_s2">
+												<span class="sub_title"><i class="fa fa-eye"></i>0</span>   
+												<span class="sub_title"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>0</span>   
+												<span class="sub_title"><i class="fa fa-commenting-o" aria-hidden="true"></i>0</span> 
+												<span class="sub_title"><i class="fa fa-file-text-o" aria-hidden="true"></i>0</span> 
+											</div>
+											<div class="status">
+												
+													<div class="group_applying">모집중</div>  
+												
+												
+												
+											</div>
+										</div>
+									</a>
+								</div>
+							
+								<div class="back_and_wrap item">
+									<a href="/group/beforeView?seq=128" class="group_list_a">
+										<div class="each_profile"><img src="/resources/img/sub/userThum.jpg"></div>
+										
+										
+										
+											<div class="group_background background_blue"></div>
+										
+										
+										
+										
+										
+										
+										
+										<div class="group_each_wrapper">
+											<div class="each_writer"><span class="each_name">정쇰플</span>(sample02)</div>
+											<div class="each_title">정쇰플이네 모임</div>
+											<div class="each_body">
+												<div><span class="sub_title">장소</span> 울산광역시 울주군</div>
+												<div><span class="sub_title">유형</span> 음악,게임</div>
+												<div><span class="sub_title">모집 기간</span>
+													
+													
+													 2020-07-05 ~ 2020-07-22
+													
+												</div>
+												<div><span class="sub_title">진행 기간</span> 2020-07-22 ~ 2020-09-26</div>
+												<div><span class="sub_title">평점</span> <i class="fa fa-star" aria-hidden="true"></i> 0.0</div>
+											</div>
+											<div class="countList_s2">
+												<span class="sub_title"><i class="fa fa-eye"></i>15</span>   
+												<span class="sub_title"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>1</span>   
+												<span class="sub_title"><i class="fa fa-commenting-o" aria-hidden="true"></i>0</span> 
+												<span class="sub_title"><i class="fa fa-file-text-o" aria-hidden="true"></i>0</span> 
+											</div>
+											<div class="status">
+												
+													<div class="group_applying">모집중</div>  
+												
+												
+												
+											</div>
+										</div>
+									</a>
+								</div>
+							
+								<div class="back_and_wrap item">
+									<a href="/group/beforeView?seq=127" class="group_list_a">
+										<div class="each_profile"><img src="/resources/img/sub/userThum.jpg"></div>
+										
+										
+										
+										
+										
+											<div class="group_background background_red"></div>
+										
+										
+										
+										
+										
+										<div class="group_each_wrapper">
+											<div class="each_writer"><span class="each_name">정샘플</span>(sample01)</div>
+											<div class="each_title">두본쮀</div>
+											<div class="each_body">
+												<div><span class="sub_title">장소</span> 제주특별자치도 서귀포시</div>
+												<div><span class="sub_title">유형</span> 스포츠,기타</div>
+												<div><span class="sub_title">모집 기간</span>
+													
+													
+													 2020-07-03 ~ 2020-07-31
+													
+												</div>
+												<div><span class="sub_title">진행 기간</span> 2020-07-03 ~ 2020-11-30</div>
+												<div><span class="sub_title">평점</span> <i class="fa fa-star" aria-hidden="true"></i> 0.0</div>
+											</div>
+											<div class="countList_s2">
+												<span class="sub_title"><i class="fa fa-eye"></i>27</span>   
+												<span class="sub_title"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>1</span>   
+												<span class="sub_title"><i class="fa fa-commenting-o" aria-hidden="true"></i>0</span> 
+												<span class="sub_title"><i class="fa fa-file-text-o" aria-hidden="true"></i>0</span> 
+											</div>
+											<div class="status">
+												
+													<div class="group_applying">모집중</div>  
+												
+												
+													<div class="group_proceeding">진행중</div>
+												
+												
+											</div>
+										</div>
+									</a>
+								</div>
+							
+								<div class="back_and_wrap item">
+									<a href="/group/beforeView?seq=126" class="group_list_a">
+										<div class="each_profile"><img src="/resources/img/sub/userThum.jpg"></div>
+										
+										
+										
+										
+											<div class="group_background background_brown"></div>
+										
+										
+										
+										
+										
+										
+										<div class="group_each_wrapper">
+											<div class="each_writer"><span class="each_name">정샘플</span>(sample01)</div>
+											<div class="each_title">다 드롭햇다....... 아흑흑</div>
+											<div class="each_body">
+												<div><span class="sub_title">장소</span> 서울특별시 중구</div>
+												<div><span class="sub_title">유형</span> 독서,게임,요리</div>
+												<div><span class="sub_title">모집 기간</span>
+													
+													
+													 2020-07-03 ~ 2020-07-31
+													
+												</div>
+												<div><span class="sub_title">진행 기간</span> 2020-07-14 ~ 2020-10-31</div>
+												<div><span class="sub_title">평점</span> <i class="fa fa-star" aria-hidden="true"></i> 0.0</div>
+											</div>
+											<div class="countList_s2">
+												<span class="sub_title"><i class="fa fa-eye"></i>24</span>   
+												<span class="sub_title"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>5</span>   
+												<span class="sub_title"><i class="fa fa-commenting-o" aria-hidden="true"></i>0</span> 
+												<span class="sub_title"><i class="fa fa-file-text-o" aria-hidden="true"></i>1</span> 
+											</div>
+											<div class="status">
+												
+													<div class="group_applying">모집중</div>  
+												
+												
+												
+											</div>
+										</div>
+									</a>
+								</div>
+							
+						
+					
+				</div>
+				<div class="btnS1 right ">
+					<div><a href="/group/write" class="on">그룹 등록하기</a></div>
+				</div>
+				<div id="listNav"><ul><li class="on"><a href="/group/main?orderBy=seq&amp;cpage=1">1</a></li></ul></div>
+			</article>
+		</section>
+	</div>
 	<div class="profileShareAgree">
 		<form action="/partner/insertPartner" id="partnerRegister" method="post">
 			<h2>파트너를 등록해주세요</h2>

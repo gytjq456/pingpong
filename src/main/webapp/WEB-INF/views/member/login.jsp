@@ -1,85 +1,76 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
-<jsp:include page="/WEB-INF/views/header.jsp"/>
-		<script>		
-			$(function(){
-				//로그인
-				$("#isIdPwSame").on('click',function(){
-					var id = $("#id").val();
-					var pw = $("#pw").val();
-					
-					if(id == ""){
-						alert("id를 입력해주세요.");
-						$("#id").focus();
-						return false;
-					}else if(pw == ""){
-						alert("pw를 입력해주세요.");
-						$("#pw").focus();
-						return false;
-					}
-					
-					$.ajax({
-						type : "post",
-						url : "/member/isIdPwSame",
-						data : {
-							id : $('#id').val(),
-							pw : $('#pw').val()
-						}
-						}).done(function(resp){
-							console.log(resp + " :: 하하");
-							if(resp == 'true'){
-								alert("로그인이 되었습니다.");
-								location.href="/";
-							}else{
-								alert("로그인에 실패하였습니다.");
-								$("#id").val("");
-								$("#pw").val("");
-							}
-						}).fail(function(error1, error2){
-							alert("관리자에게 문의주세요.")
-					});
-				});
-				
-				//id찾기
-				$("#idFind").on('click',function(){
-					location.href="/member/idFind";
-				});
-				
-				//pw찾기
-				$("#pwFind").on('click',function(){
-					location.href="/member/pwFind";
-				});
-				
-				//회원가입
-				$("#signup").click(function(){
-					location.href="/member/joinMail";
-				});
-			});
-			
-			
-		</script>
-		
-		<div id="subWrap" class="hdMargin" style="padding-top: 155.8px;">
-		<section id="subContents">
-			<div id="login">
-			    <h1 class="h1">login</h1>
-	            <input type="text" name="id" id ="id" placeholder="Id"><br>
-	            <input type="password" name="pw" id ="pw" placeholder="Password"><br>
-	                    
-	            <input type="checkbox" name="rememberId" id="rememberId" name="rememberId">
-	            <label for="rememberId">아이디 저장하기</label> 
-	                   
-	            <input type="button" value="Login" id="isIdPwSame">           
-	            <input type="button" value="Google" id="google_btn">
-	            <input type="button" value="Kakao" id="kakao_btn">
+<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<jsp:include page="/WEB-INF/views/header.jsp" />
+<script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
+<script src="/resources/js/login.js"></script>
 
-	            <div id="other_text">
-	            <a href="#" class="side" id="idFind">id찾기</a>
-	            <a href="#" class="side" id="pwFind">비밀번호 찾기</a>
-	            <a href="#" class="side" id="signup">회원가입</a></div>
-	        </div>
-	        </section>
-	      </div>
-	        
- <jsp:include page="/WEB-INF/views/footer.jsp"/>
+<div id="subWrap" class="hdMargin" style="padding-top: 155.8px;">
+	<section id="subContents">
+		<div id="login">
+			<h1 class="h1">login</h1>
+			<input type="text" name="id" id="id" placeholder="Id"><br>
+			<input type="password" name="pw" id="pw" placeholder="Password"><br>
+
+			<input type="checkbox" name="rememberId" id="rememberId"
+				name="rememberId"> <label for="rememberId">아이디 저장하기</label>
+			<input type="button" value="Login" id="isIdPwSame">  
+
+			<a id="login-form-btn" href="#;" onclick="loginFormWithKakao()">
+			 <span class="icon"><img src="/resources/img/login/kakao_login_large_wide.png" alt="카카오 로그인"></span>
+			</a>
+
+			<div id="other_text">
+				<a href="#" class="side" id="idFind">id찾기</a> <a href="#"
+					class="side" id="pwFind">비밀번호 찾기</a> <a href="#" class="side"
+					id="signup">회원가입</a>
+			</div>
+		</div>
+	</section>
+</div>
+
+	<!--  카카오 회원가입 -->
+	<form id="kakoForm" action="/member/snsSignUp?mem_type='kakao'" method="post">
+		<input type="hidden" name="kakaoId" id="kakaoId">
+		<input type="hidden" name="kakaoNickname" id="kakaoNickname">
+	</form>
+	<script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
+	<script>
+            // @details 카카오톡 Developer API 사이트에서 발급받은 JavaScript Key
+            Kakao.init("624f66d0202aa29191dddf3ca7f99972");
+            // @breif 카카오 로그인 버튼을 생성합니다.
+            
+            function loginFormWithKakao() {
+                Kakao.Auth.loginForm({
+                    success: function (authObj) {
+                        //alert(JSON.stringify(authObj)); //<----Kakao.Auth.createLoginButton에서 불러온 결과값 json형태로 출력
+                        Kakao.API.request({
+                            url: "/v2/user/me",
+                            success: function (res) {
+                                /*
+                                	res.id
+                                	res.properties.nickname;
+                               		res.properties.profile_image;
+                               		res.properties.thumbnail_image;
+                                */
+                             // @breif 아이디
+                                document.getElementById("kakaoId").value = res.id;
+
+                                // @breif 닉네임
+                                document.getElementById("kakaoNickname").value = res.properties.nickname;
+                                alert(res.properties.nickname)
+                                alert(res.id)
+                                //document.getElementById("kakoForm").submit()
+                                return false;
+                            }, fail: function (error) {
+                                alert(JSON.stringify(error));
+                            }
+                        });
+                    },
+                    fail: function (err) {
+                        alert(JSON.stringify(err))
+                    },
+                })
+            }
+        </script>
+
+<jsp:include page="/WEB-INF/views/footer.jsp" />

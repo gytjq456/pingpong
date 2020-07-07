@@ -187,8 +187,10 @@
 					<div class="tit_s3">
 						<h4>수업 시간</h4>
 					</div>
+					<!-- <input type="time" id="start_hour" name="start_hour"> : 
+					<input type="time" id="end_hour" name="end_hour"> -->
 					<select id="start_hour" name="start_hour">
-						<!-- 수정좀 ^^^^ -->
+						수정좀 ^^^^
 						<option>01</option>
 						<option>02</option>
 						<option>03</option>

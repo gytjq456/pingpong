@@ -17,6 +17,7 @@
 <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script> -->
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="/resources/js/sojaeji.js"></script>
+<script src="/resources/js/slick.min.js"></script>
 <script src="/resources/js/common.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
@@ -80,7 +81,7 @@
 							<li>
 								<a href="/discussion/list">Board</a>
 								<ul class="depth2">
-									<li><a href="/discussion/list">토론</a></li>
+									<li><a href="/discussion/list?cpage=1">토론</a></li>
 									<li><a href="/correct/correct_list">질문</a></li>
 									<li><a href="#;">소식</a></li>
 								</ul>

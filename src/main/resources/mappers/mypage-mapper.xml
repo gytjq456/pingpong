@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="Mypage">
 	
 	<!-- 그룹 주선자일 경우의 기록   -->
@@ -10,10 +11,6 @@
 	<!-- 그룹 멤버일 경우의 기록  -->
 	<select id="selectByIdInGroup_app" resultType="kh.pingpong.dto.GroupDTO">
 		select * from grouplist where seq = (select parent_seq from groupmember where id = #{id})
-	</select>
-	
-	<select id="tutorList" resultType="kh.pingpong.dto.TutorDTO">
-		select * from tutor where id = #{id}
 	</select>
 	
 	<select id="tuteeList" resultType="kh.pingpong.dto.TuteeDTO">

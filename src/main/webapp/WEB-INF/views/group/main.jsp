@@ -21,27 +21,50 @@
 					<div id="tabContWrap" class="search_wrap">
 						<article id="tab_1" class="kewordSch">
 							<div class="search_as_keyword">
-								<select id="keyword_type">
-									<option value="writer_name">작성자</option>
-									<option value="title">글제목</option>
-									<option value="contents">글내용</option>
-								</select>
-								<input type="text" name="keyword" id="keyword_input" placeholder="검색어를 입력하세요.">
-								<div>
-									<span>유형</span>
-									<c:forEach var="hbdto" items="${hblist}">
-										<input type="checkbox" name="hobby" class="hobby_list" id="${hbdto.seq}" value="${hbdto.hobby}"><label for="${hbdto.seq}">${hbdto.hobby}</label>
-									</c:forEach>
-									<input type="text" id="selected_hobby" name="hobby_type">
+								<section class="defaultSch">
+									<div class="tit">검색어</div>
+									<div class="schCon ">
+										<select id="keyword_type">
+											<option value="writer_name">작성자</option>
+											<option value="title">글제목</option>
+											<option value="contents">글내용</option>
+										</select>
+										<input type="text" name="keyword" id="keyword_input" placeholder="검색어를 입력하세요.">
+									</div>
+								</section>
+								<section>
+									<div class="tit">유형</div>
+									<div class="schCon">
+										<ul class="checkBox_s1">
+										<c:forEach var="hbdto" items="${hblist}">
+											<li class="<c:if test="${hbdto.hobby == '기타'}">etcSch</c:if>">
+												<input type="checkbox" name="hobby" class="hobby_list" id="${hbdto.seq}" value="${hbdto.hobby}">
+												<label for="${hbdto.seq}"><span></span>${hbdto.hobby}</label>
+												<c:if test="${hbdto.hobby == '기타'}">
+													<input type="text" id="selected_hobby" name="hobby_type">
+												</c:if>
+										</c:forEach>
+										</ul>
+									</div>
+								</section>
+								<section>
+									<div class="tit">기간</div>
+									<div class="schCon">
+										<ul class="radio_s1">
+											<li>
+												<input type="radio" name="period" class="period" id="short_period" value="단기">
+												<label for="short_period"><span></span>단기(1년 미만)</label>
+											</li>
+											<li>
+												<input type="radio" name="period" class="period" id="long_period" value="장기">
+												<label for="long_period"><span></span>장기(1년 이상)</label>
+											</li>
+										</ul>
+									</div>
+								</section>
+								<div class="btnS1 center">
+									<div><button type="button" id="searchAsKeyword">검색</button></div>
 								</div>
-								<div>
-									<span>기간</span>
-									<input type="radio" name="period" class="period" id="short_period" value="단기">
-									<label for="short_period">단기(1년 미만)</label>
-									<input type="radio" name="period" class="period" id="long_period" value="장기">
-									<label for="long_period">장기(1년 이상)</label>
-								</div>
-								<button type="button" id="searchAsKeyword">이 조건으로 검색</button>
 							</div>
 						</article>
 						<article id="tab_2" class="calendarSch">
@@ -93,8 +116,8 @@
 						</c:when>
 						<c:otherwise>
 							<c:forEach var="glist" items="${glist}">
-								<a href="/group/beforeView?seq=${glist.seq}" class="group_list_a">
-									<div class="back_and_wrap">
+								<div class="back_and_wrap item">
+									<a href="/group/beforeView?seq=${glist.seq}" class="group_list_a">
 										<div class="each_profile"><img src="/resources/img/sub/userThum.jpg"/></div>
 										<c:if test="${fn:startsWith(glist.hobby_type, '영화')}">
 											<div class="group_background background_pink"></div>
@@ -126,25 +149,27 @@
 										<div class="group_each_wrapper">
 											<div class="each_writer"><span class="each_name">${glist.writer_name}</span>(${glist.writer_id})</div>
 											<div class="each_title">${glist.title}</div>
-											<div><span class="sub_title">장소</span> ${glist.location}</div>
-											<div><span class="sub_title">유형</span> ${glist.hobby_type}</div>
-											<div><span class="sub_title">모집 기간</span>
-												<c:if test="${glist.applying == 'N'}">
-												 - 
-												</c:if>
-												<c:if test="${glist.applying == 'Y'}">
-												 ${glist.apply_start} ~ ${glist.apply_end}
-												</c:if>
+											<div class="each_body">
+												<div><span class="sub_title">장소</span> ${glist.location}</div>
+												<div><span class="sub_title">유형</span> ${glist.hobby_type}</div>
+												<div><span class="sub_title">모집 기간</span>
+													<c:if test="${glist.applying == 'N'}">
+													 - 
+													</c:if>
+													<c:if test="${glist.applying == 'Y'}">
+													 ${glist.apply_start} ~ ${glist.apply_end}
+													</c:if>
+												</div>
+												<div><span class="sub_title">진행 기간</span> ${glist.start_date} ~ ${glist.end_date}</div>
+												<div><span class="sub_title">평점</span> <i class="fa fa-star" aria-hidden="true"></i> ${glist.review_point}</div>
 											</div>
-											<div><span class="sub_title">진행 기간</span> ${glist.start_date} ~ ${glist.end_date}</div>
-											<div><span class="sub_title">평점</span> <i class="fa fa-star" aria-hidden="true"></i> ${glist.review_point}</div>
-											<div>
-												<span class="sub_title">조회</span> ${glist.view_count}  
-												<span class="sub_title">추천</span> ${glist.like_count}  
-												<span class="sub_title">리뷰</span> ${glist.review_count}
-												<span class="sub_title">신청</span> ${glist.app_count}
+											<div class="countList_s2">
+												<span class="sub_title"><i class="fa fa-eye"></i>${glist.view_count}</span>   
+												<span class="sub_title"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>${glist.like_count}</span>   
+												<span class="sub_title"><i class="fa fa-commenting-o" aria-hidden="true"></i>${glist.review_count}</span> 
+												<span class="sub_title"><i class="fa fa-file-text-o" aria-hidden="true"></i>${glist.app_count}</span> 
 											</div>
-											<div>
+											<div class="status">
 												<c:if test="${glist.applying == 'Y'}">
 													<div class="group_applying">모집중</div>  
 												</c:if>
@@ -156,13 +181,15 @@
 												</c:if>
 											</div>
 										</div>
-									</div>
-								</a>
+									</a>
+								</div>
 							</c:forEach>
 						</c:otherwise>
 					</c:choose>
 				</div>
-				<a href="/group/write">그룹 등록하기</a>
+				<div class="btnS1 right ">
+					<div><a href="/group/write" class="on">그룹 등록하기</a></div>
+				</div>
 				<div id="listNav">${navi}</div>
 			</article>
 		</section>

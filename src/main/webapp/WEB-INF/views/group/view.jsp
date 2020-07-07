@@ -9,7 +9,7 @@
 	.group_info { display: inline-block; }
 	.group_info_top { float: left; }
 	.group_title_wrapper { overflow: hidden; }
-	#writer_info { width: 30%; position: relateive; }
+	#writer_info { width: 30%; position: relateive   ; }
 	#group_base { width: 62%; margin-left: 3%; }
 	#writer_profile { width: 240px; height: 240px; border-radius: 50%; text-align: center; line-height: 300px; position: relative; top: 50%; left: 50%; transform: translate(-50%, 0); overflow: hidden; }
 	#writer_name_id { position: relative; left: 50%; transform: translate(-50%, 0); display: inline-block; margin-top: 20px; }
@@ -198,14 +198,14 @@
 							<span id="jjim"><i class="fa fa-heart-o" aria-hidden="true"></i>찜하기</span>
 							<span id="report"><i class="fa fa-exclamation" aria-hidden="true"></i>신고</span>
 						</div>
-						<div id="group_detail" class="base_info">
+						<div id="group_detail" class="base_info clearfix">
 							<div class="info_with_icon">
 								<i class="fa fa-map-marker" aria-hidden="true"></i><br>
 								${gdto.location}
 							</div>
 							<div class="info_with_icon">
 								<i class="fa fa-calendar" aria-hidden="true"></i><br>
-								${gdto.start_date} ~ ${gdto.end_date}
+								<span>${gdto.start_date}</span> <span>~</span> <span>${gdto.end_date}</span>
 							</div>
 							<div class="info_with_icon">
 								<i class="fa fa-users" aria-hidden="true"></i><br>
@@ -250,23 +250,40 @@
 						<li class="on"><a href="#;">상세 정보</a></li>
 						<li><a href="#;">관련 모임</a></li>
 						<li><a href="#;">리뷰(${gdto.review_count})</a></li>
+<<<<<<< HEAD
 						<li><a href="#;">신청(${gdto.app_count})</a></li>
+=======
+						<li>
+							<c:if test="${checkApply == true}">
+								<span id="applyCancel">신청 취소</span>
+							</c:if>
+							<c:if test="${checkApply == false && (sessionScope.loginInfo.id != gdto.writer_id)}">
+								<button type="button" id="applyForm">신청하기</button>
+							</c:if>
+							<c:if test="${checkMember == true}">
+								<span id="deleteForm">탈퇴하기</span>
+							</c:if>
+							<c:if test="${sessionScope.loginInfo.id == gdto.writer_id}">
+								<span id="groupApplyManage">신청 현황</span>
+							</c:if>
+						</li>
+>>>>>>> 5ac862a528f4b1335e922820d13ef5ac09afae1c
 					</ul>
 				</div>
 				<div id="tabContWrap_s2">
 					<article id="tab_1" class="kewordSch">
-						<div id="group_contents_wrapper" class="card_body">
+						<div id="group_contents_wrapper" class="card_body clearfix">
 							<div id="group_contents" class="group_info">
 								${gdto.contents}
 							</div>
 							<div id="group_optional" class="group_info">
 								<div class="optional_box">
 									<div class="optional_menu">모집 기간</div>
-									<div>${gdto.apply_start} ~ ${gdto.apply_end}</div>
+									<div class="optional_body">${gdto.apply_start} ~ ${gdto.apply_end}</div>
 								</div>
 								<div class="optional_box">
 									<div class="optional_menu">참여자 인원(${gdto.cur_num})</div>
-									<div class="group_members">
+									<div class="group_members optional_body">
 										<div class="member_profile">플</div>
 										<div class="member_profile">플</div>
 										<div class="member_profile">플</div>
@@ -274,14 +291,22 @@
 								</div>
 								<div class="optional_box">
 									<div class="optional_menu">위치</div>
-									<div>${gdto.location}</div>
+									<div class="optional_body">${gdto.location}</div>
 									<div id="map"></div>
 								</div>
+<<<<<<< HEAD
 								<div class="optional_box">
 									<span class="optional_sub">추천</span>
 									<span id="like_count">${gdto.like_count}</span>
 									<span class="optional_sub">조회</span><span>${gdto.view_count}</span><br>
 									<span class="optional_sub">작성일</span><span>${gdto.write_date}</span><br>
+=======
+								<div class="optional_box countList_s2" >
+									<span class="optional_sub"><i class="fa fa-eye"></i>${gdto.view_count}</span>
+									<span class="optional_sub"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> ${gdto.like_count}</span>
+									<span class="optional_sub"><i class="fa fa-file-text-o" aria-hidden="true"></i> ${gdto.app_count}</span>
+									<%-- <span class="optional_sub">작성일</span><span>${gdto.date}</span><br> --%>
+>>>>>>> 5ac862a528f4b1335e922820d13ef5ac09afae1c
 								</div>
 								<div class="btnS1" id="view_btns">
 									<c:choose>
@@ -354,7 +379,7 @@
 								<form id="reviewtForm">
 									<input type="hidden" name="writer" value="홍길동">
 									<input type="hidden" name="point" value="0" id="point">
-									<input type="hidden" name="category" value="review">
+									<input type="hidden" name="category" value="그룹">
 									<input type="hidden" name="parent_seq" value="${gdto.seq}">
 									<div class="starPoint">
 										<div>

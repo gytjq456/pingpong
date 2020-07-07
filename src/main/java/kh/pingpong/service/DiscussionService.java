@@ -1,7 +1,9 @@
 package kh.pingpong.service;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,7 @@ import kh.pingpong.dao.DiscussionDAO;
 import kh.pingpong.dto.CommentDTO;
 import kh.pingpong.dto.DiscussionDTO;
 import kh.pingpong.dto.LanguageDTO;
+import kh.pingpong.dto.LikeListDTO;
 
 @Service
 public class DiscussionService {
@@ -30,8 +33,29 @@ public class DiscussionService {
 	}
 	
 	// 토론 전체 목록 가져오기
-	public List<DiscussionDTO> selectAll() throws Exception{
-		List<DiscussionDTO> list = disDao.selectAll();
+	public List<DiscussionDTO> selectAll(int cpage) throws Exception{
+		Map<String, Object> search = new HashMap<>();
+		int start = cpage * Configuration.DISCUSSION_COUNT_PER_PAGE - (Configuration.DISCUSSION_COUNT_PER_PAGE - 1);
+		int end = start + (Configuration.DISCUSSION_COUNT_PER_PAGE - 1);
+		
+		search.put("start", start);
+		search.put("end", end);			
+		List<DiscussionDTO> list = disDao.selectAll(search);
+		for(DiscussionDTO disDto : list) {
+			String contents = disDto.getContents();
+			String contReplace = contents.replaceAll("(<img.+\">)", "");
+			disDto.setContents(contReplace);
+		}		
+		return list;
+	}
+	
+	// 토론 키워드 목록 검색
+	public List<DiscussionDTO> kewordSch(int cpage,Map<String, Object> search) throws Exception{
+		int start = cpage * Configuration.DISCUSSION_COUNT_PER_PAGE - (Configuration.DISCUSSION_COUNT_PER_PAGE - 1);
+		int end = start + (Configuration.DISCUSSION_COUNT_PER_PAGE - 1);
+		search.put("start", start);
+		search.put("end", end);		
+		List<DiscussionDTO> list = disDao.kewordSch(search);
 		for(DiscussionDTO disDto : list) {
 			String contents = disDto.getContents();
 			String contReplace = contents.replaceAll("(<img.+\">)", "");
@@ -66,6 +90,11 @@ public class DiscussionService {
 		return disDao.like(seq);
 	}
 	
+	// 게시글 좋아요 취소
+	public int likedelete(int seq) throws Exception{
+		return disDao.likedelete(seq);
+	}
+	
 	// 댓글 쓰기
 	public int commentInsert(CommentDTO commDTO) throws Exception{
 		return disDao.commentInsert(commDTO);
@@ -81,6 +110,17 @@ public class DiscussionService {
 	public int commentLike(int seq) throws Exception{
 		return disDao.commentLike(seq);
 	}
+	
+	// 댓글 좋아요 취소
+	public int commentLikeCancel(int seq) throws Exception{
+		return disDao.commentLikeCancel(seq);
+	}
+	// 댓글 싫아요 취소
+	public int commentHateCancel(int seq) throws Exception{
+		return disDao.commentHateCancel(seq);
+	}
+	
+	
 	// 댓글 싫어요
 	public int commentHate(int seq) throws Exception{
 		return disDao.commentHate(seq);
@@ -98,8 +138,12 @@ public class DiscussionService {
 	
 	
 	// 토론 리스트 검색 최신순 / 인기순
-	public List<DiscussionDTO> searchAlign(String alignType) throws Exception{
-		return disDao.searchAlign(alignType);
+	public List<DiscussionDTO> searchAlign(String alignType, Map<String, Object> search, int cpage) throws Exception{
+		int start = cpage * Configuration.DISCUSSION_COUNT_PER_PAGE - (Configuration.DISCUSSION_COUNT_PER_PAGE - 1);
+		int end = start + (Configuration.DISCUSSION_COUNT_PER_PAGE - 1);
+		search.put("start", start);
+		search.put("end", end);	
+		return disDao.searchAlign(alignType,search);
 	}
 	
 	// 토론 더 보기 추천순
@@ -113,8 +157,8 @@ public class DiscussionService {
 	}
 	
 	// 토론 게시글 페이징
-	public String getPageNavi_discussion(int userCurrentPage) throws SQLException, Exception {
-		int recordTotalCount = disDao.getArticleCount_discussion(); 
+	public String getPageNavi_discussion(int userCurrentPage, Map<String, Object> search) throws SQLException, Exception {
+		int recordTotalCount = disDao.getArticleCount_discussion(search); 
 		
 		int pageTotalCount = 0; // 모든 페이지 개수
 		
@@ -147,22 +191,94 @@ public class DiscussionService {
 		
 		StringBuilder sb = new StringBuilder();
 		sb.append("<ul>");
-		if(needPrev) {
-			sb.append("<li><a href='/discussion/list?cpage="+(startNavi-1)+"'><</a></li>");
-		}
-		for(int i = startNavi ; i<=endNavi; i++) {
-			if(userCurrentPage == i) {
-				sb.append("<li class='on'><a href='/discussion/list?cpage="+i+"'>"+i+"</a></li>");//袁몃ŉ二쇰뒗 寃�
+		
+		String type = (String)search.get("type");
+		String keyword = (String)search.get("keyword");
+		String align = (String)search.get("alignType");
+		System.out.println("페이징 = "+type);
+		System.out.println("페이징 = "+keyword);
+		System.out.println("페이징 = "+align);
+		
+		if(align != null) {
+			// 정렬
+			if(needPrev) {
+				sb.append("<li><a href='/discussion/align?cpage="+(startNavi-1)+"&align="+align+"&type="+type+"&keyword="+keyword+"'><</a></li>");
+			}
+			for(int i = startNavi ; i<=endNavi; i++) {
+				if(userCurrentPage == i) {
+					sb.append("<li class='on'><a href='/discussion/align?cpage="+i+"&align="+align+"&type="+type+"&keyword="+keyword+"'>"+i+"</a></li>");//
+				}else {
+					sb.append("<li><a href='/discussion/align?cpage="+i+"&align="+align+"&type="+type+"&keyword="+keyword+"'>"+i+"</a></li>");//
+				}
+			}
+			if(needNext) {       
+				sb.append("<li><a href='/discussion/align?cpage="+(endNavi+1)+"&align="+align+"&type="+type+"&keyword="+keyword+"'>></a></li>");
+			}	
+		}else {
+			if(search.containsKey("keyword")) {
+				// 키워드 검색시
+				if(needPrev) {
+					sb.append("<li><a href='/discussion/kewordSch?cpage="+(startNavi-1)+"&type="+type+"&keyword="+keyword+"'><</a></li>");
+				}
+				for(int i = startNavi ; i<=endNavi; i++) {
+					if(userCurrentPage == i) {
+						sb.append("<li class='on'><a href='/discussion/kewordSch?cpage="+i+"&type="+type+"&keyword="+keyword+"'>"+i+"</a></li>");//
+					}else {
+						sb.append("<li><a href='/discussion/kewordSch?cpage="+i+"&type="+type+"&keyword="+keyword+"'>"+i+"</a></li>");//
+					}
+				}
+				if(needNext) {       
+					sb.append("<li><a href='/discussion/kewordSch?cpage="+(endNavi+1)+"&type="+type+"&keyword="+keyword+"'>></a></li>");
+				}
 			}else {
-				sb.append("<li><a href='/discussion/list?cpage="+i+"'>"+i+"</a></li>");//袁몃ŉ二쇰뒗 寃�
+				if(needPrev) {
+					sb.append("<li><a href='/discussion/list?cpage="+(startNavi-1)+"'><</a></li>");
+				}
+				for(int i = startNavi ; i<=endNavi; i++) {
+					if(userCurrentPage == i) {
+						sb.append("<li class='on'><a href='/discussion/list?cpage="+i+"'>"+i+"</a></li>");//袁몃ŉ二쇰뒗 寃�
+					}else {
+						sb.append("<li><a href='/discussion/list?cpage="+i+"'>"+i+"</a></li>");//袁몃ŉ二쇰뒗 寃�
+					}
+				}
+				if(needNext) {
+					sb.append("<li><a href='/discussion/list?cpage="+(endNavi+1)+"'>></a></li>");
+				}
 			}
 		}
-		if(needNext) {
-			sb.append("<li><a href='/discussion/list?cpage="+(endNavi+1)+"'>></a></li>");
-		}
+		
 		sb.append("</ul>");
 		
 		return sb.toString();
+	}
+	
+	
+	// 좋아요 체크
+	public Boolean selectLike(Map<Object, Object> param) throws Exception {
+		return disDao.selectLike(param);
+	}
+	
+	// 좋아요 취소
+	public int deletetLike(LikeListDTO ldto) throws Exception {
+		return disDao.deleteLike(ldto);
+	}
+	
+	// 싫어요 취소
+	public int deletetHate(LikeListDTO ldto) throws Exception {
+		return disDao.deletetHate(ldto);
+	}
+	
+	// 싫어요 체크
+	public Boolean selecHate(Map<Object, Object> param) throws Exception {
+		return disDao.selecHate(param);
+	}
+	
+	public int insertLike(LikeListDTO ldto) throws Exception {
+		return disDao.insertLike(ldto);
+	}
+	
+	public int insertHate(LikeListDTO ldto) throws Exception {
+		return disDao.insertHate(ldto);
 	}
 	
 }

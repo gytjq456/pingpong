@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kh.pingpong.dto.BankDTO;
@@ -48,13 +49,10 @@ public class MemberController {
 	public String getSHA512(String input) {
 		String toReturn = null;
 		try {
-			MessageDigest digest = MessageDigest.getInstance("SHA-512");
-			// SHA-256는 MessageDigest digest = MessageDigest.getInstance("SHA-256");
-			digest.reset();
-			digest.update(input.getBytes("utf8"));
-			toReturn = String.format("%0128x", new BigInteger(1, digest.digest()));
-			// SHA-256는 toReturn = String.format("%064x", new BigInteger(1,
-			// digest.digest()));
+			MessageDigest digest = MessageDigest.getInstance("SHA-256");
+		    digest.reset();
+		    digest.update(input.getBytes("utf8"));
+		    toReturn = String.format("%064x", new BigInteger(1, digest.digest()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -177,7 +175,7 @@ public class MemberController {
 		// 회원 파일 하나 저장
 		String realPath = session.getServletContext().getRealPath("upload/member/" + mdto.getId() + "/");
 		fdto = fcon.fileOneInsert(mdto, fdto, realPath);
-		int result = mservice.memberInsert(mdto, fdto);
+		mservice.memberInsert(mdto, fdto);
 
 		return "redirect:/member/memberComplete";
 	}
@@ -186,7 +184,6 @@ public class MemberController {
 	@ResponseBody
 	@RequestMapping("duplcheckId")
 	public String duplcheckId(MemberDTO mdto) throws Exception {
-		mdto.setPw(this.getSHA512(mdto.getPw()));
 		Boolean result = mservice.duplcheckId(mdto);
 		return Boolean.toString(result);
 	}
@@ -206,13 +203,7 @@ public class MemberController {
 		return "/member/mypage";
 	}
 
-	/* 마이페이지 수정 jsp */
-	@RequestMapping("myInfoModify")
-	public String myInfoModify() throws Exception {
-		return "/member/myInfoModify";
-	}
-
-	/* login jsp */
+	/* 로그인 jsp */
 	@RequestMapping("login")
 	public String login() throws Exception {
 		return "/member/login";
@@ -224,7 +215,6 @@ public class MemberController {
 	public String isIdPwSame(MemberDTO mdto) throws Exception{
 		mdto.setPw(this.getSHA512(mdto.getPw()));
 		Boolean result = mservice.isIdPwSame(mdto);
-		System.out.println("잉?? :: " + result);
 		if(result) {
 			MemberDTO loginInfo = mservice.loginInfo(mdto);		
 			session.setAttribute("loginInfo",loginInfo);	
@@ -263,7 +253,6 @@ public class MemberController {
 		model.addAttribute("mlist",mlist);
 		return "/member/idResult";
 	}
-	
 	/* 비밀번호 찾기  jsp 이동*/
 	@RequestMapping("pwFind")
 	public String pwFind() throws Exception{
@@ -272,7 +261,7 @@ public class MemberController {
 	
 	/* 비번 찾기  */	
 	@ResponseBody
-	@RequestMapping(value="pwFindProc")
+	@RequestMapping("pwFindProc")
 	public String pwFindProc(MemberDTO mdto) throws Exception{
 		System.out.println(mdto.getName() + "   :: 이름");
 		System.out.println(mdto.getEmail() + "   :: 이메일");
@@ -300,12 +289,245 @@ public class MemberController {
 	/* 회원탈퇴 */
 	@ResponseBody
 	@RequestMapping("memWithdrawal")
-	public String memWithdrawal(MemberDTO mdto) throws Exception{
-		mdto = (MemberDTO)session.getAttribute("loginInfo");
-		System.out.println(mdto.getSysname() + " :: 파일 이름 ");
+	public String memWithdrawal() throws Exception{
+		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
 		int result = mservice.memWithdrawal(mdto);
 		session.invalidate();
 		return Integer.toString(result);
+	}
+	
+	/* 마이페이지 수정 jsp */
+	@RequestMapping("myInfoModify")
+	public String myInfoModify(Model model) throws Exception {		
+		// 은행
+		List<BankDTO> bankList = mservice.bankList();
+		model.addAttribute("bankList", bankList);
+
+		// 나라
+		List<CountryDTO> countryList = mservice.countryList();
+		model.addAttribute("countryList", countryList);
+
+		// 언어
+		List<LanguageDTO> lanList = mservice.lanList();
+		model.addAttribute("lanList", lanList);
+
+		// 취미
+		List<HobbyDTO> hobbyList = mservice.hobbyList();
+		model.addAttribute("hobbyList", hobbyList);	
+		
+		return "/member/myInfoModify";
+	}
+	
+	/* :::: 회원정보 수정 ::::  */
+	/* 전화번호 */
+	@ResponseBody
+	@RequestMapping("myInfoMoPhone")
+	public String myInfoMoPhone(MemberDTO mdto) throws Exception{
+		MemberDTO loginMdto = (MemberDTO)session.getAttribute("loginInfo");
+		mdto.setId(loginMdto.getId());
+		
+		System.out.println(mdto.getPhone());
+		System.out.println(mdto.getPhone_country());
+		System.out.println(mdto.getId());
+		
+		int result = mservice.myInfoMoPhone(mdto);
+		
+		//세션값 다시 불러오기
+		MemberDTO loginInfo = mservice.loginInfo(mdto);		
+		session.setAttribute("loginInfo",loginInfo);
+		
+		return Integer.toString(result);		
+	}
+	
+	/* 주소 */
+	@ResponseBody
+	@RequestMapping("myInfoMoAddress")
+	public String myInfoMoAddress(MemberDTO mdto) throws Exception{
+		MemberDTO loginMdto = (MemberDTO)session.getAttribute("loginInfo");
+		mdto.setId(loginMdto.getId());
+		
+		int result = mservice.myInfoMoAddress(mdto);
+		
+		//세션값 다시 불러오기
+		MemberDTO loginInfo = mservice.loginInfo(mdto);		
+		session.setAttribute("loginInfo",loginInfo);
+				
+		return Integer.toString(result);		
+	}
+	
+	/* 은행 */
+	@ResponseBody
+	@RequestMapping("myInfoMobank")
+	public String myInfoMobank(MemberDTO mdto) throws Exception{
+		MemberDTO loginMdto = (MemberDTO)session.getAttribute("loginInfo");
+		mdto.setId(loginMdto.getId());
+		
+		int result = mservice.myInfoMobank(mdto);
+		
+		//세션값 다시 불러오기
+		MemberDTO loginInfo = mservice.loginInfo(mdto);		
+		session.setAttribute("loginInfo",loginInfo);
+		
+		return Integer.toString(result);		
+	}
+	
+	/* 프로필 */
+	@ResponseBody
+	@RequestMapping("myInfoProfile")
+	public String myInfoProfile(MemberDTO mdto, FileDTO fdto) throws Exception{
+		MemberDTO loginMdto = (MemberDTO)session.getAttribute("loginInfo");
+		mdto.setId(loginMdto.getId());
+		mdto.setSysname(loginMdto.getSysname());
+		
+		// 회원 파일 하나 저장
+		String realPath = session.getServletContext().getRealPath("upload/member/" + mdto.getId() + "/");
+		fdto = fcon.fileOneInsert(mdto, fdto, realPath);
+		int result = mservice.myInfoProfile(mdto, fdto);
+		
+		//세션값 다시 불러오기
+		MemberDTO loginInfo = mservice.loginInfo(mdto);		
+		session.setAttribute("loginInfo",loginInfo);
+		
+		return Integer.toString(result);		
+	}
+	
+	/* 나라 */
+	@ResponseBody
+	@RequestMapping("myInfoCountry")
+	public String myInfoCountry(MemberDTO mdto) throws Exception{
+		MemberDTO loginMdto = (MemberDTO)session.getAttribute("loginInfo");
+		mdto.setId(loginMdto.getId());
+		
+		int result = mservice.myInfoCountry(mdto);
+		
+		//세션값 다시 불러오기
+		MemberDTO loginInfo = mservice.loginInfo(mdto);		
+		session.setAttribute("loginInfo",loginInfo);
+		
+		return Integer.toString(result);		
+	}
+	
+	/* 구사 언어  */
+	@ResponseBody
+	@RequestMapping("myInfoLang_can")
+	public String myInfoLang_can(@RequestParam(value="langArrayA[]") List<String> lang_can, MemberDTO mdto) throws Exception{
+		
+		StringBuilder sb = new StringBuilder();
+		int size = lang_can.size();
+		System.out.println(size);
+		
+		int count = 0;
+		for( String a : lang_can) {
+			sb.append(a);
+			if(count < lang_can.size()-1) {
+				sb.append(","); 
+			}
+			count++;
+		}
+		
+		MemberDTO loginMdto = (MemberDTO)session.getAttribute("loginInfo");
+		mdto.setId(loginMdto.getId());
+		mdto.setLang_can(sb.toString());
+		
+		int result = mservice.myInfoLang_can(mdto);
+		
+		//세션값 다시 불러오기
+		MemberDTO loginInfo = mservice.loginInfo(mdto);		
+		session.setAttribute("loginInfo",loginInfo);
+		
+		return Integer.toString(result);		
+	}
+	
+	/* 배우고 싶은 언어  */
+	@ResponseBody
+	@RequestMapping("myInfoLang_learn")
+	public String myInfoLang_learn(@RequestParam(value="langArrayA[]") List<String> lang_learn, MemberDTO mdto) throws Exception{
+		
+		StringBuilder sb = new StringBuilder();
+		int size = lang_learn.size();
+		System.out.println(size);
+		
+		int count = 0;
+		for( String a : lang_learn) {
+			sb.append(a);
+			if(count < lang_learn.size()-1) {
+				sb.append(","); 
+			}
+			count++;
+		}
+		
+		MemberDTO loginMdto = (MemberDTO)session.getAttribute("loginInfo");
+		mdto.setId(loginMdto.getId());
+		mdto.setLang_learn(sb.toString());
+		
+		int result = mservice.myInfoLang_learn(mdto);
+		
+		//세션값 다시 불러오기
+		MemberDTO loginInfo = mservice.loginInfo(mdto);		
+		session.setAttribute("loginInfo",loginInfo);
+		
+		return Integer.toString(result);		
+	}
+	
+	/* 취미  */
+	@ResponseBody
+	@RequestMapping("myInfoHobby")
+	public String myInfoHobby(@RequestParam(value="hobbyArrayA[]") List<String> hobby, MemberDTO mdto) throws Exception{
+		
+		StringBuilder sb = new StringBuilder();
+		int size = hobby.size();
+		int count = 0;
+		for( String a : hobby) {
+			sb.append(a);
+			if(count < hobby.size()-1) {
+				sb.append(","); 
+			}
+			count++;
+		}
+		
+		MemberDTO loginMdto = (MemberDTO)session.getAttribute("loginInfo");
+		mdto.setId(loginMdto.getId());
+		mdto.setHobby(sb.toString());
+		
+		int result = mservice.myInfoHobby(mdto);
+		
+		//세션값 다시 불러오기
+		MemberDTO loginInfo = mservice.loginInfo(mdto);		
+		session.setAttribute("loginInfo",loginInfo);
+		
+		return Integer.toString(result);		
+	}
+	
+	/* introduce */
+	@ResponseBody
+	@RequestMapping("myInfoIntroduce")
+	public String myInfoIntroduce(MemberDTO mdto) throws Exception{
+		MemberDTO loginMdto = (MemberDTO)session.getAttribute("loginInfo");
+		mdto.setId(loginMdto.getId());
+		
+		int result = mservice.myInfoIntroduce(mdto);
+		
+		//세션값 다시 불러오기
+		MemberDTO loginInfo = mservice.loginInfo(mdto);		
+		session.setAttribute("loginInfo",loginInfo);
+		
+		return Integer.toString(result);		
+	}
+	
+	
+	/* sns로그인 */
+	@RequestMapping("snsSingUp")
+	public String snsSingUp(MemberDTO mdto, String kakaoId, String kakaoNickname) throws Exception{
+		MemberDTO loginMdto = (MemberDTO)session.getAttribute("loginInfo");
+		mdto.setId(loginMdto.getId());
+		
+		int result = mservice.myInfoIntroduce(mdto);
+		
+		//세션값 다시 불러오기
+		MemberDTO loginInfo = mservice.loginInfo(mdto);		
+		session.setAttribute("loginInfo",loginInfo);
+		
+		return Integer.toString(result);		
 	}
 	
 }

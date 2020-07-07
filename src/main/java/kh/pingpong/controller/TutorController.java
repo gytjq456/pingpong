@@ -26,8 +26,10 @@ import kh.pingpong.dto.LessonDTO;
 import kh.pingpong.dto.LikeListDTO;
 import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.dto.ReportListDTO;
+import kh.pingpong.dto.ReviewDTO;
+import kh.pingpong.dto.TuteeDTO;
 import kh.pingpong.dto.TutorAppDTO;
-import kh.pingpong.dto.TutorDTO;
+import kh.pingpong.service.GroupService;
 import kh.pingpong.service.MemberService;
 import kh.pingpong.service.TutorService;
 
@@ -43,6 +45,9 @@ public class TutorController {
 	
 	@Autowired
 	private MemberService mservice;
+	
+	@Autowired
+	private GroupService gservice;
 	
 	//헤더에서 튜터신청하기 버튼눌렀을때 이미 튜터인지, 냈는지 판별
 	@RequestMapping("tutorTrue")
@@ -163,18 +168,21 @@ public class TutorController {
 		List<LanguageDTO> lanList = mservice.lanList();
 		model.addAttribute("lanList",lanList);
 		
-		
 		int cpage = 1;
         try {
            cpage = Integer.parseInt(request.getParameter("cpage"));
         } catch (Exception e) {}
         
-		String navi = tservice.getPageNavi_lesson(cpage, orderBy);
+        Map<String, String> param = new HashMap<>();
+        param.put("orderBy", orderBy);
+        
+		String navi = tservice.getPageNavi_lesson(cpage, param);
 		model.addAttribute("navi", navi);
 		
 		List<LessonDTO> lessonlist = tservice.lessonList(cpage, orderBy);
 		System.out.println(lessonlist);
 		model.addAttribute("lessonlist",lessonlist);
+		model.addAttribute("orderBy",orderBy);
 		return "/tutor/lessonList";
 	}
 	
@@ -207,12 +215,13 @@ public class TutorController {
 			cpage = Integer.parseInt(request.getParameter("cpage"));
 		} catch (Exception e) {}
 
-		String navi = tservice.getPageNavi_lesson(cpage, orderBy);
+		String navi = tservice.getPageNavi_lesson(cpage, param);
 		model.addAttribute("navi", navi);
 
 		List<LessonDTO> lessonlist = tservice.lessonListPeriod(cpage, param);
 		System.out.println(lessonlist);
 		model.addAttribute("lessonlist",lessonlist);
+		model.addAttribute("orderBy",orderBy);
 		return "/tutor/lessonList";
 	}
 	
@@ -236,14 +245,71 @@ public class TutorController {
 			cpage = Integer.parseInt(request.getParameter("cpage"));
 		} catch (Exception e) {}
 
-		String navi = tservice.getPageNavi_lesson(cpage, orderBy);
+		String navi = tservice.getPageNavi_lesson(cpage, param);
 		model.addAttribute("navi", navi);
 
-		List<LessonDTO> lessonlist = tservice.searchKeword(cpage, param);
+		List<LessonDTO> lessonlist = tservice.search(cpage, param);
 		System.out.println(lessonlist);
 		model.addAttribute("lessonlist",lessonlist);
+		model.addAttribute("orderBy",orderBy);
 		return "/tutor/lessonList";
+	}
+	
+	//달력으로 검색해서 리스트 뽑기
+	@RequestMapping("searchDate")
+	public String searchDate(String orderBy, String start_date, String end_date,HttpServletRequest request, Model model) throws Exception{
+		model.addAttribute("loginInfo", session.getAttribute("loginInfo"));
 
+		//언어 
+		List<LanguageDTO> lanList = mservice.lanList();
+		model.addAttribute("lanList",lanList);
+		
+		Map<String,String> param = new HashMap<>();
+		param.put("start_date", start_date);
+		param.put("end_date", end_date);
+		param.put("orderBy", orderBy);
+
+		int cpage = 1;
+		try {
+			cpage = Integer.parseInt(request.getParameter("cpage"));
+		} catch (Exception e) {}
+
+		String navi = tservice.getPageNavi_lesson(cpage, param);
+		model.addAttribute("navi", navi);
+
+		List<LessonDTO> lessonlist = tservice.search(cpage, param);
+		System.out.println(lessonlist);
+		model.addAttribute("lessonlist",lessonlist);
+		model.addAttribute("orderBy",orderBy);
+		return "/tutor/lessonList";
+	}
+	
+	//지도로 검색하기
+	@RequestMapping("searchMap")
+	public String searchMap(String location, String orderBy,HttpServletRequest request, Model model) throws Exception{
+		model.addAttribute("loginInfo", session.getAttribute("loginInfo"));
+
+		//언어 
+		List<LanguageDTO> lanList = mservice.lanList();
+		model.addAttribute("lanList",lanList);
+		
+		Map<String,String> param = new HashMap<>();
+		param.put("location", location);
+		param.put("orderBy", orderBy);
+
+		int cpage = 1;
+		try {
+			cpage = Integer.parseInt(request.getParameter("cpage"));
+		} catch (Exception e) {}
+
+		String navi = tservice.getPageNavi_lesson(cpage, param);
+		model.addAttribute("navi", navi);
+
+		List<LessonDTO> lessonlist = tservice.search(cpage, param);
+		System.out.println(lessonlist);
+		model.addAttribute("lessonlist",lessonlist);
+		model.addAttribute("orderBy",orderBy);
+		return "/tutor/lessonList";
 	}
 	
 	//강의 view
@@ -264,6 +330,8 @@ public class TutorController {
 		
 		//언어 
 		List<LanguageDTO> lanList = mservice.lanList();
+		//리뷰 리스트 출력
+		List<ReviewDTO> reviewList = gservice.reviewList(seq);
 		
 		model.addAttribute("loginInfo", session.getAttribute("loginInfo"));
 		model.addAttribute("lanList",lanList);
@@ -271,6 +339,7 @@ public class TutorController {
 		model.addAttribute("seq", seq);
 		model.addAttribute("checkLike", checkLike);
 		model.addAttribute("checkJjim",checkJjim);
+		model.addAttribute("reviewList", reviewList);
 		return "/tutor/lessonView";
 	}
 	
@@ -389,6 +458,33 @@ public class TutorController {
 		tservice.reportProc(rldto);
 		return "redirect: /tutor/lessonView?seq="+rldto.getParent_seq();
 	}
-
 	
+	//리뷰 갯수랑 평점 업데이트
+	@RequestMapping("reviewUpdate")
+	public String reviewUpdate(Model model, ReviewDTO rdto) throws Exception{
+		System.out.println(rdto.getParent_seq() + rdto.getCategory());
+		tservice.reviewUpdate(rdto);
+		return "redirect: /tutor/lessonView?seq="+ rdto.getParent_seq();
+	}
+
+	//튜티 결제
+	@RequestMapping("payMain")
+	public String payMain(Model model, int parent_seq, String title) throws Exception{
+		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
+		TuteeDTO ttdto = new TuteeDTO();
+		ttdto.setId(mdto.getId());
+		ttdto.setName(mdto.getName());
+		ttdto.setEmail(mdto.getEmail());
+		ttdto.setPhone_country(mdto.getPhone_country());
+		ttdto.setPhone(mdto.getPhone());
+		ttdto.setBank_name(mdto.getBank_name());
+		ttdto.setAccount(mdto.getAccount());
+		ttdto.setSysname(mdto.getSysname());
+		ttdto.setAddress(mdto.getAddress());
+		ttdto.setTitle(title);
+		ttdto.setParent_seq(parent_seq);
+		
+		model.addAttribute("ttdto", ttdto);
+		return "/tutor/payMain";
+	}
 }

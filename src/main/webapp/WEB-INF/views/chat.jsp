@@ -17,7 +17,7 @@
 					<p>서비스 정책에 따라 채팅기능은 일반 회원은 사용이 불가능 합니다. 파트너 등록을 하시면 서비스 이용이 가능합니다.</p>
 					<div><a href="">파트너 등록</a></div>
 				</div>
-				</c:otherwise>
+				</c:otherwise> 
 			</c:choose>
 		</section>	
 		<div id="chatRoom">
@@ -49,7 +49,7 @@
 				data:"post",
 				dataType:"json"
 			}).done(function(resp){
-				console.log(resp)
+				//console.log(resp)
 				for(var i=0; i<resp.length; i++){
 					if("${sessionScope.loginInfo.name}"!= resp[i].name){
 						var chatList = $("#chatList");
@@ -87,12 +87,25 @@
 			
 			
 			if("${sessionScope.loginInfo.id}" != ""){
-				var ws = new WebSocket("ws://localhost/chat");
+				var ws  =new WebSocket("ws://localhost/chat");
+				//var ws  =new WebSocket("ws://192.168.160.184/chat");
+				ws.onopen = function(){
+					var msg = {
+						type:"login",
+						userid:"${sessionScope.loginInfo.id}",
+						userName:"${sessionScope.loginInfo.name}",
+						targetId:uid
+					}
+					ws.send(JSON.stringify(msg));
+				}
 				
 				$(document).on("click",".chatting",function(){
+					if(!$(this).closest("li").hasClass("on")){
+						alert("로그아웃된 파트너 입니다.")
+						return false;
+					}					
 					uid = $(this).data("uid");
 					var uname = $(this).data("name");
-					
 					$.ajax({
 						url:"/chatting/create",
 						type:"post",
@@ -109,79 +122,87 @@
 						var member = chatWrap.find(".title p").text().split(",");
 						chatWrap.find(".title span").text(member.length);
 						txtInput.focus();
-						
-						var msg = {
-								chatRoom : chatRoom,
-								type:"register",
-								userid:"${sessionScope.loginInfo.id}",
-								targetId:uid
-							}
-							ws.send(JSON.stringify(msg));
-						
+						//console.log(typeof resp)
 						if(typeof resp == 'string'){
+							chatRoom = resp
 							$(".chatBox .sysdate").html(theYear+"년 "+theMonth+"월 "+theDate+"일 "+todayLabel);
-							chatRoom = resp;
 						}else{
-							var data = resp
-							console.log(data)
-							chatRoom = data[0].roomId;
-							$(".chatBox .sysdate").html(data[0].realWriteDate);
+							//console.log(resp);
+							var record = resp;
+							chatRoom = record[0].roomId;
+							$(".chatBox .sysdate").html(record[0].realWriteDate);
 							$(".chatBox .txtRow").html("");
 							var userTag;
-							console.log(data.length)
-							for(var i=0; i<data.length; i++){
-								if(data[i].sendUser == "${sessionScope.loginInfo.name}"){
+							//console.log(record.length)
+							 for(var i=0; i<record.length; i++){
+								if(record[i].sendUser == "${sessionScope.loginInfo.name}"){
 									var userInfo_s1 = $("<div class='userInfo_s1 my'>");
 									var info = $("<div class='info'>"); 
-									userInfo_s1.append("<div class='info'><p class='userId'>"+data[i].sendUser+"</p>")
+									userInfo_s1.append("<div class='info'><p class='userId'>"+record[i].sendUser+"</p>")
 									userInfo_s1.append("<div class='thumb'><img src='/resources/img/sub/userThum.jpg'>")
-									userInfo_s1.append("<div class='chatTxt'><span class='writeDate'>"+data[i].writeDate+"</span><p>"+data[i].chatRecord+"</p>")
+									userInfo_s1.append("<div class='chatTxt'><span class='writeDate'>"+record[i].writeDate+"</span><p>"+record[i].chatRecord+"</p>")
 									//userTag.append(userInfo_s1);
 									$(".chatBox .txtRow").append(userInfo_s1);	
 								}else{
 									var userInfo_s1 = $("<div class='userInfo_s1 other'>");
 									userInfo_s1.append("<div class='thumb'><img src='/resources/img/sub/userThum.jpg'>")
-									userInfo_s1.append("<div class='info'><p class='userId'>"+data[i].sendUser+"</p>")
-									userInfo_s1.append("<div class='chatTxt'><p>"+data[i].chatRecord+"</p><span class='writeDate'>"+data[i].writeDate+"</span>")
+									userInfo_s1.append("<div class='info'><p class='userId'>"+record[i].sendUser+"</p>")
+									userInfo_s1.append("<div class='chatTxt'><p>"+record[i].chatRecord+"</p><span class='writeDate'>"+record[i].writeDate+"</span>")
 									//userTag.append(userInfo_s1);
 									$(".chatBox .txtRow").append(userInfo_s1);								
 								}
 							}
-							
-							
 							updateScroll();
 						}
-
+						
+						var msg = {
+							chatRoom : chatRoom,
+							type:"register",
+							userid:"${sessionScope.loginInfo.id}",
+							userName:"${sessionScope.loginInfo.name}",
+							targetId:uid
+						}
+						ws.send(JSON.stringify(msg));
 					}).fail(function(){
 						alert("error")
 					})
 				})
 				
-				/*
-				 ws.onopen = function(){
-					var msg = {
-						chatRoom : chatRoom,
-						type:"register",
-						userid:"${sessionScope.loginInfo.id}",
-						targetId:uid
-					}
-					ws.send(JSON.stringify(msg));
-					
-				} 
-				*/
-				
 				ws.onmessage = function(e){
-					var msg = JSON.parse(event.data);
+					var msg = JSON.parse(e.data);
 					var time = new Date(msg.date);
 					var timeStr = time.toLocaleTimeString();
 					
-					var userInfo_s1 = $("<div class='userInfo_s1 other'>");
-					userInfo_s1.append("<div class='thumb'><img src='/resources/img/sub/userThum.jpg'>")
-					userInfo_s1.append("<div class='info'><p class='userId'>"+msg.id+"</p>")
-					userInfo_s1.append("<div class='chatTxt'><p>"+msg.text+"</p><span class='writeDate'>"+msg.date+"</span></div>")
 					
-					$(".chatBox .txtRow").append(userInfo_s1);
-					updateScroll();
+					//console.log(msg);
+					for(var i=0; i<msg.length; i++){
+						if(msg[i].type == "login"){
+							var chatList = $("#chatList .list ul li");
+							chatList.each(function(){
+								var idx = $(this).index();
+								if(chatList.eq(idx).find("button").data("uid") == msg[i].userid){
+									$(this).addClass("on");
+								}
+							})
+						}
+					}
+					if(msg.type == "logout"){
+						var chatList = $("#chatList .list ul li");
+						chatList.each(function(){
+							if(msg.userid == $(this).find("button").data("uid")){
+								$(this).removeClass("on");
+							}
+						})
+					}
+					if(msg.type == "message"){
+						var userInfo_s1 = $("<div class='userInfo_s1 other'>");
+						userInfo_s1.append("<div class='thumb'><img src='/resources/img/sub/userThum.jpg'>")
+						userInfo_s1.append("<div class='info'><p class='userId'>"+msg.userName+"</p>")
+						userInfo_s1.append("<div class='chatTxt'><p>"+msg.text+"</p><span class='writeDate'>"+msg.date+"</span></div>")
+						$(".chatBox .txtRow").append(userInfo_s1);
+						updateScroll();
+					}
+					
 				}
 				$("#chatWrap #close").click(function(){
 					$("#chatRoom").removeClass("on");
@@ -215,7 +236,8 @@
 						chatRoom : chatRoom,
 						type: "message",
 						text: chatTxt,
-						userid:   "${sessionScope.loginInfo.id}",
+						userid:"${sessionScope.loginInfo.id}",
+						userName:"${sessionScope.loginInfo.name}",
 						date: timeResult,
 						targetId:uid
 					};

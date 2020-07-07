@@ -446,7 +446,8 @@ width:-moz-calc(100% - 100px);
 #chatList .tit { font-size:20px; font-weight:700; margin-bottom:20px;}
 #chatList .list {}
 #chatList .list ul {}
-#chatList .list ul li { margin-bottom:15px; position:relative;}
+#chatList .list ul li { margin-bottom:15px; position:relative; opacity:0.3;}
+#chatList .list ul li.on { opacity:1;}
 #chatList .list ul li:last-child { margin:0; padding:0; border:none; }
 #chatList .list ul li button { width:80px; height:32px; border:1px solid #ddd; border-radius:6px;  position:absolute; right:0; top:50%; transform:translateY(-50%); background:#fff; }
 #chatList .list ul li button:hover { color:#fff; background:#fbaab0;}

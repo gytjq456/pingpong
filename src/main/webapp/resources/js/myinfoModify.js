@@ -230,6 +230,7 @@ $(function() {
 		}).fail(function(error1, error2) {
 			alert("관리자에게 문의주세요.")
 		});
+		return false;
 	});
 	
 	//나라 수정

@@ -110,14 +110,14 @@
 		})
 
 		$('#summernote').summernote({
-			height : 300,
-			lang : 'ko-KR',
-			callbacks : {
-				onImageUpload : function(files) {
-					uploadSummernoteImageFile(files[0], this);
+			height: 300,
+			lang: "ko-KR",
+			callbacks:{
+				onImageUpload : function(files){
+					uploadSummernoteImageFile(files[0],this);
 				}
 			}
-		});
+		}); 
 
 	});
 
@@ -131,11 +131,11 @@
 			contentType : false,
 			processData : false,
 			success : function(data) {
-				//항상 업로드된 파일의 url이 있어야 한다.
+	        	//항상 업로드된 파일의 url이 있어야 한다.
 				$(editor).summernote('insertImage', data.url);
 			}
 		});
-	}
+	}		
 </script>
 
 <div id="subWrap" class="hdMargin">

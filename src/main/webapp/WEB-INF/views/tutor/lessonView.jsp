@@ -251,12 +251,11 @@ $(function(){
 						<p>
 							<a href="/tutor/lessonUpdate?seq=${ldto.seq }" class="on">강의 수정</a>
 							<button type="button" id="popOnBtn" class="on">강의 삭제</button>
-							<a href="/payments/cancleTest">test환불</a>
 						</p>
 					</c:when>
 				</c:choose>
 			</div>
-
+<a href="/payments/cancleTest?parent_seq=${ldto.seq }&start_date=${ldto.start_date }&price=${ldto.price }">test환불</a>
 			<div class="view_top">
 				<div class="view_top_left">
 					<div class="profile">
@@ -281,7 +280,7 @@ $(function(){
 						수업시간 : ${ldto.start_hour }:${ldto.start_minute } ~ ${ldto.end_hour }:${ldto.end_minute }
 						최대인원 : ${ldto.max_num }
 						수업언어 : ${ldto.language }
-						가격 : ${ldto.price } 원 /시간
+						가격 : ${ldto.price } 원 /총 금액
 					</div>
 	
 				</div>

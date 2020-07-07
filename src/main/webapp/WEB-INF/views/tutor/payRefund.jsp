@@ -25,16 +25,16 @@
 			        "dataType": "json"
 			      });
 			    }
-			  
-			<!-- 2. 아임포트한테 엑세스토큰 발급받기 -->
+			    /*			   			  
+ 			<!-- 2. 아임포트한테 엑세스토큰 발급받기 -->
 			<!-- Node.js -->
 				  var express = require('express');
 				  var app = express();
 				  var axios = require('axios');
-				  /* ... 중략 ... */
+				   <!-- ... 중략 ... -->
 				  app.post('/payments/cancel', async (req, res, next) => {
 				    try {
-				      /* 액세스 토큰(access token) 발급 */
+				      <!-- 액세스 토큰(access token) 발급 -->
 				      const getToken = await axios({
 				        url: "https://api.iamport.kr/users/getToken",
 				        method: "post", // POST method
@@ -47,12 +47,12 @@
 				        }
 				      });
 				      const { access_token } = getToken.data.response; // 엑세스 토큰
-				      /* 결제정보 조회 */
+				      <!-- 결제정보 조회 -->
 				    } catch (error) {
 				      res.status(400).send(error);
 				    }
 				  });	
-
+ */
 			  </script>
 		</article>
 	</section>

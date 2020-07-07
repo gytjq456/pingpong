@@ -1,5 +1,9 @@
 package kh.pingpong.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,9 +89,71 @@ public class PaymentsController {
 	}
 	
 	@RequestMapping("cancleTest")
-	public String cancelTest() throws Exception{
-		return "/tutor/payRefund";
+	public String cancelTest(TuteeDTO ttdto, String start_date,Model model) throws Exception{
+		MemberDTO mdto = new MemberDTO();
+		ttdto.setId(mdto.getId());
+//		String[] array = start_date.split("-");
+//		for(int i=0; i<array.length; i++) {
+//			System.out.println(array[i]);
+//		}
+//
+//		SimpleDateFormat form = new SimpleDateFormat("yyyy-MM-dd");
+//
+//		Date to = form.parse(start_date);
+//		System.out.println(to);
+		
+		model.addAttribute("start_date",start_date);
+		model.addAttribute("ttdto",ttdto);
+		return "/tutor/payRefund_test";
 	}
+	
+	
+	@RequestMapping("refundPrice")
+	@ResponseBody
+	public String refundPrice(String start_date) throws Exception{
+		System.out.println(start_date);
+		
+		SimpleDateFormat form = new SimpleDateFormat("yyyy-MM-dd");
+		Date date =null;
+		
+		date = form.parse(start_date);
+		
+		Calendar cal1 = Calendar.getInstance();
+		cal1.setTime(date);
+		cal1.add(Calendar.DATE, 10);
+		
+		Calendar cal2 = Calendar.getInstance();
+		cal2.setTime(date);
+		cal2.add(Calendar.DATE, 15);
+		
+		//start_date
+		System.out.println(date);
+		//date 형식으로
+		//cal1 = start_date+10
+		//cal2 = start_date+15
+		System.out.println(cal1.getTime());
+		System.out.println(cal2.getTime());
+		
+		//string 형식으로 
+		String strDate1 = form.format(cal1.getTime());
+		String strDate2 = form.format(cal2.getTime());
+		
+		System.out.println(strDate1);
+		System.out.println(strDate2);
+		
+		return start_date;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	@RequestMapping(value="cancle", produces="application/json; charset=utf8")
 	@ResponseBody

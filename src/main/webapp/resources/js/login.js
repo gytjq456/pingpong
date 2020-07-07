@@ -14,12 +14,9 @@ $(function() {
 	
 	//아이디 쿠키에 저장
 	$("#rememberId").on("change",function(){
-		alert("쿠우키이");
 		if($("#id").val()==""){
-			alert("111");
 			return false;
 		}else{
-			alert("222");
 			var exdate = new Date();
 				//쿠키체크한 것
 			if ($("#rememberId").prop("checked")){

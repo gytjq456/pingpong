@@ -9,57 +9,6 @@ $(function(){
          
          $('#address').val(sido + ' ' + gugun);
     });
-		
-	//아이디 중복 체크
-	$("#duplcheckId").on("click",function(){
-		$.ajax({
-			url : "/member/duplcheckId",
-			type : "post",
-			data : {
-				id : $("#id").val()
-			}
-		}).done(function(resp){
-			if($("#id").val()==""){
-				alert("아이디를 입력해주세요");
-				id.focus();
-			}else{
-				if("true" == resp){
-					alert("이미 사용중인 아이디 입니다.");
-					$("#duplcheckId").attr("name","");
-				}else{
-					alert("사용가능한 아이디입니다.");
-					$("#duplcheckId").attr("name","true");
-				}   
-			}
-			 				
-		}).fail(function(error1, error2){
-			console.log(error1);
-			console.log(error2);
-		})
-	});
-	
-	
-	//비밀번호 일치
-	$("#pw").on("keyup",function(){
-		var pwResult1 = $("#pw").val();
-		var pwResult2 = $("#pw_ck").val();
-		if(pwResult1 == pwResult2){
-			$("#pwConfrom").text("비밀번호가 일치합니다.");
-		}else{
-			$("#pwConfrom").text("비밀번호 일치 하지 않습니다.");
-		}
-	});
-	
-	//비밀번호 일치
-	$("#pw_ck").on("keyup",function(){
-		var pwResult1 = $("#pw").val();
-		var pwResult2 = $("#pw_ck").val();
-		if(pwResult1 == pwResult2){
-			$("#pwConfrom").text("비밀번호가 일치합니다.");
-		}else{
-			$("#pwConfrom").text("비밀번호 일치 하지 않습니다.");
-		}
-	});
 	
 	/* 자기소개  */		
 	$('#introduce').keyup(function(e){
@@ -74,14 +23,12 @@ $(function(){
 	})
 	
 	
-	$("#joinProc").submit(function(){
-		
+	$("#snsSignUp").submit(function(){
 		var id_ck = $("#id");
-		var pw_ck = $("#pw");
 		var name = $("#name");
 		var age = $("#age");
 		var gender = $('input:radio[name=gender]:checked').val(); //라디오
-		//이메일은 고정
+		var email = $('#email');
 		var phone_country = $('#phone_country option:selected').val();//셀렉트
 		var phone = $('#phone');
 		var address = $("#address");
@@ -97,22 +44,6 @@ $(function(){
 		if(!result_id){
 			alert("아이디 : 알파벳 대소문자, 숫자, _ 까지 4~20글자입니다.");
 			id_ck.focus();
-			return false;
-		}
-		
-		//아이디 중복확인 했는지 안했는지
-		if($("#duplcheckId").prop("name") == ""){
-			alert("아이디 중복체크를 확인해주세요");
-			id_ck.focus();
-			return false;
-		}
-		
-		//비밀번호		
-		var regexPw = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/g;
-		var result_pw = regexPw.test(pw_ck.val());
-		if(!result_pw){
-			alert("비밀번호 : 최소 8글자, 숫자, 특수문자를 넣어주세요.");
-			pw_ck.focus();
 			return false;
 		}
 		
@@ -143,7 +74,11 @@ $(function(){
 		}
 		
 		//email
-		//이메일은 고정으로 바뀌지 않게 작업	
+		if(email == 'null'){
+			alert("이메일을 입력해주세요.");
+			$('#email').focus();			
+			return false;
+		}
 		
 		//전화번호 (앞자리)
 		if(phone_country == 'null'){
@@ -202,14 +137,6 @@ $(function(){
 		//프로필
 		if(profile.val() == ""){
 			alert("프로필 사진을 넣어주세요");
-			profile.focus();
-			return false;
-		}
-		
-		//프로필 확장자 체크
-		if(!/\.(gif|jpg|jpeg|png)$/i.test(profile.val())){
-			alert("확장자 확인 하기 " + profile.val());
-			alert('gif, jpg, png 파일만 선택해 주세요.\n\n현재 파일 : ' + profile.val());
 			profile.focus();
 			return false;
 		}
@@ -286,8 +213,8 @@ $(function(){
 		
 		//값이 비워있을 때
 		if(
-				id_ck.val() == "" || $("#duplcheckId").prpp("name") == "" || pw_ck.val() == "" || name.val() == "" ||
-				age.val() == "" || phone_country == "" || address.val() == "" || bank_name =="" ||
+				name.val() == "" ||
+				email.val()=="" || age.val() == "" || phone_country == "" || address.val() == "" || bank_name =="" ||
 				account.val() =="" || phone.val() == "" || !profile.val() || ckIsNull == false ||
 				ckIsNull2 == false || ckIsNull3 == false || introduce.val().length < 100
 		){

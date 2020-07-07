@@ -17,6 +17,7 @@ import kh.pingpong.dto.LikeListDTO;
 import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.dto.ReportListDTO;
 import kh.pingpong.dto.ReviewDTO;
+import kh.pingpong.dto.TuteeDTO;
 import kh.pingpong.dto.TutorAppDTO;
 
 @Repository
@@ -177,6 +178,14 @@ public class TutorDAO {
 		return mybatis.selectOne("Tutor.getArticleCount_lesson",param);
 	}
 	
+	//모집중 진행중 마감 시간에 따라 알아서 바뀌게하기 스케쥴러
+	public int updateIngDate(String today_date) throws Exception{
+		int resultApplying = mybatis.update("Tutor.updateApplying", today_date);
+		int resultProceeding1 = mybatis.update("Tutor.updateProceeding1", today_date);
+		int resultProcedding2 = mybatis.update("Tutor.updateProceeding2", today_date);
+		return resultApplying + resultProceeding1 + resultProcedding2;
+	}
+	
 	//키워드로 검색해서 리스트 뽑기
 	public List<LessonDTO> search(int cpage, Map<String, String> param) throws Exception{
 		int start = cpage*Configuration.RECORD_COUNT_PER_PAGE - (Configuration.RECORD_COUNT_PER_PAGE - 1);
@@ -187,6 +196,21 @@ public class TutorDAO {
 		param.put("end", String.valueOf(end));
 		
 		return mybatis.selectList("Tutor.search", param);
+	}
+	
+	//튜티 insert
+	public int tuteeInsert(TuteeDTO ttdto) throws Exception{
+		return mybatis.insert("Tutor.tuteeInsert", ttdto);
+	}
+	
+	//튜티 현재인원 늘리기
+	public int tuteeCurnumCount(TuteeDTO ttdto) throws Exception{
+		return mybatis.update("Tutor.tuteeCurnumCount", ttdto);
+	}
+	
+	//결제한 사람이 또 결제하는지
+	public int payTrue(TuteeDTO ttdto) throws Exception{
+		return mybatis.selectOne("Tutor.payTrue", ttdto);
 	}
 
 }

@@ -5,6 +5,10 @@
 input:-moz-read-only {background-color: #e4e4e4; color:#a9a9a9}  
 input:read-only {background-color: #e4e4e4;color:#a9a9a9;} 
 
+/* 이메일 보내기 */
+.emailPop { position:fixed; right:0; top:0; width:700px; height:100%; z-index:9999; background:#fff;		}
+
+
 /*  타이틀 */
 .tit_s2 { margin-bottom:12px;}
 .tit_s2 h3 { font-size:22px; }
@@ -52,6 +56,12 @@ input:read-only {background-color: #e4e4e4;color:#a9a9a9;}
 .between_calendar, .max_num_myung { width: 30px; text-align: center; display: inline-block; font-size: 18px; }
 .calendar_icon { display: inline-block; vertical-align: text-top; }
 .group_sub_input { margin-bottom: 40px; }
+#writeProc #location,
+#writeProc #location_lat,
+#writeProc #location_lng { display: none; }
+#updateProc #location,
+#updateProc #location_lat,
+#updateProc #location_lng { display: none; }
 
 /* 그룹 게시판 리스트 */
 .back_and_wrap { position: relative; width: 23.5%; display: inline-block; margin-right:2%; margin-top: 35px; }
@@ -192,6 +202,8 @@ width:-webkit-calc(100% - 340px);
 #group_view #view_btns #update { margin-right: 2px; }
 #group_view #writer_profile img { vertical-align: top; }
 #group_view #map { width: 100%; height: 200px; margin-top: 10px; }
+#group_view .member_profile img { vertical-align: top; }
+#group_view .member_profile { overflow: hidden; }
 
 
 
@@ -257,7 +269,10 @@ button.normal:hover { background:#c7c7c7 !important; color:#fff; }
 .viewPage_style1 .originTxt p,
 .viewPage_style1 .originTxt div { width:auto !important;}
 .viewPage_style1 .language { font-size:16px; color:#999; border-left:2px solid #fbaab0; padding-left:12px; }
- 
+.convertWrap {margin-top:20px; margin-bottom:12px;}
+.convertWrap > div{ float:left;}
+.convertWrap > div select,
+.convertWrap > div button { height:32px; border:1px solid #ddd; line-height:30px; box-sizing:border-box;}
 
 /* 댓글  */
 .comment_wrap {}

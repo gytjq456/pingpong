@@ -31,8 +31,10 @@
 			리뷰수: ${gdto.review_count}<br>
 			평점: ${gdto.review_point}<br>
 			모집중: ${gdto.applying}<br>
-			진행중: ${gdto.proceeding}
+			진행중: ${gdto.proceeding}<br>
 		</c:otherwise>
 	</c:choose>
+	<a href="/admin/deleteBySeq?pageName=groupList&seq=${gdto.seq}">삭제</a>
+	<a href="/admin/groupList">목록으로</a>
 </body>
 </html>

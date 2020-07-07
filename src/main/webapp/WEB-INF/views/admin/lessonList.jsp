@@ -15,6 +15,7 @@
 		</c:when>
 		<c:otherwise>
 			<c:forEach var="llist" items="${llist}">
+				<input type="checkbox" value="${llist.seq}">
 				${llist.seq} : ${llist.id} : ${llist.name} : ${llist.email} : 
 				${llist.phone_country} : ${llist.phone} : ${llist.category} : 
 				<a href="/admin/lessonView?seq=${llist.seq}">${llist.title}</a>
@@ -22,5 +23,7 @@
 			</c:forEach>
 		</c:otherwise>
 	</c:choose>
+	<div class="navi">${navi}</div>
+	<a href="/admin">관리자 메인</a>
 </body>
 </html>

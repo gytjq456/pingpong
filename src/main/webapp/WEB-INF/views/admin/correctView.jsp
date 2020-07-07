@@ -24,8 +24,10 @@
 			조회수: ${cdto.view_count}<br>
 			추천수: ${cdto.like_count}<br>
 			싫어수: ${cdto.hate_count}<br>
-			댓글수: ${cdto.reply_count}
+			댓글수: ${cdto.reply_count}<br>
 		</c:otherwise>
 	</c:choose>
+	<a href="/admin/deleteBySeq?pageName=correctList&seq=${cdto.seq}">삭제</a>
+	<a href="/admin/correctList">목록으로</a>
 </body>
 </html>

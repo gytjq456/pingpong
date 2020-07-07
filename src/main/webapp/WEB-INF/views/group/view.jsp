@@ -255,16 +255,16 @@
 =======
 						<li>
 							<c:if test="${checkApply == true}">
-								<span id="applyCancel">신청 취소</span>
+								<button id="applyCancel">신청 취소</button>
 							</c:if>
-							<c:if test="${checkApply == false && (sessionScope.loginInfo.id != gdto.writer_id)}">
+							<c:if test="${checkApply == false && (sessionScope.loginInfo.id != gdto.writer_id) && checkMember == false}">
 								<button type="button" id="applyForm">신청하기</button>
 							</c:if>
 							<c:if test="${checkMember == true}">
-								<span id="deleteForm">탈퇴하기</span>
+								<button id="deleteForm">탈퇴하기</button>
 							</c:if>
 							<c:if test="${sessionScope.loginInfo.id == gdto.writer_id}">
-								<span id="groupApplyManage">신청 현황</span>
+								<button id="groupApplyManage">신청 현황</button>
 							</c:if>
 						</li>
 >>>>>>> 5ac862a528f4b1335e922820d13ef5ac09afae1c
@@ -284,9 +284,16 @@
 								<div class="optional_box">
 									<div class="optional_menu">참여자 인원(${gdto.cur_num})</div>
 									<div class="group_members optional_body">
-										<div class="member_profile">플</div>
-										<div class="member_profile">플</div>
-										<div class="member_profile">플</div>
+										<c:choose>
+											<c:when test="${empty memberList}">
+												아직 참여 중인 인원이 없습니다.
+											</c:when>
+											<c:otherwise>
+												<c:forEach var="member" items="${memberList}">
+													<div class="member_profile"><img src="/resources/img/sub/userThum.jpg"/></div>
+												</c:forEach>
+											</c:otherwise>
+										</c:choose>
 									</div>
 								</div>
 								<div class="optional_box">

@@ -11,78 +11,104 @@
 <script>
 	$(function() {
 		//오늘날짜 전에 클릭 안되게 걸어주기 
-		$('#apply_start').datepicker({ dateFormat: 'yy-mm-dd',minDate: 0});
-	    $('#apply_end').datepicker({ dateFormat: 'yy-mm-dd', minDate: 0 });
-	    $('#start_date').datepicker({ dateFormat: 'yy-mm-dd', minDate: 0 });
-	    $('#end_date').datepicker({ dateFormat: 'yy-mm-dd', minDate: 0 });
 
-		$("#price").on("keyup", function(){
-			var priceVal =$(this).val();
+		$('#apply_start').datepicker({
+			dateFormat : 'yy-mm-dd',
+			minDate : 0,
+			maxDate : 31
+		}).datepicker('setDate', new Date());
+
+		$('#apply_end').datepicker({
+			dateFormat : 'yy-mm-dd',
+			minDate : new Date($('#apply_start').val()),
+			maxDate : 31
+		});
+
+		$('#start_date').datepicker({
+			dateFormat : 'yy-mm-dd',
+			minDate : 7,
+			onClose : function() {
+				$('#end_date').datepicker({
+					dateFormat : 'yy-mm-dd',
+					minDate : new Date($('#start_date').val()),
+					maxDate : 38
+				})
+			}
+		});
+
+		$('#start_date').on('change', function() {
+			var endDate = $('#end_date').val();
+			if (endDate != '') {
+				$('#end_date').val('');
+			}
+		})
+
+		$("#price").on("keyup", function() {
+			var priceVal = $(this).val();
 			var regex = /^[0-9]*$/g;
-			if(!regex.test(priceVal)){
+			if (!regex.test(priceVal)) {
 				alert("시간당 가격을 입력해주세요. 숫자만 입력 가능합니다.");
 				$(this).val('');
 			}
-		}) 
+		})
 
 		var start_hourVal = $("#start_hour").val();
 		var end_hourVal = $("#end_hour").val();
-		
-		$("#max_num").on("keyup", function(){
+
+		$("#max_num").on("keyup", function() {
 			var maxVal = $(this).val();
 			var regex = /[5-9]{1}|[1-2]{1}[0-9]{1}|30/g;
-			if(!regex.test(maxVal)){
+			if (!regex.test(maxVal)) {
 				alert("최소 5명부터 최대 30명까지 입니다.");
 				$(this).val('');
 			}
 		})
-		
-		$("#frm").on("submit", function(){
+
+		$("#frm").on("submit", function() {
 			var titleVal = $("#title").val();
 			var summernoteVal = $("#summernote").val();
 			var priceVal = $("#price").val()
 			var apply_startVal = $("#apply_start").val();
 			var apply_endVal = $("#apply_end").val();
-			var start_dateVal= $("#start_date").val();
+			var start_dateVal = $("#start_date").val();
 			var end_dateVal = $("#end_date").val();
 			var max_numVal = $("#max_num").val();
 			var sidoVal = $("#sido1").val();
 			var gugunVal = $("#gugun1").val();
-			
-			if(titleVal.length==0){
+
+			if (titleVal.length == 0) {
 				alert("제목을 입력해주세요");
 				return false;
-			}else if(priceVal==0){
+			} else if (priceVal == 0) {
 				alert("가격을 입력해주세요");
 				return false;
-			}else if(apply_startVal.length==0){
+			} else if (apply_startVal.length == 0) {
 				alert("모집시작 기간을 선택해주세요");
 				return false;
-			}else if(apply_endVal.length==0){
+			} else if (apply_endVal.length == 0) {
 				alert("모집마감 기간을 선택해주세요");
 				return false;
-			}else if(start_dateVal.length==0){
+			} else if (start_dateVal.length == 0) {
 				alert("수업시작 기간을 선택해주세요");
 				return false;
-			}else if(end_dateVal.length==0){
+			} else if (end_dateVal.length == 0) {
 				alert("수업마감 기간을 선택해주세요");
 				return false;
-			}else if(max_numVal.length==0){
+			} else if (max_numVal.length == 0) {
 				alert("인원을 입력해주세요");
 				return false;
-			}else if(sidoVal=='시, 도 선택'){
+			} else if (sidoVal == '시, 도 선택') {
 				alert("시,도 를 선택해주세요.");
 				return false;
-			}else if(gugunVal=='구, 군 선택'){
+			} else if (gugunVal == '구, 군 선택') {
 				alert("구,군 을 선택해주세요.");
 				return false;
-			}else if(summernoteVal.length==0){
+			} else if (summernoteVal.length == 0) {
 				alert("내용을 입력해주세요");
 				return false;
 			}
 		})
 
-	    
 		$('#summernote').summernote({
 			height : 300,
 			lang : 'ko-KR',
@@ -94,7 +120,7 @@
 		});
 
 	});
-	
+
 	function uploadSummernoteImageFile(file, editor) {
 		data = new FormData();
 		data.append("file", file);
@@ -105,11 +131,11 @@
 			contentType : false,
 			processData : false,
 			success : function(data) {
-	        	//항상 업로드된 파일의 url이 있어야 한다.
+				//항상 업로드된 파일의 url이 있어야 한다.
 				$(editor).summernote('insertImage', data.url);
 			}
 		});
-	}	
+	}
 </script>
 
 <div id="subWrap" class="hdMargin">
@@ -138,8 +164,8 @@
 						<h4>가격</h4>
 					</div>
 					<div class="right">
-						<input type="text" id="price" name="price" placeholder="시간당 가격">
-						원 /시간
+						<input type="text" id="price" name="price" placeholder="총 가격">
+						원 
 					</div>
 				</div>
 
@@ -163,24 +189,31 @@
 					<div class="tit_s3">
 						<h4>모집 기간</h4>
 					</div>
-					<input type="text" id="apply_start" name="apply_start" size="12">
-					<label for="apply_start" class="calendar_icon"><i
-						class="fa fa-calendar" aria-hidden="true"></i></label> ~ 
+					<input type="text" id="apply_start" name="apply_start" size="12" readonly>
+					<label for="apply_start" class="calendar_icon">
+						<i class="fa fa-calendar" aria-hidden="true"></i>
+					</label> 
+					~ 
 					<input type="text" id="apply_end" name="apply_end" size="12"> 
-						<label for="apply_end" class="calendar_icon"><i
-						class="fa fa-calendar" aria-hidden="true"></i></label>
+					<label for="apply_end" class="calendar_icon">
+						<i class="fa fa-calendar" aria-hidden="true"></i>
+					</label>
 				</div>
 
 				<div class="lesson_date">
 					<div class="tit_s3">
 						<h4>수업 기간</h4>
+						<span class="notice">*수업기간은 한달씩만 가능합니다.</span>
 					</div>
 					<input type="text" id="start_date" name="start_date" size="12">
-					<label for="start_date" class="calendar_icon"><i
-						class="fa fa-calendar" aria-hidden="true"></i></label> ~ <input
-						type="text" id="end_date" name="end_date" size="12"> <label
-						for="end_date" class="calendar_icon"><i
-						class="fa fa-calendar" aria-hidden="true"></i></label>
+					<label for="start_date" class="calendar_icon">
+						<i class="fa fa-calendar" aria-hidden="true"></i>
+					</label>
+					 ~ 
+					<input type="text" id="end_date" name="end_date" size="12"> 
+					<label for="end_date" class="calendar_icon">
+						<i class="fa fa-calendar" aria-hidden="true"></i>
+					</label>
 				</div>
 
 				<div class="lesson_time">

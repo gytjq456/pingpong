@@ -47,6 +47,10 @@ public class ChatDAO {
 	
 	//채팅 내용 입력
 	public int chatTxtInsert(ChatRecordDTO chatDto) throws Exception{
+		System.out.println(chatDto.getRoomId());
+		System.out.println(chatDto.getSendUser());
+		System.out.println(chatDto.getChatRecord());
+		System.out.println(chatDto.getWriteDate());
 		return mybatis.insert("Chat.chatTxtInsert",chatDto);
 	}	
 }

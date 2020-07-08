@@ -1,5 +1,6 @@
 package kh.pingpong.admin;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -299,6 +300,97 @@ public class AdminService {
 		
 		adao.updateReportListPass((int)param.get("seq"));
 		return adao.updateReportCount(param.get("id").toString());
+	}
+	
+	// 체크박스로 여러 개 삭제
+	@Transactional("txManager")
+	public int deleteAll(Map<String, Object> param) {
+		String tableName = param.get("tableName").toString();
+		if (tableName.contentEquals("partner")) {
+			adao.deleteSelectedPartner(param);
+		} else if (tableName.contentEquals("tutee")) {
+			Object[] valueList = (Object[])param.get("valueList");
+			int val = 0;
+			for (int i = 0; i < valueList.length; i++) {
+				val = Integer.parseInt(valueList[i].toString());
+				val = adao.getLessonSeqByTutee(val);
+				adao.deleteTutee(val);
+			}
+		}
+		return adao.deleteAll(param);
+	}
+	
+	// 체크박스로 여러 튜터 삭제
+	public int deleteSelectedTutor(List<String> list) {
+		return adao.deleteSelectedTutor(list);
+	}
+	
+	// 체크박스로 여러 개 승인
+	@Transactional("txManager")
+	public int acceptAll(Map<String, Object> param) {
+		String tableName = param.get("tableName").toString();
+		List<String> seqList = (List<String>)param.get("valueList");
+		
+		if (tableName.contentEquals("reportlist")) {
+			Map<String, Object> report = new HashMap<>();
+			for (int i = 0; i < seqList.size(); i++) {
+				int seq = Integer.parseInt(seqList.get(i));
+				String id = adao.getIdFromReportList(seq);
+				adao.updateReportCount(id);
+				
+				String category = adao.getCategoryFromRep(seq);
+				
+				int parent_seq = adao.getParentSeqFromRep(seq);
+				
+				report.put("columnName", "seq");
+				report.put("columnValue", parent_seq);
+				
+				if (category.contentEquals("그룹")) {
+					report.put("tableName", "grouplist");
+					adao.deleteOne(report);
+				} else if (category.contentEquals("토론")) {
+					report.put("tableName", "discussion");
+					adao.deleteOne(report);
+				} else if (category.contentEquals("첨삭")) {
+					report.put("tableName", "correct");
+					adao.deleteOne(report);
+				}
+			}
+		} else if (tableName.contentEquals("tutor_app")) {
+			List<String> idList = new ArrayList<>();
+			for (int i = 0; i < seqList.size(); i++) {
+				String id = adao.getIdFromTutorApp(Integer.parseInt(seqList.get(i)));
+				idList.add(id);
+			}
+			param.put("idList", idList);
+			
+			adao.acceptAllTutorApp(param);
+		}
+		
+		return adao.acceptAll(param);
+	}
+	
+	// 여러 강의 삭제 승인
+	public int acceptDeleteLessons(List<Integer> list) {
+		Map<String, Object> param = new HashMap<>();
+		
+		param.put("columnName", "seq");
+		
+		for (int i = 0; i < list.size(); i++) {
+			param.put("tableName", "delete_app");
+			
+			int seq = list.get(i);
+			int parent_seq = adao.getParentSeqFromDel(seq);
+			param.put("columnValue", seq);
+			
+			adao.deleteOne(param);
+			
+			param.put("tableName", "lesson");
+			param.put("columnValue", parent_seq);
+			
+			adao.deleteOne(param);
+		}
+		return 0;
 	}
 	
 	// 페이징

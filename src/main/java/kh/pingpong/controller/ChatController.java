@@ -31,30 +31,26 @@ public class ChatController {
 	@ResponseBody
 	@RequestMapping(value="create", produces="application/text;charset=utf8")
 	public String create(ChatRoomDTO chatDto) throws Exception{
-		System.out.println("들어옴");
 		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
 		String usersIds = mdto.getId() +"," +chatDto.getChatMemberId();
 		String usersId = chatDto.getChatMemberId();
 		String usersNames = chatDto.getUsers() +","+mdto.getName();
 		String chatRoomId = chatService.chatRoomIdSch(mdto.getId(),usersId);
-		System.out.println("chatRoomId = " +chatRoomId);
 		
 		int result = 0;
 		if(chatRoomId == null) {
 			String roomId = chatService.rndTxt();
-			Configuration.room.add(roomId);
+			Configuration.room = roomId;
 			chatDto.setUsers(usersNames);
 			chatDto.setChatMemberId(usersIds);	
 			chatDto.setRoomId(roomId);
 			result = chatService.chatInsert(chatDto);
 		}else {
-			System.out.println("??? = " + Configuration.room.size());
-			
-			System.out.println("???2222 = " + Configuration.room.size());
+			Configuration.room = chatRoomId;
 		}
-		//List<ChatRecordDTO> chatRecord = chatService.chatRecordList(Configuration.room);
-		List<ChatRecordDTO> chatRecord = new ArrayList<>();
-		Configuration.chatRecord = chatRecord;
+		
+		List<ChatRecordDTO> chatRecord = chatService.chatRecordList(Configuration.room);
+		//Configuration.chatRecord = chatRecord;
 		if(chatRecord.size() == 0) {
 			return new Gson().toJson(Configuration.room);
 		}else {

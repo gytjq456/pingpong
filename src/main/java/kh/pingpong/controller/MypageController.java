@@ -27,18 +27,6 @@ public class MypageController {
 	@Autowired
 	private FileController fcon;
 	
-//	@Autowired
-//	private MemberService mservice;
-//	
-//	@Autowired
-//	private PartnerService pservice;
-//	
-//	@Autowired
-//	private GroupService gservice;
-//	
-//	@Autowired
-//	private TutorService tservice;
-	
 	@Autowired
 	private MyPageService mpservice;
 	
@@ -68,9 +56,9 @@ public class MypageController {
 	@RequestMapping("tutorRecord")
 	public String tutorRecord(Model model) throws Exception{
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
-		List<LessonDTO> trlist = mpservice.selectTutorList(loginInfo);
-		List<TuteeDTO> telist = mpservice.selectTuteeList(); 
-		model.addAttribute("trlist", trlist);
+		//List<LessonDTO> trlist = mpservice.selectTutorList(loginInfo);
+		List<LessonDTO> telist = mpservice.selectTuteeList(loginInfo); 
+		//model.addAttribute("trlist", trlist);
 		model.addAttribute("telist", telist);
 
 		return "/mypage/tutorRecord"; 

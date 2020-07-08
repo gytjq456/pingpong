@@ -78,16 +78,95 @@
 	})
 </script>
 <body>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>	
-	<br>
-	<br>
-	<br>
+	<div id="subWrap" class="hdMargin" style="padding-top: 155.924px;">
+		<section id=""></section>
+		<section id="subContents">
+			<article id="group_list" class="inner1200">
+				<div class="tit_s1">
+					<h2>Partner</h2>
+					<p>다양한 사람들을 원하시나요?<br>관심사가 비슷한 사람들과 함께 소통해 보세요.</p>
+				</div>
+				<div class="partner_search_box">
+					<div id="tabContWrap" class="search_wrap">
+						<article id="tab_1" class="kewordSch">
+							<div class="search_as_keyword">
+							<form action="/partner/partnerSearch" method="post" id="test">
+								<section class="defaultSch">
+									<div class="tit">검색어</div>
+									<div class="schCon ">
+										<input type="text" name="name" id="keyword_input" placeholder="파트너의 이름을 입력하세요.">
+									</div>
+								</section>
+								<section>
+									<div class="tit">유형</div>
+									<div class="schCon">
+										<ul class="checkBox_s1">
+											<li class="">
+												<select name="age" id="age" onchange="setSelectBox(this)">
+													<option value="" disabled selected >나이대</option>
+													<option value="1">10대</option>	
+													<option value="2">20대</option>	
+													<option value="3">30대</option>	
+													<option value="4">40대</option>	
+													<option value="5">50대</option>
+												</select>
+											</li>
+											<li class="">
+												<select name="gender" id="gender">
+													<option value="" disabled selected >성별</option>
+													<!-- <option value="전체">전체</option> -->
+													<option value="남자">남자</option>	
+													<option value="여자">여자</option>
+												</select>
+											</li>
+											<li>
+												<input type="hidden" id="address" name="address">
+												<select name="sido1" id="sido1"></select>
+											</li>
+											<li>
+												<select name="gugun1" id="gugun1"></select>
+											</li>
+											<li>
+												<select name="lang_can" id="lang_can">
+													<option value="" disabled selected >구사언어</option>
+													<c:forEach var="ldto" items="${ldto}">
+														<option value="${ldto.language}">${ldto.language}</option>
+													</c:forEach>
+												</select>
+											</li>
+											<li>
+												<select name="lang_learn" id="lang_learn">
+													<option value="" disabled selected >학습언어</option>
+													<c:forEach var="ldto" items="${ldto}">
+														<option value="${ldto.language}">${ldto.language}</option>
+													</c:forEach>	
+												</select>
+											</li>
+											<li>
+												<select name="hobby" id="hobby">
+													<option value="" disabled selected >취미</option>
+													<c:forEach var="hdto" items="${hdto}">
+														<option value="${hdto.hobby}">${hdto.hobby}</option>
+													</c:forEach>
+												</select>
+											</li>
+										</ul>
+									</div>
+								</section>
+							</div>
+							</form>
+						</article>
+					</div>
+				</div>
+				<div class="search_btn_style">
+					<div class="btnS1 right">
+						<select name="align" id="align">
+							<option value="recent" <c:if test="${alignType == 'recent'}">selected</c:if>>최신 순</option>
+							<option value="like" <c:if test="${alignType == 'like'}">selected</c:if>>인기 순</option>
+						</select>
+					</div>
+				</div>
+				
 	<div class="profileShareAgree">
 		<form action="/partner/insertPartner" id="partnerRegister" method="post">
 			<h2>파트너를 등록해주세요</h2>

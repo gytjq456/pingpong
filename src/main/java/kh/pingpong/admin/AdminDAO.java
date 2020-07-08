@@ -197,4 +197,59 @@ public class AdminDAO {
 	public int selectCount(Map<String, String> param) {
 		return mybatis.selectOne("Admin.selectCount", param);
 	}
+	
+	// 체크박스로 여러 개 삭제
+	public int deleteAll(Map<String, Object> param) {
+		return mybatis.delete("Admin.deleteAll", param);
+	}
+	
+	// 체크박스로 여러 튜터 삭제
+	public int deleteSelectedTutor(List<String> list) {
+		return mybatis.update("Admin.deleteSelectedTutor", list);
+	}
+	
+	// 체크박스로 여러 파트너 삭제
+	public int deleteSelectedPartner(Map<String, Object> param) {
+		return mybatis.update("Admin.deleteSelectedPartner", param);
+	}
+	
+	// 체크박스로 여러 튜티 삭제
+	public int getLessonSeqByTutee(int seq) {
+		return mybatis.selectOne("Admin.getLessonSeqByTutee", seq);
+	}
+	
+	// 체크박스로 여러 개 승인
+	public int acceptAll(Map<String, Object> param) {
+		return mybatis.update("Admin.acceptAll", param);
+	}
+	
+	// 튜터 신청 아이디 셀렉트
+	public String getIdFromTutorApp(int seq) {
+		return mybatis.selectOne("Admin.getIdFromTutorApp", seq);
+	}
+	
+	// 체크박스로 여러 튜터 신청 승인
+	public int acceptAllTutorApp(Map<String, Object> param) {
+		return mybatis.update("Admin.acceptAllTutorApp", param);
+	}
+	
+	// 신고 아이디 셀렉트
+	public String getIdFromReportList(int seq) {
+		return mybatis.selectOne("Admin.getIdFromReportList", seq);
+	}
+	
+	// 신고 카테고리 셀렉트
+	public String getCategoryFromRep(int seq) {
+		return mybatis.selectOne("Admin.getCategoryFromRep", seq);
+	}
+	
+	// 신고 부모 시퀀스 셀렉트
+	public int getParentSeqFromRep(int seq) {
+		return mybatis.selectOne("Admin.getParentSeqFromRep", seq);
+	}
+	
+	// 강의 삭제 부모 시퀀스 셀렉트
+	public int getParentSeqFromDel(int seq) {
+		return mybatis.selectOne("Admin.getParentSeqFromDel", seq);
+	}
 }

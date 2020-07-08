@@ -14,8 +14,9 @@
 			등록된 그룹이 없습니다.
 		</c:when>
 		<c:otherwise>
+			<input type="checkbox" id="selectAll"><br>
 			<c:forEach var="glist" items="${glist}">
-				<input type="checkbox" value="${glist.seq}">
+				<input type="checkbox" value="${glist.seq}" class="deleteCheck">
 				${glist.seq} : 
 				<a href="/admin/groupView?seq=${glist.seq}">${glist.title}</a>
 				 : ${glist.writer_id} : ${glist.writer_name} : 
@@ -23,7 +24,28 @@
 			</c:forEach>
 		</c:otherwise>
 	</c:choose>
+	<button id="deleteAll">삭제</button>
 	<div class="navi">${navi}</div>
 	<a href="/admin">관리자 메인</a>
+	<script>
+		$('#selectAll').on('change', function(){
+			if ($('#selectAll').is(':checked')) {
+				$('.deleteCheck').attr('checked', 'true');
+			} else {
+				$('.deleteCheck').removeAttr('checked');
+			}
+		})
+		
+		$('#deleteAll').on('click', function(){
+			var delCount = $('.deleteCheck:checked').length;
+			var delList = [];
+			
+			for (var i = 0; i < delCount; i++) {
+				delList[i] = $($('.deleteCheck:checked')[i]).val();
+			}
+			
+			location.href = '/admin/deleteAll?pageName=groupList&values=' + delList;
+		})
+	</script>
 </body>
 </html>

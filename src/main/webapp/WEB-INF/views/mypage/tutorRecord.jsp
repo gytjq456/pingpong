@@ -32,6 +32,8 @@
 										<td>추천수:${trlist.like_count}</td>
 										<td>리뷰수:${trlist.review_count}</td>
 										<td>평점:${trlist.review_point}</td>
+										
+										<a href="/payments/cancle?parent_seq=${ldto.seq }&start_date=${ldto.start_date }&price=${ldto.price }">test환불</a>
 										<input type="button" value="삭제" onclick="SomeDeleteRowFunction()">
 									</tr>
 								</table>

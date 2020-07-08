@@ -23,6 +23,7 @@
 					'<a href="/tutor/lessonView?seq=' + seq + '">')
 		})
 		
+		//orderBy 페이지 전환되도 안바뀌게
  		var orderBy = '${orderBy}';
 		console.log(orderBy);
 		if (orderBy != null) {
@@ -30,11 +31,21 @@
 		} else {
 			$('#orderBy').val(seq);
 		}
+		
+		//keywordSelect 페이지 전환되도 안바뀌게
+		var keywordSelect = '${keywordSelect}';
+		console.log(keywordSelect);
+		if(keywordSelect!=null){
+			$('#keywordSelect').val(keywordSelect);
+		}else{
+			$('#keywordSelect').val(name);
+		}
 			
 		$("#orderBy").on("change",function(){
 			var orderbyVal = $("#orderBy").val();
+			var selectVal = $("#keywordSelect").val();
 			
-			location.href="/tutor/lessonList?orderBy="+orderbyVal;
+			location.href="/tutor/lessonList?orderBy="+orderbyVal+"&keywordSelect="+selectVal;
 		})
 		
 		$(".ing").on("click", function(){
@@ -42,12 +53,13 @@
 			var orderbyVal = $("#orderBy").val();
 			console.log(orderbyVal);
 			var period = $(this).attr('id');
+			var selectVal = $("#keywordSelect").val();
 			
 			if(period == 'all'){
-				location.href="/tutor/lessonList?orderBy="+orderbyVal;
+				location.href="/tutor/lessonList?orderBy="+orderbyVal+"&keywordSelect="+selectVal;
 				return false;
 			}
-			location.href="/tutor/lessonListPeriod?orderBy="+orderbyVal+"&period="+period;
+			location.href="/tutor/lessonListPeriod?orderBy="+orderbyVal+"&period="+period+"&keywordSelect="+selectVal;;
 
 		})
 

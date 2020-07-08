@@ -88,79 +88,95 @@ public class PaymentsController {
 		return "redirect: /tutor/lessonView?seq="+parent_seq;
 	}
 	
-	@RequestMapping("cancleTest")
-	public String cancelTest(TuteeDTO ttdto, String start_date,Model model) throws Exception{
-		MemberDTO mdto = new MemberDTO();
+	@RequestMapping("cancle")
+	public String cancel(TuteeDTO ttdto, String start_date,Model model) throws Exception{
+		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
 		ttdto.setId(mdto.getId());
-//		String[] array = start_date.split("-");
-//		for(int i=0; i<array.length; i++) {
-//			System.out.println(array[i]);
-//		}
-//
-//		SimpleDateFormat form = new SimpleDateFormat("yyyy-MM-dd");
-//
-//		Date to = form.parse(start_date);
-//		System.out.println(to);
 		
 		model.addAttribute("start_date",start_date);
 		model.addAttribute("ttdto",ttdto);
-		return "/tutor/payRefund_test";
+		return "/tutor/payRefund";
 	}
 	
 	
 	@RequestMapping("refundPrice")
 	@ResponseBody
-	public String refundPrice(String start_date) throws Exception{
-		System.out.println(start_date);
-		
+	public int refundPrice(String start_date, int price) throws Exception{
 		SimpleDateFormat form = new SimpleDateFormat("yyyy-MM-dd");
-		Date date =null;
+		//start_date
+		Date sdate =null;
+		//현재날짜
+		Date todayDate = new Date();
 		
-		date = form.parse(start_date);
+		String today = form.format(todayDate);
 		
+		//start_date 날짜 형식으로 바꾸기 
+		sdate = form.parse(start_date);
+
 		Calendar cal1 = Calendar.getInstance();
-		cal1.setTime(date);
+		cal1.setTime(sdate);
 		cal1.add(Calendar.DATE, 10);
 		
 		Calendar cal2 = Calendar.getInstance();
-		cal2.setTime(date);
+		cal2.setTime(sdate);
 		cal2.add(Calendar.DATE, 15);
 		
-		//start_date
-		System.out.println(date);
-		//date 형식으로
-		//cal1 = start_date+10
-		//cal2 = start_date+15
-		System.out.println(cal1.getTime());
-		System.out.println(cal2.getTime());
+		//날짜 비교
+		int compareAll = todayDate.compareTo(sdate);	//오늘날짜 start_date 비교
+		int compareTen = todayDate.compareTo(cal1.getTime());	//오늘날짜 start_date+10 비교
+		int compareFifteen = todayDate.compareTo(cal2.getTime());	//오늘날짜 start_date+15 비교
 		
-		//string 형식으로 
-		String strDate1 = form.format(cal1.getTime());
-		String strDate2 = form.format(cal2.getTime());
+		//전액환불
+		if(compareAll<0) {
+			System.out.println("todayDate < sdate : 전액환불");
+			return price;
+			
+		}else if(compareAll>=0 && compareTen<0) {
+			System.out.println("todayDate < sdate+10 : 1일~10일 경과 -  2/3 환불");
+			return (price/3)*2;
+			
+		}else if(compareTen >= 0 && compareFifteen < 0 ){
+			System.out.println("todayDate < sdate+15 : 10일~15일 경과 -  1/2 환불");
+			return price/2;
+			
+		}else if(compareFifteen>0) {
+			System.out.println("todayDate > sdate+15 : 환불 X");
+			return 0;
+		}
 		
-		System.out.println(strDate1);
-		System.out.println(strDate2);
+		return price;
+
+//		//현재날짜
+//		System.out.println(todayDate);	//date 형식
+//		System.out.println(today);	//String 형식
+//		
+//		//date 형식으로 start_date
+//		System.out.println(sdate);
+//		//date 형식으로
+//		//cal1 = start_date+10
+//		//cal2 = start_date+15
+//		System.out.println(cal1.getTime());
+//		System.out.println(cal2.getTime());
+//		
+//		//string 형식으로 
+//		String strDate1 = form.format(cal1.getTime());
+//		String strDate2 = form.format(cal2.getTime());
+//		
+//		System.out.println(strDate1);
+//		System.out.println(strDate2); 
+
+	}
+	
+	@RequestMapping("refundInsert")
+	public String refundInsert(TuteeDTO ttdto, Model model) throws Exception{
+		tservice.refundInsert(ttdto);
 		
-		return start_date;
+		ttdto.getParent_seq();
+		model.addAttribute(ttdto);
+		return "/tutor/lessonView?seq="+ttdto.getParent_seq();
 	}
 	
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	@RequestMapping(value="cancle", produces="application/json; charset=utf8")
-	@ResponseBody
-	public String cancle(String merchant_uid) {
-
-		return new Gson().toJson(merchant_uid);
-	}
-
-
 }

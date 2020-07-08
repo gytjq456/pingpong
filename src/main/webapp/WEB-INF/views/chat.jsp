@@ -103,6 +103,7 @@
 				}
 				
 				$(document).on("click",".chatting",function(){
+					$(this).closest(".addMsg").removeClass("addMsg");
 					if(!$(this).closest("li").hasClass("on")){
 						alert("로그아웃된 파트너 입니다.")
 						return false;
@@ -157,7 +158,6 @@
 							}
 							updateScroll();
 						}
-						
 						var msg = {
 							chatRoom : chatRoom,
 							type:"register",
@@ -172,12 +172,12 @@
 				})
 				
 				ws.onmessage = function(e){
+					console.log("tttt ===" + e.data);
 					var msg = JSON.parse(e.data);
 					var time = new Date(msg.date);
 					var timeStr = time.toLocaleTimeString();
 					
 					
-					console.log(msg);
 					for(var i=0; i<msg.length; i++){
 						if(msg[i].type == "login"){
 							var chatList = $("#chatList .list ul li");
@@ -209,12 +209,18 @@
 					if(msg.type == "message"){
 						var userInfo_s1 = $("<div class='userInfo_s1 other'>");
 						userInfo_s1.append("<div class='thumb'><img src='/resources/img/sub/userThum.jpg'>")
-						userInfo_s1.append("<div class='info'><p class='userId'>"+msg.userName+"</p>")
+						userInfo_s1.append("<div class='info'><p class='userId'>2222"+msg.userName+"</p>")
 						userInfo_s1.append("<div class='chatTxt'><p>"+msg.text+"</p><span class='writeDate'>"+msg.date+"</span></div>")
 						$(".chatBox .txtRow").append(userInfo_s1);
-						var rightPos = $("#chatWrap #chatRoom").css("right");
-						alert(rightPos)
-						console.log("right  =" + rightPos);
+						var rightPos = $("#chatWrap #chatRoom").css("right").replace(/[^-\d\.]/g, '');
+						if(rightPos < 0){
+							$("#chatList .list ul li").each(function(){
+								var uid = $(this).find("button").data("uid")
+								if(uid == msg.userid){
+									$(this).addClass("addMsg");
+								}
+							})
+						}
 						updateScroll();
 					}
 					

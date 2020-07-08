@@ -255,7 +255,6 @@ $(function(){
 					</c:when>
 				</c:choose>
 			</div>
-<a href="/payments/cancle?parent_seq=${ldto.seq }&start_date=${ldto.start_date }&price=${ldto.price }">test환불</a>
 			<div class="view_top">
 				<div class="view_top_left">
 					<div class="profile">

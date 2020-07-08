@@ -109,6 +109,13 @@
 		select * from tutee where seq = #{value}
 	</select>
 	
+	<!-- 환불 신청 목록 -->
+	<select id="refundList" resultType="kh.pingpong.dto.TuteeDTO">
+		select * from
+		(select tutee.*, row_number() over(order by seq desc) rnum from tutee where cancle = 'Y')
+		where rnum between #{start} and #{end}
+	</select>
+	
 	<!-- 토론 게시글 목록 -->
 	<select id="discussionList" resultType="kh.pingpong.dto.DiscussionDTO">
 		select * from
@@ -271,5 +278,51 @@
 		<if test="columnName != null">
 			where ${columnName} = #{columnValue}
 		</if>
+	</select>
+	
+	<!-- 언어 조회 -->
+	<select id="selectFiveLang" resultType="kh.pingpong.dto.LanguageDTO">
+		select * from
+		(select language.*, row_number() over(order by lang_count desc) rnum from language)
+		where rnum between 1 and 5
+	</select>
+	
+	<!-- 지역 조회 -->
+	<select id="selectFiveLoc" resultType="kh.pingpong.dto.LocationDTO">
+		select * from
+		(select location.*, row_number() over(order by loc_count desc) rnum from location)
+		where rnum between 1 and 5
+	</select>
+	
+	<!-- 블랙리스트 추가 -->
+	<insert id="insertBlacklist">
+		insert into blacklist values(blacklist_seq.nextval, #{id}, #{name}, '신고', sysdate, sysdate + 3)
+	</insert>
+	
+	<!-- 블랙리스트 목록 -->
+	<select id="blacklistList" resultType="kh.pingpong.dto.BlacklistDTO">
+		select * from
+		(select blacklist.*, row_number() over(order by seq desc) rnum from blacklist)
+		where rnum between #{start} and #{end}
+	</select>
+	
+	<!-- 블랙리스트 뷰 -->
+	<select id="blacklistView" resultType="kh.pingpong.dto.BlacklistDTO">
+		select * from blacklist where seq = #{seq}
+	</select>
+	
+	<!-- 신고 횟수 셀렉트 -->
+	<select id="getReportCount" resultType="int">
+		select report_count from member where id = #{id}
+	</select>
+	
+	<!-- 블랙리스트 만료 -->
+	<delete id="doneBlacklist">
+		delete blacklist where to_char(end_date, 'yyyy-mm-dd') = #{today_date}
+	</delete>
+	
+	<!-- 로그인 시 블랙리스트 확인 -->
+	<select id="isBlacklist" resultType="Integer">
+		select seq from blacklist where id = #{id}
 	</select>
 </mapper>

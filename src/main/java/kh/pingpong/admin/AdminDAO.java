@@ -7,11 +7,14 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kh.pingpong.dto.BlacklistDTO;
 import kh.pingpong.dto.CorrectDTO;
 import kh.pingpong.dto.DeleteApplyDTO;
 import kh.pingpong.dto.DiscussionDTO;
 import kh.pingpong.dto.GroupDTO;
+import kh.pingpong.dto.LanguageDTO;
 import kh.pingpong.dto.LessonDTO;
+import kh.pingpong.dto.LocationDTO;
 import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.dto.PartnerDTO;
 import kh.pingpong.dto.ReportListDTO;
@@ -108,9 +111,14 @@ public class AdminDAO {
 		return mybatis.selectList("Admin.tuteeList", page);
 	}
 	
-	// 튜티 뷰
+	// 튜티 뷰, 환불 신청 뷰
 	public TuteeDTO tuteeView(int seq) {
 		return mybatis.selectOne("Admin.tuteeView", seq);
+	}
+	
+	// 환불 신청 목록
+	public List<TuteeDTO> refundList(Map<String, Integer> page) {
+		return mybatis.selectList("Admin.refundList", page);
 	}
 
 	// 토론 게시글 목록
@@ -251,5 +259,51 @@ public class AdminDAO {
 	// 강의 삭제 부모 시퀀스 셀렉트
 	public int getParentSeqFromDel(int seq) {
 		return mybatis.selectOne("Admin.getParentSeqFromDel", seq);
+	}
+	
+	// 언어 조회
+	public List<LanguageDTO> selectFiveLang() {
+		return mybatis.selectList("Admin.selectFiveLang");
+	}
+	
+	// 지역 조회
+	public List<LocationDTO> selectFiveLoc() {
+		return mybatis.selectList("Admin.selectFiveLoc");
+	}
+	
+	// 블랙리스트 추가
+	public int insertBlacklist(Map<String, Object> param) {
+		return mybatis.insert("Admin.insertBlacklist", param);
+	}
+	
+	// 블랙리스트 목록
+	public List<BlacklistDTO> blacklistList(Map<String, Integer> param) {
+		return mybatis.selectList("Admin.blacklistList", param);
+	}
+	
+	// 블랙리스트 뷰
+	public BlacklistDTO blacklistView(int seq) {
+		return mybatis.selectOne("Admin.blacklistView", seq);
+	}
+	
+	// 신고 횟수 셀렉트
+	public int getReportCount(String id) {
+		return mybatis.selectOne("Admin.getReportCount", id);
+	}
+	
+	// 블랙리스트 만료
+	public int doneBlacklist(String today_date) {
+		return mybatis.delete("Admin.doneBlacklist", today_date);
+	}
+	
+	// 로그인 시 블랙리스트 확인
+	public boolean isBlacklist(String id) {
+		boolean result = false;
+		
+		if (mybatis.selectOne("Admin.isBlacklist", id) != null) {
+			result = true;
+		}
+		
+		return result;
 	}
 }

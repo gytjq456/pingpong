@@ -41,7 +41,7 @@
 		<div id="chatClose"><button type="button"><i class="fa fa-times" aria-hidden="true"></i></button></div>
 	</section>
 	
-	<script>
+	<!-- <script>
 		$(function(){
 			var timeResult = "";
 			$.ajax({
@@ -261,4 +261,4 @@
 			var element = document.getElementById("chatBox");
 			element.scrollTop = element.scrollHeight;
 		}
-	</script>
+	</script> -->

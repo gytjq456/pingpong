@@ -48,10 +48,9 @@
 	</resultMap>
 
 	<select id="isIdPwSame" resultType="Integer">
-		select count(*) from member where id=#{id}  
-		<trim prefix="where" prefixOverrides ="and">
-			<if test="pw == null">and pw=#{pw}</if>
-		</trim>
+		select count(*) from member where id=#{id}
+		<if test="pw != null">and pw=#{pw}</if>
+
 	</select>
 	
 	<select id="loginInfo" resultMap="MemProfile">

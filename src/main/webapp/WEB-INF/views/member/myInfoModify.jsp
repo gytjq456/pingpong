@@ -64,7 +64,7 @@
 								<button type="button" class="modyBtn">수정</button>
 								<div class="show_input">
 									<select id="phone_country" name="phone_country" class="w20">
-										<option value="null" id="phone_countryNull">선택 안함</option>
+										<!-- <option value="null" id="phone_countryNull">선택 안함</option> -->
 										<option value="010">010</option>
 										<option value="011">011</option>
 										<option value="070">070</option>

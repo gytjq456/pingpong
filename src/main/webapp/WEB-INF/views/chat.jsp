@@ -212,6 +212,9 @@
 						userInfo_s1.append("<div class='info'><p class='userId'>"+msg.userName+"</p>")
 						userInfo_s1.append("<div class='chatTxt'><p>"+msg.text+"</p><span class='writeDate'>"+msg.date+"</span></div>")
 						$(".chatBox .txtRow").append(userInfo_s1);
+						var rightPos = $("#chatWrap #chatRoom").css("right");
+						alert(rightPos)
+						console.log("right  =" + rightPos);
 						updateScroll();
 					}
 					

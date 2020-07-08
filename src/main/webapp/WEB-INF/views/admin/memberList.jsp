@@ -14,8 +14,9 @@
 			등록된 회원이 없습니다.
 		</c:when>
 		<c:otherwise>
+			<input type="checkbox" id="selectAll"><br>
 			<c:forEach var="mlist" items="${mlist}">
-				<input type="checkbox" value="${mlist.id}">
+				<input type="checkbox" value="${mlist.id}" class="deleteCheck">
 				${mlist.mem_type} : 
 				<a href="/admin/memberView?id=${mlist.id}">${mlist.id}</a>
 				 : ${mlist.name} : ${mlist.age} : ${mlist.gender} : 
@@ -23,7 +24,28 @@
 			</c:forEach>
 		</c:otherwise>
 	</c:choose>
+	<button id="deleteAll">삭제</button>
 	<div class="navi">${navi}</div>
 	<a href="/admin">관리자 메인</a>
+	<script>
+		$('#selectAll').on('change', function(){
+			if ($('#selectAll').is(':checked')) {
+				$('.deleteCheck').attr('checked', 'true');
+			} else {
+				$('.deleteCheck').removeAttr('checked');
+			}
+		})
+		
+		$('#deleteAll').on('click', function(){
+			var delCount = $('.deleteCheck:checked').length;
+			var delList = [];
+			
+			for (var i = 0; i < delCount; i++) {
+				delList[i] = $($('.deleteCheck:checked')[i]).val();
+			}
+			
+			location.href = '/admin/deleteAll?pageName=memberList&values=' + delList;
+		})
+	</script>
 </body>
 </html>

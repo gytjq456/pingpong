@@ -68,12 +68,15 @@
 /*  파트너 / 튜터 목록 */
 #personList .userInfo_s1 > div { display:block; margin:0;}
 #personList .userInfo_s1 .thumb { width:120px; height:120px; margin:0 auto;}
-#personList .userInfo_s1 .info { margin-top:12px; }
-#personList .list ul { text-align:center;} 
-#personList .list ul li { float:left; width:25%; } 
+#personList .userInfo_s1 .info { margin-top:18px; }
+#personList .userInfo_s1 .info .txt { word-break:break-all; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; padding:0 30px; }
+#personList .list ul { text-align:center; font-size:0; letter-spacing:-4px; padding:0 80px;} 
+#personList .userInfo_s1 .info .userId { font-size:16px; font-weight:700; margin-top:10px;}
+#personList .list ul li { display:inline-block; vertical-align:top;  width:25%; letter-spacing:-0.5; font-size:14px; } 
 
-
-
+#personList .slick-prev { left: 20px; background: url(/resources/img/main/slide_prev_on.png) no-repeat center top; }
+#personList .slick-next { right: 20px; background: url(/resources/img/main/slide_next_on.png) no-repeat center top; }
+#personList .slick-arrow {  position: absolute; top: 50%; transform: translateY(-50%);  z-index: 10; width: 80px; height: 80px;  z-index: 10; border: none; text-indent: -9999px; background-size: 100% !important;}
 
 
 

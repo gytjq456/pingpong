@@ -48,10 +48,9 @@
 	</resultMap>
 
 	<select id="isIdPwSame" resultType="Integer">
-		select count(*) from member where id=#{id}  
-		<trim prefix="where" prefixOverrides ="and">
-			<if test="pw == null">and pw=#{pw}</if>
-		</trim>
+		select count(*) from member where id=#{id}
+		<if test="pw != null">and pw=#{pw}</if>
+
 	</select>
 	
 	<select id="loginInfo" resultMap="MemProfile">
@@ -155,6 +154,11 @@
 	<update id="updateLocCount">
 		update location set loc_count = loc_count + 1 where loc_name = #{loc_name}
 	</update>
+	
+	<!-- 파트너 / 튜터 목록 가져오기  -->
+	<select id="personList" resultType="kh.pingpong.dto.MemberDTO">
+		select * from member where grade = #{value}
+	</select>
 </mapper>
 
 

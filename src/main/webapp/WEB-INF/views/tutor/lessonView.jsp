@@ -34,6 +34,13 @@ $(function(){
 	
 	//같은사람이 결제하기 또 눌렀는지 확인
 	$("#pay").on("click", function(){
+		var max_numVal = ${ldto.max_num};
+		var cur_numVal = ${ldto.cur_num};
+		if(max_numVal == cur_numVal){
+			alert("수강인원이 다찼습니다.");
+			return false;
+		}
+		
 		var seq = ${seq};
 		$.ajax({
 			url:"/payments/payTrue",
@@ -42,11 +49,13 @@ $(function(){
 			},
 			type: "POST"
 		}).done(function(resp){
-			console(resp);
-			if(result>0){
+			console.log(resp);
+			if(resp>0){
 				alert("이미 결제한 강의 입니다.");
 				location.href="/tutor/lessonView?seq="+seq;
 				return false;
+			}else{
+				location.href="/payments/payMain?parent_seq=${ldto.seq }&title=${ldto.title}&price=${ldto.price}";
 			}
 		}).fail(function(error1, error2) {
 			console.log(error1);
@@ -246,7 +255,7 @@ $(function(){
 					</c:when>
 				</c:choose>
 			</div>
-
+<a href="/payments/cancleTest?parent_seq=${ldto.seq }&start_date=${ldto.start_date }&price=${ldto.price }">test환불</a>
 			<div class="view_top">
 				<div class="view_top_left">
 					<div class="profile">
@@ -271,7 +280,7 @@ $(function(){
 						수업시간 : ${ldto.start_hour }:${ldto.start_minute } ~ ${ldto.end_hour }:${ldto.end_minute }
 						최대인원 : ${ldto.max_num }
 						수업언어 : ${ldto.language }
-						가격 : ${ldto.price } 원 /시간
+						가격 : ${ldto.price } 원 /총 금액
 					</div>
 	
 				</div>
@@ -283,7 +292,7 @@ $(function(){
 					<li><a href="#;">강의문의</a></li>
 					<li><a href="#;">환불안내</a></li>
 					<li><a href="#;">리뷰</a></li>
-					<li><a href="/payments/payMain?parent_seq=${ldto.seq }&title=${ldto.title}&price=${ldto.price}" id="pay">결제하기</a></li>
+					<li id="pay"><a>결제하기</a></li>
 				</ul>
 			</div>
 			
@@ -305,7 +314,8 @@ $(function(){
 			
 			<div class="view_main">
 				<div class="curriculum">${ldto.curriculum }</div>
-				<div class="priceLocation">가격 ${ldto.price}원/시간 <br>위치 ${ldto.location}</div>
+				<div class="priceLocation">가격 ${ldto.price}원/시간 <br>위치 ${ldto.location} <br>
+				최대인원 &nbsp ${ldto.max_num } <br>현재인원 &nbsp ${ldto.cur_num } </div>
 			</div>
 			
 			<div class="tit_s3">

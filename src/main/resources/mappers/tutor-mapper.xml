@@ -4,7 +4,7 @@
 
 <!-- 튜티 insert -->
 <insert id="tuteeInsert">
-	insert into tutee values(tutee_seq.nextval, #{id}, #{name}, #{email}, #{phone_country}, #{phone}, #{bank_name}, #{price}, #{account}, #{sysname}, #{parent_seq})
+	insert into tutee values(tutee_seq.nextval, #{id}, #{name}, #{email}, #{phone_country}, #{phone}, #{bank_name}, #{price}, #{account}, #{sysname}, #{title},#{address}, default,#{parent_seq})
 </insert>
 
 <!-- 튜티 현재인원 늘리기 -->

@@ -10,37 +10,36 @@
 	
 	<!-- 그룹 멤버일 경우의 기록  -->
 	<select id="selectByIdInGroup_app" resultType="kh.pingpong.dto.GroupDTO">
-		select * from grouplist where seq = (select parent_seq from groupmember where id = #{id})
+		select * from grouplist where seq in (select parent_seq from groupmember where id = #{id})
 	</select>
 	
+	
+	<select id="tuteeList" resultType="kh.pingpong.dto.LessonDTO">
+		select * from lesson where seq in (select parent_seq from tutee where id=#{id})
+	</select>
 
-	<select id="tutorList" resultType="kh.pingpong.dto.LessonDTO">
-		select * from lesson where id = #{id}
-	</select>
+	<!-- <select id="tuteeList" resultType="kh.pingpong.dto.TuteeDTO">
+		select * from tutee where parent_seq in (select seq from lesson)
+	</select> -->
 	
-
-	<select id="tuteeList" resultType="kh.pingpong.dto.TuteeDTO">
-		select * from tutee
-	</select>
-	
-	<select id="partnerList" resultType="kh.pingpong.dto.PartnerDTO">
+	<!-- <select id="partnerList" resultType="kh.pingpong.dto.PartnerDTO">
 		select * from partner 
-	</select>
+	</select> -->
 	
 	<select id="likeList" resultType="kh.pingpong.dto.LikeListDTO">
 		select * from jjim 
 	</select>
 	
 	<select id="partnerJjim" resultType="kh.pingpong.dto.PartnerDTO">
-		select * from partner where seq in (select parent_seq from jjim where category = '파트너')
+		select * from partner where seq in (select parent_seq from jjim where category = '파트너' and id=#{id})
 	</select>
 	
 	<select id="groupJjim" resultType="kh.pingpong.dto.GroupDTO">
-		select * from grouplist where seq in (select parent_seq from jjim where category = '그룹')
+		select * from grouplist where seq in (select parent_seq from jjim where category = '그룹' and id=#{id})
 	</select>
 	
 	<select id="tutorJjim" resultType="kh.pingpong.dto.LessonDTO">
-		select * from lesson where seq in (select parent_seq from jjim where category = '강의')
+		select * from lesson where seq in (select parent_seq from jjim where category = '강의' and id=#{id})
 	</select>
 	
 </mapper>

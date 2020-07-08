@@ -586,5 +586,17 @@ public class MemberController {
 
 		return "redirect:/member/memberComplete";
 	}
+	
+	
+	
+	
+	// 파트너 / 튜터 목록 가져오기 //
+	@ResponseBody
+	@RequestMapping("personList")
+	public List<MemberDTO> personList(String type) throws Exception{
+		List<MemberDTO> personList = mservice.personList(type);
+		return personList;
+	}
+	
 
 }

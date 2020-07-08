@@ -24,15 +24,26 @@
 	</div>
 	
 	<div id="mainCont">
-		<section>
+		<section id="personList">
 			<div class="inner1200">
 				<div class="tit_main">
-					<h3>Partner & Tuttor</h3>
+					<h3>Partner & Tutor</h3>
+					<p>PINGPONG과 함께 하는 Partner와 Tutor를 소개합니다</p>
 				</div>
-				<div class="personList">
+				<div id="tab_s3">
 					<ul>
-						<li></li>
+						<li class="on" data-type="partner"><button>Partner</button></li>
+						<li data-type="tutor"><button>Tutor</button></li>
 					</ul>
+				</div>
+				<div class="listWrap">
+					<section id="partnerList">
+						<div class="list">
+							<ul class="clearfix">
+							
+							</ul>
+						</div>
+					</section>
 				</div>
 			</div>
 		</section>

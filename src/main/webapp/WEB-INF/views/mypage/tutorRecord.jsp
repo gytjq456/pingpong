@@ -4,51 +4,17 @@
 
 <jsp:include page="/WEB-INF/views/header.jsp"/>
 	
-	<script>
-	
-	</script>
-	
 	<br><br><br><br><br><br><br><br><br><br><br><br><br>
 	
 	<article id="management">
-		<h2>튜터/튜티관리</h2>
-		<section class="tutorRecord">
-			<div class="subContents">
-				<div class="session">		
-					<h4>튜터인 경우</h4>
-					<c:choose>
-						<c:when test="${empty trlist }">
-							튜터로서의 기록이 존재하지 않습니다.
-						</c:when>
-						<c:otherwise>						
-							<c:forEach var="trlist" items="${trlist}">	
-								<table>
-									<tr>
-										<td>강의번호:${trlist.seq}</td>
-										<td><a href="#;">강의명:${trlist.curriculum}</a></td>
-										<td>언어:${trlist.language}</td>
-										<td>강의 기간:${trlist_start_date}~${trlist.end_date}</td>
-										<td>인원(현재인원/최대인원):${trlist.cur_num}/${trlist.max_num}</td>
-										<td>만남장소:${trlist.location}</td>
-										<td>추천수:${trlist.like_count}</td>
-										<td>리뷰수:${trlist.review_count}</td>
-										<td>평점:${trlist.review_point}</td>
-									</tr>
-								</table>
-							</c:forEach>
-						</c:otherwise>
-					</c:choose>
-				</div>
-			</div>
-		</section>
-		
+		<h2>나의 강의목록</h2>
 		<section class="tuteeRecord">
 			<div class="subContents">
 				<div class="session">		
-					<h4>튜티</h4>
+					<h4>강의목록</h4>
 					<c:choose>
 						<c:when test="${empty telist}">
-							튜티로서의 기록이 존재하지 않습니다.
+							등록된 강의기록이 없습니다.
 						</c:when>
 						<c:otherwise>
 						
@@ -56,17 +22,20 @@
 								<table>
 									<tr>
 										<td>강의번호:${telist.seq}</td>
-										<td><a href="#;">강의명:없음</a></td>
-										<td><a href="#;">튜터명:튜티명은 tuteeApp참조</a></td>
-										<td>언어:${trlist.lang_can}</td>
-										<td>강의 기간:없음</td>
-										<td>최대인원(현재인원/최대인원):${trlist.cur_num}/${trlist.max_num}</td>
-										<td>만남장소:없음</td>
+										<td><a href="#;">${telist.title}</a></td>
+										<td><a href="#;">튜터명:${telist.name}</a></td>
+										<td>언어:${telist.language}</td>
+										<td>커리큘럼:${telist.curriculum}</td>
+										<td>강의 기간:${telist.start_date}~${telist.end_date}</td>
+										<td>최대인원(현재인원/최대인원):${telist.cur_num}/${telist.max_num}</td>
+										<td>만남장소:${telist.location}</td>
 										<td>추천수:${trlist.like_count}</td>
 										<td>리뷰수:${trlist.review_count}</td>
 										<td>평점:${trlist.review_point}</td>
+										<input type="button" value="삭제" onclick="SomeDeleteRowFunction()">
 									</tr>
 								</table>
+								
 							</c:forEach>
 						</c:otherwise>
 					</c:choose>
@@ -74,6 +43,12 @@
 			</div>
 		</section>
 	</article>
-	
+	<script>
+		function SomeDeleteRowFunction(){
+			$('table').on("click",'input[type=button]',function(e){
+				$(this).closest('tr').remove()
+			})
+		}
+	</script>
 	
 <jsp:include page="/WEB-INF/views/footer.jsp"/>

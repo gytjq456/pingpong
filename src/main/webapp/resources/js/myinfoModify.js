@@ -68,20 +68,21 @@ $(function() {
 		var phone = $('#phone');
 
 		// 전화번호 (앞자리)
+		/*
 		if (phone_country == 'null') {
 			alert("전화번호 앞자리를 입력해주세요.");
 			$('#phone_country').focus();
 			return false;
-		}
+		}*/
 
 		// 전화번호 (뒷자리)
-		var regexPhone = /^(\d){4,15}$/g;
+		var regexPhone = /^[^010 070 011 a-z A-Z 가-힣 ㄱ-ㅎ ! @ # $ %](\d){7}$/gm;
 		var result_phone = regexPhone.test(phone.val());
-		if (!result_phone) {
-			alert("전화번호 : 숫자이며 4~15글자입니다.");
+		if(!result_phone){
+			alert("전화번호 : 숫자이며 8글자입니다. 010 / 011 / 070 빼주세요.");
 			phone.focus();
 			return false;
-		}
+		}	
 
 		// 값이 비워있을 때
 		if (phone_country == "" || phone.val() == "") {
@@ -220,7 +221,6 @@ $(function() {
 			processData : false
 			
 		}).done(function(resp) {
-			alert("왜안되는가?");
 			if (resp > 0) {
 				alert("프로필사진 수정이 완료되었습니다.");
 				location.reload();
@@ -230,6 +230,7 @@ $(function() {
 		}).fail(function(error1, error2) {
 			alert("관리자에게 문의주세요.")
 		});
+		
 		return false;
 	});
 	

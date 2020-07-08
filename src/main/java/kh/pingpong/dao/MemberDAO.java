@@ -172,6 +172,11 @@ public class MemberDAO {
 	public int updateLocCount(String loc_name) throws Exception {
 		return mybatis.update("Member.updateLocCount", loc_name);
 	}
+	
+	/* 파트너 */
+	public List<MemberDTO> personList(String type) throws Exception{
+		return mybatis.selectList("Member.personList",type);
+	}
 }
 
 

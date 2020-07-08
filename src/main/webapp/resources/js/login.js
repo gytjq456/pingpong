@@ -83,6 +83,43 @@ $(function() {
 			alert("관리자에게 문의주세요.")
 		});
 	});
+	
+	//pw에서 enter쳤을때 로그인버튼으로 넘어가기
+	$("#pw").on("keydown", function(e) {
+		if (e.keyCode == 13) {
+			var id = $("#id").val();
+			var pw = $("#pw").val();
+
+			if (id == "") {
+				alert("id를 입력해주세요.");
+				$("#id").focus();
+				return false;
+			} else if (pw == "") {
+				alert("pw를 입력해주세요.");
+				$("#pw").focus();
+				return false;
+			}
+			
+			$.ajax({
+				type : "post",
+				url : "/member/isIdPwSame",
+				data : {
+					id : $('#id').val(),
+					pw : $('#pw').val()
+				}
+			}).done(function(resp) {
+				if (resp == 'true') {
+					alert("로그인이 되었습니다.");
+					location.href = "/";
+				} else {
+					alert("로그인에 실패하였습니다.");
+					$("#pw").val("");
+				}
+			}).fail(function(error1, error2) {
+				alert("관리자에게 문의주세요.")
+			});
+		}
+	});
 
 	//id찾기
 	$("#idFind").on('click', function() {

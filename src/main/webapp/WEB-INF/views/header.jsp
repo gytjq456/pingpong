@@ -40,7 +40,7 @@
 		 							<a href="#;">MyPage</a>
 									<ul class="depth2">
 										<li><a href="/member/myInfo">나의 정보수정</a></li>
-										<li><a href="/mypage/tutorRecord">나의 튜터 목록</a></li>
+										<li><a href="/mypage/tutorRecord">나의 강의목록</a></li>
 										<li><a href="/mypage/groupRecord">모임기록</a></li>
 										<li><a href="/mypage/likeRecord">찜목록</a></li>
 									</ul>
@@ -84,7 +84,7 @@
 								<ul class="depth2">
 									<li><a href="/discussion/list?cpage=1">토론</a></li>
 									<li><a href="/correct/correct_list">질문</a></li>
-									<li><a href="#;">소식</a></li>
+									<li><a href="/news/list">소식</a></li>
 								</ul>
 							</li>												
 							<li>

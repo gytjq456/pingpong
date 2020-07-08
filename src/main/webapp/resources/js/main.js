@@ -20,5 +20,35 @@ $(function () {
         focusOnSelect: false,
         pauseOnHover: false
     });
+    
+    var chatList = $("#partnerList");
+    personList("partner");
+    $("#tab_s3 li").click(function(){
+    	chatList.find(".list ul").html("");
+    	var data = $(this).data("type");
+    	personList(data);
+    })
+    function personList(type){
+    	$.ajax({
+    		url:"/member/personList",
+    		type:"post",
+    		dataType:"json",
+    		data:{
+    			type:type
+    		}
+    	}).done(function(resp){
+    		console.log(resp);
+    		
+    		for(var i=0; i<resp.length; i++){
+    			var userTag = $("<li>");
+    			var userInfo_s1 = $("<div class='userInfo_s1'>");
+    			var info = $("<div class='info'>"); 
+    			userInfo_s1.append("<div class='thumb'><img src='/resources/img/sub/userThum.jpg'>")
+    			userInfo_s1.append("<div class='info'><p class='userId'>"+resp[i].name+"("+resp[i].age+"세)</p><p class='txt'>"+resp[i].introduce+"</p>")
+    			userTag.append(userInfo_s1)    		
+    			chatList.find(".list ul").append(userTag);
+    		};
+    	})
+    }
 
 })

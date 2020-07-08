@@ -142,6 +142,13 @@
 		update member set age = age+1
 	</update>
 	
+	
+	
+	<!-- 파트너 / 튜터 목록 가져오기  -->
+	<select id="personList" resultType="kh.pingpong.dto.MemberDTO">
+		select * from member where grade = #{value}
+	</select>
+	
 </mapper>
 
 

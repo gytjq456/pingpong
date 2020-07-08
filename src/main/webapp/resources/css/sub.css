@@ -66,6 +66,10 @@ input:read-only {background-color: #e4e4e4;color:#a9a9a9;}
 /* 그룹 게시판 리스트 */
 .card_body:after { content:""; display:block; clear:both; }
 .back_and_wrap { position: relative; width: 23.5%; float:left;  margin-right:2%; margin-top: 35px; }
+.back_and_wrap:first-child,
+.back_and_wrap:nth-child(2),
+.back_and_wrap:nth-child(3),
+.back_and_wrap:nth-child(4) { margin-top: 0; }
 .back_and_wrap:nth-child(4n) { margin-right:0;}
 .group_background { height: 88px; border-radius: 20px 20px 0 0; }
 .group_each_wrapper { position: relative; border: 1px solid #ddd; border-top: none; border-radius: 0 0 20px 20px; padding: 20px; overflow: hidden; }
@@ -143,7 +147,7 @@ width:-webkit-calc(100% - 88px);
 .checkBox_s1 li { position:relative; display:inline-block; vertical-align:middle; margin-right: 12px;}
 
 .radio_s1 li,
-.checkBox_s1 li input[type="text"] { vertical-align:middle; margin-left:4px;}
+.checkBox_s1 li input[type="text"] { vertical-align:middle; }
 
 .radio_s1 li input[type="radio"],
 .checkBox_s1 li input[type="checkbox"] { position:absolute; left:-9999px; }
@@ -171,9 +175,9 @@ width:-webkit-calc(100% - 88px);
 #group_view .group_title_wrapper { overflow: hidden; padding:60px; margin-bottom:40px;}
 #group_view #writer_info { width:200px; position:relative; margin-right:60px; }
 #group_view #group_base { /* width: 62%; margin-left: 3%; */ 
-	width:calc(100% - 220px);
-	width:-moz-calc(100% - 220px);
-	width:-webkit-calc(100% - 220px);
+	width:calc(100% - 260px);
+	width:-moz-calc(100% - 260px);
+	width:-webkit-calc(100% - 260px);
 }
 #group_view #writer_profile { width: 200px; height: 200px; border-radius: 50%; text-align: center; line-height: 300px; position: relative; top: 50%; left: 50%; transform: translate(-50%, 0); overflow: hidden; }
 #group_view #writer_name_id { position: relative; left: 50%; transform: translate(-50%, 0); display: inline-block; margin-top: 20px; }

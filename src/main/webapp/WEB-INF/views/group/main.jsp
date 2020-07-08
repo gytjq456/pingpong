@@ -41,7 +41,7 @@
 												<input type="checkbox" name="hobby" class="hobby_list" id="${hbdto.seq}" value="${hbdto.hobby}">
 												<label for="${hbdto.seq}"><span></span>${hbdto.hobby}</label>
 												<c:if test="${hbdto.hobby == '기타'}">
-													<input type="text" id="selected_hobby" name="hobby_type">
+													<input type="hidden" id="selected_hobby" name="hobby_type">
 												</c:if>
 										</c:forEach>
 										</ul>

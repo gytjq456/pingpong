@@ -80,7 +80,6 @@ public class PartnerController {
 		props.put("mail.smtp.port", 587);
 		props.put("mail.smtp.auth", "true");
 		//props.put("mail.smtp.ssl.enable", "true");
-		System.out.println("1");
 
 		 //session 생성
         Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
@@ -89,22 +88,20 @@ public class PartnerController {
            }
         });
 
-		System.out.println("2");
+		String charset = "UTF-8";
+		
 		//email 전송
-		//System.out.println("to_email:"+to_email);
 		try {
 			MimeMessage msg = new MimeMessage(session);
             msg.setFrom(new InternetAddress(user));
             msg.addRecipient(Message.RecipientType.TO, new InternetAddress(to_email));
-
-			System.out.println("msg2 = "+ msg);
-			System.out.println("contents : " + contents);
-			msg.setContent(contents,"text/plain");
+			
 			//메일 제목
-			msg.setSubject(user + "님이 보낸 메일입니다."); 
+			msg.setSubject(user + "님이 보낸 메일입니다.",charset); 
 			
 			//메일 내용
-			//msg.setText("인증번호는 :");
+			msg.setText(contents,charset);
+			
 			Transport.send(msg);
 			System.out.println("메시지를 성공적으로 보냈습니다.");   
 			return !result;
@@ -124,6 +121,7 @@ public class PartnerController {
 	 * pdto); System.out.println("in selectPartnerEmail"); System.out.println(pdto);
 	 * System.out.println(loginInfo.getEmail()); return "email/write"; }
 	 */
+	
 	//이메일 보내기
 	@ResponseBody
 	@RequestMapping("send")

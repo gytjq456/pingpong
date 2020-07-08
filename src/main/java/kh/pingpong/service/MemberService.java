@@ -142,6 +142,11 @@ public class MemberService {
 		return mdao.myInfoIntroduce(mdto);
 	}
 		
+	
+	//파트너 / 튜터 목록 가져오기 /
+	public List<MemberDTO> personList(String type) throws Exception{
+		return mdao.personList(type);
+	}
 }
 
 

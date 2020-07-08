@@ -16,17 +16,6 @@ import kh.pingpong.dto.TuteeDTO;
 
 @Service
 public class MyPageService {
-//	@Autowired
-//	private MemberDAO mdao;
-//	
-//	@Autowired
-//	private PartnerDAO pdao;
-//	
-//	@Autowired
-//	private TutorDAO tdao;
-//	
-//	@Autowired
-//	private GroupDAO gdao;
 	
 	@Autowired
 	private MyPageDAO mpdao;
@@ -46,12 +35,12 @@ public class MyPageService {
 	
 
 	//튜터 / 튜티 관련
-	public List<LessonDTO> selectTutorList(MemberDTO loginInfo){
-		return mpdao.selectTutorList(loginInfo);
-	}
+//	public List<LessonDTO> selectTutorList(MemberDTO loginInfo){
+//		return mpdao.selectTutorList(loginInfo);
+//	}
 
-	public List<TuteeDTO> selectTuteeList(){
-		return mpdao.selectTuteeList();
+	public List<LessonDTO> selectTuteeList(MemberDTO loginInfo){
+		return mpdao.selectTuteeList(loginInfo);
 	}
 	//파트너 관련
 	public List<PartnerDTO> selectPartnerList(){

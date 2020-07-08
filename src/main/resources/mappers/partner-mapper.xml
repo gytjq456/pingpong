@@ -11,7 +11,7 @@
 	
 	<!-- 파트너 상세 검색 -->
 	<select id="search" resultType="kh.pingpong.dto.PartnerDTO">
-		select * from (select partner.*,row_number() over(order by <!-- {orderBy} desc, --> seq desc) rnum from partner 
+		select * from (select partner.*,row_number() over(order by seq desc) rnum from partner 
 		<trim prefix="where" prefixOverrides="and|or">
 			<if test="pdto.gender != null">
 				gender = #{pdto.gender}

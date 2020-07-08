@@ -1,6 +1,6 @@
 package kh.pingpong.controller;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -32,11 +32,16 @@ public class ChatController {
 	@RequestMapping(value="create", produces="application/text;charset=utf8")
 	public String create(ChatRoomDTO chatDto) throws Exception{
 		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
-		String usersIds = mdto.getId() +"," +chatDto.getChatMemberId();
+		String[] usersIdArray = {mdto.getId(),chatDto.getChatMemberId()};
+		Arrays.sort(usersIdArray);
+		//String usersIds = mdto.getId() +"," +chatDto.getChatMemberId();
+		String usersIds = usersIdArray[0]+","+usersIdArray[1];
 		String usersId = chatDto.getChatMemberId();
 		String usersNames = chatDto.getUsers() +","+mdto.getName();
-		String chatRoomId = chatService.chatRoomIdSch(mdto.getId(),usersId);
+		System.out.println(Arrays.toString(usersIdArray));
 		
+		String chatRoomId = chatService.chatRoomIdSch(usersIdArray[0],usersIdArray[1]);
+		System.out.println("==== 방 ===" + chatRoomId);
 		int result = 0;
 		if(chatRoomId == null) {
 			String roomId = chatService.rndTxt();

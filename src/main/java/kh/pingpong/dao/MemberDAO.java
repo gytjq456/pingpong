@@ -163,6 +163,13 @@ public class MemberDAO {
 		return mybatis.update("Member.scheduleAgeUp");
 	}
 	
+	
+	
+	/* 파트너 */
+	public List<MemberDTO> personList(String type) throws Exception{
+		return mybatis.selectList("Member.personList",type);
+	}
+	
 }
 
 

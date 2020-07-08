@@ -40,11 +40,12 @@ public class WebChat {
 	
 	private static Set<String> loginList = new HashSet<String>();
 	
+	private static Map<Session,String> test = Collections.synchronizedMap(new HashMap<>());
+	
 	// 세션값
 	private HttpSession session;
 	// 로그인 정보,들어온 방의 번호 : 세션값을 통해 가져옴
 	private MemberDTO mdto;
-
 	@OnOpen
 	public void onConnect(Session client, EndpointConfig config) throws Exception{
 		System.out.println(client.getId() + "님이 접속했습니다.");
@@ -72,6 +73,7 @@ public class WebChat {
 		System.out.println("message = " + message);
 		if(type.contentEquals("login")) {
 			loginList.add(message);
+			test.put(session,message);
 			System.out.println(loginList);
 			synchronized (loginClients) {
 				for(Session client : loginClients) {
@@ -117,9 +119,9 @@ public class WebChat {
 					if(!client.getId().contentEquals(session.getId())) {					
 						Basic basic = client.getBasicRemote();					
 						basic.sendText(message);						
-						chatService.chatTxtInsert(message);
 					}
 				}		
+				chatService.chatTxtInsert(message);
 			}
 		}
 	}
@@ -132,13 +134,24 @@ public class WebChat {
 		jo1.put("userid", mdto.getId());
 
 		synchronized (loginClients) {
-			for(Session client : loginClients) {				
+			for(Session client : loginClients) {
 				Basic basic = client.getBasicRemote();
 				try {
 					basic.sendText(jo1.toJSONString());						
 				} catch (Exception e) {
 				}
 			}
+		}
+		
+		try {
+			for(String st : loginList) {
+				if(test.get(session).contentEquals(st)) {
+					test.remove(session);
+					loginList.remove(st);
+				}
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
 		}
 		
 		System.out.println("종료");

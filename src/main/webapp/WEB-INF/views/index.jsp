@@ -39,9 +39,6 @@
 				<div class="listWrap">
 					<section id="partnerList">
 						<div class="list">
-							<ul class="clearfix">
-							
-							</ul>
 						</div>
 					</section>
 				</div>

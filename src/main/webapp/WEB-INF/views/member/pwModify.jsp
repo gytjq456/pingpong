@@ -6,14 +6,24 @@
 <script>
 	$(function(){
 		//비밀번호 일치
+		$("#pw").on("keyup",function(){
+			var pwResult1 = $("#pw").val();
+			var pwResult2 = $("#pw_ck").val();
+			if(pwResult1 == pwResult2){
+				$("#pwConfrom").text("비밀번호가 일치합니다.");
+			}else{
+				$("#pwConfrom").text("비밀번호 일치 하지 않습니다.");
+			}
+		});
+		
+		//비밀번호 일치
 		$("#pw_ck").on("keyup",function(){
 			var pwResult1 = $("#pw").val();
 			var pwResult2 = $("#pw_ck").val();
 			if(pwResult1 == pwResult2){
-				$("#pwConfrom").text("비밀번호가 일치합니다.");				
+				$("#pwConfrom").text("비밀번호가 일치합니다.");
 			}else{
 				$("#pwConfrom").text("비밀번호 일치 하지 않습니다.");
-				return false
 			}
 		});
 		

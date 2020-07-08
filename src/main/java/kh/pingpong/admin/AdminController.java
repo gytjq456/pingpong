@@ -1,5 +1,6 @@
 package kh.pingpong.admin;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -158,7 +159,7 @@ public class AdminController {
 		param.put("tableName", "member");
 		param.put("pageName", "tutorList");
 		param.put("columnName", "grade");
-		param.put("columnValue", "N");
+		param.put("columnValue", "tutor");
 		
 		String navi = aservice.getPageNav(cpage, param);
 		
@@ -534,5 +535,106 @@ public class AdminController {
 		}
 		
 		return "redirect:/admin/" + pageName;
+	}
+	
+	// 체크박스로 여러 개 삭제
+	@RequestMapping("/deleteAll")
+	public String deleteAll(String values, String pageName) {
+		Map<String, Object> param = new HashMap<>();
+		String[] valueList = values.split(",");
+
+		param.put("valueList", valueList);
+		
+		if (pageName.contentEquals("correctList")) {
+			param.put("tableName", "correct");
+		} else if (pageName.contentEquals("discussionList")) {
+			param.put("tableName", "discussion");
+		} else if (pageName.contentEquals("groupList")) {
+			param.put("tableName", "grouplist");
+		} else if (pageName.contentEquals("lessonAppList")) {
+			param.put("tableName", "lesson");
+		} else if (pageName.contentEquals("lessonDelList")) {
+			param.put("tableName", "delete_app");
+		} else if (pageName.contentEquals("lessonList")) {
+			param.put("tableName", "lesson");
+		} else if (pageName.contentEquals("memberList")) {
+			param.put("tableName", "member");
+		} else if (pageName.contentEquals("partnerList")) {
+			param.put("tableName", "partner");
+		} else if (pageName.contentEquals("reportList")) {
+			param.put("tableName", "reportlist");
+		} else if (pageName.contentEquals("tuteeList")) {
+			param.put("tableName", "tutee");
+		} else if (pageName.contentEquals("tutorAppList")) {
+			param.put("tableName", "tutor_app");
+		} else if (pageName.contentEquals("tutorList")) {
+			param.put("tableName", "member");
+		}
+		
+		if (pageName.contentEquals("memberList") || pageName.contentEquals("tutorList")) {
+			param.put("columnName", "id");
+		} else {
+			param.put("columnName", "seq");
+		}
+		
+		aservice.deleteAll(param);
+		
+		return "redirect:/admin/" + pageName;
+	}
+	
+	// 체크박스로 여러 튜터 삭제
+	@RequestMapping("/deleteSelectedTutor")
+	public String deleteSelectedTutor(String ids) {
+		String[] idList = ids.split(",");
+		List<String> list = new ArrayList<>();
+		
+		for (int i = 0; i < idList.length; i++) {
+			list.add(idList[i]);
+		}
+		
+		aservice.deleteSelectedTutor(list);
+		
+		return "redirect:/admin/tutorList";
+	}
+	
+	// 체크박스로 여러 개 승인
+	@RequestMapping("/acceptAll")
+	public String acceptAll(String values, String pageName) {
+		String[] seqList = values.split(",");
+		List<String> list = new ArrayList<>();
+		Map<String, Object> param = new HashMap<>();
+		
+		for (int i = 0; i < seqList.length; i++) {
+			list.add(seqList[i]);
+		}
+		
+		if (pageName.contentEquals("lessonAppList")) {
+			param.put("tableName", "lesson");
+		} else if (pageName.contentEquals("reportList")) {
+			param.put("tableName", "reportlist");
+		} else if (pageName.contentEquals("tutorAppList")) {
+			param.put("tableName", "tutor_app");
+		}
+		
+		param.put("valueList", list);
+		
+		aservice.acceptAll(param);
+		
+		return "redirect:/admin/" + pageName;
+	}
+	
+	// 체크박스로 여러 강의 삭제 승인
+	@RequestMapping("/acceptDeleteLessons")
+	public String acceptDeleteLessons(String values) {
+		String[] seqList = values.split(",");
+		List<Integer> list = new ArrayList<>();
+		
+		for (int i = 0; i < seqList.length; i++) {
+			list.add(Integer.parseInt(seqList[i]));
+		}
+		
+		aservice.acceptDeleteLessons(list);
+		
+		return "redirect:/admin/lessonDelList";
 	}
 }

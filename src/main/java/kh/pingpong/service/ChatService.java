@@ -78,10 +78,11 @@ public class ChatService {
 		JSONObject jsonObj = (JSONObject) obj;		
 		String chatRoom = (String) jsonObj.get("chatRoom");
 		String txt = (String) jsonObj.get("text");
-		String id = (String) jsonObj.get("id");
+		String userid = (String) jsonObj.get("userid");
+		String userName = (String) jsonObj.get("userName");
 		String date = (String) jsonObj.get("date");
 		chatDto.setRoomId(chatRoom);
-		chatDto.setSendUser(id);
+		chatDto.setSendUser(userName);
 		chatDto.setChatRecord(txt);
 		chatDto.setWriteDate(date);
 		int result = chatDao.chatTxtInsert(chatDto);

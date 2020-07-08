@@ -7,7 +7,7 @@
 	<script>
 		$(function(){
 			$('#myInfoModify').on("click",function(){
-				location.href="/member/myInfoModify";
+				location.href="/member/myInfoModify?mem_type=${mdto.mem_type}";
 			});
 			
 			$('#memWithdrawal').on("click",function(){

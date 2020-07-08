@@ -48,7 +48,9 @@
 	</resultMap>
 
 	<select id="isIdPwSame" resultType="Integer">
-		select count(*) from member where id=#{id} and pw=#{pw}
+		select count(*) from member where id=#{id}
+		<if test="pw != null">and pw=#{pw}</if>
+
 	</select>
 	
 	<select id="loginInfo" resultMap="MemProfile">
@@ -133,6 +135,11 @@
 	<!-- introduce -->
 	<update id="myInfoIntroduce">
 		update member set introduce = #{introduce} where id = #{id}
+	</update>
+	
+	<!-- 나이올리기 -->
+	<update id="scheduleAgeUp">
+		update member set age = age+1
 	</update>
 	
 </mapper>

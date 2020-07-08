@@ -66,6 +66,23 @@
 
 <script>
 	$(function() {
+		
+		$("input, textarea").blur(function(){
+			var thisVal = $(this).val();
+			$(this).val(textChk(thisVal));
+		})
+		
+		function textChk(thisVal){
+			var replaceId  = /(script)/gi;
+			var textVal = thisVal;
+		    if (textVal.length > 0) {
+		        if (textVal.match(replaceId)) {
+		        	textVal = thisVal.replace(replaceId, "");
+		        }
+		    }
+		    return textVal;
+		}
+		
 		//파일 첨부 여러개
 		$("#fileAdd").on("click", function() {
 			var fileComp = $("<div><input type=file class='file' name=files><input type='button' value='-' class='fileDelete'></div>");

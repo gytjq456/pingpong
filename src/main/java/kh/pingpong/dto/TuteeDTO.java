@@ -15,6 +15,8 @@ public class TuteeDTO {
 	private MultipartFile profile;
 	private String title;
 	private String address;
+	private String cancle;
+	private int refundPrice;
 	private int parent_seq;
 	private String sysname;
 	
@@ -24,8 +26,8 @@ public class TuteeDTO {
 	}
 
 	public TuteeDTO(int seq, String id, String name, String email, String phone_country, String phone, String bank_name,
-			int price, String account, MultipartFile profile, String title, String address, int parent_seq,
-			String sysname) {
+			int price, String account, MultipartFile profile, String title, String address, String cancle,
+			int refundPrice, int parent_seq, String sysname) {
 		super();
 		this.seq = seq;
 		this.id = id;
@@ -39,6 +41,8 @@ public class TuteeDTO {
 		this.profile = profile;
 		this.title = title;
 		this.address = address;
+		this.cancle = cancle;
+		this.refundPrice = refundPrice;
 		this.parent_seq = parent_seq;
 		this.sysname = sysname;
 	}
@@ -137,6 +141,22 @@ public class TuteeDTO {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	public String getCancle() {
+		return cancle;
+	}
+
+	public void setCancle(String cancle) {
+		this.cancle = cancle;
+	}
+
+	public int getRefundPrice() {
+		return refundPrice;
+	}
+
+	public void setRefundPrice(int refundPrice) {
+		this.refundPrice = refundPrice;
 	}
 
 	public int getParent_seq() {

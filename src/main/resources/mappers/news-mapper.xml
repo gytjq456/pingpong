@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="News">
+	
+	<insert id="newsInsert">
+		insert into news values(
+			news_seq.nextval, #{ndto.title}, #{ndto.writer}, #{ndto.category}, #{ndto.start_date}, #{ndto.end_date},
+			#{ndto.location}, #{fdto.sysname}, #{ndto.files}, #{ndto.contents}, #{ndto.write_date}, 0, 0, 0
+		)
+	</insert>
+
+</mapper>

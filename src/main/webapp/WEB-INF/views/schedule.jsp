@@ -136,6 +136,7 @@
 		var nextBtn = document.getElementById('next');
 		prevBtn.addEventListener('click',prev);
 		nextBtn.addEventListener('click',next);
+		classDateSch(today.getDate());
 		var tdGroup = [];
 		clickStart()
 		function clickStart(){
@@ -156,6 +157,21 @@
 		    //showMain();
 		    keyValue = today.getFullYear() + '' + today.getMonth()+ '' + today.getDate();
 		    //reshowingList();
+		}
+		
+		
+		function classDateSch(day){
+			$.ajax({
+				url:"/",
+				dataType:"json",
+				type:"post",
+				data:{
+					day:day
+				}
+			}).done(function(resp){
+				console.log("========day Test=======")
+				console.log(resp)
+			})
 		}
 	});
 </script>

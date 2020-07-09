@@ -130,10 +130,10 @@ public class PartnerDAO {
 	}
 
 	//검색 최신순 / 인기순
-	public List<PartnerDTO> searchAlign(String alignType){
+	public List<PartnerDTO> searchAlign(String align){
 		Map<String, Object> condition = new HashMap<String, Object>();
-		condition.put("alignType" , alignType);
-		return mybatis.selectList("Partner.alignType", condition);
+		condition.put("align" , align);
+		return mybatis.selectList("Partner.alignT", condition);
 	}
 
 }

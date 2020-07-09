@@ -1,21 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+<jsp:include page="/WEB-INF/views/admin/aheader.jsp"/>
 <style>
 	#chartForLang, #chartForLoc { float: left; }
 </style>
-</head>
-<body>
-<canvas id="chartForVisitor" width="1200" height="500"></canvas>
-<canvas id="chartForLang" width="600" height="300"></canvas>
-<canvas id="chartForLoc" width="600" height="300"></canvas>
+	<canvas id="chartForVisitor" width="1200" height="500"></canvas>
+	<canvas id="chartForLang" width="600" height="300"></canvas>
+	<canvas id="chartForLoc" width="600" height="300"></canvas>
+	<c:forEach var="vlist" items="${vlist}">
+		<input type="hidden" id="${vlist.visit_date}" value="${vlist.visit_count}" class="dayInput">
+	</c:forEach>
+	<c:forEach var="llist" items="${llist}">
+		<input type="hidden" id="${llist.language}" value="${llist.lang_count}" class="langInput">
+	</c:forEach>
+	<c:forEach var="clist" items="${clist}">
+		<input type="hidden" id="${clist.loc_name}" value="${clist.loc_count}" class="locInput">
+	</c:forEach>
 	<c:choose>
 		<c:when test="${empty sessionScope.adminLog}">
 			<div>
@@ -28,6 +29,7 @@
 		</c:when>
 		<c:otherwise>
 			<a href="/admin/memberList">회원</a>
+			<a href="/admin/blacklistList">블랙리스트</a>
 			<a href="/admin/partnerList">파트너</a>
 			<a href="/admin/groupList">그룹</a>
 			<a href="/admin/tutorList">튜터</a>
@@ -36,6 +38,7 @@
 			<a href="/admin/lessonAppList">강의 신청</a>
 			<a href="/admin/lessonDelList">강의 삭제</a>
 			<a href="/admin/tuteeList">튜티</a>
+			<a href="/admin/refundList">환불 신청</a>
 			<a href="/admin/discussionList">토론 게시판</a>
 			<a href="/admin/correctList">첨삭 게시판</a>
 			<a href="/admin/reportList">신고</a>
@@ -44,23 +47,35 @@
 	</c:choose>
 	<a href="/">메인으로</a>
 	<script>
-		function getFormatDate(date, number){
+		function getFormatDate(date, number, type){
 		    var year = date.getFullYear();              //yyyy
 		    var month = (1 + date.getMonth());          //M
 		    month = month >= 10 ? month : '0' + month;  //month 두자리로 저장
 		    var day = date.getDate() - number;          //d
 		    day = day >= 10 ? day : '0' + day;          //day 두자리로 저장
-		    return  month + '/' + day;       //'-' 추가하여 yyyy-mm-dd 형태 생성 가능
+		    if (type == 'full') {
+		    	return year + '/' + month + '/' + day;
+		    } else {
+		    	return  month + '/' + day;       //'-' 추가하여 yyyy-mm-dd 형태 생성 가능
+		    }
 		}
 		
 		var today = new Date();
-		day1 = getFormatDate(today, 0);
-		day2 = getFormatDate(today, 1);
-		day3 = getFormatDate(today, 2);
-		day4 = getFormatDate(today, 3);
-		day5 = getFormatDate(today, 4);
-		day6 = getFormatDate(today, 5);
-		day7 = getFormatDate(today, 6);
+		var day1 = getFormatDate(today, 0, 'short');
+		var day2 = getFormatDate(today, 1, 'short');
+		var day3 = getFormatDate(today, 2, 'short');
+		var day4 = getFormatDate(today, 3, 'short');
+		var day5 = getFormatDate(today, 4, 'short');
+		var day6 = getFormatDate(today, 5, 'short');
+		var day7 = getFormatDate(today, 6, 'short');
+		
+		var dayInputCount = $('.dayInput').length;
+		
+		var dayList = ["", "", "", "", "", "", ""];
+		
+		for (var i = 0; i < dayInputCount; i++) {
+			dayList[i] = document.getElementById(getFormatDate(today, i, 'full')).value;
+		}
 
 		var ctx1 = document.getElementById('chartForVisitor').getContext('2d');
 		var chartForVisitor = new Chart(ctx1, {
@@ -69,7 +84,7 @@
 		        labels: [day7, day6, day5, day4, day3, day2, day1],
 		        datasets: [{
 		            label: '일일 방문자 수',
-		            data: [12, 19, 3, 5, 2, 3, 15],
+		            data: [dayList[6], dayList[5], dayList[4], dayList[3], dayList[2], dayList[1], dayList[0]],
 		            backgroundColor: [
 		                'rgba(255, 99, 132, 0.2)',
 		                'rgba(54, 162, 235, 0.2)',
@@ -103,14 +118,23 @@
 		    }
 		});
 		
+		var langLength = $('.langInput').length;
+		var langList = [];
+		var langNameList = [];
+		
+		for (var i = 0; i < langLength; i++) {
+			langList[i] = $($('.langInput')[i]).val();
+			langNameList[i] = $($('.langInput')[i]).attr('id');
+		}
+		
 		var ctx2 = document.getElementById('chartForLang').getContext('2d');
 		var chartForLang = new Chart(ctx2, {
 		    type: 'doughnut',
 		    data: {
-		        labels: ['한국어', '영어', '중국어', '일본어', '스페인어'],
+		        labels: [langNameList[0], langNameList[1], langNameList[2], langNameList[3], langNameList[4]],
 		        datasets: [{
 		            label: '언어 선호도',
-		            data: [12, 19, 3, 5, 2],
+		            data: [langList[0], langList[1], langList[2], langList[3], langList[4]],
 		            backgroundColor: [
 		                'rgba(255, 99, 132, 0.4)',
 		                'rgba(54, 162, 235, 0.4)',
@@ -137,14 +161,23 @@
 		    }
 		});
 		
+		var locLength = $('.locInput').length;
+		var locList = [];
+		var locNameList = [];
+		
+		for (var i = 0; i < locLength; i++) {
+			locList[i] = $($('.locInput')[i]).val();
+			locNameList[i] = $($('.locInput')[i]).attr('id');
+		}
+		
 		var ctx3 = document.getElementById('chartForLoc').getContext('2d');
 		var chartForLang = new Chart(ctx3, {
 		    type: 'doughnut',
 		    data: {
-		        labels: ['서울특별시', '경기도', '부산광역시', '대구광역시', '경상북도'],
+		        labels: [locNameList[0], locNameList[1], locNameList[2], locNameList[3], locNameList[4]],
 		        datasets: [{
 		            label: '지역 선호도',
-		            data: [12, 19, 3, 5, 2],
+		            data: [locList[0], locList[1], locList[2], locList[3], locList[4]],
 		            backgroundColor: [
 		                'rgba(255, 99, 132, 0.4)',
 		                'rgba(54, 162, 235, 0.4)',

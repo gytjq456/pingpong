@@ -24,15 +24,91 @@
 	</div>
 	
 	<div id="mainCont">
-		<section>
+		
+		<section id="toDayClass">
+			<div class="tit_main left">
+			<h3>To Day Class</h3>
+				<p>현재 모집중인 그룹 모임과 전문가와 함께하는 수업입니다.</p>
+			</div>		
+			<div class="inner1200 clearfix">
+				<article class="classList">
+					<div class="classWrap">
+						<section class="groupClass">
+							<div class="category">GROUP</div>
+							<div class="list">
+								<ul>
+									<li>
+										<div class="thum"><img src="/resources/img/sub/userThum.jpg"></div>
+										<div class="info">
+											<div class="tit">제목 제목 제목 제목 제목 제목 </div>
+											<div class="txtBox">내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 </div>
+											<div class="time">모집 기간 : 2020-06-21 ~2020-06-22</div>
+										</div>
+									</li>
+									<li>
+										<div class="thum"><img src="/resources/img/sub/userThum.jpg"></div>
+										<div class="info">
+											<div class="tit">제목 제목 제목 제목 제목 제목 </div>
+											<div class="txtBox">내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 </div>
+											<div class="time">모집 기간 : 2020-06-21 ~2020-06-22</div>
+										</div>
+									</li>
+								</ul>
+							</div>
+						</section>
+						<section class="tutorClass">
+							<div class="category">TUTOR CLASS</div>
+							<div class="list">
+								<ul>
+									<li>
+										<div class="thum"><img src="/resources/img/sub/userThum.jpg"></div>
+										<div class="info">
+											<div class="tit">제목 제목 제목 제목 제목 제목 </div>
+											<div class="txtBox">내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 </div>
+											<div class="time">모집 기간 : 2020-06-21 ~2020-06-22</div>
+										</div>
+									</li>
+									<li>
+										<div class="thum"><img src="/resources/img/sub/userThum.jpg"></div>
+										<div class="info">
+											<div class="tit">제목 제목 제목 제목 제목 제목 </div>
+											<div class="txtBox">내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 </div>
+											<div class="time">모집 기간 : 2020-06-21 ~2020-06-22</div>
+										</div>
+									</li>
+								</ul>
+							</div>
+						</section>
+					</div>
+				</article>
+				<article class="scheduleWrap">
+					<jsp:include page="schedule.jsp"/>
+					<div class="tip">
+						<p>모집이 끝나지 않은 모임을 확인 할 수 있습니다.</p>
+						<p>모집 기간 기준으로 노출이 됩니다.</p>
+					</div>
+				</article>
+			</div>
+		</section>
+	
+	
+		<section id="personList">
 			<div class="inner1200">
 				<div class="tit_main">
-					<h3>Partner & Tuttor</h3>
+					<h3>Partner & Tutor</h3>
+					<p>PINGPONG과 함께 하는 Partner와 Tutor를 소개합니다</p>
 				</div>
-				<div class="personList">
+				<div id="tab_s3">
 					<ul>
-						<li></li>
+						<li class="on" data-type="partner"><button>Partner</button></li>
+						<li data-type="tutor"><button>Tutor</button></li>
 					</ul>
+				</div>
+				<div class="listWrap">
+					<section id="partnerList">
+						<div class="list">
+						</div>
+					</section>
 				</div>
 			</div>
 		</section>

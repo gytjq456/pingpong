@@ -9,8 +9,8 @@
 	.group_info { display: inline-block; }
 	.group_info_top { float: left; }
 	.group_title_wrapper { overflow: hidden; }
-	#writer_info { width: 30%; position: relateive   ; }
-	#group_base { width: 62%; margin-left: 3%; }
+	/* #writer_info { width: 30%; position: relateive   ; } */
+	/* #group_base { width: 62%; margin-left: 3%; } */
 	#writer_profile { width: 240px; height: 240px; border-radius: 50%; text-align: center; line-height: 300px; position: relative; top: 50%; left: 50%; transform: translate(-50%, 0); overflow: hidden; }
 	#writer_name_id { position: relative; left: 50%; transform: translate(-50%, 0); display: inline-block; margin-top: 20px; }
 	.base_info { position: relative; }
@@ -250,9 +250,6 @@
 						<li class="on"><a href="#;">상세 정보</a></li>
 						<li><a href="#;">관련 모임</a></li>
 						<li><a href="#;">리뷰(${gdto.review_count})</a></li>
-<<<<<<< HEAD
-						<li><a href="#;">신청(${gdto.app_count})</a></li>
-=======
 						<li>
 							<c:if test="${checkApply == true}">
 								<button id="applyCancel">신청 취소</button>
@@ -267,7 +264,6 @@
 								<button id="groupApplyManage">신청 현황</button>
 							</c:if>
 						</li>
->>>>>>> 5ac862a528f4b1335e922820d13ef5ac09afae1c
 					</ul>
 				</div>
 				<div id="tabContWrap_s2">
@@ -301,19 +297,12 @@
 									<div class="optional_body">${gdto.location}</div>
 									<div id="map"></div>
 								</div>
-<<<<<<< HEAD
-								<div class="optional_box">
-									<span class="optional_sub">추천</span>
-									<span id="like_count">${gdto.like_count}</span>
-									<span class="optional_sub">조회</span><span>${gdto.view_count}</span><br>
-									<span class="optional_sub">작성일</span><span>${gdto.write_date}</span><br>
-=======
+
 								<div class="optional_box countList_s2" >
 									<span class="optional_sub"><i class="fa fa-eye"></i>${gdto.view_count}</span>
 									<span class="optional_sub"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> ${gdto.like_count}</span>
 									<span class="optional_sub"><i class="fa fa-file-text-o" aria-hidden="true"></i> ${gdto.app_count}</span>
 									<%-- <span class="optional_sub">작성일</span><span>${gdto.date}</span><br> --%>
->>>>>>> 5ac862a528f4b1335e922820d13ef5ac09afae1c
 								</div>
 								<div class="btnS1" id="view_btns">
 									<c:choose>

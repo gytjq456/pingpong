@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Visitor">
+	<insert id="insertVisitor">
+		insert into visitor values(visitor_seq.nextval, #{visit_date}, default)
+	</insert>
+	
+	<update id="updateVisitCount">
+		update visitor set visit_count = visit_count + 1 where visit_date = #{visit_date}
+	</update>
+	
+	<select id="selectSevenDays" resultType="kh.pingpong.dto.VisitorDTO">
+		select * from
+		(select visitor.*, row_number() over(order by seq desc) rnum from visitor)
+		where rnum between 1 and 7
+	</select>
+	
+	<select id="selectToday" resultType="Integer">
+		select seq from visitor where visit_date = #{visit_date}
+	</select>
+</mapper>

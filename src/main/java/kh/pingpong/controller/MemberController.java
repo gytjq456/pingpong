@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import kh.pingpong.admin.AdminService;
 import kh.pingpong.dto.BankDTO;
 import kh.pingpong.dto.CountryDTO;
 import kh.pingpong.dto.FileDTO;
@@ -44,6 +45,9 @@ public class MemberController {
 
 	@Autowired
 	private MemberService mservice;
+	
+	@Autowired
+	private AdminService aservice;
 
 	/* 비밀번호 암호화 sha 512 */
 	public String getSHA512(String input) {
@@ -214,14 +218,22 @@ public class MemberController {
 	@RequestMapping("isIdPwSame")
 	public String isIdPwSame(MemberDTO mdto) throws Exception {
 		mdto.setPw(this.getSHA512(mdto.getPw()));
-		Boolean result = mservice.isIdPwSame(mdto);
-		if (result) {
-			MemberDTO loginInfo = mservice.loginInfo(mdto);
-			session.setAttribute("loginInfo", loginInfo);
-			return result.toString();
+		Boolean resultB = mservice.isIdPwSame(mdto);
+		String result = "";
+		if (resultB) {
+			boolean isBlacklist = aservice.isBlacklist(mdto.getId());
+			
+			if (isBlacklist) {
+				result = "black";
+			} else {
+				MemberDTO loginInfo = mservice.loginInfo(mdto);
+				session.setAttribute("loginInfo", loginInfo);
+				result = "true";
+			}
 		} else {
-			return result.toString();
+			result = "false";
 		}
+		return result;
 	}
 
 	/* 로그아웃 */
@@ -574,5 +586,17 @@ public class MemberController {
 
 		return "redirect:/member/memberComplete";
 	}
+	
+	
+	
+	
+	// 파트너 / 튜터 목록 가져오기 //
+	@ResponseBody
+	@RequestMapping("personList")
+	public List<MemberDTO> personList(String type) throws Exception{
+		List<MemberDTO> personList = mservice.personList(type);
+		return personList;
+	}
+	
 
 }

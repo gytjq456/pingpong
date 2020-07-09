@@ -41,15 +41,18 @@
 		<div id="chatClose"><button type="button"><i class="fa fa-times" aria-hidden="true"></i></button></div>
 	</section>
 	
-	<!-- <script>
+	<script>
 		$(function(){
 			var timeResult = "";
 			$.ajax({
-				url:"/partner/chatPartner",
-				data:"post",
-				dataType:"json"
+				url:"/member/personList",
+				type:"post",
+				dataType:"json",
+				data:{
+					type:"partner"
+				},
 			}).done(function(resp){
-				//console.log(resp)
+				console.log(resp)
 				for(var i=0; i<resp.length; i++){
 					if("${sessionScope.loginInfo.name}"!= resp[i].name){
 						var chatList = $("#chatList");
@@ -88,7 +91,7 @@
 			
 			if("${sessionScope.loginInfo.id}" != ""){
 				var ws  =new WebSocket("ws://localhost/chat");
-				//var ws  =new WebSocket("ws://192.168.160.184/chat");
+				//var ws  =new WebSocket("ws://192.168.60.58/chat");
 				ws.onopen = function(){
 					var msg = {
 						type:"login",
@@ -100,6 +103,7 @@
 				}
 				
 				$(document).on("click",".chatting",function(){
+					$(this).closest(".addMsg").removeClass("addMsg");
 					if(!$(this).closest("li").hasClass("on")){
 						alert("로그아웃된 파트너 입니다.")
 						return false;
@@ -122,12 +126,12 @@
 						var member = chatWrap.find(".title p").text().split(",");
 						chatWrap.find(".title span").text(member.length);
 						txtInput.focus();
-						//console.log(typeof resp)
+						console.log(typeof resp)
 						if(typeof resp == 'string'){
 							chatRoom = resp
 							$(".chatBox .sysdate").html(theYear+"년 "+theMonth+"월 "+theDate+"일 "+todayLabel);
 						}else{
-							//console.log(resp);
+							console.log(resp);
 							var record = resp;
 							chatRoom = record[0].roomId;
 							$(".chatBox .sysdate").html(record[0].realWriteDate);
@@ -154,7 +158,6 @@
 							}
 							updateScroll();
 						}
-						
 						var msg = {
 							chatRoom : chatRoom,
 							type:"register",
@@ -169,12 +172,12 @@
 				})
 				
 				ws.onmessage = function(e){
+					console.log("tttt ===" + e.data);
 					var msg = JSON.parse(e.data);
 					var time = new Date(msg.date);
 					var timeStr = time.toLocaleTimeString();
 					
 					
-					//console.log(msg);
 					for(var i=0; i<msg.length; i++){
 						if(msg[i].type == "login"){
 							var chatList = $("#chatList .list ul li");
@@ -193,13 +196,31 @@
 								$(this).removeClass("on");
 							}
 						})
+						ws.onclose = function(){
+							var msg = {
+								type:"logout==",
+								userid:"${sessionScope.loginInfo.id}",
+								userName:"${sessionScope.loginInfo.name}",
+								targetId:uid
+							}
+							ws.send(JSON.stringify(msg));
+						}
 					}
 					if(msg.type == "message"){
 						var userInfo_s1 = $("<div class='userInfo_s1 other'>");
 						userInfo_s1.append("<div class='thumb'><img src='/resources/img/sub/userThum.jpg'>")
-						userInfo_s1.append("<div class='info'><p class='userId'>"+msg.userName+"</p>")
+						userInfo_s1.append("<div class='info'><p class='userId'>2222"+msg.userName+"</p>")
 						userInfo_s1.append("<div class='chatTxt'><p>"+msg.text+"</p><span class='writeDate'>"+msg.date+"</span></div>")
 						$(".chatBox .txtRow").append(userInfo_s1);
+						var rightPos = $("#chatWrap #chatRoom").css("right").replace(/[^-\d\.]/g, '');
+						if(rightPos < 0){
+							$("#chatList .list ul li").each(function(){
+								var uid = $(this).find("button").data("uid")
+								if(uid == msg.userid){
+									$(this).addClass("addMsg");
+								}
+							})
+						}
 						updateScroll();
 					}
 					
@@ -256,7 +277,7 @@
 		})
 		
 	
-		 -->
+		
 		function updateScroll(){
 			var element = document.getElementById("chatBox");
 			element.scrollTop = element.scrollHeight;

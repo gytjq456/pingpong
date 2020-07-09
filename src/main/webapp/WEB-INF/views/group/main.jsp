@@ -41,7 +41,7 @@
 												<input type="checkbox" name="hobby" class="hobby_list" id="${hbdto.seq}" value="${hbdto.hobby}">
 												<label for="${hbdto.seq}"><span></span>${hbdto.hobby}</label>
 												<c:if test="${hbdto.hobby == '기타'}">
-													<input type="text" id="selected_hobby" name="hobby_type">
+													<input type="hidden" id="selected_hobby" name="hobby_type">
 												</c:if>
 										</c:forEach>
 										</ul>
@@ -150,18 +150,18 @@
 											<div class="each_writer"><span class="each_name">${glist.writer_name}</span>(${glist.writer_id})</div>
 											<div class="each_title">${glist.title}</div>
 											<div class="each_body">
-												<div><span class="sub_title">장소</span> ${glist.location}</div>
-												<div><span class="sub_title">유형</span> ${glist.hobby_type}</div>
-												<div><span class="sub_title">모집 기간</span>
+												<div><span class="sub_title">장소</span> <p>${glist.location}</p></div>
+												<div><span class="sub_title">유형</span> <p>${glist.hobby_type}</p></div>
+												<div><span class="sub_title">모집</span>
 													<c:if test="${glist.applying == 'N'}">
 													 - 
 													</c:if>
 													<c:if test="${glist.applying == 'Y'}">
-													 ${glist.apply_start} ~ ${glist.apply_end}
+													 <p>${glist.apply_start} ~ ${glist.apply_end}</p>
 													</c:if>
 												</div>
-												<div><span class="sub_title">진행 기간</span> ${glist.start_date} ~ ${glist.end_date}</div>
-												<div><span class="sub_title">평점</span> <i class="fa fa-star" aria-hidden="true"></i> ${glist.review_point}</div>
+												<div><span class="sub_title">진행</span> <p>${glist.start_date} ~ ${glist.end_date}</p></div>
+												<div><span class="sub_title">평점</span> <p><i class="fa fa-star" aria-hidden="true"></i> ${glist.review_point}</p></div>
 											</div>
 											<div class="countList_s2">
 												<span class="sub_title"><i class="fa fa-eye"></i>${glist.view_count}</span>   

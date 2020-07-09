@@ -115,7 +115,7 @@
 					$(editor).summernote('insertImage', data.url);
 				}
 			});
-		}	
+		}
 	})
 </script>
 	<div id="subWrap" class="hdMargin">

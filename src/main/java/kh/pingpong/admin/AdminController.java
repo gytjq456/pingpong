@@ -13,16 +13,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import kh.pingpong.dto.BlacklistDTO;
 import kh.pingpong.dto.CorrectDTO;
 import kh.pingpong.dto.DeleteApplyDTO;
 import kh.pingpong.dto.DiscussionDTO;
 import kh.pingpong.dto.GroupDTO;
+import kh.pingpong.dto.LanguageDTO;
 import kh.pingpong.dto.LessonDTO;
+import kh.pingpong.dto.LocationDTO;
 import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.dto.PartnerDTO;
 import kh.pingpong.dto.ReportListDTO;
 import kh.pingpong.dto.TuteeDTO;
 import kh.pingpong.dto.TutorAppDTO;
+import kh.pingpong.dto.VisitorDTO;
+import kh.pingpong.service.VisitorService;
 
 @Controller
 @RequestMapping("/admin")
@@ -31,11 +36,22 @@ public class AdminController {
 	private AdminService aservice;
 	
 	@Autowired
+	private VisitorService vservice;
+	
+	@Autowired
 	private HttpSession session;
 	
 	// 관리자 메인 페이지
 	@RequestMapping("")
-	public String index() {
+	public String index(Model model) {
+		List<VisitorDTO> vlist = vservice.selectSevenDays();
+		List<LanguageDTO> llist = aservice.selectFiveLang();
+		List<LocationDTO> clist = aservice.selectFiveLoc();
+		
+		model.addAttribute("vlist", vlist);
+		model.addAttribute("llist", llist);
+		model.addAttribute("clist", clist);
+		
 		return "/admin/index";
 	}
 	
@@ -83,6 +99,36 @@ public class AdminController {
 		MemberDTO mdto = aservice.memberView(id);
 		model.addAttribute("mdto", mdto);
 		return "/admin/memberView";
+	}
+	
+	// 블랙리스트 리스트
+	@RequestMapping("/blacklistList")
+	public String blacklistList(HttpServletRequest request, Model model) throws Exception {
+		int cpage = 1;
+        try {
+           cpage = Integer.parseInt(request.getParameter("cpage"));
+        } catch (Exception e) {}
+        
+        List<BlacklistDTO> bllist = aservice.blacklistList(cpage);
+        Map<String, String> param = new HashMap<>();
+        
+        param.put("tableName", "blacklist");
+        param.put("pageName", "blacklistList");
+        
+        String navi = aservice.getPageNav(cpage, param);
+        
+        model.addAttribute("bllist", bllist);
+        model.addAttribute("navi", navi);
+        
+        return "/admin/blacklistList";
+	}
+	
+	// 블랙리스트 뷰
+	@RequestMapping("/blacklistView")
+	public String blacklistView(int seq, Model model) {
+		BlacklistDTO bldto = aservice.blacklistView(seq);
+		model.addAttribute("bldto", bldto);
+		return "/admin/blacklistView";
 	}
 	
 	// 파트너 리스트
@@ -355,6 +401,38 @@ public class AdminController {
 		return "/admin/tuteeView";
 	}
 	
+	// 환불 신청 목록
+	@RequestMapping("/refundList")
+	public String refundList(HttpServletRequest request, Model model) throws Exception {
+		int cpage = 1;
+        try {
+           cpage = Integer.parseInt(request.getParameter("cpage"));
+        } catch (Exception e) {}
+        
+        List<TuteeDTO> rflist = aservice.refundList(cpage);
+        Map<String, String> param = new HashMap<>();
+        
+        param.put("tableName", "tutee");
+        param.put("pageName", "refundList");
+        param.put("columnName", "cancle");
+		param.put("columnValue", "Y");
+        
+        String navi = aservice.getPageNav(cpage, param);
+        
+        model.addAttribute("rflist", rflist);
+        model.addAttribute("navi", navi);
+        
+        return "/admin/refundList";
+	}
+	
+	// 환불 신청 뷰
+	@RequestMapping("/refundView")
+	public String refundView(int seq, Model model) {
+		TuteeDTO rfdto = aservice.tuteeView(seq);
+		model.addAttribute("rfdto", rfdto);
+		return "/admin/refundView";
+	}
+	
 	// 토론 리스트
 	@RequestMapping("/discussionList")
 	public String discussionList(HttpServletRequest request, Model model) throws Exception {
@@ -515,7 +593,7 @@ public class AdminController {
 			param.put("tableName", "lesson");
 		} else if (pageName.contentEquals("lessonDelList")) {
 			param.put("tableName", "delete_app");
-		} else if (pageName.contentEquals("tuteeList")) {
+		} else if (pageName.contentEquals("tuteeList") || pageName.contentEquals("refundList")) {
 			TuteeDTO tdto = aservice.tuteeView(seq);
 			int parent_seq = tdto.getParent_seq();
 			param.put("tableName", "tutee");
@@ -526,9 +604,11 @@ public class AdminController {
 			param.put("tableName", "correct");
 		} else if (pageName.contentEquals("reportList")) {
 			param.put("tableName", "reportlist");
+		} else if (pageName.contentEquals("blacklistList")) {
+			param.put("tableName", "blacklist");
 		}
 		
-		if (pageName.contentEquals("tuteeList")) {
+		if (pageName.contentEquals("tuteeList") || pageName.contentEquals("refundList")) {
 			aservice.deleteTutee(param);
 		} else {
 			aservice.deleteOne(param);
@@ -563,12 +643,14 @@ public class AdminController {
 			param.put("tableName", "partner");
 		} else if (pageName.contentEquals("reportList")) {
 			param.put("tableName", "reportlist");
-		} else if (pageName.contentEquals("tuteeList")) {
+		} else if (pageName.contentEquals("tuteeList") || pageName.contentEquals("refundList")) {
 			param.put("tableName", "tutee");
 		} else if (pageName.contentEquals("tutorAppList")) {
 			param.put("tableName", "tutor_app");
 		} else if (pageName.contentEquals("tutorList")) {
 			param.put("tableName", "member");
+		} else if (pageName.contentEquals("blacklistList")) {
+			param.put("tableName", "blacklist");
 		}
 		
 		if (pageName.contentEquals("memberList") || pageName.contentEquals("tutorList")) {

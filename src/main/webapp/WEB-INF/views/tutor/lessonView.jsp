@@ -255,7 +255,6 @@ $(function(){
 					</c:when>
 				</c:choose>
 			</div>
-<a href="/payments/cancleTest?parent_seq=${ldto.seq }&start_date=${ldto.start_date }&price=${ldto.price }">test환불</a>
 			<div class="view_top">
 				<div class="view_top_left">
 					<div class="profile">
@@ -336,9 +335,13 @@ $(function(){
 			<div class="refund_guid">
 				<ul>
 					<li>· 고객센터 직접 문의 (1:1상담, 게시판, 이메일, 전화: 1588-1580)</li>
-					<li>· 마이페이지>결제내역에서 환불신청</li>
+					<li>· 마이페이지>강의 목록에서 환불신청</li>
 					<li>* 결제 취소 및 환불은 환불신청 접수 후 7일 이내에 처리해 드립니다.</li>
 					<li>* 환불시 구매자와 환불자가 다를 경우 19세 미만의 고객은 보호자의 동의가 필요합니다.</li>
+					<li>* 수업 시작 날짜전 환불 요정 - 전액 환불</li>
+					<li>* 수업 시작 날짜로부터 1일~10일 경과 - 전체금액 중 2/3 환불</li>
+					<li>* 수업 시작 날짜로부터 10일~15일 경과 - 전체금액 중 1/2 환불</li>
+					<li>* 수업 시작 날짜로부터 15일 이후 경과 - 환불 금액 없음</li>
 				</ul>
 			</div>
 			

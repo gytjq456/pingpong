@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import kh.pingpong.admin.AdminService;
 import kh.pingpong.service.GroupService;
 import kh.pingpong.service.TutorService;
 
@@ -18,6 +19,9 @@ public class GroupScheduler {
 	@Autowired
 	private TutorService tservice;
 	
+	@Autowired
+	private AdminService aservice;
+	
 	@Scheduled(cron="0 0 0 * * * ")
 	public void scheduleTest() throws Exception {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -25,6 +29,7 @@ public class GroupScheduler {
 		String today_date = format.format(date);
 		gservice.updateIngDate(today_date);
 		tservice.updateIngDate(today_date);
+		aservice.doneBlacklist(today_date);
 	}
 }
  

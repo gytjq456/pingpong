@@ -10,11 +10,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import kh.pingpong.config.Configuration;
+import kh.pingpong.dto.BlacklistDTO;
 import kh.pingpong.dto.CorrectDTO;
 import kh.pingpong.dto.DeleteApplyDTO;
 import kh.pingpong.dto.DiscussionDTO;
 import kh.pingpong.dto.GroupDTO;
+import kh.pingpong.dto.LanguageDTO;
 import kh.pingpong.dto.LessonDTO;
+import kh.pingpong.dto.LocationDTO;
 import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.dto.PartnerDTO;
 import kh.pingpong.dto.ReportListDTO;
@@ -183,9 +186,22 @@ public class AdminService {
 		return adao.tuteeList(page);
 	}
 	
-	// 튜티 뷰
+	// 튜티 뷰, 환불 신청 뷰
 	public TuteeDTO tuteeView(int seq) {
 		return adao.tuteeView(seq);
+	}
+	
+	// 환불 신청 목록
+	public List<TuteeDTO> refundList(int cpage) {
+		Map<String, Integer> page = new HashMap<>();
+		
+		int start = cpage * Configuration.DISCUSSION_COUNT_PER_PAGE - (Configuration.DISCUSSION_COUNT_PER_PAGE - 1);
+		int end = start + (Configuration.DISCUSSION_COUNT_PER_PAGE - 1);
+		
+		page.put("start", start);
+		page.put("end", end);
+		
+		return adao.refundList(page);
 	}
 	
 	// 토론 게시글 목록
@@ -298,8 +314,14 @@ public class AdminService {
 			adao.deleteOne(param);
 		}
 		
-		adao.updateReportListPass((int)param.get("seq"));
-		return adao.updateReportCount(param.get("id").toString());
+		adao.updateReportCount(param.get("id").toString());
+		
+		int report_count = adao.getReportCount(param.get("id").toString());
+		
+		if ((report_count != 0) && (report_count % 3 == 0)) {
+			adao.insertBlacklist(param);
+		}
+		return adao.updateReportListPass((int)param.get("seq"));
 	}
 	
 	// 체크박스로 여러 개 삭제
@@ -391,6 +413,44 @@ public class AdminService {
 			adao.deleteOne(param);
 		}
 		return 0;
+	}
+	
+	// 언어 선호 조회
+	public List<LanguageDTO> selectFiveLang() {
+		return adao.selectFiveLang();
+	}
+	
+	// 지역 선호 조회
+	public List<LocationDTO> selectFiveLoc() {
+		return adao.selectFiveLoc();
+	}
+	
+	// 블랙리스트 목록
+	public List<BlacklistDTO> blacklistList(int cpage) {
+		Map<String, Integer> param = new HashMap<>();
+		
+		int start = cpage * Configuration.DISCUSSION_COUNT_PER_PAGE - (Configuration.DISCUSSION_COUNT_PER_PAGE - 1);
+		int end = start + (Configuration.DISCUSSION_COUNT_PER_PAGE - 1);
+		
+		param.put("start", start);
+		param.put("end", end);
+		
+		return adao.blacklistList(param);
+	}
+	
+	// 블랙리스트 뷰
+	public BlacklistDTO blacklistView(int seq) {
+		return adao.blacklistView(seq);
+	}
+	
+	// 블랙리스트 만료
+	public int doneBlacklist(String today_date) {
+		return adao.doneBlacklist(today_date);
+	}
+	
+	// 로그인 시 블랙리스트 확인
+	public boolean isBlacklist(String id) {
+		return adao.isBlacklist(id);
 	}
 	
 	// 페이징

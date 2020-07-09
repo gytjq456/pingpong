@@ -4,7 +4,7 @@
 
 <!-- 튜티 insert -->
 <insert id="tuteeInsert">
-	insert into tutee values(tutee_seq.nextval, #{id}, #{name}, #{email}, #{phone_country}, #{phone}, #{bank_name}, #{price}, #{account}, #{sysname}, #{title},#{address}, default,#{parent_seq})
+	insert into tutee values(tutee_seq.nextval, #{id}, #{name}, #{email}, #{phone_country}, #{phone}, #{bank_name}, #{price}, #{account}, #{sysname}, #{title},#{address}, default,#{refundPrice,jdbcType=VARCHAR},#{parent_seq})
 </insert>
 
 <!-- 튜티 현재인원 늘리기 -->
@@ -16,6 +16,11 @@
 <select id="payTrue" resultType="int">
 	select count(*) from tutee where parent_seq = #{parent_seq} and id =#{id}
 </select>
+
+<!-- 강위취소 튜티 환불금액 update 하고 강의 취소 'Y'로 바꾸기 -->
+<update id="refundInsert">
+	update tutee set cancle='Y', refundPrice = #{refundPrice} where parent_seq = #{parent_seq} and id =#{id}
+</update>
 
 <!-- 튜터신청서에 있는지 없는지-->
 <select id="tutorTrue" resultType="int">

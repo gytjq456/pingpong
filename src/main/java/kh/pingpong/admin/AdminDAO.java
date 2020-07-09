@@ -16,6 +16,7 @@ import kh.pingpong.dto.LanguageDTO;
 import kh.pingpong.dto.LessonDTO;
 import kh.pingpong.dto.LocationDTO;
 import kh.pingpong.dto.MemberDTO;
+import kh.pingpong.dto.NewsDTO;
 import kh.pingpong.dto.PartnerDTO;
 import kh.pingpong.dto.ReportListDTO;
 import kh.pingpong.dto.TuteeDTO;
@@ -139,6 +140,16 @@ public class AdminDAO {
 	// 첨삭 게시글 뷰
 	public CorrectDTO correctView(int seq) {
 		return mybatis.selectOne("Admin.correctView", seq);
+	}
+	
+	// 소식통 게시글 목록
+	public List<NewsDTO> newsList(Map<String, Integer> page) {
+		return mybatis.selectList("Admin.newsList", page);
+	}
+	
+	// 소식통 게시글 뷰
+	public NewsDTO newsView(int seq) {
+		return mybatis.selectOne("Admin.newsView", seq);
 	}
 	
 	// 신고 목록
@@ -274,6 +285,11 @@ public class AdminDAO {
 	// 블랙리스트 추가
 	public int insertBlacklist(Map<String, Object> param) {
 		return mybatis.insert("Admin.insertBlacklist", param);
+	}
+	
+	// 이름 가져오기
+	public String getNameForBlack(String id) {
+		return mybatis.selectOne("Admin.getNameForBlack", id);
 	}
 	
 	// 블랙리스트 목록

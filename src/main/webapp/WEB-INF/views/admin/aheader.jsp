@@ -20,51 +20,58 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
 </head>
 	<body>
-		<header>
-		<section id="ahdBot">
-			<div class="inner1200 clearfix">
-				<nav>
-					<div>
-						<ul class="clearfix gnb">
-							<li>
-								<a href="#;">회원 관리</a>
-								<ul>
-									<li><a href="/admin/memberList">회원</a></li>
-									<li><a href="/admin/blacklistList">블랙리스트</a></li>
-								</ul>
-							</li>
-							<li>
-								<a href="/admin/partnerList">파트너 관리</a>
-							</li>												
-							<li>
-								<a href="/admin/groupList">그룹 관리</a>
-							</li>												
-							<li>
-								<a href="#;">튜터 관리</a>
-								<ul>
-									<li><a href="/admin/tutorList">튜터</a></li>
-									<li><a href="/admin/tutorAppList">튜터 신청</a></li>
-									<li><a href="/admin/lessonList">강의</a></li>
-									<li><a href="/admin/lessonAppList">강의 신청</a></li>
-									<li><a href="/admin/lessonDelList">강의 삭제</a></li>
-									<li><a href="/admin/tuteeList">튜티</a></li>
-									<li><a href="/admin/refundList">환불 신청</a></li>
-								</ul>
-							</li>												
-							<li>
-								<a href="#;">게시판 관리</a>
-								<ul>
-									<li><a href="/admin/discussionList">토론</a></li>
-									<li><a href="/admin/correctList">첨삭</a></li>
-									<li><a href="#;">소식통</a></li>
-								</ul>
-							</li>
-							<li>
-								<a href="/admin/reportList">신고 관리</a>
-							</li>
-						</ul>
-					</div>
-				</nav>
+		<c:if test="${!empty sessionScope.adminLog}">
+			<header>
+			<section id="ahdBot">
+				<div class="inner1200 clearfix">
+					<nav>
+						<div class="menu_wrap">
+							<ul class="clearfix gnb">
+								<li>
+									<a href="/admins/memberList">회원 관리</a>
+									<ul class="gnb_sub">
+										<li><a href="/admins/memberList">회원</a></li>
+										<li><a href="/admins/blacklistList">블랙리스트</a></li>
+									</ul>
+								</li>
+								<li>
+									<a href="/admins/partnerList">파트너 관리</a>
+								</li>												
+								<li>
+									<a href="/admins/groupList">그룹 관리</a>
+								</li>												
+								<li>
+									<a href="/admins/tutorList">튜터 관리</a>
+									<ul class="gnb_sub">
+										<li><a href="/admins/tutorList">튜터</a></li>
+										<li><a href="/admins/tutorAppList">튜터 신청</a></li>
+										<li><a href="/admins/lessonList">강의</a></li>
+										<li><a href="/admins/lessonAppList">강의 개설 신청</a></li>
+										<li><a href="/admins/lessonDelList">강의 삭제 신청</a></li>
+										<li><a href="/admins/tuteeList">튜티</a></li>
+										<li><a href="/admins/refundList">튜티 환불 신청</a></li>
+									</ul>
+								</li>												
+								<li>
+									<a href="/admins/discussionList">게시판 관리</a>
+									<ul class="gnb_sub">
+										<li><a href="/admins/discussionList">토론</a></li>
+										<li><a href="/admins/correctList">첨삭</a></li>
+										<li><a href="/admins/newsList">소식통</a></li>
+									</ul>
+								</li>
+								<li>
+									<a href="/admins/reportList">신고 관리</a>
+								</li>
+							</ul>
+						</div>
+					</nav>
+				</div>
+			</section>
+			<div id="header_opt">
+				<a href="/admin/logout">로그아웃</a><br>
+				<a href="/admin">관리자 메인</a><br>
+				<a href="/">핑퐁 메인</a>
 			</div>
-		</section>
-	</header>
+		</header>
+	</c:if>

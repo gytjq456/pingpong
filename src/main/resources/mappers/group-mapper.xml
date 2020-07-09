@@ -219,6 +219,14 @@
 		select seq from jjim where id = #{id} and parent_seq = #{parent_seq} and category = '그룹'
 	</select>
 	
+	<select id="selectReport" resultType="int">
+		select count(*) from reportlist where parent_seq = #{parent_seq} and id = #{id} and category = '그룹'
+	</select>
+	
+	<insert id="insertReport">
+		insert into reportlist values(reportlist_seq.nextval, #{id}, #{reason}, #{reporter}, sysdate, #{parent_seq}, '그룹', default)
+	</insert>
+	
 	<!-- 리뷰 글쓰기  -->
 	<insert id="reviewWrite">
 		insert into review values(review_seq.nextval, #{writer}, #{point}, #{contents}, default, #{category}, #{parent_seq})

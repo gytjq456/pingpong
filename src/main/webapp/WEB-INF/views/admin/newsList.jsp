@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <jsp:include page="/WEB-INF/views/admin/aheader.jsp"/>
 	<div id="main_wrap">
-	<h3>첨삭 게시판</h3>
+		<h3>소식통 게시판</h3>
 		<table>
 			<thead>
 				<tr>
@@ -17,20 +17,20 @@
 			</thead>
 			<tbody>
 				<c:choose>
-					<c:when test="${empty clist}">
+					<c:when test="${empty nlist}">
 						<tr>
-							<td colspan="6">등록된 첨삭 게시글이 없습니다.</td>
+							<td colspan="6">등록된 토론 게시글이 없습니다.</td>
 						</tr>
 					</c:when>
 					<c:otherwise>
-						<c:forEach var="clist" items="${clist}">
+						<c:forEach var="nlist" items="${nlist}">
 							<tr>
-								<td><input type="checkbox" value="${clist.seq}" class="deleteCheck"></td>
-								<td>${clist.seq}</td>
-								<td><a href="/admins/correctView?seq=${clist.seq}">${clist.title}</a></td>
-								<td>${clist.writer}</td>
-								<td>${clist.type}</td>
-								<td>${clist.write_date}</td>
+								<td><input type="checkbox" value="${nlist.seq}" class="deleteCheck"></td>
+								<td>${nlist.seq}</td>
+								<td><a href="/admins/newsView?seq=${nlist.seq}">${nlist.title}</a></td>
+								<td>${nlist.writer}</td>
+								<td>${nlist.category}</td>
+								<td>${nlist.write_date}</td>
 							</tr>
 						</c:forEach>
 					</c:otherwise>
@@ -59,7 +59,7 @@
 						delList[i] = $($('.deleteCheck:checked')[i]).val();
 					}
 					
-					location.href = '/admins/deleteAll?pageName=correctList&values=' + delList;
+					location.href = '/admins/deleteAll?pageName=newsList&values=' + delList;
 				}
 			})
 		</script>

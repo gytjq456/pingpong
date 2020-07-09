@@ -53,7 +53,6 @@ public class HomeController {
 		return "index";
 	}
 	
-	
 	@ResponseBody
 	@RequestMapping(value="/classDateSch", produces="application/json;charset=utf8")
 	public String classDateSch(String day) throws Exception {
@@ -65,10 +64,4 @@ public class HomeController {
 		Gson gson = new Gson();
 		return gson.toJson(listMap); 
 	}
-	
-	
-	
-
-	
-	
 }

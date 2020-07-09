@@ -223,7 +223,7 @@ public class PartnerController {
 		try {
 			cpage = Integer.parseInt(request.getParameter("cpage"));
 		}catch(Exception e) {}
-
+                                                                               
 		Map<String, Object> search = new HashMap<>();	
 		
 		List<PartnerDTO> alist = pservice.search(cpage, search, pdto);

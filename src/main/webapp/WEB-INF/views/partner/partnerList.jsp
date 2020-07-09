@@ -5,6 +5,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+
 <script>
 	$(function() {
 		$(".box").on("click", function() {
@@ -31,15 +32,15 @@
 		
 		})
 		
-		var grade = '${sessionScope.loginInfo.grade}';
+		//var grade = '${sessionScope.loginInfo.grade}';
 		
 		
-		//이메일 팝업창 생성
+		//이메일 모달창 생성
 		$(".button_aa .email_a").on("click",function(e){
-			alert("이메일 페이지로 이동하실께요.");
 			var seq = $(this).closest('.button_aa').siblings('.box').find('.seq').html();
-			window.open("http://localhost:8888/partner/selectPartnerEmail?seq="+seq,"width=800,height=400");
+			//window.open("http://localhost:8888/partner/selectPartnerEmail?seq="+seq,"width=800,height=400");
 		})
+		
 				
 		//시군 
 		   new sojaeji('sido1', 'gugun1');
@@ -67,16 +68,7 @@
 			console.log($('#address').val(sido + ' ' + gugun));
 		});
 		
-		
 		//최신순, 평점순
-		/* var align = '${align}';
-		if(align != null){
-			$("#align").val(align);
-			console.log(align);
-		}else{
-			$('#align').val('seq');
-		} */
-		
 		$('#align').on('change',function(){
 			var orderByVal = $('#align').val();
 			location.href='/partner/partnerList?align='+orderByVal;
@@ -89,7 +81,7 @@
 				location.href="http://localhost/member/login";
 			}	
 		})
-	})
+	});
 </script>
 <body>
 	<div id="subWrap" class="hdMargin" style="padding-top: 155.924px;">
@@ -108,7 +100,7 @@
 									<div>자신의 프로필을 공유하여 다른 사람들과 소통해보세요.</div>
 									프로필 공유 동의 <input type="checkbox" name="agree" id="agree">(필수)<br> 
 									<span><input type="checkbox" name="contactList" id="letter" >쪽지</span> 
-									<span><input type="checkbox" name="contactList" id="email" >이메일</span> 
+									<span><input type="checkbox" name="contactList" id="email">이메일</span> 
 									<span><input type="checkbox" name="contactList" id="chatting" >채팅(필수)</span><br>
 									<input type="hidden" name="contact" id="contact">
 									1:1 기본적으로 제공되는 서비스입니다.
@@ -208,14 +200,15 @@
 			</c:when>
 			<c:otherwise>
 				<c:forEach var="plist" items="${alist}">
-					<div>
+					<div class="list_${plist.seq}">
 						<div class="box">
 							<span class="seq">${plist.seq}</span> 
 							<img src ="/upload/member/${plist.id}/${plist.sysname}">
-							<span class="name">${plist.name}, ${plist.age}</span><br> 
+							<span class="name">${plist.name}</span> <br> 
+							<span class="age">${plist.age}</span><br> 
 							<span class="id">아이디 : ${plist.id}</span><br> 
 							<span class="gender">성별 :${plist.gender}</span><br> 
-							<span class="email">이메일 : ${plist.email}</span><br> 
+							<span class="email">${plist.email}</span><br> 
 							<span class="lang_can">구사 가능한 언어 :${plist.lang_can}</span><br> 
 							<span class="lang_learn">배우고 싶은 언어 : ${plist.lang_learn}</span><br>
 							<span class="hobby">취미 : ${plist.hobby}</span><br> 
@@ -224,62 +217,75 @@
 						<div class="button_aa">
 							<button class="letter">쪽지</button>
 							<button class="chatting" data-uid="${plist.id}" data-name="${plist.name}">채팅</button>
-							<button class="email_a">이메일</button>
+							<button class="email_a"><a href="#writeEmail" class='btn' data-seq="${plist.seq}">이메일</a></button>
 						</div>
 					</div><hr>						
 				</c:forEach>
 			</c:otherwise>
 		</c:choose>	
 	</div>
-	<p><a class="btn" href="#ex7">도달창띄우기2</a></p>
- 	
-	<div id="ex7" class="modal">
-		<div class="emailPop">
-			<h2>이메일 보내기</h2>
-			<form id="emailForm"> 
-			<!-- post방식으로 자료를 컨트롤러로 보냄 -->
-				<input type="hidden" name="seq" value="${pdto.seq}">
-				받는 사람  : <input name="name" value="${pdto.name}"><br>
-				발신자 이메일 : <input name="memail" value="${loginInfo.email}"><br>
-				이메일 비밀번호 : <input type="password" name="emailPassword"><br>
-				수신자 이메일 : <input name="email" value="${pdto.email}"><br>
-				제목 : <input name="subject"><br>
-				내용 : <textarea rows="5" cols="80" name="contents"></textarea><br>
-				<input type="submit" value="전송" id="send">
-			</form>
-		</div>
-	 	<script>
-	 		$(function(){
-				 $("#emailForm").on("submit",function(){
-					 alert("이메일")
-					 var formData = new FormData($("#emailForm")[0]);
-					$.ajax({
-						url:"/partner/send",
-						data:formData,
-						type:"post",
-						dataType:"json",
-						cache:false,
-						contentType:false,
-						processData:false
-					}).done(function(resp){
-						alert("test :" + resp)
-					})
-					return false;
-				})
-	 		})
-		</script>  
-	</div>
-	 
-	<script>
-	    $('a[href="#ex7"]').click(function(event) {
-	      event.preventDefault();
-	 
-	      $(this).modal({
-	        fadeDuration: 250
-	      });
-	    });
-	</script>
 	
 	<div class="navi">${navi}</div>
-
+ 	
+ 	<div class=modal>
+		<div id="writeEmail" >
+		  	<div id="" class="emailPop">
+				<h2>이메일 보내기</h2>
+				<form id="emailForm"> 
+				<!-- post방식으로 자료를 컨트롤러로 보냄 -->
+					<!-- <input type="hidden" name="seq"> -->
+					받는 사람  : <input name="name" id="receiverName"><br>
+					발신자 이메일 : <input name="memail" value="${loginInfo.email}"><br>
+					이메일 비밀번호 : <input type="password" name="emailPassword"><br>
+					수신자 이메일 : <input name="email" id="sendrMail"><br>
+					제목 : <input name="subject"><br>
+					내용 : <textarea rows="5" cols="80" name="contents"></textarea><br>
+					<input type="submit" value="전송" id="send">
+				</form>
+			</div>
+		</div>
+	</div> 
+	<script>
+	$(function(){
+		
+		var writeEmail = $("#writeEmail");
+	    $('a[href="#writeEmail"]').click(function(e) {
+	    	e.preventDefault();
+	     	 $("#writeEmail").stop().fadeIn();
+	     	 var seq = $(this).data("seq");
+	     	 var name = $(".list_"+seq).find(".name").text();
+	     	 var email = $(".list_"+seq).find(".email").text();
+	     	 alert(name)
+	     	writeEmail.find("#receiverName").val(name);
+	     	writeEmail.find("#sendrMail").val(email);
+	    });
+    
+		 $("#emailForm").submit(function(){
+			 var formData = new FormData($("#emailForm")[0]);
+			$.ajax({
+				url:"/partner/send",
+				data:formData,
+				type:"post",
+				dataType:"json",
+				cache:false,
+				contentType:false,
+				processData:false
+			}).done(function(resp){
+				alert("test :" + resp)
+			})
+			return false;
+		})
+		
+		$('a[href="#writeEmail"]').click(function(event) {
+		      event.preventDefault();
+		 
+		      $(this).modal({
+		        fadeDuration: 250
+		      });
+		    });
+		
+	})
+	</script>
+ 	
+ 	
 <jsp:include page="/WEB-INF/views/footer.jsp"/>

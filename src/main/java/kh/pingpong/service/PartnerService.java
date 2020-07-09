@@ -3,16 +3,11 @@ package kh.pingpong.service;
 import java.util.List;
 import java.util.Map;
 
-import javax.mail.Message.RecipientType;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import kh.pingpong.config.Configuration;
-import kh.pingpong.dao.GroupDAO;
 import kh.pingpong.dao.PartnerDAO;
 import kh.pingpong.dto.HobbyDTO;
 import kh.pingpong.dto.JjimDTO;
@@ -117,7 +112,9 @@ public class PartnerService {
 	}
 	
 	//파트너 삭제
+	@Transactional("txManager")
 	public int deletePartner(MemberDTO mdto) throws Exception{
+		pdao.updateMemberGradeD(mdto);
 		return pdao.deletePartner(mdto);
 	}
 	

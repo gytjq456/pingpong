@@ -91,6 +91,11 @@
 	<delete id="deletePartner">
 		delete from partner where id=#{id} and name=#{name}
 	</delete>
+	
+	<!-- 파트너 삭제로 멤버 업데이트 -->
+	<update id="updateMemberGradeD">
+		update member set grade = 'default' where id = #{id}
+	</update>
 
 	<!-- 전체 파트너  -->
 	<select id="partnerListAll" resultType="kh.pingpong.dto.PartnerDTO">

@@ -6,10 +6,14 @@ input:-moz-read-only {background-color: #e4e4e4; color:#a9a9a9}
 input:read-only {background-color: #e4e4e4;color:#a9a9a9;} 
 
 /* 이메일 보내기 */
-/* .emailPop { position:fixed; right:0; top:0; width:700px; height:100%; z-index:9999; background:#fff;		} */
+/* .emailPop { position:fixed; right:0; top:0; width:700px; height:100%; z-index:9999; background:#fff;} */
 
 /* 파트너  */
+.box{border:1px solid black;}
+.box_list{float:left; text-align:left;}
 .box .introduce{word-break: break-all;}
+
+.button_aa{border:1px solid black; border-top:none;}
 
 /*  타이틀 */
 .tit_s2 { margin-bottom:12px;}

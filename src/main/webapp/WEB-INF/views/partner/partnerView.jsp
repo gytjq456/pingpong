@@ -154,7 +154,9 @@
 			</div>
 		</c:otherwise>
 	</c:choose>
-
+	<script>
+		$(".email")
+	</script>
 	<script>
 		$(".back").on("click",function(){
 			location.href="/partner/partnerList";
@@ -163,6 +165,7 @@
 		//이메일 팝업창 생성
 		$(".button_aa .email").on("click",function(e){
 			var seq = $(this).closest('.button_aa').siblings('.box').find('.seq').html();
+			
 		})
 		
 		$(".button_aa .delete").on("click",function(){
@@ -279,5 +282,5 @@
 							</c:forEach>
 						</div>
 	</article>
-<jsp:include page="/WEB-INF/views/email/write.jsp"/>	
+<jsp:include page="/WEB-INF/views/email/write.jsp"/>
 <jsp:include page="/WEB-INF/views/footer.jsp"/>	

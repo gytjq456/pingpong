@@ -93,6 +93,11 @@ public class PartnerDAO {
 	public int deletePartner(MemberDTO mdto) throws Exception{
 		return mybatis.delete("Partner.deletePartner", mdto);
 	}
+	
+	// 파트너 멤버 업데이트
+	public int updateMemberGradeD(MemberDTO mdto) throws Exception {
+		return mybatis.update("Partner.updateMemberGradeD", mdto);
+	}
 
 	public List<PartnerDTO> partnerListAll() throws Exception{
 		return mybatis.selectList("Partner.partnerListAll");

@@ -37,22 +37,7 @@
 							<div class="category">GROUP</div>
 							<div class="list">
 								<ul>
-									<li>
-										<div class="thum"><img src="/resources/img/sub/userThum.jpg"></div>
-										<div class="info">
-											<div class="tit">제목 제목 제목 제목 제목 제목 </div>
-											<div class="txtBox">내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 </div>
-											<div class="time">모집 기간 : 2020-06-21 ~2020-06-22</div>
-										</div>
-									</li>
-									<li>
-										<div class="thum"><img src="/resources/img/sub/userThum.jpg"></div>
-										<div class="info">
-											<div class="tit">제목 제목 제목 제목 제목 제목 </div>
-											<div class="txtBox">내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 </div>
-											<div class="time">모집 기간 : 2020-06-21 ~2020-06-22</div>
-										</div>
-									</li>
+									
 								</ul>
 							</div>
 						</section>
@@ -60,22 +45,7 @@
 							<div class="category">TUTOR CLASS</div>
 							<div class="list">
 								<ul>
-									<li>
-										<div class="thum"><img src="/resources/img/sub/userThum.jpg"></div>
-										<div class="info">
-											<div class="tit">제목 제목 제목 제목 제목 제목 </div>
-											<div class="txtBox">내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 </div>
-											<div class="time">모집 기간 : 2020-06-21 ~2020-06-22</div>
-										</div>
-									</li>
-									<li>
-										<div class="thum"><img src="/resources/img/sub/userThum.jpg"></div>
-										<div class="info">
-											<div class="tit">제목 제목 제목 제목 제목 제목 </div>
-											<div class="txtBox">내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 </div>
-											<div class="time">모집 기간 : 2020-06-21 ~2020-06-22</div>
-										</div>
-									</li>
+									
 								</ul>
 							</div>
 						</section>

@@ -172,12 +172,12 @@
 				})
 				
 				ws.onmessage = function(e){
-					console.log("tttt ===" + e.data);
+					console.log(e.data);
 					var msg = JSON.parse(e.data);
 					var time = new Date(msg.date);
 					var timeStr = time.toLocaleTimeString();
 					
-					
+					console.log(msg[0])
 					for(var i=0; i<msg.length; i++){
 						if(msg[i].type == "login"){
 							var chatList = $("#chatList .list ul li");

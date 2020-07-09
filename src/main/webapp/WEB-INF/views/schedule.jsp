@@ -86,6 +86,8 @@
 		    clickedDate1 = document.getElementById(today.getDate());
 		    clickedDate1.classList.add('active');
 		    clickStart();
+		    
+		    classSchFn();
 		    //reshowingList();
 		}
 
@@ -119,7 +121,8 @@
 		    clickedDate1 = document.getElementById(today.getDate());
 		    clickedDate1.classList.add('active');  
 		    clickStart();
-		    //reshowingList();
+		
+		    classSchFn();
 		}
 		
 		
@@ -136,7 +139,8 @@
 		var nextBtn = document.getElementById('next');
 		prevBtn.addEventListener('click',prev);
 		nextBtn.addEventListener('click',next);
-		classDateSch(today.getDate());
+		
+		classSchFn();
 		var tdGroup = [];
 		clickStart()
 		function clickStart(){
@@ -157,20 +161,59 @@
 		    //showMain();
 		    keyValue = today.getFullYear() + '' + today.getMonth()+ '' + today.getDate();
 		    //reshowingList();
+		    classSchFn();
+		}
+		
+		function classSchFn(){
+		    var getDate = today.getDate();
+		    var getMonth = today.getMonth() + 1
+		    if(getDate < 10){
+		    	getDate = "0"+getDate
+			}
+			if(getMonth < 10){
+				getMonth = "0"+getMonth
+			}
+		    classDateSch(today.getFullYear()+"-"+getMonth+"-"+getDate);
 		}
 		
 		
 		function classDateSch(day){
+			$(".groupClass ul").html("");
+			$(".tutorClass ul").html("");
 			$.ajax({
-				url:"/",
+				url:"/classDateSch",
 				dataType:"json",
 				type:"post",
 				data:{
 					day:day
 				}
 			}).done(function(resp){
-				console.log("========day Test=======")
-				console.log(resp)
+				if(resp.gList.length){
+					for(var i=0; i<resp.gList.length; i++){
+						var li = $("<li>");
+						var info = $('<div class="info">');
+						li.append('<div class="thum"><img src="/resources/img/sub/userThum.jpg"></div>')
+						info.append('<div class="tit">'+resp.gList[i].title+'</div>')
+						info.append('<div class="txtBox">'+resp.gList[i].contents+' </div>')
+						info.append('<div class="time">진행 기간 : '+resp.gList[i].start_date+' ~ '+resp.gList[i].end_date+'')
+						li.append(info);
+						$(".groupClass ul").append(li);
+					}
+				}
+				if(resp.LessonList.length){
+					for(var i=0; i<resp.LessonList.length; i++){
+						var li = $("<li>");
+						var info = $('<div class="info">');
+						li.append('<div class="thum"><img src="/resources/img/sub/userThum.jpg"></div>')
+						info.append('<div class="tit">'+resp.LessonList[i].title+'</div>')
+						info.append('<div class="txtBox">'+resp.LessonList[i].curriculum+' </div>')
+						info.append('<div class="time">진행 기간 : '+resp.LessonList[i].start_date+' ~ '+resp.LessonList[i].end_date+'')
+						li.append(info);
+						$(".tutorClass ul").append(li);
+					}
+				}
+				
+
 			})
 		}
 	});

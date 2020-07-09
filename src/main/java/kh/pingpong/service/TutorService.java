@@ -178,6 +178,11 @@ public class TutorService {
 		return tdao.tuteeInsert(ttdto);
 	}
 	
+	//강위취소 튜티 환불금액 update 하고 강의 취소 'Y'로 바꾸기
+	public int refundInsert(TuteeDTO ttdto) throws Exception{
+		return tdao.refundInsert(ttdto);
+	}
+	
 	//현재인원 늘리기
 	public int tuteeCurnumCount(TuteeDTO ttdto) throws Exception{
 		return tdao.tuteeCurnumCount(ttdto);

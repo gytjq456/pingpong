@@ -9,7 +9,8 @@
 	
 	<!-- 방번호 검색 -->
  	<select id="chatRoomIdSch" resultType="String">
-		select roomId from chatRoom where chatMemberId like '%'||#{master}||'%' and chatMemberId like '%'||#{partner}||'%'
+		<!-- select roomId from chatRoom where chatMemberId like '%'||#{master}||'%' and chatMemberId like '%'||#{partner}||'%' -->
+		select roomId from chatRoom where chatMemberId = '${master},${partner}'
 	</select>
 
 	<!-- 방리스트 검색 -->

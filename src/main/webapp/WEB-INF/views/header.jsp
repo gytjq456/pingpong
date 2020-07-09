@@ -40,7 +40,7 @@
 		 							<a href="#;">MyPage</a>
 									<ul class="depth2">
 										<li><a href="/member/myInfo">나의 정보수정</a></li>
-										<li><a href="/mypage/tutorRecord">나의 튜터 목록</a></li>
+										<li><a href="/mypage/tutorRecord">나의 강의목록</a></li>
 										<li><a href="/mypage/groupRecord">모임기록</a></li>
 										<li><a href="/mypage/likeRecord">찜목록</a></li>
 									</ul>
@@ -75,7 +75,7 @@
 							<li>
 								<a href="/tutor/tutorList">Tutor</a>
 								<ul class="depth2">
-									<li><a href="/tutor/lessonList?orderBy=seq">강의 목록</a></li>
+									<li><a href="/tutor/lessonList?orderBy=seq&keywordSelect=name">강의 목록</a></li>
 									<li><a id="tutorApp">튜터 신청</a></li>
 								</ul>
 							</li>												

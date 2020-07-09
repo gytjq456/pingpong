@@ -142,6 +142,23 @@
 		update member set age = age+1
 	</update>
 	
+	<!-- 언어 선호 수 올리기 -->
+	<update id="updateLangCount">
+		update language set lang_count = lang_count + 1 where language in
+		<foreach collection="array" item="eachLang" open="(" close=")" separator=", ">
+			#{eachLang}
+		</foreach>
+	</update>
+	
+	<!-- 지역 선호 수 올리기 -->
+	<update id="updateLocCount">
+		update location set loc_count = loc_count + 1 where loc_name = #{loc_name}
+	</update>
+	
+	<!-- 파트너 / 튜터 목록 가져오기  -->
+	<select id="personList" resultType="kh.pingpong.dto.MemberDTO">
+		select * from member where grade = #{value}
+	</select>
 </mapper>
 
 

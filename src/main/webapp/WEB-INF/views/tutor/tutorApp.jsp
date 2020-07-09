@@ -66,6 +66,40 @@
 
 <script>
 	$(function() {
+		
+		$("input, textarea").blur(function(){
+			var thisVal = $(this).val();
+			$(this).val(textChk(thisVal));
+		})
+		
+		function textChk(thisVal){
+			var replaceId  = /(script)/gi;
+			var textVal = thisVal;
+		    if (textVal.length > 0) {
+		        if (textVal.match(replaceId)) {
+		        	textVal = thisVal.replace(replaceId, "");
+		        }
+		    }
+		    return textVal;
+		}
+		
+		//용량제한하기
+		$(".license_contents").on('change','input[type=file]',function(e){
+
+			if(!$(this).val()) {return false};
+			
+			var f = this.files[0];
+			var size = f.size || f.fileSize;
+			console.log(f.size + ":" +f.fileSize);
+			var limit = 1024*1024;
+			if(size > limit){
+				alert("파일용량 1GB을 초과했습니다.");
+				$(this).val("");
+				return false;
+			}
+			
+		})
+		
 		//파일 첨부 여러개
 		$("#fileAdd").on("click", function() {
 			var fileComp = $("<div><input type=file class='file' name=files><input type='button' value='-' class='fileDelete'></div>");
@@ -118,6 +152,15 @@
 				alert("1000자 이하로 등록해 주세요")
 			}
 		})
+		
+		$("#frm").on("submit", function(){
+			var introduceVal = $("#introduce").val();
+
+			if (introduceVal.length == 0) {
+				alert("자기소개를 입력해주세요");
+				return false;
+			}
+		})
 	})
 </script>
 
@@ -126,7 +169,7 @@
 		<article id="tutorApp_view" class="inner1200">
 
 			<h6>튜터 신청서</h6>
-			<form action="tutorAppSend" method="post" enctype="multipart/form-data">
+			<form id ="frm" action="tutorAppSend" method="post" enctype="multipart/form-data">
 			
 				<div class="top_wrapper">
 					<div class="profile">
@@ -156,7 +199,7 @@
 					<div class="bottom_main">
 						<div class="license_main main">자격증</div>
 						<div class="license_contents contents">
-							(자격증사진을 찍어 첨부해주세요.)
+						*자격증사진을 찍어 첨부해주세요.
 							<input type="button" id="fileAdd" name="files" value="파일첨부[+]">
 						</div>
 					</div>

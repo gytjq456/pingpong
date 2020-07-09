@@ -161,7 +161,7 @@ public class TutorController {
 	
 	//강의 list
 	@RequestMapping("lessonList")
-	public String lessonList(String orderBy,HttpServletRequest request, Model model) throws Exception{
+	public String lessonList(String orderBy,String keywordSelect,HttpServletRequest request, Model model) throws Exception{
 		model.addAttribute("loginInfo", session.getAttribute("loginInfo"));
 		
 		//언어 
@@ -183,12 +183,13 @@ public class TutorController {
 		System.out.println(lessonlist);
 		model.addAttribute("lessonlist",lessonlist);
 		model.addAttribute("orderBy",orderBy);
+		model.addAttribute("keywordSelect", keywordSelect);
 		return "/tutor/lessonList";
 	}
 	
 	//모집중, 진행중, 마감 클릭했을때 리스트 새로 뽑기
 	@RequestMapping("lessonListPeriod")
-	public String lessonListPeriod(String period, String orderBy, HttpServletRequest request, Model model) throws Exception{
+	public String lessonListPeriod(String period, String orderBy, String keywordSelect,HttpServletRequest request, Model model) throws Exception{
 		model.addAttribute("loginInfo", session.getAttribute("loginInfo"));
 
 		//언어 
@@ -222,6 +223,7 @@ public class TutorController {
 		System.out.println(lessonlist);
 		model.addAttribute("lessonlist",lessonlist);
 		model.addAttribute("orderBy",orderBy);
+		model.addAttribute("keywordSelect",keywordSelect);
 		return "/tutor/lessonList";
 	}
 	
@@ -252,6 +254,7 @@ public class TutorController {
 		System.out.println(lessonlist);
 		model.addAttribute("lessonlist",lessonlist);
 		model.addAttribute("orderBy",orderBy);
+		model.addAttribute("keywordSelect", keywordSelect);
 		return "/tutor/lessonList";
 	}
 	

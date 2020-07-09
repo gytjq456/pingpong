@@ -12,7 +12,6 @@ import kh.pingpong.dto.LessonDTO;
 import kh.pingpong.dto.LikeListDTO;
 import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.dto.PartnerDTO;
-import kh.pingpong.dto.TuteeDTO;
 
 @Repository
 public class MyPageDAO {
@@ -31,24 +30,27 @@ public class MyPageDAO {
 		return mybatis.selectList("Mypage.selectByIdInGroup_app",loginInfo);
 	}
 	
-
-	public List<LessonDTO> selectTutorList(MemberDTO loginInfo){
-		return mybatis.selectList("Mypage.tutorList",loginInfo);
-	}
+	//나의 강의목록
+//	public List<LessonDTO> selectTutorList(MemberDTO loginInfo){
+//		return mybatis.selectList("Mypage.tutorList",loginInfo);
+//	}
 	
 
-	public List<TuteeDTO> selectTuteeList(){
-		return mybatis.selectList("Mypage.tuteeList");
+	public List<LessonDTO> selectTuteeList(MemberDTO loginInfo){
+		return mybatis.selectList("Mypage.tuteeList",loginInfo);
 	}
+	
 	
 	public List<PartnerDTO> selectPartnerList(){
 		return mybatis.selectList("Mypage.partnerList");
 	}
 	
+	
 	public List<LikeListDTO> selectLikeList(){
 		return mybatis.selectList("Mypage.likeList");
 	}
 	
+	//찜목록
 	public List<PartnerDTO> selectPartnerJjim(MemberDTO loginInfo){
 		return mybatis.selectList("Mypage.partnerJjim",loginInfo);
 	}

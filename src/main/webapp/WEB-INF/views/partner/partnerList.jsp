@@ -2,6 +2,9 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <jsp:include page="/WEB-INF/views/header.jsp"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 <script>
 	$(function() {
 		$(".box").on("click", function() {
@@ -9,7 +12,7 @@
 			location.href = "/partner/partnerView?seq=" + seq;
 		})
 		
-		$('#partnerBtn').on('click', function(){
+		$('#partnerBtn').on('click', function(){				
 			var checkboxCount = $("input:checkbox[name='contactList']").length;
 			console.log('checkboxCount: ' + checkboxCount)
 			var selectedContact = [];
@@ -25,8 +28,12 @@
 			$("#contact").val(selectedContact);
 			
 			$('#partnerRegister').submit();
+		
 		})
-		 
+		
+		var grade = '${sessionScope.loginInfo.grade}';
+		
+		
 		//이메일 팝업창 생성
 		$(".button_aa .email_a").on("click",function(e){
 			alert("이메일 페이지로 이동하실께요.");
@@ -62,19 +69,26 @@
 		
 		
 		//최신순, 평점순
-		var orderBy = '${orderBy}';
-		if(orderBy != null){
-			$("#orderBy").val(orderBy);
-			console.log(orderBy);
+		/* var align = '${align}';
+		if(align != null){
+			$("#align").val(align);
+			console.log(align);
 		}else{
-			$('#orderBy').val('seq');
-		}
+			$('#align').val('seq');
+		} */
 		
-		$('#orderBy').on('change',function(){
-			var orderByVal = $('#orderBy').val();
-			location.href='/partner/partnerList?orderBy='+orderByVal;
+		$('#align').on('change',function(){
+			var orderByVal = $('#align').val();
+			location.href='/partner/partnerList?align='+orderByVal;
 		})
 		
+		// 로그인 후 이용가능
+		$(".box").on("click",function(){
+			if(${sessionScope.loginInfo.id == null}){
+				alert("로그인 후 이용해주세요.");
+				location.href="http://localhost/member/login";
+			}	
+		})
 	})
 </script>
 <body>
@@ -85,6 +99,23 @@
 				<div class="tit_s1">
 					<h2>Partner</h2>
 					<p>다양한 사람들을 원하시나요?<br>관심사가 비슷한 사람들과 함께 소통해 보세요.</p>
+				</div>
+				<div class="partner_register_box">
+					<div id="tab_2" class="profileShareAgree">			
+							<c:if test="${sessionScope.loginInfo.grade == 'default'}">
+								<form action="/partner/insertPartner" id="partnerRegister" method="post">
+									<h2>파트너를 등록해주세요</h2>
+									<div>자신의 프로필을 공유하여 다른 사람들과 소통해보세요.</div>
+									프로필 공유 동의 <input type="checkbox" name="agree" id="agree">(필수)<br> 
+									<span><input type="checkbox" name="contactList" id="letter" >쪽지</span> 
+									<span><input type="checkbox" name="contactList" id="email" >이메일</span> 
+									<span><input type="checkbox" name="contactList" id="chatting" >채팅(필수)</span><br>
+									<input type="hidden" name="contact" id="contact">
+									1:1 기본적으로 제공되는 서비스입니다.
+									<button type="button" id="partnerBtn">등록</button>
+								</form>
+							</c:if>
+					</div>
 				</div>
 				<div class="partner_search_box">
 					<div id="tabContWrap" class="search_wrap">
@@ -152,6 +183,9 @@
 											</li>
 										</ul>
 									</div>
+									<div class="btnS1 center">
+										<div><input type="submit" value="검색" id=searchAsKeyword></div>
+									</div>
 								</section>
 							</div>
 							</form>
@@ -161,99 +195,31 @@
 				<div class="search_btn_style">
 					<div class="btnS1 right">
 						<select name="align" id="align">
-							<option value="recent" <c:if test="${alignType == 'recent'}">selected</c:if>>최신 순</option>
-							<option value="like" <c:if test="${alignType == 'like'}">selected</c:if>>인기 순</option>
+							<option value="recent" <c:if test="${align == 'recent'}">selected</c:if>>최신 순</option>
+							<option value="point" <c:if test="${align == 'point'}">selected</c:if>>인기 순</option>
 						</select>
 					</div>
 				</div>
-				
-	<div class="profileShareAgree">
-		<form action="/partner/insertPartner" id="partnerRegister" method="post">
-			<h2>파트너를 등록해주세요</h2>
-			<div>자신의 프로필을 공유하여 다른 사람들과 소통해보세요.</div>
-			프로필 공유 동의 <input type="checkbox" name="agree" id="agree">(필수)<br> 
-			<span><input type="checkbox" name="contactList" id="letter" >쪽지</span> 
-			<span><input type="checkbox" name="contactList" id="email" >이메일</span> 
-			<span><input type="checkbox" name="contactList" id="chatting" >채팅</span><br>
-			<input type="hidden" name="contact" id="contact">
-			1:1 기본적으로 제공되는 서비스입니다.
-			<button type="button" id="partnerBtn">등록</button>
-		</form>
-	</div>
-	
-	<form action="/partner/partnerSearch" method="post" id="test">
-		<div>
-			<input type="text" name="name" placeholder="파트너의 이름">
-		</div>
-		<div class="partnerSearch">
-			<select name="age" id="age" onchange="setSelectBox(this)">
-				<option value="" disabled selected >나이대</option>
-				<option value="1">10대</option>	
-				<option value="2">20대</option>	
-				<option value="3">30대</option>	
-				<option value="4">40대</option>	
-				<option value="5">50대</option>
-			</select>
-			<select name="gender" id="gender">
-				<option value="" disabled selected >성별</option>
-				<!-- <option value="전체">전체</option> -->
-				<option value="남자">남자</option>	
-				<option value="여자">여자</option>
-			</select>
-			
-			<input type="hidden" id="address" name="address">
-			<select name="sido1" id="sido1"></select>
-            <select name="gugun1" id="gugun1"></select>
-                                       
-			<select name="lang_can" id="lang_can">
-				<option value="" disabled selected >구사언어</option>
-				<c:forEach var="ldto" items="${ldto}">
-					<option value="${ldto.language}">${ldto.language}</option>
-				</c:forEach>
-			</select>
-			<select name="lang_learn" id="lang_learn">
-				<option value="" disabled selected >학습언어</option>
-				<c:forEach var="ldto" items="${ldto}">
-					<option value="${ldto.language}">${ldto.language}</option>
-				</c:forEach>	
-			</select>
-			<select name="hobby" id="hobby">
-				<option value="" disabled selected >취미</option>
-				<!-- <option value="NULL">전체</option> -->
-				<c:forEach var="hdto" items="${hdto}">
-					<option value="${hdto.hobby}">${hdto.hobby}</option>
-				</c:forEach>
-			</select>
-		</div>
-		<input type="submit" value="검색">
-	</form>
-	
-	<div>
-		<select name="align" id="align">
-			<option value="recent" <c:if test="${alignType == 'recent'}">selected</c:if>>최신 순</option>
-			<option value="like" <c:if test="${alignType == 'like'}">selected</c:if>>인기 순</option>
-		</select>
-	</div>
-	
+
 	<div class="partnerBox">
 		<c:choose>
-			<c:when test="${empty plist}">
+			<c:when test="${empty alist}">
 				등록된 파트너가 없습니다.
 			</c:when>
 			<c:otherwise>
-				<c:forEach var="plist" items="${plist}">
+				<c:forEach var="plist" items="${alist}">
 					<div>
 						<div class="box">
 							<span class="seq">${plist.seq}</span> 
 							<img src ="/upload/member/${plist.id}/${plist.sysname}">
-							${plist.name}, ${plist.age}<br> 
-							아이디 : ${plist.id}<br> 
-							성별 :${plist.gender}<br> 
-							이메일 : ${plist.email}<br> 
-							구사 가능한 언어 :${plist.lang_can}<br> 
-							배우고 싶은 언어 : ${plist.lang_learn}<br>
-							취미 : ${plist.hobby}<br> 
-							자기 소개 : ${plist.introduce}
+							<span class="name">${plist.name}, ${plist.age}</span><br> 
+							<span class="id">아이디 : ${plist.id}</span><br> 
+							<span class="gender">성별 :${plist.gender}</span><br> 
+							<span class="email">이메일 : ${plist.email}</span><br> 
+							<span class="lang_can">구사 가능한 언어 :${plist.lang_can}</span><br> 
+							<span class="lang_learn">배우고 싶은 언어 : ${plist.lang_learn}</span><br>
+							<span class="hobby">취미 : ${plist.hobby}</span><br> 
+							<span class="introduce">자기 소개 : ${plist.introduce}</span>
 						</div>
 						<div class="button_aa">
 							<button class="letter">쪽지</button>
@@ -265,6 +231,54 @@
 			</c:otherwise>
 		</c:choose>	
 	</div>
+	<p><a class="btn" href="#ex7">도달창띄우기2</a></p>
+ 	
+	<div id="ex7" class="modal">
+		<div class="emailPop">
+			<h2>이메일 보내기</h2>
+			<form id="emailForm"> 
+			<!-- post방식으로 자료를 컨트롤러로 보냄 -->
+				<input type="hidden" name="seq" value="${pdto.seq}">
+				받는 사람  : <input name="name" value="${pdto.name}"><br>
+				발신자 이메일 : <input name="memail" value="${loginInfo.email}"><br>
+				이메일 비밀번호 : <input type="password" name="emailPassword"><br>
+				수신자 이메일 : <input name="email" value="${pdto.email}"><br>
+				제목 : <input name="subject"><br>
+				내용 : <textarea rows="5" cols="80" name="contents"></textarea><br>
+				<input type="submit" value="전송" id="send">
+			</form>
+		</div>
+	 	<script>
+	 		$(function(){
+				 $("#emailForm").on("submit",function(){
+					 alert("이메일")
+					 var formData = new FormData($("#emailForm")[0]);
+					$.ajax({
+						url:"/partner/send",
+						data:formData,
+						type:"post",
+						dataType:"json",
+						cache:false,
+						contentType:false,
+						processData:false
+					}).done(function(resp){
+						alert("test :" + resp)
+					})
+					return false;
+				})
+	 		})
+		</script>  
+	</div>
+	 
+	<script>
+	    $('a[href="#ex7"]').click(function(event) {
+	      event.preventDefault();
+	 
+	      $(this).modal({
+	        fadeDuration: 250
+	      });
+	    });
+	</script>
 	
 	<div class="navi">${navi}</div>
 

@@ -167,7 +167,7 @@ public class PartnerService {
 	}
 	
 	//검색 최신순 / 평점순
-	public List<PartnerDTO> searchAlign(String alignType) throws Exception{
-		return pdao.searchAlign(alignType);
+	public List<PartnerDTO> searchAlign(String align) throws Exception{
+		return pdao.searchAlign(align);
 	}
 }

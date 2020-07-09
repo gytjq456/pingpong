@@ -6,8 +6,10 @@ input:-moz-read-only {background-color: #e4e4e4; color:#a9a9a9}
 input:read-only {background-color: #e4e4e4;color:#a9a9a9;} 
 
 /* 이메일 보내기 */
-.emailPop { position:fixed; right:0; top:0; width:700px; height:100%; z-index:9999; background:#fff;		}
+/* .emailPop { position:fixed; right:0; top:0; width:700px; height:100%; z-index:9999; background:#fff;		} */
 
+/* 파트너  */
+.box .introduce{word-break: break-all;}
 
 /*  타이틀 */
 .tit_s2 { margin-bottom:12px;}
@@ -386,8 +388,8 @@ button.normal:hover { background:#c7c7c7 !important; color:#fff; }
  .tab_s2 ul li.on a { background:#f1989f; font-weight:500; color:#fff; }
  
  #tabContWrap { }
- #tabContWrap > article { display:none; }
- #tabContWrap > article:first-child { display:block; }
+ #tabContWrap > article { display:none;}
+ #tabContWrap > article:first-child { display:block;}
    
    
    

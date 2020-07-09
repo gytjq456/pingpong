@@ -33,7 +33,7 @@
 										<td>리뷰수:${trlist.review_count}</td>
 										<td>평점:${trlist.review_point}</td>
 										
-										<a href="/payments/cancle?parent_seq=${ldto.seq }&start_date=${ldto.start_date }&price=${ldto.price }">test환불</a>
+										<%-- <a href="/payments/cancle?parent_seq=${ldto.seq }&start_date=${ldto.start_date }&price=${ldto.price }">test환불</a> --%>
 										<input type="button" value="삭제" onclick="SomeDeleteRowFunction()">
 									</tr>
 								</table>
@@ -48,6 +48,7 @@
 	<script>
 		function SomeDeleteRowFunction(){
 			$('table').on("click",'input[type=button]',function(e){
+				//location.href="/payments/cancle?parent_seq=${telist.seq}&start_date=${telist.start_date}&price=${telist.price}";
 				$(this).closest('tr').remove()
 			})
 		}

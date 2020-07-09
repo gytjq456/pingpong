@@ -1,3 +1,4 @@
+
 /* slick-slider 필수 css */
 .slick-slider{position:relative; display:block; box-sizing:border-box; -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; user-select:none; -webkit-touch-callout:none; -khtml-user-select:none; -ms-touch-action:pan-y; touch-action:pan-y; -webkit-tap-highlight-color:transparent;}
 .slick-list{position:relative; display:block; overflow:hidden; margin:0; padding:0;}
@@ -74,7 +75,7 @@
 #toDayClass .classWrap > section:last-child { margin:0; }
 #toDayClass .classWrap > section > div { margin-bottom:16px; }
 #toDayClass .classWrap > section > div:last-child { margin:0; }
-#toDayClass .classWrap .list {}
+#toDayClass .classWrap .list { height:300px;}
 #toDayClass .classWrap .list ul  {}
 #toDayClass .classWrap .list ul li { margin-bottom:14px; overflow:hidden; background:#fff; padding:20px; border-radius:6px; box-shadow:0 0 10px rgba(0,0,0,0.1); }
 #toDayClass .classWrap .list ul li:last-child { margin:0; }
@@ -107,6 +108,10 @@
 #personList .slick-prev { left: 20px; background: url(/resources/img/main/slide_prev_on.png) no-repeat center top; }
 #personList .slick-next { right: 20px; background: url(/resources/img/main/slide_next_on.png) no-repeat center top; }
 #personList .slick-arrow {  position: absolute; top: 50%; transform: translateY(-50%);  z-index: 10; width: 80px; height: 80px;  z-index: 10; border: none; text-indent: -9999px; background-size: 100% !important;}
+#mainCont > section#personList { padding-top:0;}
 
-
+/* 지도 */
+#mapWrap { padding:0 !important;}
+#mapWrap #map { height:500px;}
+.overlaybox { background:#333;}
 

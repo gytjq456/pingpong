@@ -45,17 +45,4 @@ public class HomeController {
 		
 		return "index";
 	}
-	
-	
-	@RequestMapping("/")
-	public String classSchedule() throws Exception {
-		
-		return "";
-	}
-	
-	
-	
-
-	
-	
 }

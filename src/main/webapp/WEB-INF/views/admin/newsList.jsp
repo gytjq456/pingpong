@@ -4,16 +4,17 @@
 <jsp:include page="/WEB-INF/views/admin/aheader.jsp"/>
 	<div id="main_wrap">
 		<c:choose>
-			<c:when test="${empty bllist}">
-				블랙리스트가 비었습니다.
+			<c:when test="${empty nlist}">
+				등록된 토론 게시글이 없습니다.
 			</c:when>
 			<c:otherwise>
 				<input type="checkbox" id="selectAll"><br>
-				<c:forEach var="bllist" items="${bllist}">
-					<input type="checkbox" value="${bllist.seq}" class="deleteCheck">
-					${bllist.seq} : 
-					<a href="/admins/blacklistView?seq=${bllist.seq}">${bllist.id}(${bllist.name})</a>
-					 : ${bllist.reason} : ${bllist.start_date} : ${bllist.end_date}<br>
+				<c:forEach var="nlist" items="${nlist}">
+					<input type="checkbox" value="${nlist.seq}" class="deleteCheck">
+					${nlist.seq} : 
+					<a href="/admins/newsView?seq=${nlist.seq}">${nlist.writer}</a>
+					 : ${nlist.title} : ${nlist.category} : 
+					${nlist.location} : ${nlist.write_date}<br>
 				</c:forEach>
 			</c:otherwise>
 		</c:choose>
@@ -39,7 +40,7 @@
 						delList[i] = $($('.deleteCheck:checked')[i]).val();
 					}
 					
-					location.href = '/admins/deleteAll?pageName=blacklistList&values=' + delList;
+					location.href = '/admins/deleteAll?pageName=newsList&values=' + delList;
 				}
 			})
 		</script>

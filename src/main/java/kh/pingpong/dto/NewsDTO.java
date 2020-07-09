@@ -20,6 +20,12 @@ public class NewsDTO {
 	private int like_count;
 	private int comment_count;
 	
+	private String thumbnail_img;
+	
+	private String address;
+	private String detailAddress;
+	private String extraAddress;
+	
 	public NewsDTO() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -43,6 +49,31 @@ public class NewsDTO {
 		this.view_count = view_count;
 		this.like_count = like_count;
 		this.comment_count = comment_count;
+	}
+	
+	public NewsDTO(int seq, String title, String writer, String category, String start_date, String end_date,
+			String location, MultipartFile thumbnail, String files_name, String contents, Timestamp write_date,
+			int view_count, int like_count, int comment_count, String thumbnail_img, String address,
+			String detailAddress, String extraAddress) {
+		super();
+		this.seq = seq;
+		this.title = title;
+		this.writer = writer;
+		this.category = category;
+		this.start_date = start_date;
+		this.end_date = end_date;
+		this.location = location;
+		this.thumbnail = thumbnail;
+		this.files_name = files_name;
+		this.contents = contents;
+		this.write_date = write_date;
+		this.view_count = view_count;
+		this.like_count = like_count;
+		this.comment_count = comment_count;
+		this.thumbnail_img = thumbnail_img;
+		this.address = address;
+		this.detailAddress = detailAddress;
+		this.extraAddress = extraAddress;
 	}
 
 	public int getSeq() {
@@ -156,6 +187,36 @@ public class NewsDTO {
 	public void setComment_count(int comment_count) {
 		this.comment_count = comment_count;
 	}
-	
-	
+
+	public String getThumbnail_img() {
+		return thumbnail_img;
+	}
+
+	public void setThumbnail_img(String thumbnail_img) {
+		this.thumbnail_img = thumbnail_img;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getDetailAddress() {
+		return detailAddress;
+	}
+
+	public void setDetailAddress(String detailAddress) {
+		this.detailAddress = detailAddress;
+	}
+
+	public String getExtraAddress() {
+		return extraAddress;
+	}
+
+	public void setExtraAddress(String extraAddress) {
+		this.extraAddress = extraAddress;
+	}
 }

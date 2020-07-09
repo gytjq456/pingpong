@@ -64,12 +64,12 @@
 								<div class="news_sub_input">
 									<div class="se_con">
 										<div class="post_code">
-											<input type="text" id="sample3_postcode" class="post_css" placeholder="우편번호">
+											<input type="text" name="postcode" id="sample3_postcode" class="post_css" placeholder="우편번호">
 											<span class="btnS1"><input type="button" id="postbtn" value="우편번호 찾기" class="post_btn on"></span>
 										</div>
-										<input type="text" id="sample3_address" class="address_css" placeholder="주소">
-										<input type="text" id="sample3_detailAddress" class="addressD_css" placeholder="상세주소">
-										<input type="text" id="sample3_extraAddress" class="addressR_css" placeholder="참고항목">
+										<input type="text" name="address" id="sample3_address" class="address_css" placeholder="주소">
+										<input type="text" name="detailAddress" id="sample3_detailAddress" class="addressD_css" placeholder="상세주소">
+										<input type="text" name="extraAddress" id="sample3_extraAddress" class="addressR_css" placeholder="참고항목">
 										
 										<div id="wrap" style="display:none;border:1px solid;width:500px;height:300px;margin:5px 0;position:relative">
 											<img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="foldDaumPostcode(wrap)" alt="접기 버튼">
@@ -91,7 +91,7 @@
 								<div class="tit_s3 f_all">
 									<h4>프로필</h4>
 									<span class="notice">* 프로필은 필수로 입력하야합니다.</span>
-									<div class="file_box"><input type="file" id="fileOne" name="fileOne"></div>	
+									<div class="file_box"><input type="file" id="thumbnail" name="thumbnail"></div>	
 								</div>
 							</div>
 							

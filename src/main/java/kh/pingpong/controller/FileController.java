@@ -61,7 +61,7 @@ public class FileController {
 		
 		MultipartFile thumbnail = ndto.getThumbnail();
 		
-		System.out.println(realPath + " :: 리얼패스");
+		//System.out.println(realPath + " :: 리얼패스");
 		File filePath = new File(realPath);
 		
 		//폴더 존재여부
@@ -102,17 +102,18 @@ public class FileController {
 		/* 파일 업로드 */
 		List<FileDTO> filelist = new ArrayList<FileDTO>();
 		if(fsdto.getFiles().length != 0) {
-			for(MultipartFile file : fsdto.getFiles()) {
+			int count = 0;
+			for(MultipartFile file : fsdto.getFiles()) {				
 				if(!file.isEmpty()) {
 					FileDTO singlefdto = new FileDTO();
 					String write_date = new SimpleDateFormat("YYYY-MM-dd-ss").format(System.currentTimeMillis());
 					
 					/* 하드디스크 파일 업로드 */		
 					singlefdto.setOriname(file.getOriginalFilename());
-					singlefdto.setSysname(write_date + "_" + file.getOriginalFilename());
+					singlefdto.setSysname(write_date + "_"+"("+(++count)+")" + file.getOriginalFilename());
 					singlefdto.setRealpath(realPath + file.getOriginalFilename());
 					singlefdto.setCategory("news");
-					String systemFileName = write_date +"_"+file.getOriginalFilename(); 
+					String systemFileName = write_date + "_"+"("+(count)+")" + file.getOriginalFilename(); 
 					
 					File fileDownload = new File(realPath + "/" + systemFileName);
 					file.transferTo(fileDownload);

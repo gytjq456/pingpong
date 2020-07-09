@@ -12,9 +12,19 @@
 	update lesson set cur_num = cur_num+1 where seq = #{parent_seq}
 </update>
 
+<!-- 튜티 현재인원 줄이기 -->
+<update id="tuteeCurnumCountMinus">
+	update lesson set cur_num = cur_num-1 where seq= #{parent_seq}
+</update>
+
 <!-- 결제한사람이 또 결제하는지 -->
 <select id="payTrue" resultType="int">
 	select count(*) from tutee where parent_seq = #{parent_seq} and id =#{id}
+</select>
+
+<!-- 결제 취소한사람이 또 취소하는지 -->
+<select id="refundTrue" resultType="int">
+	select count(*) from tutee where parent_seq = #{parent_seq} and id =#{id} and cancle='Y'
 </select>
 
 <!-- 강위취소 튜티 환불금액 update 하고 강의 취소 'Y'로 바꾸기 -->

@@ -7,6 +7,10 @@
 
 <style>
 	#title{width:80%;}
+	#clickLatlng{width:100%;}
+    .hAddr {position:absolute;left:10px;top:10px;border-radius: 2px;background:#fff;background:rgba(255,255,255,0.8);z-index:1;padding:5px;}
+    #centerAddr {display:block;margin-top:2px;font-weight: normal;}
+    .bAddr {padding:5px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
 </style>
 <script>
 	$(function() {
@@ -73,7 +77,7 @@
 				var year = dt.getFullYear();
 				var month = dt.getMonth() +1;
 				var month = month +"";
-				if(month.length=="1") var month="0"+month;
+				if(month.length=="1") var month="0"+month;   
 				var day = dt.getDate();
 				var day = day+"";
 				if(day.length=="1") var day="0"+day;
@@ -361,7 +365,10 @@
 					</div>
 					<select name="sido1" id="sido1"></select> 
 					<select name="gugun1" id="gugun1"></select>
-					<input type="text" id="clickLatlng">
+					<div class="hAddr">
+				        <span class="title">지도중심기준 행정동 주소정보</span>
+				        <span id="centerAddr"></span>
+			 		</div>
 					<div id="map" style="width:500px;height:400px;"></div>
 						
 				</div>
@@ -421,53 +428,32 @@
 			});
 		})
 		
+		var marker = new kakao.maps.Marker(), // 클릭한 위치를 표시할 마커입니다
+		    infowindow = new kakao.maps.InfoWindow({zindex:1}); // 클릭한 위치에 대한 주소를 표시할 인포윈도우입니다
 
-		
-						
-/* 		// 지도에 표시할 원을 생성합니다
-		var circle = new kakao.maps.Circle({
-			center : new kakao.maps.LatLng(33.450701, 126.570667), // 원의 중심좌표 입니다 
-			radius : 50, // 미터 단위의 원의 반지름입니다 
-			strokeWeight : 5, // 선의 두께입니다 
-			strokeColor : '#75B8FA', // 선의 색깔입니다
-			strokeOpacity : 1, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
-			strokeStyle : 'dashed', // 선의 스타일 입니다
-			fillColor : '#CFE7FF', // 채우기 색깔입니다
-			fillOpacity : 0.7
-		// 채우기 불투명도 입니다  
-		});
-
-		// 지도에 원을 표시합니다 
-		circle.setMap(map); */
-		 
-		 // 지도를 클릭한 위치에 표출할 마커입니다
-		 var marker = new kakao.maps.Marker({
-		 // 지도 중심좌표에 마커를 생성합니다 
-		 position : map.getCenter()
-		 });
-		 // 지도에 마커를 표시합니다
-		 marker.setMap(map); 
-
-		// 지도에 클릭 이벤트를 등록합니다
-		// 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
+		// 지도를 클릭했을 때 클릭 위치 좌표에 대한 주소정보를 표시하도록 이벤트를 등록합니다
 		kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
+		    searchDetailAddrFromCoords(mouseEvent.latLng, function(result, status) {
+		        if (status === kakao.maps.services.Status.OK) {
+		            var detailAddr = !!result[0].road_address ? '<div>도로명주소 : ' + result[0].road_address.address_name + '</div>' : '';
+		            detailAddr += '<div>지번 주소 : ' + result[0].address.address_name + '</div>';
+		            
+		            var content = '<div class="bAddr">' +
+		                            '<span class="title">법정동 주소정보</span>' + 
+		                            detailAddr + 
+		                        '</div>';
 
-			// 클릭한 위도, 경도 정보를 가져옵니다 
-			var latlng = mouseEvent.latLng;
+		            // 마커를 클릭한 위치에 표시합니다 
+		            marker.setPosition(mouseEvent.latLng);
+		            marker.setMap(map);
 
-			// 마커 위치를 클릭한 위치로 옮깁니다
-			marker.setPosition(latlng);
-
-			console.log("위도 : " + latlng.getLat());
-			console.log("경도 : " + latlng.getLng());
-
-			var message = '클릭한 위치의 위도는 ' + latlng.getLat() + ' 이고, ';
-			message += '경도는 ' + latlng.getLng() + ' 입니다';
-
-			var resultDiv = $('#clickLatlng').html(message);
-			/* 		resultDiv.innerHTML = message; */
-
+		            // 인포윈도우에 클릭한 위치에 대한 법정동 상세 주소정보를 표시합니다
+		            infowindow.setContent(content);
+		            infowindow.open(map, marker);
+		        }   
+		    });
 		});
+
 	</script>
 </div>
 

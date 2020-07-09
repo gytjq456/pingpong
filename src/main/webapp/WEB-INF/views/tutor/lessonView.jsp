@@ -244,7 +244,6 @@ $(function(){
 			<div class="tit_s1">
 				<h2>강의 View</h2>
 			</div>
-
 			<div class="btnS1 right">
 				<c:choose>
 					<c:when test="${loginInfo.grade == 'tutor' && loginInfo.id== ldto.id }">

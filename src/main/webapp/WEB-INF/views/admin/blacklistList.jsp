@@ -3,20 +3,38 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <jsp:include page="/WEB-INF/views/admin/aheader.jsp"/>
 	<div id="main_wrap">
-		<c:choose>
-			<c:when test="${empty bllist}">
-				블랙리스트가 비었습니다.
-			</c:when>
-			<c:otherwise>
-				<input type="checkbox" id="selectAll"><br>
-				<c:forEach var="bllist" items="${bllist}">
-					<input type="checkbox" value="${bllist.seq}" class="deleteCheck">
-					${bllist.seq} : 
-					<a href="/admins/blacklistView?seq=${bllist.seq}">${bllist.id}(${bllist.name})</a>
-					 : ${bllist.reason} : ${bllist.start_date} : ${bllist.end_date}<br>
-				</c:forEach>
-			</c:otherwise>
-		</c:choose>
+		<h3>블랙리스트</h3>
+		<table>
+			<thead>
+				<tr>
+					<th><input type="checkbox" id="selectAll"></th>
+					<th>번호</th>
+					<th>아이디(이름)</th>
+					<th>등록일</th>
+					<th>해제일</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:choose>
+					<c:when test="${empty bllist}">
+						<tr>
+							<td colspan="5">블랙리스트가 비었습니다.</td>
+						</tr>
+					</c:when>
+					<c:otherwise>
+						<c:forEach var="bllist" items="${bllist}">
+							<tr>
+								<td><input type="checkbox" value="${bllist.seq}" class="deleteCheck"></td>
+								<td>${bllist.seq}</td>
+								<td><a href="/admins/blacklistView?seq=${bllist.seq}">${bllist.id}(${bllist.name})</a></td>
+								<td>${bllist.start_date}</td>
+								<td>${bllist.end_date}</td>
+							</tr>
+						</c:forEach>
+					</c:otherwise>
+				</c:choose>
+			</tbody>
+		</table>
 		<button id="deleteAll">삭제</button>
 		<div class="navi">${navi}</div>
 		<script>

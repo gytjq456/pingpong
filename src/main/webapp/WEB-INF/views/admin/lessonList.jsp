@@ -3,21 +3,50 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <jsp:include page="/WEB-INF/views/admin/aheader.jsp"/>
 	<div id="main_wrap">
-		<c:choose>
-			<c:when test="${empty llist}">
-				등록된 강의가 없습니다.
-			</c:when>
-			<c:otherwise>
-				<input type="checkbox" id="selectAll"><br>
-				<c:forEach var="llist" items="${llist}">
-					<input type="checkbox" value="${llist.seq}" class="deleteCheck">
-					${llist.seq} : ${llist.id} : ${llist.name} : ${llist.email} : 
-					${llist.phone_country} : ${llist.phone} : ${llist.category} : 
-					<a href="/admins/lessonView?seq=${llist.seq}">${llist.title}</a>
-					 : ${llist.price}<br>
-				</c:forEach>
-			</c:otherwise>
-		</c:choose>
+		<h3>강의</h3>
+		<table>
+			<thead>
+				<tr>
+					<th><input type="checkbox" id="selectAll"></th>
+					<th>번호</th>
+					<th>강의명</th>
+					<th>가격</th>
+					<th>강사명</th>
+					<th>유형</th>
+					<th>모집중</th>
+					<th>진행중</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:choose>
+					<c:when test="${empty llist}">
+						<tr>
+							<td colspan="8">등록된 강의가 없습니다.</td>
+						</tr>
+					</c:when>
+					<c:otherwise>
+						<c:forEach var="llist" items="${llist}">
+							<tr>
+								<td><input type="checkbox" value="${llist.seq}" class="deleteCheck"></td>
+								<td>${llist.seq}</td>
+								<td><a href="/admins/lessonView?seq=${llist.seq}">${llist.title}</a></td>
+								<td>${llist.price}</td>
+								<td>${llist.id}(${llist.name})</td>
+								<td>${llist.category}</td>
+								<td>
+									<c:if test="${llist.applying == 'Y'}">O</c:if>
+									<c:if test="${llist.applying == 'N'}">X</c:if>
+								</td>
+								<td>
+									<c:if test="${llist.proceeding == 'Y'}">O</c:if>
+									<c:if test="${llist.proceeding == 'N'}">X</c:if>
+								</td>
+							</tr>
+						</c:forEach>
+					</c:otherwise>
+				</c:choose>
+			</tbody>
+		</table>
 		<button id="deleteAll">삭제</button>
 		<div class="navi">${navi}</div>
 		<script>

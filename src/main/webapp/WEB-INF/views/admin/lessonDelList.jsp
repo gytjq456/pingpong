@@ -3,21 +3,38 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <jsp:include page="/WEB-INF/views/admin/aheader.jsp"/>
 	<div id="main_wrap">
-		<c:choose>
-			<c:when test="${empty ldlist}">
-				등록된 강의 취소 신청이 없습니다.
-			</c:when>
-			<c:otherwise>
-				<input type="checkbox" id="selectAll"><br>
-				<c:forEach var="ldlist" items="${ldlist}">
-					<input type="checkbox" value="${ldlist.seq}" class="deleteCheck">
-					${ldlist.seq} : 
-					<a href="/admins/lessonDelView?seq=${ldlist.seq}">${ldlist.id}</a>
-					 : ${ldlist.category} : 
-					${ldlist.contents} : ${ldlist.parent_seq}<br>
-				</c:forEach>
-			</c:otherwise>
-		</c:choose>
+		<h3>강의 삭제 신청</h3>
+		<table>
+			<thead>
+				<tr>
+					<th><input type="checkbox" id="selectAll"></th>
+					<th>번호</th>
+					<th>신청자</th>
+					<th>유형</th>
+					<th>강의 코드</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:choose>
+					<c:when test="${empty ldlist}">
+						<tr>
+							<td colspan="7">등록된 강의 삭제 신청이 없습니다.</td>
+						</tr>
+					</c:when>
+					<c:otherwise>
+						<c:forEach var="ldlist" items="${ldlist}">
+							<tr>
+								<td><input type="checkbox" value="${ldlist.seq}" class="deleteCheck"></td>
+								<td>${ldlist.seq}</td>
+								<td><a href="/admins/lessonDelView?seq=${ldlist.seq}">${ldlist.id}</a></td>
+								<td>${ldlist.category}</td>
+								<td>${ldlist.parent_seq}</td>
+							</tr>
+						</c:forEach>
+					</c:otherwise>
+				</c:choose>
+			</tbody>
+		</table>
 		<button id="acceptAll">승인</button>
 		<button id="deleteAll">삭제</button>
 		<div class="navi">${navi}</div>

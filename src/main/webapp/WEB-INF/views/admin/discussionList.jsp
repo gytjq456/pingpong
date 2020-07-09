@@ -3,21 +3,38 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <jsp:include page="/WEB-INF/views/admin/aheader.jsp"/>
 	<div id="main_wrap">
-		<c:choose>
-			<c:when test="${empty dlist}">
-				등록된 토론 게시글이 없습니다.
-			</c:when>
-			<c:otherwise>
-				<input type="checkbox" id="selectAll"><br>
-				<c:forEach var="dlist" items="${dlist}">
-					<input type="checkbox" value="${dlist.seq}" class="deleteCheck">
-					${dlist.seq} : 
-					<a href="/admins/discussionView?seq=${dlist.seq}">${dlist.writer}</a>
-					 : ${dlist.title} : ${dlist.caution} : 
-					${dlist.language} : ${dlist.dateString}<br>
-				</c:forEach>
-			</c:otherwise>
-		</c:choose>
+		<h3>토론 게시판</h3>
+		<table>
+			<thead>
+				<tr>
+					<th><input type="checkbox" id="selectAll"></th>
+					<th>번호</th>
+					<th>제목</th>
+					<th>작성자</th>
+					<th>작성일</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:choose>
+					<c:when test="${empty dlist}">
+						<tr>
+							<td colspan="5">등록된 토론 게시글이 없습니다.</td>
+						</tr>
+					</c:when>
+					<c:otherwise>
+						<c:forEach var="dlist" items="${dlist}">
+							<tr>
+								<td><input type="checkbox" value="${dlist.seq}" class="deleteCheck"></td>
+								<td>${dlist.seq}</td>
+								<td><a href="/admins/discussionView?seq=${dlist.seq}">${dlist.title}</a></td>
+								<td>${dlist.writer}</td>
+								<td>${dlist.dateString}</td>
+							</tr>
+						</c:forEach>
+					</c:otherwise>
+				</c:choose>
+			</tbody>
+		</table>
 		<button id="deleteAll">삭제</button>
 		<div class="navi">${navi}</div>
 		<script>

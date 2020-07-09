@@ -3,22 +3,44 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <jsp:include page="/WEB-INF/views/admin/aheader.jsp"/>
 	<div id="main_wrap">
-		<c:choose>
-			<c:when test="${empty rflist}">
-				환불 신청이 없습니다.
-			</c:when>
-			<c:otherwise>
-				<input type="checkbox" id="selectAll"><br>
-				<c:forEach var="rflist" items="${rflist}">
-					<input type="checkbox" value="${rflist.seq}" class="deleteCheck">
-					${rflist.seq} : 
-					<a href="/admins/refundView?seq=${rflist.seq}">${rflist.id}</a>
-					 : ${rflist.name} : ${rflist.email} : ${rflist.phone} : 
-					${rflist.bank_name} : ${rflist.account} : ${rflist.profile}
-					 : ${rflist.parent_seq} : ${rflist.cancle}<br>
-				</c:forEach>
-			</c:otherwise>
-		</c:choose>
+		<h3>튜티 환불 신청</h3>
+		<table>
+			<thead>
+				<tr>
+					<th><input type="checkbox" id="selectAll"></th>
+					<th>번호</th>
+					<th>아이디(이름)</th>
+					<th>계좌 은행</th>
+					<th>금액</th>
+					<th>강의 코드</th>
+					<th>처리 현황</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:choose>
+					<c:when test="${empty rflist}">
+						<tr>
+							<td colspan="7">환불 신청이 없습니다.</td>
+						</tr>
+					</c:when>
+					<c:otherwise>
+						<c:forEach var="rflist" items="${rflist}">
+							<tr>
+								<td><input type="checkbox" value="${rflist.seq}" class="deleteCheck"></td>
+								<td>${rflist.seq}</td>
+								<td><a href="/admins/refundView?seq=${rflist.seq}">${rflist.id}(${rflist.name})</a></td>
+								<td>${rflist.bank_name}</td>
+								<td>${rflist.price}</td>
+								<td>${rflist.parent_seq}</td>
+								<td>
+									<c:if test="${rflist.cancle == 'Y'}">대기</c:if>
+								</td>
+							</tr>
+						</c:forEach>
+					</c:otherwise>
+				</c:choose>
+			</tbody>
+		</table>
 		<button id="deleteAll">승인</button>
 		<div class="navi">${navi}</div>
 		<script>

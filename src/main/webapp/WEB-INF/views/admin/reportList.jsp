@@ -3,21 +3,47 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <jsp:include page="/WEB-INF/views/admin/aheader.jsp"/>
 	<div id="main_wrap">
-		<c:choose>
-			<c:when test="${empty rlist}">
-				신고된 컨텐츠가 없습니다.
-			</c:when>
-			<c:otherwise>
-				<input type="checkbox" id="selectAll"><br>
-				<c:forEach var="rlist" items="${rlist}">
-					<input type="checkbox" value="${rlist.seq}" class="deleteCheck">
-					${rlist.seq} : ${rlist.id} : 
-					<a href="/admins/reportView?seq=${rlist.seq}">${rlist.reason}</a>
-					 : ${rlist.reporter} : 
-					${rlist.report_date} : ${rlist.parent_seq} : ${rlist.category} : ${rlist.pass}<br>
-				</c:forEach>
-			</c:otherwise>
-		</c:choose>
+		<h3>신고</h3>
+		<table>
+			<thead>
+				<tr>
+					<th><input type="checkbox" id="selectAll"></th>
+					<th>번호</th>
+					<th>아이디</th>
+					<th>신고자</th>
+					<th>유형</th>
+					<th>대상</th>
+					<th>신고일</th>
+					<th>처리 현황</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:choose>
+					<c:when test="${empty rlist}">
+						<tr>
+							<td colspan="8">신고된 컨텐츠가 없습니다.</td>
+						</tr>
+					</c:when>
+					<c:otherwise>
+						<c:forEach var="rlist" items="${rlist}">
+							<tr>
+								<td><input type="checkbox" value="${rlist.seq}" class="deleteCheck"></td>
+								<td>${rlist.seq}</td>
+								<td><a href="/admins/reportView?seq=${rlist.seq}">${rlist.id}</a></td>
+								<td>${rlist.reporter}</td>
+								<td>${rlist.category}</td>
+								<td>${rlist.parent_seq}</td>
+								<td>${rlist.report_date}</td>
+								<td>
+									<c:if test="${rlist.pass == 'Y'}">승인</c:if>
+									<c:if test="${rlist.pass == 'N'}">대기</c:if>
+								</td>
+							</tr>
+						</c:forEach>
+					</c:otherwise>
+				</c:choose>
+			</tbody>
+		</table>
 		<button id="acceptAll">승인</button>
 		<button id="deleteAll">삭제</button>
 		<div class="navi">${navi}</div>

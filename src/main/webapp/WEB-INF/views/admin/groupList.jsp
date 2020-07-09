@@ -3,21 +3,48 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <jsp:include page="/WEB-INF/views/admin/aheader.jsp"/>
 	<div id="main_wrap">
-		<c:choose>
-			<c:when test="${empty glist}">
-				등록된 그룹이 없습니다.
-			</c:when>
-			<c:otherwise>
-				<input type="checkbox" id="selectAll"><br>
-				<c:forEach var="glist" items="${glist}">
-					<input type="checkbox" value="${glist.seq}" class="deleteCheck">
-					${glist.seq} : 
-					<a href="/admins/groupView?seq=${glist.seq}">${glist.title}</a>
-					 : ${glist.writer_id} : ${glist.writer_name} : 
-					${glist.hobby_type} : ${glist.date}<br>
-				</c:forEach>
-			</c:otherwise>
-		</c:choose>
+		<h3>그룹 게시판</h3>
+		<table>
+			<thead>
+				<tr>
+					<th><input type="checkbox" id="selectAll"></th>
+					<th>번호</th>
+					<th>제목</th>
+					<th>작성자</th>
+					<th>모집중</th>
+					<th>진행중</th>
+					<th>등록일</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:choose>
+					<c:when test="${empty glist}">
+						<tr>
+							<td colspan="7">등록된 그룹이 없습니다.</td>
+						</tr>
+					</c:when>
+					<c:otherwise>
+						<c:forEach var="glist" items="${glist}">
+							<tr>
+								<td><input type="checkbox" value="${glist.seq}" class="deleteCheck"></td>
+								<td>${glist.seq}</td>
+								<td><a href="/admins/groupView?seq=${glist.seq}">${glist.title}</a></td>
+								<td>${glist.writer_id}(${glist.writer_name})</td>
+								<td>
+									<c:if test="${glist.applying == 'Y'}">O</c:if>
+									<c:if test="${glist.applying == 'N'}">X</c:if>
+								</td>
+								<td>
+									<c:if test="${glist.proceeding == 'Y'}">O</c:if>
+									<c:if test="${glist.proceeding == 'N'}">X</c:if>
+								</td> 
+								<td>${glist.date}</td>
+							</tr>
+						</c:forEach>
+					</c:otherwise>
+				</c:choose>
+			</tbody>
+		</table>
 		<button id="deleteAll">삭제</button>
 		<div class="navi">${navi}</div>
 		<script>

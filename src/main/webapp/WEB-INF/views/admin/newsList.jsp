@@ -3,21 +3,40 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <jsp:include page="/WEB-INF/views/admin/aheader.jsp"/>
 	<div id="main_wrap">
-		<c:choose>
-			<c:when test="${empty nlist}">
-				등록된 토론 게시글이 없습니다.
-			</c:when>
-			<c:otherwise>
-				<input type="checkbox" id="selectAll"><br>
-				<c:forEach var="nlist" items="${nlist}">
-					<input type="checkbox" value="${nlist.seq}" class="deleteCheck">
-					${nlist.seq} : 
-					<a href="/admins/newsView?seq=${nlist.seq}">${nlist.writer}</a>
-					 : ${nlist.title} : ${nlist.category} : 
-					${nlist.location} : ${nlist.write_date}<br>
-				</c:forEach>
-			</c:otherwise>
-		</c:choose>
+		<h3>소식통 게시판</h3>
+		<table>
+			<thead>
+				<tr>
+					<th><input type="checkbox" id="selectAll"></th>
+					<th>번호</th>
+					<th>제목</th>
+					<th>작성자</th>
+					<th>유형</th>
+					<th>작성일</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:choose>
+					<c:when test="${empty nlist}">
+						<tr>
+							<td colspan="6">등록된 토론 게시글이 없습니다.</td>
+						</tr>
+					</c:when>
+					<c:otherwise>
+						<c:forEach var="nlist" items="${nlist}">
+							<tr>
+								<td><input type="checkbox" value="${nlist.seq}" class="deleteCheck"></td>
+								<td>${nlist.seq}</td>
+								<td><a href="/admins/newsView?seq=${nlist.seq}">${nlist.title}</a></td>
+								<td>${nlist.writer}</td>
+								<td>${nlist.category}</td>
+								<td>${nlist.write_date}</td>
+							</tr>
+						</c:forEach>
+					</c:otherwise>
+				</c:choose>
+			</tbody>
+		</table>
 		<button id="deleteAll">삭제</button>
 		<div class="navi">${navi}</div>
 		<script>

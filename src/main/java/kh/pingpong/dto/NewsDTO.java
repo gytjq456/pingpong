@@ -9,11 +9,11 @@ public class NewsDTO {
 	private String title;
 	private String writer;
 	private String category;
-	private Timestamp start_date;
-	private Timestamp end_date;
+	private String start_date;
+	private String end_date;
 	private String location;
 	private MultipartFile thumbnail;
-	private String files;
+	private String files_name;
 	private String contents;
 	private Timestamp write_date;
 	private int view_count;
@@ -25,8 +25,8 @@ public class NewsDTO {
 		// TODO Auto-generated constructor stub
 	}
 
-	public NewsDTO(int seq, String title, String writer, String category, Timestamp start_date, Timestamp end_date,
-			String location, MultipartFile thumbnail, String files, String contents, Timestamp write_date,
+	public NewsDTO(int seq, String title, String writer, String category, String start_date, String end_date,
+			String location, MultipartFile thumbnail, String files_name, String contents, Timestamp write_date,
 			int view_count, int like_count, int comment_count) {
 		super();
 		this.seq = seq;
@@ -37,14 +37,13 @@ public class NewsDTO {
 		this.end_date = end_date;
 		this.location = location;
 		this.thumbnail = thumbnail;
-		this.files = files;
+		this.files_name = files_name;
 		this.contents = contents;
 		this.write_date = write_date;
 		this.view_count = view_count;
 		this.like_count = like_count;
 		this.comment_count = comment_count;
 	}
-
 
 	public int getSeq() {
 		return seq;
@@ -78,19 +77,19 @@ public class NewsDTO {
 		this.category = category;
 	}
 
-	public Timestamp getStart_date() {
+	public String getStart_date() {
 		return start_date;
 	}
 
-	public void setStart_date(Timestamp start_date) {
+	public void setStart_date(String start_date) {
 		this.start_date = start_date;
 	}
 
-	public Timestamp getEnd_date() {
+	public String getEnd_date() {
 		return end_date;
 	}
 
-	public void setEnd_date(Timestamp end_date) {
+	public void setEnd_date(String end_date) {
 		this.end_date = end_date;
 	}
 
@@ -110,12 +109,12 @@ public class NewsDTO {
 		this.thumbnail = thumbnail;
 	}
 
-	public String getFiles() {
-		return files;
+	public String getFiles_name() {
+		return files_name;
 	}
 
-	public void setFiles(String files) {
-		this.files = files;
+	public void setFiles_name(String files_name) {
+		this.files_name = files_name;
 	}
 
 	public String getContents() {

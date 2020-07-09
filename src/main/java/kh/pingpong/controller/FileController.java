@@ -72,11 +72,13 @@ public class FileController {
 		//현재시간
 		String write_date = new SimpleDateFormat("YYYY-MM-dd-ss").format(System.currentTimeMillis());
 		
+		
+		System.out.println(thumbnail.getOriginalFilename());
 		/* 하드디스크 파일 업로드 */		
 		ftndto.setOriname(thumbnail.getOriginalFilename());
 		ftndto.setSysname(write_date + "_" + thumbnail.getOriginalFilename());
 		ftndto.setRealpath(realPath + ftndto.getSysname());
-		ftndto.setCategory(ftndto.getCategory());
+		ftndto.setCategory("news_thumb");
 		String systemFileName = write_date +"_"+ftndto.getOriname(); 
 		
 		//파일을 저장하기 위한 파일 객체 생성
@@ -100,33 +102,24 @@ public class FileController {
 		/* 파일 업로드 */
 		List<FileDTO> filelist = new ArrayList<FileDTO>();
 		if(fsdto.getFiles().length != 0) {
-			for(FileDTO fdto : filelist) {
-				FileDTO singlefdto = new FileDTO();
-				String write_date = new SimpleDateFormat("YYYY-MM-dd-ss").format(System.currentTimeMillis());
-				
-				/* 하드디스크 파일 업로드 */		
-				singlefdto.setOriname(fdto.getOriname());
-				singlefdto.setSysname(write_date + "_" + fdto.getOriname());
-				singlefdto.setRealpath(realPath + fdto.getSysname());
-				singlefdto.setCategory(fdto.getCategory());
-				String systemFileName = write_date +"_"+fdto.getOriname(); 
-				
-				File fileDownload = new File(realPath + "/" + systemFileName);
-				
+			for(MultipartFile file : fsdto.getFiles()) {
+				if(!file.isEmpty()) {
+					FileDTO singlefdto = new FileDTO();
+					String write_date = new SimpleDateFormat("YYYY-MM-dd-ss").format(System.currentTimeMillis());
+					
+					/* 하드디스크 파일 업로드 */		
+					singlefdto.setOriname(file.getOriginalFilename());
+					singlefdto.setSysname(write_date + "_" + file.getOriginalFilename());
+					singlefdto.setRealpath(realPath + file.getOriginalFilename());
+					singlefdto.setCategory("news");
+					String systemFileName = write_date +"_"+file.getOriginalFilename(); 
+					
+					File fileDownload = new File(realPath + "/" + systemFileName);
+					file.transferTo(fileDownload);
+					filelist.add(singlefdto);
+				}				
 			}
-		}
-		
-		//현재시간
-		
-		
-		
-		
-		//파일을 저장하기 위한 파일 객체 생성
-		/*
-		File fileDownload = new File(realPath + "/" + systemFileName);		
-		thumbnail.transferTo(fileDownload); //파일 저장
-		*/
-		
+		}		
 		return filelist;
 	}
 	

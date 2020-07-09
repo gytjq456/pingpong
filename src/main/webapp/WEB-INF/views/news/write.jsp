@@ -47,12 +47,12 @@
 									<label for="apply_start" class="calendar_icon">
 										<i class="fa fa-calendar" aria-hidden="true"></i>
 									</label>
-									<input type="text" name="apply_start" id="apply_start" class="cal_input" readonly>
+									<input type="text" name="start_date" id="apply_start" class="cal_input" readonly>
 									<span class="between_calendar">~</span>
 									<label for="apply_end" class="calendar_icon">
 										<i class="fa fa-calendar" aria-hidden="true"></i>
 									</label>
-									<input type="text" name="apply_end" id="apply_end" class="cal_input" readonly>
+									<input type="text" name="end_date" id="apply_end" class="cal_input" readonly>
 								</div>
 							</div>
 							
@@ -108,7 +108,7 @@
 							
 							<div class="btnS1 center">
 								<div>
-									<input type="button" id="write" value="등록">
+									<input type="submit" id="write" value="등록">
 								</div>
 								<div><button type="button" id="back">목록</button></div>
 							</div>							

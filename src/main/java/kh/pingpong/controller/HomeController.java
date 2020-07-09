@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import kh.pingpong.dto.VisitorDTO;
+import kh.pingpong.service.ClassService;
 import kh.pingpong.service.VisitorService;
 
 
@@ -22,8 +23,11 @@ public class HomeController {
 	@Autowired
 	private VisitorService vservice;
 	
+	@Autowired
+	private ClassService cService;
+	
 	@RequestMapping("/")
-	public String home() {
+	public String home(String day) {
 		Date today = new Date();
 		SimpleDateFormat dayString = new SimpleDateFormat("yyyy/MM/dd");
 		String visit_date = dayString.format(today);
@@ -37,7 +41,21 @@ public class HomeController {
 		}
 		
 		vservice.updateVisitCount(visit_date);
+
 		
 		return "index";
 	}
+	
+	
+	@RequestMapping("/")
+	public String classSchedule() throws Exception {
+		
+		return "";
+	}
+	
+	
+	
+
+	
+	
 }

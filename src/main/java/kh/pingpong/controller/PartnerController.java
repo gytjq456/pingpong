@@ -111,22 +111,11 @@ public class PartnerController {
 			return result;
 		}
 	}
-
-	//이메일 작성
-	/*
-	 * @RequestMapping("selectPartnerEmail") public String selectPartnerEmail(int
-	 * seq,Model model) throws Exception{ PartnerDTO pdto =
-	 * pservice.selectBySeq(seq); MemberDTO loginInfo =
-	 * (MemberDTO)session.getAttribute("loginInfo"); model.addAttribute("pdto",
-	 * pdto); System.out.println("in selectPartnerEmail"); System.out.println(pdto);
-	 * System.out.println(loginInfo.getEmail()); return "email/write"; }
-	 */
 	
 	//이메일 보내기
 	@ResponseBody
 	@RequestMapping("send")
 	public String send(PartnerDTO pdto, MemberDTO mdto,  Model model, HttpServletRequest request, HttpServletResponse response) throws Exception{
-		System.out.println("?????");
 		System.out.println(pdto.getEmail());
 		Boolean result = this.mail(request, response, pdto.getEmail(), mdto.getMemail(), mdto.getEmailPassword(),mdto.getContents());
 		System.out.println("in send: " + result);	
@@ -136,23 +125,26 @@ public class PartnerController {
 
 	//파트너 목록 페이지
 	@RequestMapping("partnerList")
-	public String partnerList(HttpServletRequest request, Model model) throws Exception{
+	public String partnerList(String align,HttpServletRequest request, Model model) throws Exception{
 		int cpage = 1;
 		try {
 			cpage = Integer.parseInt(request.getParameter("cpage"));
 		}catch(Exception e) {}
-		
-		List<PartnerDTO> plist = pservice.partnerList(cpage);
+		//List<PartnerDTO> plist = pservice.partnerList(cpage);
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
 		String navi = pservice.getPageNavi(cpage);
 		List<HobbyDTO> hdto = pservice.selectHobby();
 		List<LanguageDTO> ldto = pservice.selectLanguage();
+		List<PartnerDTO> alist = pservice.searchAlign(align);
+		
 		model.addAttribute("loginInfo", loginInfo);
-		model.addAttribute("plist", plist);
+		//model.addAttribute("plist", plist);
 		model.addAttribute("navi", navi);
 		model.addAttribute("hdto", hdto);
 		model.addAttribute("ldto", ldto);
-
+		model.addAttribute("align", align);
+		model.addAttribute("alist", alist);
+		
 		return "partner/partnerList";
 	}
 
@@ -226,7 +218,7 @@ public class PartnerController {
 
 	//상세 검색
 	@RequestMapping("partnerSearch")
-	public String search(PartnerDTO pdto, HttpServletRequest request, Model model) throws Exception{
+	public String search(String align,PartnerDTO pdto, HttpServletRequest request, Model model) throws Exception{
 		int cpage = 1;
 		try {
 			cpage = Integer.parseInt(request.getParameter("cpage"));
@@ -234,12 +226,13 @@ public class PartnerController {
 
 		Map<String, Object> search = new HashMap<>();	
 		
-		List<PartnerDTO> plist = pservice.search(cpage, search, pdto);
+		List<PartnerDTO> alist = pservice.search(cpage, search, pdto);
 		String navi = pservice.getPageNavi(cpage);
 		List<HobbyDTO> hdto = pservice.selectHobby();
 		List<LanguageDTO> ldto = pservice.selectLanguage();
-
-		model.addAttribute("plist", plist);
+		//List<PartnerDTO> alist = pservice.searchAlign(align);
+		model.addAttribute("alist", alist);
+		//model.addAttribute("plist", plist);
 		model.addAttribute("navi", navi);
 		model.addAttribute("hdto", hdto);
 		model.addAttribute("ldto", ldto);
@@ -287,14 +280,15 @@ public class PartnerController {
 	}
 	
 	//최신순, 평점순
-	@RequestMapping("align")
-	public String align(HttpServletRequest request, Model model) throws Exception{
-		String alignType = request.getParameter("align");
-		List<PartnerDTO> alist = pservice.searchAlign(alignType);
-		model.addAttribute("alignType", alignType);
-		model.addAttribute("alist", alist);
-		return "/partner/partnerList";
-	}
+//	@RequestMapping("align")
+//	public String align(HttpServletRequest request, Model model) throws Exception{
+//		String alignType = request.getParameter("align");
+//		List<PartnerDTO> alist = pservice.searchAlign(alignType);
+//		System.out.println(alignType);
+//		model.addAttribute("align", alignType);
+//		model.addAttribute("alist", alist);
+//		return "/partner/partnerList";
+//	}
 	//	<aop:config>
 	//	<aop:pointcut expression="execution(* kh.pingpong.controller.GroupController.*(..))" id="group"/>
 	//	<aop:pointcut expression="execution(* kh.pingpong.controller.PartnerController.*(..))" id="partner"/>

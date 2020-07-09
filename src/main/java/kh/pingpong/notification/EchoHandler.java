@@ -40,6 +40,7 @@ public class EchoHandler extends TextWebSocketHandler{
 	//클라이언트와 연결을 끊었을 때 실행되는 메서드
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception{
+		userSessionsMap.remove(session.getId());
 		sessions.remove(session);
 		System.out.println("{} 연결끊김"+session.getId());
 	}
@@ -66,6 +67,22 @@ public class EchoHandler extends TextWebSocketHandler{
 					TextMessage tmpMsg = new TextMessage(caller + "님이 " + 
 							"<a type='external' href='/partner/partnerView?seq="+seq+"'>" + seq + "</a> 번 게시글에 댓글을 남겼습니다.");
 							boardWriterSession.sendMessage(tmpMsg);
+				}
+			}
+			//모임 신청 했을 때
+			if(strs != null && strs.length == 5) {
+				String cmd = strs[0];
+				String mentee_name = strs[1];
+				String mentor_email = strs[2];
+				String meetingboard_seq = strs[3];
+				String participation_seq = strs[4];
+				
+				//모임 작성한 멘토가 로그인 해 있으면
+				WebSocketSession mentorSession = userSessionsMap.get(mentor_email);
+				if(cmd.contentEquals("apply")&& mentorSession != null) {
+					TextMessage tmpMsg = new TextMessage(
+							mentee_name + "님이 모임을 신청했습니다. " +"<a type='external' href='/mentor/participation/participationView?mseq="+ meetingboard_seq +"&pseq="+ participation_seq +"'>신청서 보기</a>");
+					mentorSession.sendMessage(tmpMsg);
 				}
 			}
 		}

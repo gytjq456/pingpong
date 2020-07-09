@@ -111,22 +111,11 @@ public class PartnerController {
 			return result;
 		}
 	}
-
-	//이메일 작성
-	/*
-	 * @RequestMapping("selectPartnerEmail") public String selectPartnerEmail(int
-	 * seq,Model model) throws Exception{ PartnerDTO pdto =
-	 * pservice.selectBySeq(seq); MemberDTO loginInfo =
-	 * (MemberDTO)session.getAttribute("loginInfo"); model.addAttribute("pdto",
-	 * pdto); System.out.println("in selectPartnerEmail"); System.out.println(pdto);
-	 * System.out.println(loginInfo.getEmail()); return "email/write"; }
-	 */
 	
 	//이메일 보내기
 	@ResponseBody
 	@RequestMapping("send")
 	public String send(PartnerDTO pdto, MemberDTO mdto,  Model model, HttpServletRequest request, HttpServletResponse response) throws Exception{
-		System.out.println("?????");
 		System.out.println(pdto.getEmail());
 		Boolean result = this.mail(request, response, pdto.getEmail(), mdto.getMemail(), mdto.getEmailPassword(),mdto.getContents());
 		System.out.println("in send: " + result);	
@@ -229,7 +218,7 @@ public class PartnerController {
 
 	//상세 검색
 	@RequestMapping("partnerSearch")
-	public String search(PartnerDTO pdto, HttpServletRequest request, Model model) throws Exception{
+	public String search(String align,PartnerDTO pdto, HttpServletRequest request, Model model) throws Exception{
 		int cpage = 1;
 		try {
 			cpage = Integer.parseInt(request.getParameter("cpage"));
@@ -237,12 +226,13 @@ public class PartnerController {
 
 		Map<String, Object> search = new HashMap<>();	
 		
-		List<PartnerDTO> plist = pservice.search(cpage, search, pdto);
+		List<PartnerDTO> alist = pservice.search(cpage, search, pdto);
 		String navi = pservice.getPageNavi(cpage);
 		List<HobbyDTO> hdto = pservice.selectHobby();
 		List<LanguageDTO> ldto = pservice.selectLanguage();
-
-		model.addAttribute("plist", plist);
+		//List<PartnerDTO> alist = pservice.searchAlign(align);
+		model.addAttribute("alist", alist);
+		//model.addAttribute("plist", plist);
 		model.addAttribute("navi", navi);
 		model.addAttribute("hdto", hdto);
 		model.addAttribute("ldto", ldto);

@@ -2,6 +2,9 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <jsp:include page="/WEB-INF/views/header.jsp"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 <script>
 	$(function() {
 		$(".box").on("click", function() {
@@ -79,6 +82,13 @@
 			location.href='/partner/partnerList?align='+orderByVal;
 		})
 		
+		// 로그인 후 이용가능
+		$(".box").on("click",function(){
+			if(${sessionScope.loginInfo.id == null}){
+				alert("로그인 후 이용해주세요.");
+				location.href="http://localhost/member/login";
+			}	
+		})
 	})
 </script>
 <body>
@@ -99,7 +109,7 @@
 									프로필 공유 동의 <input type="checkbox" name="agree" id="agree">(필수)<br> 
 									<span><input type="checkbox" name="contactList" id="letter" >쪽지</span> 
 									<span><input type="checkbox" name="contactList" id="email" >이메일</span> 
-									<span><input type="checkbox" name="contactList" id="chatting" >채팅</span><br>
+									<span><input type="checkbox" name="contactList" id="chatting" >채팅(필수)</span><br>
 									<input type="hidden" name="contact" id="contact">
 									1:1 기본적으로 제공되는 서비스입니다.
 									<button type="button" id="partnerBtn">등록</button>
@@ -221,6 +231,54 @@
 			</c:otherwise>
 		</c:choose>	
 	</div>
+	<p><a class="btn" href="#ex7">도달창띄우기2</a></p>
+ 	
+	<div id="ex7" class="modal">
+		<div class="emailPop">
+			<h2>이메일 보내기</h2>
+			<form id="emailForm"> 
+			<!-- post방식으로 자료를 컨트롤러로 보냄 -->
+				<input type="hidden" name="seq" value="${pdto.seq}">
+				받는 사람  : <input name="name" value="${pdto.name}"><br>
+				발신자 이메일 : <input name="memail" value="${loginInfo.email}"><br>
+				이메일 비밀번호 : <input type="password" name="emailPassword"><br>
+				수신자 이메일 : <input name="email" value="${pdto.email}"><br>
+				제목 : <input name="subject"><br>
+				내용 : <textarea rows="5" cols="80" name="contents"></textarea><br>
+				<input type="submit" value="전송" id="send">
+			</form>
+		</div>
+	 	<script>
+	 		$(function(){
+				 $("#emailForm").on("submit",function(){
+					 alert("이메일")
+					 var formData = new FormData($("#emailForm")[0]);
+					$.ajax({
+						url:"/partner/send",
+						data:formData,
+						type:"post",
+						dataType:"json",
+						cache:false,
+						contentType:false,
+						processData:false
+					}).done(function(resp){
+						alert("test :" + resp)
+					})
+					return false;
+				})
+	 		})
+		</script>  
+	</div>
+	 
+	<script>
+	    $('a[href="#ex7"]').click(function(event) {
+	      event.preventDefault();
+	 
+	      $(this).modal({
+	        fadeDuration: 250
+	      });
+	    });
+	</script>
 	
 	<div class="navi">${navi}</div>
 

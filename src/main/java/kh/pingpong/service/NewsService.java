@@ -44,7 +44,7 @@ public class NewsService {
 		return 1;
 	}
 	
-	public List<FileDTO> newsSelect() throws Exception{
+	public List<NewsDTO> newsSelect() throws Exception{
 		return newsdao.newsSelect();
 	}
 	

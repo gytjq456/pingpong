@@ -6,7 +6,7 @@
 	<script>
 		$(function(){
 			$("#write").on("click",function(){
-				location.href="/news/writeProc";
+				location.href="/news/write";
 			});
 		});
 	</script>
@@ -18,17 +18,18 @@
 					<h2>News</h2>
 					<p>새로운 세미나, 공모전, 페스티벌을 한번에 볼 수 있는 자유 게시판입니다.</p>
 				</div>
-				<div id="tabContWrap">
+				<div id="tabContWrap" class="contImg">
 					<div id="listStyle1" class="card_body">
 						<c:forEach var="list" items="${newsSelect}">
 							<div class="back_and_wrap item">
 								<a href="/news/viewProc?seq=${list.seq}">
 									<div class="img_w">
-										<img src="/upload/news/thumbnail/${list.thumbnail_img}" alt="이미지"><br>
+										<img src="/upload/news/thumbnail/${list.thumbnail_img}" alt="이미지">
 									</div>
-									<div>${list.title}</div>
+									<div class="title">${list.title}</div>
 									<div>${list.writer}</div>
-									${list.write_date}
+									<div>행사기간 : ${list.start_date} ~ ${list.end_date}</div>
+									<span>${list.write_date_st}</span>
 									<div class="countList">
 										<ul>
 											<li><i class="fa fa-eye"></i> 1</li>

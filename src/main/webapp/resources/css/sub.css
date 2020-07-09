@@ -329,7 +329,11 @@ textarea { resize:none; height:120px; line-height:1.6;}
 #find_news_write .wordsize{transform:translate(-15px, -30px); float:right; color: #999;}
 
 /* 소식통 리스트 */
-
+#new_list{}
+#new_list .contImg .img_w{width:100%; overflow:hidden; height: 300px; margin-bottom:10px;}
+#new_list .contImg .img_w img{width:100%; height:100%;}
+#new_list .contImg .img_w:hover img{transform: scale(1.1); transition: 0.5s;}
+#new_list .contImg .title{font-size:20px;}
 
 
 /* 댓글  */

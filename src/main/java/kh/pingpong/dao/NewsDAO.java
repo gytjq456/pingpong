@@ -35,8 +35,9 @@ public class NewsDAO {
 		return mybatis.insert("News.newsInsert_filseA", a);		
 	}
 	
-	public List<FileDTO> newsSelect() throws Exception{
-		return mybatis.selectList("News.newsSelect");
+	public List<NewsDTO> newsSelect() throws Exception{
+		List<NewsDTO> a = mybatis.selectList("News.newsSelect");
+		return a;
 	}
 	
 	public NewsDTO newsViewOne(NewsDTO ndt) throws Exception{

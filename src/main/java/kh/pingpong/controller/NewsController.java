@@ -1,5 +1,6 @@
 package kh.pingpong.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -38,8 +39,7 @@ public class NewsController {
 	/* 리스트 */
 	@RequestMapping("listProc")
 	public String listProc(Model model) throws Exception{
-		System.out.println("dkdkdk");
-		List<FileDTO> newsSelect = newservice.newsSelect();
+		List<NewsDTO> newsSelect = newservice.newsSelect();
 		model.addAttribute("newsSelect",newsSelect);
 		return "/news/list";
 	}
@@ -77,7 +77,8 @@ public class NewsController {
 		
 		int result = newservice.newsInsert(ndto, ftndto, filseA);
 		
-		return "/news/list";
+		
+		return "/news/listProc";
 	}
 	
 	

@@ -23,14 +23,22 @@
 	
 	<resultMap id="thumbnail_img" type="kh.pingpong.dto.NewsDTO">
 		<result property="thumbnail_img" column="thumbnail"/>
+		<result property="files_name" column="files"/>
+		<result property="write_date_st" column="write_date"/>
 	</resultMap>
 	
 	<select id="newsSelect" resultMap="thumbnail_img">
-		select * from news
+		select seq, title, writer, category, 
+		to_char(start_date,'yyyy-mm-dd') start_date, to_char(end_date,'yyyy-mm-dd') end_date, location, thumbnail,
+        files, contents, to_char(write_date,'yyyy-mm-ss') write_date,view_count,like_count,comment_count
+		from news
 	</select>
 	
 	<select id="newsViewOne" resultMap="thumbnail_img">
-		select * from news where seq=${seq}
+		select seq, title, writer, category, 
+		to_char(start_date,'yyyy-mm-dd') start_date, to_char(end_date,'yyyy-mm-dd') end_date, location, thumbnail,
+        files, contents, to_char(write_date,'yyyy-mm-ss') write_date,view_count,like_count,comment_count
+		from news where seq=${seq}
 	</select>
 
 </mapper>

@@ -1,5 +1,7 @@
 @charset "UTF-8";
 
+a { color: #333; text-decoration: none; }
+
 #login_wrap{ height: 100%; width: 100%; background: #10334d; }
 #logo_and_form { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
 #logo { color: #fbaab0; text-align: center; margin-bottom: 15px; font-size: 24px; }
@@ -7,3 +9,26 @@
 #loginForm input { width: 230px; height: 40px; margin-bottom: 20px; border: 1px solid #ddd; padding: 0 10px; border-radius: 5px; font-size: 12px; }
 #loginForm input::placeholder { color: #ddd; }
 #loginForm button { width: 230px; height: 40px; background-color: #124d79; color: #fff; border: none; border-radius: 5px; font-size: 12px; }
+
+#table_wrap { text-align: center; padding: 60px; }
+#table_wrap h3 { font-size: 22px; margin-bottom: 40px; }
+#table_wrap table { width: 100%; }
+#table_wrap th,
+#table_wrap td { text-align: center; padding: 10px 0; }
+#table_wrap thead { background-color: #124d79; color: #fff; }
+#table_wrap tbody tr { border-bottom: 1px solid #ddd; }
+#table_wrap tr { padding: 0 5px; }
+
+#table_wrap .navi { margin-top: 40px; }
+#table_wrap .navi ul { text-align: center; }
+#table_wrap .navi ul li { display: inline-block; margin-right: 8px; }
+#table_wrap .navi ul li:last-child { margin-right: 0; }
+#table_wrap .navi ul li.on a { background-color: #124d79; color: #fff; }
+#table_wrap .navi ul li a { display: block; width: 36px; background-color: #fff; height: 36px; line-height: 34px; border-radius: 6px; border: 1px solid #ddd; box-sizing: border-box; }
+
+#table_wrap .btn_wrap { text-align: right; font-size: 0; letter-spacing: -4px; margin-top: 30px; }
+#table_wrap .btn_wrap .btns { display: inline-block; text-align: center; vertical-align: middle; font-size: 14px; letter-spacing: -0.5px; margin-right: 10px; }
+#table_wrap .btn_wrap .btns:last-child { margin: 0; }
+#table_wrap button { border: 1px solid #ddd; background-color: #fff; color: #b3b3ba; display: inline-block; width: 120px; height: 42px; line-height: 40px; border-radius: 6px; overflow: hidden; font-size: 14px; font-weight: 500; transition: all 0.5s; padding: 0 10px; box-sizing: border-box; }
+#table_wrap button:first-child { margin-right: 6px; }
+#table_wrap button:hover { background-color: #999; color: #fff; }

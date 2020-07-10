@@ -5,11 +5,11 @@
 	<script>
 		var socket = null; //전역변수 선언
 		$(document).ready(function(){
-			connectWS();
+			connectWs();
 		});
 		
-		function connectWS(){
-			var ws = new WebSocket("ws://localhost/websocket/echo");
+		function connectWs(){
+			var ws = new WebSocket("ws://localhost/notification/echo");
 			socket = ws;
 			ws.open = function(message){
 				console.log(message);

@@ -40,11 +40,11 @@
 	</select>
 	
 	<!-- 검색 최신순 / 인기순 -->
-	<select id="alignType" resultType="kh.pingpong.dto.PartnerDTO">
+	<select id="alignT" resultType="kh.pingpong.dto.PartnerDTO">
 		select * from partner
-		<trim prefix="ORDER BY"> 
-	         <if test="alignType == 'recent'">  write_date desc</if>
-	         <if test="alignType == 'point'">  review_point desc</if>
+		<trim prefix="ORDER BY">
+	         <if test="align == 'recent'">  partner_date desc</if>
+	         <if test="align == 'point'">  review_point desc</if>
 		</trim> 
 	</select>
 	

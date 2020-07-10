@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MainDB">
+
+ 	<select id="groupList" resultType="kh.pingpong.dto.GroupDTO">
+		select * from ( select grouplist.*, row_number() over(order by seq desc) rnum 
+		from grouplist where <![CDATA[start_date < #{value} and #{value} < end_date]]>) <![CDATA[where rnum <= 2]]>
+	</select>
+
+ 	<select id="lessonListClassList" resultType="kh.pingpong.dto.LessonDTO">
+		select * from ( select lesson.*, row_number() over(order by seq desc) rnum 
+		from lesson where <![CDATA[start_date < #{value} and #{value} < end_date]]>) <![CDATA[where rnum <= 2]]>
+	</select>
+</mapper>

@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,58 +17,19 @@ import kh.pingpong.dto.CorrectDTO;
 import kh.pingpong.dto.DeleteApplyDTO;
 import kh.pingpong.dto.DiscussionDTO;
 import kh.pingpong.dto.GroupDTO;
-import kh.pingpong.dto.LanguageDTO;
 import kh.pingpong.dto.LessonDTO;
-import kh.pingpong.dto.LocationDTO;
 import kh.pingpong.dto.MemberDTO;
+import kh.pingpong.dto.NewsDTO;
 import kh.pingpong.dto.PartnerDTO;
 import kh.pingpong.dto.ReportListDTO;
 import kh.pingpong.dto.TuteeDTO;
 import kh.pingpong.dto.TutorAppDTO;
-import kh.pingpong.dto.VisitorDTO;
-import kh.pingpong.service.VisitorService;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/admins")
 public class AdminController {
 	@Autowired
 	private AdminService aservice;
-	
-	@Autowired
-	private VisitorService vservice;
-	
-	@Autowired
-	private HttpSession session;
-	
-	// 관리자 메인 페이지
-	@RequestMapping("")
-	public String index(Model model) {
-		List<VisitorDTO> vlist = vservice.selectSevenDays();
-		List<LanguageDTO> llist = aservice.selectFiveLang();
-		List<LocationDTO> clist = aservice.selectFiveLoc();
-		
-		model.addAttribute("vlist", vlist);
-		model.addAttribute("llist", llist);
-		model.addAttribute("clist", clist);
-		
-		return "/admin/index";
-	}
-	
-	// 관리자 로그인
-	@RequestMapping("login")
-	public String login(String id, String pw) {
-		if (id.contentEquals("tikitaka") && pw.contentEquals("tikitaka")) {
-			session.setAttribute("adminLog", id);
-		}
-		return "redirect:/admin";
-	}
-	
-	// 관리자 로그아웃
-	@RequestMapping("logout")
-	public String logout() {
-		session.removeAttribute("adminLog");
-		return "redirect:/admin";
-	}
 	
 	// 회원 리스트
 	@RequestMapping("/memberList")
@@ -258,7 +218,7 @@ public class AdminController {
 	public String tutorAppUpdate(int seq, String id, Model model) {
 		aservice.updateTutorApp(seq, id);
 		model.addAttribute("seq", seq);
-		return "redirect:/admin/tutorAppView";
+		return "redirect:/admins/tutorAppView";
 	}
 	
 	// 강의 리스트
@@ -329,7 +289,7 @@ public class AdminController {
 	@RequestMapping("/lessonPass")
 	public String lessonPass(int seq) {
 		aservice.updateLessonPass(seq);
-		return "redirect:/admin/lessonAppList";
+		return "redirect:/admins/lessonAppList";
 	}
 	
 	// 강의 삭제 리스트
@@ -368,7 +328,7 @@ public class AdminController {
 	@RequestMapping("/deleteAppLesson")
 	public String deleteAppLesson(int seq) {
 		aservice.deleteApplyLesson(seq);
-		return "redirect:/admin/lessonDelList";
+		return "redirect:/admins/lessonDelList";
 	}
 	
 	// 튜티 리스트
@@ -493,6 +453,36 @@ public class AdminController {
 		return "/admin/correctView";
 	}
 	
+	// 소식통 리스트
+	@RequestMapping("/newsList")
+	public String newsList(HttpServletRequest request, Model model) throws Exception {
+		int cpage = 1;
+        try {
+           cpage = Integer.parseInt(request.getParameter("cpage"));
+        } catch (Exception e) {}
+        
+        List<NewsDTO> nlist = aservice.newsList(cpage);
+        Map<String, String> param = new HashMap<>();
+        
+        param.put("tableName", "news");
+        param.put("pageName", "newsList");
+        
+        String navi = aservice.getPageNav(cpage, param);
+        
+        model.addAttribute("nlist", nlist);
+        model.addAttribute("navi", navi);
+        
+        return "/admin/newsList";
+	}
+	
+	// 소식통 뷰
+	@RequestMapping("/newsView")
+	public String newsView(int seq, Model model) {
+		NewsDTO ndto = aservice.newsView(seq);
+		model.addAttribute("ndto", ndto);
+		return "/admin/newsView";
+	}
+	
 	// 신고 리스트
 	@RequestMapping("/reportList")
 	public String reportList(HttpServletRequest request, Model model) throws Exception {
@@ -543,11 +533,15 @@ public class AdminController {
 			param.put("tableName", "correct");
 			param.put("columnName", "seq");
 			param.put("columnValue", rdto.getParent_seq());
+		} else if (rdto.getCategory().contentEquals("소식통")) {
+			param.put("tableName", "news");
+			param.put("columnName", "seq");
+			param.put("columnValue", rdto.getParent_seq());
 		}
 		
 		aservice.updateReportList(param);
 		model.addAttribute("seq", rdto.getSeq());
-		return "redirect:/admin/reportView";
+		return "redirect:/admins/reportView";
 	}
 	
 	// 아이디로 삭제
@@ -570,7 +564,7 @@ public class AdminController {
 			aservice.deletePartner(param);
 		}
 		
-		return "redirect:/admin/" + pageName;
+		return "redirect:/admins/" + pageName;
 	}
 	
 	// 시퀀스로 삭제
@@ -606,6 +600,8 @@ public class AdminController {
 			param.put("tableName", "reportlist");
 		} else if (pageName.contentEquals("blacklistList")) {
 			param.put("tableName", "blacklist");
+		} else if (pageName.contentEquals("newsList")) {
+			param.put("tableName", "news");
 		}
 		
 		if (pageName.contentEquals("tuteeList") || pageName.contentEquals("refundList")) {
@@ -614,7 +610,7 @@ public class AdminController {
 			aservice.deleteOne(param);
 		}
 		
-		return "redirect:/admin/" + pageName;
+		return "redirect:/admins/" + pageName;
 	}
 	
 	// 체크박스로 여러 개 삭제
@@ -651,6 +647,8 @@ public class AdminController {
 			param.put("tableName", "member");
 		} else if (pageName.contentEquals("blacklistList")) {
 			param.put("tableName", "blacklist");
+		} else if (pageName.contentEquals("newsList")) {
+			param.put("tableName", "news");
 		}
 		
 		if (pageName.contentEquals("memberList") || pageName.contentEquals("tutorList")) {
@@ -661,7 +659,7 @@ public class AdminController {
 		
 		aservice.deleteAll(param);
 		
-		return "redirect:/admin/" + pageName;
+		return "redirect:/admins/" + pageName;
 	}
 	
 	// 체크박스로 여러 튜터 삭제
@@ -676,7 +674,7 @@ public class AdminController {
 		
 		aservice.deleteSelectedTutor(list);
 		
-		return "redirect:/admin/tutorList";
+		return "redirect:/admins/tutorList";
 	}
 	
 	// 체크박스로 여러 개 승인
@@ -702,7 +700,7 @@ public class AdminController {
 		
 		aservice.acceptAll(param);
 		
-		return "redirect:/admin/" + pageName;
+		return "redirect:/admins/" + pageName;
 	}
 	
 	// 체크박스로 여러 강의 삭제 승인
@@ -717,6 +715,6 @@ public class AdminController {
 		
 		aservice.acceptDeleteLessons(list);
 		
-		return "redirect:/admin/lessonDelList";
+		return "redirect:/admins/lessonDelList";
 	}
 }

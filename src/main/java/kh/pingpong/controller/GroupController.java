@@ -1,29 +1,20 @@
 package kh.pingpong.controller;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-
-import com.google.gson.JsonObject;
 
 import kh.pingpong.dto.DeleteApplyDTO;
 import kh.pingpong.dto.GroupApplyDTO;
@@ -33,6 +24,7 @@ import kh.pingpong.dto.HobbyDTO;
 import kh.pingpong.dto.JjimDTO;
 import kh.pingpong.dto.LikeListDTO;
 import kh.pingpong.dto.MemberDTO;
+import kh.pingpong.dto.ReportListDTO;
 import kh.pingpong.dto.ReviewDTO;
 import kh.pingpong.service.GroupService;
 
@@ -275,6 +267,24 @@ public class GroupController {
 		
 		int result = gservice.deleteJjim(jdto);
 		return result;
+	}
+	
+	@RequestMapping("report")
+	@ResponseBody
+	public int report(ReportListDTO rldto, Model model) {
+		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
+		rldto.setReporter(mdto.getId());
+		
+		int result = gservice.selectReport(rldto);
+		model.addAttribute("rldto", rldto);
+		
+		return result;
+	}
+	
+	@RequestMapping("reportProc")
+	public String reportProc(ReportListDTO rldto, Model model) {
+		gservice.insertReport(rldto);
+		return "redirect:/group/view?seq=" + rldto.getParent_seq();
 	}
 	
 	@RequestMapping("mainOption")

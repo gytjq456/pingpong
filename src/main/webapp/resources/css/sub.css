@@ -6,8 +6,10 @@ input:-moz-read-only {background-color: #e4e4e4; color:#a9a9a9}
 input:read-only {background-color: #e4e4e4;color:#a9a9a9;} 
 
 /* 이메일 보내기 */
-.emailPop { position:fixed; right:0; top:0; width:700px; height:100%; z-index:9999; background:#fff;		}
+/* .emailPop { position:fixed; right:0; top:0; width:700px; height:100%; z-index:9999; background:#fff;		} */
 
+/* 파트너  */
+.box .introduce{word-break: break-all;}
 
 /*  타이틀 */
 .tit_s2 { margin-bottom:12px;}
@@ -105,14 +107,19 @@ input:read-only {background-color: #e4e4e4;color:#a9a9a9;}
 .group_each_wrapper .group_applying { background-color: #fbaab0; }
 .group_each_wrapper .group_proceeding { background-color: #3162a4; }
 .group_each_wrapper .group_done { background-color: #ddd; }
-#group_list .sub_title { font-weight: bold; overflow:hidden; width:35px; }
 #group_list .sub_title,
-#group_list .sub_title + p { float:left; display:block;}
-#group_list .sub_title + p { white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+#related_groups .sub_title { font-weight: bold; overflow:hidden; width:35px; }
+#group_list .sub_title,
+#group_list .sub_title + p,
+#related_groups .sub_title,
+#related_groups .sub_title + p { float:left; display:block;}
+#group_list .sub_title + p,
+#related_groups .sub_title + p { white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
 	width:calc(100% - 35px);
 	width:-moz-calc(100% - 35px);
 	width:-webkit-calc(100% - 35px);
 }
+#related_groups a:hover { color: #333; }
 .search_btn_style { position: relative; margin-top: 40px; }
 .search_btn_style .right { position: absolute; right: 0; top: 0; margin: 0; }
 .search_wrap { padding: 30px; border: 1px solid #ddd; background: #fff; margin-top: 20px; border-radius: 6px; }
@@ -186,9 +193,6 @@ width:-webkit-calc(100% - 88px);
 #group_view #group_base_info { padding: 15px 0; border-bottom: 1px solid #ddd; }
 #group_view #group_base_info span { position: relative; }
 #group_view #group_base_info span i { margin-right: 5px; }
-#group_view #like { right: -70%; }
-#group_view #jjim { right: -72%; }
-#group_view #report { right: -74%; }
 #group_view #like:hover, #jjim:hover, #report:hover { cursor: pointer; }
 #group_view #point_avg i { color: #fcba03; }
 #group_view #like i { color: #3162a4; }
@@ -199,7 +203,7 @@ width:-webkit-calc(100% - 88px);
 #group_view #group_tab_menu { width: 100%; }
 #group_view #group_contents_wrapper { position: relative; }
 #group_view #group_contents { 
-width:calc(100% - 340px);
+width:calc(100% - 340px);s
 width:-moz-calc(100% - 340px);
 width:-webkit-calc(100% - 340px);
 }
@@ -217,7 +221,7 @@ width:-webkit-calc(100% - 340px);
 #group_view #map { width: 100%; height: 200px; margin-top: 10px; }
 #group_view .member_profile img { vertical-align: top; }
 #group_view .member_profile { overflow: hidden; }
-
+#group_view #related_group_title { margin-bottom: 30px; }
 
 
 /* 토론 글쓰기*/
@@ -467,8 +471,8 @@ textarea { resize:none; height:120px; line-height:1.6;}
  .tab_s2 ul li.on a { background:#f1989f; font-weight:500; color:#fff; }
  
  #tabContWrap { }
- #tabContWrap > article { display:none; }
- #tabContWrap > article:first-child { display:block; }
+ #tabContWrap > article { display:none;}
+ #tabContWrap > article:first-child { display:block;}
    
    
    

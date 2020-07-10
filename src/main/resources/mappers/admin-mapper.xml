@@ -140,6 +140,18 @@
 		select * from correct where seq = #{value}
 	</select>
 	
+	<!-- 소식통 게시글 목록 -->
+	<select id="newsList" resultType="kh.pingpong.dto.NewsDTO">
+		select * from
+		(select news.*, row_number() over(order by seq desc) rnum from news)
+		where rnum between #{start} and #{end}
+	</select>
+	
+	<!-- 소식통 게시글 뷰 -->
+	<select id="newsView" resultType="kh.pingpong.dto.NewsDTO">
+		select * from news where seq = #{value}
+	</select>
+	
 	<!-- 신고 목록 -->
 	<select id="reportList" resultType="kh.pingpong.dto.ReportListDTO">
 		select * from
@@ -298,6 +310,11 @@
 	<insert id="insertBlacklist">
 		insert into blacklist values(blacklist_seq.nextval, #{id}, #{name}, '신고', sysdate, sysdate + 3)
 	</insert>
+	
+	<!-- 이름 가져오기 -->
+	<select id="getNameForBlack" resultType="String">
+		select name from member where id = #{id}
+	</select>
 	
 	<!-- 블랙리스트 목록 -->
 	<select id="blacklistList" resultType="kh.pingpong.dto.BlacklistDTO">

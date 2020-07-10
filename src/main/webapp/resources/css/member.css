@@ -1,6 +1,6 @@
 @charset "UTF-8";
 
-.se_singup{margin:20px 0;}
+.se_singup{margin:0 0 30px 0;}
 /*input[type=radio] {display:none; margin:10px;}*/
 
 select:focus, input:focus, checkbox:focus {box-shadow: 0 5px 8px 0 rgba(0,0,0,0.1);}
@@ -8,8 +8,10 @@ select:focus, input:focus, checkbox:focus {box-shadow: 0 5px 8px 0 rgba(0,0,0,0.
 /* login */
 #login{width:400px; margin:0 auto; font-size:13px;}
 #login .h1{text-align:center; font-size: 46px; font-family: 'Muli', sans-serif; margin-bottom: 20px; font-weight: 700;}
-#login input{ width:100%; padding:12px; margin-bottom:10px; border-radius:5px;}
-#id,#pw{border:1px solid #d0d0d0;}
+#login input{ width:100%; padding:12px; margin-bottom:10px; border-radius:5px; border:1px solid #ddd;}
+#login .btnS1 input{ margin-bottom:0; padding:0; height:50px; line-height:50px;}
+#login-form-btn { display:block; margin-top:10px; }
+
 #login input[type="checkbox"]{ width:auto;}
 #login label{color:#5d5d5d; vertical-align:2px;}
 #login_btn{border:1px solid #124d79; background:none; color:#124d79; cursor:pointer;}
@@ -30,14 +32,12 @@ select:focus, input:focus, checkbox:focus {box-shadow: 0 5px 8px 0 rgba(0,0,0,0.
 #join{ width:100%; display:block; margin-top:30px; border:1px solid #ddd;}
 #join h1{text-align:center; font-size: 46px; font-family: 'Muli', sans-serif; margin-bottom: 20px; font-weight: 700;}
 #join .title{margin-top:20px; margin-bottom:5px;}
-.se_singup{margin-bottom:10px;}
 .w100{width:100%;}        
 .w80{width:80%;}
 .w70{width:70%;}
 .w50{width:50%;}
 .w20{width:20%;}
         
-.idck{margin-left:-5px;}
 .o_box{width:20%; display:inline-block;}
 
 /* 이메일 인증 */
@@ -46,24 +46,27 @@ select:focus, input:focus, checkbox:focus {box-shadow: 0 5px 8px 0 rgba(0,0,0,0.
 #loginMail .title{margin-top:20px; margin-bottom:5px;}
 #loginMail dt{padding:10px 0 7px; font-weight: 500; font-size:14px;}
 #loginMail input[type=text]{padding: 12px; margin-bottom: 10px; border-radius: 5px; border: 1px solid #d0d0d0;}
-#loginMail label{margin-left:10px;}
+/* #loginMail label{margin-left:10px;} */
 #loginMail #userMailSend{width:70%; display:inline; float:left;}
-#loginMail #sendEmail{display:inline; width:28%; padding: 12px; margin-bottom: 10px; border-radius: 5px; border: 1px solid #d0d0d0; float:right;}
+#loginMail #sendEmail{display:inline; width:28%;  margin-bottom: 10px; border-radius: 5px; border: 1px solid #d0d0d0; float:right;}
 #loginMail .ov{overflow:auto;}
 #loginMail #code{width:100%;}
 #loginMail .private{word-break:break-all; border:1px solid #ddd; width:100%;max-height:200px; overflow:auto; padding:20px; margin-bottom: 10px;}
-#loginMail h3 {padding:20px 0 7px 0; font-weight: 500; font-size:14px;}
+#loginMail h3 {padding:0 0 7px 0; font-weight: 500; font-size:14px;}
 #loginMail h3 span{color:red;}
-#loginMail .allck{border-top:1px solid #ddd; padding-top:25px;}
 #loginMail #join{ margin-bottom: 10px; border-radius: 5px; border: 1px solid #d0d0d0;}
 
+#loginMail input[type=text],
+#loginMail #sendEmail { height:42px; line-height:42px; }
         
         
 .idSave { margin-bottom:20px;}
 #isIdPwSame { border:1px solid #ddd; }        
         
         
-        
+.joinbox { position:relative; }
+.joinbox .allck { position:absolute; right:0; top:-3px; }
+#joinSendMail > div { margin-bottom:20px;}        
         
         
         

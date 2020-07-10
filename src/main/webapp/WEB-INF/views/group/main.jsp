@@ -92,7 +92,7 @@
 								</div>
 							</div>
 						</article>
-						<article id="	" class="mapSch">
+						<article id="tab_3" class="mapSch">
 							<div class="search_as_map">
 							
 							

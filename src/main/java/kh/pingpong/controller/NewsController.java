@@ -78,7 +78,7 @@ public class NewsController {
 		int result = newservice.newsInsert(ndto, ftndto, filseA);
 		
 		
-		return "/news/listProc";
+		return "redirect:/news/listProc";
 	}
 	
 	

@@ -2,18 +2,24 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <jsp:include page="/WEB-INF/views/header.jsp" />
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=521d781cfe9fe7597693f2dc29a10601&libraries=services"></script>
 
 <style>
 	.review{border-bottom: 1px solid gray;}
 	.tab{border-bottom: 1px solid gray;}
 	.view_main{border-bottom: 1px solid gray; width:100%; height: 600px;}
-	.curriculum{float: left; width: 70%; height:100%;}
-	.priceLocation{float: left; width: 30%; height:100%;}
+	.curriculum{float: left; width: 60%; height:100%;}
+	.curri_right{float: left; width: 40%; height:100%;}
 	.lesson_guid{border-bottom: 1px solid gray;}
 	.refund_guid{border-bottom: 1px solid gray;}
 	.view_top{border-bottom: 1px solid gray; width:100%; height: 200px;}
 	.view_top_left{float: left; width: 20%; height: 100%;}
 	.view_top_right{float: left; width: 80%; height:100%;}
+	.customoverlay {position:relative;bottom: 60px; left: 5px;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;float:left;}
+	.customoverlay:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}
+	.customoverlay a {display:block;text-decoration:none;color:#000;text-align:center;border-radius:6px;font-size:14px;font-weight:bold;overflow:hidden;background: #f1989f;background: #f1989f url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;}
+	.customoverlay .mapTitle {display:block;text-align:center;background:#fff;margin-right:35px;padding:10px 15px;font-size:14px;font-weight:bold;}
+	.customoverlay:after {content:'';position:absolute;margin-left:-12px;left:50%;bottom:-12px;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
 </style>
 
 <script>
@@ -232,7 +238,46 @@ $(function(){
 				}
 			}
 		})
-	
+		
+		//지도
+		var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
+		var location_lat = ${ldto.location_lat};
+		var location_lng = ${ldto.location_lng};
+		var mapTitleVal = '${ ldto.title}';
+		var options = { //지도를 생성할 때 필요한 기본 옵션
+			center : new kakao.maps.LatLng(location_lat, location_lng), //지도의 중심좌표.
+			level : 3
+		//지도의 레벨(확대, 축소 정도)
+		};
+		var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
+		
+		// 마커가 표시될 위치입니다 
+		var markerPosition  = new kakao.maps.LatLng(location_lat, location_lng); 
+
+		// 마커를 생성합니다
+		var marker = new kakao.maps.Marker({
+		    position: markerPosition
+		});
+		// 마커가 지도 위에 표시되도록 설정합니다
+		marker.setMap(map);
+		
+		// 커스텀 오버레이에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+		var content = '<div class="customoverlay">' +
+		    '  <a href="https://map.kakao.com/link/map/'+mapTitleVal+','+location_lat+','+location_lng+'" target="_blank">' +
+		    '    <span class="mapTitle">'+mapTitleVal+'</span>' +
+		    '  </a>' +
+		    '</div>';
+
+		// 커스텀 오버레이가 표시될 위치입니다 
+		var position = new kakao.maps.LatLng(location_lat, location_lng);  
+
+		// 커스텀 오버레이를 생성합니다
+		var customOverlay = new kakao.maps.CustomOverlay({
+		    map: map,
+		    position: position,
+		    content: content,
+		    yAnchor: 1 
+		});
 })
 
 </script>
@@ -312,8 +357,14 @@ $(function(){
 			
 			<div class="view_main">
 				<div class="curriculum">${ldto.curriculum }</div>
-				<div class="priceLocation">가격 ${ldto.price}원/시간 <br>위치 ${ldto.location} <br>
-				최대인원 &nbsp ${ldto.max_num } <br>현재인원 &nbsp ${ldto.cur_num } </div>
+				<div class="curri_right">
+					<div class="mprice_">가격 ${ldto.price}원/시간 </div>
+					<div class="mlocation_">위치 ${ldto.location}</div>
+					<div id="map" style="width:450px;height:350px;"></div>
+					<div class="mmax_num">최대인원 &nbsp ${ldto.max_num } </div>
+					<div class="mcur_num">현재인원 &nbsp ${ldto.cur_num } </div>
+				</div>
+
 			</div>
 			
 			<div class="tit_s3">

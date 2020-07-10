@@ -39,7 +39,7 @@ $(function () {
     			type:type
     		}
     	}).done(function(resp){
-    		console.log(resp);
+    		//console.log(resp);
     		chatList.find(".list").html("");
     		var userTag = $("<ul class='clearfix'>");
     		for(var i=0; i<resp.length; i++){

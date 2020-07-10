@@ -10,6 +10,8 @@ import kh.pingpong.config.Configuration;
 import kh.pingpong.dao.CorrectDAO;
 import kh.pingpong.dto.CorrectCDTO;
 import kh.pingpong.dto.CorrectDTO;
+import kh.pingpong.dto.JjimDTO;
+import kh.pingpong.dto.LikeListDTO;
 
 @Service
 public class CorrectService {
@@ -63,19 +65,23 @@ public class CorrectService {
 		return dao.modify(dto);
 	}
 	
-	public int like(CorrectDTO dto) throws Exception {
-		return dao.like(dto);
-	}
-	public int hate(CorrectDTO dto) throws Exception {
-		return dao.hate(dto);
+	public int like(LikeListDTO ldto) throws Exception {
+		return dao.like(ldto);
 	}
 	
-	public int commentlike(CorrectDTO dto) throws Exception {
-		return dao.commentlike(dto);
+	public int likecancle(LikeListDTO ldto) throws Exception {
+		return dao.likecancle(ldto);
 	}
-	public int commenthate(CorrectDTO dto) throws Exception {
-		return dao.commenthate(dto);
+	
+	public boolean LikeIsTrue(LikeListDTO ldto) throws Exception {
+		boolean result =dao.LikeIsTrue(ldto);
+		return result;
 	}
+	
+	public int likecount(LikeListDTO ldto) throws Exception {
+		return dao.likecount(ldto);
+	}
+	
 	
 	public int countrep(CorrectCDTO cdto) throws Exception {
 		return dao.countrep(cdto);

@@ -3,6 +3,7 @@ package kh.pingpong.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,19 +11,22 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import kh.pingpong.dao.CorrectDAO;
 import kh.pingpong.dto.CorrectCDTO;
 import kh.pingpong.dto.CorrectDTO;
+import kh.pingpong.dto.JjimDTO;
+import kh.pingpong.dto.LikeListDTO;
+import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.service.CorrectService;
 
 @Controller
 @RequestMapping("/correct")
 public class CorrectController {
-	@Autowired
-	private CorrectDAO dao;
 	
 	@Autowired
 	private CorrectService cservice;
+	
+	@Autowired
+	private HttpSession session;
 	
 
 	@RequestMapping("/correct_list")
@@ -48,23 +52,39 @@ public class CorrectController {
 	}
 	
 	@RequestMapping("/correct_view")
-	public String view(CorrectDTO dto, CorrectCDTO cdto, Model model) throws Exception{
-		System.out.println("dddd");
+	public String view(CorrectDTO dto, CorrectCDTO cdto, Model model, LikeListDTO ldto, JjimDTO jdto) throws Exception{
+		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
+		String id = mdto.getId();
+		
+		ldto.setId(id);
+		ldto.setParent_seq(dto.getSeq());
+		
+		boolean checkLike = cservice.LikeIsTrue(ldto);
+		
+		System.out.println("check :" +ldto.getParent_seq());
+		
+		System.out.println("체크 :" + cdto.getLike_count());
+		
+		
+		int likecount = cservice.likecount(ldto);
+		
 		dto = cservice.selectOne(dto.getSeq());
 		System.out.println("test :" +dto.getSeq());
 		List<CorrectCDTO> ccdto = cservice.selectcAll(dto.getSeq());
 		List<CorrectCDTO> ccdto2 = cservice.bestcomm(dto.getSeq());
+		
 		model.addAttribute("dto", dto);
 		model.addAttribute("cdto2", ccdto2);
 		model.addAttribute("cdto", ccdto);
+		model.addAttribute("checkLike", checkLike);
+		model.addAttribute("likecount",likecount);
 		return "/correct/correct_view";
 	}
 	@RequestMapping("/writeProc")
 	public String writeProc(CorrectDTO dto) throws Exception{
 		System.out.println("test :" +dto.getContents());
 		cservice.insert(dto);
-		return "redirect:/correct/correct_list";
-	}
+		return "redirect:/correct/correct_list";	}
 	
 	
 	
@@ -104,9 +124,15 @@ public class CorrectController {
 	
 	@ResponseBody
 	@RequestMapping("/like")
-	public String like(CorrectDTO dto) throws Exception {
+	public String like(CorrectDTO dto, LikeListDTO ldto, Model model) throws Exception {
+		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
+		String id = loginInfo.getId();
 		System.out.println("like : " +dto.getSeq());
-		int result = cservice.like(dto);
+		
+		ldto.setId(id);
+		ldto.setParent_seq(dto.getSeq());
+		model.addAttribute("ldto", ldto);
+		int result = cservice.like(ldto);
 		if(result > 0) {
 			return String.valueOf(true);
 		}else {
@@ -115,10 +141,16 @@ public class CorrectController {
 	}
 	
 	@ResponseBody
-	@RequestMapping("/hate")
-	public String hate(CorrectDTO dto) throws Exception {
-		System.out.println("hate : " +dto.getSeq());
-		int result = cservice.hate(dto);
+	@RequestMapping("/likecancle")
+	public String likecancle(CorrectDTO dto, LikeListDTO ldto, Model model) throws Exception {
+		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
+		String id = loginInfo.getId();
+		System.out.println("와안와 1: " +dto.getSeq());
+		
+		ldto.setId(id);
+		ldto.setParent_seq(dto.getSeq());
+		model.addAttribute("ldto", ldto);
+		int result = cservice.likecancle(ldto);
 		if(result > 0) {
 			return String.valueOf(true);
 		}else {
@@ -126,29 +158,7 @@ public class CorrectController {
 		}
 	}
 	
-	@ResponseBody
-	@RequestMapping("/commentlike")
-	public String commentlike(CorrectDTO dto) throws Exception {
-		System.out.println("like : " +dto.getSeq());
-		int result = cservice.commentlike(dto);
-		if(result > 0) {
-			return String.valueOf(true);
-		}else {
-			return String.valueOf(false);
-		}
-	}
 	
-	@ResponseBody
-	@RequestMapping("/commenthate")
-	public String commenthate(CorrectDTO dto) throws Exception {
-		System.out.println("hate : " +dto.getSeq());
-		int result = cservice.commenthate(dto);
-		if(result > 0) {
-			return String.valueOf(true);
-		}else {
-			return String.valueOf(false);
-		}
-	}
 	
 	@ResponseBody
 	@RequestMapping("/delete")

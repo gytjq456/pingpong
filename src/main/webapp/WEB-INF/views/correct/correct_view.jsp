@@ -31,8 +31,24 @@
 			location.href="/correct/correct_modify?seq=${dto.seq}"
 		})
 		
+		var checkLikeVal = ${checkLike};
+		console.log(checkLikeVal);
 		$(".correct_like").click(function() {
+			
 			var seq = $(this).data("seq");
+			if(checkLikeVal) {
+				$.ajax ({
+					url : "/correct/likecancle",
+					dataType : "json",
+					type : "post",
+					data : {seq:seq}
+				}).done(function(resp) {
+					if(resp) {
+						location.href = "/correct/correct_view?seq=${dto.seq}"
+					}
+				})
+			}else {
+			
 			$.ajax({
 				url : "/correct/like",
 				dataType : "json",
@@ -43,53 +59,10 @@
 					location.href = "/correct/correct_view?seq=${dto.seq}"
 				}
 			})
+			}
 			
 		})
 		
-		$(".correct_hate").click(function() {
-			var seq = $(this).data("seq");
-			$.ajax({
-				url : "/correct/hate",
-				dataType : "json",
-				type : "post",
-				data : {seq:seq}
-			}).done(function(resp) {
-				if(resp) {
-					location.href = "/correct/correct_view?seq=${dto.seq}"
-				}
-			})
-			
-		})
-		
-		$(".comment_like").click(function() {
-			var seq = $(this).data("seq");
-			$.ajax({
-				url : "/correct/commentlike",
-				dataType : "json",
-				type : "post",
-				data : {seq:seq}
-			}).done(function(resp) {
-				
-					location.href = "/correct/correct_view?seq=${dto.seq}"
-				
-			})
-			
-		})
-		
-		$(".comment_hate").click(function() {
-			var seq = $(this).data("seq");
-			$.ajax({
-				url : "/correct/commenthate",
-				dataType : "json",
-				type : "post",
-				data : {seq:seq}
-			}).done(function(resp) {
-				if(resp) {
-					location.href = "/correct/correct_view?seq=${dto.seq}"
-				}
-			})
-			
-		})
 		
 		$("#delete").click(function() {
 			var seq = $(this).data("seq");
@@ -123,8 +96,8 @@
 				<div>유형 : ${dto.type}</div>
 				<div>
 					<button>조회수 : ${dto.view_count}</button>
-					<button class="correct_like" data-seq ="${dto.seq}">좋아요 : ${dto.like_count}</button>
-					<button class="correct_hate" data-seq ="${dto.seq}">싫어요 : ${dto.hate_count}</button>
+					<button class="correct_like" data-seq ="${dto.seq}">좋아요 : ${likecount}</button>
+
 				</div>
 				<div>내용 : ${dto.contents}</div>
 				<div>댓글 (${dto.reply_count})</div>
@@ -154,8 +127,6 @@
 				<div class="cont">
 					<div class="contents">${u.contents}</div>
 				</div>
-				<button class="comment_like" data-seq ="${dto.seq}">좋아요 : ${u.like_count}</button>
-					<button class="comment_hate" data-seq ="${dto.seq}">싫어요 : ${u.hate_count}</button>
 			</c:forEach>
 
 
@@ -169,8 +140,6 @@
 				<div class="cont">
 					<div class="contents">${i.contents}</div>
 				</div>
-				<button class="comment_like" data-seq ="${dto.seq}">좋아요 : ${i.like_count}</button>
-					<button class="comment_hate" data-seq ="${dto.seq}">싫어요 : ${i.hate_count}</button>
 			</c:forEach>
 
 		</article>

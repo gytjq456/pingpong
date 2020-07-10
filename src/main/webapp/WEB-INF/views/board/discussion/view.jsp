@@ -73,7 +73,7 @@
 			likeHateCount(comment_likeBtn,"/discussion/commentLike","토론 댓글");
 			likeHateCount(comment_hateBtn,"/discussion/commentHate","토론 댓글");
 			likeHateCount(discussion_likeBtn,"/discussion/like","토론 게시글");
-			
+			console.log(likeHateCount);
 			
 			// 댓글 삭제
 			$(".comment_delete").click(function(){

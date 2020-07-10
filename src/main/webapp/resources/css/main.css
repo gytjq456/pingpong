@@ -1,3 +1,4 @@
+
 /* slick-slider 필수 css */
 .slick-slider{position:relative; display:block; box-sizing:border-box; -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; user-select:none; -webkit-touch-callout:none; -khtml-user-select:none; -ms-touch-action:pan-y; touch-action:pan-y; -webkit-tap-highlight-color:transparent;}
 .slick-list{position:relative; display:block; overflow:hidden; margin:0; padding:0;}
@@ -49,15 +50,68 @@
 
 
 /* 타이틀  */
-.tit_main { text-align:center;}
-.tit_main h3 { font-size:32px; font-weight:700;}
+.tit_main { text-align:center; margin-bottom:40px;}
+.tit_main h3 { font-size:32px; font-weight:700; position:relative;}
+.tit_main h3:after { content:""; width:22px; height:2px; background:#fbaab0; margin:12px auto; display:block;}
+.tit_main p { color:#999; line-height:1.6; margin-top:12px;}
+
+/* 메인 탭 메뉴 */
+#tab_s3 { margin-bottom:40px;}
+#tab_s3 ul{ text-align:center; font-size:0; letter-spacing:-4px;}
+#tab_s3 ul > li { display:inline-block; width:120px; height:42px; letter-spacing:-0.5px; font-size:14px; margin-right:12px;}
+#tab_s3 ul > li button { width:100%; height:100%; border:1px solid #ddd; background:#fff;}
+#tab_s3 ul > li.on button, 
+#tab_s3 ul > li:hover button{ background:#fbaab0; color:#fff; font-weight:700; } 
 
 /* 메인 컨텐츠 */
 #mainCont > section { position:relative; padding:70px 0; }
 
+/* class List */
+#toDayClass {}
+#toDayClass > div > article { float:left; width:48%; margin-right:4%; }
+#toDayClass > div > article:last-child { margin:0; }
+#toDayClass .classWrap .category {  width:120px; border:1px solid #ddd; text-align:center; padding:12px 0; border-radius:6px; }
+#toDayClass .classWrap > section { margin-bottom:40px; }
+#toDayClass .classWrap > section:last-child { margin:0; }
+#toDayClass .classWrap > section > div { margin-bottom:16px; }
+#toDayClass .classWrap > section > div:last-child { margin:0; }
+#toDayClass .classWrap .list { height:300px;}
+#toDayClass .classWrap .list ul  {}
+#toDayClass .classWrap .list ul li { margin-bottom:14px; overflow:hidden; background:#fff; padding:20px; border-radius:6px; box-shadow:0 0 10px rgba(0,0,0,0.1); }
+#toDayClass .classWrap .list ul li:last-child { margin:0; }
+#toDayClass .classWrap .list ul li > div { float:left; }  
+#toDayClass .classWrap .list ul li .info { margin-top:6px;
+	width:calc(100% - 130px);
+	width:-moz-calc(100% - 130px);
+	width:-webkit-calc(100% - 130px);	
+}
+#toDayClass .classWrap .list ul li .info > div { margin-bottom:10px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }  
+#toDayClass .classWrap .list ul li .tit { font-size:18px; font-weight:700; color:#333;}  
+#toDayClass .classWrap .list ul li .txtBox { font-size: 16px;}  
+#toDayClass .classWrap .list ul li .thum { width:100px; margin-right:30px; font-size:12px; color:#999; }  
+#toDayClass .scheduleWrap {border-top:1px solid #ddd; padding-top:20px; }
+#toDayClass .scheduleWrap .tip { }
+#toDayClass .scheduleWrap .tip p { line-height:1.6; position:relative; padding-left:12px; font-size:16px; margin-bottom:4px;}
+#toDayClass .scheduleWrap .tip p:last-child { margin:0; }
+#toDayClass .scheduleWrap .tip p:before { content:""; width:4px; height:4px; border-radius:50%; background:#333; display:block; position:absolute; left:0; top:10px; } 
 
 
+/*  파트너 / 튜터 목록 */
+#personList .userInfo_s1 > div { display:block; margin:0;}
+#personList .userInfo_s1 .thumb { width:120px; height:120px; margin:0 auto;}
+#personList .userInfo_s1 .info { margin-top:18px; }
+#personList .userInfo_s1 .info .txt { word-break:break-all; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; padding:0 30px; }
+#personList .list ul { text-align:center; font-size:0; letter-spacing:-4px; padding:0 80px;} 
+#personList .userInfo_s1 .info .userId { font-size:16px; font-weight:700; margin-top:10px;}
+#personList .list ul li { display:inline-block; vertical-align:top;  width:25%; letter-spacing:-0.5; font-size:14px; } 
 
+#personList .slick-prev { left: 20px; background: url(/resources/img/main/slide_prev_on.png) no-repeat center top; }
+#personList .slick-next { right: 20px; background: url(/resources/img/main/slide_next_on.png) no-repeat center top; }
+#personList .slick-arrow {  position: absolute; top: 50%; transform: translateY(-50%);  z-index: 10; width: 80px; height: 80px;  z-index: 10; border: none; text-indent: -9999px; background-size: 100% !important;}
+#mainCont > section#personList { padding-top:0;}
 
-
+/* 지도 */
+#mapWrap { padding:0 !important;}
+#mapWrap #map { height:500px;}
+.overlaybox { background:#333;}
 

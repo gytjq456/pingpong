@@ -21,14 +21,25 @@ $(function() {
 
 		$('#address').val(sido + ' ' + gugun);
 	});
-
-	// 비밀번호 일치
-	$("#pw_ck").on("keyup", function() {
+	
+	//비밀번호 일치
+	$("#pw").on("keyup",function(){
 		var pwResult1 = $("#pw").val();
 		var pwResult2 = $("#pw_ck").val();
-		if (pwResult1 == pwResult2) {
+		if(pwResult1 == pwResult2){
 			$("#pwConfrom").text("비밀번호가 일치합니다.");
-		} else {
+		}else{
+			$("#pwConfrom").text("비밀번호 일치 하지 않습니다.");
+		}
+	});
+	
+	//비밀번호 일치
+	$("#pw_ck").on("keyup",function(){
+		var pwResult1 = $("#pw").val();
+		var pwResult2 = $("#pw_ck").val();
+		if(pwResult1 == pwResult2){
+			$("#pwConfrom").text("비밀번호가 일치합니다.");
+		}else{
 			$("#pwConfrom").text("비밀번호 일치 하지 않습니다.");
 		}
 	});
@@ -57,20 +68,21 @@ $(function() {
 		var phone = $('#phone');
 
 		// 전화번호 (앞자리)
+		/*
 		if (phone_country == 'null') {
 			alert("전화번호 앞자리를 입력해주세요.");
 			$('#phone_country').focus();
 			return false;
-		}
+		}*/
 
 		// 전화번호 (뒷자리)
-		var regexPhone = /^(\d){4,15}$/g;
+		var regexPhone = /^[^010 070 011 a-z A-Z 가-힣 ㄱ-ㅎ ! @ # $ %](\d){7}$/gm;
 		var result_phone = regexPhone.test(phone.val());
-		if (!result_phone) {
-			alert("전화번호 : 숫자이며 4~15글자입니다.");
+		if(!result_phone){
+			alert("전화번호 : 숫자이며 8글자입니다. 010 / 011 / 070 빼주세요.");
 			phone.focus();
 			return false;
-		}
+		}	
 
 		// 값이 비워있을 때
 		if (phone_country == "" || phone.val() == "") {
@@ -185,6 +197,14 @@ $(function() {
 		var profile = $("#profile");// 파일
 		var formData = new FormData($("#profile_form")[0]);
 		
+		//프로필 확장자 체크
+		if(!/\.(gif|jpg|jpeg|png)$/i.test(profile.val())){
+			alert("확장자 확인 하기 " + profile.val());
+			alert('gif, jpg, png 파일만 선택해 주세요.\n\n현재 파일 : ' + profile.val());
+			profile.focus();
+			return false;
+		}
+		
 		// 프로필
 		if (profile.val() == "") {
 			alert("프로필 사진을 넣어주세요");
@@ -210,6 +230,8 @@ $(function() {
 		}).fail(function(error1, error2) {
 			alert("관리자에게 문의주세요.")
 		});
+		
+		return false;
 	});
 	
 	//나라 수정

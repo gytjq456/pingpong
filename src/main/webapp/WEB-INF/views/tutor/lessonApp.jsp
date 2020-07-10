@@ -10,91 +10,177 @@
 </style>
 <script>
 	$(function() {
-		//오늘날짜 전에 클릭 안되게 걸어주기 
-		$('#apply_start').datepicker({ dateFormat: 'yy-mm-dd',minDate: 0});
-	    $('#apply_end').datepicker({ dateFormat: 'yy-mm-dd', minDate: 0 });
-	    $('#start_date').datepicker({ dateFormat: 'yy-mm-dd', minDate: 0 });
-	    $('#end_date').datepicker({ dateFormat: 'yy-mm-dd', minDate: 0 });
-
-		$("#price").on("keyup", function(){
-			var priceVal =$(this).val();
-			var regex = /^[0-9]*$/g;
-			if(!regex.test(priceVal)){
-				alert("시간당 가격을 입력해주세요. 숫자만 입력 가능합니다.");
-				$(this).val('');
-			}
-		}) 
-
-		var start_hourVal = $("#start_hour").val();
-		var end_hourVal = $("#end_hour").val();
 		
-		$("#max_num").on("keyup", function(){
-			var maxVal = $(this).val();
-			var regex = /[5-9]{1}|[1-2]{1}[0-9]{1}|30/g;
-			if(!regex.test(maxVal)){
-				alert("최소 5명부터 최대 30명까지 입니다.");
+		$("input, textarea").blur(function(){
+			var thisVal = $(this).val();
+			$(this).val(textChk(thisVal));
+		})
+		
+		function textChk(thisVal){
+			var replaceId  = /(script)/gi;
+			var textVal = thisVal;
+		    if (textVal.length > 0) {
+		        if (textVal.match(replaceId)) {
+		        	textVal = thisVal.replace(replaceId, "");
+		        }
+		    }
+		    return textVal;
+		}
+	
+		//오늘날짜 전에 클릭 안되게 걸어주기 
+		$('#apply_start').datepicker({
+			dateFormat : 'yy-mm-dd',
+			minDate : 0,
+			maxDate : '+1m',
+			onClose : function(selectedDate){
+				$('#apply_end').datepicker("option", "minDate", selectedDate);
+			},
+			onSelect: function(dateText, inst){
+				var stDate = dateText.split("-");
+				var dt = new Date(stDate[0], stDate[1], stDate[2]);
+				var year = dt.getFullYear(); //년도구하기
+				var month = dt.getMonth() +1;	//한달뒤의 달 구하기
+				var month = month +"";	//문자형태
+				if(month.length=="1") var month="0"+month;	//두자리 정수형태
+				var day = dt.getDate();
+				var day = day+"";
+				if(day.length=="1") var day="0"+day;
+				
+				var nextMonth = year +"-" + month+"-"+ day;
+				$("#apply_end").datepicker("option", "maxDate", nextMonth);
+			}
+		}).datepicker('setDate', new Date());
+
+		$('#apply_end').datepicker({
+			dateFormat : 'yy-mm-dd',
+			minDate : 0,
+			maxDate : '+1m',
+			onClose : function(selectedDate) {
+				$('#apply_start').datepicker("option", "maxDate", selectedDate);
+			}
+		});
+
+		$('#start_date').datepicker({
+			dateFormat : 'yy-mm-dd',
+			minDate : 7,
+			maxDate : '+1m +7d',
+			onClose : function(selectedDate) {
+				$('#end_date').datepicker("option", "minDate", selectedDate);
+			},
+			onSelect: function(dateText, inst){
+				var stDate = dateText.split("-");
+				var dt = new Date(stDate[0], stDate[1], stDate[2]);
+				var year = dt.getFullYear();
+				var month = dt.getMonth() +1;
+				var month = month +"";
+				if(month.length=="1") var month="0"+month;
+				var day = dt.getDate();
+				var day = day+"";
+				if(day.length=="1") var day="0"+day;
+				
+				var nextMonth = year +"-" + month+"-"+ day;
+				$("#end_date").datepicker("option", "maxDate", nextMonth);
+			}
+		});
+		
+		$('#end_date').datepicker({
+			dateFormat : 'yy-mm-dd',
+			minDate : 7,
+			maxDate : '+1m +7d',
+			onClose : function(selectedDate) {
+				$('#start_date').datepicker("option", "maxDate", selectedDate);
+			}
+		});
+		
+		
+/* 
+ 		
+		$('#start_date').on('change', function() {
+			var endDate = $('#end_date').val();
+			if (endDate != '') {
+				$('#end_date').val('');
+			}
+		})  */
+
+		$("#price").focusout(function() {
+			var priceVal = $(this).val();
+			if (priceVal>300000) {
+				alert("최대 30만원입니다.");
 				$(this).val('');
 			}
 		})
-		
-		$("#frm").on("submit", function(){
+
+		var start_hourVal = $("#start_hour").val();
+		var end_hourVal = $("#end_hour").val();
+
+		$("#max_num").focusout(function() {
+			var maxVal = $(this).val();
+			if(maxVal<5){
+				alert("최소 5명입니다.");
+				$(this).val('');
+			}else if(maxVal>30){
+				alert("최대 30명입니다.");
+				$(this).val('');
+			}
+		})
+
+		$("#frm").on("submit", function() {
 			var titleVal = $("#title").val();
 			var summernoteVal = $("#summernote").val();
 			var priceVal = $("#price").val()
 			var apply_startVal = $("#apply_start").val();
 			var apply_endVal = $("#apply_end").val();
-			var start_dateVal= $("#start_date").val();
+			var start_dateVal = $("#start_date").val();
 			var end_dateVal = $("#end_date").val();
 			var max_numVal = $("#max_num").val();
 			var sidoVal = $("#sido1").val();
 			var gugunVal = $("#gugun1").val();
-			
-			if(titleVal.length==0){
+
+			if (titleVal.length == 0) {
 				alert("제목을 입력해주세요");
 				return false;
-			}else if(priceVal==0){
+			} else if (priceVal == 0) {
 				alert("가격을 입력해주세요");
 				return false;
-			}else if(apply_startVal.length==0){
+			} else if (apply_startVal.length == 0) {
 				alert("모집시작 기간을 선택해주세요");
 				return false;
-			}else if(apply_endVal.length==0){
+			} else if (apply_endVal.length == 0) {
 				alert("모집마감 기간을 선택해주세요");
 				return false;
-			}else if(start_dateVal.length==0){
+			} else if (start_dateVal.length == 0) {
 				alert("수업시작 기간을 선택해주세요");
 				return false;
-			}else if(end_dateVal.length==0){
+			} else if (end_dateVal.length == 0) {
 				alert("수업마감 기간을 선택해주세요");
 				return false;
-			}else if(max_numVal.length==0){
+			} else if (max_numVal.length == 0) {
 				alert("인원을 입력해주세요");
 				return false;
-			}else if(sidoVal=='시, 도 선택'){
+			} else if (sidoVal == '시, 도 선택') {
 				alert("시,도 를 선택해주세요.");
 				return false;
-			}else if(gugunVal=='구, 군 선택'){
+			} else if (gugunVal == '구, 군 선택') {
 				alert("구,군 을 선택해주세요.");
 				return false;
-			}else if(summernoteVal.length==0){
+			} else if (summernoteVal.length == 0) {
 				alert("내용을 입력해주세요");
 				return false;
 			}
 		})
 
-	    
 		$('#summernote').summernote({
-			height : 300,
-			lang : 'ko-KR',
-			callbacks : {
-				onImageUpload : function(files) {
-					uploadSummernoteImageFile(files[0], this);
+			height: 300,
+			lang: "ko-KR",
+			callbacks:{
+				onImageUpload : function(files){
+					uploadSummernoteImageFile(files[0],this);
 				}
 			}
-		});
+		}); 
 
 	});
-	
+
 	function uploadSummernoteImageFile(file, editor) {
 		data = new FormData();
 		data.append("file", file);
@@ -109,7 +195,7 @@
 				$(editor).summernote('insertImage', data.url);
 			}
 		});
-	}	
+	}		
 </script>
 
 <div id="subWrap" class="hdMargin">
@@ -136,10 +222,11 @@
 				<div class="price_wrap">
 					<div class="tit_s3">
 						<h4>가격</h4>
+						<span class="notice">*한달기준 최대 30만원 입니다. 일기준 최대 만원으로 잡아 날짜에 맞춰 금액을 정해주세요.</span>
 					</div>
 					<div class="right">
-						<input type="text" id="price" name="price" placeholder="시간당 가격">
-						원 /시간
+						<input type="text" id="price" name="price" placeholder="총 가격">
+						원 
 					</div>
 				</div>
 
@@ -163,24 +250,31 @@
 					<div class="tit_s3">
 						<h4>모집 기간</h4>
 					</div>
-					<input type="text" id="apply_start" name="apply_start" size="12">
-					<label for="apply_start" class="calendar_icon"><i
-						class="fa fa-calendar" aria-hidden="true"></i></label> ~ 
-					<input type="text" id="apply_end" name="apply_end" size="12"> 
-						<label for="apply_end" class="calendar_icon"><i
-						class="fa fa-calendar" aria-hidden="true"></i></label>
+					<label for="apply_start" class="calendar_icon">
+						<i class="fa fa-calendar" aria-hidden="true"></i>
+					</label>
+					<input type="text" id="apply_start" name="apply_start" size="12" readonly> 
+					~ 
+					<label for="apply_end" class="calendar_icon">
+						<i class="fa fa-calendar" aria-hidden="true"></i>
+					</label>
+					<input type="text" id="apply_end" name="apply_end" size="12" readonly> 
 				</div>
 
 				<div class="lesson_date">
 					<div class="tit_s3">
 						<h4>수업 기간</h4>
+						<span class="notice">*수업기간은 최대 한달만 가능합니다.</span>
 					</div>
-					<input type="text" id="start_date" name="start_date" size="12">
-					<label for="start_date" class="calendar_icon"><i
-						class="fa fa-calendar" aria-hidden="true"></i></label> ~ <input
-						type="text" id="end_date" name="end_date" size="12"> <label
-						for="end_date" class="calendar_icon"><i
-						class="fa fa-calendar" aria-hidden="true"></i></label>
+					<label for="start_date" class="calendar_icon">
+						<i class="fa fa-calendar" aria-hidden="true"></i>
+					</label>
+					<input type="text" id="start_date" name="start_date" size="12" readonly>
+					 ~ 
+					<label for="end_date" class="calendar_icon">
+						<i class="fa fa-calendar" aria-hidden="true"></i>
+					</label>
+					<input type="text" id="end_date" name="end_date" size="12" readonly> 
 				</div>
 
 				<div class="lesson_time">
@@ -190,7 +284,6 @@
 					<!-- <input type="time" id="start_hour" name="start_hour"> : 
 					<input type="time" id="end_hour" name="end_hour"> -->
 					<select id="start_hour" name="start_hour">
-						수정좀 ^^^^
 						<option>01</option>
 						<option>02</option>
 						<option>03</option>
@@ -268,6 +361,7 @@
 					</div>
 					<select name="sido1" id="sido1"></select> 
 					<select name="gugun1" id="gugun1"></select>
+					<input type="text" id="clickLatlng">
 					<div id="map" style="width:500px;height:400px;"></div>
 						
 				</div>
@@ -321,10 +415,59 @@
 
 					// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
 					map.setCenter(coords);
+				
 				}
+				
 			});
 		})
+		
 
+		
+						
+/* 		// 지도에 표시할 원을 생성합니다
+		var circle = new kakao.maps.Circle({
+			center : new kakao.maps.LatLng(33.450701, 126.570667), // 원의 중심좌표 입니다 
+			radius : 50, // 미터 단위의 원의 반지름입니다 
+			strokeWeight : 5, // 선의 두께입니다 
+			strokeColor : '#75B8FA', // 선의 색깔입니다
+			strokeOpacity : 1, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+			strokeStyle : 'dashed', // 선의 스타일 입니다
+			fillColor : '#CFE7FF', // 채우기 색깔입니다
+			fillOpacity : 0.7
+		// 채우기 불투명도 입니다  
+		});
+
+		// 지도에 원을 표시합니다 
+		circle.setMap(map); */
+		 
+		 // 지도를 클릭한 위치에 표출할 마커입니다
+		 var marker = new kakao.maps.Marker({
+		 // 지도 중심좌표에 마커를 생성합니다 
+		 position : map.getCenter()
+		 });
+		 // 지도에 마커를 표시합니다
+		 marker.setMap(map); 
+
+		// 지도에 클릭 이벤트를 등록합니다
+		// 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
+		kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
+
+			// 클릭한 위도, 경도 정보를 가져옵니다 
+			var latlng = mouseEvent.latLng;
+
+			// 마커 위치를 클릭한 위치로 옮깁니다
+			marker.setPosition(latlng);
+
+			console.log("위도 : " + latlng.getLat());
+			console.log("경도 : " + latlng.getLng());
+
+			var message = '클릭한 위치의 위도는 ' + latlng.getLat() + ' 이고, ';
+			message += '경도는 ' + latlng.getLng() + ' 입니다';
+
+			var resultDiv = $('#clickLatlng').html(message);
+			/* 		resultDiv.innerHTML = message; */
+
+		});
 	</script>
 </div>
 

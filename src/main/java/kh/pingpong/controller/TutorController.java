@@ -161,7 +161,7 @@ public class TutorController {
 	
 	//강의 list
 	@RequestMapping("lessonList")
-	public String lessonList(String orderBy,HttpServletRequest request, Model model) throws Exception{
+	public String lessonList(String orderBy,String keywordSelect,HttpServletRequest request, Model model) throws Exception{
 		model.addAttribute("loginInfo", session.getAttribute("loginInfo"));
 		
 		//언어 
@@ -183,12 +183,13 @@ public class TutorController {
 		System.out.println(lessonlist);
 		model.addAttribute("lessonlist",lessonlist);
 		model.addAttribute("orderBy",orderBy);
+		model.addAttribute("keywordSelect", keywordSelect);
 		return "/tutor/lessonList";
 	}
 	
 	//모집중, 진행중, 마감 클릭했을때 리스트 새로 뽑기
 	@RequestMapping("lessonListPeriod")
-	public String lessonListPeriod(String period, String orderBy, HttpServletRequest request, Model model) throws Exception{
+	public String lessonListPeriod(String period, String orderBy, String keywordSelect,HttpServletRequest request, Model model) throws Exception{
 		model.addAttribute("loginInfo", session.getAttribute("loginInfo"));
 
 		//언어 
@@ -222,6 +223,7 @@ public class TutorController {
 		System.out.println(lessonlist);
 		model.addAttribute("lessonlist",lessonlist);
 		model.addAttribute("orderBy",orderBy);
+		model.addAttribute("keywordSelect",keywordSelect);
 		return "/tutor/lessonList";
 	}
 	
@@ -252,6 +254,7 @@ public class TutorController {
 		System.out.println(lessonlist);
 		model.addAttribute("lessonlist",lessonlist);
 		model.addAttribute("orderBy",orderBy);
+		model.addAttribute("keywordSelect", keywordSelect);
 		return "/tutor/lessonList";
 	}
 	
@@ -406,7 +409,6 @@ public class TutorController {
 	//강의 신청서 수정버튼
 	@RequestMapping("lessonUpdate")
 	public String lessonUpdate(Model model, int seq) throws Exception{
-		
 		LessonDTO ldto = tservice.lessonView(seq);
 		model.addAttribute("seq", seq);
 		model.addAttribute("ldto",ldto);
@@ -467,24 +469,5 @@ public class TutorController {
 		return "redirect: /tutor/lessonView?seq="+ rdto.getParent_seq();
 	}
 
-	//튜티 결제
-	@RequestMapping("payMain")
-	public String payMain(Model model, int parent_seq, String title) throws Exception{
-		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
-		TuteeDTO ttdto = new TuteeDTO();
-		ttdto.setId(mdto.getId());
-		ttdto.setName(mdto.getName());
-		ttdto.setEmail(mdto.getEmail());
-		ttdto.setPhone_country(mdto.getPhone_country());
-		ttdto.setPhone(mdto.getPhone());
-		ttdto.setBank_name(mdto.getBank_name());
-		ttdto.setAccount(mdto.getAccount());
-		ttdto.setSysname(mdto.getSysname());
-		ttdto.setAddress(mdto.getAddress());
-		ttdto.setTitle(title);
-		ttdto.setParent_seq(parent_seq);
-		
-		model.addAttribute("ttdto", ttdto);
-		return "/tutor/payMain";
-	}
+
 }

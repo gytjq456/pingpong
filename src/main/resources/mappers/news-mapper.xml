@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="News">
+	
+	<insert id="newsInsert_new">
+		insert into news values(
+			news_seq.nextval, #{ndto.title}, #{ndto.writer}, #{ndto.category}, #{ndto.start_date}, #{ndto.end_date},
+			#{ndto.location}, #{ftndto.sysname}, #{ndto.files_name}, #{ndto.contents}, default, 0, 0, 0
+		)
+	</insert>
+	
+	<insert id="newsInsert_ftn">
+		insert into files values(
+			files_seq.nextval, #{sysname}, #{oriname}, #{realpath}, #{category}, news_seq.currval
+		)
+	</insert>
+	
+	<insert id="newsInsert_filseA">
+		insert into files values(
+			files_seq.nextval, #{sysname}, #{oriname}, #{realpath}, #{category}, news_seq.currval
+		)
+	</insert>
+	
+	<resultMap id="thumbnail_img" type="kh.pingpong.dto.NewsDTO">
+		<result property="thumbnail_img" column="thumbnail"/>
+		<result property="files_name" column="files"/>
+		<result property="write_date_st" column="write_date"/>
+	</resultMap>
+	
+	<select id="newsSelect" resultMap="thumbnail_img">
+		select seq, title, writer, category, 
+		to_char(start_date,'yyyy-mm-dd') start_date, to_char(end_date,'yyyy-mm-dd') end_date, location, thumbnail,
+        files, contents, to_char(write_date,'yyyy-mm-ss') write_date,view_count,like_count,comment_count
+		from news
+	</select>
+	
+	<select id="newsViewOne" resultMap="thumbnail_img">
+		select seq, title, writer, category, 
+		to_char(start_date,'yyyy-mm-dd') start_date, to_char(end_date,'yyyy-mm-dd') end_date, location, thumbnail,
+        files, contents, to_char(write_date,'yyyy-mm-ss') write_date,view_count,like_count,comment_count
+		from news where seq=${seq}
+	</select>
+
+</mapper>

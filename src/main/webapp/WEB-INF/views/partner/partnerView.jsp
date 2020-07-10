@@ -1,108 +1,117 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:include page="/WEB-INF/views/header.jsp"/>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-
+<style>
+	#jjim { right: -72%; }
+	#jjim i { color: #fbaab0; }
+</style>
 <script>
-	//리뷰 
-	var reviewtForm = $("#reviewtForm");
-	var starPoint = $(".starPoint");
-	var point_box = $(".point_box")
-	var point_input = $("#point");
-	starPoint.find("button").click(function(){
-		var idx = $(this).index()+1;
-		var point = point_box.find(".point").text();
-		point_box.find(".point").text(idx)
-		point_input.val(idx);
-		for(var i=0; i<idx; i++){
-			starPoint.find("button:eq("+i+")").addClass("on");
-		}
-		if(idx < point){
-			starPoint.find("button").removeClass("on");
+	$(function(){
+		//리뷰 
+		var reviewtForm = $("#reviewtForm");
+		var starPoint = $(".starPoint");
+		var point_box = $(".point_box")
+		var point_input = $("#point");
+		starPoint.find("button").click(function(){
+			var idx = $(this).index()+1;
+			var point = point_box.find(".point").text();
+			point_box.find(".point").text(idx)
+			point_input.val(idx);
 			for(var i=0; i<idx; i++){
 				starPoint.find("button:eq("+i+")").addClass("on");
 			}
-		}
-	})
-	
-	// 리뷰 글자수 체크
-	reviewtForm.find("#textCont").keyup(function(){
-		var word = $(this).val();
-		var wordSize = word.length;
-		console.log(wordSize)
-		if(wordSize <= 1000){
-			$(".wordsize .current").text(wordSize);
-		}else{
-			word = word.substr(0,1000);
-			$(".wordsize .current").text(word.length);
-			$(this).val(word);
-			alert("리뷰는  1000자 이하로 등록해 주세요")
-		}
-	})
-	
-	// 리뷰 데이터 전송
-	var textCont = $("#textCont");
-	$("#reviewtForm").submit(function(){
-		var form = $("#reviewtForm")[0];
-		var formData = new FormData(form);
-		
-		if(point_input.val() == 0){
-			alert("평점을 입력해주세요.");
-			return false;
-		}
-		
-		if(textCont.val() == "" || textCont.val().replace(/\s|　/gi, "").length == 0){
-			alert("리뷰 내용을 작성해주세요.")
-			textCont.focus();
-			return false;
-		}
-		
-		$.ajax({
-			url:"/group/reviewWrite",
-			type:"post",
-			dataType:"json",
-			data:formData,
-	    	contentType : false,
-	        processData : false 	            
-		}).done(function(resp){
-			location.href="/group/view?seq=${gdto.seq}"
-		});
-		return false;
-	})
-	
-	// 리뷰 게시글 글자수 ... 처리
-	var reviewList = $(".review_list");
-	var oriTxt = [];
-	reviewList.find("article").each(function(){
-		var reviewTxt = $(this).find(".txtBox a").text();
-		oriTxt.push(reviewTxt);
-		var reviewSize = reviewTxt.length;
-		if(reviewSize > 140){
-			var txtSubStr = reviewTxt.substr(0,140);
-			$(this).find(".txtBox a").text(txtSubStr+"...");
-		}
-		
-		var point = $(this).find(".starPoint").data("star");
-		for(var i=0; i<point; i++){
-			$(this).find(".starPoint em:eq("+i+")").addClass("on");
-		}
-		console.log(point);
-	})
-	
-	reviewList.find(".txtBox a").click(function(e){
-		e.preventDefault();
-		var idx = $(this).closest("article").index();
-		var txtSize = oriTxt[idx-1].length;
-		if($(this).text().length == 143){
-			$(this).text(oriTxt[idx-1]);
-		}else{
-			if(txtSize > 140){
-				var txtSubStr = oriTxt[idx-1].substr(0,140);
-				$(this).text(txtSubStr+"...");
+			if(idx < point){
+				starPoint.find("button").removeClass("on");
+				for(var i=0; i<idx; i++){
+					starPoint.find("button:eq("+i+")").addClass("on");
+				}
 			}
-		}
+		})
+		
+		// 리뷰 글자수 체크
+		reviewtForm.find("#textCont").keyup(function(){
+			var word = $(this).val();
+			var wordSize = word.length;
+			console.log(wordSize)
+			if(wordSize <= 1000){
+				$(".wordsize .current").text(wordSize);
+			}else{
+				word = word.substr(0,1000);
+				$(".wordsize .current").text(word.length);
+				$(this).val(word);
+				alert("리뷰는  1000자 이하로 등록해 주세요")
+			}
+		})
+		
+		// 리뷰 데이터 전송
+		var textCont = $("#textCont");
+		$("#reviewtForm").submit(function(){
+			var form = $("#reviewtForm")[0];
+			var formData = new FormData(form);
+			
+			if(point_input.val() == 0){
+				alert("평점을 입력해주세요.");
+				return false;
+			}
+			
+			if(textCont.val() == "" || textCont.val().replace(/\s|　/gi, "").length == 0){
+				alert("리뷰 내용을 작성해주세요.")
+				textCont.focus();
+				return false;
+			}
+			
+			$.ajax({
+				url:"/group/reviewWrite",
+				type:"post",
+				dataType:"json",
+				data:formData,
+		    	contentType : false,
+		        processData : false 	            
+			}).done(function(resp){
+				location.href="/partner/partnerView?seq=${pdto.seq}"
+			});
+			return false;
+		})
+		
+		// 리뷰 게시글 글자수 ... 처리
+		var reviewList = $(".review_list");
+		var oriTxt = [];
+		reviewList.find("article").each(function(){
+			var reviewTxt = $(this).find(".txtBox a").text();
+			oriTxt.push(reviewTxt);
+			var reviewSize = reviewTxt.length;
+			if(reviewSize > 140){
+				var txtSubStr = reviewTxt.substr(0,140);
+				$(this).find(".txtBox a").text(txtSubStr+"...");
+			}
+			
+			var point = $(this).find(".starPoint").data("star");
+			for(var i=0; i<point; i++){
+				$(this).find(".starPoint em:eq("+i+")").addClass("on");
+			}
+			console.log(point);
+		})
+		
+		reviewList.find(".txtBox a").click(function(e){
+			e.preventDefault();
+			var idx = $(this).closest("article").index();
+			var txtSize = oriTxt[idx-1].length;
+			if($(this).text().length == 143){
+				$(this).text(oriTxt[idx-1]);
+			}else{
+				if(txtSize > 140){
+					var txtSubStr = oriTxt[idx-1].substr(0,140);
+					$(this).text(txtSubStr+"...");
+				}
+			}
+		})
+		
+		
 	})
+	
 </script>
 
 <body>
@@ -113,7 +122,8 @@
 		</c:when>
 		<c:otherwise>
 			<div class="box">
-				${pdto.sysname}<br>
+				<%-- <img src ="/upload/member/${plist.id}/${plist.sysname}"> --%>
+				<span class="jjim"><i class="fa fa-heart-o" aria-hidden="true"></i>찜하기</span><br>
 				<span class="seq">${pdto.seq}</span> <br>
 				${pdto.id}<br>
 				${pdto.name}<br>
@@ -149,13 +159,47 @@
 		$(".back").on("click",function(){
 			location.href="/partner/partnerList";
 		})
+		
+		//이메일 팝업창 생성
 		$(".button_aa .email").on("click",function(e){
-			var seq = $(this).closest('.email').siblings('.box').find('.seq').html();
-			location.href="/partner/selectPartnerEmail?seq="+seq;
+			var seq = $(this).closest('.button_aa').siblings('.box').find('.seq').html();
 		})
+		
 		$(".button_aa .delete").on("click",function(){
 			confirm("정말 파트너 취소 하시겠습니까?");
 			location.href="/partner/deletePartner";
+		})
+		
+		//찜하기
+		var checkJjim = ${checkJjim};
+		console.log(checkJjim);
+		if(checkJjim){
+			$('.jjim').css('color','#fbaab0');
+			$('.jjim i').removeClass('fa-heart-o');
+			$('.jjim i').addClass('fa-heart');
+		}
+		
+		$('.jjim').on('click', function(){
+			var seq = $('.seq').html();
+			
+			if ($(this).css('color') != 'rgb(251, 170, 176)') {
+				$.ajax({
+					url: '/partner/jjim',
+					data: {'parent_seq': seq},
+					type: 'POST'
+				}).done(function(resp){
+					console.log(resp);
+					location.href = '/partner/partnerView?seq=' + seq;
+				})
+			} else {
+				$.ajax({
+					url: '/partner/delJjim',
+					data: {'parent_seq': seq},
+					type: 'POST'
+				}).done(function(resp){
+					location.href = '/partner/partnerView?seq=' + seq;
+				})
+			}
 		})
 	</script>
 	
@@ -171,7 +215,7 @@
 									<input type="hidden" name="writer" value="홍길동">
 									<input type="hidden" name="point" value="0" id="point">
 									<input type="hidden" name="category" value="review">
-									<input type="hidden" name="parent_seq" value="${gdto.seq}">
+									<input type="hidden" name="parent_seq" value="${pdto.seq}">
 									<div class="starPoint">
 										<div>
 											<button type="button"><i class="fa fa-star" aria-hidden="true"></i></button>
@@ -234,6 +278,6 @@
 								</article>
 							</c:forEach>
 						</div>
-					</article>
-
+	</article>
+<jsp:include page="/WEB-INF/views/email/write.jsp"/>	
 <jsp:include page="/WEB-INF/views/footer.jsp"/>	

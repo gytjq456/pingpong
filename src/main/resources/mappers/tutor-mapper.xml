@@ -2,6 +2,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Tutor">
 
+<!-- 튜티 insert -->
+<insert id="tuteeInsert">
+	insert into tutee values(tutee_seq.nextval, #{id}, #{name}, #{email}, #{phone_country}, #{phone}, #{bank_name}, #{price}, #{account}, #{sysname}, #{title},#{address}, default,#{refundPrice,jdbcType=VARCHAR},#{parent_seq})
+</insert>
+
+<!-- 튜티 현재인원 늘리기 -->
+<update id="tuteeCurnumCount">
+	update lesson set cur_num = cur_num+1 where seq = #{parent_seq}
+</update>
+
+<!-- 결제한사람이 또 결제하는지 -->
+<select id="payTrue" resultType="int">
+	select count(*) from tutee where parent_seq = #{parent_seq} and id =#{id}
+</select>
+
+<!-- 강위취소 튜티 환불금액 update 하고 강의 취소 'Y'로 바꾸기 -->
+<update id="refundInsert">
+	update tutee set cancle='Y', refundPrice = #{refundPrice} where parent_seq = #{parent_seq} and id =#{id}
+</update>
+
 <!-- 튜터신청서에 있는지 없는지-->
 <select id="tutorTrue" resultType="int">
 	select count(*) from tutor_app where id=#{id}
@@ -129,6 +149,18 @@
 	select * from (select lesson.*, row_number() over(order by ${orderBy} desc) rnum from lesson where pass='Y' and ${ing}=#{ingVal}) 
 	where rnum between #{start} and #{end}
 </select>
+
+<!-- 모집 진행 마감 자동으로 바뀌게하기 스케쥴러 -->
+<update id="updateApplying">
+	update lesson set applying ='N' where apply_end = #{today_date}
+</update>
+<update id="updateProceeding1">
+	update lesson set proceeding ='Y' where start_date = #{today_date} 
+</update>
+<update id="updateProceeding2">
+	update lesson set proceeding ='N' where end_date = #{today_date}
+</update>
+
 
 <!-- 키워드로 검색해서 리스트 뿌려주기 -->
 <select id="search" resultMap="LessonProfile">

@@ -11,7 +11,7 @@
 	
 	<!-- 파트너 상세 검색 -->
 	<select id="search" resultType="kh.pingpong.dto.PartnerDTO">
-		select * from (select partner.*,row_number() over(order by <!-- {orderBy} desc, --> seq desc) rnum from partner 
+		select * from (select partner.*,row_number() over(order by seq desc) rnum from partner 
 		<trim prefix="where" prefixOverrides="and|or">
 			<if test="pdto.gender != null">
 				gender = #{pdto.gender}
@@ -37,6 +37,15 @@
 			
 		</trim>
 		) where rnum between 1 and 10
+	</select>
+	
+	<!-- 검색 최신순 / 인기순 -->
+	<select id="alignT" resultType="kh.pingpong.dto.PartnerDTO">
+		select * from partner
+		<trim prefix="ORDER BY">
+	         <if test="align == 'recent'">  partner_date desc</if>
+	         <if test="align == 'point'">  review_point desc</if>
+		</trim> 
 	</select>
 	
 	<select resultType="int" id="getArticleCount">
@@ -118,5 +127,16 @@
 		update partner set review_count = ${reviewCount} where seq = ${seq}
 	</update>
 	
+	<!-- 찜 -->
+	<insert id="insertJjim">
+		insert into jjim values(jjim_seq.nextval, #{id}, '파트너', #{parent_seq})
+	</insert>
 	
+	<delete id="deleteJjim">
+		delete jjim where id = #{id} and parent_seq = #{parent_seq} and category = '파트너'
+	</delete>
+	
+	<select id="selectJjim" resultType="int">
+		select seq from jjim where id = #{id} and parent_seq = #{parent_seq} and category = '파트너'
+	</select>
 </mapper>

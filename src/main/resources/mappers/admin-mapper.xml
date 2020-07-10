@@ -3,7 +3,9 @@
 <mapper namespace="Admin">
 	<!-- 회원 목록 -->
 	<select id="memberList" resultType="kh.pingpong.dto.MemberDTO">
-		select * from member order by signup_date desc
+		select * from
+		(select member.*, row_number() over(order by signup_date desc) rnum from member)
+		where rnum between #{start} and #{end}
 	</select>
 	
 	<!-- 회원 뷰 -->
@@ -13,7 +15,9 @@
 	
 	<!-- 파트너 목록 -->
 	<select id="partnerList" resultType="kh.pingpong.dto.PartnerDTO">
-		select * from partner order by seq desc
+		select * from
+		(select partner.*, row_number() over(order by seq desc) rnum from partner)
+		where rnum between #{start} and #{end}
 	</select>
 	
 	<!-- 파트너 뷰 -->
@@ -23,7 +27,9 @@
 	
 	<!-- 그룹 목록 -->
 	<select id="groupList" resultType="kh.pingpong.dto.GroupDTO">
-		select * from grouplist order by seq desc
+		select * from
+		(select grouplist.*, row_number() over(order by seq desc) rnum from grouplist)
+		where rnum between #{start} and #{end}
 	</select>
 	
 	<!-- 그룹 뷰 -->
@@ -33,7 +39,9 @@
 	
 	<!-- 튜터 목록 -->
 	<select id="tutorList" resultType="kh.pingpong.dto.MemberDTO">
-		select * from member where grade = 'tutor' order by signup_date desc
+		select * from 
+		(select member.*, row_number() over(order by signup_date desc) rnum from member where grade = 'tutor')
+		where rnum between #{start} and #{end}
 	</select>
 	
 	<!-- 튜터 뷰 -->
@@ -43,7 +51,9 @@
 	
 	<!-- 튜터 신청 목록 -->
 	<select id="tutorAppList" resultType="kh.pingpong.dto.TutorAppDTO">
-		select * from tutor_app order by seq desc
+		select * from
+		(select tutor_app.*, row_number() over(order by seq desc) rnum from tutor_app)
+		where rnum between #{start} and #{end}
 	</select>
 	
 	<!-- 튜터 신청 뷰 -->
@@ -53,7 +63,9 @@
 	
 	<!-- 강의 목록 -->
 	<select id="lessonList" resultType="kh.pingpong.dto.LessonDTO">
-		select * from lesson where pass = 'Y' order by seq desc
+		select * from
+		(select lesson.*, row_number() over(order by seq desc) rnum from lesson where pass = 'Y')
+		where rnum between #{start} and #{end}
 	</select>
 	
 	<!-- 강의 뷰 -->
@@ -63,7 +75,9 @@
 	
 	<!-- 강의 신청 목록 -->
 	<select id="lessonAppList" resultType="kh.pingpong.dto.LessonDTO">
-		select * from lesson where pass = 'N' order by seq desc
+		select * from
+		(select lesson.*, row_number() over(order by seq desc) rnum from lesson where pass = 'N')
+		where rnum between #{start} and #{end}
 	</select>
 	
 	<!-- 강의 신청 뷰 -->
@@ -73,7 +87,9 @@
 
 	<!-- 강의 삭제 목록 -->
 	<select id="lessonDelList" resultType="kh.pingpong.dto.DeleteApplyDTO">
-		select * from delete_app where category = '강의' order by seq desc
+		select * from
+		(select delete_app.*, row_number() over(order by seq desc) rnum from delete_app where category = '강의')
+		where rnum between #{start} and #{end}
 	</select>
 	
 	<!-- 강의 삭제 뷰 -->
@@ -83,7 +99,9 @@
 	
 	<!-- 튜티 목록 -->
 	<select id="tuteeList" resultType="kh.pingpong.dto.TuteeDTO">
-		select * from tutee order by seq desc
+		select * from
+		(select tutee.*, row_number() over(order by seq desc) rnum from tutee)
+		where rnum between #{start} and #{end}
 	</select>
 	
 	<!-- 튜티 뷰 -->
@@ -91,9 +109,18 @@
 		select * from tutee where seq = #{value}
 	</select>
 	
+	<!-- 환불 신청 목록 -->
+	<select id="refundList" resultType="kh.pingpong.dto.TuteeDTO">
+		select * from
+		(select tutee.*, row_number() over(order by seq desc) rnum from tutee where cancle = 'Y')
+		where rnum between #{start} and #{end}
+	</select>
+	
 	<!-- 토론 게시글 목록 -->
 	<select id="discussionList" resultType="kh.pingpong.dto.DiscussionDTO">
-		select * from discussion order by seq desc
+		select * from
+		(select discussion.*, row_number() over(order by seq desc) rnum from discussion)
+		where rnum between #{start} and #{end}
 	</select>
 	
 	<!-- 토론 게시글 뷰 -->
@@ -103,7 +130,9 @@
 	
 	<!-- 첨삭 게시글 목록 -->
 	<select id="correctList" resultType="kh.pingpong.dto.CorrectDTO">
-		select * from correct order by seq desc
+		select * from
+		(select correct.*, row_number() over(order by seq desc) rnum from correct)
+		where rnum between #{start} and #{end}
 	</select>
 	
 	<!-- 첨삭 게시글 뷰 -->
@@ -111,13 +140,206 @@
 		select * from correct where seq = #{value}
 	</select>
 	
+	<!-- 소식통 게시글 목록 -->
+	<select id="newsList" resultType="kh.pingpong.dto.NewsDTO">
+		select * from
+		(select news.*, row_number() over(order by seq desc) rnum from news)
+		where rnum between #{start} and #{end}
+	</select>
+	
+	<!-- 소식통 게시글 뷰 -->
+	<select id="newsView" resultType="kh.pingpong.dto.NewsDTO">
+		select * from news where seq = #{value}
+	</select>
+	
 	<!-- 신고 목록 -->
 	<select id="reportList" resultType="kh.pingpong.dto.ReportListDTO">
-		select * from reportlist order by seq desc
+		select * from
+		(select reportlist.*, row_number() over(order by seq desc) rnum from reportlist)
+		where rnum between #{start} and #{end}
 	</select>
 	
 	<!-- 신고 뷰 -->
 	<select id="reportView" resultType="kh.pingpong.dto.ReportListDTO">
 		select * from reportlist where seq = #{value}
+	</select>
+	
+	<!-- 삭제 -->
+	<delete id="deleteOne">
+		delete ${tableName} where ${columnName} = #{columnValue}
+	</delete>
+	
+	<!-- 튜터 삭제 -->
+	<update id="deleteTutor">
+		update member set grade = 'default' where id = #{id}
+	</update>
+	
+	<!-- 파트너 삭제 -->
+	<update id="deletePartner">
+		update member set grade = 'default' where id = #{id}
+	</update>
+	
+	<!-- 튜티 삭제 -->
+	<update id="deleteTutee">
+		update lesson set cur_num = cur_num - 1 where seq = #{seq}
+	</update>
+	
+	<!-- 튜터 승인(pass update) -->
+	<update id="updateTutorAppPass">
+		update tutor_app set pass = 'Y' where seq = #{seq}
+	</update>
+	
+	<!-- 튜터 승인(grade update) -->
+	<update id="updateTutorAppGrade">
+		update member set grade = 'tutor' where id = #{id}
+	</update>
+	
+	<!-- 강의 신청 승인 -->
+	<update id="updateLessonPass">
+		update lesson set pass = 'Y' where seq = #{seq}
+	</update>
+	
+	<!-- 강의 삭제 승인(lesson delete) -->
+	<delete id="deleteApplyLesson">
+		delete lesson where seq = #{seq}
+	</delete>
+	
+	<!-- 신고 승인(pass update) -->
+	<update id="updateReportListPass">
+		update reportlist set pass = 'Y' where seq = #{seq}
+	</update>
+	
+	<!-- 신고 승인(report_count update) -->
+	<update id="updateReportCount">
+		update member set report_count = report_count + 1 where id = #{id}
+	</update>
+	
+	<!-- 체크박스로 여러 개 삭제 -->
+	<delete id="deleteAll">
+		delete ${tableName} where ${columnName} in 
+		<foreach collection="valueList" item="eachValue" open="(" close=")" separator=", ">
+			#{eachValue}
+   		</foreach>
+	</delete>
+	
+	<!-- 체크박스로 여러 튜터 삭제 -->
+	<update id="deleteSelectedTutor">
+		update member set grade = 'default' where id in
+		<foreach collection="list" item="eachValue" open="(" close=")" separator=", ">
+			#{eachValue}
+		</foreach>
+	</update>
+	
+	<!-- 체크박스로 여러 파트너 삭제 -->
+	<update id="deleteSelectedPartner">
+		update member set grade = 'default' where id in
+		<foreach collection="valueList" item="eachValue" open="(" close=")" separator=", ">
+			#{eachValue}
+		</foreach>
+	</update>
+	
+	<!-- 체크박스로 여러 튜티 삭제 -->
+	<select id="getLessonSeqByTutee" resultType="int">
+		select parent_seq from tutee where seq = #{seq}
+	</select>
+	
+	<!-- 체크박스로 여러 개 승인 -->
+	<update id="acceptAll">
+		update ${tableName} set pass = 'Y' where seq in
+		<foreach collection="valueList" item="eachValue" open="(" close=")" separator=", ">
+			#{eachValue}
+		</foreach>
+	</update>
+	
+	<!-- 체크박스로 여러 튜터 신청 승인 -->
+	<update id="acceptAllTutorApp">
+		update member set grade = 'tutor' where id in
+		<foreach collection="idList" item="eachValue" open="(" close=")" separator=", ">
+			#{eachValue}
+		</foreach>
+	</update>
+	
+	<!-- 튜터 신청 아이디 셀렉트 -->
+	<select id="getIdFromTutorApp" resultType="String">
+		select id from tutor_app where seq = #{seq}
+	</select>
+	
+	<!-- 신고 아이디 셀렉트 -->
+	<select id="getIdFromReportList" resultType="String">
+		select id from reportlist where seq = #{seq}
+	</select>
+	
+	<!-- 신고 카테고리 셀렉트 -->
+	<select id="getCategoryFromRep" resultType="String">
+		select category from reportlist where seq = #{seq}
+	</select>
+	
+	<!-- 신고 부모 시퀀스 셀렉트 -->
+	<select id="getParentSeqFromRep" resultType="int">
+		select parent_seq from reportlist where seq = #{seq}
+	</select>
+	
+	<!-- 강의 삭제 부모 시퀀스 셀렉트 -->
+	<select id="getParentSeqFromDel" resultType="int">
+		select parent_seq from delete_app where seq = #{seq}
+	</select>
+	
+	<!-- 카운트 -->
+	<select id="selectCount" resultType="int">
+		select count(*) from ${tableName}
+		<if test="columnName != null">
+			where ${columnName} = #{columnValue}
+		</if>
+	</select>
+	
+	<!-- 언어 조회 -->
+	<select id="selectFiveLang" resultType="kh.pingpong.dto.LanguageDTO">
+		select * from
+		(select language.*, row_number() over(order by lang_count desc) rnum from language)
+		where rnum between 1 and 5
+	</select>
+	
+	<!-- 지역 조회 -->
+	<select id="selectFiveLoc" resultType="kh.pingpong.dto.LocationDTO">
+		select * from
+		(select location.*, row_number() over(order by loc_count desc) rnum from location)
+		where rnum between 1 and 5
+	</select>
+	
+	<!-- 블랙리스트 추가 -->
+	<insert id="insertBlacklist">
+		insert into blacklist values(blacklist_seq.nextval, #{id}, #{name}, '신고', sysdate, sysdate + 3)
+	</insert>
+	
+	<!-- 이름 가져오기 -->
+	<select id="getNameForBlack" resultType="String">
+		select name from member where id = #{id}
+	</select>
+	
+	<!-- 블랙리스트 목록 -->
+	<select id="blacklistList" resultType="kh.pingpong.dto.BlacklistDTO">
+		select * from
+		(select blacklist.*, row_number() over(order by seq desc) rnum from blacklist)
+		where rnum between #{start} and #{end}
+	</select>
+	
+	<!-- 블랙리스트 뷰 -->
+	<select id="blacklistView" resultType="kh.pingpong.dto.BlacklistDTO">
+		select * from blacklist where seq = #{seq}
+	</select>
+	
+	<!-- 신고 횟수 셀렉트 -->
+	<select id="getReportCount" resultType="int">
+		select report_count from member where id = #{id}
+	</select>
+	
+	<!-- 블랙리스트 만료 -->
+	<delete id="doneBlacklist">
+		delete blacklist where to_char(end_date, 'yyyy-mm-dd') = #{today_date}
+	</delete>
+	
+	<!-- 로그인 시 블랙리스트 확인 -->
+	<select id="isBlacklist" resultType="Integer">
+		select seq from blacklist where id = #{id}
 	</select>
 </mapper>

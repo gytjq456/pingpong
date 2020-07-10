@@ -19,6 +19,7 @@ import kh.pingpong.dto.GroupMemberDTO;
 import kh.pingpong.dto.HobbyDTO;
 import kh.pingpong.dto.JjimDTO;
 import kh.pingpong.dto.LikeListDTO;
+import kh.pingpong.dto.ReportListDTO;
 import kh.pingpong.dto.ReviewDTO;
 
 @Repository
@@ -148,8 +149,25 @@ public class GroupDAO {
 		return checkApply;
 	}
 	
-	public GroupMemberDTO selectGroupMemberById(GroupMemberDTO gmdto) {
-		return mybatis.selectOne("Group.selectGroupMemberById", gmdto);
+	public List<GroupMemberDTO> selectGroupMemberList(int parent_seq) {
+		return mybatis.selectList("Group.selectGroupMemberList", parent_seq);
+	}
+	
+	public boolean selectGroupMemberById(GroupMemberDTO gmdto) {
+		Integer result = mybatis.selectOne("Group.selectGroupMemberById", gmdto);
+		boolean checkMember = true;
+		if (result == null) {
+			checkMember = false;
+		}
+		return checkMember;
+	}
+	
+	public int updateGroupMemberOut(int seq) {
+		return mybatis.update("Group.updateGroupMemberOut", seq);
+	}
+	
+	public int deleteGroupMember(GroupMemberDTO gmdto) {
+		return mybatis.delete("Group.deleteGroupMember", gmdto);
 	}
 	
 	public int insertDeleteApply(DeleteApplyDTO dadto) {
@@ -172,6 +190,14 @@ public class GroupDAO {
 		}
 		
 		return checkLike;
+	}
+	
+	public int selectReport(ReportListDTO rldto) {
+		return mybatis.selectOne("Group.selectReport", rldto);
+	}
+	
+	public int insertReport(ReportListDTO rldto) {
+		return mybatis.insert("Group.insertReport", rldto);
 	}
 	
 	public int updateIngDate(String today_date) {

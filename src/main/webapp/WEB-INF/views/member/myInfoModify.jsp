@@ -19,19 +19,19 @@
 							${sessionScope.loginInfo.id}
 						</div>
 					</div>
-		
-					<div class="se_singup">
-						<div class="title">
-							비밀번호 							
+					
+					<c:if test="${mdto.mem_type != 'kakao'}">
+						<div class="se_singup" id="kakaoNot">
+							<div class="title">
+								비밀번호 							
+							</div>												
+							<div class="se_con">
+								<div>
+									<button type="button" id="modyPwBtn">비밀번호 수정 바로가기</button>								
+								</div>
+							</div>						
 						</div>
-												
-						<div class="se_con">
-							<div>
-								<button type="button" id="modyPwBtn">비밀번호 수정 바로가기</button>								
-							</div>
-						</div>
-						
-					</div>
+					</c:if>
 		
 					<div class="se_singup">
 						<div class="title">이름</div>
@@ -64,7 +64,7 @@
 								<button type="button" class="modyBtn">수정</button>
 								<div class="show_input">
 									<select id="phone_country" name="phone_country" class="w20">
-										<option value="null" id="phone_countryNull">선택 안함</option>
+										<!-- <option value="null" id="phone_countryNull">선택 안함</option> -->
 										<option value="010">010</option>
 										<option value="011">011</option>
 										<option value="070">070</option>
@@ -122,11 +122,11 @@
 							<div>
 								<button type="button" class="modyBtn">수정</button>
 								<div class="show_input">
-									<form id="profile_form">
+									<form id="profile_form" enctype="multipart/form-data">
 										<input type="file" id="profile" name="profile">
-										<input type="submit" value="수정완료">
+										<input type="submit" id="profile_Result" value="수정완료">
 									</form>
-								</div>
+								</div>								
 							</div>
 						</div>
 					</div>

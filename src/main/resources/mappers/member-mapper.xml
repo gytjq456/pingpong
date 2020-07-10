@@ -48,7 +48,9 @@
 	</resultMap>
 
 	<select id="isIdPwSame" resultType="Integer">
-		select count(*) from member where id=#{id} and pw=#{pw}
+		select count(*) from member where id=#{id}
+		<if test="pw != null">and pw=#{pw}</if>
+
 	</select>
 	
 	<select id="loginInfo" resultMap="MemProfile">
@@ -135,6 +137,28 @@
 		update member set introduce = #{introduce} where id = #{id}
 	</update>
 	
+	<!-- 나이올리기 -->
+	<update id="scheduleAgeUp">
+		update member set age = age+1
+	</update>
+	
+	<!-- 언어 선호 수 올리기 -->
+	<update id="updateLangCount">
+		update language set lang_count = lang_count + 1 where language in
+		<foreach collection="array" item="eachLang" open="(" close=")" separator=", ">
+			#{eachLang}
+		</foreach>
+	</update>
+	
+	<!-- 지역 선호 수 올리기 -->
+	<update id="updateLocCount">
+		update location set loc_count = loc_count + 1 where loc_name = #{loc_name}
+	</update>
+	
+	<!-- 파트너 / 튜터 목록 가져오기  -->
+	<select id="personList" resultType="kh.pingpong.dto.MemberDTO">
+		select * from member where grade = #{value}
+	</select>
 </mapper>
 
 

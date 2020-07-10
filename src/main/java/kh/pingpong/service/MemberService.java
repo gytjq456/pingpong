@@ -42,7 +42,12 @@ public class MemberService {
 	@Transactional("txManager")
 	public int memberInsert(MemberDTO mdto, FileDTO fdto) throws Exception{	
 		int result = mdao.memberInsert(mdto,fdto);
-		mdao.memberFile(fdto);		
+		mdao.memberFile(fdto);
+		String[] language = mdto.getLang_learn().split(",");
+		mdao.updateLangCount(language);
+		String location = mdto.getAddress();
+		String loc_name = location.split(" ")[0];
+		mdao.updateLocCount(loc_name);
 		return result;
 	}
 	
@@ -141,7 +146,12 @@ public class MemberService {
 	public int myInfoIntroduce(MemberDTO mdto) throws Exception{
 		return mdao.myInfoIntroduce(mdto);
 	}
+		
 	
+	//파트너 / 튜터 목록 가져오기 /
+	public List<MemberDTO> personList(String type) throws Exception{
+		return mdao.personList(type);
+	}
 }
 
 

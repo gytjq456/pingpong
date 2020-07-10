@@ -19,17 +19,35 @@ $(function(){
 				id : $("#id").val()
 			}
 		}).done(function(resp){
-			if("true" == resp){
-				alert("이미 사용중인 아이디 입니다.");
-				$("#duplcheckId").attr("name","");
+			if($("#id").val()==""){
+				alert("아이디를 입력해주세요");
+				id.focus();
 			}else{
-				alert("사용가능한 아이디입니다.");
-				$("#duplcheckId").attr("name","true");
-			}    				
+				if("true" == resp){
+					alert("이미 사용중인 아이디 입니다.");
+					$("#duplcheckId").attr("name","");
+				}else{
+					alert("사용가능한 아이디입니다.");
+					$("#duplcheckId").attr("name","true");
+				}   
+			}
+			 				
 		}).fail(function(error1, error2){
 			console.log(error1);
 			console.log(error2);
 		})
+	});
+	
+	
+	//비밀번호 일치
+	$("#pw").on("keyup",function(){
+		var pwResult1 = $("#pw").val();
+		var pwResult2 = $("#pw_ck").val();
+		if(pwResult1 == pwResult2){
+			$("#pwConfrom").text("비밀번호가 일치합니다.");
+		}else{
+			$("#pwConfrom").text("비밀번호 일치 하지 않습니다.");
+		}
 	});
 	
 	//비밀번호 일치
@@ -41,7 +59,7 @@ $(function(){
 		}else{
 			$("#pwConfrom").text("비밀번호 일치 하지 않습니다.");
 		}
-	});		
+	});
 	
 	/* 자기소개  */		
 	$('#introduce').keyup(function(e){
@@ -128,17 +146,20 @@ $(function(){
 		//이메일은 고정으로 바뀌지 않게 작업	
 		
 		//전화번호 (앞자리)
+		/*
 		if(phone_country == 'null'){
 			alert("전화번호 앞자리를 입력해주세요.");
 			$('#phone_country').focus();			
 			return false;
-		}
+		}*/
 		
 		//전화번호	(뒷자리)
-		var regexPhone = /^(\d){4,15}$/g;
+		//var regexPhone = /^(\d){8}$/g;
+		//var regexPhone = /^[^010 070 011 a-z A-Z 가-힣 ㄱ-ㅎ ! @ # $ %](\d){7}$/gm;
+		var regexPhone = /^(010|070|011)(\d){5}/gm;
 		var result_phone = regexPhone.test(phone.val());
-		if(!result_phone){
-			alert("전화번호 : 숫자이며 4~15글자입니다.");
+		if(result_phone){
+			alert("전화번호 : 숫자이며 8글자입니다. 010 / 011 / 070 빼주세요.");
 			phone.focus();
 			return false;
 		}		
@@ -184,6 +205,14 @@ $(function(){
 		//프로필
 		if(profile.val() == ""){
 			alert("프로필 사진을 넣어주세요");
+			profile.focus();
+			return false;
+		}
+		
+		//프로필 확장자 체크
+		if(!/\.(gif|jpg|jpeg|png)$/i.test(profile.val())){
+			alert("확장자 확인 하기 " + profile.val());
+			alert('gif, jpg, png 파일만 선택해 주세요.\n\n현재 파일 : ' + profile.val());
 			profile.focus();
 			return false;
 		}
@@ -252,9 +281,9 @@ $(function(){
 		}
 		
 		/* 자기소개  */
-		if(introduce.val().length < 100){
+		if(introduce.val().length < 50){
 			introduce.focus();
-			alert("자기소개를 최소 100글자 이상 작성해주세요.");
+			alert("자기소개를 최소 50글자 이상 작성해주세요.");
 			return false;
 		}
 		

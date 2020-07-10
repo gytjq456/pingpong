@@ -32,6 +32,37 @@ $(function(){
 		$("#jjim").css('color','rgb(240,7,7)')
 	}
 	
+	//같은사람이 결제하기 또 눌렀는지 확인
+	$("#pay").on("click", function(){
+		var max_numVal = ${ldto.max_num};
+		var cur_numVal = ${ldto.cur_num};
+		if(max_numVal == cur_numVal){
+			alert("수강인원이 다찼습니다.");
+			return false;
+		}
+		
+		var seq = ${seq};
+		$.ajax({
+			url:"/payments/payTrue",
+			data:{
+				parent_seq : seq
+			},
+			type: "POST"
+		}).done(function(resp){
+			console.log(resp);
+			if(resp>0){
+				alert("이미 결제한 강의 입니다.");
+				location.href="/tutor/lessonView?seq="+seq;
+				return false;
+			}else{
+				location.href="/payments/payMain?parent_seq=${ldto.seq }&title=${ldto.title}&price=${ldto.price}";
+			}
+		}).fail(function(error1, error2) {
+			console.log(error1);
+			console.log(error2);
+		})
+	})
+	
 	$("#like").on("click", function(){
 		console.log($(this).css('color'));
 		var seq = ${seq};
@@ -224,7 +255,6 @@ $(function(){
 					</c:when>
 				</c:choose>
 			</div>
-
 			<div class="view_top">
 				<div class="view_top_left">
 					<div class="profile">
@@ -249,7 +279,7 @@ $(function(){
 						수업시간 : ${ldto.start_hour }:${ldto.start_minute } ~ ${ldto.end_hour }:${ldto.end_minute }
 						최대인원 : ${ldto.max_num }
 						수업언어 : ${ldto.language }
-						가격 : ${ldto.price } 원 /시간
+						가격 : ${ldto.price } 원 /총 금액
 					</div>
 	
 				</div>
@@ -261,7 +291,7 @@ $(function(){
 					<li><a href="#;">강의문의</a></li>
 					<li><a href="#;">환불안내</a></li>
 					<li><a href="#;">리뷰</a></li>
-					<li><a href="/tutor/payMain?parent_seq=${ldto.seq }&title=${ldto.title}">결제하기</a></li>
+					<li id="pay"><a>결제하기</a></li>
 				</ul>
 			</div>
 			
@@ -283,7 +313,8 @@ $(function(){
 			
 			<div class="view_main">
 				<div class="curriculum">${ldto.curriculum }</div>
-				<div class="priceLocation">가격 ${ldto.price}원/시간 <br>위치 ${ldto.location}</div>
+				<div class="priceLocation">가격 ${ldto.price}원/시간 <br>위치 ${ldto.location} <br>
+				최대인원 &nbsp ${ldto.max_num } <br>현재인원 &nbsp ${ldto.cur_num } </div>
 			</div>
 			
 			<div class="tit_s3">
@@ -304,9 +335,13 @@ $(function(){
 			<div class="refund_guid">
 				<ul>
 					<li>· 고객센터 직접 문의 (1:1상담, 게시판, 이메일, 전화: 1588-1580)</li>
-					<li>· 마이페이지>결제내역에서 환불신청</li>
+					<li>· 마이페이지>강의 목록에서 환불신청</li>
 					<li>* 결제 취소 및 환불은 환불신청 접수 후 7일 이내에 처리해 드립니다.</li>
 					<li>* 환불시 구매자와 환불자가 다를 경우 19세 미만의 고객은 보호자의 동의가 필요합니다.</li>
+					<li>* 수업 시작 날짜전 환불 요정 - 전액 환불</li>
+					<li>* 수업 시작 날짜로부터 1일~10일 경과 - 전체금액 중 2/3 환불</li>
+					<li>* 수업 시작 날짜로부터 10일~15일 경과 - 전체금액 중 1/2 환불</li>
+					<li>* 수업 시작 날짜로부터 15일 이후 경과 - 환불 금액 없음</li>
 				</ul>
 			</div>
 			

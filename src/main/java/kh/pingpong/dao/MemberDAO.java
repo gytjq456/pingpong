@@ -157,6 +157,26 @@ public class MemberDAO {
 		return mybatis.update("Member.myInfoIntroduce", mdto);
 	}
 	
+	/* introduce */
+	public int scheduleAgeUp() throws Exception{
+		System.out.println("크론식에 들어 왔나요?");
+		return mybatis.update("Member.scheduleAgeUp");
+	}
+	
+	/* 언어 선호 */
+	public int updateLangCount(String[] language) throws Exception {
+		return mybatis.update("Member.updateLangCount", language);
+	}
+	
+	/* 지역 선호 */
+	public int updateLocCount(String loc_name) throws Exception {
+		return mybatis.update("Member.updateLocCount", loc_name);
+	}
+	
+	/* 파트너 */
+	public List<MemberDTO> personList(String type) throws Exception{
+		return mybatis.selectList("Member.personList",type);
+	}
 }
 
 

@@ -40,7 +40,7 @@
 		 							<a href="#;">MyPage</a>
 									<ul class="depth2">
 										<li><a href="/member/myInfo">나의 정보수정</a></li>
-										<li><a href="/mypage/tutorRecord">나의 튜터 목록</a></li>
+										<li><a href="/mypage/tutorRecord">나의 강의목록</a></li>
 										<li><a href="/mypage/groupRecord">모임기록</a></li>
 										<li><a href="/mypage/likeRecord">찜목록</a></li>
 									</ul>
@@ -54,14 +54,14 @@
 		</section>
 		<section id="hdBot">
 			<div class="inner1200 clearfix">
-				<h1 class="logo"><a href="#;"><img src="/resources/img/common/logo.png"/></a></h1>
+				<h1 class="logo"><a href="/"><img src="/resources/img/common/logo.png"/></a></h1>
 				<nav>
 					<div >
 						<ul class="clearfix gnb">
 							<li>
 								<a href="/partner/partnerList">Partner</a>
 								<ul class="depth2">
-									<li><a href="/partner/partnerList">파트너 목록</a></li>
+									<li><a href="/partner/partnerList?align=recent">파트너 목록</a></li>
 									<li><a href="#;">파트너 등록</a></li>
 								</ul>
 							</li>
@@ -75,7 +75,7 @@
 							<li>
 								<a href="/tutor/tutorList">Tutor</a>
 								<ul class="depth2">
-									<li><a href="/tutor/lessonList?orderBy=seq">강의 목록</a></li>
+									<li><a href="/tutor/lessonList?orderBy=seq&keywordSelect=name">강의 목록</a></li>
 									<li><a id="tutorApp">튜터 신청</a></li>
 								</ul>
 							</li>												
@@ -84,7 +84,7 @@
 								<ul class="depth2">
 									<li><a href="/discussion/list?cpage=1">토론</a></li>
 									<li><a href="/correct/correct_list">질문</a></li>
-									<li><a href="#;">소식</a></li>
+									<li><a href="/news/listProc">소식</a></li>
 								</ul>
 							</li>												
 							<li>

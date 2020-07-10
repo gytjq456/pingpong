@@ -40,8 +40,13 @@ public class NewsDAO {
 		return a;
 	}
 	
-	public NewsDTO newsViewOne(NewsDTO ndt) throws Exception{
-		return mybatis.selectOne("News.newsViewOne", ndt);
+	public NewsDTO newsViewOne(NewsDTO ndto) throws Exception{
+		return mybatis.selectOne("News.newsViewOne", ndto);
+	}
+	
+	//프로필 하나 삭제
+	public int dele_thumbnail(NewsDTO ndto) throws Exception{
+		return mybatis.delete("News.dele_thumbnail", ndto);
 	}
 	
 }

@@ -3,6 +3,19 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
 
 <jsp:include page="/WEB-INF/views/header.jsp"/>
+
+	<script>
+	$(function(){
+		$("#back").on('click',function(){
+			location.href="/news/listProc";
+		});
+		
+		$("#modify").on('click',function(){
+			location.href="/news/modify?seq=${ndto.seq}";
+		});
+	});
+		
+	</script>
 	<div id="subWrap" class="hdMargin" style="padding-top: 156px;">
 		<section id="subContents">
 			<article id="new_view" class="inner1200">
@@ -65,12 +78,13 @@
 								</div>
 							</div>												
 						</div>
-					</div>
-					<div class="btnS1 center">
-						<div>
-							<input type="submit" id="write" value="등록">
+						<div class="btnS1 center">
+							<button type="button" id="back">목록</button>
+							<c:if test="${sessionScope.loginInfo.id == ndto.writer}">
+								<button type="button" id="modify">수정</button>
+								<button type="button" id="delete">삭제</button>
+							</c:if>
 						</div>
-						<div><button type="button" id="back">목록</button></div>
 					</div>
 				</div>
 			</article>

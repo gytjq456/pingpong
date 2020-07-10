@@ -52,4 +52,9 @@ public class NewsService {
 		return newsdao.newsViewOne(ndto);
 	}
 	
+	//프로필 하나 삭제
+	public int dele_thumbnail(NewsDTO ndto) throws Exception{
+		return newsdao.dele_thumbnail(ndto);
+	}
+	
 }

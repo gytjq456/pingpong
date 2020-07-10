@@ -1,6 +1,5 @@
 package kh.pingpong.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -9,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import kh.pingpong.dto.FileDTO;
 import kh.pingpong.dto.FileTnDTO;
@@ -81,6 +81,21 @@ public class NewsController {
 		return "redirect:/news/listProc";
 	}
 	
+	/* 글 수정 jsp */
+	@RequestMapping("modify")
+	public String modify(NewsDTO ndto, Model model) throws Exception{
+		ndto = newservice.newsViewOne(ndto);
+		model.addAttribute("ndto",ndto);
+		return "/news/modify";
+	}
+	
+	/* 프로필 사진 삭제 jsp */
+	@ResponseBody
+	@RequestMapping("dele_thumbnail")
+	public String dele_thumbnail(NewsDTO ndto) throws Exception{
+		int result = newservice.dele_thumbnail(ndto);
+		return String.valueOf(result);
+	}
 	
 	
 	

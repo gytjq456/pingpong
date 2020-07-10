@@ -40,5 +40,9 @@
         files, contents, to_char(write_date,'yyyy-mm-ss') write_date,view_count,like_count,comment_count
 		from news where seq=${seq}
 	</select>
+	
+	<delete id="dele_thumbnail">
+		delete from files where sysname=${news_thumb} and parent_seq=${seq}
+	</delete>
 
 </mapper>

@@ -4,7 +4,7 @@
 <jsp:include page="/WEB-INF/views/admin/aheader.jsp"/>
 	<div id="main_wrap">
 		<div id="table_wrap">
-			<h3>튜티 환불 신청</h3>
+			<h3>강의 환불 신청</h3>
 			<table>
 				<thead>
 					<tr>

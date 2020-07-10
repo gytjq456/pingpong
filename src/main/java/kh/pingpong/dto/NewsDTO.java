@@ -20,9 +20,13 @@ public class NewsDTO {
    private int like_count;
    private int comment_count;
    
+   private String thumbnail_img;
+   
    private String address;
    private String detailAddress;
    private String extraAddress;
+   
+   private String write_date_st;
    
    public NewsDTO() {
       super();
@@ -48,11 +52,11 @@ public class NewsDTO {
       this.like_count = like_count;
       this.comment_count = comment_count;
    }
-   
+
    public NewsDTO(int seq, String title, String writer, String category, String start_date, String end_date,
          String location, MultipartFile thumbnail, String files_name, String contents, Timestamp write_date,
-         int view_count, int like_count, int comment_count, String address, String detailAddress,
-         String extraAddress) {
+         int view_count, int like_count, int comment_count, String thumbnail_img, String address,
+         String detailAddress, String extraAddress, String write_date_st) {
       super();
       this.seq = seq;
       this.title = title;
@@ -68,9 +72,11 @@ public class NewsDTO {
       this.view_count = view_count;
       this.like_count = like_count;
       this.comment_count = comment_count;
+      this.thumbnail_img = thumbnail_img;
       this.address = address;
       this.detailAddress = detailAddress;
       this.extraAddress = extraAddress;
+      this.write_date_st = write_date_st;
    }
 
    public int getSeq() {
@@ -185,6 +191,14 @@ public class NewsDTO {
       this.comment_count = comment_count;
    }
 
+   public String getThumbnail_img() {
+      return thumbnail_img;
+   }
+
+   public void setThumbnail_img(String thumbnail_img) {
+      this.thumbnail_img = thumbnail_img;
+   }
+
    public String getAddress() {
       return address;
    }
@@ -208,6 +222,13 @@ public class NewsDTO {
    public void setExtraAddress(String extraAddress) {
       this.extraAddress = extraAddress;
    }
-   
+
+   public String getWrite_date_st() {
+      return write_date_st;
+   }
+
+   public void setWrite_date_st(String write_date_st) {
+      this.write_date_st = write_date_st;
+   }
    
 }

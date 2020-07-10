@@ -293,7 +293,7 @@ $(function(){
 				<c:choose>
 					<c:when test="${loginInfo.grade == 'tutor' && loginInfo.id== ldto.id }">
 						<p>
-							<a href="/tutor/lessonUpdate?seq=${ldto.seq }" class="on">강의 수정</a>
+							<%-- <a href="/tutor/lessonUpdate?seq=${ldto.seq }" class="on">강의 수정</a> --%>
 							<button type="button" id="popOnBtn" class="on">강의 삭제</button>
 						</p>
 					</c:when>

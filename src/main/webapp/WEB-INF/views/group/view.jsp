@@ -18,9 +18,6 @@
 	#group_base_info { padding: 15px 0; border-bottom: 1px solid #ddd; }
 	#group_base_info span { position: relative; }
 	#group_base_info span i { margin-right: 5px; }
-	#like { right: -70%; }
-	#jjim { right: -72%; }
-	#report { right: -74%; }
 	#point_avg i { color: #fcba03; }
 	#like i { color: #3162a4; }
 	#jjim i { color: #fbaab0; }
@@ -44,6 +41,9 @@
 	#view_btns #update { margin-right: 2px; }
 	#writer_profile img { vertical-align: top; }
 	#map { width: 100%; height: 200px; margin-top: 10px; }
+	#mini_option_wrap { position: relative; }
+	#three_options { position: absolute; right: 0; top: 0; }
+	#three_options span { margin-left: 8px; }
 </style>
 <script>
 	$(function(){
@@ -193,10 +193,14 @@
 						<span id="seq">${gdto.seq}</span>
 						<div id="group_base_info" class="base_info">
 							<div id="group_title">${gdto.title}</div>
-							<span id="point_avg"><i class="fa fa-star" aria-hidden="true"></i>${gdto.review_point}</span>
-							<span id="like"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>추천</span>
-							<span id="jjim"><i class="fa fa-heart-o" aria-hidden="true"></i>찜하기</span>
-							<span id="report"><i class="fa fa-exclamation" aria-hidden="true"></i>신고</span>
+							<div id="mini_option_wrap">
+								<span id="point_avg"><i class="fa fa-star" aria-hidden="true"></i>${gdto.review_point}</span>
+								<div id="three_options">
+									<span id="like"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>추천</span>
+									<span id="jjim"><i class="fa fa-heart-o" aria-hidden="true"></i>찜하기</span>
+									<span id="report"><i class="fa fa-exclamation" aria-hidden="true"></i>신고</span>
+								</div>
+							</div>
 						</div>
 						<div id="group_detail" class="base_info clearfix">
 							<div class="info_with_icon">
@@ -305,23 +309,10 @@
 									<%-- <span class="optional_sub">작성일</span><span>${gdto.date}</span><br> --%>
 								</div>
 								<div class="btnS1" id="view_btns">
-									<c:choose>
-										<c:when test="${sessionScope.loginInfo.id == gdto.writer_id}">
-												<button type="button" id="update">수정</button>
-												<button type="button" id="delete">삭제</button>
-										</c:when>
-										<c:otherwise>
-											<c:if test="${checkApply == true}">
-												<button type="button" id="applyCancel">신청 취소</button>
-											</c:if>
-											<c:if test="${checkApply == false && (sessionScope.loginInfo.id != gdto.writer_id)}">
-												<button type="button" id="applyForm">신청하기</button>
-											</c:if>
-											<c:if test="${checkMember == true}">
-												<button type="button" id="deleteForm">탈퇴하기</button>
-											</c:if>
-										</c:otherwise>
-									</c:choose>
+									<c:if test="${sessionScope.loginInfo.id == gdto.writer_id}">
+										<button type="button" id="update">수정</button>
+										<button type="button" id="delete">삭제</button>
+									</c:if>
 									<button type="button" id="toList" onclick="javascript:toList()">목록</button>
 								</div>
 							</div>
@@ -329,37 +320,80 @@
 					</article>
 					<article id="tab_2" class="calendarSch card_body">
 						<div id="related_group_title">관련 모임</div>
-						<div>
+						<div id="related_groups">
 							<c:choose>
 								<c:when test="${empty relatedGroup}">
 									관련 모임이 없습니다.
 								</c:when>
 								<c:otherwise>
 									<c:forEach var="related" items="${relatedGroup}">
-										<a href="/group/beforeView?seq=${related.seq}">
-											<div class="group_each_wrapper">
-												<div><span class="sub_title">작성자</span> ${related.writer_name}(${related.writer_id})</div>
-												<div><span class="sub_title">제목</span> ${related.title}</div>
-												<div><span class="sub_title">유형</span> ${related.hobby_type}</div>
-												<div><span class="sub_title">모집 기간</span> ${related.apply_start} ~ ${related.apply_end}</div>
-												<div><span class="sub_title">진행 기간</span> ${related.start_date} ~ ${related.end_date}</div>
-												<div><span class="sub_title">평점</span> ★ ${related.review_point}</div>
-												<div>
-													<span class="sub_title">조회</span> ${related.view_count}  
-													<span class="sub_title">추천</span> ${related.like_count}  
-													<span class="sub_title">리뷰</span> ${related.review_count}
+										<div class="back_and_wrap item">
+											<a href="/group/beforeView?seq=${related.seq}" class="group_list_a">
+												<div class="each_profile"><img src="/resources/img/sub/userThum.jpg"/></div>
+												<c:if test="${fn:startsWith(related.hobby_type, '영화')}">
+													<div class="group_background background_pink"></div>
+												</c:if>
+												<c:if test="${fn:startsWith(related.hobby_type, '공연')}">
+													<div class="group_background background_purple"></div>
+												</c:if>
+												<c:if test="${fn:startsWith(related.hobby_type, '음악')}">
+													<div class="group_background background_blue"></div>
+												</c:if>
+												<c:if test="${fn:startsWith(related.hobby_type, '독서')}">
+													<div class="group_background background_brown"></div>
+												</c:if>
+												<c:if test="${fn:startsWith(related.hobby_type, '스포츠')}">
+													<div class="group_background background_red"></div>
+												</c:if>
+												<c:if test="${fn:startsWith(related.hobby_type, '게임')}">
+													<div class="group_background background_yellow"></div>
+												</c:if>
+												<c:if test="${fn:startsWith(related.hobby_type, '여행')}">
+													<div class="group_background background_green"></div>
+												</c:if>
+												<c:if test="${fn:startsWith(related.hobby_type, '요리')}">
+													<div class="group_background background_orange"></div>
+												</c:if>
+												<c:if test="${fn:startsWith(related.hobby_type, '기타')}">
+													<div class="group_background background_gray"></div>
+												</c:if>
+												<div class="group_each_wrapper">
+													<div class="each_writer"><span class="each_name">${related.writer_name}</span>(${related.writer_id})</div>
+													<div class="each_title">${related.title}</div>
+													<div class="each_body">
+														<div><span class="sub_title">장소</span> <p>${related.location}</p></div>
+														<div><span class="sub_title">유형</span> <p>${related.hobby_type}</p></div>
+														<div><span class="sub_title">모집</span>
+															<c:if test="${related.applying == 'N'}">
+															 - 
+															</c:if>
+															<c:if test="${related.applying == 'Y'}">
+															 <p>${related.apply_start} ~ ${related.apply_end}</p>
+															</c:if>
+														</div>
+														<div><span class="sub_title">진행</span> <p>${related.start_date} ~ ${related.end_date}</p></div>
+														<div><span class="sub_title">평점</span> <p><i class="fa fa-star" aria-hidden="true"></i> ${related.review_point}</p></div>
+													</div>
+													<div class="countList_s2">
+														<span class="sub_title"><i class="fa fa-eye"></i>${related.view_count}</span>   
+														<span class="sub_title"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>${related.like_count}</span>   
+														<span class="sub_title"><i class="fa fa-commenting-o" aria-hidden="true"></i>${related.review_count}</span> 
+														<span class="sub_title"><i class="fa fa-file-text-o" aria-hidden="true"></i>${related.app_count}</span> 
+													</div>
+													<div class="status">
+														<c:if test="${related.applying == 'Y'}">
+															<div class="group_applying">모집중</div>  
+														</c:if>
+														<c:if test="${related.proceeding == 'Y'}">
+															<div class="group_proceeding">진행중</div>
+														</c:if>
+														<c:if test="${related.proceeding == 'N' && glist.applying == 'N'}">
+															<div class="group_done">마감</div>
+														</c:if>
+													</div>
 												</div>
-												<c:if test="${related.applying == 'Y'}">
-													<span>모집중</span>  
-												</c:if>
-												<c:if test="${related.proceeding == 'Y'}">
-													<span>진행중</span>
-												</c:if>
-												<c:if test="${related.proceeding == 'N' && related.applying == 'N'}">
-													<span>마감</span>
-												</c:if>
-											</div>
-										</a>
+											</a>
+										</div>
 									</c:forEach>
 								</c:otherwise>
 							</c:choose>
@@ -536,7 +570,7 @@
 		});    
 		
 	</script>
-
+<jsp:include page="/WEB-INF/views/group/report.jsp" />
 <jsp:include page="/WEB-INF/views/group/apply.jsp" />
 <jsp:include page="/WEB-INF/views/group/out.jsp" />
 <jsp:include page="/WEB-INF/views/footer.jsp"/>

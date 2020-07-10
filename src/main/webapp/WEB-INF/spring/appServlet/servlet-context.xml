@@ -44,6 +44,14 @@
 	</beans:bean>
 
 	<context:component-scan base-package="kh.pingpong"/>
+	
+	<beans:bean class="kh.pingpong.admin.AdminLog" id="adminlog" />
+	<aop:config>
+		<aop:pointcut expression="execution(* kh.pingpong.admin.AdminController.*(..))" id="admin"/>
+		<aop:aspect id="adminCheck" ref="adminlog">
+			<aop:around pointcut-ref="admin" method="aroundAdminLog"/>
+		</aop:aspect>
+	</aop:config>
 
 	<beans:bean class="kh.pingpong.aspect.LogAdvisor" id="logaop" />
 	<aop:config>

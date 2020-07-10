@@ -19,6 +19,7 @@ import kh.pingpong.dto.GroupMemberDTO;
 import kh.pingpong.dto.HobbyDTO;
 import kh.pingpong.dto.JjimDTO;
 import kh.pingpong.dto.LikeListDTO;
+import kh.pingpong.dto.ReportListDTO;
 import kh.pingpong.dto.ReviewDTO;
 
 @Repository
@@ -189,6 +190,14 @@ public class GroupDAO {
 		}
 		
 		return checkLike;
+	}
+	
+	public int selectReport(ReportListDTO rldto) {
+		return mybatis.selectOne("Group.selectReport", rldto);
+	}
+	
+	public int insertReport(ReportListDTO rldto) {
+		return mybatis.insert("Group.insertReport", rldto);
 	}
 	
 	public int updateIngDate(String today_date) {

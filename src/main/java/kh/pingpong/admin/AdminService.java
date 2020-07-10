@@ -19,6 +19,7 @@ import kh.pingpong.dto.LanguageDTO;
 import kh.pingpong.dto.LessonDTO;
 import kh.pingpong.dto.LocationDTO;
 import kh.pingpong.dto.MemberDTO;
+import kh.pingpong.dto.NewsDTO;
 import kh.pingpong.dto.PartnerDTO;
 import kh.pingpong.dto.ReportListDTO;
 import kh.pingpong.dto.TuteeDTO;
@@ -240,6 +241,24 @@ public class AdminService {
 		return adao.correctView(seq);
 	}
 	
+	// 소식통 게시글 목록
+	public List<NewsDTO> newsList(int cpage) {
+		Map<String, Integer> page = new HashMap<>();
+		
+		int start = cpage * Configuration.DISCUSSION_COUNT_PER_PAGE - (Configuration.DISCUSSION_COUNT_PER_PAGE - 1);
+		int end = start + (Configuration.DISCUSSION_COUNT_PER_PAGE - 1);
+		
+		page.put("start", start);
+		page.put("end", end);
+		
+		return adao.newsList(page);
+	}
+	
+	// 소식통 게시글 뷰
+	public NewsDTO newsView(int seq) {
+		return adao.newsView(seq);
+	}
+	
 	// 신고 목록
 	public List<ReportListDTO> reportList(int cpage) {
 		Map<String, Integer> page = new HashMap<>();
@@ -314,7 +333,12 @@ public class AdminService {
 			adao.deleteOne(param);
 		}
 		
-		adao.updateReportCount(param.get("id").toString());
+		String id = param.get("id").toString();
+		String name = adao.getNameForBlack(id);
+		
+		adao.updateReportCount(id);
+		
+		param.put("name", name);
 		
 		int report_count = adao.getReportCount(param.get("id").toString());
 		
@@ -375,6 +399,9 @@ public class AdminService {
 					adao.deleteOne(report);
 				} else if (category.contentEquals("첨삭")) {
 					report.put("tableName", "correct");
+					adao.deleteOne(report);
+				} else if (category.contentEquals("소식통")) {
+					report.put("tableName", "news");
 					adao.deleteOne(report);
 				}
 			}
@@ -491,19 +518,19 @@ public class AdminService {
 		StringBuilder sb = new StringBuilder();
 		sb.append("<ul>");
 		if(needPrev) {
-			sb.append("<li><a href='/admin/" + param.get("pageName") + "?cpage=" + (startNav - 1) + "' id='prevPage'><</a></li>");
+			sb.append("<li><a href='/admins/" + param.get("pageName") + "?cpage=" + (startNav - 1) + "' id='prevPage'><</a></li>");
 		}
 
 		for(int i=startNav; i<= endNav; i++) {
 			if(currentPage == i) {
-				sb.append("<li class='on'><a href='/admin/" + param.get("pageName") + "?cpage=" + i + "'>" + i + "</a></li>");
+				sb.append("<li class='on'><a href='/admins/" + param.get("pageName") + "?cpage=" + i + "'>" + i + "</a></li>");
 			}else {
-				sb.append("<li><a href='/admin/" + param.get("pageName") + "?cpage=" + i + "'>" + i + "</a></li>");
+				sb.append("<li><a href='/admins/" + param.get("pageName") + "?cpage=" + i + "'>" + i + "</a></li>");
 			}
 		}
 
 		if(needNext) {
-			sb.append("<li><a href='/admin/" + param.get("pageName") + "?cpage=" + (endNav + 1) + "' id='prevPage'>></a></li>");
+			sb.append("<li><a href='/admins/" + param.get("pageName") + "?cpage=" + (endNav + 1) + "' id='prevPage'>></a></li>");
 		}
 		sb.append("</ul>");
 

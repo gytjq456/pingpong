@@ -1,6 +1,7 @@
 package kh.pingpong.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,8 +25,8 @@ public class ClassService {
 		}
 		return list;
 	}
-	public List<LessonDTO> lessonListClassList(String day) throws Exception{
-		List<LessonDTO> list = maindao.lessonListClassList(day);
+	public List<LessonDTO> lessonClassList(String day) throws Exception{
+		List<LessonDTO> list = maindao.lessonClassList(day);
 		for(LessonDTO LessonDto : list) {
 			String contents = LessonDto.getCurriculum();
 			String contReplace = contents.replaceAll("(<img.+\">)", "");
@@ -33,5 +34,15 @@ public class ClassService {
 		}
 		return list;
 	}
+	
+	public List<Map<String,String>> groupList(String addr) throws Exception{
+		List<Map<String,String>> list = maindao.groupList(addr);
+		return list;
+	}
+//	
+//	public List<LessonDTO> lessonList(String addr) throws Exception{
+//		List<LessonDTO> list = maindao.lessonList(addr);
+//		return list;
+//	}
 	
 }

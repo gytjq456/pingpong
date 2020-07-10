@@ -112,6 +112,22 @@
 
 /* 지도 */
 #mapWrap { padding:0 !important;}
+#mapWrap .mapSelect { position: absolute; width:300px; background:rgb(51, 100, 165,0.8); left:20px; top:20px; z-index: 9999; padding: 20px; font-size:0; letter-spacing:-4px;}
+#mapWrap .mapSelect select { background: none; color:#fff; padding: 5px 10px; display: inline-block; vertical-align: middle; height: 42px; line-height: 42px; border: 1px solid #ddd; box-sizing: border-box; font-size:14px; width:49%; margin-right:2%; letter-spacing: -0.5px;}
+#mapWrap .mapSelect select:last-child { margin:0; }
 #mapWrap #map { height:500px;}
 .overlaybox { background:#333;}
+
+.infoView { padding:12px; font-size:12px;}
+.infoView .profile { width:40px; height:40px; border-radius:50%; border:1px solid #ddd; overflow:hidden; position:relative;}
+.infoView .profile img { position:absolute; left:50%; top:50%; transform:translate(-50%, -50%); }
+.infoView > div { display:inline-block; vertical-align:middle; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.infoView .info { padding:5px;}
+.infoView .info .writer {font-weight:700; }
+.infoView .info .hobby { }
+
+select option {
+  background:#f4f4f4; color:#999;
+}
+
 

@@ -52,7 +52,7 @@
 					type:"partner"
 				},
 			}).done(function(resp){
-				console.log(resp)
+				//console.log(resp)
 				for(var i=0; i<resp.length; i++){
 					if("${sessionScope.loginInfo.name}"!= resp[i].name){
 						var chatList = $("#chatList");
@@ -126,12 +126,12 @@
 						var member = chatWrap.find(".title p").text().split(",");
 						chatWrap.find(".title span").text(member.length);
 						txtInput.focus();
-						console.log(typeof resp)
+						//console.log(typeof resp)
 						if(typeof resp == 'string'){
 							chatRoom = resp
 							$(".chatBox .sysdate").html(theYear+"년 "+theMonth+"월 "+theDate+"일 "+todayLabel);
 						}else{
-							console.log(resp);
+							//console.log(resp);
 							var record = resp;
 							chatRoom = record[0].roomId;
 							$(".chatBox .sysdate").html(record[0].realWriteDate);
@@ -172,12 +172,12 @@
 				})
 				
 				ws.onmessage = function(e){
-					console.log(e.data);
+					//console.log(e.data);
 					var msg = JSON.parse(e.data);
 					var time = new Date(msg.date);
 					var timeStr = time.toLocaleTimeString();
 					
-					console.log(msg[0])
+					//console.log(msg[0])
 					for(var i=0; i<msg.length; i++){
 						if(msg[i].type == "login"){
 							var chatList = $("#chatList .list ul li");

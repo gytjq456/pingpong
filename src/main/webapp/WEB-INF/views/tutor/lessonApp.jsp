@@ -365,10 +365,7 @@
 					</div>
 					<select name="sido1" id="sido1"></select> 
 					<select name="gugun1" id="gugun1"></select>
-					<div class="hAddr">
-				        <span class="title">지도중심기준 행정동 주소정보</span>
-				        <span id="centerAddr"></span>
-			 		</div>
+					<div id="clickLatlng"></div>
 					<div id="map" style="width:500px;height:400px;"></div>
 						
 				</div>
@@ -427,33 +424,32 @@
 				
 			});
 		})
+
+		// 지도를 클릭한 위치에 표출할 마커입니다
+		var marker = new kakao.maps.Marker({ 
+		    // 지도 중심좌표에 마커를 생성합니다 
+		    position: map.getCenter() 
+		}); 
+		// 지도에 마커를 표시합니다
+		marker.setMap(map);
 		
-		var marker = new kakao.maps.Marker(), // 클릭한 위치를 표시할 마커입니다
-		    infowindow = new kakao.maps.InfoWindow({zindex:1}); // 클릭한 위치에 대한 주소를 표시할 인포윈도우입니다
-
-		// 지도를 클릭했을 때 클릭 위치 좌표에 대한 주소정보를 표시하도록 이벤트를 등록합니다
-		kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
-		    searchDetailAddrFromCoords(mouseEvent.latLng, function(result, status) {
-		        if (status === kakao.maps.services.Status.OK) {
-		            var detailAddr = !!result[0].road_address ? '<div>도로명주소 : ' + result[0].road_address.address_name + '</div>' : '';
-		            detailAddr += '<div>지번 주소 : ' + result[0].address.address_name + '</div>';
-		            
-		            var content = '<div class="bAddr">' +
-		                            '<span class="title">법정동 주소정보</span>' + 
-		                            detailAddr + 
-		                        '</div>';
-
-		            // 마커를 클릭한 위치에 표시합니다 
-		            marker.setPosition(mouseEvent.latLng);
-		            marker.setMap(map);
-
-		            // 인포윈도우에 클릭한 위치에 대한 법정동 상세 주소정보를 표시합니다
-		            infowindow.setContent(content);
-		            infowindow.open(map, marker);
-		        }   
-		    });
+		// 지도에 클릭 이벤트를 등록합니다
+		// 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
+		kakao.maps.event.addListener(map, 'click', function(mouseEvent) {        
+		    
+		    // 클릭한 위도, 경도 정보를 가져옵니다 
+		    var latlng = mouseEvent.latLng; 
+		    
+		    // 마커 위치를 클릭한 위치로 옮깁니다
+		    marker.setPosition(latlng);
+		    
+		    var message = '클릭한 위치의 위도는 ' + latlng.getLat() + ' 이고, ';
+		    message += '경도는 ' + latlng.getLng() + ' 입니다';
+		    
+		    var resultDiv = document.getElementById('clickLatlng'); 
+		    resultDiv.innerHTML = message;
+		    
 		});
-
 	</script>
 </div>
 

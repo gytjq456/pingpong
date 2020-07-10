@@ -19,13 +19,15 @@ select:focus, input:focus, checkbox:focus {box-shadow: 0 5px 8px 0 rgba(0,0,0,0.
 #kakao_btn{background:#f2be00; border:none; margin-bottom:10px; color:#fff; cursor:pointer;}
 #kakao_btn:hover{background:#ffb000; transition-duration:1s;}
             
-#other_text{text-align:center; margin-top:50px;}
+#other_text{text-align:center; margin-top:30px;}
 .side{margin-left:30px; text-decoration:none; color:#5d5d5d;}
 .side:hover{color:#124d79; border-bottom:1px solid #124d79; transition-duration:0.5s;}
+.side:first-child { margin:0; }
 
 
 /* join */
-#join{width:400px; margin:0 auto; font-size:13px;}
+#loginMail .btnS1 > div { width:100%; display:block;}
+#join{ width:100%; display:block; margin-top:30px; border:1px solid #ddd;}
 #join h1{text-align:center; font-size: 46px; font-family: 'Muli', sans-serif; margin-bottom: 20px; font-weight: 700;}
 #join .title{margin-top:20px; margin-bottom:5px;}
 .se_singup{margin-bottom:10px;}
@@ -53,12 +55,12 @@ select:focus, input:focus, checkbox:focus {box-shadow: 0 5px 8px 0 rgba(0,0,0,0.
 #loginMail h3 {padding:20px 0 7px 0; font-weight: 500; font-size:14px;}
 #loginMail h3 span{color:red;}
 #loginMail .allck{border-top:1px solid #ddd; padding-top:25px;}
-#loginMail #join{padding: 12px; margin-bottom: 10px; border-radius: 5px; border: 1px solid #d0d0d0;}
+#loginMail #join{ margin-bottom: 10px; border-radius: 5px; border: 1px solid #d0d0d0;}
 
         
         
-        
-        
+.idSave { margin-bottom:20px;}
+#isIdPwSame { border:1px solid #ddd; }        
         
         
         

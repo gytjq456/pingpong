@@ -251,19 +251,25 @@ public class TutorService {
 			}
 			
 			
-			
+			sb.append("<ul>");
 			if(needPrev) {
-				sb.append("<a href='/tutor/"+pagingUrl+"&cpage="+(startNavi-1)+"'><</a>");
+				sb.append("<li><a href='/tutor/"+pagingUrl+"&cpage="+(startNavi-1)+"'><</a></li>");
 			}
 			for(int i = startNavi ; i<=endNavi; i++) {
 
-				sb.append("<a href='/tutor/"+pagingUrl+"&cpage="+i+"'>"+i+"</a>");//袁몃ŉ二쇰뒗 寃�
+				
+				if(userCurrentPage == i) {
+					sb.append("<li class='on'><a href='/tutor/"+pagingUrl+"&cpage="+i+"'>"+i+"</a>");//袁몃ŉ二쇰뒗 寃�
+				}else {
+					sb.append("<li><a href='/tutor/"+pagingUrl+"&cpage="+i+"'>"+i+"</a></li>");//袁몃ŉ二쇰뒗 寃�
+				}
 			}
 			if(needNext) {
 
-				sb.append("<a href='/tutor/"+pagingUrl+"&cpage="+(endNavi+1)+"'>></a>");
+				sb.append("<li><a href='/tutor/"+pagingUrl+"&cpage="+(endNavi+1)+"'>></a></li>");
 			}
 			
+			sb.append("</ul>");
 			return sb.toString();
 		}
 		

@@ -80,7 +80,7 @@
 								</ul>
 							</li>												
 							<li>
-								<a href="/discussion/list">Board</a>
+								<a href="/discussion/list?cpage=1">Board</a>
 								<ul class="depth2">
 									<li><a href="/discussion/list?cpage=1">토론</a></li>
 									<li><a href="/correct/correct_list">질문</a></li>

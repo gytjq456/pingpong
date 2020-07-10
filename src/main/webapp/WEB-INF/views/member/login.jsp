@@ -6,18 +6,20 @@
 
 <div id="subWrap" class="hdMargin" style="padding-top: 155.8px;">
 	<section id="subContents">
-		<div id="login">
+		<div id="login" class="card_body">
 			<h1 class="h1">login</h1>
 			<input type="text" name="id" id="id" placeholder="Id"><br>
 			<input type="password" name="pw" id="pw" placeholder="Password"><br>
-
-			<input type="checkbox" name="rememberId" id="rememberId"
-				name="rememberId"> <label for="rememberId">아이디 저장하기</label>
-			<input type="button" value="Login" id="isIdPwSame">  
-
-			<a id="login-form-btn" href="#;" onclick="loginFormWithKakao()">
-			 <span class="icon"><img src="/resources/img/login/kakao_login_large_wide.png" alt="카카오 로그인"></span>
-			</a>
+			
+			<div class="idSave">
+				<input type="checkbox" name="rememberId" id="rememberId" name="rememberId"> <label for="rememberId">아이디 저장하기</label>
+			</div>
+			<div class="loginBtn">
+				<input type="button" value="Login" id="isIdPwSame">  
+				<a id="login-form-btn" href="#;" onclick="loginFormWithKakao()">
+					<span class="icon"><img src="/resources/img/login/kakao_login_large_wide.png" alt="카카오 로그인"></span>
+				</a>
+			</div>
 
 			<div id="other_text">
 				<a href="#" class="side" id="idFind">id찾기</a>

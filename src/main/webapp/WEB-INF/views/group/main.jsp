@@ -289,8 +289,6 @@
 		})
 		
 		new sojaeji('sido1', 'gugun1');
-		var marker;
-		var circle;
 		// 지도
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 	    mapOption = { 
@@ -300,6 +298,8 @@
 		
 		$('#map_on').on('click', function(){
 			setTimeout(function(){
+				var marker;
+				var circle;
 				var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 				$('#gugun1').change(function(){
 					var sido = $('#sido1 option:selected').val();

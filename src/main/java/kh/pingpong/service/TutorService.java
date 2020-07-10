@@ -130,7 +130,12 @@ public class TutorService {
 	public int payTrue(TuteeDTO ttdto) throws Exception{
 		int result = tdao.payTrue(ttdto);
 		return result;
-		
+	}
+	
+	//강의 취소한사람이 또 취소하는지
+	public int refundTrue(TuteeDTO ttdto) throws Exception{
+		int result = tdao.refundTrue(ttdto);
+		return result;
 	}
 	//찜 테이블 값넣기
 	public int insertJjim(JjimDTO jdto) throws Exception{
@@ -174,20 +179,25 @@ public class TutorService {
 	}
 	
 	//튜티 인서트
+	//현재인원 늘리는것까지
+	@Transactional("txManager")
 	public int tuteeInsert(TuteeDTO ttdto) throws Exception{
-		return tdao.tuteeInsert(ttdto);
-	}
-	
-	//강위취소 튜티 환불금액 update 하고 강의 취소 'Y'로 바꾸기
-	public int refundInsert(TuteeDTO ttdto) throws Exception{
-		return tdao.refundInsert(ttdto);
-	}
-	
-	//현재인원 늘리기
-	public int tuteeCurnumCount(TuteeDTO ttdto) throws Exception{
+		
+		tdao.tuteeInsert(ttdto);
+		ttdto.setCancle(ttdto.getCancle());
+		System.out.println(ttdto.getCancle());
 		return tdao.tuteeCurnumCount(ttdto);
 	}
 	
+	//강위취소 튜티 환불금액 update 하고 강의 취소 'Y'로 바꾸기
+	//현재인원 늘리기 / 줄이기
+	@Transactional("txManager")
+	public int refundInsert(TuteeDTO ttdto) throws Exception{
+		tdao.refundInsert(ttdto);
+		System.out.println(ttdto.getCancle());
+		return tdao.tuteeCurnumCountMinus(ttdto);
+	}
+
 	//레슨 페이징 만 이동
 		public String getPageNavi_lesson(int userCurrentPage, Map<String, String> param) throws SQLException, Exception {
 			int recordTotalCount = tdao.getArticleCount_lesson(param); 

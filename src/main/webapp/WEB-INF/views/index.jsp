@@ -87,6 +87,7 @@
 		
 		<section id="mapWrap">
 			<div class="mapSelect">
+				<input type="hidden" name="placeAddr" id="placeAddr">
 				<select name="sido1" id="sido1"></select>
 				<select name="gugun1" id="gugun1"></select>		
 			</div>
@@ -98,6 +99,21 @@
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=cb57281667e3a6a69eb9d73a89f1f42f"></script>
 	<script>
 		new sojaeji('sido1', 'gugun1');
+		$("#sido1 option:eq(1)").attr("selected", "selected");
+		
+	    new sojaeji('sido1', 'gugun1');
+	    $("#gugun1 option:eq(1)").attr("selected", "selected");
+        
+	    
+		var sido = $("#sido1");
+		var gugun = $("#gugun1");
+		var placeArrd = $("#placeAddr");
+		var addr = sido.val()+" "+gugun.val();
+		gugun.on("change",function(){ 
+			addr = sido.val()+" "+$(this).val();
+			placeArrd.val(addr);
+		})
+		
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
 	    mapOption = { 
 	        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표

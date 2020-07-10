@@ -407,7 +407,7 @@
 														<button class="comment_hateBtn hateBtn like-hate-btn" data-check="${checkHate[status.index]}" data-seq="${i.seq}"><i class="fa fa-thumbs-down"></i> ${i.hate_count}</button>
 													</li>
 													<li>
-														<button class="comment_declaration" data-seq="${i.seq}"><i class="fa fa-bell color_white" aria-hidden="true"></i> 신고하기</button>
+														<button id="report" class="comment_declaration" data-seq="${i.seq}"><i class="fa fa-bell color_white" aria-hidden="true"></i> 신고하기</button>
 													</li>
 													<li>
 														<button class="comment_delete normal" data-seq="${i.seq}" data-parent_seq="${disDto.seq}">댓글삭제</button>
@@ -457,7 +457,13 @@
 			</article>
 		</section>
 	</div>
+	<Script>
+		$(function(){
+			$("#report").click(function(){
+				alert("a")
+			})
+		})
+	</Script>
 
-
-
+<jsp:include page="/WEB-INF/views/group/report.jsp" />
 <jsp:include page="/WEB-INF/views/footer.jsp"/>

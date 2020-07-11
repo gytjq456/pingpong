@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:include page="/WEB-INF/views/header.jsp" />
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=521d781cfe9fe7597693f2dc29a10601&libraries=services"></script>
 <style>
@@ -11,6 +12,23 @@
 <script>
 
 	$(function() {
+		
+		$("input, textarea").blur(function(){
+			var thisVal = $(this).val();
+			$(this).val(textChk(thisVal));
+		})
+		
+		function textChk(thisVal){
+			var replaceId  = /(script)/gi;
+			var textVal = thisVal;
+		    if (textVal.length > 0) {
+		        if (textVal.match(replaceId)) {
+		        	textVal = thisVal.replace(replaceId, "");
+		        }
+		    }
+		    return textVal;
+		}
+		
 		$('#start_date').datepicker({ dateFormat: 'yy-mm-dd'});
 		$('#end_date').datepicker({ dateFormat: 'yy-mm-dd'});
 
@@ -39,11 +57,16 @@
 		}else{
 			$('#keywordSelect').val(name);
 		}
-			
+		
+/* 		var topSearch = '${topSearch}';
+		console.log(topSearch);
+		if(topSearch!=null){
+			$('.topSearch').val(topSearch);
+		} */
+
 		$("#orderBy").on("change",function(){
 			var orderbyVal = $("#orderBy").val();
 			var selectVal = $("#keywordSelect").val();
-			
 			location.href="/tutor/lessonList?orderBy="+orderbyVal+"&keywordSelect="+selectVal;
 		})
 		
@@ -84,7 +107,7 @@
 		
 		//지도로 검색
 		$("#searchMap").on("click", function(){
-			var locationVal = $("#sidogugun").val();
+			var locationVal = $("#location").val();
 			var orderByVal = $('#orderBy').val();
 			
 			location.href="/tutor/searchMap?location="+locationVal+"&orderBy="+orderByVal;
@@ -116,9 +139,9 @@
 			<!-- 검색 3가지 -->
 			<div class="tab_s1">
 				<ul class="clearfix">
-					<li class="on"><a href="#;">키워드 검색</a></li>
-					<li><a href="#;">달력 검색</a></li>
-					<li><a href="#;">지도 검색</a></li>
+					<li class="on"><a class="topSearch" href="#;">키워드 검색</a></li>
+					<li><a class="topSearch" href="#;">달력 검색</a></li>
+					<li><a id="map_on" class="topSearch" href="#;">지도 검색</a></li>
 				</ul>
 			</div>
 
@@ -133,6 +156,7 @@
 									<option value="title">글제목</option>
 									<option value="curriculum">글내용</option>
 								</select>
+
 								<input type="text" id="keyword" name="keyword">
 							</div>
 						</section>	
@@ -169,11 +193,10 @@
 						</div>
 					</div>
 					
-					
-					
 				</article>
 				
 				<article id="tab_3" class="mapSch">
+
 					<div class="search_as_map">
 						<section id="mapWrap">
 							<div class="mapSelect">
@@ -187,7 +210,6 @@
 					<div class="btnS1 center">
 						<div><input type="button" id="searchMap" value="검색하기"></div>
 					</div>
-					
 				
 				</article>
 			</div>
@@ -222,10 +244,49 @@
 					<c:otherwise>
 						<div id="listClick">
 							<c:forEach var="i" items="${lessonlist}">
+
 								<section data-seq="${i.seq}" class="back_and_wrap item">
 									<article class="wrapper ">
 										<div class="each_profile"><img src="/upload/member/${i.id}/${i.sysname}"></div>
-										<div class="group_background background_yellow"></div>
+										<c:if test="${fn:startsWith(i.language, '한국어')}">
+											<div class="group_background background_red"></div>
+										</c:if>
+										<c:if test="${fn:startsWith(i.language, '일본어')}">
+											<div class="group_background background_red"></div>
+										</c:if>
+										<c:if test="${fn:startsWith(i.language, '중국어')}">
+											<div class="group_background background_red"></div>
+										</c:if>
+										<c:if test="${fn:startsWith(i.language, '힌디어')}">
+											<div class="group_background background_yellow"></div>
+										</c:if>
+										<c:if test="${fn:startsWith(i.language, '태국어')}">
+											<div class="group_background background_yellow"></div>
+										</c:if>
+										<c:if test="${fn:startsWith(i.language, '인도네시아')}">
+											<div class="group_background background_yellow"></div>
+										</c:if>
+										<c:if test="${fn:startsWith(i.language, '베트남어')}">
+											<div class="group_background background_yellow"></div>
+										</c:if>
+										<c:if test="${fn:startsWith(i.language, '러시아어')}">
+											<div class="group_background background_yellow"></div>
+										</c:if>
+										<c:if test="${fn:startsWith(i.language, '포르투갈어')}">
+											<div class="group_background background_purple"></div>
+										</c:if>
+										<c:if test="${fn:startsWith(i.language, '스페인어')}">
+											<div class="group_background background_purple"></div>
+										</c:if>
+										<c:if test="${fn:startsWith(i.language, '영어')}">
+											<div class="group_background background_blue"></div>
+										</c:if>
+										<c:if test="${fn:startsWith(i.language, '프랑스어')}">
+											<div class="group_background background_green"></div>
+										</c:if>
+										<c:if test="${fn:startsWith(i.language, '독일어')}">
+											<div class="group_background background_green"></div>
+										</c:if>
 										<div class="group_each_wrapper">
 											<div class="each_writer"><span class="each_name name">${i.name }</span></div>
 											<div class="each_title title">${i.title}</div>
@@ -283,42 +344,142 @@
 		
 		var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
 		var options = { //지도를 생성할 때 필요한 기본 옵션
-			center : new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
+			center : new kakao.maps.LatLng(37.56801425339971, 126.9832107418218), //지도의 중심좌표.
 			level : 3
 		//지도의 레벨(확대, 축소 정도)
 		};
-		var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
-
+		
 		var sidogugun;
-		$("#gugun1").change(function() {
-			var sido = $("#sido1").val();
-			var gugun = $("#gugun1").val();
-			sidogugun = sido + ' ' + gugun;
-			
-			$(this).wrap('<input type="text" id="sidogugun" name="location" value="'+sidogugun+'">');
-			
-			// 주소-좌표 변환 객체를 생성합니다
-			var geocoder = new kakao.maps.services.Geocoder();
-
-			// 주소로 좌표를 검색합니다
-			geocoder.addressSearch(sidogugun, function(result, status) {
-				// 정상적으로 검색이 완료됐으면 
-				if (status === kakao.maps.services.Status.OK) {
-
-					var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-
-					// 결과값으로 받은 위치를 마커로 표시합니다
-					var marker = new kakao.maps.Marker({
-						map : map,
-						position : coords
+		$("#map_on").on("click", function(){
+			setTimeout(function(){
+				var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
+				// 주소-좌표 변환 객체를 생성합니다
+				var geocoder = new kakao.maps.services.Geocoder();
+				
+				$("#gugun1").change(function() {
+					var sido = $('#sido1 option:selected').val();
+					var gugun = $('#gugun1 option:selected').val();
+					sidogugun = sido + ' ' + gugun;
+					$('#location').val(sidogugun);
+					
+					// 주소-좌표 변환 객체를 생성합니다
+					var geocoder = new kakao.maps.services.Geocoder();
+	
+					// 주소로 좌표를 검색합니다
+					geocoder.addressSearch(sidogugun, function(result, status) {
+						// 정상적으로 검색이 완료됐으면 
+						if (status === kakao.maps.services.Status.OK) {
+	
+							var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+	
+							// 결과값으로 받은 위치를 마커로 표시합니다
+							/* var marker = new kakao.maps.Marker({
+								map : map,
+								position : coords
+							}); */
+	
+							// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+							map.setCenter(coords);
+						}
 					});
+				})
+				
+				// 지도를 클릭한 위치에 표출할 마커입니다
+				var marker = new kakao.maps.Marker({ 
+				    // 지도 중심좌표에 마커를 생성합니다 
+				    position: map.getCenter() 
+				}),  infowindow = new kakao.maps.InfoWindow({zindex:1}); 
+				// 지도에 마커를 표시합니다
+				marker.setMap(map);
 
-					// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-					map.setCenter(coords);
+				
+				// 지도에 클릭 이벤트를 등록합니다
+				// 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
+				kakao.maps.event.addListener(map, 'click', function(mouseEvent) {        
+				    
+				    // 클릭한 위도, 경도 정보를 가져옵니다 
+				    var latlng = mouseEvent.latLng; 
+				    
+				    // 마커 위치를 클릭한 위치로 옮깁니다
+				    marker.setPosition(latlng);
+				    
+				    var message = '클릭한 위치의 위도는 ' + latlng.getLat() + ' 이고, ';
+				    message += '경도는 ' + latlng.getLng() + ' 입니다';
+				    
+				    $("#location_lat").val(latlng.getLat());
+				    $("#location_lng").val(latlng.getLng());
+				    
+				    //지도를 클릭했을 때 클릭 위치 좌표에 대한 주소정보를 표시하도록 이벤트를 등록
+				    searchDetailAddrFromCoords(mouseEvent.latLng, function(result, status) {
+				        if (status === kakao.maps.services.Status.OK) {
+				            var detailAddr = !!result[0].road_address ? '<div>도로명주소 : ' + result[0].road_address.address_name + '</div>' : '';
+				            detailAddr += '<div>지번 주소 : ' + result[0].address.address_name + '</div>';
+				            
+				            var content = '<div class="bAddr">' +
+				                            '<span class="title">법정동 주소정보</span>' + 
+				                            detailAddr + 
+				                        '</div>';
+
+				            // 마커를 클릭한 위치에 표시합니다 
+				            marker.setPosition(mouseEvent.latLng);
+				            marker.setMap(map);
+
+				            // 인포윈도우에 클릭한 위치에 대한 법정동 상세 주소정보를 표시합니다
+				            infowindow.setContent(content);
+				            infowindow.open(map, marker);
+				            
+				    		
+				    		// 현재 지도 중심좌표로 주소를 검색해서 지도 좌측 상단에 표시합니다
+				    		searchAddrFromCoords(map.getCenter(), displayCenterInfo);
+				        }   
+				    });
+				    
+				});
+				
+				// 중심 좌표나 확대 수준이 변경됐을 때 지도 중심 좌표에 대한 주소 정보를 표시하도록 이벤트를 등록합니다
+				kakao.maps.event.addListener(map, 'idle', function() {
+				    searchAddrFromCoords(map.getCenter(), displayCenterInfo);
+				});
+
+				function searchAddrFromCoords(coords, callback) {
+				    // 좌표로 행정동 주소 정보를 요청합니다
+				    geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);  
 				}
-			});
-		})
 
+				function searchDetailAddrFromCoords(coords, callback) {
+				    // 좌표로 법정동 상세 주소 정보를 요청합니다
+				    geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
+				}
+
+				// 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
+				function displayCenterInfo(result, status) {
+				    if (status === kakao.maps.services.Status.OK) {
+				        for(var i = 0; i < result.length; i++) {
+				            // 행정동의 region_type 값은 'H' 이므로
+				            if (result[i].region_type === 'H') {
+				            	/*  console.log(result[i]);
+					            console.log(result[i].region_1depth_name);
+					            console.log(result[i].region_2depth_name);  */
+					            
+					            var sido1Val = result[i].region_1depth_name;
+					            var gugun1Val = result[i].region_2depth_name;
+					            
+					            $("#sido1").val(sido1Val);
+					            new sojaeji('sido1', 'gugun1');
+					            $("#gugun1").val(gugun1Val); 
+
+					            sidogugun = sido1Val + ' ' + gugun1Val;
+								$('#location').val(sidogugun);
+				                break;
+				            }
+				        }
+				    }    
+				}
+
+			},100)
+		})
+			
+		
 	</script>
 </div>
 

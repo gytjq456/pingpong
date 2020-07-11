@@ -31,7 +31,6 @@ $(function(){
 			console.log(error1);
 			console.log(error2);
 		})
-
 	})
 	
 	$("#backReport").on("click", function(){
@@ -66,7 +65,6 @@ $(function(){
 				</article>
 			</section>
 		</form>
-		
 		
 	</div>
 </article>

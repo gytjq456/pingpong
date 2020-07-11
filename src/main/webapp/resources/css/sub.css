@@ -154,7 +154,11 @@ width:-webkit-calc(100% - 88px);
 .radio_s1 { overflow:hidden; }
 .checkBox_s1 { overflow:hidden; }
 .radio_s1 li,
-.checkBox_s1 li { position:relative; display:inline-block; vertical-align:middle; margin-right: 12px; padding:2px 0;}
+.checkBox_s1 li { position:relative; display:inline-block; vertical-align:middle; margin-right: 12px; padding:2px 0; margin-bottom:10px;}
+
+.radio_s1 li:last-child,
+.checkBox_s1 li:last-child { margin-right:0; }
+
 
 .radio_s1 li,
 .checkBox_s1 li input[type="text"] { vertical-align:middle; }
@@ -585,3 +589,57 @@ width:-moz-calc(100% - 100px);
 #chatOpenBtn { position:fixed; right:20px; bottom:20px;}
 #chatOpenBtn button { border:none; width:50px; transition:all 0.5s; height:50px; border-radius:50%; color:#fff; background:#4b98ff; font-size:12px; fontt-weight:700;}
 #chatOpenBtn button:hover { background:#3162a4;}
+
+
+
+
+
+
+/* 회원가입 */
+#joinForm {} 
+#joinForm .formBox { max-width:640px; margin:0 auto;} 
+#joinForm .title { font-size:16px; font-weight:700; margin-bottom:10px; }
+#joinForm select,
+#joinForm button,
+#joinForm input[type="password"],
+#joinForm input[type="text"] { height:32px; line-height:32px; border:1px solid #ddd; box-sizing:border-box; border-radius:6px; width:100%; margin:0; padding:0 10px;} 
+
+#joinForm .idSec .se_con > p { float:left; }
+#joinForm .idSec .se_con > p:first-child { margin-right:10px;
+width:calc(100% - 130px);
+width:-moz-calc(100% - 130px);
+width:-webkit-calc(100% - 130px);
+}
+#joinForm .idSec .se_con > p:last-child { width:120px;}
+#joinForm .ageGenderSec .se_con > div { float:left; }
+#joinForm .ageGenderSec .se_con > div:first-child  {margin-right:20px; width:80px;}
+#joinForm .ageGenderSec .se_con > div:first-child input { width:60px;}
+#joinForm .ageGenderSec .se_con > div:last-child { margin-top:5px; width:120px;}
+#joinForm .phoneSec .se_con > div{ float:left;}
+#joinForm .phoneSec .se_con > div:first-child { width:100px; margin-right:10px;}
+#joinForm .phoneSec .se_con > div:last-child {
+width:calc(100% - 110px);
+width:-moz-calc(100% - 110px);
+width:-webkit-calc(100% - 110px);
+}
+
+#joinForm .addrSec .se_con {}
+#joinForm .addrSec .se_con > div { float:left; width:120px; margin-right:10px;}
+
+
+#joinForm .bankSec .se_con {}
+#joinForm .bankSec .se_con > div { float:left; width:120px; margin-right:10px;}
+#joinForm .bankSec .se_con > div:last-child { margin:0; 
+width:calc(100% - 130px);
+width:-moz-calc(100% - 130px);
+width:-webkit-calc(100% - 130px);	
+}
+
+#joinForm #counter { margin-top:10px; display:block; text-align:right; }
+
+
+
+
+
+
+

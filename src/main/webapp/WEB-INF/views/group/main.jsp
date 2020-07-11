@@ -92,7 +92,7 @@
 								</div>
 							</div>
 						</article>
-						<article id="	" class="mapSch">
+						<article id="tab_3" class="mapSch">
 							<div class="search_as_map">
 							
 							
@@ -205,6 +205,9 @@
 												</c:if>
 												<c:if test="${glist.proceeding == 'Y'}">
 													<div class="group_proceeding">진행중</div>
+												</c:if>
+												<c:if test="${glist.proceeding == 'B'}">
+													<div class="group_ready">준비중</div>
 												</c:if>
 												<c:if test="${glist.proceeding == 'N' && glist.applying == 'N'}">
 													<div class="group_done">마감</div>

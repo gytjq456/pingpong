@@ -43,7 +43,7 @@ public class GroupDAO {
 		Date today = new Date();
 		
 		if (start.getTime() - today.getTime() > 0) {
-			gdto.setProceeding("N");
+			gdto.setProceeding("B");
 		} else {
 			gdto.setProceeding("Y");
 		}

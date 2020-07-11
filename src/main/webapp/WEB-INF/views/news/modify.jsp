@@ -29,13 +29,24 @@
 								<div class="tit_s3">
 									<h4>유형</h4>
 								</div>
-								<input type="text" name="category" id="category" value="${ndto.category}">
+								<script>
+									$(function(){
+										$("#category option").each(function(){
+											if($(this).val() == "${ndto.category}"){
+												$(this).attr("selected","selected");
+												//select는 선택된게 최 상단으로 오는게 해라!
+											}
+										})
+									})
+								</script>
 								<select id="category" name="category" id="category">
-									<option value=""> 유형 선택 </option>
-									<option value="세미나">세미나</option>
-									<option value="공모전">공모전</option>
-									<option value="페스티벌">페스티벌</option>
-									<option value="기타">기타</option>
+										<%-- <option value="${ndto.category}">${ndto.category}</option>
+										 --%>
+										<option value="세미나">세미나</option>
+										<option value="공모전">공모전</option>
+										<option value="페스티벌">페스티벌</option>
+										<option value="기타">기타</option>
+										
 								</select>
 							</div>
 							
@@ -95,7 +106,10 @@
 									<div class="file_box">
 										<input type="file" id="thumbnail" name="thumbnail" value="${ndto.thumbnail}">
 										<div id="thumbnail_dele">
-											<span class="notice">첨부된 파일 : </span>${ndto.thumbnail_img}  <button type="button" class="x">X</button>
+											<span class="notice">첨부된 파일 : </span>
+											<span class="thumbnail_img">
+												${ndto.thumbnail_img}
+											</span>
 										</div>
 									</div>									
 								</div>
@@ -105,7 +119,17 @@
 								<div class="tit_s3 f_all">
 									<h4>첨부파일</h4>
 									<span class="notice">* 첨부파일이 있을 경우 +를 눌러주세요. +를 누를 때마다 첨부파일이 늘어납니다.</span>
-									<button type="button" id="addFile">+</button>	
+									<button type="button" id="addFile">+</button>
+									
+									
+									<ul>
+										<c:forEach items="${files}" var="i">
+											<li>
+												${i.oriname}
+												<button type="button" class="x" data-seq="${ndto.seq}" data-files_name="${i.sysname}">X</button>
+											</li>
+										</c:forEach>
+									</ul>									
 								</div>
 								<div class="news_sub_input">									
 									<div id="fileSpace"></div>

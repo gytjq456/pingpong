@@ -48,7 +48,9 @@ public class NewsController {
 	@RequestMapping("viewProc")
 	public String viewProc(NewsDTO ndto, Model model) throws Exception{		
 		ndto = newservice.newsViewOne(ndto);
+		List <FileTnDTO> files = newservice.newsViewFile(ndto);
 		model.addAttribute("ndto",ndto);
+		model.addAttribute("files",files);
 		return "/news/view";
 	}
 	
@@ -85,19 +87,27 @@ public class NewsController {
 	@RequestMapping("modify")
 	public String modify(NewsDTO ndto, Model model) throws Exception{
 		ndto = newservice.newsViewOne(ndto);
+		List <FileTnDTO> files = newservice.newsViewFile(ndto);
 		model.addAttribute("ndto",ndto);
+		model.addAttribute("files",files);
 		return "/news/modify";
 	}
 	
-	/* 프로필 사진 삭제 jsp */
+	/* 글수정 파일 하나 삭제 jsp */
 	@ResponseBody
-	@RequestMapping("dele_thumbnail")
-	public String dele_thumbnail(NewsDTO ndto) throws Exception{
-		int result = newservice.dele_thumbnail(ndto);
+	@RequestMapping("dele_fileOne")
+	public String dele_fileOne(NewsDTO ndto) throws Exception{
+		System.out.println("파일 컨트롤러   "+ ndto.getCategory() + " :: " + ndto.getSeq());
+		int result = newservice.dele_fileOne(ndto);
 		return String.valueOf(result);
 	}
 	
-	
-	
+	/* 글 삭제 */
+	@ResponseBody
+	@RequestMapping("delete")
+	public String delete(NewsDTO ndto) throws Exception{
+		int result = newservice.delete(ndto);
+		return String.valueOf(result);
+	}
 	
 }

@@ -81,13 +81,28 @@ $(function(){
 	
 	/** 첨부파일 삭제 **/
 	$(".x").click(function(){
+		var data_seq = $(this).data('seq');
+		var files_name = $(this).data('files_name');
+		alert(data_seq);
+		
 		$.ajax({
 			type : "post",
-			url : "/news/dele_thumbnail",
-			date:{
-				
+			url : "/news/dele_fileOne",
+			data:{
+				seq : data_seq,
+				files_name : files_name,
+				category : "news"
 			}
-		})
+		}).done(function(resp){
+			alert(resp);
+			if(resp>0){
+				alert("첨부파일이 삭제되었습니다.");
+				location.href="/news/modify?seq="+data_seq;
+			}
+			
+		}).fail(function(error1,error2){
+			alert("관리자에게 문의주세요.")
+		});
 	});
 	
 	/** 첨부파일 **/

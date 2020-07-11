@@ -22,7 +22,7 @@ public class NewsService {
 	public int newsInsert(NewsDTO ndto, FileTnDTO ftndto, List<FileDTO> filseA) throws Exception{
 		
 		//파일 여러개를 string으로 변경하여 ndto에 Files_name 넣음
-		String[] files_insert = new String[3];
+		String[] files_insert = new String[filseA.size()];
 		int i = 0;
 		for(FileDTO f : filseA) {
 			files_insert[i++] = f.getSysname();
@@ -52,9 +52,22 @@ public class NewsService {
 		return newsdao.newsViewOne(ndto);
 	}
 	
-	//프로필 하나 삭제
-	public int dele_thumbnail(NewsDTO ndto) throws Exception{
-		return newsdao.dele_thumbnail(ndto);
+	//list 파일 select
+	public List <FileTnDTO> newsViewFile(NewsDTO ndto) throws Exception{
+		return newsdao.newsViewFile(ndto);
+	}
+	
+	//글수정 파일 하나 삭제 
+	public int dele_fileOne(NewsDTO ndto) throws Exception{
+		return newsdao.fileDelete(ndto);
+	}
+	
+	//게시글 삭제
+	@Transactional("txManager")
+	public int delete(NewsDTO ndto) throws Exception{
+		newsdao.fileDelete(ndto);
+		newsdao.dele_thumbnail(ndto);
+		return newsdao.delete(ndto);
 	}
 	
 }

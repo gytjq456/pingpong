@@ -1,12 +1,19 @@
 package kh.pingpong.controller;
 
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import kh.pingpong.dao.FileDAO;
@@ -17,9 +24,12 @@ import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.dto.NewsDTO;
 
 @Controller
+@RequestMapping("file")
 public class FileController {
 	
-
+	@Autowired
+	public HttpSession session;
+	
 	@Autowired
 	public FileDAO fdao = new FileDAO();
 	
@@ -122,6 +132,33 @@ public class FileController {
 			}
 		}		
 		return filelist;
+	}
+	
+	//뉴스 파일 다운로드
+	@RequestMapping("downloadFile")
+	public void downloadFile(NewsDTO ndto, HttpServletResponse resp) throws Exception{
+		FileDTO fdto = fdao.downloadFile(ndto);
+		String filePath = session.getServletContext().getRealPath("upload/news/files/");
+		
+		File target = new File(filePath + "/"+ fdto.getSysname()); // 서버경로
+		System.out.println(target);
+		
+		try(	DataInputStream dis = new DataInputStream(new FileInputStream(target));
+				ServletOutputStream sos = resp.getOutputStream();
+				){
+			String fileName = new String (fdto.getOriname().getBytes("utf-8"),"iso-8859-1");
+			
+			byte[] fileContents = new byte[(int)target.length()];
+			dis.readFully(fileContents);
+			
+			resp.reset();
+			resp.setContentType("application/pctet-stream");
+			resp.setHeader("Content-disposition", "attachment;filename=" + fileName + ";");
+			
+			sos.write(fileContents);
+			sos.flush();
+		}
+		
 	}
 	
 

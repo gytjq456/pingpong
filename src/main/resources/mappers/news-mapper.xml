@@ -31,7 +31,7 @@
 		select seq, title, writer, category, 
 		to_char(start_date,'yyyy-mm-dd') start_date, to_char(end_date,'yyyy-mm-dd') end_date, location, thumbnail,
         files, contents, to_char(write_date,'yyyy-mm-ss') write_date,view_count,like_count,comment_count
-		from news
+		from news 
 	</select>
 	
 	<select id="newsViewOne" resultMap="thumbnail_img">
@@ -41,8 +41,25 @@
 		from news where seq=${seq}
 	</select>
 	
-	<delete id="dele_thumbnail">
-		delete from files where sysname=${news_thumb} and parent_seq=${seq}
+	<!-- 파일들 select -->
+	<select id="newsViewFile" resultType="kh.pingpong.dto.FileTnDTO">
+		select * from files where parent_seq=${seq} and category = 'news'
+	</select>
+	
+	<!-- 파일 하나 select -->
+	<select id="newsViewFileOne" resultType="kh.pingpong.dto.FileDTO">
+		select * from files where parent_seq=${seq} and category = 'news' and sysname = #{files_name}
+	</select>
+	
+	<delete id="delete">
+		delete from news where seq=${seq}
 	</delete>
-
+	
+	<delete id="fileDelete">
+		delete from files where parent_seq=#{seq} and category in ('news','news_thumb')
+		<if test="files_name != null">
+			and sysname = #{files_name}
+		</if>
+	</delete>
+	
 </mapper>

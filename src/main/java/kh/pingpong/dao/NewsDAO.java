@@ -44,9 +44,25 @@ public class NewsDAO {
 		return mybatis.selectOne("News.newsViewOne", ndto);
 	}
 	
+	//list 파일 select
+	public List <FileTnDTO> newsViewFile(NewsDTO ndto) throws Exception{
+		return mybatis.selectList("News.newsViewFile", ndto);
+	}
+	
+	
+	//게시글 삭제
+	public int delete(NewsDTO ndto) throws Exception{
+		return mybatis.delete("News.delete", ndto);
+	}
+	//files 삭제
+	public int fileDelete(NewsDTO ndto) throws Exception{
+		ndto.setCategory("news");
+		return mybatis.delete("News.fileDelete", ndto);
+	}
 	//프로필 하나 삭제
 	public int dele_thumbnail(NewsDTO ndto) throws Exception{
-		return mybatis.delete("News.dele_thumbnail", ndto);
+		ndto.setCategory("news_thumb");
+		return mybatis.delete("News.fileDelete", ndto);
 	}
 	
 }

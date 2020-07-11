@@ -13,6 +13,29 @@
 		$("#modify").on('click',function(){
 			location.href="/news/modify?seq=${ndto.seq}";
 		});
+		
+		$("#delete").on('click',function(){
+			var result = confirm("삭제를 진행하시겠습니까?");
+			if(result){
+				$.ajax({
+					url:"/news/delete",
+					type:"post",
+					data:{
+						seq : '${ndto.seq}'
+					}
+				}).done(function(resp){
+					if(resp>0){
+						alert("삭제가 완료되었습니다.");
+						location.href="/news/listProc";
+					}else{
+						alert("삭제되지 않았습니다. 다시 확인해주세요.");
+					}
+				});
+			}else{
+				alert("취소하였습니다.");
+			}
+			
+		});
 	});
 		
 	</script>
@@ -66,7 +89,13 @@
 										<li>
 											<ul>
 												<li>첨부파일</li>
-												<li>${ndto.files_name}</li>
+												<li>
+													<c:forEach items="${files}" var="i">
+														<a href="/file/downloadFile?seq=${ndto.seq}&files_name=${i.oriname}" class="downloadF">
+															${i.oriname}
+														</a>
+													</c:forEach>
+												</li>											
 											</ul>
 										</li>
 									</ul>

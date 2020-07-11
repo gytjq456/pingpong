@@ -221,7 +221,7 @@
 								<div id="three_options">
 									<span id="like"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>추천</span>
 									<span id="jjim"><i class="fa fa-heart-o" aria-hidden="true"></i>찜하기</span>
-									<span id="report"><i class="fa fa-exclamation" aria-hidden="true"></i>신고</span>
+									<span id="report" data-seq="${gdto.seq}" data-id="${gdto.writer_id}" data-thisseq="" data-url="/group/report" data-proc="/group/reportProc"><i class="fa fa-exclamation" aria-hidden="true"></i>신고</span>
 								</div>
 							</div>
 						</div>

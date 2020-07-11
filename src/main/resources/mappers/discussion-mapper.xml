@@ -9,7 +9,7 @@
 
 	<!-- 토론 글 쓰기 -->
 	<insert id="insert">
-		insert into discussion values(discussion_seq.nextval, #{writer}, #{title}, #{contents}, #{caution}, #{language}, default, default, default, default)
+		insert into discussion values(discussion_seq.nextval, #{writer}, #{title}, #{contents}, #{caution}, #{language}, default, default, default, default, #{id})
 	</insert>
 
 	<!-- 토론 전체 글 조회  -->
@@ -57,10 +57,18 @@
 		update discussion set title = #{title}, contents = #{contents}, caution = #{caution}, language = #{language} where seq = ${seq}
 	</update>
 	
-		
+	<!-- 같은게시물에 같은사람이 신고했는지 검사 -->
+	<select id="report" resultType="int">
+		select count(*) from reportlist where parent_seq = #{parent_seq} and id=#{id} and category='토론-${commSeq}'
+	</select>
+	<!-- 신고테이블에 저장 -->
+	<insert id="reportProc">
+		insert into reportlist values(reportlist_seq.nextval, #{id}, #{reason}, #{reporter}, sysdate, #{parent_seq}, '토론-${commSeq}', default)
+	</insert>
+
 	<!-- 토론 댓글 쓰기 -->
 	<insert id="commentInsert">
-		insert into commentTb values(commentTb_seq.nextval, #{writer}, #{contents}, #{category}, default, #{opinion}, default, default, ${parent_seq})
+		insert into commentTb values(commentTb_seq.nextval, #{writer}, #{id}, #{contents}, #{category}, default, #{opinion}, default, default, ${parent_seq})
 	</insert>
 
 	<!-- 토론 좋아요 카운트 수 증가-->

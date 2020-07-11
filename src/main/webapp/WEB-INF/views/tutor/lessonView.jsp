@@ -270,7 +270,8 @@ $(function(){
 						★${ ldto.review_point}
 						<i id="like" class="fa fa-thumbs-up" style="color:"></i>
 						<i id="jjim" class="fa fa-heart" style="font-size:16px; color:rgb(51, 51, 51)"></i>
-						<a id="report">신고</a>
+						<a id="report" data-seq="${seq}" data-thisseq="" data-id="${ldto.id}" data-url="/tutor/report" data-proc="/tutor/reportProc">신고</a>
+						
 					</div>
 					
 					<div class="info">
@@ -429,5 +430,9 @@ $(function(){
 
 
 <jsp:include page="/WEB-INF/views/tutor/cancle.jsp" />
-<jsp:include page="/WEB-INF/views/tutor/lessonReport.jsp" />
+<%-- <jsp:include page="/WEB-INF/views/tutor/lessonReport.jsp" /> --%>
+
+<!-- 공통 신고하기  -->
+<jsp:include page="/WEB-INF/views/reportPage.jsp" />
+
 <jsp:include page="/WEB-INF/views/footer.jsp" />

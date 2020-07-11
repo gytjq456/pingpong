@@ -169,12 +169,13 @@
 						console.log("qqq"+json);
 						var obj = JSON.parse(json);
 						console.log("ttt:"+obj.errorCode)
-						if(obj.errorCode == "N2MT04"){
+						if(obj.errorCode == "N2MT04" || obj.errorCode == "N2MT02"){
 							alert("지원하지 않는 언어 입니다.");
 						}
 						if(obj.errorCode == "N2MT05"){
 							alert("원본언어와 동일합니다.");
 						}
+						
 						if(obj.errorCode == "undefined"){
 							if(data[0] == "ko"){
 								alert(lanArr.ko+"만 번역이 가능합니다.")
@@ -313,7 +314,8 @@
 								<div class="comment_box">
 									<form id="commentForm">
 										<input type="hidden" name="category" value="discussion">
-										<input type="hidden" name="writer" value="홍길동">
+										<input type="hidden" name="writer" value="${loginInfo.name}">
+										<input type="hidden" name="id" value="${loginInfo.id}">
 										<input type="hidden" name="parent_seq" value="${disDto.seq}">
 										<div class="opinion">
 											<div>의견(찬/반)</div>
@@ -367,7 +369,7 @@
 														<button class="comment_hateBtn hateBtn like-hate-btn" data-check="${checkHate[status.index]}" data-seq="${i.seq}"><i class="fa fa-thumbs-down"></i> ${i.hate_count}</button>
 													</li>
 													<li>
-														<button class="comment_declaration" data-seq="${i.seq}"><i class="fa fa-bell color_white" aria-hidden="true"></i> 신고하기</button>
+														<button class="comment_declaration" data-seq="${i.seq}" data-id="${i.id}" data-url="/discussion/report" data-proc="/discuttion/reportProc"><i class="fa fa-bell color_white" aria-hidden="true"></i> 신고하기</button>
 													</li>
 													<li>
 														<button class="comment_delete normal" data-seq="${i.seq}" data-parent_seq="${disDto.seq}">댓글삭제</button>
@@ -407,10 +409,10 @@
 														<button class="comment_hateBtn hateBtn like-hate-btn" data-check="${checkHate[status.index]}" data-seq="${i.seq}"><i class="fa fa-thumbs-down"></i> ${i.hate_count}</button>
 													</li>
 													<li>
-														<button id="report" class="comment_declaration" data-seq="${i.seq}"><i class="fa fa-bell color_white" aria-hidden="true"></i> 신고하기</button>
+														<button class="comment_declaration report" data-thisSeq="${i.seq}" data-seq="${disDto.seq}" data-id="${i.id}" data-url="/discussion/report" data-proc="/discussion/reportProc"><i class="fa fa-bell color_white" aria-hidden="true"></i> 신고하기</button>
 													</li>
 													<li>
-														<button class="comment_delete normal" data-seq="${i.seq}" data-parent_seq="${disDto.seq}">댓글삭제</button>
+														<button class="comment_delete normal" data-seq="${i.seq}"  data-parent_seq="${disDto.seq}">댓글삭제</button>
 													</li>
 												</ul>
 											</div>
@@ -441,9 +443,16 @@
 						</div>
 					</div>	
 					<div class="btns_s2">
-						<button type="button" id="modify">글수정</button>
-						<button type="button" id="delete">글삭제</button>
-						<button type="button" id="historyBack">뒤로가기</button>					
+						<c:choose>
+							<c:when test="${loginInfo.id == disDto.id}">
+								<button type="button" id="modify">글수정</button>
+								<button type="button" id="delete">글삭제</button>
+								<button type="button" id="historyBack">뒤로가기</button>					
+							</c:when>
+							<c:otherwise>
+								<button type="button" class="w100p" id="historyBack">뒤로가기</button>					
+							</c:otherwise>
+						</c:choose>
 					</div>			
 		
 				
@@ -457,13 +466,8 @@
 			</article>
 		</section>
 	</div>
-	<Script>
-		$(function(){
-			$("#report").click(function(){
-				alert("a")
-			})
-		})
-	</Script>
-
 <%-- <jsp:include page="/WEB-INF/views/group/report.jsp" /> --%>
+
+<!-- 공통 신고하기  -->
+<jsp:include page="/WEB-INF/views/reportPage.jsp" />
 <jsp:include page="/WEB-INF/views/footer.jsp"/>

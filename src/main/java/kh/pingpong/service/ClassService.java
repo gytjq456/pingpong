@@ -39,10 +39,10 @@ public class ClassService {
 		List<Map<String,String>> list = maindao.groupList(addr);
 		return list;
 	}
-//	
-//	public List<LessonDTO> lessonList(String addr) throws Exception{
-//		List<LessonDTO> list = maindao.lessonList(addr);
-//		return list;
-//	}
+	
+	public List<LessonDTO> lessonList(String addr) throws Exception{
+		List<LessonDTO> list = maindao.lessonList(addr);
+		return list;
+	}
 	
 }

@@ -92,6 +92,7 @@ function uploadSummernoteImageFile(file, editor) {
 				</div>				
 				<div class="card_body">
 					<form action="/discussion/writeProc" method="post" enctype="multipart/form-data" id="writeForm">
+						<input type="hidden" name="id" value="${sessionScope.loginInfo.id}">
 						<input type="hidden" name="writer" value="${sessionScope.loginInfo.name}">
 						<section>
 							<div class="tit_s3">

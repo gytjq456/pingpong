@@ -82,25 +82,7 @@
 		</aop:aspect>
 	</aop:config>	
 	
-<<<<<<< HEAD
-=======
-	<!-- <websocket:handlers>
-		<websocket:mapping handler="echoHandler" path="/echo-ws"/>
-	</websocket:handlers>
-	<bean id = "echoHandler" class ="kh.pingpong.notification.EchoHandler"/>
-	 -->
-	 
-	<!-- websocket handler  -->
-	<beans:bean id="echoHandler" class="kh.pingpong.notification.EchoHandler"/>
-	
-	<websocket:handlers>
-		<websocket:mapping handler="echoHandler" path="/echo" />
-		<websocket:handshake-interceptors>
-	         <beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>
-	      </websocket:handshake-interceptors>
-	      <websocket:sockjs/>
-	 </websocket:handlers>
->>>>>>> 6ec1625ab9c09444c5dfe4a8ffd91039edea64bf
+
 	
 </beans:beans>
 

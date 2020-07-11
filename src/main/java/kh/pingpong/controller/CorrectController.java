@@ -11,11 +11,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import kh.pingpong.dto.CommentDTO;
 import kh.pingpong.dto.CorrectCDTO;
 import kh.pingpong.dto.CorrectDTO;
 import kh.pingpong.dto.JjimDTO;
 import kh.pingpong.dto.LikeListDTO;
 import kh.pingpong.dto.MemberDTO;
+import kh.pingpong.dto.ReportListDTO;
 import kh.pingpong.service.CorrectService;
 
 @Controller
@@ -60,9 +62,7 @@ public class CorrectController {
 		ldto.setParent_seq(dto.getSeq());
 		
 		boolean checkLike = cservice.LikeIsTrue(ldto);
-		
 		System.out.println("check :" +ldto.getParent_seq());
-		
 		System.out.println("체크 :" + cdto.getLike_count());
 		
 		
@@ -82,7 +82,9 @@ public class CorrectController {
 	}
 	@RequestMapping("/writeProc")
 	public String writeProc(CorrectDTO dto) throws Exception{
-		System.out.println("test :" +dto.getContents());
+		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
+		String id = mdto.getId();
+		dto.setId(id);
 		cservice.insert(dto);
 		return "redirect:/correct/correct_list";	}
 	
@@ -109,8 +111,9 @@ public class CorrectController {
 	@ResponseBody
 	@RequestMapping("/commentProc")
 	public String commentProc(CorrectDTO dto,CorrectCDTO cdto, Model model) throws Exception{
-		System.out.println(cdto.getWriter());
-		System.out.println("testtt :" + cdto.getContents());
+		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
+		String id = mdto.getId();
+		cdto.setId(id);
 		int result = cservice.commentInsert(cdto);
 		System.out.println("test :" + cdto.getContents());
 		model.addAttribute("parent_seq", cdto.getParent_seq());
@@ -171,6 +174,34 @@ public class CorrectController {
 		}else {
 			return String.valueOf(false);
 		}
+	}
+	@ResponseBody
+	@RequestMapping("/commentDelete")
+	public String commentDelete(CorrectCDTO cdto) throws Exception{
+		int result = cservice.commentDelete(cdto);
+		System.out.println("댓글 시퀀스 :"+cdto.getSeq());
+		if(result > 0) {
+			return String.valueOf(true);
+		}else {
+			return String.valueOf(false);
+		}
+	}
+	@RequestMapping("/report")
+	@ResponseBody
+	public int report(ReportListDTO rldto, Model model) {
+		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
+		rldto.setReporter(mdto.getId());
+		
+		int result = cservice.selectReport(rldto);
+		model.addAttribute("rldto", rldto);
+		
+		return result;
+	}
+	
+	@RequestMapping("/reportProc")
+	public String reportProc(ReportListDTO rldto, Model model) {
+		cservice.insertReport(rldto);
+		return "redirect:/correct/correct_view?seq=" + rldto.getParent_seq();
 	}
 	
 	

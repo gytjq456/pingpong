@@ -78,8 +78,27 @@
 			})
 			
 		})
+	
+	$(".comment_delete").click(function(){
+				var result = confirm("댓글을 삭제 하시겠습니까?");
+				var seq = $(this).data("seq");
+				if(result){
+					$.ajax({
+						url:"/correct/commentDelete",
+						dataType:"json",
+						data:"post",
+						data:{
+							seq:seq
+						}
+					}).done(function(resp){
+						if(resp){
+							alert("댓글이 삭제되었습니다.");
+							location.href="/correct/correct_view?seq=${dto.seq}"
+						}
+					})
+				}
+			})		
 	})
-		
 		
 		
 </script>
@@ -103,7 +122,7 @@
 				<div>댓글 (${dto.reply_count})</div>
 				<button type="button" id="modify">글수정</button>
 				<button type="button" id="delete" data-seq="${dto.seq}">글삭제</button>
-				<button type="button" id="historyBack">뒤로가기</button>
+				<span id="report"><i class="fa fa-exclamation" aria-hidden="true"></i>신고</span>
 			</div>
 			<div id="comment">
 				<form id="form">
@@ -126,6 +145,7 @@
 
 				<div class="cont">
 					<div class="contents">${u.contents}</div>
+					<button class="comment_delete normal" data-seq="${u.seq}">댓글삭제</button>
 				</div>
 			</c:forEach>
 
@@ -139,11 +159,12 @@
 
 				<div class="cont">
 					<div class="contents">${i.contents}</div>
+					<button class="comment_delete normal" data-seq="${i.seq}">댓글삭제</button>
 				</div>
 			</c:forEach>
 
 		</article>
 	</section>
 </div>
-
+<jsp:include page="/WEB-INF/views/correct/correct_report.jsp" />
 <jsp:include page="/WEB-INF/views/footer.jsp" />

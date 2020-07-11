@@ -9,10 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import kh.pingpong.dto.CommentDTO;
 import kh.pingpong.dto.CorrectCDTO;
 import kh.pingpong.dto.CorrectDTO;
 import kh.pingpong.dto.JjimDTO;
 import kh.pingpong.dto.LikeListDTO;
+import kh.pingpong.dto.ReportListDTO;
 
 @Repository
 public class CorrectDAO {
@@ -88,7 +90,6 @@ public class CorrectDAO {
 		return mybatis.selectOne("Correct.likecount", ldto);
 	}
 	
-	
 	public int correctcount() throws Exception{
 		return mybatis.selectOne("Correct.correctcount");
 	}
@@ -99,6 +100,18 @@ public class CorrectDAO {
 	
 	public int delete(CorrectDTO dto) throws Exception {
 		return mybatis.delete("Correct.delete",dto);
+	}
+	
+	public int commentDelete(CorrectCDTO cdto) throws Exception{
+		return mybatis.delete("Correct.commentDelete",cdto);
+	}
+	
+	public int selectReport(ReportListDTO rldto) {
+		return mybatis.selectOne("Correct.selectReport", rldto);
+	}
+	
+	public int insertReport(ReportListDTO rldto) {
+		return mybatis.insert("Correct.insertReport", rldto);
 	}
 	
 	}

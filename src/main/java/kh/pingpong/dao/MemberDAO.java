@@ -177,6 +177,11 @@ public class MemberDAO {
 	public List<MemberDTO> personList(String type) throws Exception{
 		return mybatis.selectList("Member.personList",type);
 	}
+	
+	/* 아이디로 회원 찾기 */
+	public MemberDTO getMemberInfo(String id) throws Exception {
+		return mybatis.selectOne("Member.getMemberInfo", id);
+	}
 }
 
 

@@ -425,4 +425,31 @@ public class GroupController {
 			return String.valueOf(false); 
 		}
 	}
+	
+	// 내가 작성한 그룹 신청서 관리
+	@ResponseBody
+	@RequestMapping("myAppView")
+	public GroupApplyDTO myAppView(int seq) throws Exception {
+		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
+		Map<String, Object> param = new HashMap<>();
+		param.put("seq", seq);
+		param.put("id", mdto.getId());
+		GroupApplyDTO gadto = gservice.myAppView(param);
+		return gadto;
+	}
+	
+	// 신청서 보기
+	@ResponseBody
+	@RequestMapping("showApp")
+	public GroupApplyDTO showApp(int seq) throws Exception {
+		GroupApplyDTO resp = gservice.showApp(seq);
+		return resp;
+	}
+	
+	// 그룹 신청 승인
+	@ResponseBody
+	@RequestMapping("acceptApp")
+	public boolean acceptApp(int seq, String id, int parent_seq) throws Exception {
+		return gservice.acceptApp(seq, id, parent_seq);
+	}
 }

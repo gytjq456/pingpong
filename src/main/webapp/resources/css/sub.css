@@ -106,10 +106,12 @@ input:read-only {background-color: #e4e4e4;color:#a9a9a9;}
 .group_each_wrapper i { color: #fcba03; }
 .group_each_wrapper .group_applying,
 .group_each_wrapper .group_proceeding,
-.group_each_wrapper .group_done { width: 50px; height: 20px; line-height:20px; border-radius: 5px; text-align: center; float: left; font-size: 12px; margin-right: 5px; margin-top: 8px; color: #fff; }
+.group_each_wrapper .group_done,
+.group_each_wrapper .group_ready { width: 50px; height: 20px; line-height:20px; border-radius: 5px; text-align: center; float: left; font-size: 12px; margin-right: 5px; margin-top: 8px; color: #fff; }
 .group_each_wrapper .group_applying { background-color: #fbaab0; }
 .group_each_wrapper .group_proceeding { background-color: #3162a4; }
 .group_each_wrapper .group_done { background-color: #ddd; }
+.group_each_wrapper .group_ready  { background-color: #9eacf1; }
 #group_list .sub_title,
 #related_groups .sub_title { font-weight: bold; overflow:hidden; width:35px; }
 #group_list .sub_title,
@@ -253,6 +255,37 @@ width:-webkit-calc(100% - 340px);
 #group_view .member_profile { overflow: hidden; }
 #group_view #related_group_title { margin-bottom: 30px; }
 
+
+/* 그룹 히스토리 */
+#my_group_manage .title_wrap,
+#my_group_manage .option_wrap,
+#group_manage .title_wrap,
+#group_manage .option_wrap { overflow: hidden; }
+#my_group_manage .title_wrap div,
+#my_group_manage .option_wrap div,
+#group_manage .title_wrap div,
+#group_manage .option_wrap div { float: left; text-align: center; }
+#my_group_manage .option_wrap .my_title,
+#group_manage .option_wrap .mem_title { text-align: left; }
+#my_group_manage .my_seq,
+#group_manage .mem_seq,
+#my_group_manage .app_seq { width: 80px; }
+#my_group_manage .my_title,
+#group_manage .mem_title { width: calc(100% - 640px); }
+#my_group_manage .my_num,
+#group_manage .mem_num,
+#my_group_manage .my_app,
+#group_manage .mem_app,
+#my_group_manage .app_age,
+#my_group_manage .app_gender,
+#my_group_manage .app_accept { width: 100px; }
+#my_group_manage .my_loc,
+#group_manage .mem_loc,
+#my_group_manage .app_name { width: 200px; }
+#my_group_manage .my_date,
+#group_manage .mem_leader { width: 160px; }
+#my_group_manage .app_lang_can,
+#my_group_manage .app_lang_learn { width: calc((100% - 580px) / 2);}
 
 /* 토론 글쓰기*/
 #discussion_write {}

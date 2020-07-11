@@ -35,12 +35,12 @@
 									<td>${llist.id}(${llist.name})</td>
 									<td>${llist.category}</td>
 									<td>
-										<c:if test="${llist.applying == 'Y'}">O</c:if>
-										<c:if test="${llist.applying == 'N'}">X</c:if>
+										<c:if test="${llist.applying == 'Y'}">○</c:if>
+										<c:if test="${llist.applying == 'N'}">Ｘ</c:if>
 									</td>
 									<td>
-										<c:if test="${llist.proceeding == 'Y'}">O</c:if>
-										<c:if test="${llist.proceeding == 'N'}">X</c:if>
+										<c:if test="${llist.proceeding == 'Y'}">○</c:if>
+										<c:if test="${llist.proceeding == 'N'}">Ｘ</c:if>
 									</td>
 								</tr>
 							</c:forEach>

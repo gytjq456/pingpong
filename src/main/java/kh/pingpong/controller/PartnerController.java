@@ -241,17 +241,19 @@ public class PartnerController {
 	}
 
 	//리뷰 글쓰기
-	@ResponseBody
 	@RequestMapping("reviewWrite")
-	public String reviewWrite(ReviewDTO redto) throws Exception{
+	@ResponseBody
+	public String reviewWrite(ReviewDTO redto,MemberDTO mdto) throws Exception{
+		
 		int result = gservice.reviewWrite(redto);
-
+		session.setAttribute("loginInfo2", mdto);
 		if(result>0) {
 			return String.valueOf(true);
 		}else {
 			return String.valueOf(false);
 		}
 	}
+	
 	
 	//찜하기
 	@RequestMapping("jjim")

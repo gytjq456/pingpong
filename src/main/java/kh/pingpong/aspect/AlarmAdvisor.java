@@ -2,12 +2,13 @@ package kh.pingpong.aspect;
 
 import javax.servlet.http.HttpSession;
 
-import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 
-import kh.pingpong.dto.ReviewDTO;
+import kh.pingpong.dto.MemberDTO;
+import kh.pingpong.service.AlarmService;
 import kh.pingpong.service.GroupService;
 import kh.pingpong.service.PartnerService;
 import kh.pingpong.service.TutorService;
@@ -16,16 +17,24 @@ import kh.pingpong.service.TutorService;
 public class AlarmAdvisor {
 	@Autowired
 	private HttpSession session;
-	@Autowired
-	private PartnerService pservice;
-	private GroupService gservice;
-	private TutorService tservice;
+
 	
-	@After(value="execution(* kh.pingpong.controller.*(..))")
-	public void afterAlarmLog(JoinPoint jp,ReviewDTO redto) throws Throwable{
-		int result = pservice.reviewWrite(redto);
-		result = gservice.reviewWrite(redto);
+	@Autowired
+	private AlarmService alservice;
+	
+	public Object alarmLog(ProceedingJoinPoint pjp) throws Throwable{
 		
+		System.out.println("-------------- ");
+		Object returnValue = pjp.proceed();
+		MemberDTO mdto = (MemberDTO) session.getAttribute("loginInfo");
+		System.out.println("-------------- 종료  ");
+		System.out.println(mdto.getId());
+		
+		int result = alservice.insertAlarm(mdto);
+		
+			
+		
+		return returnValue;
 	
 	}
 	

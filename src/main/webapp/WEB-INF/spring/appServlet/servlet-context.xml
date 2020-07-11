@@ -45,6 +45,15 @@
 
 	<context:component-scan base-package="kh.pingpong"/>
 
+	<beans:bean class="kh.pingpong.aspect.AlarmAdvisor" id="alarmaop" />
+	<aop:config>
+		<!-- <aop:pointcut expression="execution(* kh.pingpong.controller.PartnerController.reviewWrite(..))" id="alarmAll"/> -->
+		<aop:pointcut expression="execution(* kh.pingpong.controller.GroupController.reviewWrite(..))" id="alarmAll"/>
+		<aop:aspect id="alarmCheck" ref="alarmaop">
+			<aop:around pointcut-ref="alarmAll" method="alarmLog" />
+		</aop:aspect>
+	</aop:config>
+	
 	<beans:bean class="kh.pingpong.aspect.LogAdvisor" id="logaop" />
 	<aop:config>
 		<aop:pointcut expression="execution(* kh.pingpong.controller.GroupController.*(..))" id="group"/>
@@ -67,30 +76,14 @@
 		</aop:aspect>
 	</aop:config>	
 	
-	<!-- 포인트 컷의 위치가.. 이상한 것 같음 -->
-	<beans:bean class="kh.pingpong.aspect.AlarmAdvisor" id="alarmaop"/>
+	<!-- <beans:bean class="kh.pingpong.aspect.AlarmAdvisor" id="alarmaop"/>
 	<aop:config>
-		<aop:pointcut expression="execution(* kh.pingpong.controller.*.*(..))" id="alarm"/>
+		<aop:pointcut expression="execution(* kh.pingpong.controller.PartnerController.*(..))" id="alarm"/>
 		<aop:aspect id="alarmCheck" ref="alarmaop">
-			<aop:after pointcut-ref="alarm" method="alarmLog"/>
+			<aop:around pointcut-ref="alarm" method="alarmLog"/>
 		</aop:aspect>
-	</aop:config>
-	<!-- <websocket:handlers>
-		<websocket:mapping handler="echoHandler" path="/echo-ws"/>
-	</websocket:handlers>
-	<bean id = "echoHandler" class ="kh.pingpong.notification.EchoHandler"/>
-	 -->
-	 
-	<!-- websocket handler  -->
-	<!-- <beans:bean id="echoHandler" class="kh.pingpong.notification.EchoHandler"/> -->
-	
-	<websocket:handlers>
-		<websocket:mapping handler="echoHandler" path="/echo" />
-		<websocket:handshake-interceptors>
-	         <beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>
-	      </websocket:handshake-interceptors>
-	      <websocket:sockjs/>
-	 </websocket:handlers>
+	</aop:config> -->
+
 	
 </beans:beans>
 

@@ -48,7 +48,7 @@
 
 <!-- 자격증 파일 insert -->
 <insert id="insertFiles">
-	insert into files values(files_seq.nextval,#{sysname}, #{oriname}, #{realpath,jdbcType=VARCHAR},'partner', 0)
+	insert into files values(files_seq.nextval,#{sysname}, #{oriname}, #{realpath,jdbcType=VARCHAR},'tutor', 0)
 </insert>
 
 <!-- 강의 등록 신청서 -->

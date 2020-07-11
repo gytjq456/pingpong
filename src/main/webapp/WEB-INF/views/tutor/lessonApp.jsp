@@ -128,6 +128,30 @@
 				$(this).val('');
 			}
 		})
+		
+		$("#start_hour").on("change", function(){
+			var start_hourVal = $("#start_hour").val();
+			console.log(start_hourVal);
+			$("#end_hour").on("change", function(){
+				//$("select option[value<="+start_hourVal+"]").prop('disabled',true);
+				if($("#end_hour").val()<=start_hourVal){
+					alert("시작시간보다 늦은시간으로 설정해주세요.");
+					$("#end_hour").val('');
+				}
+			})
+		})
+/* 		
+		$("#end_hour").on("change", function(){
+			var end_hourVal = $("#end_hour").val();
+			console.log(end_hourVal);
+			$("#start_hour").on("change", function(){
+				//$("select option[value<="+start_hourVal+"]").prop('disabled',true);
+				if($("#start_hour").val()>=end_hourVal){
+					alert("끝나는 시간보다 빠른 시간으로 설정해주세요.");
+					$("#start_hour").val('');
+				}
+			})
+		}) */
 
 		$("#frm").on("submit", function() {
 			var titleVal = $("#title").val();
@@ -289,60 +313,39 @@
 					<!-- <input type="time" id="start_hour" name="start_hour"> : 
 					<input type="time" id="end_hour" name="end_hour"> -->
 					<select id="start_hour" name="start_hour">
-						<option>01</option>
-						<option>02</option>
-						<option>03</option>
-						<option>04</option>
-						<option>05</option>
-						<option>06</option>
-						<option>07</option>
-						<option>08</option>
-						<option>09</option>
-						<option>10</option>
-						<option>11</option>
-						<option>12</option>
-						<option>13</option>
-						<option>14</option>
-						<option>15</option>
-						<option>16</option>
-						<option>17</option>
-						<option>18</option>
-						<option>19</option>
-						<option>20</option>
-						<option>21</option>
-						<option>22</option>
-						<option>23</option>
-						<option>24</option>
+						<option value="07">07</option>
+						<option value="08">08</option>
+						<option value="09">09</option>
+						<option value="10">10</option>
+						<option value="11">11</option>
+						<option value="12">12</option>
+						<option value="13">13</option>
+						<option value="14">14</option>
+						<option value="15">15</option>
+						<option value="16">16</option>
+						<option value="17">17</option>
+						<option value="18">18</option>
 					</select> : <select id="start_minute" name="start_minute">
 						<option>00</option>
 						<option>15</option>
 						<option>30</option>
 						<option>45</option>
 					</select> ~ <select id="end_hour" name="end_hour">
-						<option>01</option>
-						<option>02</option>
-						<option>03</option>
-						<option>04</option>
-						<option>05</option>
-						<option>06</option>
-						<option>07</option>
-						<option>08</option>
-						<option>09</option>
-						<option>10</option>
-						<option>11</option>
-						<option>12</option>
-						<option>13</option>
-						<option>14</option>
-						<option>15</option>
-						<option>16</option>
-						<option>17</option>
-						<option>18</option>
-						<option>19</option>
-						<option>20</option>
-						<option>21</option>
-						<option>22</option>
-						<option>23</option>
-						<option>24</option>
+						<option value="08">08</option>
+						<option value="09">09</option>
+						<option value="10">10</option>
+						<option value="11">11</option>
+						<option value="12">12</option>
+						<option value="13">13</option>
+						<option value="14">14</option>
+						<option value="15">15</option>
+						<option value="16">16</option>
+						<option value="17">17</option>
+						<option value="18">18</option>
+						<option value="19">19</option>
+						<option value="20">20</option>
+						<option value="21">21</option>
+						<option value="22">22</option>
 					</select> : <select id="end_minute" name="end_minute">
 						<option>00</option>
 						<option>15</option>
@@ -502,17 +505,24 @@
 		        for(var i = 0; i < result.length; i++) {
 		            // 행정동의 region_type 값은 'H' 이므로
 		            if (result[i].region_type === 'H') {
-		            	/* console.log(result[i]);
+		            	console.log(result[i]);
 			            console.log(result[i].region_1depth_name);
-			            console.log(result[i].region_2depth_name); */
+			            console.log(result[i].region_2depth_name);
 			            
 			            var sido1Val = result[i].region_1depth_name;
 			            var gugun1Val = result[i].region_2depth_name;
+			            var dong1Val = result[i].region_3depth_name;
 			            
 			            $("#sido1").val(sido1Val);
 			            new sojaeji('sido1', 'gugun1');
-			            $("#gugun1").val(gugun1Val); 
-
+			      		if(gugun1Val!=""){
+			      			$("#gugun1").val(gugun1Val); 
+			      		}else{
+			      			$("#gugun1").val(dong1Val);
+			      		}
+			      		
+			            
+						
 						sidogugun = sido1Val + ' ' + gugun1Val;
 						$('#location').val(sidogugun);
 		                break;

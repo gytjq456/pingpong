@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:include page="/WEB-INF/views/header.jsp" />
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=521d781cfe9fe7597693f2dc29a10601&libraries=services"></script>
 <style>
@@ -56,11 +57,16 @@
 		}else{
 			$('#keywordSelect').val(name);
 		}
-			
+		
+/* 		var topSearch = '${topSearch}';
+		console.log(topSearch);
+		if(topSearch!=null){
+			$('.topSearch').val(topSearch);
+		} */
+
 		$("#orderBy").on("change",function(){
 			var orderbyVal = $("#orderBy").val();
 			var selectVal = $("#keywordSelect").val();
-			
 			location.href="/tutor/lessonList?orderBy="+orderbyVal+"&keywordSelect="+selectVal;
 		})
 		
@@ -133,9 +139,9 @@
 			<!-- 검색 3가지 -->
 			<div class="tab_s1">
 				<ul class="clearfix">
-					<li class="on"><a href="#;">키워드 검색</a></li>
-					<li><a href="#;">달력 검색</a></li>
-					<li><a id="map_on" href="#;">지도 검색</a></li>
+					<li class="on"><a class="topSearch" href="#;">키워드 검색</a></li>
+					<li><a class="topSearch" href="#;">달력 검색</a></li>
+					<li><a id="map_on" class="topSearch" href="#;">지도 검색</a></li>
 				</ul>
 			</div>
 
@@ -161,7 +167,6 @@
 				</article>
 				
 				<article id="tab_2" class="calendarSch">
-
 					<div class="search_as_calendar">
 						<div class="scheduleSchBox">
 							<div><span>수업기간</span></div>
@@ -243,7 +248,45 @@
 								<section data-seq="${i.seq}" class="back_and_wrap item">
 									<article class="wrapper ">
 										<div class="each_profile"><img src="/upload/member/${i.id}/${i.sysname}"></div>
-										<div class="group_background background_yellow"></div>
+										<c:if test="${fn:startsWith(i.language, '한국어')}">
+											<div class="group_background background_red"></div>
+										</c:if>
+										<c:if test="${fn:startsWith(i.language, '일본어')}">
+											<div class="group_background background_red"></div>
+										</c:if>
+										<c:if test="${fn:startsWith(i.language, '중국어')}">
+											<div class="group_background background_red"></div>
+										</c:if>
+										<c:if test="${fn:startsWith(i.language, '힌디어')}">
+											<div class="group_background background_yellow"></div>
+										</c:if>
+										<c:if test="${fn:startsWith(i.language, '태국어')}">
+											<div class="group_background background_yellow"></div>
+										</c:if>
+										<c:if test="${fn:startsWith(i.language, '인도네시아')}">
+											<div class="group_background background_yellow"></div>
+										</c:if>
+										<c:if test="${fn:startsWith(i.language, '베트남어')}">
+											<div class="group_background background_yellow"></div>
+										</c:if>
+										<c:if test="${fn:startsWith(i.language, '러시아어')}">
+											<div class="group_background background_yellow"></div>
+										</c:if>
+										<c:if test="${fn:startsWith(i.language, '포르투갈어')}">
+											<div class="group_background background_purple"></div>
+										</c:if>
+										<c:if test="${fn:startsWith(i.language, '스페인어')}">
+											<div class="group_background background_purple"></div>
+										</c:if>
+										<c:if test="${fn:startsWith(i.language, '영어')}">
+											<div class="group_background background_blue"></div>
+										</c:if>
+										<c:if test="${fn:startsWith(i.language, '프랑스어')}">
+											<div class="group_background background_green"></div>
+										</c:if>
+										<c:if test="${fn:startsWith(i.language, '독일어')}">
+											<div class="group_background background_green"></div>
+										</c:if>
 										<div class="group_each_wrapper">
 											<div class="each_writer"><span class="each_name name">${i.name }</span></div>
 											<div class="each_title title">${i.title}</div>

@@ -162,13 +162,13 @@
 
 <!-- 모집 진행 마감 자동으로 바뀌게하기 스케쥴러 -->
 <update id="updateApplying">
-	update lesson set applying ='N' where apply_end = #{today_date}
+	update lesson set applying ='N' where apply_end = #{today_plus}
 </update>
 <update id="updateProceeding1">
 	update lesson set proceeding ='Y' where start_date = #{today_date} 
 </update>
 <update id="updateProceeding2">
-	update lesson set proceeding ='N' where end_date = #{today_date}
+	update lesson set proceeding ='N' where end_date = #{today_plus}
 </update>
 
 

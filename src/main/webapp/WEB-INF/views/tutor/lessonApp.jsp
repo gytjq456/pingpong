@@ -67,7 +67,7 @@
 
 		$('#start_date').datepicker({
 			dateFormat : 'yy-mm-dd',
-			minDate : 7,
+			minDate : 0,
 			maxDate : '+1m +7d',
 			onClose : function(selectedDate) {
 				$('#end_date').datepicker("option", "minDate", selectedDate);

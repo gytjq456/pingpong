@@ -2,6 +2,7 @@ package kh.pingpong.service;
 
 import java.io.File;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -45,13 +46,22 @@ public class TutorService {
 	@Transactional("txManager")
 	public void tutorAppSend(TutorAppDTO tadto, List<FileDTO> fileList, String filePath) throws Exception{
 		
+		//파일 여러개를 string으로 변경하여 ndto에 Files_name 넣음
+		String[] files_insert = new String[fileList.size()];
+		int i = 0;
+		for(FileDTO f : fileList) {
+			files_insert[i++] = f.getSysname();
+		}
+		String arrayS = Arrays.toString(files_insert);
+		String arrayS_result = arrayS.substring(1, arrayS.length()-1);
+		tadto.setLicense(arrayS_result);
+		
 		tdao.insert(tadto);
 		//---------------------------------------�뙆�씪 �뾽濡쒕뱶
 		File tempFilepath = new File(filePath);
 		if (!tempFilepath.exists()) {
 			tempFilepath.mkdir();
 		}
-
 		for(FileDTO file : fileList) {
 			fdao.tutorFileInsert(file);
 		}
@@ -166,8 +176,10 @@ public class TutorService {
 	}
 	
 	//모집중 진행중 마감 시간에따라 알아서 바뀌게하기
-	public int updateIngDate(String today_date) throws Exception{
-		int result = tdao.updateIngDate(today_date);
+	public int updateIngDate(Map<String, String> param) throws Exception{
+		System.out.println(param.get("today_date"));
+		System.out.println(param.get("today_plus"));
+		int result = tdao.updateIngDate(param);
 		return result;
 	}
 	

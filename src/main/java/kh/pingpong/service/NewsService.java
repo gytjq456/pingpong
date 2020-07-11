@@ -22,7 +22,7 @@ public class NewsService {
 	public int newsInsert(NewsDTO ndto, FileTnDTO ftndto, List<FileDTO> filseA) throws Exception{
 		
 		//파일 여러개를 string으로 변경하여 ndto에 Files_name 넣음
-		String[] files_insert = new String[3];
+		String[] files_insert = new String[filseA.size()];
 		int i = 0;
 		for(FileDTO f : filseA) {
 			files_insert[i++] = f.getSysname();

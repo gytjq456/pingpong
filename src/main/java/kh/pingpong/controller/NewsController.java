@@ -1,6 +1,5 @@
 package kh.pingpong.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -9,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import kh.pingpong.dto.FileDTO;
 import kh.pingpong.dto.FileTnDTO;
@@ -48,7 +48,9 @@ public class NewsController {
 	@RequestMapping("viewProc")
 	public String viewProc(NewsDTO ndto, Model model) throws Exception{		
 		ndto = newservice.newsViewOne(ndto);
+		List <FileTnDTO> files = newservice.newsViewFile(ndto);
 		model.addAttribute("ndto",ndto);
+		model.addAttribute("files",files);
 		return "/news/view";
 	}
 	
@@ -81,8 +83,31 @@ public class NewsController {
 		return "redirect:/news/listProc";
 	}
 	
+	/* 글 수정 jsp */
+	@RequestMapping("modify")
+	public String modify(NewsDTO ndto, Model model) throws Exception{
+		ndto = newservice.newsViewOne(ndto);
+		List <FileTnDTO> files = newservice.newsViewFile(ndto);
+		model.addAttribute("ndto",ndto);
+		model.addAttribute("files",files);
+		return "/news/modify";
+	}
 	
+	/* 글수정 파일 하나 삭제 jsp */
+	@ResponseBody
+	@RequestMapping("dele_fileOne")
+	public String dele_fileOne(NewsDTO ndto) throws Exception{
+		System.out.println("파일 컨트롤러   "+ ndto.getCategory() + " :: " + ndto.getSeq());
+		int result = newservice.dele_fileOne(ndto);
+		return String.valueOf(result);
+	}
 	
-	
+	/* 글 삭제 */
+	@ResponseBody
+	@RequestMapping("delete")
+	public String delete(NewsDTO ndto) throws Exception{
+		int result = newservice.delete(ndto);
+		return String.valueOf(result);
+	}
 	
 }

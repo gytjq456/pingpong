@@ -12,9 +12,19 @@
 	update lesson set cur_num = cur_num+1 where seq = #{parent_seq}
 </update>
 
+<!-- 튜티 현재인원 줄이기 -->
+<update id="tuteeCurnumCountMinus">
+	update lesson set cur_num = cur_num-1 where seq= #{parent_seq}
+</update>
+
 <!-- 결제한사람이 또 결제하는지 -->
 <select id="payTrue" resultType="int">
 	select count(*) from tutee where parent_seq = #{parent_seq} and id =#{id}
+</select>
+
+<!-- 결제 취소한사람이 또 취소하는지 -->
+<select id="refundTrue" resultType="int">
+	select count(*) from tutee where parent_seq = #{parent_seq} and id =#{id} and cancle='Y'
 </select>
 
 <!-- 강위취소 튜티 환불금액 update 하고 강의 취소 'Y'로 바꾸기 -->
@@ -38,12 +48,12 @@
 
 <!-- 자격증 파일 insert -->
 <insert id="insertFiles">
-	insert into files values(files_seq.nextval,#{sysname}, #{oriname}, #{realpath,jdbcType=VARCHAR},'partner', 0)
+	insert into files values(files_seq.nextval,#{sysname}, #{oriname}, #{realpath,jdbcType=VARCHAR},'tutor', 0)
 </insert>
 
 <!-- 강의 등록 신청서 -->
 <insert id="lessonAppProc">
-	insert into lesson values(lesson_seq.nextval, #{id}, #{name}, #{email}, #{phone_country}, #{phone}, #{sysname}, default, #{title}, #{price}, #{language},#{apply_start},#{apply_end},#{start_date},#{end_date},#{start_hour},#{start_minute},#{end_hour},#{end_minute},#{max_num},0,#{location},#{curriculum},default,#{view_count},default,default,default,default,default)
+	insert into lesson values(lesson_seq.nextval, #{id}, #{name}, #{email}, #{phone_country}, #{phone}, #{sysname}, default, #{title}, #{price}, #{language},#{apply_start},#{apply_end},#{start_date},#{end_date},#{start_hour},#{start_minute},#{end_hour},#{end_minute},#{max_num},0,#{location},#{location_lat},#{location_lng},#{curriculum},default,#{view_count},default,default,default,default,default)
 </insert>
 
 <!-- 강의 수정 신청서 -->
@@ -152,13 +162,13 @@
 
 <!-- 모집 진행 마감 자동으로 바뀌게하기 스케쥴러 -->
 <update id="updateApplying">
-	update lesson set applying ='N' where apply_end = #{today_date}
+	update lesson set applying ='N' where apply_end = #{today_plus}
 </update>
 <update id="updateProceeding1">
 	update lesson set proceeding ='Y' where start_date = #{today_date} 
 </update>
 <update id="updateProceeding2">
-	update lesson set proceeding ='N' where end_date = #{today_date}
+	update lesson set proceeding ='N' where end_date = #{today_plus}
 </update>
 
 

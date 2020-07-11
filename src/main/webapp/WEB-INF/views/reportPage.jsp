@@ -9,16 +9,34 @@
 <script>
 $(function(){
 	var layerPop_s3 = $("#layerPop_s3");
-	$("#report").on("click", function(){
-		console.log($(this).css('color'));
+	$("#report, .report").on("click", function(){
+		var seq = $(this).data("seq");
+		var idVal = $(this).data("id");
+		var url = $(this).data("url");
+		var proc = $(this).data("proc");
+		var thisSeq = $(this).data("thisseq");
+		if(thisSeq == ""){
+			thisSeq = 0;
+		}
+		$("form").attr("action", proc);
+		$("input[name=parent_seq]").val(seq);
+		$("input[name=id]").val(idVal);
+		$("input[name=commSeq]").val(thisSeq);
+		reportFn(seq,idVal,url,thisSeq);
+		
+	})
+	
+	function reportFn(seq,idVal,url,thisSeq){
+		//console.log($(this).css('color'));
 		//rgb(39, 91, 160)
-		var seq = ${gdto.seq};
-		var idVal = '${gdto.writer_id}';
+		//var seq = seq;
+		//var idVal = id;
 		$.ajax({
-			url:"/group/report",
+			url:url,
 			data:{
 				parent_seq: seq,
-				id : idVal
+				id : idVal,
+				commSeq:thisSeq
 			},
 			type: 'POST'
 		}).done(function(resp){
@@ -31,7 +49,9 @@ $(function(){
 			console.log(error1);
 			console.log(error2);
 		})
-	})
+		
+		$(".writer_id p").text(idVal);
+	}
 	
 	$("#backReport").on("click", function(){
 		layerPop_s3.stop().fadeOut();
@@ -46,12 +66,17 @@ $(function(){
 		<div class="tit_s3">
 			<h4>그룹 신고</h4>
 		</div>
-		<form action="/group/reportProc" id="grouptProc" method="post">
+		<form action="" id="grouptProc" method="post">
 			<input type="hidden" name="reporter" value="${loginInfo.id}">
-			<input type="hidden" name="parent_seq" value="${gdto.seq}">
-			<input type="hidden" name="id" value="${gdto.writer_id}">
+			<input type="hidden" name="parent_seq" value="">
+			<input type="hidden" name="id" value="">
+			<input type="hidden" name="commSeq" value="">
 			신고자 : ${loginInfo.id} <br>
-			게시물 올린 사람 : ${gdto.writer_id}
+			<div class="writer_id">
+				게시물 올린 사람 :
+				<p></p>
+			</div>
+			
 			<section data-seq="${gdto.seq}">
 				<article>
 					<div>신고사유</div>
@@ -65,6 +90,7 @@ $(function(){
 				</article>
 			</section>
 		</form>
+		
 		
 	</div>
 </article>

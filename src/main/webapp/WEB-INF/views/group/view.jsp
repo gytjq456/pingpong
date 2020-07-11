@@ -179,6 +179,29 @@
 				}
 			}
 		})
+		
+		var headHeight = $("header").height();
+		$(".tab_s2 ul li").click(function(){
+			var idx = $(this).index()+1;
+			var topPos = $("#tab_"+idx).offset().top;
+			$("html,body").stop().animate({
+				scrollTop:topPos - headHeight - 80
+			})
+		})
+		
+		var menuObj = $("#group_tab_menu");
+		var menuTopPos = menuObj.offset().top;
+		$(window).scroll(function(){
+			var scrollTop = $(this).scrollTop();
+			if(menuTopPos <= scrollTop + headHeight){
+				menuObj.addClass("fixed");
+			}else{
+				menuObj.removeClass("fixed");
+			}
+			
+		})
+		
+		
 	})
 </script>
 	<div id="subWrap" class="hdMargin">
@@ -198,7 +221,7 @@
 								<div id="three_options">
 									<span id="like"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>추천</span>
 									<span id="jjim"><i class="fa fa-heart-o" aria-hidden="true"></i>찜하기</span>
-									<span id="report"><i class="fa fa-exclamation" aria-hidden="true"></i>신고</span>
+									<span id="report" data-seq="${gdto.seq}" data-id="${gdto.writer_id}" data-thisseq="" data-url="/group/report" data-proc="/group/reportProc"><i class="fa fa-exclamation" aria-hidden="true"></i>신고</span>
 								</div>
 							</div>
 						</div>
@@ -380,14 +403,17 @@
 														<span class="sub_title"><i class="fa fa-commenting-o" aria-hidden="true"></i>${related.review_count}</span> 
 														<span class="sub_title"><i class="fa fa-file-text-o" aria-hidden="true"></i>${related.app_count}</span> 
 													</div>
-													<div class="status">
+													<div class="status clearfix">
 														<c:if test="${related.applying == 'Y'}">
 															<div class="group_applying">모집중</div>  
 														</c:if>
 														<c:if test="${related.proceeding == 'Y'}">
 															<div class="group_proceeding">진행중</div>
 														</c:if>
-														<c:if test="${related.proceeding == 'N' && glist.applying == 'N'}">
+														<c:if test="${related.proceeding == 'B'}">
+															<div class="group_ready">준비중</div>
+														</c:if>
+														<c:if test="${related.proceeding == 'N' && related.applying == 'N'}">
 															<div class="group_done">마감</div>
 														</c:if>
 													</div>
@@ -570,7 +596,10 @@
 		});    
 		
 	</script>
-<jsp:include page="/WEB-INF/views/group/report.jsp" />
+<%-- <jsp:include page="/WEB-INF/views/group/report.jsp" /> --%>
+<!-- 공통 신고하기  -->
+<jsp:include page="/WEB-INF/views/reportPage.jsp" />
+
 <jsp:include page="/WEB-INF/views/group/apply.jsp" />
 <jsp:include page="/WEB-INF/views/group/out.jsp" />
 <jsp:include page="/WEB-INF/views/footer.jsp"/>

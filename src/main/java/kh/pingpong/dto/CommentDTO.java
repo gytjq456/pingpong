@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 public class CommentDTO {
 	private int seq;
 	private String writer;
+	private String id;
 	private String contents;
 	private String category;
 	private Timestamp write_date;
@@ -43,11 +44,12 @@ public class CommentDTO {
 		this.dateString = dateString;
 	}
 
-	public CommentDTO(int seq, String writer, String contents, String category, Timestamp write_date, String opinion, int like_count,
+	public CommentDTO(int seq, String writer, String id, String contents, String category, Timestamp write_date, String opinion, int like_count,
 			int hate_count, int parent_seq) {
 		super();
 		this.seq = seq;
 		this.writer = writer;
+		this.id = id;
 		this.contents = contents;
 		this.category = category;
 		this.write_date = write_date;
@@ -76,6 +78,15 @@ public class CommentDTO {
 
 	public void setWriter(String writer) {
 		this.writer = writer;
+	}
+
+	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 

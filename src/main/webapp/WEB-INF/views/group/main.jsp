@@ -69,24 +69,53 @@
 						</article>
 						<article id="tab_2" class="calendarSch">
 							<div class="search_as_calendar">
-								<span>기간 선택</span>
-								<label for="date_start" class="calendar_icon"><i class="fa fa-calendar" aria-hidden="true"></i></label>
-								<input type="text" name="date_start" id="date_start" class="cal_input" readonly>
-								<span class="between_calendar">~</span>
-								<label for="date_end" class="calendar_icon"><i class="fa fa-calendar" aria-hidden="true"></i></label>
-								<input type="text" name="date_end" id="date_end" class="cal_input" readonly><br>
-								<button type="button" id="search_cal_btn">조회</button>
+								<div class="scheduleSchBox">
+									<div><span>기간 선택</span></div>
+									<div class="schBar">
+										<p>
+											<label for="date_start" class="calendar_icon"><i class="fa fa-calendar" aria-hidden="true"></i></label>
+											<input type="text" name="date_start" id="date_start" class="cal_input" readonly>
+										</p>
+										<p>
+											<span class="between_calendar">~</span>
+										</p>
+										<p>
+											<label for="date_end" class="calendar_icon"><i class="fa fa-calendar" aria-hidden="true"></i></label>
+											<input type="text" name="date_end" id="date_end" class="cal_input" readonly>
+										</p>
+									</div>
+								</div>
+								
+								
+								<div class="btnS1 center">
+									<div><button type="button" id="search_cal_btn">검색</button></div>
+								</div>
 							</div>
 						</article>
 						<article id="tab_3" class="mapSch">
 							<div class="search_as_map">
-								<span>위치 선택</span>
-								<input type="hidden" name="location" id="location">
-								<div id="location_text"></div>
-								<select name="sido1" id="sido1"></select>
-								<select name="gugun1" id="gugun1"></select>
-								<div id="map" style="width: 100%; height: 350px;"></div>
-								<button type="button" id="search_map_btn">조회</button>
+							
+							
+								<section id="mapWrap">
+									<div class="mapSelect">
+										<input type="hidden" name="location" id="location">
+										<select name="sido1" id="sido1"></select>
+										<select name="gugun1" id="gugun1"></select>		
+									</div>
+									<div id="map" style="width: 100%; height: 350px;"></div>
+								</section>							
+								<!-- <div id="location_text"></div> -->
+								
+								
+								
+								
+								
+								
+								
+								<div class="btnS1 center">
+									<div><button type="button" id="search_map_btn">검색</button></div>
+								
+								</div>
 							</div>
 						</article>
 					</div>
@@ -176,6 +205,9 @@
 												</c:if>
 												<c:if test="${glist.proceeding == 'Y'}">
 													<div class="group_proceeding">진행중</div>
+												</c:if>
+												<c:if test="${glist.proceeding == 'B'}">
+													<div class="group_ready">준비중</div>
 												</c:if>
 												<c:if test="${glist.proceeding == 'N' && glist.applying == 'N'}">
 													<div class="group_done">마감</div>
@@ -289,8 +321,6 @@
 		})
 		
 		new sojaeji('sido1', 'gugun1');
-		var marker;
-		var circle;
 		// 지도
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 	    mapOption = { 
@@ -300,6 +330,8 @@
 		
 		$('#map_on').on('click', function(){
 			setTimeout(function(){
+				var marker;
+				var circle;
 				var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 				$('#gugun1').change(function(){
 					var sido = $('#sido1 option:selected').val();

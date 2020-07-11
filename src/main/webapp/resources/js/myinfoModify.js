@@ -431,7 +431,7 @@ $(function() {
 				alert("자기소개 수정이 실패하였습니다.");
 			}
 		}).fail(function(error1, error2) {
-			alert("관리자에게 문의주세요.")
+			alert("관리자에게 문의주세요.");
 		});
 	});
 

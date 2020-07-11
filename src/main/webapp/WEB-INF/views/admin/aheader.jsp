@@ -49,7 +49,7 @@
 										<li><a href="/admins/lessonAppList">강의 개설 신청</a></li>
 										<li><a href="/admins/lessonDelList">강의 삭제 신청</a></li>
 										<li><a href="/admins/tuteeList">튜티</a></li>
-										<li><a href="/admins/refundList">튜티 환불 신청</a></li>
+										<li><a href="/admins/refundList">강의 환불 신청</a></li>
 									</ul>
 								</li>												
 								<li>

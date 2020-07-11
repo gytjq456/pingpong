@@ -25,6 +25,7 @@ import kh.pingpong.dto.DiscussionDTO;
 import kh.pingpong.dto.LanguageDTO;
 import kh.pingpong.dto.LikeListDTO;
 import kh.pingpong.dto.MemberDTO;
+import kh.pingpong.dto.ReportListDTO;
 import kh.pingpong.service.DiscussionService;
 import kh.pingpong.service.PapagoService;
 
@@ -199,7 +200,6 @@ public class DiscussionController {
 		param.put("parent_seq", ldto.getParent_seq());
 		param.put("category", ldto.getCategory());
 		int likeResult = 0;
-		System.out.println("나나나나나나나나나");
 		Boolean checkLike = disService.selectLike(param);
 		System.out.println(checkLike);
 		if(checkLike) {
@@ -309,6 +309,26 @@ public class DiscussionController {
 		}
 	}
 
+	
+	//같은사람이 게시물 신고했는지 확인
+		@RequestMapping("report")
+		@ResponseBody
+		public int report(Model model, ReportListDTO rldto) throws Exception {
+			MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
+			rldto.setReporter(mdto.getId());
+			int result = disService.report(rldto);
+			System.out.println("result =" +result);
+			model.addAttribute("rldto",rldto);
+			return result;
+		}
+		
+		//신고 테이블에 저장
+		@RequestMapping("reportProc")
+		public String reportProc(Model model, ReportListDTO rldto) throws Exception{
+			System.out.println("ldto = " + rldto.getCommSeq() );
+			disService.reportProc(rldto);
+			return "redirect:/discussion/view?seq="+rldto.getParent_seq();
+		}
 
 	//댓글 삭제
 	@ResponseBody

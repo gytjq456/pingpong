@@ -22,6 +22,7 @@
 		<id column="profile" property="profile"/>
 		<id column="id" property="id"/>
 	</resultMap>
+	
 	<select id="groupList" resultMap="groupListMap">
 		select g.writer_name, g.hobby_type, g.location, g.location_lat, g.location_lng, m.profile, m.id from grouplist g
 		inner join member m
@@ -29,12 +30,21 @@
 		and g.location = #{value}
 	</select>
 	
-<!-- 	<select id="lessonList" resultType="list">
-		select * from lesson where location = #{value}
-		select g.writer_name, g.hobby_type, g.location, g.location_lat, g.location_lng, m.profile from grouplist g
+	
+	<resultMap type="HashMap" id="lessonListMap">
+		<id column="name" property="name"/>
+		<id column="title" property="title"/>
+		<id column="location" property="location"/>
+		<id column="location_lat" property="location_lat"/>
+		<id column="location_lng" property="location_lng"/>
+		<id column="profile" property="profile"/>
+		<id column="id" property="id"/>
+	</resultMap>
+ 	<select id="lessonList" resultMap="lessonListMap">
+		select g.name, g.title, g.category, g.location, g.location_lat, g.location_lng, m.profile, m.id from lesson g
 		inner join member m
-		on g.writer_name = m.name
+		on g.id = m.id
 		and g.location = #{value}
 		
-	</select> -->
+	</select>
 </mapper>

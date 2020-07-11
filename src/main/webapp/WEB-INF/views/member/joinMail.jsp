@@ -146,11 +146,13 @@
 	});
 </script>
 
-<div id="subWrap" class="hdMargin" style="padding-top: 155.8px;">
+<div id="subWrap" class="hdMargin">
 	<section id="subContents">
-		<div id="loginMail">
-			<h1 class="h1">이메일 인증</h1>
-			<div id="joinSendMail">
+		<div id="loginMail" >
+			<div class="tit_s1">
+				<h2>이메일 인증</h2>
+			</div>			
+			<div id="joinSendMail" class="card_body">
 				<div>
 					<div class="ov">
 						<input type="text" id="userMailSend" name="userMailSend" placeholder="이메일을 입력해주세요">
@@ -165,12 +167,15 @@
 						</dd>
 					</dl>
 				</div>
-				<br>
 				<div class="joinbox">
 				
 				<div class="allck">
-					<input type="checkbox" name="ckboxAll" value="ckboxAll" id="ckboxAll"/>
-					<label for="ckboxAll">전체동의</label>
+					<ul class="checkBox_s1">
+						<li>
+							<input type="checkbox" name="ckboxAll" value="ckboxAll" id="ckboxAll"/>
+							<label for="ckboxAll"><span></span>전체동의</label>
+						</li>
+					</ul>
 				</div>
 				
 					<h3>이용약관 <span>(필수)</span></h3>
@@ -200,23 +205,33 @@
 							7.문자메시지 인증 : 이동전화로 문자메시지 난수를 발송, 고객이 해당 번호를 사이트에 등록하도록 함으로써 회원 인증을 하는 것
 							② 제1항에서 정하는 사항 이외의 약관 내 용어의 정의는 관계 법령 및 서비스 안내에서 정하는 바에 의합니다.
 						</div>
-						<input type="checkbox" name="ckbox1" value="ckbox1" id="ckbox1"/>
-						<label for="ckbox1" >이용약관 동의</label>
+						<ul class="checkBox_s1">
+							<li>
+								<input type="checkbox" name="ckbox1" value="ckbox1" id="ckbox1"/>
+								<label for="ckbox1" ><span></span>이용약관 동의</label>
+							</li>
+						</ul>
 					</div>					
 				</div>
-				<br>
 				<div class="joinbox">
 					<h3>개인정보 수집 및 이용동의 <span>(필수)</span></h3>
 					<div class="text01">
 						<div class="private">
 							하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하
 						</div>
-						<input type="checkbox" name="ckbox2" value="ckbox2" id="ckbox2"/>
-						<label for="ckbox2">개인정보 수집 및 이용에 동의합니다.</label>
+						<ul class="checkBox_s1">
+							<li>
+								<input type="checkbox" name="ckbox2" value="ckbox2" id="ckbox2"/>
+								<label for="ckbox2"><span></span>개인정보 수집 및 이용에 동의합니다.</label>
+							</li>
+						</ul>
+						
 					</div>					
 				</div>
-				<br>
-				<button type="button" id="join" name="join">다음</button>
+				
+				<div class="btnS1 center ">
+					<div><button class="w100" type="button" id="join" name="join">다음</button></div>
+				</div>
 			</div>
 		</div>
 	</section>

@@ -179,10 +179,10 @@ public class TutorDAO {
 	}
 	
 	//모집중 진행중 마감 시간에 따라 알아서 바뀌게하기 스케쥴러
-	public int updateIngDate(String today_date) throws Exception{
-		int resultApplying = mybatis.update("Tutor.updateApplying", today_date);
-		int resultProceeding1 = mybatis.update("Tutor.updateProceeding1", today_date);
-		int resultProcedding2 = mybatis.update("Tutor.updateProceeding2", today_date);
+	public int updateIngDate(Map<String, String> param) throws Exception{
+		int resultApplying = mybatis.update("Tutor.updateApplying", param);
+		int resultProceeding1 = mybatis.update("Tutor.updateProceeding1", param);
+		int resultProcedding2 = mybatis.update("Tutor.updateProceeding2", param);
 		return resultApplying + resultProceeding1 + resultProcedding2;
 	}
 	
@@ -208,9 +208,19 @@ public class TutorDAO {
 		return mybatis.update("Tutor.tuteeCurnumCount", ttdto);
 	}
 	
+	//튜티 현재인원 줄이기
+	public int tuteeCurnumCountMinus(TuteeDTO ttdto) throws Exception{
+		return mybatis.update("Tutor.tuteeCurnumCountMinus", ttdto);
+	}
+	
 	//결제한 사람이 또 결제하는지
 	public int payTrue(TuteeDTO ttdto) throws Exception{
 		return mybatis.selectOne("Tutor.payTrue", ttdto);
+	}
+	
+	//결제 취소한사람이 또 취소하는지
+	public int refundTrue(TuteeDTO ttdto) throws Exception{
+		return mybatis.selectOne("Tutor.refundTrue", ttdto);
 	}
 
 	//강위취소 튜티 환불금액 update 하고 강의 취소 'Y'로 바꾸기

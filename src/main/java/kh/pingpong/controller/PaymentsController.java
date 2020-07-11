@@ -3,6 +3,7 @@ package kh.pingpong.controller;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -14,8 +15,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 
+import kh.pingpong.dto.LessonDTO;
 import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.dto.TuteeDTO;
+import kh.pingpong.service.MyPageService;
 import kh.pingpong.service.TutorService;
 
 @Controller
@@ -27,6 +30,8 @@ public class PaymentsController {
 
 	@Autowired
 	private TutorService tservice;
+	@Autowired
+	private MyPageService mpservice;
 
 	//결제한사람이 또 결제하는지
 	@RequestMapping("payTrue")
@@ -84,9 +89,20 @@ public class PaymentsController {
 
 		int parent_seq = ttdto.getParent_seq();
 		tservice.tuteeInsert(ttdto);
-		tservice.tuteeCurnumCount(ttdto);
+		//tservice.tuteeCurnumCount(ttdto);
 		return "redirect: /tutor/lessonView?seq="+parent_seq;
 	}
+	
+	
+	@RequestMapping("refundTrue")
+	@ResponseBody
+	public int refundTrue(TuteeDTO ttdto) throws Exception{
+		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
+		ttdto.setId(mdto.getId());
+		int result = tservice.refundTrue(ttdto);
+		return result;
+	}
+	
 	
 	@RequestMapping("cancle")
 	public String cancel(TuteeDTO ttdto, String start_date,Model model) throws Exception{
@@ -169,13 +185,27 @@ public class PaymentsController {
 	
 	@RequestMapping("refundInsert")
 	public String refundInsert(TuteeDTO ttdto, Model model) throws Exception{
+		//환불했을때 현재인원 다시 내리기 포함
 		tservice.refundInsert(ttdto);
+
+		
+		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
+		List<LessonDTO> telist = mpservice.selectTuteeList(loginInfo); 
+		
 		
 		ttdto.getParent_seq();
 		model.addAttribute(ttdto);
-		return "/tutor/lessonView?seq="+ttdto.getParent_seq();
+		model.addAttribute("telist", telist);
+		return "/mypage/tutorRecord";
 	}
 	
+	@RequestMapping("refundFail")
+	public String refundFail(Model model) throws Exception{
+		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
+		List<LessonDTO> telist = mpservice.selectTuteeList(loginInfo); 
+		model.addAttribute("telist", telist);
+		return "/mypage/tutorRecord";
+	}
 	
 	
 	

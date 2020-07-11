@@ -1,5 +1,7 @@
 @charset "UTF-8";
 
+a { color: #333; text-decoration: none; }
+
 #login_wrap{ height: 100%; width: 100%; background: #10334d; }
 #logo_and_form { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
 #logo { color: #fbaab0; text-align: center; margin-bottom: 15px; font-size: 24px; }
@@ -7,3 +9,66 @@
 #loginForm input { width: 230px; height: 40px; margin-bottom: 20px; border: 1px solid #ddd; padding: 0 10px; border-radius: 5px; font-size: 12px; }
 #loginForm input::placeholder { color: #ddd; }
 #loginForm button { width: 230px; height: 40px; background-color: #124d79; color: #fff; border: none; border-radius: 5px; font-size: 12px; }
+
+#table_wrap, #view_wrap { text-align: center; padding: 60px 90px; }
+#table_wrap h3 { font-size: 22px; margin-bottom: 40px; }
+#table_wrap table { width: 100%; }
+#table_wrap th,
+#table_wrap td,
+#view_wrap .view_line { text-align: center; padding: 10px 0; }
+#table_wrap th,
+#view_wrap .view_line:first-child { background-color: #124d79; color: #fff; border: none; }
+#table_wrap tbody tr { border-bottom: 1px solid #ddd; }
+#table_wrap tr { padding: 0 5px; }
+
+#table_wrap .navi { margin-top: 40px; }
+#table_wrap .navi ul { text-align: center; }
+#table_wrap .navi ul li { display: inline-block; margin-right: 8px; }
+#table_wrap .navi ul li:last-child { margin-right: 0; }
+#table_wrap .navi ul li.on a { background-color: #124d79; color: #fff; }
+#table_wrap .navi ul li a { display: block; width: 36px; background-color: #fff; height: 36px; line-height: 34px; border-radius: 6px; border: 1px solid #ddd; box-sizing: border-box; }
+
+#table_wrap .btn_wrap,
+#view_wrap .btn_wrap,
+#card_box .btn_wrap { text-align: right; font-size: 0; letter-spacing: -4px; margin-top: 30px; }
+#card_box .btn_wrap { text-align: center; }
+#table_wrap .btn_wrap .btns,
+#view_wrap .btn_wrap .btns,
+#card_box .btn_wrap .btns { display: inline-block; text-align: center; vertical-align: middle; font-size: 14px; letter-spacing: -0.5px; margin-right: 10px; }
+#table_wrap button,
+#view_wrap button,
+#card_box button { margin-right: 6px; border: 1px solid #ddd; background-color: #fff; color: #b3b3ba; display: inline-block; width: 120px; height: 42px; line-height: 40px; border-radius: 6px; overflow: hidden; font-size: 14px; font-weight: 500; transition: all 0.5s; padding: 0 10px; box-sizing: border-box; }
+#table_wrap button:last-child,
+#view_wrap button:last-child,
+#card_box button:last-child { margin-right: 0; }
+#table_wrap button:hover,
+#view_wrap button:hover,
+#card_box button:hover { background-color: #999; color: #fff; }
+
+#view_wrap .view_line { border-bottom: 1px solid #ddd; padding: 20px 0; }
+#view_wrap .view_line > div { position: relative; }
+#view_wrap .first_line { font-size: 18px; font-weight: 700; }
+#view_wrap .second_line_left,
+#view_wrap .third_line_left { text-align: left; margin-left: 10px; }
+#view_wrap .second_line_right{ text-align: left; position: absolute; right: 10px; top: 0; }
+#view_wrap .third_line_right { text-align: left; position: absolute; top: 0; left: 50%; }
+#view_wrap .view_line span { font-weight: 500; margin: 6px; }
+#view_wrap .view_line .span_con { font-weight: 400; color: #999; margin: 0; }
+#view_wrap .view_line ul > li { margin-bottom: 8px; }
+#view_wrap .view_line ul > li:last-child { margin-bottom: 0; }
+#view_wrap #contents { overflow-wrap: break-word; width: 100%; padding: 0 20px; text-align: left; }
+
+#card_box { width: 800px; position: relative; top: 50%; left: 50%; transform: translate(-50%, 20%); }
+#card_wrap { width: 100%; border: 1px solid #ddd; border-radius: 10px; overflow: hidden; }
+#card_wrap #card_left,
+#card_wrap #card_right { width: 50%; float: left; padding: 60px; }
+#card_wrap #profile { width: 200px; height: 200px; overflow: hidden; border-radius: 50%; position: relative; left: 20%; margin-bottom: 30px; }
+#card_wrap .card_line { margin-bottom: 12px; }
+#card_wrap .card_line:last-child { margin: 0; }
+#card_wrap .card_line span { font-weight: 500; margin-right: 6px; }
+#card_wrap .card_line .span_con { font-weight: 400; color: #999; margin: 0; }
+#card_wrap .left_left,
+#card_wrap .left_right { width: 49%; display: inline-block; }
+#card_wrap .introduce { width: 100%; overflow-wrap: break-word; }
+#card_wrap hr { color: #ddd; height: 1px; }
+#card_wrap .introduce { color: #999; }

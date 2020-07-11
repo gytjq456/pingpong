@@ -14,6 +14,7 @@ import kh.pingpong.dto.CommentDTO;
 import kh.pingpong.dto.DiscussionDTO;
 import kh.pingpong.dto.LanguageDTO;
 import kh.pingpong.dto.LikeListDTO;
+import kh.pingpong.dto.ReportListDTO;
 
 
 @Repository
@@ -49,6 +50,17 @@ public class DiscussionDAO {
 		return mybatis.selectOne("Discussion.selectOne", seq);
 	}
 
+	
+	//같은게시물에 같은사람이 신고했는지 확인
+	public int report(ReportListDTO rldto) throws Exception{
+		return mybatis.selectOne("Discussion.report", rldto);
+	}
+	
+	//신고테이블에 저장
+	public int reportProc(ReportListDTO rldto) throws Exception{
+		return mybatis.insert("Discussion.reportProc", rldto);
+	}
+	
 	//조회수
 	public int viewCount(int seq) throws Exception{
 		return mybatis.update("Discussion.viewCount",seq);

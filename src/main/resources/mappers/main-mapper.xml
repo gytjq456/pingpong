@@ -2,13 +2,49 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="MainDB">
 
- 	<select id="groupList" resultType="kh.pingpong.dto.GroupDTO">
+ 	<select id="groupClassList" resultType="kh.pingpong.dto.GroupDTO">
 		select * from ( select grouplist.*, row_number() over(order by seq desc) rnum 
 		from grouplist where <![CDATA[start_date < #{value} and #{value} < end_date]]>) <![CDATA[where rnum <= 2]]>
 	</select>
 
- 	<select id="lessonListClassList" resultType="kh.pingpong.dto.LessonDTO">
+ 	<select id="lessonClassList" resultType="kh.pingpong.dto.LessonDTO">
 		select * from ( select lesson.*, row_number() over(order by seq desc) rnum 
 		from lesson where <![CDATA[start_date < #{value} and #{value} < end_date]]>) <![CDATA[where rnum <= 2]]>
+	</select>
+	
+	
+	<resultMap type="HashMap" id="groupListMap">
+		<id column="writer_name" property="writer_name"/>
+		<id column="hobby_type" property="hobby_type"/>
+		<id column="location" property="location"/>
+		<id column="location_lat" property="location_lat"/>
+		<id column="location_lng" property="location_lng"/>
+		<id column="profile" property="profile"/>
+		<id column="id" property="id"/>
+	</resultMap>
+	
+	<select id="groupList" resultMap="groupListMap">
+		select g.writer_name, g.hobby_type, g.location, g.location_lat, g.location_lng, m.profile, m.id from grouplist g
+		inner join member m
+		on g.writer_id = m.id
+		and g.location = #{value}
+	</select>
+	
+	
+	<resultMap type="HashMap" id="lessonListMap">
+		<id column="name" property="name"/>
+		<id column="title" property="title"/>
+		<id column="location" property="location"/>
+		<id column="location_lat" property="location_lat"/>
+		<id column="location_lng" property="location_lng"/>
+		<id column="profile" property="profile"/>
+		<id column="id" property="id"/>
+	</resultMap>
+ 	<select id="lessonList" resultMap="lessonListMap">
+		select g.name, g.title, g.category, g.location, g.location_lat, g.location_lng, m.profile, m.id from lesson g
+		inner join member m
+		on g.id = m.id
+		and g.location = #{value}
+		
 	</select>
 </mapper>

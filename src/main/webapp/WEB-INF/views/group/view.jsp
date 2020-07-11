@@ -179,6 +179,29 @@
 				}
 			}
 		})
+		
+		var headHeight = $("header").height();
+		$(".tab_s2 ul li").click(function(){
+			var idx = $(this).index()+1;
+			var topPos = $("#tab_"+idx).offset().top;
+			$("html,body").stop().animate({
+				scrollTop:topPos - headHeight - 80
+			})
+		})
+		
+		var menuObj = $("#group_tab_menu");
+		var menuTopPos = menuObj.offset().top;
+		$(window).scroll(function(){
+			var scrollTop = $(this).scrollTop();
+			if(menuTopPos <= scrollTop + headHeight){
+				menuObj.addClass("fixed");
+			}else{
+				menuObj.removeClass("fixed");
+			}
+			
+		})
+		
+		
 	})
 </script>
 	<div id="subWrap" class="hdMargin">
@@ -380,7 +403,7 @@
 														<span class="sub_title"><i class="fa fa-commenting-o" aria-hidden="true"></i>${related.review_count}</span> 
 														<span class="sub_title"><i class="fa fa-file-text-o" aria-hidden="true"></i>${related.app_count}</span> 
 													</div>
-													<div class="status">
+													<div class="status clearfix">
 														<c:if test="${related.applying == 'Y'}">
 															<div class="group_applying">모집중</div>  
 														</c:if>

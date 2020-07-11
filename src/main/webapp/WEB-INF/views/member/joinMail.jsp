@@ -148,9 +148,9 @@
 
 <div id="subWrap" class="hdMargin" style="padding-top: 155.8px;">
 	<section id="subContents">
-		<div id="loginMail">
+		<div id="loginMail" >
 			<h1 class="h1">이메일 인증</h1>
-			<div id="joinSendMail">
+			<div id="joinSendMail" class="card_body">
 				<div>
 					<div class="ov">
 						<input type="text" id="userMailSend" name="userMailSend" placeholder="이메일을 입력해주세요">
@@ -165,7 +165,6 @@
 						</dd>
 					</dl>
 				</div>
-				<br>
 				<div class="joinbox">
 				
 				<div class="allck">
@@ -215,8 +214,10 @@
 						<label for="ckbox2">개인정보 수집 및 이용에 동의합니다.</label>
 					</div>					
 				</div>
-				<br>
-				<button type="button" id="join" name="join">다음</button>
+				
+				<div class="btnS1 center ">
+					<div><button class="w100" type="button" id="join" name="join">다음</button></div>
+				</div>
 			</div>
 		</div>
 	</section>

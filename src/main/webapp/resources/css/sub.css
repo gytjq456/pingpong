@@ -1,5 +1,5 @@
 @charset "UTF-8";
-#subContents { margin-top:70px; min-height:720px;}
+#subContents { margin-top:70px; min-height:420px;}
 
 
 input:-moz-read-only {background-color: #e4e4e4; color:#a9a9a9}  
@@ -16,7 +16,7 @@ input:read-only {background-color: #e4e4e4;color:#a9a9a9;}
 .tit_s2 h3 { font-size:22px;}
 
 .tit_s3 { margin-bottom:12px; }
-.tit_s3 h4 { font-size:18px; }
+.tit_s3 h4 { font-size:18px; margin-bottom:8px;}
 
 /* 버튼 공통 */
 .btnS1 { margin:20px 0 0;}
@@ -96,8 +96,11 @@ input:read-only {background-color: #e4e4e4;color:#a9a9a9;}
 .group_each_wrapper .status { margin-top:8px;}
 
 .countList_s2 { overflow:hidden; }
-.countList_s2 span { display:block; float:left; margin-right:12px; float:none !important; display:inline-block !important; width:auto !important;}
+.countList_s2 > div,
+.countList_s2 span { margin-right:12px; float:none !important; display:inline-block !important; width:auto !important;}
+.countList_s2 > div:last-child,
 .countList_s2 span:last-child { margin:0; }
+.countList_s2 > div i,
 .countList_s2 span i { font-size:16px; display:inline-block; margin-right:4px; color:#333;}
 
 .group_each_wrapper i { color: #fcba03; }
@@ -151,7 +154,7 @@ width:-webkit-calc(100% - 88px);
 .radio_s1 { overflow:hidden; }
 .checkBox_s1 { overflow:hidden; }
 .radio_s1 li,
-.checkBox_s1 li { position:relative; display:inline-block; vertical-align:middle; margin-right: 12px;}
+.checkBox_s1 li { position:relative; display:inline-block; vertical-align:middle; margin-right: 12px; padding:2px 0;}
 
 .radio_s1 li,
 .checkBox_s1 li input[type="text"] { vertical-align:middle; }
@@ -160,7 +163,26 @@ width:-webkit-calc(100% - 88px);
 .checkBox_s1 li input[type="checkbox"] { position:absolute; left:-9999px; }
 .checkBox_s1 li label {}
 .radio_s1 li label span, 
-.checkBox_s1 li label span { display:inline-block; width:16px; height:16px; border:1px solid #ddd;  vertical-align:middle;  margin-right:6px; margin-top:-2px;}
+.checkBox_s1 li label span { display:inline-block; width:16px; height:16px; border:1px solid #ddd;  vertical-align:text-bottom;  margin-right:6px; margin-top:-2px; box-sizing:border-box;}
+.radio_s1 li input[type="radio"]:checked + label span, 
+.checkBox_s1 li input[type="checkbox"]:checked + label span { background:url("/resources/img/common/checkOn.png") no-repeat center; background-size:100%; }
+
+
+.scheduleSchBox { text-align:center;}
+.scheduleSchBox > div { display:inline-block; margin-right:12px;}
+.scheduleSchBox > div:last-child { margin:0; }
+.scheduleSchBox .schBar {}
+.scheduleSchBox .schBar > p { display:inline-block; vertical-align:middle;}
+.scheduleSchBox .schBar > p input { height:32px; line-height:32px; border:1px solid #ddd; border-radius:6px; background:#fff; margin-left:10px; padding:5px 12px; max-width:140px;}
+.scheduleSchBox i { font-size:18px; color:#3162a4; }
+
+
+
+
+
+
+
+
 
 
 
@@ -201,6 +223,8 @@ width:-webkit-calc(100% - 88px);
 #group_view .info_with_icon { float:left; width:25%; position: relative; text-align: center; padding-bottom: 20px; padding-top: 40px; vertical-align: top; }
 #group_view .info_with_icon i { font-size:30px; margin-bottom: 15px; }
 #group_view #group_tab_menu { width: 100%; }
+#group_view #group_tab_menu.fixed { position:fixed; top:156px; z-index:9999; left:0; background:#fff; border-right:none; }
+#group_view #group_tab_menu.fixed > ul { max-width:1200px; margin:0 auto;}
 #group_view #group_contents_wrapper { position: relative; }
 #group_view #group_contents { 
 width:calc(100% - 340px);s

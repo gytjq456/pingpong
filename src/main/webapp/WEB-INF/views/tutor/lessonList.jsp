@@ -4,10 +4,9 @@
 <jsp:include page="/WEB-INF/views/header.jsp" />
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=521d781cfe9fe7597693f2dc29a10601&libraries=services"></script>
 <style>
-.profile{width:50px; height:100px;}
+/* .profile{width:50px; height:100px;}
 .wrapper{border: 1px solid black; float: left; width: 25%;}
-.listWrapper{overflow:hidden;}
-#keyword{width: 80%;}
+.listWrapper{overflow:hidden;} */
 </style>
 <script>
 
@@ -113,7 +112,9 @@
 
 <div id="subWrap" class="hdMargin">
 	<section id="subContents">
-		<article id="lessonList" class="inner1200">
+		<!-- lessonList -->
+		<article id="group_list" class="inner1200">
+
 			<div class="tit_s1">
 				<h2>강의 목록</h2>
 				<p>전문적으로 배워보고싶나요?<br>전문 튜터를 통해 강의를 들어보세요.</p>
@@ -137,75 +138,98 @@
 					<li><a id="map_on" href="#;">지도 검색</a></li>
 				</ul>
 			</div>
-			
-			<!-- 탭 내용 시작 -->
+
 			<div id="tabContWrap" class="search_wrap">
-				<article id="tab_1" class="kewordSch" class="search_wrap">
+				<article id="tab_1" class="kewordSch search_wrap">
 					<div class="search_as_keyword">
-						<section class="defaultSch">
+						<section id="keywordSelect" class="defaultSch">
 							<div class="tit">검색어</div>
 							<div class="schCon ">
-								<select id="keywordSelect">
+								<select id="keyword_type">
 									<option value="name">튜터</option>
 									<option value="title">글제목</option>
 									<option value="curriculum">글내용</option>
 								</select>
-								<input type="text" id="keyword" name="keyword" placeholder="검색어를 입력하세요.">
+
+								<input type="text" id="keyword" name="keyword">
 							</div>
-						</section>
+						</section>	
 						<div class="btnS1 center">
-							<input type="button" id="searchkeyword" value="검색하기">
-						</div>
+							<div><input type="button" id="searchkeyword" value="검색"></div>
+						</div>				
 					</div>
 				</article>
 				
 				<article id="tab_2" class="calendarSch">
-					수업기간으로  검색하기 : 
+
+					<div class="search_as_calendar">
+						<div class="scheduleSchBox">
+							<div><span>수업기간</span></div>
+							<div class="schBar">
+								<p>
+								<label for="start_date" class="calendar_icon"> 
+									<i class="fa fa-calendar" aria-hidden="true"></i>
+								</label>
+								<input type="text" id="start_date" name="start_date" size="12">
+								</p>
+								<p>
+									<span class="between_calendar">~</span>
+								</p> 
+								<p>
+									<label for="end_date" class="calendar_icon"> 
+										<i class="fa fa-calendar" aria-hidden="true"></i>
+									</label>
+									<input type="text" id="end_date" name="end_date" size="12"> 
+								</p>
+							</div>
+						</div>
+						<div class="btnS1 center">
+							<div><input type="button" id="searchcalendar" value="검색하기"></div>
+						</div>
+					</div>
 					
-					<label for="start_date" class="calendar_icon"> 
-						<i class="fa fa-calendar" aria-hidden="true"></i>
-					</label> ~ 
-					<input type="text" id="start_date" name="start_date" size="12">
-					
-					
-					<label for="end_date" class="calendar_icon"> 
-						<i class="fa fa-calendar" aria-hidden="true"></i>
-					</label>
-					<input type="text" id="end_date" name="end_date" size="12"> 
-					
-					<input type="button" id="searchcalendar" value="검색하기">
 				</article>
 				
 				<article id="tab_3" class="mapSch">
-					<select name="sido1" id="sido1"></select> 
-					<select name="gugun1" id="gugun1"></select>
-					<input type="hidden" id="location" name="location">
-					<input type="hidden" id="location_lat" name="location_lat">
-					<input type="hidden" id="location_lng" name="location_lng">
-					
-					<div id="map" style="width:100%;height:350px;"></div>
-					<input type="button" id="searchMap" value="검색하기">
+
+					<div class="search_as_map">
+						<section id="mapWrap">
+							<div class="mapSelect">
+								<input type="hidden" name="location" id="location">
+								<select name="sido1" id="sido1"></select> 
+								<select name="gugun1" id="gugun1"></select>		
+							</div>
+							<div id="map" style="width:500px;height:400px;"></div>
+						</section>	
+					</div>
+					<div class="btnS1 center">
+						<div><input type="button" id="searchMap" value="검색하기"></div>
+					</div>
 				
 				</article>
 			</div>
 
 			<!-- 정렬 전체 모집중 진행중 마감 -->
-			<div class="btnS1 left">
-				<div><button type="button" id="all" class="ing">전체</button></div>
-				<div><button type="button" id="applying" class="ing">모집중</button></div>
-				<div><button type="button" id="proceeding" class="ing">진행중</button></div>
-				<div><button type="button" id="done" class="ing">마감</button></div>
-			</div>
-			<div>
-				<select id="orderBy">
-					<option value="seq">최신순</option>
-					<option value="view_count">조회순</option>
-					<option value="like_count">추천순</option>
-					<option value="review_point">평점순</option>
-				</select>
-			</div>
+			<div class="search_btn_style">
+				<div class="btnS1 left">
+					<div><button type="button" id="all" class="ing">전체</button></div>
+					<div><button type="button" id="applying" class="ing">모집중</button></div>
+					<div><button type="button" id="proceeding" class="ing">진행중</button></div>
+					<div><button type="button" id="done" class="ing">마감</button></div>
+				</div>
+				<div class="btnS1 right">
+					<div>
+						<select id="orderBy">
+							<option value="seq">최신순</option>
+							<option value="view_count">조회순</option>
+							<option value="like_count">추천순</option>
+							<option value="review_point">평점순</option>
+						</select>
+					</div>
+				</div>
+			</div>			
 			
-			<div class="listWrapper">
+			<div class="listWrapper card_body group_list_wrapper">
 				<c:choose>
 					<c:when test="${empty lessonlist}">
 						<div class="row">
@@ -215,34 +239,51 @@
 					<c:otherwise>
 						<div id="listClick">
 							<c:forEach var="i" items="${lessonlist}">
-								<section data-seq="${i.seq}">
-									<article class="wrapper">
-										<div class="profile">
-											<img src="/upload/member/${i.id}/${i.sysname}">
-											<div class="name">${i.name }</div>
+
+								<section data-seq="${i.seq}" class="back_and_wrap item">
+									<article class="wrapper ">
+										<div class="each_profile"><img src="/upload/member/${i.id}/${i.sysname}"></div>
+										<div class="group_background background_yellow"></div>
+										<div class="group_each_wrapper">
+											<div class="each_writer"><span class="each_name name">${i.name }</span></div>
+											<div class="each_title title">${i.title}</div>
+											<div class="each_body">
+												<div class="language">
+													<span class="sub_title">언어</span>
+													<p>${i.language}</p>
+												</div>
+												<div class="price">
+													<span class="sub_title">가격</span>
+													<p>${i.price} 원/시간</p>
+													<!-- <span class="badge badge-danger">New</span> -->
+												</div>
+												<div class="apply_date">
+													<span class="sub_title">모집</span>
+													<p>${i.apply_start} ~ ${i.apply_end }</p>
+												</div>
+												<div class="lesson_date">
+													<span class="sub_title">수업</span>
+													<p>${i.start_date} ~ ${i.end_date }</p>
+												</div>
+											</div>
+											<div class="countList_s2">
+												<div class="view_count sub_title"><i class="fa fa-eye"></i>${i.view_count}</div>
+												<div class="like_count sub_title"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>${i.like_count}</div>
+												<div class="review_point sub_title"><i class="fa fa-star" aria-hidden="true"></i>${i.review_point}</div>
+												<div class="review_count sub_title"><i class="fa fa-commenting-o" aria-hidden="true"></i>${i.review_count}</div>
+											</div>
+											<div class="status clearfix">
+												<c:if test="${i.applying == 'Y'}">
+													<div class="group_applying">모집중</div> 
+												</c:if>
+												<c:if test="${i.proceeding == 'Y'}">
+													<div class="group_proceeding">진행중</div>
+												</c:if>
+												<c:if test="${i.proceeding == 'N' && i.applying == 'N'}">
+													<div class="group_done">마감</div>
+												</c:if>
+											</div>
 										</div>
-										<div class="title">${i.title}</div>
-										<div class="language">언어 : ${i.language}</div>
-										<div class="price">
-											가격 : ${i.price} 원 / 총
-											<!-- <span class="badge badge-danger">New</span> -->
-										</div>
-										<div class="apply_date">모집기간 : ${i.apply_start}~${i.apply_end }</div>
-										<div class="lesson_date">수업기간 : ${i.start_date}~${i.end_date }</div>
-										<div class="view_count">조회 : ${i.view_count}</div>
-										<div class="like_count">추천 : ${i.like_count}</div>
-										<div class="review_point">리뷰 평점 : ${i.review_point}</div>
-										<div class="review_count">리뷰 갯수 : ${i.review_count}</div>
-										<br>
-										<c:if test="${i.applying == 'Y'}">
-											<span>모집중</span>  
-										</c:if>
-										<c:if test="${i.proceeding == 'Y'}">
-											<span>진행중</span>
-										</c:if>
-										<c:if test="${i.proceeding == 'N' && i.applying == 'N'}">
-											<span>마감</span>
-										</c:if>
 									</article>
 								</section>
 							</c:forEach>
@@ -251,9 +292,7 @@
 				</c:choose>
 			</div>
 			
-			<div>
-				<div class="navi">${navi}</div>
-			</div>
+			<div id="listNav">${navi}</div>
 		</article>
 	</section>
 	

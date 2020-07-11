@@ -69,6 +69,8 @@ $(function(){
 		})
 	})
 	
+	
+	
 	$("#like").on("click", function(){
 		console.log($(this).css('color'));
 		var seq = ${seq};

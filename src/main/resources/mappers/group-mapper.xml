@@ -259,11 +259,34 @@
 
 	<!-- 내가 등록한 그룹 신청서 관리 -->
 	<select id="allAppList" resultType="kh.pingpong.dto.GroupApplyDTO">
-		select * from group_app where parent_seq = #{seq} order by seq desc
+		select * from group_app where parent_seq in
+		<foreach collection="list" item="seq" open="(" close=")" separator=", ">
+			#{seq}
+		</foreach>
 	</select>
 	
 	<!-- 내가 작성한 그룹 신청서 관리 -->
 	<select id="myAppView" resultType="kh.pingpong.dto.GroupApplyDTO">
 		select * from group_app where parent_seq = #{seq} and id = #{id} order by seq desc
 	</select>
+	
+	<!-- 시퀀스로 그룹 신청서 찾기 -->
+	<select id="showApp" resultType="kh.pingpong.dto.GroupApplyDTO">
+		select * from group_app where seq = #{seq}
+	</select>
+	
+	<!-- 그룹 승인-시퀀스 -->
+	<delete id="deleteAppAsAccept">
+		delete group_app where seq = #{seq}
+	</delete>
+	
+	<!-- 그룹 승인-아이디 -->
+	<insert id="insertGroupMember">
+		insert into groupmember values(groupmember_seq.nextval, #{id}, #{name}, #{profile}, #{parent_seq}, #{parent_title})
+	</insert>
+	
+	<!-- 그룹 승인-부모 시퀀스 -->
+	<update id="updateCurNum">
+		update grouplist set cur_num = cur_num + 1 where seq = #{parent_seq}
+	</update>
 </mapper>

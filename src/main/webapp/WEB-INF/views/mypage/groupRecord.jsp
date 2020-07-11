@@ -3,6 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:include page="/WEB-INF/views/header.jsp" />
+<style>
+	.app_list { display: none; }
+</style>
 <div id="subWrap" class="hdMargin">
 	<section id="subContents">
 		<article id="my_group_manage" class="inner1200">
@@ -18,7 +21,7 @@
 						<div class="my_num">인원</div>
 						<div class="my_loc">장소</div>
 						<div class="my_date">등록일</div>
-						<div class="my_app">신청서</div>
+						<div class="my_app">신청</div>
 					</div>
 				</div>
 				<div>
@@ -32,13 +35,38 @@
 							<c:forEach var="gl_list" items="${gl_list}">
 								<div class="option_wrap">
 									<div class="my_seq">${gl_list.seq}</div>
-									<div class="my_title">${gl_list.title}</div>
+									<div class="my_title"><a href="/group/beforeView?seq=${gl_list.seq}">${gl_list.title}</a></div>
 									<div class="my_num">${gl_list.cur_num}/${gl_list.max_num}</div>
 									<div class="my_loc">${gl_list.location}</div>
 									<div class="my_date">${fn:substring(gl_list.write_date, 0, 10)}</div>
 									<div class="my_app"><button class="all_app">${gl_list.app_count}</button></div>
 								</div>
-								<div class="this_app_list_${gl_list.seq}"></div>
+								<div class="app_list">
+									<c:if test="${!empty gla_list}">
+										<div class="title_wrap">
+											<div class="app_seq">글번호</div>
+											<div class="app_name">이름(아이디)</div>
+											<div class="app_age">나이</div>
+											<div class="app_gender">성별</div>
+											<div class="app_lang_can">구사 언어</div>
+											<div class="app_lang_learn">학습 언어</div>
+											<div class="app_accept">신청서</div>
+										</div>
+										<c:forEach var="gla_list" items="${gla_list}">
+											<c:if test="${gla_list.parent_seq == gl_list.seq}">
+												<div class="option_wrap" id="${gla_list.seq}">
+													<div class="app_seq">${gla_list.seq}</div>
+													<div class="app_name">${gla_list.name}(${gla_list.id})</div>
+													<div class="app_age">${gla_list.age}</div>
+													<div class="app_gender">${gla_list.gender}</div>
+													<div class="app_lang_can">${gla_list.lang_can}</div>
+													<div class="app_lang_learn">${gla_list.lang_learn}</div>
+													<div class="app_accept"><button class="app_accpet_btn">보기</button></div>
+												</div>
+											</c:if>
+										</c:forEach>
+									</c:if>
+								</div>
 							</c:forEach>
 						</c:otherwise>
 					</c:choose>
@@ -61,14 +89,14 @@
 				<c:choose>
 					<c:when test="${empty gm_list}">
 						<div>
-							<div>그룹 멤버로서 기록이 존재하지 않습니다.</div>
+							<div class="show_app">그룹 멤버로서 기록이 존재하지 않습니다.</div>
 						</div>
 					</c:when>
 					<c:otherwise>
 						<c:forEach var="gm_list" items="${gm_list}">
 							<div class="option_wrap">
 								<div class="mem_seq">${gm_list.seq}</div>
-								<div class="mem_title">${gm_list.title}</div>
+								<div class="mem_title"><a href="/group/beforeView?seq=${glist.seq}">${gm_list.title}</a></div>
 								<div class="mem_num">${gm_list.cur_num}/${gm_list.max_num}</div>
 								<div class="mem_loc">${gm_list.location}</div>
 								<div class="mem_leader">${gm_list.writer_name}(${gm_list.writer_name})</div>
@@ -83,24 +111,14 @@
 </div>
 <script>
 	$('.all_app').on('click', function(){
-		alert('아아앙')
-		var seq = $(this).parent().siblings('.my_seq').html();
-		console.log(seq);
-		console.log($('.this_app_list_' + seq))
-		var div = $('.this_app_list_' + seq);
-		$.ajax({
-			url: "/group/allAppList",
-			data: {
-				seq: seq
-			},
-			type: "POST"
-		}).done(function(resp){
-			for (var i = 0; i < resp.length; i++) {
-				div.append("<div>" + resp[i].seq + "</div><div>" + resp[i].id + "</div><div>" + resp[i].name + "</div>");
-			}
-		}).fail(function(resp){
-			alert('ㅇㅇ')
-		})
+		var myGroupCount = $('.app_list').length;
+		
+		for (var i = 0; i < myGroupCount; i++) {
+			$($('.app_list')[i]).hide();
+		}
+		
+		$(this).closest('.option_wrap').next().show();
 	})
 </script>
+<jsp:include page="/WEB-INF/views/mypage/groupApp.jsp" />
 <jsp:include page="/WEB-INF/views/footer.jsp" />

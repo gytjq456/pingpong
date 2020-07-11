@@ -70,15 +70,16 @@
 									<li>
 										<span>모집중</span>
 										<span class="span_con">
-											<c:if test="${gdto.applying == 'Y'}">O</c:if>
-											<c:if test="${gdto.applying == 'N'}">X</c:if>
+											<c:if test="${gdto.applying == 'Y'}">○</c:if>
+											<c:if test="${gdto.applying == 'N'}">Ｘ</c:if>
 										</span>
 									</li>
 									<li>
 										<span>진행중</span>
 										<span class="span_con">
-											<c:if test="${gdto.proceeding == 'Y'}">O</c:if>
-											<c:if test="${gdto.proceeding == 'N'}">X</c:if>
+											<c:if test="${gdto.proceeding == 'Y'}">○</c:if>
+											<c:if test="${gdto.proceeding == 'N'}">Ｘ</c:if>
+											<c:if test="${gdto.proceeding == 'B'}">△</c:if>
 										</span>
 									</li>
 									<li>

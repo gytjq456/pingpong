@@ -425,14 +425,6 @@ public class GroupController {
 		}
 	}
 	
-	// 내가 등록한 그룹 신청서 관리
-	@ResponseBody
-	@RequestMapping("allAppList")
-	public List<GroupApplyDTO> allAppList(int seq) throws Exception {
-		List<GroupApplyDTO> galist = gservice.allAppList(seq);
-		return galist;
-	}
-	
 	// 내가 작성한 그룹 신청서 관리
 	@ResponseBody
 	@RequestMapping("myAppView")
@@ -443,5 +435,20 @@ public class GroupController {
 		param.put("id", mdto.getId());
 		GroupApplyDTO gadto = gservice.myAppView(param);
 		return gadto;
+	}
+	
+	// 신청서 보기
+	@ResponseBody
+	@RequestMapping("showApp")
+	public GroupApplyDTO showApp(int seq) throws Exception {
+		GroupApplyDTO resp = gservice.showApp(seq);
+		return resp;
+	}
+	
+	// 그룹 신청 승인
+	@ResponseBody
+	@RequestMapping("acceptApp")
+	public boolean acceptApp(int seq, String id, int parent_seq) throws Exception {
+		return gservice.acceptApp(seq, id, parent_seq);
 	}
 }

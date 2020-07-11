@@ -410,7 +410,10 @@
 														<c:if test="${related.proceeding == 'Y'}">
 															<div class="group_proceeding">진행중</div>
 														</c:if>
-														<c:if test="${related.proceeding == 'N' && glist.applying == 'N'}">
+														<c:if test="${related.proceeding == 'B'}">
+															<div class="group_ready">준비중</div>
+														</c:if>
+														<c:if test="${related.proceeding == 'N' && related.applying == 'N'}">
 															<div class="group_done">마감</div>
 														</c:if>
 													</div>

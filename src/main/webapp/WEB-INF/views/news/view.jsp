@@ -3,6 +3,42 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
 
 <jsp:include page="/WEB-INF/views/header.jsp"/>
+
+	<script>
+	$(function(){
+		$("#back").on('click',function(){
+			location.href="/news/listProc";
+		});
+		
+		$("#modify").on('click',function(){
+			location.href="/news/modify?seq=${ndto.seq}";
+		});
+		
+		$("#delete").on('click',function(){
+			var result = confirm("삭제를 진행하시겠습니까?");
+			if(result){
+				$.ajax({
+					url:"/news/delete",
+					type:"post",
+					data:{
+						seq : '${ndto.seq}'
+					}
+				}).done(function(resp){
+					if(resp>0){
+						alert("삭제가 완료되었습니다.");
+						location.href="/news/listProc";
+					}else{
+						alert("삭제되지 않았습니다. 다시 확인해주세요.");
+					}
+				});
+			}else{
+				alert("취소하였습니다.");
+			}
+			
+		});
+	});
+		
+	</script>
 	<div id="subWrap" class="hdMargin" style="padding-top: 156px;">
 		<section id="subContents">
 			<article id="new_view" class="inner1200">
@@ -53,7 +89,13 @@
 										<li>
 											<ul>
 												<li>첨부파일</li>
-												<li>${ndto.files_name}</li>
+												<li>
+													<c:forEach items="${files}" var="i">
+														<a href="/file/downloadFile?seq=${ndto.seq}&files_name=${i.oriname}" class="downloadF">
+															${i.oriname}
+														</a>
+													</c:forEach>
+												</li>											
 											</ul>
 										</li>
 									</ul>
@@ -65,12 +107,13 @@
 								</div>
 							</div>												
 						</div>
-					</div>
-					<div class="btnS1 center">
-						<div>
-							<input type="submit" id="write" value="등록">
+						<div class="btnS1 center">
+							<button type="button" id="back">목록</button>
+							<c:if test="${sessionScope.loginInfo.id == ndto.writer}">
+								<button type="button" id="modify">수정</button>
+								<button type="button" id="delete">삭제</button>
+							</c:if>
 						</div>
-						<div><button type="button" id="back">목록</button></div>
 					</div>
 				</div>
 			</article>

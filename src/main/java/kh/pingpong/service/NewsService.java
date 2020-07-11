@@ -52,4 +52,22 @@ public class NewsService {
 		return newsdao.newsViewOne(ndto);
 	}
 	
+	//list 파일 select
+	public List <FileTnDTO> newsViewFile(NewsDTO ndto) throws Exception{
+		return newsdao.newsViewFile(ndto);
+	}
+	
+	//글수정 파일 하나 삭제 
+	public int dele_fileOne(NewsDTO ndto) throws Exception{
+		return newsdao.fileDelete(ndto);
+	}
+	
+	//게시글 삭제
+	@Transactional("txManager")
+	public int delete(NewsDTO ndto) throws Exception{
+		newsdao.fileDelete(ndto);
+		newsdao.dele_thumbnail(ndto);
+		return newsdao.delete(ndto);
+	}
+	
 }

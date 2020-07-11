@@ -149,7 +149,9 @@ width:calc(100% - 88px);
 width:-moz-calc(100% - 88px);
 width:-webkit-calc(100% - 88px);
 }
-
+#three_options { position: absolute; right: 0; top: 0; }
+#three_options span { margin-left: 8px; }
+#mini_option_wrap { position: relative; }
 
 .radio_s1 { overflow:hidden; }
 .checkBox_s1 { overflow:hidden; }
@@ -205,7 +207,7 @@ width:-webkit-calc(100% - 88px);
 #group_view #seq { display: none; }
 #group_view .group_info { float:left;; }
 #group_view .group_info_top { float: left; }
-#group_view .group_title_wrapper { overflow: hidden; padding:60px; margin-bottom:40px;}
+#group_view .group_title_wrapper { overflow: hidden; padding:60px; margin-bottom:40px; margin-top:0;}
 #group_view #writer_info { width:200px; position:relative; margin-right:60px; }
 #group_view #group_base { /* width: 62%; margin-left: 3%; */ 
 	width:calc(100% - 260px);
@@ -641,8 +643,16 @@ width:-webkit-calc(100% - 130px);
 #joinForm #counter { margin-top:10px; display:block; text-align:right; }
 
 
+.btns_s3 { font-size:0; letter-spacing:-4px; text-align:right; margin-top:10px;}
+.btns_s3 > p { display:inline-block; letter-spacing:-0.5px; font-size:14px; margin-right:6px;}
+.btns_s3 > p:last-child { margin:0; }
+.btns_s3 input,
+.btns_s3 button,
+.btns_s3 a { display:block; height:32px; line-height:32px; border:1px solid #ddd; border-radius:3px; background:#fff;  font-size:12px; }
 
+.btns_s3 input:hover,
+.btns_s3 button:hover,
+.btns_s3 a:hover { color:#fff; background:#3162a4;}
 
-
-
+.bAddr { width:auto !important; padding:12px; height:auto !important;}
 

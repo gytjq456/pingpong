@@ -126,16 +126,6 @@
 				<p>전문적으로 배워보고싶나요?<br>전문 튜터를 통해 강의를 들어보세요.</p>
 			</div>
 			
-			<div class="btnS1 right">
-				<c:choose>
-					<c:when test="${loginInfo.grade == 'tutor' }">
-						<p>
-							<a href="/tutor/lessonApp" class="on">강의 신청</a>
-						</p>
-					</c:when>
-				</c:choose>
-				
-			</div>
 			<!-- 검색 3가지 -->
 			<div class="tab_s1">
 				<ul class="clearfix">
@@ -146,7 +136,7 @@
 			</div>
 
 			<div id="tabContWrap" class="search_wrap">
-				<article id="tab_1" class="kewordSch search_wrap">
+				<article id="tab_1" class="kewordSch ">
 					<div class="search_as_keyword">
 						<section id="keywordSelect" class="defaultSch">
 							<div class="tit">검색어</div>
@@ -334,7 +324,13 @@
 					</c:otherwise>
 				</c:choose>
 			</div>
-			
+			<div class="btnS1 right">
+				<c:choose>
+					<c:when test="${loginInfo.grade == 'tutor' }">
+						<div><a href="/tutor/lessonApp" class="on">강의 신청</a></div>
+					</c:when>
+				</c:choose>
+			</div>			
 			<div id="listNav">${navi}</div>
 		</article>
 	</section>
@@ -412,8 +408,8 @@
 				    //지도를 클릭했을 때 클릭 위치 좌표에 대한 주소정보를 표시하도록 이벤트를 등록
 				    searchDetailAddrFromCoords(mouseEvent.latLng, function(result, status) {
 				        if (status === kakao.maps.services.Status.OK) {
-				            var detailAddr = !!result[0].road_address ? '<div>도로명주소 : ' + result[0].road_address.address_name + '</div>' : '';
-				            detailAddr += '<div>지번 주소 : ' + result[0].address.address_name + '</div>';
+				            var detailAddr = !!result[0].road_address ? '<div class="st">도로명주소 : ' + result[0].road_address.address_name + '</div>' : '';
+				            detailAddr += '<div class="st">지번 주소 : ' + result[0].address.address_name + '</div>';
 				            
 				            var content = '<div class="bAddr">' +
 				                            '<span class="title">법정동 주소정보</span>' + 

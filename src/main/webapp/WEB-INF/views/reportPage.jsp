@@ -2,8 +2,18 @@
 	pageEncoding="UTF-8"%>
 
 <style>
-	#layerPop_s3 { position:fixed; left:0; top:0; width:100%; height:100%; z-index:10001; display:none;  background:rgba(0,0,0,0.5); }
-	#layerPop_s3 .pop_body { position:absolute; left:50%; top:50%; transform:translate(-50%, -50%); max-width:640px; background:#fff;}
+	#layerPop_s3 { position:fixed; left:0; top:0; width:100%; height:100%; z-index:10001; display:none;  background:rgba(0,0,0,0.5);  }
+	#layerPop_s3 .pop_body { position:absolute; left:50%; top:50%; transform:translate(-50%, -50%); max-width:640px; background:#fff; padding:30px 20px; box-sizing:border-box;}
+	#layerPop_s3 .tit_s3 { text-align:center; font-weight:700; font-size:20px; border-bottom:1px solid #ddd; padding-bottom:12px; margin-bottom:12px;}
+	#layerPop_s3 .tit {  font-weight:700; }
+	#layerPop_s3 .info {}
+	#layerPop_s3 .info > dl { overflow:hidden; margin-bottom:10px;}
+	#layerPop_s3 .info > dl:last-child { margin:0; }
+	#layerPop_s3 .info > dl dt { margin-right:10px;} 
+	#layerPop_s3 .info > dl dt, 
+	#layerPop_s3 .info > dl dd  { float:left; }
+	#layerPop_s3 .txtBox { margin-top:10px; }
+	#layerPop_s3 .reportContents { margin-top:10px; }
 </style>
 
 <script>
@@ -25,7 +35,20 @@ $(function(){
 		reportFn(seq,idVal,url,thisSeq);
 		
 	})
+
+	$("#grouptProc").submit(function(){
+		var txt = $("#grouptProc textarea").val();
+		if(txt == ""){
+			alert("신고 내용을 입력해주세요.");
+			return false;
+		}
+	})
 	
+	$("#grouptProc textarea").blur(function(){
+		var thisVal = $(this).val();
+		$(this).val(textChk(thisVal));
+	})	
+
 	function reportFn(seq,idVal,url,thisSeq){
 		//console.log($(this).css('color'));
 		//rgb(39, 91, 160)
@@ -55,7 +78,19 @@ $(function(){
 	
 	$("#backReport").on("click", function(){
 		layerPop_s3.stop().fadeOut();
+		$("#grouptProc textarea").val("");
 	})
+	
+	function textChk(thisVal){
+		var replaceId  = /(script)/gi;
+		var textVal = thisVal;
+	    if (textVal.length > 0) {
+	        if (textVal.match(replaceId)) {
+	        	textVal = thisVal.replace(replaceId, "");
+	        }
+	    }
+	    return textVal;
+	}	
 })
 
 
@@ -71,24 +106,29 @@ $(function(){
 			<input type="hidden" name="parent_seq" value="">
 			<input type="hidden" name="id" value="">
 			<input type="hidden" name="commSeq" value="">
-			신고자 : ${loginInfo.id} <br>
-			<div class="writer_id">
-				게시물 올린 사람 :
-				<p></p>
-			</div>
 			
-			<section data-seq="${gdto.seq}">
+			<div class="info">
+				<dl>
+					<dt class="tit">신고자 :</dt>
+					<dd>${loginInfo.id}</dd>
+				</dl>
+				<dl class="writer_id">
+					<dt class="tit">게시물 올린 사람 :</dt>
+					<dd><p></p></dd>
+				</dl>
+			</div>
+			<div data-seq="${gdto.seq}" class="txtBox">
 				<article>
-					<div>신고사유</div>
+					<div class="tit">신고사유</div>
 					<div class="reportContents">
-						<textarea rows="30" cols="50" name="reason"></textarea>
+						<textarea rows="30" cols="50" name="reason" ></textarea>
 					</div>
-					<div>
-						<button>제출하기</button>
-						<input type="button" id="backReport" value="닫기">
+					<div class="btns_s3">
+						<p><button>제출하기</button></p>
+						<p><input type="button" id="backReport" value="닫기"></p>
 					</div>
 				</article>
-			</section>
+			</div>
 		</form>
 		
 		

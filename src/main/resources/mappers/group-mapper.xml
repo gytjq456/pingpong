@@ -183,11 +183,11 @@
 	</update>
 	
 	<update id="updateApplying">
-		update grouplist set applying = 'N' where apply_end = #{today_date}
+		update grouplist set applying = 'N' where #{today_date} > apply_end
 	</update>
 	
 	<update id="updateProceedingN">
-		update grouplist set proceeding = 'N' where end_date = #{today_date}
+		update grouplist set proceeding = 'N' where #{today_date} > end_date
 	</update>
 	
 	<update id="updateProceedingY">
@@ -257,4 +257,13 @@
 		update grouplist set review_count = ${reviewCount} where seq = ${seq}
 	</update>
 
+	<!-- 내가 등록한 그룹 신청서 관리 -->
+	<select id="allAppList" resultType="kh.pingpong.dto.GroupApplyDTO">
+		select * from group_app where parent_seq = #{seq} order by seq desc
+	</select>
+	
+	<!-- 내가 작성한 그룹 신청서 관리 -->
+	<select id="myAppView" resultType="kh.pingpong.dto.GroupApplyDTO">
+		select * from group_app where parent_seq = #{seq} and id = #{id} order by seq desc
+	</select>
 </mapper>

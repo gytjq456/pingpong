@@ -424,4 +424,24 @@ public class GroupController {
 			return String.valueOf(false); 
 		}
 	}
+	
+	// 내가 등록한 그룹 신청서 관리
+	@ResponseBody
+	@RequestMapping("allAppList")
+	public List<GroupApplyDTO> allAppList(int seq) throws Exception {
+		List<GroupApplyDTO> galist = gservice.allAppList(seq);
+		return galist;
+	}
+	
+	// 내가 작성한 그룹 신청서 관리
+	@ResponseBody
+	@RequestMapping("myAppView")
+	public GroupApplyDTO myAppView(int seq) throws Exception {
+		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
+		Map<String, Object> param = new HashMap<>();
+		param.put("seq", seq);
+		param.put("id", mdto.getId());
+		GroupApplyDTO gadto = gservice.myAppView(param);
+		return gadto;
+	}
 }

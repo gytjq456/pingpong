@@ -258,4 +258,14 @@ public class GroupDAO {
 	public List<ReviewDTO> reviewList(int seq) {
 		return mybatis.selectList("Group.reviewList",seq);
 	}
+	
+	// 내가 등록한 그룹 신청서 관리
+	public List<GroupApplyDTO> allAppList(int seq) throws Exception {
+		return mybatis.selectList("Group.allAppList", seq);
+	}
+	
+	// 내가 작성한 그룹 신청서 관리
+	public GroupApplyDTO myAppView(Map<String, Object> param) throws Exception {
+		return mybatis.selectOne("Group.myAppView", param);
+	}
 }

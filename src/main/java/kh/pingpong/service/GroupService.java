@@ -266,5 +266,15 @@ public class GroupService {
 	//리뷰 리스트 출력
 	public List<ReviewDTO> reviewList(int seq) throws Exception{
 		return gdao.reviewList(seq);
-	}	
+	}
+	
+	// 내가 등록한 그룹 신청서 관리
+	public List<GroupApplyDTO> allAppList(int seq) throws Exception {
+		return gdao.allAppList(seq);
+	}
+	
+	// 내가 작성한 그룹 신청서 관리
+	public GroupApplyDTO myAppView(Map<String, Object> param) throws Exception {
+		return gdao.myAppView(param);
+	}
 }

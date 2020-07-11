@@ -15,6 +15,7 @@ import kh.pingpong.dto.CommentDTO;
 import kh.pingpong.dto.DiscussionDTO;
 import kh.pingpong.dto.LanguageDTO;
 import kh.pingpong.dto.LikeListDTO;
+import kh.pingpong.dto.ReportListDTO;
 
 @Service
 public class DiscussionService {
@@ -82,6 +83,18 @@ public class DiscussionService {
 	// 토론 글 수정하기
 	public int modify(DiscussionDTO disDto) throws Exception{
 		return disDao.modify(disDto);
+	}
+	
+	//같은게시물 같은사람이 신고했는지
+	public int report(ReportListDTO rldto) throws Exception{
+		int result = disDao.report(rldto);
+		return result;
+	}
+	
+	//신고테이블에 저장
+	public int reportProc(ReportListDTO rldto) throws Exception{
+		int result = disDao.reportProc(rldto);
+		return result;
 	}
 	
 	

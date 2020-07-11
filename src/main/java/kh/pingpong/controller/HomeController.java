@@ -52,7 +52,7 @@ public class HomeController {
 		
 		return "index";
 	}
-	
+
 	@ResponseBody
 	@RequestMapping(value="/classDateSch", produces="application/json;charset=utf8")
 	public String classDateSch(String day) throws Exception {
@@ -70,10 +70,10 @@ public class HomeController {
 	@RequestMapping(value="/mapSch", produces="application/json;charset=utf-8")
 	public String mapSch(String addr) throws Exception{
 		List<Map<String,String>> gList= cService.groupList(addr);
-		//List<LessonDTO> LessonList = cService.lessonList(addr);
+		List<LessonDTO> LessonList = cService.lessonList(addr);
 		Map<String, Object> listMap = new HashMap<>();
 		listMap.put("gList", gList);
-		//listMap.put("LessonList", LessonList);
+		listMap.put("lessonList", LessonList);
 		Gson gson = new Gson();
 		return gson.toJson(listMap);
 	}

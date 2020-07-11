@@ -15,6 +15,7 @@ public class DiscussionDTO {
 	private int like_count;
 	private int comment_count;
 	private String dateString;
+	private String id;
 	
 	
 	public DiscussionDTO() {
@@ -52,7 +53,7 @@ public class DiscussionDTO {
 
 	
 	public DiscussionDTO(int seq, String writer, String title, String contents, String caution, String language, Timestamp write_date, int view_count,
-			int like_count, int comment_count) {
+			int like_count, int comment_count, String id) {
 		super();
 		this.seq = seq;
 		this.writer = writer;
@@ -64,6 +65,7 @@ public class DiscussionDTO {
 		this.view_count = view_count;
 		this.like_count = like_count;
 		this.comment_count = comment_count;
+		this.id = id;
 		//this.dateString = dateString;
 		/*this.dateString = new SimpleDateFormat("YYYY-MM-dd").format(write_date);*/
 	}
@@ -172,6 +174,25 @@ public class DiscussionDTO {
 		this.comment_count = comment_count;
 	}
 
+
+
+	/**
+	 * @return the id
+	 */
+	public String getId() {
+		return id;
+	}
+
+
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	
 
 	
 }

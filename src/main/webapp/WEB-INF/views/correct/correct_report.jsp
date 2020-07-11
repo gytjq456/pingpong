@@ -12,10 +12,10 @@ $(function(){
 	$("#report").on("click", function(){
 		console.log($(this).css('color'));
 		//rgb(39, 91, 160)
-		var seq = ${gdto.seq};
-		var idVal = '${gdto.writer_id}';
+		var seq = ${dto.seq};
+		var idVal = '${dto.id}';
 		$.ajax({
-			url:"/group/report",
+			url:"/correct/report",
 			data:{
 				parent_seq: seq,
 				id : idVal
@@ -31,6 +31,7 @@ $(function(){
 			console.log(error1);
 			console.log(error2);
 		})
+
 	})
 	
 	$("#backReport").on("click", function(){
@@ -44,15 +45,15 @@ $(function(){
 <article id="layerPop_s3">
 	<div class="pop_body">
 		<div class="tit_s3">
-			<h4>그룹 신고</h4>
+			<h4>질문 신고</h4>
 		</div>
-		<form action="/group/reportProc" id="grouptProc" method="post">
+		<form action="/correct/reportProc" id="correctProc" method="post">
 			<input type="hidden" name="reporter" value="${loginInfo.id}">
-			<input type="hidden" name="parent_seq" value="${gdto.seq}">
-			<input type="hidden" name="id" value="${gdto.writer_id}">
+			<input type="hidden" name="parent_seq" value="${dto.seq}">
+			<input type="hidden" name="id" value="${dto.id}">
 			신고자 : ${loginInfo.id} <br>
-			게시물 올린 사람 : ${gdto.writer_id}
-			<section data-seq="${gdto.seq}">
+			게시물 올린 사람 : ${dto.id}
+			<section data-seq="${dto.seq}">
 				<article>
 					<div>신고사유</div>
 					<div class="reportContents">
@@ -65,6 +66,7 @@ $(function(){
 				</article>
 			</section>
 		</form>
+		
 		
 	</div>
 </article>

@@ -19,7 +19,15 @@ $(function(){
 		}
 	}); 
 	
-	$("#writeForm").on("submit",function(){
+	var titleObj = $("#title");
+	var cautionObj = $("#caution");
+	
+	$("input,textarea").blur(function(){
+		var thisVal = $(this).val();
+		$(this).val(textChk(thisVal));
+	})
+	
+	$("#modifyForm").on("submit",function(){
 		var titleObj = $("#title");
 		var titleVal = titleObj.val();
 		var cautionObj = $("#caution")
@@ -67,6 +75,17 @@ $(function(){
     });
 	
 })
+function textChk(thisVal){
+	var replaceId  = /(script)/gi;
+	var textVal = thisVal;
+    if (textVal.length > 0) {
+        if (textVal.match(replaceId)) {
+        	textVal = thisVal.replace(replaceId, "");
+        }
+    }
+    return textVal;
+}
+
 function uploadSummernoteImageFile(file, editor) {
 	data = new FormData();
 	data.append("file", file);
@@ -91,35 +110,59 @@ function uploadSummernoteImageFile(file, editor) {
 
 	<div id="subWrap" class="hdMargin">
 		<section id="subContents">
-			<article id="discussion_modify" class="inner1200">
+			<article id="discussion_write" class="inner1200">
+				<div class="tit_s1">
+					<h2>Discussion</h2>
+					<p>새 주제 게시하기</p>
+				</div>				
 				<!-- action="" method="post" enctype="multipart/form-data" -->
-				<form  id="modifyForm">
-					<input type="hidden" name="seq" value="${disDto.seq}">
-					<input type="hidden" name="writer" value="${disDto.writer}">
-					<p>토론 주제</p>
-					<input type="text" name="title" id="title" value="${disDto.title}">
-					
-					<div>
-						<p>토론 내용</p>
-						<textarea id="summernote" name="contents" >${disDto.contents }</textarea>
-					</div>
-					
-					<p>이 토론은 어떤 언어로 작성 되었나요?</p>
-					<select id="languageList" name="language">
-						<option value="${disDto.language}" selected>${disDto.language}</option>
-						<c:forEach var="i" items="${langList}">
-							<option value="${i.language}">${i.language}</option>
-						</c:forEach>
-					</select>
-					
-					<p>토론시 주의사항</p>
-					<p>
-						<textarea name="caution" id="caution">${disDto.caution}</textarea>
-					</p>
-					
-					<input type="submit" value="전송">
-					<a href="#;">돌아가기</a>
-				</form>
+				<div class="card_body">
+					<form  id="modifyForm">
+						<input type="hidden" name="seq" value="${disDto.seq}">
+						<input type="hidden" name="writer" value="${disDto.writer}">
+						<section>
+							<div class="tit_s3">
+								<h4>토론 주제</h4>
+							</div>
+							<input type="text" name="title" id="title" value="${disDto.title}">
+						</section>
+						<section>
+							<div class="tit_s3">
+								<h4>토론 내용</h4>
+							</div>
+							<textarea id="summernote" name="contents" >${disDto.contents }</textarea>
+						</section>
+						
+						<section>
+							<div class="tit_s3">
+								<h4>이 토론은 어떤 언어로 작성 되었나요?</h4>
+							</div>	
+							<div id="languageList" >
+								<select id="languageList" name="language">
+									<option value="${disDto.language}" selected>${disDto.language}</option>
+									<c:forEach var="i" items="${langList}">
+										<option value="${i.language}">${i.language}</option>
+									</c:forEach>
+								</select>
+							</div>
+						</section>
+						
+						<section>
+							<div class="tit_s3">
+								<h4>토론시 주의사항</h4>
+							</div>
+							<div>
+								<textarea name="caution" id="caution">${disDto.caution}</textarea>
+							</div>
+						</section>
+						<div class="btnS1 right">
+							<div>
+								<input type="submit" value="전송">
+							</div>
+							<div><a href="javascript:window.history.back();">돌아가기</a></div>
+						</div>
+					</form>
+				</div>
 			
 			</article>
 		</section>

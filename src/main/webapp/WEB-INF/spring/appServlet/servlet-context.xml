@@ -40,7 +40,7 @@
 	
 	<!-- 멀티파트리졸버 찾아주는거 / 파일전송에 필요함 -->
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<beans:property name="maxUploadSize" value="1048576"/>
+		<beans:property name="maxUploadSize" value="5242880"/>
 	</beans:bean>
 
 	<context:component-scan base-package="kh.pingpong"/>
@@ -73,24 +73,16 @@
 		<aop:aspect id="logCheck" ref="logaop">
 			<aop:around pointcut-ref="discussion" method="aroundBoardLog"/>
 		</aop:aspect>
+	</aop:config>
+	
+	<aop:config>
+		<aop:pointcut expression="execution(* kh.pingpong.controller.CorrectController.*(..))" id="correct"/>
+		<aop:aspect id="logCheck" ref="logaop">
+			<aop:around pointcut-ref="correct" method="aroundBoardLog"/>
+		</aop:aspect>
 	</aop:config>	
 	
-	<!-- <websocket:handlers>
-		<websocket:mapping handler="echoHandler" path="/echo-ws"/>
-	</websocket:handlers>
-	<bean id = "echoHandler" class ="kh.pingpong.notification.EchoHandler"/>
-	 -->
-	 
-	<!-- websocket handler  -->
-	<beans:bean id="echoHandler" class="kh.pingpong.notification.EchoHandler"/>
-	
-	<websocket:handlers>
-		<websocket:mapping handler="echoHandler" path="/echo" />
-		<websocket:handshake-interceptors>
-	         <beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>
-	      </websocket:handshake-interceptors>
-	      <websocket:sockjs/>
-	 </websocket:handlers>
+
 	
 </beans:beans>
 

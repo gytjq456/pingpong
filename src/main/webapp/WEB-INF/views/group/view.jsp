@@ -41,9 +41,8 @@
 	#view_btns #update { margin-right: 2px; }
 	#writer_profile img { vertical-align: top; }
 	#map { width: 100%; height: 200px; margin-top: 10px; }
-	#mini_option_wrap { position: relative; }
-	#three_options { position: absolute; right: 0; top: 0; }
-	#three_options span { margin-left: 8px; }
+	
+
 </style>
 <script>
 	$(function(){
@@ -221,7 +220,7 @@
 								<div id="three_options">
 									<span id="like"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>추천</span>
 									<span id="jjim"><i class="fa fa-heart-o" aria-hidden="true"></i>찜하기</span>
-									<span id="report"><i class="fa fa-exclamation" aria-hidden="true"></i>신고</span>
+									<span id="report" data-seq="${gdto.seq}" data-id="${gdto.writer_id}" data-thisseq="" data-url="/group/report" data-proc="/group/reportProc"><i class="fa fa-exclamation" aria-hidden="true"></i>신고</span>
 								</div>
 							</div>
 						</div>
@@ -596,7 +595,10 @@
 		});    
 		
 	</script>
-<jsp:include page="/WEB-INF/views/group/report.jsp" />
+<%-- <jsp:include page="/WEB-INF/views/group/report.jsp" /> --%>
+<!-- 공통 신고하기  -->
+<jsp:include page="/WEB-INF/views/reportPage.jsp" />
+
 <jsp:include page="/WEB-INF/views/group/apply.jsp" />
 <jsp:include page="/WEB-INF/views/group/out.jsp" />
 <jsp:include page="/WEB-INF/views/footer.jsp"/>

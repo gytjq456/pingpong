@@ -465,5 +465,5 @@
 		})
 	</Script>
 
-<jsp:include page="/WEB-INF/views/group/report.jsp" />
+<%-- <jsp:include page="/WEB-INF/views/group/report.jsp" /> --%>
 <jsp:include page="/WEB-INF/views/footer.jsp"/>

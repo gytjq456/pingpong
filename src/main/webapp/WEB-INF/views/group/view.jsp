@@ -593,7 +593,10 @@
 		});    
 		
 	</script>
-<jsp:include page="/WEB-INF/views/group/report.jsp" />
+<%-- <jsp:include page="/WEB-INF/views/group/report.jsp" /> --%>
+<!-- 공통 신고하기  -->
+<jsp:include page="/WEB-INF/views/reportPage.jsp" />
+
 <jsp:include page="/WEB-INF/views/group/apply.jsp" />
 <jsp:include page="/WEB-INF/views/group/out.jsp" />
 <jsp:include page="/WEB-INF/views/footer.jsp"/>

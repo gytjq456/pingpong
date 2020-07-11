@@ -66,6 +66,7 @@
 
 <script>
 	$(function() {
+		var totalSize=0;
 		
 		$("input, textarea").blur(function(){
 			var thisVal = $(this).val();
@@ -87,17 +88,18 @@
 		$(".license_contents").on('change','input[type=file]',function(e){
 
 			if(!$(this).val()) {return false};
-			
 			var f = this.files[0];
+			
 			var size = f.size || f.fileSize;
 			console.log(f.size + ":" +f.fileSize);
-			var limit = 1024*1024;
+			var limit = 1024*1024*5;
 			if(size > limit){
-				alert("파일용량 1GB을 초과했습니다.");
+				alert("파일용량 5GB을 초과했습니다.");
 				$(this).val("");
 				return false;
 			}
-			
+			totalSize = totalSize+size;
+			console.log(totalSize);
 		})
 		
 		//파일 첨부 여러개
@@ -106,10 +108,23 @@
 			$("#fileAdd").after(fileComp);
 		})
 		
-		//파일 첨부한거 지우기
-		$(".license_contents").on("click",".fileDelete", function(){
+		//파일 첨부한거 지우기 / 사이즈도 같이지우기
+		$(".license_contents").on("click",".fileDelete", function(e){
 			console.log($(this).parent());
-			$(this).parent().remove();
+		
+			console.log($(this).siblings());
+			var f = ($(this).siblings())[0].files[0];
+			
+			/* console.log(($(this).siblings())[0].files[0]); */
+			if(f==null){
+				$(this).parent().remove();
+			}else{
+				var size = f.size || f.fileSize;
+				totalSize = totalSize-size;
+				console.log(totalSize);
+				$(this).parent().remove();
+			}
+
 		})
 		
 		// 글자수 체크 -3개 다
@@ -153,11 +168,19 @@
 			}
 		})
 		
+		//보내기전에 자기소개랑 용량 체크 
 		$("#frm").on("submit", function(){
 			var introduceVal = $("#introduce").val();
 
 			if (introduceVal.length == 0) {
 				alert("자기소개를 입력해주세요");
+				return false;
+			}
+			
+			var limit = 1024*1024*5;
+			if(totalSize > limit){
+				alert("총 파일용량 5GB을 초과했습니다.");
+				$(this).val("");
 				return false;
 			}
 		})

@@ -32,8 +32,9 @@ public class MainClassDAO {
 	}
 	
 	// 메인페이지 지도에 표시될 레슨 리스트
-//	public List<LessonDTO> lessonList(String addr) throws Exception{
-//		return mybatis.selectList("MainDB.lessonList",addr);
-//	}
+	public List<LessonDTO> lessonList(String addr) throws Exception{
+		System.out.println("addr = " + addr);
+		return mybatis.selectList("MainDB.lessonList",addr);
+	}
 
 }

@@ -17,6 +17,9 @@ public class ReportListDTO {
 	private String category;
 	private String pass;
 	private String sDate;
+	private int commSeq;
+	
+	
 	
 	
 	public ReportListDTO() {
@@ -109,6 +112,22 @@ public class ReportListDTO {
 	public void setsDate(String sDate) {
 		this.sDate = sDate;
 	}
+
+	/**
+	 * @return the commSeq
+	 */
+	public int getCommSeq() {
+		return commSeq;
+	}
+
+	/**
+	 * @param commSeq the commSeq to set
+	 */
+	public void setCommSeq(int commSeq) {
+		this.commSeq = commSeq;
+	}
+	
+	
 	
 	
 

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import kh.pingpong.dto.FileDTO;
 import kh.pingpong.dto.NewsDTO;
+import kh.pingpong.dto.TutorAppDTO;
 
 @Repository
 public class FileDAO {
@@ -26,6 +27,10 @@ public class FileDAO {
 	
 	public FileDTO downloadFile(NewsDTO ndto) throws Exception{
 		return mybatis.selectOne("News.newsViewFileOne", ndto);
+	}
+	
+	public FileDTO downloadFileLicense(TutorAppDTO tadto) throws Exception{
+		return mybatis.selectOne("Admin.downloadFileLicense", tadto);
 	}
 	
 	

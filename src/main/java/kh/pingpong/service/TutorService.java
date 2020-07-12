@@ -62,6 +62,7 @@ public class TutorService {
 		if (!tempFilepath.exists()) {
 			tempFilepath.mkdir();
 		}
+		
 		for(FileDTO file : fileList) {
 			fdao.tutorFileInsert(file);
 		}
@@ -252,9 +253,12 @@ public class TutorService {
 			
 			if (param.containsKey("ing")) {
 				if (param.get("ing").toString().contentEquals("applying='N' and proceeding")) {
-					pagingUrl = "lessonListPeriod?orderBy=" + orderBy + "&ing=done";
+					pagingUrl = "lessonListPeriod?orderBy=" + orderBy + "&ing=done"+
+							"&keywordSelect=" + param.get("keywordSelect").toString()+ "&keyword="+ param.get("keyword").toString();
 				} else {
-					pagingUrl = "lessonListPeriod?orderBy=" + orderBy + "&ing=" + param.get("ing").toString();
+					//여기 수정했어~~~~~~~~
+					pagingUrl = "lessonListPeriod?orderBy=" + orderBy + "&ing=" + param.get("ing").toString()+
+							"&keywordSelect=" + param.get("keywordSelect").toString()+ "&keyword="+ param.get("keyword").toString();
 				}
 			}
 			

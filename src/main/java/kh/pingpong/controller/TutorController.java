@@ -123,6 +123,7 @@ public class TutorController {
 		if(files.length != 0) {
 			for(MultipartFile file : files) {
 				FileDTO fdto = new FileDTO();
+			
 				fdto.setOriname(file.getOriginalFilename());
 				systemFileName=System.currentTimeMillis()+"_"+file.getOriginalFilename(); 
 				fdto.setSysname(systemFileName);
@@ -189,7 +190,7 @@ public class TutorController {
 	
 	//모집중, 진행중, 마감 클릭했을때 리스트 새로 뽑기
 	@RequestMapping("lessonListPeriod")
-	public String lessonListPeriod(String period, String orderBy, String keywordSelect,HttpServletRequest request, Model model) throws Exception{
+	public String lessonListPeriod(String period, String orderBy, String keywordSelect,String keyword, HttpServletRequest request, Model model) throws Exception{
 		model.addAttribute("loginInfo", session.getAttribute("loginInfo"));
 
 		//언어 
@@ -198,6 +199,9 @@ public class TutorController {
 		
 		Map<String,String> param = new HashMap<>();
 		param.put("orderBy", orderBy);
+		//param.put("topSearch", topSearch);
+		param.put("keywordSelect", keywordSelect);
+		param.put("keword", keyword);
 		
 		//ing 는 컬럼에 들어갈 값임
 		if(period.contentEquals("applying")) {
@@ -216,6 +220,7 @@ public class TutorController {
 			cpage = Integer.parseInt(request.getParameter("cpage"));
 		} catch (Exception e) {}
 
+		//네비에서 에러~~
 		String navi = tservice.getPageNavi_lesson(cpage, param);
 		model.addAttribute("navi", navi);
 
@@ -224,6 +229,8 @@ public class TutorController {
 		model.addAttribute("lessonlist",lessonlist);
 		model.addAttribute("orderBy",orderBy);
 		model.addAttribute("keywordSelect",keywordSelect);
+		model.addAttribute("keyword", keyword);
+		//model.addAttribute("topSearch", topSearch);
 		return "/tutor/lessonList";
 	}
 	
@@ -255,6 +262,7 @@ public class TutorController {
 		model.addAttribute("lessonlist",lessonlist);
 		model.addAttribute("orderBy",orderBy);
 		model.addAttribute("keywordSelect", keywordSelect);
+		model.addAttribute("keyword", keyword);
 		return "/tutor/lessonList";
 	}
 	

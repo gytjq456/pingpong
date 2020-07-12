@@ -7,7 +7,8 @@
 <style>
 /* .profile{width:50px; height:100px;}
 .wrapper{border: 1px solid black; float: left; width: 25%;}
-.listWrapper{overflow:hidden;} */
+.listWrapper{overflow:hidden;} 
+.bAddr {padding:5px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;} */
 </style>
 <script>
 
@@ -58,6 +59,12 @@
 			$('#keywordSelect').val(name);
 		}
 		
+		var keyword = '${keyword}';
+		console.log(keyword);
+		if(keyword!=null){
+			$('#keyword').val(keyword);
+		}
+		
 /* 		var topSearch = '${topSearch}';
 		console.log(topSearch);
 		if(topSearch!=null){
@@ -70,23 +77,27 @@
 			location.href="/tutor/lessonList?orderBy="+orderbyVal+"&keywordSelect="+selectVal;
 		})
 		
+		/* 검색안돼~~~~ 다시해~~~ */
 		$(".ing").on("click", function(){
 			console.log($(this).attr('id'));
 			var orderbyVal = $("#orderBy").val();
-			console.log(orderbyVal);
 			var period = $(this).attr('id');
 			var selectVal = $("#keywordSelect").val();
+			var keywordVal = $("#keyword").val();
+			var topSearchVal = $(".topSearch").text();
 			
 			if(period == 'all'){
 				location.href="/tutor/lessonList?orderBy="+orderbyVal+"&keywordSelect="+selectVal;
 				return false;
 			}
-			location.href="/tutor/lessonListPeriod?orderBy="+orderbyVal+"&period="+period+"&keywordSelect="+selectVal;;
+			location.href="/tutor/lessonListPeriod?orderBy="+orderbyVal+"&period="+period+"&keywordSelect="
+					+selectVal+"&keyword="+keywordVal;
 
 		})
 
-		//키워드로 검색
+		 //키워드로 검색
 		$("#searchkeyword").on("click", function(){
+			var topSearchVal = $(this).text();
 			//여기서
 			var selectVal = $("#keywordSelect").val();
 			//검색바 내용
@@ -111,7 +122,9 @@
 			var orderByVal = $('#orderBy').val();
 			
 			location.href="/tutor/searchMap?location="+locationVal+"&orderBy="+orderByVal;
-		})
+		}) 
+
+	
 	})
 </script>
 
@@ -129,9 +142,9 @@
 			<!-- 검색 3가지 -->
 			<div class="tab_s1">
 				<ul class="clearfix">
-					<li class="on"><a class="topSearch" href="#;">키워드 검색</a></li>
-					<li><a class="topSearch" href="#;">달력 검색</a></li>
-					<li><a id="map_on" class="topSearch" href="#;">지도 검색</a></li>
+					<li class="on topSearch" value="topKeyword"><a href="#;" >키워드 검색</a></li>
+					<li class="topSearch" value="topCalendar"><a href="#;" >달력 검색</a></li>
+					<li class="topSearch" value="topMap"><a id="map_on" href="#;" >지도 검색</a></li>
 				</ul>
 			</div>
 

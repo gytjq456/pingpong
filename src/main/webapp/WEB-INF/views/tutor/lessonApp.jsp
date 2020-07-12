@@ -8,8 +8,8 @@
 <style>
 	#title{width:80%;}
 /*     .hAddr {position:absolute;left:10px;top:10px;border-radius: 2px;background:#fff;background:rgba(255,255,255,0.8);z-index:1;padding:5px;}
-    #centerAddr {display:block;margin-top:2px;font-weight: normal;}*/
-    .bAddr {padding:5px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;} 
+    #centerAddr {display:block;margin-top:2px;font-weight: normal;}
+    .bAddr {padding:5px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;} */
     .price_wrap {}
     .price_wrap input { width:200px !important; margin-right:10px;}
     #map { margin-top:20px;}
@@ -17,6 +17,14 @@
 </style>
 <script>
 	$(function() {
+		$("#back").on("click", function(){
+			var result = confirm("강의 목록으로 돌아가시겠습니까?");
+			if(result){
+				location.href="/tutor/lessonList?orderBy=seq&keywordSelect=name";
+			}else{
+				return false;
+			}
+		})
 		
 		$("input, textarea").blur(function(){
 			var thisVal = $(this).val();

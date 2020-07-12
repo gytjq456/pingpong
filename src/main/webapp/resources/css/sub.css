@@ -129,6 +129,8 @@ input:read-only {background-color: #e4e4e4;color:#a9a9a9;}
 .search_btn_style .right { position: absolute; right: 0; top: 0; margin: 0; }
 .search_wrap { padding: 30px; border: 1px solid #ddd; background: #fff; margin-top: 20px; border-radius: 6px; }
 
+.bAddr {padding:5px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;} 
+
 /* -- 이효섭 그룹 css 추가 */
 .search_as_keyword select,
 .search_as_keyword input { font-size:14px; border:1px solid #ddd; }

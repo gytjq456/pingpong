@@ -115,7 +115,7 @@
 #mapWrap .mapSelect { position: absolute; width:300px; background:rgb(51, 100, 165,0.8); left:20px; top:20px; z-index: 9999; padding: 20px; font-size:0; letter-spacing:-4px;}
 #mapWrap .mapSelect select { background: none; color:#fff; padding: 5px 10px; display: inline-block; vertical-align: middle; height: 42px; line-height: 42px; border: 1px solid #ddd; box-sizing: border-box; font-size:14px; width:49%; margin-right:2%; letter-spacing: -0.5px;}
 #mapWrap .mapSelect select:last-child { margin:0; }
-#mapWrap #map { height:500px; width:100% !important;}
+#map { height:500px; width:100% !important;}
 .overlaybox { background:#333;}
 
 .infoView { padding:11px 6px; font-size:12px; position:relative;}

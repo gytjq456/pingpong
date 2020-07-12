@@ -313,6 +313,7 @@
 					<!-- <input type="time" id="start_hour" name="start_hour"> : 
 					<input type="time" id="end_hour" name="end_hour"> -->
 					<select id="start_hour" name="start_hour">
+						<option>시</option>
 						<option value="07">07</option>
 						<option value="08">08</option>
 						<option value="09">09</option>
@@ -326,11 +327,13 @@
 						<option value="17">17</option>
 						<option value="18">18</option>
 					</select> : <select id="start_minute" name="start_minute">
+						<option>분</option>
 						<option>00</option>
 						<option>15</option>
 						<option>30</option>
 						<option>45</option>
 					</select> ~ <select id="end_hour" name="end_hour">
+						<option>시</option>
 						<option value="08">08</option>
 						<option value="09">09</option>
 						<option value="10">10</option>
@@ -347,6 +350,7 @@
 						<option value="21">21</option>
 						<option value="22">22</option>
 					</select> : <select id="end_minute" name="end_minute">
+						<option>분</option>
 						<option>00</option>
 						<option>15</option>
 						<option>30</option>

@@ -287,7 +287,7 @@
 												</div>
 												<div class="price">
 													<span class="sub_title">가격</span>
-													<p>${i.price} 원/시간</p>
+													<p>${i.price} 원</p>
 													<!-- <span class="badge badge-danger">New</span> -->
 												</div>
 												<div class="apply_date">

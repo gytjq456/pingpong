@@ -143,13 +143,13 @@ width:-moz-calc(100% - 60px);
 width:-webkit-calc(100% - 60px);
 }
 .defaultSch .schCon { font-size:0; letter-spacing:-4px; }
-.defaultSch select { width:80px; margin-right:8px;}
+.defaultSch select { width:100px; margin-right:8px;}
 .defaultSch select,
 .defaultSch input { color:#999; padding:5px 10px;display:inline-block; vertical-align:middle; height:42px; line-height:42px; border:1px solid #ddd; box-sizing:border-box; letter-spacing:-0.5px; }
 .defaultSch input { 
-width:calc(100% - 88px);
-width:-moz-calc(100% - 88px);
-width:-webkit-calc(100% - 88px);
+width:calc(100% - 108px);
+width:-moz-calc(100% - 108px);
+width:-webkit-calc(100% - 108px);
 }
 #three_options { position: absolute; right: 0; top: 0; }
 #three_options span { margin-left: 8px; }
@@ -479,7 +479,7 @@ textarea { resize:none; height:120px; line-height:1.6;}
 
 /* 리뷰 */
 #discussion_view .wordsize,
-#review_wrap .wordsize{ text-align:right; margin-top:6px;}
+.wordsize{ text-align:right; margin-top:6px;}
 #review_wrap .textInput { position:relative;}
 #review_wrap .starPoint { text-align:right; margin-bottom:12px;}
 .starPoint > div { display:inline-block; vertical-align:middle; font-size:20px; margin-right:6px;}
@@ -689,3 +689,42 @@ width:-webkit-calc(100% - 130px);
 
 .bAddr { width:auto !important; padding:12px; height:auto !important;}
 
+
+.fileDiv { position:relative; margin-top:20px; }
+.fileDiv .fileDelete { position:absolute; right:0; top:0; width:42px; height:42px; border:1px solid #ddd; background:#fbaab0; color:#fff; }
+.fileDiv .fileDelete { }
+
+/* 튜터 */
+.tutorApp_view .top_wrapper { text-align:center; margin-bottom:30px;}
+.tutorApp_view .top_wrapper > div { display:inline-block; vertical-align:middle;  text-align:left; margin-right:30px;}
+.tutorApp_view .top_wrapper > div:last-child { margin:0; }
+.tutorApp_view .top_wrapper .profile { width:200px; height:200px; overflow:hidden; border-radius:50%; }
+.tutorApp_view .top_wrapper .info {}
+.tutorApp_view .top_wrapper .info p { line-height:1.6; margin-bottom:4px;}
+.tutorApp_view .top_wrapper .info p:last-child { margin:0; }
+.tutorApp_view .top_wrapper .info p span { font-weight:700; }
+
+
+/* 튜터 리스트  */
+#list_s2 {}
+#list_s2 ul {}
+#list_s2 ul li { float:left; width:23.5%; margin-right:2%; border:1px solid #ddd; box-sizing:border-box; margin-bottom:0; min-height:320px;}
+#list_s2 ul li:nth-child(4n) { margin-right:0; }
+#list_s2 ul li .topInfo { text-align:center;}
+#list_s2 ul li .profile { margin:0 auto; width:100px; height:100px; overflow:hidden; border-radius:50%; position:relative;}
+#list_s2 ul li .profile img { position:absolute; left:50%; top:50%; transform:translate(-50%, -50%); }
+#list_s2 ul li .name { font-size:18px; font-weight:700; margin-top:10px; }
+#list_s2 ul li .info { margin-top:20px; border-top:1px solid #ddd; padding-top:20px;}
+#list_s2 ul li .info > div { float:left; width:50%; margin-bottom:10px; overflow:hidden;}
+#list_s2 ul li .info > div:last-child { margin-bottom:0; }
+#list_s2 ul li .info > div.language,
+#list_s2 ul li .info > div.addr { width:100%;  }
+#list_s2 ul li .info > div > span,
+#list_s2 ul li .info > div > p { float:left; display:block; }
+#list_s2 ul li .info > div > span { font-weight:700; margin-right:4px;}
+#list_s2 ul li .info > div > p {}
+
+
+#list_s2 ul li .info > div.language p,
+#list_s2 ul li .info > div.addr p { display:block; width:100%; margin-top:4px; }
+p

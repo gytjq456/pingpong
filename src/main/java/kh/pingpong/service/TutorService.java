@@ -330,18 +330,22 @@ public class TutorService {
 				
 				StringBuilder sb = new StringBuilder();
 				
+				sb.append("<ul>");
 				if(needPrev) {
-					sb.append("<a href='tutorList?cpage="+(startNavi-1)+"'><</a>");
+					sb.append("<li><a href='tutorList?cpage="+(startNavi-1)+"'><</a></li>");
 				}
 				for(int i = startNavi ; i<=endNavi; i++) {
-
-					sb.append("<a href='tutorList?cpage="+i+"'>"+i+"</a>");//꾸며주는 것
+					if(currentPage == i) {
+						sb.append("<li class='on'><a href='tutorList?cpage="+i+"'>"+i+"</a></li>");//꾸며주는 것
+					}else {
+						sb.append("<li><a href='tutorList?cpage="+i+"'>"+i+"</a></li>");//꾸며주는 것
+					}
 				}
 				if(needNext) {
 
-					sb.append("<a href='tutorList?cpage="+(endNavi+1)+"'>></a>");
+					sb.append("<li><a href='tutorList?cpage="+(endNavi+1)+"'>></a></li>");
 				}
-				
+				sb.append("</ul>");
 				return sb.toString();
 			}
 	

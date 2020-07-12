@@ -94,6 +94,7 @@ input:read-only {background-color: #e4e4e4;color:#a9a9a9;}
 .group_each_wrapper .each_body > div:after { content:""; display:block; clear:both;}
 .group_each_wrapper .each_body > div:last-child { margin:0; border-bottom:1px solid #ddd; padding-bottom:20px;  margin-bottom:10px;  }
 .group_each_wrapper .status { margin-top:8px;}
+#group_list .select_ing_now { background-color: #fbaab0; color: #fff; }
 
 .countList_s2 { overflow:hidden; }
 .countList_s2 > div,
@@ -275,7 +276,7 @@ width:-webkit-calc(100% - 340px);
 #my_group_manage .my_num,
 #group_manage .mem_num,
 #my_group_manage .my_app,
-#group_manage .mem_app,
+#group_manage .mem_proceeding,
 #my_group_manage .app_age,
 #my_group_manage .app_gender,
 #my_group_manage .app_accept { width: 100px; }

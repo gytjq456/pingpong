@@ -42,30 +42,42 @@
 									<div class="my_app"><button class="all_app">${gl_list.app_count}</button></div>
 								</div>
 								<div class="app_list">
-									<c:if test="${!empty gla_list}">
-										<div class="title_wrap">
-											<div class="app_seq">글번호</div>
-											<div class="app_name">이름(아이디)</div>
-											<div class="app_age">나이</div>
-											<div class="app_gender">성별</div>
-											<div class="app_lang_can">구사 언어</div>
-											<div class="app_lang_learn">학습 언어</div>
-											<div class="app_accept">신청서</div>
-										</div>
-										<c:forEach var="gla_list" items="${gla_list}">
-											<c:if test="${gla_list.parent_seq == gl_list.seq}">
-												<div class="option_wrap" id="${gla_list.seq}">
-													<div class="app_seq">${gla_list.seq}</div>
-													<div class="app_name">${gla_list.name}(${gla_list.id})</div>
-													<div class="app_age">${gla_list.age}</div>
-													<div class="app_gender">${gla_list.gender}</div>
-													<div class="app_lang_can">${gla_list.lang_can}</div>
-													<div class="app_lang_learn">${gla_list.lang_learn}</div>
-													<div class="app_accept"><button class="app_accpet_btn">보기</button></div>
-												</div>
-											</c:if>
-										</c:forEach>
-									</c:if>
+									<div class="title_wrap">
+										<div class="app_seq">글번호</div>
+										<div class="app_name">이름(아이디)</div>
+										<div class="app_age">나이</div>
+										<div class="app_gender">성별</div>
+										<div class="app_lang_can">구사 언어</div>
+										<div class="app_lang_learn">학습 언어</div>
+										<div class="app_accept">신청서</div>
+									</div>
+									<c:choose>
+										<c:when test="${empty gla_list}">
+											<c:choose>
+												<c:when test="${gl_list.app_count == 0}">
+													아직 신청한 사람이 없습니다.
+												</c:when>
+												<c:otherwise>
+													모든 신청서를 확인하셨습니다.
+												</c:otherwise>
+											</c:choose>
+										</c:when>
+										<c:otherwise>
+											<c:forEach var="gla_list" items="${gla_list}">
+												<c:if test="${gla_list.parent_seq == gl_list.seq}">
+													<div class="option_wrap" id="${gla_list.seq}">
+														<div class="app_seq">${gla_list.seq}</div>
+														<div class="app_name">${gla_list.name}(${gla_list.id})</div>
+														<div class="app_age">${gla_list.age}</div>
+														<div class="app_gender">${gla_list.gender}</div>
+														<div class="app_lang_can">${gla_list.lang_can}</div>
+														<div class="app_lang_learn">${gla_list.lang_learn}</div>
+														<div class="app_accept"><button class="app_accpet_btn">보기</button></div>
+													</div>
+												</c:if>
+											</c:forEach>
+										</c:otherwise>
+									</c:choose>
 								</div>
 							</c:forEach>
 						</c:otherwise>
@@ -83,7 +95,7 @@
 						<div class="mem_num">인원</div>
 						<div class="mem_loc">장소</div>
 						<div class="mem_leader">주선자</div>
-						<div class="mem_app">신청서</div>
+						<div class="mem_proceeding">진행</div>
 					</div>
 				</div>
 				<c:choose>
@@ -96,11 +108,15 @@
 						<c:forEach var="gm_list" items="${gm_list}">
 							<div class="option_wrap">
 								<div class="mem_seq">${gm_list.seq}</div>
-								<div class="mem_title"><a href="/group/beforeView?seq=${glist.seq}">${gm_list.title}</a></div>
+								<div class="mem_title"><a href="/group/beforeView?seq=${gm_list.seq}">${gm_list.title}</a></div>
 								<div class="mem_num">${gm_list.cur_num}/${gm_list.max_num}</div>
 								<div class="mem_loc">${gm_list.location}</div>
-								<div class="mem_leader">${gm_list.writer_name}(${gm_list.writer_name})</div>
-								<div class="mem_app"><a href="group/myAppView?seq=${gm_list.seq}">신청서</a></div>
+								<div class="mem_leader">${gm_list.writer_name}(${gm_list.writer_id})</div>
+								<div class="mem_proceeding">
+									<c:if test="${gm_list.proceeding == 'Y'}">진행중</c:if>
+									<c:if test="${gm_list.proceeding == 'B'}">준비중</c:if>
+									<c:if test="${gm_list.proceeding == 'N'}">종료</c:if>
+								</div>
 							</div>
 						</c:forEach>
 					</c:otherwise>

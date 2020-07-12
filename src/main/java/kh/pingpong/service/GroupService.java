@@ -151,6 +151,10 @@ public class GroupService {
 		// 총 게시물
 		int recordTotalCount = gdao.selectGroupCount(search);
 		String orderBy = search.get("orderBy").toString();
+		String ing = "all";
+		if (search.containsKey("ing")) {
+			ing = search.get("ing").toString();
+		}
 
 		int pageTotalCount = 0; //전체페이지 개수
 
@@ -187,60 +191,62 @@ public class GroupService {
 		
 		String pagingUrl = "/group/";
 		
-		if (!search.containsKey("ing") && !search.containsKey("keywordType") && !search.containsKey("hobbyType") && !search.containsKey("period") && !search.containsKey("start_date") && !search.containsKey("location")) {
-			pagingUrl = pagingUrl + "main?orderBy=" + orderBy;
+		if (!search.containsKey("keywordType") && !search.containsKey("hobbyType") && !search.containsKey("period") && !search.containsKey("start_date") && !search.containsKey("location")) {
+			pagingUrl = pagingUrl + "main?orderBy=" + orderBy + "&ing=" + ing;
 		}
 		
-		if (search.containsKey("ing")) {
-			if (search.get("ing").toString().contentEquals("applying = 'N' and proceeding")) {
-				pagingUrl = pagingUrl + "mainOption?orderBy=" + orderBy + "&ing=done";
-			} else {
-				pagingUrl = pagingUrl + "mainOption?orderBy=" + orderBy + "&ing=" + search.get("ing").toString();
-			}
-		} 
+//		if (search.containsKey("ing")) {
+//			if (search.get("ing").toString().contentEquals("applying = 'N' and proceeding")) {
+//				pagingUrl = pagingUrl + "mainOption?orderBy=" + orderBy + "&ing=done";
+//			} else {
+//				pagingUrl = pagingUrl + "mainOption?orderBy=" + orderBy + "&ing=" + search.get("ing").toString();
+//			}
+//		} 
 		
 		if (search.containsKey("keywordType")) {
 			if (search.containsKey("hobbyType")) {
 				if (search.containsKey("period")) {
 					pagingUrl = pagingUrl + "search?orderBy=" + orderBy + "&keywordType=" + search.get("keywordType").toString() +
 							"&keywordValue=" + search.get("keywordValue").toString() + "&hobbyType=" + search.get("hobbyType").toString() +
-							"&period=" + search.get("period").toString();
+							"&period=" + search.get("period").toString() + "&ing=" + ing;
 				} else {
 					pagingUrl = pagingUrl + "search?orderBy=" + orderBy + "&keywordType=" + search.get("keywordType").toString() +
 							"&keywordValue=" + search.get("keywordValue").toString() + "&hobbyType=" + search.get("hobbyType").toString() +
-							"&period=null";
+							"&period=null&ing=" + ing;
 				}
 			} else {
 				if (search.containsKey("period")) {
 					pagingUrl = pagingUrl + "search?orderBy=" + orderBy + "&keywordType=" + search.get("keywordType").toString() +
-							"&keywordValue=" + search.get("keywordValue").toString() + "&hobbyType=&period=" + search.get("period").toString();
+							"&keywordValue=" + search.get("keywordValue").toString() + "&hobbyType=&period=" + search.get("period").toString() + "&ing=" + ing;
 				} else {
 					pagingUrl = pagingUrl + "search?orderBy=" + orderBy + "&keywordType=" + search.get("keywordType").toString() +
-							"&keywordValue=" + search.get("keywordValue").toString() + "&hobbyType=&period=null";
+							"&keywordValue=" + search.get("keywordValue").toString() + "&hobbyType=&period=null&ing=" + ing;
 				}
 			}
 		} else {
 			if (search.containsKey("hobbyType")) {
 				if (search.containsKey("period")) {
 					pagingUrl = pagingUrl + "search?orderBy=" + orderBy + "&keywordType=null&keywordValue=null&hobbyType=" + search.get("hobbyType").toString() +
-							"&period=" + search.get("period").toString();
+							"&period=" + search.get("period").toString() + "&ing=" + ing;
 				} else {
 					pagingUrl = pagingUrl + "search?orderBy=" + orderBy + "&keywordType=null&keywordValue=null&hobbyType=" + search.get("hobbyType").toString() +
-							"&period=null";
+							"&period=null&ing=" + ing;
 				}
 			} else {
 				if (search.containsKey("period")) {
-					pagingUrl = pagingUrl + "search?orderBy=" + orderBy + "&keywordType=null&keywordValue=null&hobbyType=&period=" + search.get("period").toString();
+					pagingUrl = pagingUrl + "search?orderBy=" + orderBy + "&keywordType=null&keywordValue=null&hobbyType=&period=" + 
+							search.get("period").toString() + "&ing=" + ing;
 				}
 			}
 		} 
 		
 		if (search.containsKey("start_date")) {
-			pagingUrl = pagingUrl + "searchDate?orderBy=" + orderBy + "&start_date=" + search.get("start_date").toString() + "&end_date=" + search.get("end_date").toString();
+			pagingUrl = pagingUrl + "searchDate?orderBy=" + orderBy + "&start_date=" + search.get("start_date").toString() + 
+					"&end_date=" + search.get("end_date").toString() + "&ing=" + ing;
 		}
 		
 		if (search.containsKey("location")) {
-			pagingUrl = pagingUrl + "searchLocation?orderBy=" + orderBy + "&location=" + search.get("location").toString();
+			pagingUrl = pagingUrl + "searchLocation?orderBy=" + orderBy + "&location=" + search.get("location").toString() + "&ing=" + ing;
 		}
 		
 		if(needPrev) {
@@ -296,9 +302,7 @@ public class GroupService {
 		Map<String, Object> param = new HashMap<>();
 		MemberDTO mdto = mdao.getMemberInfo(id);
 		GroupDTO gdto = gdao.selectBySeq(parent_seq);
-		System.out.println(mdto.getId());
-		System.out.println(mdto.getProfile());
-		System.out.println(mdto.getSysname());
+
 		param.put("id", mdto.getId());
 		param.put("name", mdto.getName());
 		param.put("profile", mdto.getSysname());
@@ -314,5 +318,22 @@ public class GroupService {
 		}
 		
 		return result;
+	}
+	
+	// 그룹 신청 거절
+	public boolean refuseApp(int seq) throws Exception {
+		boolean resp = false;
+		int result = gdao.refuseApp(seq);
+		
+		if (result > 0) {
+			resp = true;
+		}
+		
+		return resp;
+	}
+	
+	// 내 신청서 보기
+	public GroupApplyDTO showMyApp(Map<String, Object> param) throws Exception {
+		return gdao.showMyApp(param);
 	}
 }

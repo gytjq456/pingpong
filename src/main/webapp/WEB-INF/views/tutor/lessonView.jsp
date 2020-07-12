@@ -11,19 +11,24 @@
 	.curriculum{float: left; width: 60%; height:100%;}
 	.curri_right{float: left; width: 40%; height:100%;}
 	.view_top_left{float: left; width: 20%; height: 100%;}
+<<<<<<< HEAD
 	.view_top_right{float: left; width: 80%; height:100%;}  */
 	.customoverlay {position:relative;bottom: 60px; left: 5px;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;float:left;}
 	.customoverlay:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}
 	.customoverlay a {display:block;text-decoration:none;color:#000;text-align:center;border-radius:6px;font-size:14px;font-weight:bold;overflow:hidden;background: #f1989f;background: #f1989f url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;}
 	.customoverlay .mapTitle {display:block;text-align:center;background:#fff;margin-right:35px;padding:10px 15px;font-size:14px;font-weight:bold;}
 	.customoverlay:after {content:'';position:absolute;margin-left:-12px;left:50%;bottom:-12px;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
-</style>
 
 <style>
 	.refund_guid { line-height:1.6; }
 	.refund_guid li { margin-bottom:6px; position:relative; padding-left:12px;}
 	.refund_guid li:last-child { margin:0; }
 	.refund_guid li:before { content:""; width:4px; height:4px; border-radius:50%; background:#333; display:block; position:absolute; left:0; top:10px; }
+	.customoverlay {position:relative;bottom: 60px; left: 5px;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;float:left;}
+	.customoverlay:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}
+	.customoverlay a {display:block;text-decoration:none;color:#000;text-align:center;border-radius:6px;font-size:14px;font-weight:bold;overflow:hidden;background: #f1989f;background: #f1989f url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;}
+	.customoverlay .mapTitle {display:block;text-align:center;background:#fff;margin-right:35px;padding:10px 15px;font-size:14px;font-weight:bold;}
+	.customoverlay:after {content:'';position:absolute;margin-left:-12px;left:50%;bottom:-12px;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
 </style>
 <script>
 $(function(){

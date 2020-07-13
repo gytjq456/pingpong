@@ -62,7 +62,7 @@
 								<a href="/partner/partnerList">Partner</a>
 								<ul class="depth2">
 									<li><a href="/partner/partnerList?align=recent">파트너 목록</a></li>
-									<li><a href="#;">파트너 등록</a></li>
+									<li><a href="#;" class="resiterPop">파트너 등록</a></li>
 								</ul>
 							</li>
 							<li>

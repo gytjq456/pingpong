@@ -130,7 +130,7 @@
 					addr:addr	
 				}
 			}).done(function(resp){
-				console.log(resp)
+				/* console.log(resp) */
 				if(resp.gList.length || resp.lessonList.length){
 					for(var i=0; i<resp.gList.length; i++){
 						latArr.push(resp.gList[i].location_lat);
@@ -150,14 +150,14 @@
 					$("#map").html("");
 					var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 					
-					console.log(latArr)
-					console.log(lanArr)
+					/* console.log(latArr)
+					console.log(lanArr) */
 					
 					// 커스텀 오버레이가 표시될 위치입니다 
 					//var position = new kakao.maps.LatLng(37.49887, 127.026581);
 					// 마커를 표시할 위치와 title 객체 배열입니다 
-					console.log("len = " + resp.gList.length)
-					console.log("len = " + resp.lessonList.length)
+					/* console.log("len = " + resp.gList.length)
+					console.log("len = " + resp.lessonList.length) */
 					var positions = [];
 					for (var i = 0; i < resp.gList.length; i++) {
 						positions.push({

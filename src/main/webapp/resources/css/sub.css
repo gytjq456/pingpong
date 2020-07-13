@@ -289,6 +289,18 @@ width:-webkit-calc(100% - 340px);
 #my_group_manage .app_lang_can,
 #my_group_manage .app_lang_learn { width: calc((100% - 580px) / 2);}
 
+
+#my_group_manage .title_wrap { }
+
+.groupWrap > section { margin-bottom:40px;}
+.groupWrap > section:last-child { margin:0; }
+.groupWrap > section .cate { font-size:20px; font-weight:700; color:#333; margin-bottom:20px;}
+.groupWrap > section .title_wrap { border-top:2px solid #fbaab0;}
+.groupWrap > section .title_wrap > div,
+.groupWrap > section .option_wrap > div { padding:14px 5px; border-bottom:1px solid #ddd; line-height:1.6;}
+.groupWrap > section .all_app { border:none; background:#4b98ff; color:#fff; border-radius:4px; font-size:12px; }
+.groupWrap > section .show_app { padding:20px; }
+
 /* 토론 글쓰기*/
 #discussion_write {}
 #discussion_write section { margin-bottom:40px; }
@@ -729,4 +741,55 @@ width:-webkit-calc(100% - 130px);
 
 #list_s2 ul li .info > div.language p,
 #list_s2 ul li .info > div.addr p { display:block; width:100%; margin-top:4px; }
-p
+
+/* 마이 페이지 */
+#mypage { }
+#mypage .userInfo { padding:30px;  }
+#mypage .userInfo > div { float:left; margin-right:60px;}
+#mypage .userInfo > div:last-child { margin-right:0; }
+#mypage .userInfo .thum .img{ width:200px; height:200px; border-radius:50%; overflow:hidden; }
+#mypage .userInfo .infoBox {
+	width:calc(100% - 260px);
+	width:-moz-calc(100% - 260px);
+	width:-webkit-calc(100% - 260px);
+}
+#mypage .userInfo .infoBox { margin-top:10px;}
+#mypage .userInfo .infoBox .name { font-size:22px; font-weight:700; color:#333;}
+#mypage .userInfo .infoBox .name span { font-size:16px; font-weight:400; color:#999;}
+#mypage .userInfo .infoBox .infoTxt { margin-top:20px;  border-top:1px solid #ddd; padding-top:20px; }
+#mypage .userInfo .infoBox .infoTxt ul { overflow:hidden; }
+#mypage .userInfo .infoBox .infoTxt ul li { overflow:hidden; line-height:1.4; float:left; width:50%; margin-top:10px;}
+#mypage .userInfo .infoBox .infoTxt ul li span,
+#mypage .userInfo .infoBox .infoTxt ul li p { float:left ; }
+#mypage .userInfo .infoBox .infoTxt ul li span { font-weight:500; width:60px;}
+#mypage .userInfo .infoBox .infoTxt ul li p{ color:#999; 
+width:calc(100% - 60px);
+width:-moz-calc(100% - 60px);
+width:-webkit-calc(100% - 60px);
+}
+
+#mypage .userInfo .name span.grade { display:inline-block; background:#333; border-radius:20px; border-radius:20px; color:#fff; padding:5px 10px; vertical-align:middle; font-size:12px; color:#fff; }
+#mypage .sideInfo { padding:30px; }
+#mypage .sideInfo ul {overflow:hidden; }
+#mypage .sideInfo ul li { overflow:hidden; margin-bottom:20px; }
+#mypage .sideInfo ul li span, 
+#mypage .sideInfo ul li p { float:left; display:block}
+#mypage .sideInfo ul li span { font-weight:700; color:#333;  margin-right:10px;}
+#mypage .sideInfo ul li p { color:#999; }
+
+#mypage .sideInfo ul li.introduce span { }
+#mypage .sideInfo ul li.introduce p { margin-top:10px; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

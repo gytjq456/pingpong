@@ -98,5 +98,13 @@
 	<insert id="insertReport">
 		insert into reportlist values(reportlist_seq.nextval, #{id}, #{reason}, #{reporter}, sysdate, #{parent_seq}, '첨삭', default)
 	</insert>
+	
+	<select id="comment_report" resultType="int">
+		select count(*) from reportlist where parent_seq = #{parent_seq} and id=#{id} and category='첨삭-${commSeq}'
+	</select>
+	<!-- 신고테이블에 저장 -->
+	<insert id="comment_reportProc">
+		insert into reportlist values(reportlist_seq.nextval, #{id}, #{reason}, #{reporter}, sysdate, #{parent_seq}, '첨삭-${commSeq}', default)
+	</insert>
 
 </mapper>

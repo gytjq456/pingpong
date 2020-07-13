@@ -136,19 +136,6 @@
 						value="취소">
 				</form>
 			</div>
-			<br><div>베스트 댓글</div><br>
-			<c:forEach var="u" items="${cdto2}">
-				<div class="info">
-					<p class="userId">${u.writer}</p>
-					<p class="writeDate">${u.write_date}</p>
-				</div>
-
-				<div class="cont">
-					<div class="contents">${u.contents}</div>
-					<button class="comment_delete normal" data-seq="${u.seq}">댓글삭제</button>
-				</div>
-			</c:forEach>
-
 
     		<br><br><div>전체댓글</div><br>
 			<c:forEach var="i" items="${cdto}">
@@ -160,11 +147,13 @@
 				<div class="cont">
 					<div class="contents">${i.contents}</div>
 					<button class="comment_delete normal" data-seq="${i.seq}">댓글삭제</button>
+					<span id="comment_report" data-thisSeq="${i.seq}" data-seq="${dto.seq}" data-id="${i.id}" data-url="/correct/comment_report" data-proc="/correct/comment_reportProc"><i class="fa fa-exclamation" aria-hidden="true"></i>신고</span>
 				</div>
 			</c:forEach>
 
 		</article>
 	</section>
 </div>
+<jsp:include page="/WEB-INF/views/correct/comment_report.jsp" />
 <jsp:include page="/WEB-INF/views/correct/correct_report.jsp" />
 <jsp:include page="/WEB-INF/views/footer.jsp" />

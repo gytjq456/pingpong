@@ -114,4 +114,13 @@ public class CorrectDAO {
 		return mybatis.insert("Correct.insertReport", rldto);
 	}
 	
+	public int comment_report(ReportListDTO rldto) throws Exception{
+		return mybatis.selectOne("Correct.comment_report", rldto);
+	}
+	
+	//신고테이블에 저장
+	public int comment_reportProc(ReportListDTO rldto) throws Exception{
+		return mybatis.insert("Correct.comment_reportProc", rldto);
+	}
+	
 	}

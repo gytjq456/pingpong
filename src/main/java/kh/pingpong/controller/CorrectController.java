@@ -204,5 +204,22 @@ public class CorrectController {
 		return "redirect:/correct/correct_view?seq=" + rldto.getParent_seq();
 	}
 	
+	@RequestMapping("/comment_report")
+	@ResponseBody
+	public int report(Model model, ReportListDTO rldto) throws Exception {
+		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
+		rldto.setReporter(mdto.getId());
+		int result = cservice.comment_report(rldto);
+		model.addAttribute("rldto",rldto);
+		return result;
+	}
+	
+	//신고 테이블에 저장
+	@RequestMapping("/comment_reportProc")
+	public String reportProc(Model model, ReportListDTO rldto) throws Exception{
+		cservice.comment_reportProc(rldto);
+		return "redirect:/correct/correct_view?seq="+rldto.getParent_seq();
+	}
+	
 	
 }

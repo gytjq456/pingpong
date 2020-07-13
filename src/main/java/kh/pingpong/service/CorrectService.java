@@ -104,6 +104,17 @@ public class CorrectService {
 	public int insertReport(ReportListDTO rldto) {
 		return dao.insertReport(rldto);
 	}
+	
+	public int comment_report(ReportListDTO rldto) throws Exception{
+		int result = dao.comment_report(rldto);
+		return result;
+	}
+	
+	//신고테이블에 저장
+	public int comment_reportProc(ReportListDTO rldto) throws Exception{
+		int result = dao.comment_reportProc(rldto);
+		return result;
+	}
 	public String correct_paging (int userCurrentPage) throws Exception {
 		int recordTotalCount = dao.correctcount(); 
 		System.out.println(recordTotalCount);

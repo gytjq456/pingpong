@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import kh.pingpong.config.Configuration;
 import kh.pingpong.dao.NewsDAO;
 import kh.pingpong.dto.FileDTO;
-import kh.pingpong.dto.FileTnDTO;
 import kh.pingpong.dto.NewsDTO;
 
 @Service
@@ -42,9 +42,66 @@ public class NewsService {
 		return 1;
 	}
 	
-	public List<NewsDTO> newsSelect() throws Exception{
-		return newsdao.newsSelect();
+	//list
+	//네비바
+	public String getPageNavi_news(int userCurrentPage) throws Exception{
+		int recordTotalCount = newsdao.newsBoard_count(); 
+		System.out.println(recordTotalCount +"게시물의 총 갯수");
+		
+		
+		int pageTotalCount = 0; // 모든 페이지 개수
+		
+		if(recordTotalCount % Configuration.RECORD_COUNT_PER_PAGE > 0) {
+			pageTotalCount = recordTotalCount / Configuration.RECORD_COUNT_PER_PAGE + 1;
+			//게시글 개수를 페이지당 게시글로 나누어 나머지 값이 있으면 한 페이지를 더한다.
+		}else {
+			pageTotalCount = recordTotalCount / Configuration.RECORD_COUNT_PER_PAGE;
+		}
+		
+		int currentPage = userCurrentPage;//현재 내가 위치한 페이지 번호.	클라이언트 요청값
+		//공격자가 currentPage를 변조할 경우에 대한 보안처리
+		if(currentPage < 1) {
+			currentPage = 1;
+		}else if(currentPage > pageTotalCount) {
+			currentPage = pageTotalCount;
+		}
+		
+		int startNavi = (currentPage - 1) / Configuration.NAVI_COUNT_PER_PAGE * Configuration.NAVI_COUNT_PER_PAGE + 1;
+		
+		int endNavi = startNavi + Configuration.NAVI_COUNT_PER_PAGE - 1;
+		
+		if(endNavi > pageTotalCount) {endNavi = pageTotalCount;}
+		
+		boolean needPrev = true;
+		boolean needNext = true;
+		
+		if(startNavi == 1) {needPrev = false;}
+		if(endNavi == pageTotalCount) {needNext = false;}		
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append("<ul>");		
+			if(needPrev) {
+				sb.append("<li><a href='/news/listProc?cpage="+(startNavi-1)+"'><</a></li>");
+			}
+			for(int i = startNavi ; i<=endNavi; i++) {
+				if(currentPage == i) {
+					sb.append("<li class='on'><a href='/news/listProc?cpage="+i+"'>"+i+"</a></li>");//꾸며주는 것
+				}else {
+					sb.append("<li><a href='/news/listProc?cpage="+i+"'>"+i+"</a></li>");//꾸며주는 것
+				}
+			}
+			if(needNext) {
+				sb.append("<li><a href='/news/listProc?cpage="+(endNavi+1)+"'>></a></li>");
+			}
+		sb.append("</ul>");
+		
+		return sb.toString();
 	}
+	
+	//list 게시물
+	public List<NewsDTO> newsPage(int cpage) throws Exception {
+		return newsdao.newsPage(cpage);
+	}	
 	
 	public NewsDTO newsViewOne(NewsDTO ndto) throws Exception{
 		return newsdao.newsViewOne(ndto);

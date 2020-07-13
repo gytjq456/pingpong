@@ -2,6 +2,7 @@ package kh.pingpong.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,9 +38,17 @@ public class NewsController {
 	
 	/* 리스트 */
 	@RequestMapping("listProc")
-	public String listProc(Model model) throws Exception{
-		List<NewsDTO> newsSelect = newservice.newsSelect();
-		model.addAttribute("newsSelect",newsSelect);
+	public String listProc(HttpServletRequest request, Model model) throws Exception{
+		int cpage =1;
+		try {
+			cpage = Integer.parseInt(request.getParameter("cpage"));
+		}catch(Exception e) {
+		}
+		String navi = newservice.getPageNavi_news(cpage);
+		model.addAttribute("navi",navi);
+		
+		List<NewsDTO> newsSelect = newservice.newsPage(cpage);
+		model.addAttribute("newsSelect",newsSelect);		
 		return "/news/list";
 	}
 	
@@ -143,9 +152,6 @@ public class NewsController {
 	public String delete(NewsDTO ndto) throws Exception{
 		int result = newservice.delete(ndto);
 		return String.valueOf(result);
-	}
-	
-	//// 페이
-	
+	}	
 	
 }

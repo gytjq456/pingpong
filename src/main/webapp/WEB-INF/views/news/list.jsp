@@ -58,6 +58,10 @@
 					</c:choose>
 					</div>
 					
+					<div id="listNav">
+						${navi}
+					</div>
+					
 					<div class="btnS1 right">						
 						<button type="button" id="write" class="on">글 작성</button>
 					</div>

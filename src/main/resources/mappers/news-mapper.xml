@@ -98,6 +98,10 @@
 		select count(*) from news
 	</select>
 	
+	<select id="newsPage" resultMap="thumbnail_img">
+		select * from (select news.*,row_number() over(order by seq desc) rnum from news)where rnum between #{start} and #{end}
+	</select>
+	
 	
 
 </mapper>

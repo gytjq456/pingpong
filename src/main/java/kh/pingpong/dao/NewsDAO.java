@@ -8,8 +8,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kh.pingpong.config.Configuration;
 import kh.pingpong.dto.FileDTO;
-import kh.pingpong.dto.FileTnDTO;
 import kh.pingpong.dto.NewsDTO;
 
 @Repository
@@ -43,6 +43,23 @@ public class NewsDAO {
 	public NewsDTO newsViewOne(NewsDTO ndto) throws Exception{
 		return mybatis.selectOne("News.newsViewOne", ndto);
 	}
+	
+	//news list 총 갯수
+	public int newsBoard_count() {
+		return mybatis.selectOne("News.newsBoard_count");
+	}
+	
+	//list 게시물
+	public List<NewsDTO> newsPage(int cpage) throws Exception {
+		int start = cpage*Configuration.RECORD_COUNT_PER_PAGE - (Configuration.RECORD_COUNT_PER_PAGE - 1);
+		int end = start + (Configuration.RECORD_COUNT_PER_PAGE - 1);
+		
+		Map<String, Integer> pageNum = new HashMap<>();
+		pageNum.put("start", start);
+		pageNum.put("end", end);
+		
+		return mybatis.selectList("News.newsPage",pageNum);
+	}	
 	
 	//list 파일 select
 	public List <FileDTO> newsViewFile(NewsDTO ndto) throws Exception{

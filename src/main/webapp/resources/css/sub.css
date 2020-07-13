@@ -537,8 +537,11 @@ textarea { resize:none; height:120px; line-height:1.6;}
  .tab_s1 ul{}   
  .tab_s1 ul li { float:left; margin-right:2%; border:1px solid #ddd; border-radius:6px; }  
  .tab_s1 ul li:last-child { margin-right:0; }
- .tab_s1 ul li a { display:block; height:60px; line-height:60px; font-size:18px;  text-align:center;}   
+ .tab_s1 ul li button { width:100%; background:none; }
+ .tab_s1 ul li button,   
+ .tab_s1 ul li a { display:block; height:60px; line-height:60px; font-size:18px;  text-align:center; border:none;}
  .tab_s1 ul li.on { }
+ .tab_s1 ul li.on button,   
  .tab_s1 ul li.on a { background:#f1989f; font-weight:500; color:#fff; }
  
  .tab_s2 { border-radius:6px; overflow:hidden; border:1px solid #ddd;}   
@@ -551,7 +554,7 @@ textarea { resize:none; height:120px; line-height:1.6;}
  .tab_s2 ul li.on button,
  .tab_s2 ul li.on a { background:#f1989f; font-weight:500; color:#fff; }
  
- #tabContWrap { }
+ #tabContWrap { display:none; }
  #tabContWrap > article { display:none;}
  #tabContWrap > article:first-child { display:block;}
    

@@ -17,6 +17,7 @@
 				<div id="tabContWrap">
 					<div class="card_body" id="find_news_write">
 						<form action="/news/modifyProc" method="post" enctype="multipart/form-data" id="writeForm">
+							<input type="hidden" name="seq" id="seq" value="${ndto.seq}">
 							<div class="news_write_sub">
 								<div class="tit_s3">
 									<h4>제목</h4>
@@ -40,13 +41,10 @@
 									})
 								</script>
 								<select id="category" name="category" id="category">
-										<%-- <option value="${ndto.category}">${ndto.category}</option>
-										 --%>
-										<option value="세미나">세미나</option>
-										<option value="공모전">공모전</option>
-										<option value="페스티벌">페스티벌</option>
-										<option value="기타">기타</option>
-										
+									<option value="세미나">세미나</option>
+									<option value="공모전">공모전</option>
+									<option value="페스티벌">페스티벌</option>
+									<option value="기타">기타</option>
 								</select>
 							</div>
 							
@@ -75,8 +73,11 @@
 								</div>
 								<div class="news_sub_input">
 									<div class="se_con">
+										<div class="post_code">${ndto.location}</div>
+										<input type="hidden" value="${ndto.location}" name="location">
+										
 										<div class="post_code">
-											<input type="text" name="postcode" id="sample3_postcode" class="post_css" value="${ndto.location}">
+											<input type="text" name="postcode" id="sample3_postcode" class="post_css" >
 											<span class="btnS1"><input type="button" id="postbtn" value="우편번호 찾기" class="post_btn on"></span>
 										</div>
 										<input type="text" name="address" id="sample3_address" class="address_css" >
@@ -104,7 +105,7 @@
 									<h4>프로필</h4>
 									<span class="notice">* 프로필은 필수로 입력하야합니다. 프로필 사이즈 : 267px * 300px</span>
 									<div class="file_box">
-										<input type="file" id="thumbnail" name="thumbnail" value="${ndto.thumbnail}">
+										<input type="file" id="thumbnail" name="thumbnail">
 										<div id="thumbnail_dele">
 											<span class="notice">첨부된 파일 : </span>
 											<span class="thumbnail_img">
@@ -119,14 +120,17 @@
 								<div class="tit_s3 f_all">
 									<h4>첨부파일</h4>
 									<span class="notice">* 첨부파일이 있을 경우 +를 눌러주세요. +를 누를 때마다 첨부파일이 늘어납니다.</span>
-									<button type="button" id="addFile">+</button>
-									
-									
+									<button type="button" id="addFile">+</button>								
 									<ul>
 										<c:forEach items="${files}" var="i">
 											<li>
-												${i.oriname}
-												<button type="button" class="x" data-seq="${ndto.seq}" data-files_name="${i.sysname}">X</button>
+												<div>
+													${i.oriname}
+													<button type="button" class="x" data-seq="${ndto.seq}" data-files_name="${i.sysname}">X</button>
+												</div>
+												수정 파일 : <input type="file" name="files">
+												<br>
+												<br>
 											</li>
 										</c:forEach>
 									</ul>									

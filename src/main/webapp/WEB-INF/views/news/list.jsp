@@ -45,7 +45,7 @@
 									<div>${list.writer}</div>
 									<div>행사기간 : ${list.start_date} ~ ${list.end_date}</div>
 									<span>${list.write_date_st}</span>
-									<div class="countList">
+									<div class="countList" style="position:static;">
 										<ul>
 											<li><i class="fa fa-eye"></i> 1</li>
 											<li><i class="fa fa-commenting-o" aria-hidden="true"></i> 0</li>

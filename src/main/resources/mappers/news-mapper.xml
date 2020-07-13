@@ -31,7 +31,7 @@
 		select seq, title, writer, category, 
 		to_char(start_date,'yyyy-mm-dd') start_date, to_char(end_date,'yyyy-mm-dd') end_date, location, thumbnail,
         files, contents, to_char(write_date,'yyyy-mm-ss') write_date,view_count,like_count,comment_count
-		from news 
+		from news order by seq desc
 	</select>
 	
 	<select id="newsViewOne" resultMap="thumbnail_img">
@@ -41,8 +41,39 @@
 		from news where seq=${seq}
 	</select>
 	
+	<!-- 프로필 수정 -->
+	<update id="newsUpdate_ftn">
+		update files set sysname= #{sysname}, oriname=#{oriname}, realpath=#{realpath} where parent_seq = #{parent_seq} and category ='news_thumb'
+	</update>
+	
+	<!-- 파일들 수정 -->
+	<update id="newsUpdate_files">
+		update files set sysname= #{sysname}, oriname=#{oriname}, realpath=#{realpath} where parent_seq = #{parent_seq} and category = 'news'
+	</update>
+	
+	<!-- 수정 -->
+	<update id="newsUpdate_new">
+		update news set title= #{ndto.title}, writer=#{ndto.writer}, category=#{ndto.category}
+		, start_date=#{ndto.start_date}, end_date=#{ndto.end_date}, location=#{ndto.location}, contents=#{ndto.contents}
+		<if test="ftndto.sysname != null">
+			,thumbnail = #{ftndto.sysname}
+		</if>		
+		where seq = #{ndto.seq}
+		<!-- <if test="ndto.files_name != null">
+			,files=#{ndto.files_name} 
+		</if> -->
+	</update>
+	<!-- 
+	<update id="newsUpdate_new">
+		update news set title= #{ndto.title}, writer=#{ndto.writer}, category=#{ndto.category}
+		, start_date=#{ndto.start_date}, end_date=#{ndto.end_date}, location=#{ndto.location}, thumbnail=#{ftndto.sysname}
+		, files_name=#{ndto.files_name}, contents=#{ndto.contents}
+		where seq = #{seq}
+	</update>
+	 -->
+	
 	<!-- 파일들 select -->
-	<select id="newsViewFile" resultType="kh.pingpong.dto.FileTnDTO">
+	<select id="newsViewFile" resultType="kh.pingpong.dto.FileDTO">
 		select * from files where parent_seq=${seq} and category = 'news'
 	</select>
 	
@@ -62,4 +93,11 @@
 		</if>
 	</delete>
 	
+	<!-- 뉴스 총 게시물 수 -->
+	<select id="newsBoard_count" resultType="int">
+		select count(*) from news
+	</select>
+	
+	
+
 </mapper>

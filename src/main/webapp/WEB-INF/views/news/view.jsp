@@ -73,7 +73,14 @@
 										<li>
 											<ul>
 												<li>행사기간</li>
-												<li>${ndto.start_date} ~ ${ndto.end_date}</li>
+												<c:choose>
+													<c:when test="${ndto.start_date != ''}">
+														<li>${ndto.start_date} ~ ${ndto.end_date}</li>
+													</c:when>
+													<c:otherwise>
+														<li>&nbsp;</li>
+													</c:otherwise>
+												</c:choose>
 											</ul>
 										</li>
 									</ul>
@@ -81,7 +88,14 @@
 										<li>
 											<ul>
 												<li>행사장소</li>
-												<li>${ndto.location}</li>
+												<c:choose>
+													<c:when test="${ndto.location != ''}">
+														<li>${ndto.location}</li>
+													</c:when>
+													<c:otherwise>
+														<li>gkgkgkgkgk</li>
+													</c:otherwise>
+												</c:choose>
 											</ul>
 										</li>
 									</ul>
@@ -91,7 +105,7 @@
 												<li>첨부파일</li>
 												<li>
 													<c:forEach items="${files}" var="i">
-														<a href="/file/downloadFile?seq=${ndto.seq}&files_name=${i.oriname}" class="downloadF">
+														<a href="/file/downloadFile?seq=${ndto.seq}&files_name=${i.sysname}" class="downloadF">
 															${i.oriname}
 														</a>
 													</c:forEach>

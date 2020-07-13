@@ -107,12 +107,12 @@ $(function(){
 	
 	/** 첨부파일 **/
 	var countf = 0;
-	$("#addFile").click(function(){		
-		if(countf<3){
+	$("#addFile").click(function(){	
+		var count = $(".f_all ul li").length;
+		if(count<3){
 			$("#fileSpace").append(
 					"<div class='file_box'><input type='file' name='files' class='files'> <button type='button' class='minus'>-</button></div>"
 			);
-			++countf;
 		}else{
 			alert("파일은 3개 까지 생성 가능합니다.");
 		}		
@@ -120,7 +120,7 @@ $(function(){
 	
 	$("#fileSpace").on("click",".minus",function(){
 		$(this).parent().css('display','none');
-		--countf;
+		--count;
 	});
 	
 });

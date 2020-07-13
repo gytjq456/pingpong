@@ -18,7 +18,7 @@ public class NewsDAO {
 	@Autowired
 	private SqlSessionTemplate mybatis;
 	
-	public int newsInsert_new(NewsDTO ndto, FileTnDTO ftndto) throws Exception{
+	public int newsInsert_new(NewsDTO ndto, FileDTO ftndto) throws Exception{
 		
 		Map<String, Object> newsAdd = new HashMap<>(); 
 		newsAdd.put("ndto", ndto);
@@ -27,12 +27,12 @@ public class NewsDAO {
 		return mybatis.insert("News.newsInsert_new", newsAdd);
 	}
 	
-	public int newsInsert_ftn(FileTnDTO ftndto) throws Exception{
+	public int newsInsert_ftn(FileDTO ftndto) throws Exception{
 		return mybatis.insert("News.newsInsert_ftn", ftndto);		
 	}
 	
-	public int newsInsert_filseA(FileDTO a) throws Exception{
-		return mybatis.insert("News.newsInsert_filseA", a);		
+	public int newsInsert_filseA(FileDTO all) throws Exception{
+		return mybatis.insert("News.newsInsert_filseA", all);		
 	}
 	
 	public List<NewsDTO> newsSelect() throws Exception{
@@ -45,10 +45,27 @@ public class NewsDAO {
 	}
 	
 	//list 파일 select
-	public List <FileTnDTO> newsViewFile(NewsDTO ndto) throws Exception{
+	public List <FileDTO> newsViewFile(NewsDTO ndto) throws Exception{
 		return mybatis.selectList("News.newsViewFile", ndto);
 	}
 	
+	//프로필 수정
+	public int newsUpdate_ftn(FileDTO ftndto) throws Exception{
+		return mybatis.update("News.newsUpdate_ftn", ftndto);
+	}
+	
+	//파일들 수정
+	public int newsUpdate_files(FileDTO filesAll) throws Exception {
+		return mybatis.update("News.newsUpdate_files", filesAll);
+	}
+	
+	//수정
+	public int newsUpdate_new(NewsDTO ndto, FileDTO ftndto) throws Exception{
+		Map<String, Object> newsAdd = new HashMap<>(); 
+		newsAdd.put("ndto", ndto);
+		newsAdd.put("ftndto", ftndto);		
+		return mybatis.update("News.newsUpdate_new", newsAdd);
+	}
 	
 	//게시글 삭제
 	public int delete(NewsDTO ndto) throws Exception{

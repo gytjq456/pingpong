@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kh.pingpong.dto.FileDTO;
-import kh.pingpong.dto.FileTnDTO;
 import kh.pingpong.dto.FilesDTO;
 import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.dto.NewsDTO;
@@ -48,7 +47,7 @@ public class NewsController {
 	@RequestMapping("viewProc")
 	public String viewProc(NewsDTO ndto, Model model) throws Exception{		
 		ndto = newservice.newsViewOne(ndto);
-		List <FileTnDTO> files = newservice.newsViewFile(ndto);
+		List <FileDTO> files = newservice.newsViewFile(ndto);
 		model.addAttribute("ndto",ndto);
 		model.addAttribute("files",files);
 		return "/news/view";
@@ -67,7 +66,7 @@ public class NewsController {
 		ndto.setWriter(loginInfo.getId());
 		ndto.setLocation(ndto.getAddress() + ndto.getDetailAddress() + ndto.getExtraAddress());
 		
-		FileTnDTO ftndto = new FileTnDTO();
+		FileDTO ftndto = new FileDTO();
 		
 		// 썸네일 파일 하나 저장
 		String realPath = session.getServletContext().getRealPath("upload/news/thumbnail/");
@@ -79,7 +78,6 @@ public class NewsController {
 		
 		int result = newservice.newsInsert(ndto, ftndto, filseA);
 		
-		
 		return "redirect:/news/listProc";
 	}
 	
@@ -87,17 +85,54 @@ public class NewsController {
 	@RequestMapping("modify")
 	public String modify(NewsDTO ndto, Model model) throws Exception{
 		ndto = newservice.newsViewOne(ndto);
-		List <FileTnDTO> files = newservice.newsViewFile(ndto);
+		List <FileDTO> files = newservice.newsViewFile(ndto);
 		model.addAttribute("ndto",ndto);
 		model.addAttribute("files",files);
 		return "/news/modify";
 	}
 	
-	/* 글수정 파일 하나 삭제 jsp */
+	/* 글 수정 */
+	@RequestMapping("modifyProc")
+	public String modifyProc(NewsDTO ndto, FilesDTO fsdto, Model model) throws Exception{
+		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
+		ndto.setWriter(loginInfo.getId());
+		
+		//주소변경 시
+		if(!ndto.getAddress().contentEquals("")) {
+			ndto.setLocation(ndto.getAddress() + ndto.getDetailAddress() + ndto.getExtraAddress());
+		}
+		
+		FileDTO ftndto = new FileDTO();
+		
+		// 썸네일 파일 하나 저장
+		System.out.println(ndto.getThumbnail() + " :: 프로필");
+		if(ndto.getThumbnail() != null) {
+			System.out.println("컨트롤러 :: 썸네일 파일 하나");
+			String realPath = session.getServletContext().getRealPath("upload/news/thumbnail/");
+			ftndto = fcon.newsFileOneInsert(ndto, ftndto, realPath);
+			int result = newservice.modifyProc(ndto, ftndto);
+		}
+		
+		// 첨부파일 여러개
+		/*
+		System.out.println(fsdto.getFiles().length + " :: 첨부파일 여러개");
+		if(fsdto.getFiles() != null) {
+			System.out.println("컨트롤러 :: 첨부파일 여러개");
+			String realPath2 = session.getServletContext().getRealPath("upload/news/files/");
+			List<FileDTO> filseA = fcon.newsFileInsert(fsdto, realPath2);
+			int result = newservice.modifyProcAll(ndto, ftndto, filseA);
+		}
+		*/
+		int result = newservice.modifyProc(ndto, ftndto);
+		
+		//return "/news/view";
+		return "redirect:/news/listProc";
+	}
+	
+	/* 글수정 첨부파일 하나 삭제 jsp */
 	@ResponseBody
 	@RequestMapping("dele_fileOne")
 	public String dele_fileOne(NewsDTO ndto) throws Exception{
-		System.out.println("파일 컨트롤러   "+ ndto.getCategory() + " :: " + ndto.getSeq());
 		int result = newservice.dele_fileOne(ndto);
 		return String.valueOf(result);
 	}
@@ -109,5 +144,8 @@ public class NewsController {
 		int result = newservice.delete(ndto);
 		return String.valueOf(result);
 	}
+	
+	//// 페이
+	
 	
 }

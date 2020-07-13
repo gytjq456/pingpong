@@ -18,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import kh.pingpong.dao.FileDAO;
 import kh.pingpong.dto.FileDTO;
-import kh.pingpong.dto.FileTnDTO;
 import kh.pingpong.dto.FilesDTO;
 import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.dto.NewsDTO;
@@ -67,7 +66,7 @@ public class FileController {
 	}	
 	
 	/* news 썸네일 파일 업로드 */
-	public FileTnDTO newsFileOneInsert(NewsDTO ndto, FileTnDTO ftndto, String realPath) throws Exception{
+	public FileDTO newsFileOneInsert(NewsDTO ndto, FileDTO ftndto, String realPath) throws Exception{
 		
 		MultipartFile thumbnail = ndto.getThumbnail();
 		
@@ -121,6 +120,7 @@ public class FileController {
 					/* 하드디스크 파일 업로드 */		
 					singlefdto.setOriname(file.getOriginalFilename());
 					singlefdto.setSysname(write_date + "_"+"("+(++count)+")" + file.getOriginalFilename());
+					System.out.println("카운트 들어오나 ? " + count);
 					singlefdto.setRealpath(realPath + file.getOriginalFilename());
 					singlefdto.setCategory("news");
 					String systemFileName = write_date + "_"+"("+(count)+")" + file.getOriginalFilename(); 
@@ -128,6 +128,7 @@ public class FileController {
 					File fileDownload = new File(realPath + "/" + systemFileName);
 					file.transferTo(fileDownload);
 					filelist.add(singlefdto);
+					
 				}				
 			}
 		}		

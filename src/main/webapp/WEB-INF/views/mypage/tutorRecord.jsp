@@ -51,6 +51,15 @@
 						</c:when>
 						<c:otherwise>
 							<table>
+								<colgroup>
+									<col width="30px"/>
+									<col width="360px"/>
+									<col width=""/>
+									<col width=""/>
+									<col width=""/>
+									<col width=""/>
+									<col width="100px"/>
+								</colgroup>
 								<thead>
 									<tr>
 										<th>번호</th>

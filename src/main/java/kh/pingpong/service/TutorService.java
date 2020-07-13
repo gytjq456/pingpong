@@ -211,6 +211,8 @@ public class TutorService {
 
 	//레슨 페이징 만 이동
 		public String getPageNavi_lesson(int userCurrentPage, Map<String, String> param) throws SQLException, Exception {
+			System.out.println(param.get("keyword"));
+			
 			int recordTotalCount = tdao.getArticleCount_lesson(param); 
 			String orderBy = param.get("orderBy").toString();
 			
@@ -256,14 +258,21 @@ public class TutorService {
 					pagingUrl = "lessonListPeriod?orderBy=" + orderBy + "&ing=done"+
 							"&keywordSelect=" + param.get("keywordSelect").toString()+ "&keyword="+ param.get("keyword").toString();
 				} else {
-					//여기 수정했어~~~~~~~~
 					pagingUrl = "lessonListPeriod?orderBy=" + orderBy + "&ing=" + param.get("ing").toString()+
 							"&keywordSelect=" + param.get("keywordSelect").toString()+ "&keyword="+ param.get("keyword").toString();
 				}
 			}
 			
 			if(param.containsKey("keyword")) {
-				pagingUrl = "searchKeword?orderBy=" +orderBy + "&keywordSelect=" + param.get("keywordSelect").toString()+ "&keyword="+ param.get("keyword").toString();
+				if(!param.containsKey("ing")) {
+					pagingUrl = "searchKeword?orderBy=" +orderBy + "&keywordSelect=" + param.get("keywordSelect").toString()+ "&keyword="+ param.get("keyword").toString();
+				}else if(param.get("ing").toString().contentEquals("applying='N' and proceeding")){
+					pagingUrl = "lessonListPeriod?orderBy=" + orderBy + "&ing=done"+
+							"&keywordSelect=" + param.get("keywordSelect").toString()+ "&keyword="+ param.get("keyword").toString();
+				}else {
+					pagingUrl = "lessonListPeriod?orderBy=" + orderBy + "&ing=" + param.get("ing").toString()+
+							"&keywordSelect=" + param.get("keywordSelect").toString()+ "&keyword="+ param.get("keyword").toString();
+				}
 			}
 			
 			if (param.containsKey("start_date")) {

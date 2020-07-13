@@ -73,7 +73,7 @@
 								</ul>
 							</li>
 							<li>
-								<a href="/tutor/lessonList?orderBy=seq&keywordSelect=name">Tutor</a>
+								<a href="/tutor/tutorList">Tutor</a>
 								<ul class="depth2">
 									<li><a href="/tutor/lessonList?orderBy=seq&keywordSelect=name">강의 목록</a></li>
 

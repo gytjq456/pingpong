@@ -54,9 +54,9 @@
 		var keywordSelect = '${keywordSelect}';
 		console.log(keywordSelect);
 		if(keywordSelect!=null){
-			$('#keywordSelect').val(keywordSelect);
+			$('#keyword_type').val(keywordSelect);
 		}else{
-			$('#keywordSelect').val(name);
+			$('#keyword_type').val(name);
 		}
 		
 		var keyword = '${keyword}';
@@ -73,39 +73,54 @@
 
 		$("#orderBy").on("change",function(){
 			var orderbyVal = $("#orderBy").val();
-			var selectVal = $("#keywordSelect").val();
-			location.href="/tutor/lessonList?orderBy="+orderbyVal+"&keywordSelect="+selectVal;
+			var selectVal = $("#keyword_type").val();
+			var period = $(".ing").attr('id');
+			var keywordVal = $("#keyword").val();
+			location.href="/tutor/lessonList?orderBy="+orderbyVal+"&keywordSelect=";
 		})
 		
-		/* 검색안돼~~~~ 다시해~~~ */
 		$(".ing").on("click", function(){
 			console.log($(this).attr('id'));
 			var orderbyVal = $("#orderBy").val();
 			var period = $(this).attr('id');
-			var selectVal = $("#keywordSelect").val();
+			var selectVal = $("#keyword_type").val();
 			var keywordVal = $("#keyword").val();
-			var topSearchVal = $(".topSearch").text();
+			
+			var start_dateVal = $("#start_date").val();
+			var end_dateVal = $("#end_date").val();
+			
+			var locationVal = $("#location").val();
+			//var topSearchVal = $(".topSearch").text();
 			
 			if(period == 'all'){
 				location.href="/tutor/lessonList?orderBy="+orderbyVal+"&keywordSelect="+selectVal;
 				return false;
 			}
-			location.href="/tutor/lessonListPeriod?orderBy="+orderbyVal+"&period="+period+"&keywordSelect="
-					+selectVal+"&keyword="+keywordVal;
-
+			if(keywordVal!=null){
+				location.href="/tutor/searchKeword?orderBy="+orderbyVal+"&period="+period+"&keywordSelect="
+						+selectVal+"&keyword="+keywordVal;
+			}
+/* 			else if(start_dateVal!=null){
+				location.href="/tutor/lessonListPeriod?orderBy="+orderbyVal+"&period="+period+"&keywordSelect="
+				+selectVal+
+			}
+			else if(locationVal != null){
+				
+			} */
 		})
 
 		 //키워드로 검색
 		$("#searchkeyword").on("click", function(){
 			var topSearchVal = $(this).text();
 			//여기서
-			var selectVal = $("#keywordSelect").val();
+			var selectVal = $("#keyword_type").val();
+			console.log(selectVal);
 			//검색바 내용
 			var keywordVal = $("#keyword").val();
 			//조회순 최신순 ...
 			var orderbyVal = $("#orderBy").val();
 			
-			location.href="/tutor/searchKeword?keywordSelect="+selectVal+"&keyword="+keywordVal+"&orderBy="+orderbyVal;
+			location.href="/tutor/searchKeword?keywordSelect="+selectVal+"&keyword="+keywordVal+"&orderBy="+orderbyVal+"&period=all";
 		})
 		
 		//달력으로 검색
@@ -113,7 +128,7 @@
 			var orderByVal = $('#orderBy').val();
 			var start_dateVal = $("#start_date").val();
 			var end_dateVal = $("#end_date").val();
-			location.href="/tutor/searchDate?start_date="+start_dateVal+"&end_date="+end_dateVal+"&orderBy="+orderByVal;
+			location.href="/tutor/searchDate?start_date="+start_dateVal+"&end_date="+end_dateVal+"&orderBy="+orderByVal+"&period=all";
 		})
 		
 		//지도로 검색
@@ -121,7 +136,7 @@
 			var locationVal = $("#location").val();
 			var orderByVal = $('#orderBy').val();
 			
-			location.href="/tutor/searchMap?location="+locationVal+"&orderBy="+orderByVal;
+			location.href="/tutor/searchMap?location="+locationVal+"&orderBy="+orderByVal+"&period=all";
 		}) 
 
 	

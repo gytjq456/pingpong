@@ -4,12 +4,17 @@
 	
 	<!-- 알람 갯수 -->
 	<select id="getAlarmCount" resultType="int">
-		select count(*) from alarm_1 where alarm_receiver = #{alarm_receiver}
+		select count(*) from alarm_1 where alarm_receiver = #{id,jdbcType=VARCHAR}
 	</select>
+	
+	<!-- insert  -->
+	<insert id="insertAlarm">
+		insert into alarm_1 values(alarm_1_seq.nextval,#{mdto.id,jdbcType=VARCHAR},#{pdto.id,jdbcType=VARCHAR},#{rvdto.category,jdbcType=VARCHAR},sysdate,'N')
+	</insert>
 	
 	<!-- 프로필 리뷰일 경우 : 리뷰 작성자 아이디 -->
 	<select id="receiveReview" resultType="kh.pingpong.dto.AlarmDTO">
-		select * from (select review.*, row_numbe r() over(order by seq desc)
+		select * from (select review.*, row_number() over(order by seq desc)
 		rnum from review where category = 'review') where rnum between #{start} and #{end}
 	</select>
 	
@@ -36,16 +41,6 @@
 	<update id="getLessonOK">
 		update lesson set pass='Y' where seq = #{seq}
 	</update>
-
-	<!-- 첨삭 답변일 경우: 글 제목 -->
-	<select id="correctionAnswer">
-		
-	</select>
-
-	<!-- 쪽지 올 경우: 쪽지 제목 -->
-	<select id="getLetter">
-		<!-- 일단 생략 -->
-	</select>
 
 	<!-- 신고 경고일 경우: 관리자 아이디 -->
 	<select id="report" resultType="kh.pingpong.dto.ReportListDTO">

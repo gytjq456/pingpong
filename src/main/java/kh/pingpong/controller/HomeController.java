@@ -7,8 +7,10 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.dto.VisitorDTO;
 import kh.pingpong.service.VisitorService;
 
@@ -21,6 +23,7 @@ public class HomeController {
 	
 	@Autowired
 	private VisitorService vservice;
+	
 	
 	@RequestMapping("/")
 	public String home() {
@@ -40,4 +43,6 @@ public class HomeController {
 		
 		return "index";
 	}
+	
+	
 }

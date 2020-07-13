@@ -11,7 +11,12 @@
 				글번호: ${tadto.seq}<br>
 				아이디: ${tadto.id}<br>
 				제목: ${tadto.title}<br>
-				자격증: ${tadto.license}<br>
+				자격증:
+				<c:forEach items="${files}" var="i">
+					<a href="/file/downloadFileLicense?seq=${tadto.seq}&license=${i.sysname}" class="downloadF">
+						${i.oriname}</a>
+				</c:forEach>
+				<br>
 				경력: ${tadto.career}<br>
 				경험: ${tadto.exp}<br>
 				소개: ${tadto.introduce}<br>

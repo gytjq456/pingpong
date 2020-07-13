@@ -7,7 +7,8 @@
 <style>
 /* .profile{width:50px; height:100px;}
 .wrapper{border: 1px solid black; float: left; width: 25%;}
-.listWrapper{overflow:hidden;} */
+.listWrapper{overflow:hidden;} 
+.bAddr {padding:5px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;} */
 </style>
 <script>
 
@@ -53,9 +54,15 @@
 		var keywordSelect = '${keywordSelect}';
 		console.log(keywordSelect);
 		if(keywordSelect!=null){
-			$('#keywordSelect').val(keywordSelect);
+			$('#keyword_type').val(keywordSelect);
 		}else{
-			$('#keywordSelect').val(name);
+			$('#keyword_type').val(name);
+		}
+		
+		var keyword = '${keyword}';
+		console.log(keyword);
+		if(keyword!=null){
+			$('#keyword').val(keyword);
 		}
 		
 /* 		var topSearch = '${topSearch}';
@@ -66,35 +73,54 @@
 
 		$("#orderBy").on("change",function(){
 			var orderbyVal = $("#orderBy").val();
-			var selectVal = $("#keywordSelect").val();
-			location.href="/tutor/lessonList?orderBy="+orderbyVal+"&keywordSelect="+selectVal;
+			var selectVal = $("#keyword_type").val();
+			var period = $(".ing").attr('id');
+			var keywordVal = $("#keyword").val();
+			location.href="/tutor/lessonList?orderBy="+orderbyVal+"&keywordSelect=";
 		})
 		
 		$(".ing").on("click", function(){
 			console.log($(this).attr('id'));
 			var orderbyVal = $("#orderBy").val();
-			console.log(orderbyVal);
 			var period = $(this).attr('id');
-			var selectVal = $("#keywordSelect").val();
+			var selectVal = $("#keyword_type").val();
+			var keywordVal = $("#keyword").val();
+			
+			var start_dateVal = $("#start_date").val();
+			var end_dateVal = $("#end_date").val();
+			
+			var locationVal = $("#location").val();
+			//var topSearchVal = $(".topSearch").text();
 			
 			if(period == 'all'){
 				location.href="/tutor/lessonList?orderBy="+orderbyVal+"&keywordSelect="+selectVal;
 				return false;
 			}
-			location.href="/tutor/lessonListPeriod?orderBy="+orderbyVal+"&period="+period+"&keywordSelect="+selectVal;;
-
+			if(keywordVal!=null){
+				location.href="/tutor/searchKeword?orderBy="+orderbyVal+"&period="+period+"&keywordSelect="
+						+selectVal+"&keyword="+keywordVal;
+			}
+/* 			else if(start_dateVal!=null){
+				location.href="/tutor/lessonListPeriod?orderBy="+orderbyVal+"&period="+period+"&keywordSelect="
+				+selectVal+
+			}
+			else if(locationVal != null){
+				
+			} */
 		})
 
-		//키워드로 검색
+		 //키워드로 검색
 		$("#searchkeyword").on("click", function(){
+			var topSearchVal = $(this).text();
 			//여기서
-			var selectVal = $("#keywordSelect").val();
+			var selectVal = $("#keyword_type").val();
+			console.log(selectVal);
 			//검색바 내용
 			var keywordVal = $("#keyword").val();
 			//조회순 최신순 ...
 			var orderbyVal = $("#orderBy").val();
 			
-			location.href="/tutor/searchKeword?keywordSelect="+selectVal+"&keyword="+keywordVal+"&orderBy="+orderbyVal;
+			location.href="/tutor/searchKeword?keywordSelect="+selectVal+"&keyword="+keywordVal+"&orderBy="+orderbyVal+"&period=all";
 		})
 		
 		//달력으로 검색
@@ -102,7 +128,7 @@
 			var orderByVal = $('#orderBy').val();
 			var start_dateVal = $("#start_date").val();
 			var end_dateVal = $("#end_date").val();
-			location.href="/tutor/searchDate?start_date="+start_dateVal+"&end_date="+end_dateVal+"&orderBy="+orderByVal;
+			location.href="/tutor/searchDate?start_date="+start_dateVal+"&end_date="+end_dateVal+"&orderBy="+orderByVal+"&period=all";
 		})
 		
 		//지도로 검색
@@ -110,8 +136,10 @@
 			var locationVal = $("#location").val();
 			var orderByVal = $('#orderBy').val();
 			
-			location.href="/tutor/searchMap?location="+locationVal+"&orderBy="+orderByVal;
-		})
+			location.href="/tutor/searchMap?location="+locationVal+"&orderBy="+orderByVal+"&period=all";
+		}) 
+
+	
 	})
 </script>
 
@@ -129,9 +157,9 @@
 			<!-- 검색 3가지 -->
 			<div class="tab_s1">
 				<ul class="clearfix">
-					<li class="on"><a class="topSearch" href="#;">키워드 검색</a></li>
-					<li><a class="topSearch" href="#;">달력 검색</a></li>
-					<li><a id="map_on" class="topSearch" href="#;">지도 검색</a></li>
+					<li class="on topSearch" value="topKeyword"><a href="#;" >키워드 검색</a></li>
+					<li class="topSearch" value="topCalendar"><a href="#;" >달력 검색</a></li>
+					<li class="topSearch" value="topMap"><a id="map_on" href="#;" >지도 검색</a></li>
 				</ul>
 			</div>
 
@@ -287,7 +315,7 @@
 												</div>
 												<div class="price">
 													<span class="sub_title">가격</span>
-													<p>${i.price} 원/시간</p>
+													<p>${i.price} 원</p>
 													<!-- <span class="badge badge-danger">New</span> -->
 												</div>
 												<div class="apply_date">

@@ -62,6 +62,7 @@ public class TutorService {
 		if (!tempFilepath.exists()) {
 			tempFilepath.mkdir();
 		}
+		
 		for(FileDTO file : fileList) {
 			fdao.tutorFileInsert(file);
 		}
@@ -176,10 +177,8 @@ public class TutorService {
 	}
 	
 	//모집중 진행중 마감 시간에따라 알아서 바뀌게하기
-	public int updateIngDate(Map<String, String> param) throws Exception{
-		System.out.println(param.get("today_date"));
-		System.out.println(param.get("today_plus"));
-		int result = tdao.updateIngDate(param);
+	public int updateIngDate(String today_date) throws Exception{
+		int result = tdao.updateIngDate(today_date);
 		return result;
 	}
 	
@@ -212,6 +211,8 @@ public class TutorService {
 
 	//레슨 페이징 만 이동
 		public String getPageNavi_lesson(int userCurrentPage, Map<String, String> param) throws SQLException, Exception {
+			System.out.println(param.get("keyword"));
+			
 			int recordTotalCount = tdao.getArticleCount_lesson(param); 
 			String orderBy = param.get("orderBy").toString();
 			
@@ -254,14 +255,24 @@ public class TutorService {
 			
 			if (param.containsKey("ing")) {
 				if (param.get("ing").toString().contentEquals("applying='N' and proceeding")) {
-					pagingUrl = "lessonListPeriod?orderBy=" + orderBy + "&ing=done";
+					pagingUrl = "lessonListPeriod?orderBy=" + orderBy + "&ing=done"+
+							"&keywordSelect=" + param.get("keywordSelect").toString()+ "&keyword="+ param.get("keyword").toString();
 				} else {
-					pagingUrl = "lessonListPeriod?orderBy=" + orderBy + "&ing=" + param.get("ing").toString();
+					pagingUrl = "lessonListPeriod?orderBy=" + orderBy + "&ing=" + param.get("ing").toString()+
+							"&keywordSelect=" + param.get("keywordSelect").toString()+ "&keyword="+ param.get("keyword").toString();
 				}
 			}
 			
 			if(param.containsKey("keyword")) {
-				pagingUrl = "searchKeword?orderBy=" +orderBy + "&keywordSelect=" + param.get("keywordSelect").toString()+ "&keyword="+ param.get("keyword").toString();
+				if(!param.containsKey("ing")) {
+					pagingUrl = "searchKeword?orderBy=" +orderBy + "&keywordSelect=" + param.get("keywordSelect").toString()+ "&keyword="+ param.get("keyword").toString();
+				}else if(param.get("ing").toString().contentEquals("applying='N' and proceeding")){
+					pagingUrl = "lessonListPeriod?orderBy=" + orderBy + "&ing=done"+
+							"&keywordSelect=" + param.get("keywordSelect").toString()+ "&keyword="+ param.get("keyword").toString();
+				}else {
+					pagingUrl = "lessonListPeriod?orderBy=" + orderBy + "&ing=" + param.get("ing").toString()+
+							"&keywordSelect=" + param.get("keywordSelect").toString()+ "&keyword="+ param.get("keyword").toString();
+				}
 			}
 			
 			if (param.containsKey("start_date")) {

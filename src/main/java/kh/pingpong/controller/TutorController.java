@@ -162,7 +162,7 @@ public class TutorController {
 	
 	//강의 list
 	@RequestMapping("lessonList")
-	public String lessonList(String orderBy,String keywordSelect,HttpServletRequest request, Model model) throws Exception{
+	public String lessonList(String orderBy,String keywordSelect,HttpServletRequest request, Model model, String schType) throws Exception{
 		model.addAttribute("loginInfo", session.getAttribute("loginInfo"));
 		
 		//언어 
@@ -185,6 +185,7 @@ public class TutorController {
 		model.addAttribute("lessonlist",lessonlist);
 		model.addAttribute("orderBy",orderBy);
 		model.addAttribute("keywordSelect", keywordSelect);
+		model.addAttribute("schType",schType);
 		return "/tutor/lessonList";
 	}
 	
@@ -226,7 +227,7 @@ public class TutorController {
 
 	//키워드로 검색해서 리스트 뽑기
 	@RequestMapping("searchKeword")
-	public String searchKeyord(String orderBy, String keyword, String keywordSelect,String period, HttpServletRequest request, Model model) throws Exception{
+	public String searchKeyord(String orderBy, String keyword, String keywordSelect,String period, HttpServletRequest request, Model model, String schType) throws Exception{
 		model.addAttribute("loginInfo", session.getAttribute("loginInfo"));
 
 		//언어 
@@ -265,12 +266,13 @@ public class TutorController {
 		model.addAttribute("keywordSelect", keywordSelect);
 		model.addAttribute("keyword", keyword);
 		model.addAttribute("period", period);
+		model.addAttribute("schType", schType);
 		return "/tutor/lessonList";
 	}
 	
 	//달력으로 검색해서 리스트 뽑기
 	@RequestMapping("searchDate")
-	public String searchDate(String orderBy, String start_date, String end_date,HttpServletRequest request, Model model) throws Exception{
+	public String searchDate(String orderBy, String start_date, String end_date,String period,HttpServletRequest request, Model model, String schType) throws Exception{
 		model.addAttribute("loginInfo", session.getAttribute("loginInfo"));
 
 		//언어 
@@ -281,6 +283,18 @@ public class TutorController {
 		param.put("start_date", start_date);
 		param.put("end_date", end_date);
 		param.put("orderBy", orderBy);
+		
+		if(period.contentEquals("applying")) {
+			param.put("ing",period);
+			param.put("ingVal", "Y");
+		}else if(period.contentEquals("proceeding")) {
+			param.put("ing",period);
+			param.put("ingVal", "Y");
+		}else if(period.contentEquals("done")) {
+			param.put("ing", "applying='N' and proceeding");
+			param.put("ingVal", "N");
+		}
+
 
 		int cpage = 1;
 		try {
@@ -294,12 +308,16 @@ public class TutorController {
 		System.out.println(lessonlist);
 		model.addAttribute("lessonlist",lessonlist);
 		model.addAttribute("orderBy",orderBy);
+		model.addAttribute("schType",schType);
+		model.addAttribute("start_date", start_date);
+		model.addAttribute("period", period);
+		model.addAttribute("end_date", end_date);
 		return "/tutor/lessonList";
 	}
 	
 	//지도로 검색하기
 	@RequestMapping("searchMap")
-	public String searchMap(String location, String orderBy,HttpServletRequest request, Model model) throws Exception{
+	public String searchMap(String location, String orderBy,String period,HttpServletRequest request, Model model, String schType) throws Exception{
 		model.addAttribute("loginInfo", session.getAttribute("loginInfo"));
 
 		//언어 
@@ -309,6 +327,18 @@ public class TutorController {
 		Map<String,String> param = new HashMap<>();
 		param.put("location", location);
 		param.put("orderBy", orderBy);
+		
+		if(period.contentEquals("applying")) {
+			param.put("ing",period);
+			param.put("ingVal", "Y");
+		}else if(period.contentEquals("proceeding")) {
+			param.put("ing",period);
+			param.put("ingVal", "Y");
+		}else if(period.contentEquals("done")) {
+			param.put("ing", "applying='N' and proceeding");
+			param.put("ingVal", "N");
+		}
+
 
 		int cpage = 1;
 		try {
@@ -322,6 +352,9 @@ public class TutorController {
 		System.out.println(lessonlist);
 		model.addAttribute("lessonlist",lessonlist);
 		model.addAttribute("orderBy",orderBy);
+		model.addAttribute("schType",schType);
+		model.addAttribute("period", period);
+		model.addAttribute("location", location);
 		return "/tutor/lessonList";
 	}
 	

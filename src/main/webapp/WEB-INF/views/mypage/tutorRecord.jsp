@@ -7,9 +7,9 @@
 <script>
 		$(function(){
 			$(".refund").on("click", function(){
-				var seq = $(this).parent().siblings().find('.seq').val();
-				var start_date = $(this).parent().siblings().find('.start_date').val();
-				var price = $(this).parent().siblings().find('.price').val();
+				var seq = $(this).closest("tr").find('.seq').val();
+				var start_date = $(this).closest("tr").find('.start_date').val();
+				var price = $(this).closest("tr").find('.price').val();
 				
 				$.ajax({
 					url:"/payments/refundTrue",
@@ -78,10 +78,10 @@
 								</thead>
 								<tbody>
 									<c:forEach var="telist" items="${telist}">
-									<input type="hidden"  class="seq" value="${telist.seq}">
-									<input type="hidden" class="start_date" value="${telist.start_date}">
-									<input type="hidden" class="price" value="${telist.price }">
 									<tr id="${telist.seq}">
+										<td><input type="hidden"  class="seq" value="${telist.seq}"></td>
+										<td><input type="hidden" class="start_date" value="${telist.start_date}"/></td>
+										<td><input type="hidden" class="price" value="${telist.price }"/></td>
 										<td>${telist.seq}</td>
 										<td><a href="#;">${telist.title}</a></td>
 										<td><a href="#;">${telist.name}</a></td>

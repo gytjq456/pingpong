@@ -15,6 +15,7 @@ public class CorrectDTO {
 	private int like_count;
 	private int hate_count;
 	private int reply_count;
+	private String thumNail;
 	
 	public CorrectDTO() {
 		super();
@@ -24,7 +25,7 @@ public class CorrectDTO {
 	
 	
 	public CorrectDTO(int seq, String id, String writer, String language, String title, String type, String contents,
-			Timestamp write_date, int view_count, int like_count, int hate_count, int reply_count) {
+			Timestamp write_date, int view_count, int like_count, int hate_count, int reply_count, String thumNail) {
 		super();
 		this.seq = seq;
 		this.id = id;
@@ -38,6 +39,7 @@ public class CorrectDTO {
 		this.like_count = like_count;
 		this.hate_count = hate_count;
 		this.reply_count = reply_count;
+		this.thumNail = thumNail;
 	}
 
 
@@ -136,6 +138,16 @@ public class CorrectDTO {
 
 	public void setReply_count(int reply_count) {
 		this.reply_count = reply_count;
+	}
+
+
+	public String getThumNail() {
+		return thumNail;
+	}
+
+
+	public void setThumNail(String thumNail) {
+		this.thumNail = thumNail;
 	}
 	
 	

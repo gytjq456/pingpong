@@ -10,9 +10,8 @@ public class CorrectCDTO {
 	private String contents;
 	private Timestamp write_date;
 	private int like_count;
-	private int hate_count;
 	private int parent_seq;
-	
+	private String thumNail;
 	public CorrectCDTO() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -21,7 +20,7 @@ public class CorrectCDTO {
 	
 
 	public CorrectCDTO(int seq, String id, String writer, String title, String contents, Timestamp write_date,
-			int like_count, int hate_count, int parent_seq) {
+			int like_count, int parent_seq, String thumNail) {
 		super();
 		this.seq = seq;
 		this.id = id;
@@ -30,8 +29,8 @@ public class CorrectCDTO {
 		this.contents = contents;
 		this.write_date = write_date;
 		this.like_count = like_count;
-		this.hate_count = hate_count;
 		this.parent_seq = parent_seq;
+		this.thumNail = thumNail;
 	}
 
 
@@ -92,13 +91,6 @@ public class CorrectCDTO {
 		this.like_count = like_count;
 	}
 
-	public int getHate_count() {
-		return hate_count;
-	}
-
-	public void setHate_count(int hate_count) {
-		this.hate_count = hate_count;
-	}
 
 	public int getParent_seq() {
 		return parent_seq;
@@ -106,6 +98,16 @@ public class CorrectCDTO {
 
 	public void setParent_seq(int parent_seq) {
 		this.parent_seq = parent_seq;
+	}
+
+
+
+	public String getThumNail() {
+		return thumNail;
+	}
+
+	public void setThumNail(String thumNail) {
+		this.thumNail = thumNail;
 	}
 	
 	

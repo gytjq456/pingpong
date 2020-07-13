@@ -47,10 +47,11 @@
 				<form action="/correct/writeProc" method="post">
 					<input type="hidden" value="${sessionScope.loginInfo.id}" name="writer">
 					<input type="hidden" value="한국어" name="language">
+					<input type="hidden" value="${loginInfo.sysname}" name="thumNail">
 					
 					<section>
 						<div class="tit_s3">
-							<h4>토론 주제</h4>
+							<h4>제목</h4>
 						</div>
 						 <input type="text" name="title" required>
 					</section>

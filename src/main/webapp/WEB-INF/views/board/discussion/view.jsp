@@ -268,7 +268,7 @@
 						<%-- <div id="">번호 : ${disDto.seq}</div> --%>
 						<div class="title">${disDto.title}</div>
 						<div class="userInfo_s1">
-							<div class="thumb"><img src="/resources/img/sub/userThum.jpg"/></div>
+							<div class="thumb"><img src="/upload/member/${disDto.id}/${disDto.thumNail}"/></div>
 							<div class="info">
 								<p class="userId">${disDto.writer}</p>
 								<p class="writeDate">${disDto.dateString}</p>
@@ -317,6 +317,7 @@
 										<input type="hidden" name="writer" value="${loginInfo.name}">
 										<input type="hidden" name="id" value="${loginInfo.id}">
 										<input type="hidden" name="parent_seq" value="${disDto.seq}">
+										<input type="hidden" name="thumNail" value="${loginInfo.sysname}">
 										<div class="opinion">
 											<div>의견(찬/반)</div>
 											<div>
@@ -348,7 +349,7 @@
 								<c:forEach var="i" items="${bestCommentList}" varStatus="status">
 									<article>
 										<div class="userInfo_s1">
-											<div class="thumb"><img src="/resources/img/sub/userThum.jpg"/></div>
+											<div class="thumb"><img src="/upload/member/${i.id}/${i.thumNail}"/></div>
 											<div class="info">
 												<p class="userId">${i.writer}</p>
 												<p class="writeDate">${i.dateString}</p>
@@ -369,7 +370,7 @@
 														<button class="comment_hateBtn hateBtn like-hate-btn" data-check="${checkHate[status.index]}" data-seq="${i.seq}"><i class="fa fa-thumbs-down"></i> ${i.hate_count}</button>
 													</li>
 													<li>
-														<button class="comment_declaration" data-seq="${i.seq}" data-id="${i.id}" data-url="/discussion/report" data-proc="/discuttion/reportProc"><i class="fa fa-bell color_white" aria-hidden="true"></i> 신고하기</button>
+														<button class="comment_declaration report" data-thisSeq="${i.seq}" data-seq="${disDto.seq}" data-id="${i.id}" data-url="/discussion/report" data-proc="/discussion/reportProc"><i class="fa fa-bell color_white" aria-hidden="true"></i> 신고하기</button>
 													</li>
 													<li>
 														<button class="comment_delete normal" data-seq="${i.seq}" data-parent_seq="${disDto.seq}">댓글삭제</button>
@@ -388,7 +389,7 @@
 								<c:forEach var="i" items="${commentList}" varStatus="status">
 									<article>
 										<div class="userInfo_s1">
-											<div class="thumb"><img src="/resources/img/sub/userThum.jpg"/></div>
+											<div class="thumb"><img src="/upload/member/${i.id}/${i.thumNail}"/></div>
 											<div class="info">
 												<p class="userId">${i.writer}</p>
 												<p class="writeDate">${i.dateString}</p>

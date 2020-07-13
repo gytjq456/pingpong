@@ -62,8 +62,6 @@ public class CorrectController {
 		ldto.setParent_seq(dto.getSeq());
 		
 		boolean checkLike = cservice.LikeIsTrue(ldto);
-		System.out.println("check :" +ldto.getParent_seq());
-		System.out.println("체크 :" + cdto.getLike_count());
 		
 		
 		int likecount = cservice.likecount(ldto);

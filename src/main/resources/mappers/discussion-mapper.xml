@@ -9,7 +9,7 @@
 
 	<!-- 토론 글 쓰기 -->
 	<insert id="insert">
-		insert into discussion values(discussion_seq.nextval, #{writer}, #{title}, #{contents}, #{caution}, #{language}, default, default, default, default, #{id})
+		insert into discussion values(discussion_seq.nextval, #{writer}, #{title}, #{contents}, #{caution}, #{language}, default, default, default, default, #{id}, #{thumNail})
 	</insert>
 
 	<!-- 토론 전체 글 조회  -->
@@ -68,7 +68,7 @@
 
 	<!-- 토론 댓글 쓰기 -->
 	<insert id="commentInsert">
-		insert into commentTb values(commentTb_seq.nextval, #{writer}, #{id}, #{contents}, #{category}, default, #{opinion}, default, default, ${parent_seq})
+		insert into commentTb values(commentTb_seq.nextval, #{writer}, #{id}, #{contents}, #{category}, default, #{opinion}, default, default, ${parent_seq}, #{thumNail})
 	</insert>
 
 	<!-- 토론 좋아요 카운트 수 증가-->

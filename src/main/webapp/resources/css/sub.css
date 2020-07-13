@@ -481,14 +481,16 @@ textarea { resize:none; height:120px; line-height:1.6;}
 .userInfo_s1 { margin:14px 0; }
 .userInfo_s1 > div { display:inline-block; vertical-align:middle; margin-right:12px;} 
 .userInfo_s1 > div:last-child { margin:0; }
-.userInfo_s1 .thumb { width:60px; height:60px; border-radius:50%; overflow:hidden;}
+.userInfo_s1 .thumb { width:60px; height:60px; border-radius:50%; box-sizing:border-box; border:1px solid #ddd; overflow:hidden; position:relative;}
+.userInfo_s1 .thumb img { position:absolute; left:50%; top:50%; transform:translate(-50%, -50%);}
 .userInfo_s1 .info { }
 .userInfo_s1 .info > p { line-height:1.4; margin-bottom:4px; }
 .userInfo_s1 .info > p:last-child { margin:0; }
 .userInfo_s1 .info .userId {  }
 .userInfo_s1 .info .writeDate { color:#999; }
 
-.userInfo_s2 .thumb { margin:0 auto 10px;}
+.userInfo_s2 .thumb { margin:0 auto 10px; position:relative;}
+
 .userInfo_s2 > div { display:block;  text-align:center; }
 
 
@@ -748,7 +750,8 @@ width:-webkit-calc(100% - 130px);
 #mypage .userInfo { padding:30px;  }
 #mypage .userInfo > div { float:left; margin-right:60px;}
 #mypage .userInfo > div:last-child { margin-right:0; }
-#mypage .userInfo .thum .img{ width:200px; height:200px; border-radius:50%; overflow:hidden; }
+#mypage .userInfo .thum .img img { position:absolute; left:50%; top:50%; transform:translate(-50%, -50%);}
+#mypage .userInfo .thum .img{ width:200px; height:200px; border-radius:50%; overflow:hidden; position:relative; border:1px solid #ddd;box-sizing:border-box;}
 #mypage .userInfo .infoBox {
 	width:calc(100% - 260px);
 	width:-moz-calc(100% - 260px);

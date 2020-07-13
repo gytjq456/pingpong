@@ -52,7 +52,7 @@
 						<c:otherwise>
 							<table>
 								<colgroup>
-									<col width="30px"/>
+									<col width="50px"/>
 									<col width="360px"/>
 									<col width=""/>
 									<col width=""/>

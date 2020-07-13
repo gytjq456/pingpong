@@ -94,6 +94,7 @@ function uploadSummernoteImageFile(file, editor) {
 					<form action="/discussion/writeProc" method="post" enctype="multipart/form-data" id="writeForm">
 						<input type="hidden" name="id" value="${sessionScope.loginInfo.id}">
 						<input type="hidden" name="writer" value="${sessionScope.loginInfo.name}">
+						<input type="hidden" name="thumNail" value="${sessionScope.loginInfo.sysname}">
 						<section>
 							<div class="tit_s3">
 								<h4>토론 주제</h4>

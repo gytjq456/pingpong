@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import kh.pingpong.config.Configuration;
 import kh.pingpong.dao.NewsDAO;
@@ -166,9 +167,14 @@ public class NewsService {
 		return newsdao.delete(ndto);
 	}
 	
-	//new 게시판 카운트
+	//조회순
+	public int viewCount(NewsDTO ndto) throws Exception{
+		return newsdao.viewCount(ndto);
+	}
 	
-	//뉴스 페이징
-	
+	/* 글 정렬 */
+	public List<NewsDTO> schAlign(String schAlign, int cpage) throws Exception{
+		return newsdao.schAlign(schAlign, cpage);
+	}
 	
 }

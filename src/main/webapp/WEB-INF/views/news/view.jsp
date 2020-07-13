@@ -56,8 +56,7 @@
 										<div class="writer">
 											${ndto.writer}<span class="stick">|</span>${ndto.write_date_st}
 											<ul class="count_news_eye">
-												<li><i class="fa fa-eye"></i> 1</li>
-												<li><i class="fa fa-commenting-o" aria-hidden="true"></i> 0</li>
+												<li><i class="fa fa-eye"></i>${ndto.view_count}</li>
 											</ul>
 										</div>
 									</h3>

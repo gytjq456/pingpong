@@ -88,17 +88,38 @@ public class NewsDAO {
 	public int delete(NewsDTO ndto) throws Exception{
 		return mybatis.delete("News.delete", ndto);
 	}
+	
 	//files 삭제
 	public int fileDelete(NewsDTO ndto) throws Exception{
 		ndto.setCategory("news");
 		return mybatis.delete("News.fileDelete", ndto);
 	}
+	
 	//프로필 하나 삭제
 	public int dele_thumbnail(NewsDTO ndto) throws Exception{
 		ndto.setCategory("news_thumb");
 		return mybatis.delete("News.fileDelete", ndto);
 	}
 	
+	//view count
+	public int viewCount(NewsDTO ndto) throws Exception{
+		return mybatis.update("News.viewCount",ndto);
+	}
+	
+	/* 글 정렬 */
+	public List<NewsDTO> schAlign(String schAlign, int cpage) throws Exception{
+		int start = cpage*Configuration.RECORD_COUNT_PER_PAGE - (Configuration.RECORD_COUNT_PER_PAGE - 1);
+		int end = start + (Configuration.RECORD_COUNT_PER_PAGE - 1);
+		
+		Map<String, Object> schMap = new HashMap<>();
+		schMap.put("schAlign", schAlign);
+		schMap.put("start", start);
+		schMap.put("end", end);
+		
+		System.out.println(schMap.get("schAlign") + " :::::");
+		
+		return mybatis.selectList("News.schAlign", schMap);
+	}
 }
 
 

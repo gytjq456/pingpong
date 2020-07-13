@@ -8,6 +8,12 @@
 			$("#write").on("click",function(){
 				location.href="/news/write";
 			});
+			
+			$("#align").on("change",function(){
+				var schAlign = $(this).val();
+				alert(schAlign);
+				location.href="/news/schAlign?cpage=1&schAlign="+schAlign;
+			});
 		});
 	</script>
 	
@@ -22,11 +28,15 @@
 					<div class="btnS1 right">
 						<div>
 							<select name="align" id="align">
-								<option value="recent">최신 순</option>
-								<option value="like">인기 순</option>
+								<option value="recent" <c:if test="${schAlign == 'recent'}">selected</c:if>>최신 순</option>
+								<option value="like" <c:if test="${schAlign == 'like'}">selected</c:if>>인기 순</option>
 							</select>
+						
 						</div>
 					</div>
+					
+					
+					
 					<div id="listStyle1" class="card_body">
 					<c:choose>
 						<c:when test="${empty newsSelect}">
@@ -47,8 +57,7 @@
 									<span>${list.write_date_st}</span>
 									<div class="countList" style="position:static;">
 										<ul>
-											<li><i class="fa fa-eye"></i> 1</li>
-											<li><i class="fa fa-commenting-o" aria-hidden="true"></i> 0</li>
+											<li><i class="fa fa-eye"></i>${list.view_count}</li>
 										</ul>
 									</div>	
 								</a>						

@@ -54,7 +54,10 @@ public class NewsController {
 	
 	/* 뷰페이지 jsp */
 	@RequestMapping("viewProc")
-	public String viewProc(NewsDTO ndto, Model model) throws Exception{		
+	public String viewProc(NewsDTO ndto, Model model) throws Exception{	
+		//조회수 늘리기
+		newservice.viewCount(ndto);
+		
 		ndto = newservice.newsViewOne(ndto);
 		List <FileDTO> files = newservice.newsViewFile(ndto);
 		model.addAttribute("ndto",ndto);
@@ -152,6 +155,26 @@ public class NewsController {
 	public String delete(NewsDTO ndto) throws Exception{
 		int result = newservice.delete(ndto);
 		return String.valueOf(result);
-	}	
+	}
+	
+	/* 글 정렬 */
+	@RequestMapping("schAlign")
+	public String schAlign(HttpServletRequest request, String schAlign, Model model) throws Exception{
+		System.out.println(schAlign + "  아쿠");
+		int cpage =1;
+		try {
+			cpage = Integer.parseInt(request.getParameter("cpage"));
+		}catch(Exception e) {
+		}
+		String navi = newservice.getPageNavi_news(cpage);
+		model.addAttribute("navi",navi);
+		model.addAttribute("schAlign", schAlign);
+		
+		List<NewsDTO> newsSelect = newservice.schAlign(schAlign, cpage);
+		model.addAttribute("newsSelect",newsSelect);
+		
+		return "/news/list";
+	}
+	
 	
 }

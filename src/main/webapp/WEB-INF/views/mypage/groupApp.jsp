@@ -26,32 +26,6 @@
 			})
 		})
 		
-		/* $('.app_view_btn').on('click', function(){
-			var seq = $(this).parent().siblings('.mem_seq').html();
-			var id = $(this).parent().siblings('.mem_leader').html();
-			id = "$((id.split('('))[1]).substring(0, id.length - 1)";
-			$.ajax({
-				url: "/group/showApp",
-				data: {
-					seq: seq,
-					id: id
-				}, 
-				type: "POST"
-			}).done(function(resp){
-				$('#seq_from_app').val(resp.seq);
-				$('#parent_seq_from_app').val(resp.parent_seq);
-				$('#name_from_app').html(resp.name + "(" + resp.id + ")");
-				$('#age_from_app').html(resp.age);
-				$('#gender_from_app').html(resp.gender);
-				$('#lang_can_from_app').html(resp.lang_can);
-				$('#lang_learn_from_app').html(resp.lang_learn);
-				$('#add_from_app').html(resp.address);
-				$('#contents_from_app').html(resp.contents);
-				
-				layerPop_s1.stop().fadeIn();
-			})
-		}) */
-		
 		$('#accept').on('click', function(){
 			var conf = confirm('정말 승인하시겠습니까?');
 			

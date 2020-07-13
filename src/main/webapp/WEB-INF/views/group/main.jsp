@@ -483,7 +483,7 @@
 			}
 			
 			location.href = '/group/search?keywordType=' + keywordType + '&keywordValue=' + keywordInput + 
-					'&orderBy=' + orderByVal + '&hobbyType=' + hobbyType + '&period=' + period + '&ing=' + ing;
+					'&orderBy=seq&hobbyType=' + hobbyType + '&period=' + period + '&ing=all';
 		})
 		
 		$('#search_cal_btn').on('click', function(){
@@ -492,14 +492,14 @@
 			var dateStart = $('#date_start').val();
 			var dateEnd = $('#date_end').val();
 			
-			location.href = '/group/searchDate?start_date=' + dateStart + '&end_date=' + dateEnd + '&orderBy=' + orderByVal + '&ing=' + ing;
+			location.href = '/group/searchDate?start_date=' + dateStart + '&end_date=' + dateEnd + '&orderBy=seq&ing=all';
 		})
 		
 		$('#search_map_btn').on('click', function(){
 			var orderByVal = $('#orderBy').val();
 			var ing = '${param.ing}';
 			var locationVal = $('#location').val();
-			location.href = '/group/searchLocation?location=' + locationVal + '&orderBy=' + orderByVal + '&ing=' + ing;
+			location.href = '/group/searchLocation?location=' + locationVal + '&orderBy=seq&ing=all';
 		})
 		
 		if ($('#location').val() == '') {

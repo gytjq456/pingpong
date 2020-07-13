@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:include page="/WEB-INF/views/header.jsp" />
 
 
@@ -105,21 +106,145 @@
 
 <div id="subWrap" class="hdMargin">
 	<section id="subContents">
-		<article id="discussion_list" class="inner1200">
-
+		<article id="discussion_view" class="viewPage_style1 inner1200 clearfix">
+			<div class="body_left">
+				<div class="card_body">
+					<div class="title">${dto.title}</div>
+					<div class="userInfo_s1">
+						<div class="thumb"><img src="/resources/img/sub/userThum.jpg"/></div>
+						<div class="info">
+							<p class="userId">${dto.writer}</p>
+							<p class="writeDate">${dto.write_date}</p>
+						</div>
+					</div>
+					<div class="language">${dto.language}</div>
+					<div class="contents ">
+						<div class="originTxt">${dto.contents}</div>
+					</div>
+					
+					<div class="countList">
+						<ul>
+							<li><i class="fa fa-eye"></i> ${dto.view_count}</li>			
+							<li><i class="fa fa-commenting-o" aria-hidden="true"></i> ${dto.reply_count}</li>
+							<li>
+								<button class="correct_like" data-seq ="${dto.seq}">
+									<i class="fa fa-thumbs-up"></i> ${likecount}
+								</button>
+							</li>
+						</ul>
+					</div>
+				</div>
+				
+				<div class="">
+					<div class="comment_wrap">
+						<section class="comment_write card_body">
+							<div class="tit_s2">
+								<h3>댓글쓰기</h3>
+							</div>
+							<div class="comment_box">
+								<form id="form">
+									<input type="hidden" name="writer" value="박선호2"> 
+									<input type="hidden" name="title" value="안녕하세요"> 
+									<input type="hidden" name="parent_seq" value="${dto.seq}">
+									<div class="text">
+										<textarea name="contents" id="text"></textarea>
+									</div>
+									
+									
+									<div class="btnS1 right">
+										<div><input type="submit" value="등록"></div>
+										<div>
+											<input type="reset" value="취소">
+										</div>
+									</div>
+								</form>
+							</div>
+						</section>
+						
+						<section class="comment_list card_body">
+							<div class="tit_s2">
+								<h3>베스트 댓글</h3>
+							</div>
+							<c:forEach var="i" items="${cdto2}">
+							<article>
+								<div class="userInfo_s1">
+									<div class="thumb"><img src="/resources/img/sub/userThum.jpg"/></div>
+									<div class="info">
+										<p class="userId">${u.writer}</p>
+										<p class="writeDate">${u.write_date}</p>
+									</div>
+								</div>
+								<div class="cont">
+									<div class="contents">${u.contents}</div>
+									<div class="countList">
+										<ul>
+											<li>
+												<button class="comment_delete normal" data-seq="${u.seq}">댓글삭제</button>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</article>
+							</c:forEach>
+						</section>
+						<section class="comment_list card_body">
+							<div class="tit_s2">
+								<h3>댓글(${fn:length(cdto)})</h3>
+							</div>
+							<c:forEach var="i" items="${cdto}">
+							<article>
+								<div class="userInfo_s1">
+									<div class="thumb"><img src="/resources/img/sub/userThum.jpg"/></div>
+									<div class="info">
+										<p class="userId">${i.writer}</p>
+										<p class="writeDate">${i.write_date}</p>
+									</div>
+								</div>
+								<div class="cont">
+									<div class="contents">${i.contents}</div>
+									<div class="countList">
+										<ul>
+											<li>
+												<button class="comment_delete normal" data-seq="${i.seq}">댓글삭제</button>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</article>
+							</c:forEach>
+						</section>
+					</div>
+				</div>
+			</div>
+			<div class="body_right card_body">
+				<div class="btns_s2">
+					<c:choose>
+						<c:when test="${loginInfo.id == dto.id}">
+							<button type="button" id="modify">글수정</button>
+							<button type="button" id="delete" data-seq="${dto.seq}">글삭제</button>
+							<button type="button" id="historyBack">뒤로가기</button>					
+						</c:when>
+						<c:otherwise>
+							<button type="button" class="w100p" id="historyBack">뒤로가기</button>					
+						</c:otherwise>
+					</c:choose>
+				</div>			
+			</div>			
+			
+			<!--  
 			<div class="write_view">
-				<div>제목 : ${dto.title}</div>
-				<div>작성자 : ${dto.writer}</div>
-				<div>등록 기간 : ${dto.write_date}</div>
-				<div>질문 언어 : ${dto.language}</div>
+				<div>제목 : </div>
+				<div>작성자 : </div>
+				<div>등록 기간 : </div>
+				<div>질문 언어 : </div>
 				<div>유형 : ${dto.type}</div>
 				<div>
-					<button>조회수 : ${dto.view_count}</button>
-					<button class="correct_like" data-seq ="${dto.seq}">좋아요 : ${likecount}</button>
+					<button>조회수 : </button>
+					
 
 				</div>
-				<div>내용 : ${dto.contents}</div>
-				<div>댓글 (${dto.reply_count})</div>
+				<div>내용 : </div>
+				<div>댓글 ()</div>
 				<button type="button" id="modify">글수정</button>
 				<button type="button" id="delete" data-seq="${dto.seq}">글삭제</button>
 				<span id="report"><i class="fa fa-exclamation" aria-hidden="true"></i>신고</span>
@@ -162,7 +287,8 @@
 					<button class="comment_delete normal" data-seq="${i.seq}">댓글삭제</button>
 				</div>
 			</c:forEach>
-
+			-->
+			
 		</article>
 	</section>
 </div>

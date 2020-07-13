@@ -40,27 +40,50 @@
 
 <div id="subWrap" class="hdMargin">
 	<section id="subContents">
-		<article id="discussion_list" class="inner1200">
-
-			<p>질문 수정하기</p>
-			<form action="/correct/modifyProc" method="post">
-				<input type="hidden" name="seq" value="${dto.seq}"> 
-				<input type="hidden" name="writer" value="${dto.writer}"> 
-				<label>카테고리</label>
-				<select value="${dto.type}" name="type">
-					<option label="첨삭" value="첨삭"></option>
-					<option label="번역" value="번역"></option>
-				</select>
-				<p>
-					제목   <input type="text" name="title" value="${dto.title}">
-				</p>
-				<input type="hidden" name="language" value="${dto.language}">
-				<textarea id="summernote" name="contents">${dto.contents}</textarea>
-				<input type="submit" value="등록"> 
-				<input type="reset"
-					value="취소">
-			</form>
-
+		<article id="discussion_write" class="inner1200">
+			<div class="tit_s1">
+				<h2>Question</h2>
+				<p>새 질문 게시하기</p>
+			</div>
+			<div class="card_body">
+				<form action="/correct/modifyProc" method="post">
+					<input type="hidden" name="seq" value="${dto.seq}"> 
+					<input type="hidden" name="writer" value="${dto.writer}"> 
+					<input type="hidden" name="language" value="${dto.language}">
+					
+					<section>
+						<div class="tit_s3">
+							<h4>토론 주제</h4>
+						</div>
+						<input type="text" name="title" value="${dto.title}">
+					</section>
+					
+					<section>
+						<div class="tit_s3">
+							<h4>카테고리</h4>
+						</div>
+						<select value="${dto.type}" name="type">
+							<option label="첨삭" value="첨삭"></option>
+							<option label="번역" value="번역"></option>
+						</select>
+					</section>
+					<section>
+						<div class="tit_s3">
+							<h4>질문 내용</h4>
+						</div>
+						<textarea id="summernote" name="contents">${dto.contents}</textarea>
+					</section>
+					<!--  -->
+				
+					<div class="btnS1 right">
+						<div>
+							<input type="submit" value="등록">
+						</div>
+						<div><a href="javascript:window.history.back();">돌아가기</a></div>
+					</div>
+						
+				</form>
+			</div>
 		</article>
 	</section>
 </div>

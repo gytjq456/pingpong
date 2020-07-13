@@ -4,7 +4,7 @@
 <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 <script src="/resources/js/login.js"></script>
 <style>
-	#login .tit_s1 { border:none; padding:0; margin:0; }
+	
 </style>
 <div id="subWrap" class="hdMargin" style="padding-top: 155.8px;">
 	<section id="subContents">

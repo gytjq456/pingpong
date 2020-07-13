@@ -212,8 +212,9 @@
 						<div class="box">
 							<span class="seq">${plist.seq}</span> 
 							<img src ="/upload/member/${plist.id}/${plist.sysname}">
-							<span class="name">${plist.name}, ${plist.age}</span><br> 
-							<span class="id">아이디 : ${plist.id}</span><br> 
+							<span class="name">${plist.name}</span>
+							<span class="age">, ${plist.age}</span><br> 
+							<span class="id">${plist.id}</span><br> 
 							<span class="gender">성별 :${plist.gender}</span><br> 
 							<span class="email">이메일 : ${plist.email}</span><br> 
 							<span class="lang_can">구사 가능한 언어 :${plist.lang_can}</span><br> 
@@ -281,5 +282,5 @@
 	</script>
 	
 	<div class="navi">${navi}</div>
-
+<jsp:include page="/WEB-INF/views/partner/sendLetter.jsp" />
 <jsp:include page="/WEB-INF/views/footer.jsp"/>

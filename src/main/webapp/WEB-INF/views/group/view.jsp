@@ -27,7 +27,6 @@
 	#group_tab_menu { width: 100%; }
 	#group_contents_wrapper { position: relative; }
 	#group_contents { width: 69%; vertical-align: top; }
-	#group_optional { width: 30%; border-left: 1px solid #ddd; padding: 0 30px; }
 	#group_view_card { position: relative; }
 	#group_optional .optional_menu { font-size: 22px; margin-bottom: 5px; }
 	#group_optional .member_profile { display: inline-block; width: 50px; height: 50px; border-radius: 50%; border: 1px solid #ddd; line-height: 50px; text-align: center; margin-right: 5px; }
@@ -436,16 +435,18 @@
 									<input type="hidden" name="point" value="0" id="point">
 									<input type="hidden" name="category" value="그룹">
 									<input type="hidden" name="parent_seq" value="${gdto.seq}">
-									<div class="starPoint">
-										<div>
-											<button type="button"><i class="fa fa-star" aria-hidden="true"></i></button>
-											<button type="button"><i class="fa fa-star" aria-hidden="true"></i></button>
-											<button type="button"><i class="fa fa-star" aria-hidden="true"></i></button>
-											<button type="button"><i class="fa fa-star" aria-hidden="true"></i></button>
-											<button type="button"><i class="fa fa-star" aria-hidden="true"></i></button>
+									<c:if test="${checkMember || sessionScope.loginInfo.id == gdto.writer_id}">
+										<div class="starPoint">
+											<div>
+												<button type="button"><i class="fa fa-star" aria-hidden="true"></i></button>
+												<button type="button"><i class="fa fa-star" aria-hidden="true"></i></button>
+												<button type="button"><i class="fa fa-star" aria-hidden="true"></i></button>
+												<button type="button"><i class="fa fa-star" aria-hidden="true"></i></button>
+												<button type="button"><i class="fa fa-star" aria-hidden="true"></i></button>
+											</div>
+											<div class="point_box">(<span class="point">0</span>점)</div>
 										</div>
-										<div class="point_box">(<span class="point">0</span>점)</div>
-									</div>
+									</c:if>
 									<div class="textInput clearfix">
 										<div class="userInfo_s1 userInfo_s2">
 											<div class="thumb"><img src="/resources/img/sub/userThum.jpg"/></div>
@@ -453,17 +454,28 @@
 												<p class="userId">홍길동</p>
 											</div>
 										</div>
-										<div>
-											<textarea name="contents" id="textCont"></textarea>
-											<div class="wordsize"><span class="current">0</span>/1000</div>
-										</div>
+										<c:choose>
+											<c:when test="${!checkMember && sessionScope.loginInfo.id != gdto.writer_id}">
+												<div>
+													<textarea name="contents" id="textCont" class="not_member" placeholder="그룹원만 작성할 수 있습니다." readonly></textarea>
+												</div>
+											</c:when>
+											<c:otherwise>
+												<div>
+													<textarea name="contents" id="textCont"></textarea>
+													<div class="wordsize"><span class="current">0</span>/1000</div>
+												</div>
+											</c:otherwise>
+										</c:choose>
 									</div>
-									<div class="btnS1 right">
-										<div><input type="submit" value="작성" class="on"></div>
-										<div>
-											<input type="reset" value="취소">
-										</div>
-									</div>										
+									<c:if test="${checkMember || sessionScope.loginInfo.id == gdto.writer_id}">
+										<div class="btnS1 right">
+											<div><input type="submit" value="작성" class="on"></div>
+											<div>
+												<input type="reset" value="취소">
+											</div>
+										</div>						
+									</c:if>				
 								</form>
 							</div>
 						</div>	

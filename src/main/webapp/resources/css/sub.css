@@ -779,7 +779,14 @@ width:-webkit-calc(100% - 60px);
 #mypage .sideInfo ul li.introduce p { margin-top:10px; }
 
 
-
+#listWrap {}
+	#jjimManage .listWrap {}
+	#jjimManage .listWrap h4 { font-size:18px; font-weight:700; color:#333; display:block; margin-bottom:30px; }
+	#jjimManage .listWrap table { width:100%; }
+	#jjimManage .listWrap table td, 
+	#jjimManage .listWrap table th { border:1px solid #ddd; padding:10px; text-align:center;}
+	#jjimManage .listWrap table td {}
+	#jjimManage .listWrap table th { background:#4c98ff; color:#fff; font-weight:700; }
 
 
 

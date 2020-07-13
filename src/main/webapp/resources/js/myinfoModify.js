@@ -8,7 +8,7 @@ $(function() {
 	$(".show_input").hide();
 
 	$(".modyBtn").on("click", function() {
-		$(this).siblings('.show_input').toggle('slow');
+		$(this).siblings('.show_input').show();
 	});
 
 	/* === 회원수정 === */

@@ -101,6 +101,11 @@
 				}
 			}
 		})
+		
+		$('#back').on('click', function(){
+			location.href = "/group/main?orderBy=seq&ing=all";
+		})
+		
 		function uploadSummernoteImageFile(file, editor) {
 			data = new FormData();
 			data.append("file", file);

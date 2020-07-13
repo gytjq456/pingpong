@@ -56,7 +56,27 @@
 		})
 		
 		$('#refuse').on('click', function(){
-			alert('정말 거절하시겠습니까?');
+			var conf = confirm('정말 거절하시겠습니까?');
+			
+			if (!conf) {
+				return false;
+			}
+			
+			var seq = $('#seq_from_app').val();
+			
+			$.ajax({
+				url: "/group/refuseApp",
+				data: {seq: seq},
+				type: "POST"
+			}).done(function(resp){
+				if (resp) {
+					alert('성공적으로 거절하였습니다.');
+					layerPop_s1.stop().fadeOut();
+					$('#' + seq).remove();
+				} else {
+					alert('알 수 없는 이유로 실패하였습니다. 잠시 후 다시 시도해 주세요.');
+				}
+			})
 		})
 		
 		$('#back').on('click', function(){

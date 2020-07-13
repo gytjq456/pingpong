@@ -23,6 +23,7 @@ public class AlarmController {
 	@Autowired 
 	EchoHandler handler;
 	
+	@RequestMapping("alarmList")
 	public String alarmList(Model model,String alarm_receiver) throws Exception{
 		int alarmCount = aservice.getAlarmCount(alarm_receiver);
 		System.out.println("alarmCount : " + alarmCount);

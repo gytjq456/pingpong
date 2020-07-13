@@ -506,7 +506,7 @@
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=033532d2fa35e423d2d5e723c0bfd1fe&libraries=services"></script>
 	<script>
 		function toList() {
-			location.href = '/group/main?orderBy=seq';
+			location.href = '/group/main?orderBy=seq&ing=all';
 		}
 		
 		$('#like').on('click', function(){

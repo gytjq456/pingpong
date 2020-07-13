@@ -66,9 +66,9 @@
 								</ul>
 							</li>
 							<li>
-								<a href="/group/main?orderBy=seq">Group</a>
+								<a href="/group/main?orderBy=seq&ing=all">Group</a>
 								<ul class="depth2">
-									<li><a href="/group/main?orderBy=seq">그룹 찾기</a></li>
+									<li><a href="/group/main?orderBy=seq&ing=all">그룹 찾기</a></li>
 									<li><a href="/group/write">그룹 등록</a></li>
 								</ul>
 							</li>

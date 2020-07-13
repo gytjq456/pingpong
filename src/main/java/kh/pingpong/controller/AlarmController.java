@@ -21,11 +21,14 @@ import kh.pingpong.service.AlarmService;
 @RequestMapping("/alarm/")
 public class AlarmController {
 	
+	public static Map<String,Object> insertA = new HashMap<>();
+	
 	@Autowired
 	AlarmService alservice;
 	
 	@Autowired
 	private HttpSession session;
+	
 	
 
 	@RequestMapping("alarm2")
@@ -42,12 +45,14 @@ public class AlarmController {
 	
 	@RequestMapping("insertAlarm")
 	public int insertAlarm(Model model,MemberDTO mdto,PartnerDTO pdto,ReviewDTO rvdto) throws Exception{
+		System.out.println("adasdsadsadasdads");
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
 		System.out.println("id :" +mdto.getId());
-		Map<String,Object> insertA = new HashMap<>();
 		insertA.put("mdto", mdto);
 		insertA.put("pdto", pdto);
 		insertA.put("rvdto",rvdto);
+		System.out.println("222---"+this.insertA.get("mdto"));
+		System.out.println("222---"+this.insertA.get("pdto"));
 		int result = alservice.insertAlarm(insertA);
 		return result;
 	}

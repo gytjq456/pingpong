@@ -1,42 +1,131 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-</head>
-<body>
-	<c:choose>
-		<c:when test="${empty ldto}">
-			ㅠㅠ
-		</c:when>
-		<c:otherwise>
-			글번호: ${ldto.seq}<br>
-			강사: ${ldto.name}(${ldto.id})<br>
-			이메일: ${ldto.email}<br>
-			전화번호: (${ldto.phone_country})${ldto.phone}<br>
-			유형: ${ldto.category}<br>
-			제목: ${ldto.title}<br>
-			가격: ${ldto.price}<br>
-			언어: ${ldto.language}<br>
-			모집 기간: ${ldto.apply_start} ~ ${ldto.apply_end}<br>
-			진행 기간: ${ldto.start_date} ~ ${ldto.end_date}<br>
-			진행 시간: ${ldto.start_hour}:${ldto.start_minute} ~ ${ldto.end_hour}:${ldto.end_minute}<br>
-			인원: ${ldto.cur_num}/${ldto.max_num}<br>
-			장소: ${ldto.location}<br>
-			내용: ${ldto.curriculum}<br>
-			추천수: ${ldto.like_count}<br>
-			조회수: ${ldto.view_count}<br>
-			리뷰수: ${ldto.review_count}<br>
-			평점: ${ldto.review_point}<br>
-			모집중: ${ldto.applying}<br>
-			진행중: ${ldto.proceeding}<br>
-		</c:otherwise>
-	</c:choose>
-	<a href="/admin/deleteBySeq?pageName=lessonList&seq=${ldto.seq}">삭제</a>
-	<a href="/admin/lessonList">목록으로</a>
+<jsp:include page="/WEB-INF/views/admin/aheader.jsp"/>
+	<div id="main_wrap">
+		<div id="view_wrap">
+			<c:choose>
+				<c:when test="${empty ldto}">
+					<div>내용을 불러오는 데 실패하였습니다. 다시 시도해 주세요.</div>
+				</c:when>
+				<c:otherwise>
+					<div class="view_line">
+						<div class="first_line">
+							${ldto.title}
+						</div>
+					</div>
+					<div class="view_line">
+						<div>
+							<div class="second_line_left">
+								<span>글번호</span>
+								<span class="span_con">${ldto.seq}</span>
+								<span>강사</span>
+								<span class="span_con">${ldto.name}(${ldto.id})</span>
+							</div>
+							<div class="second_line_right">
+								<span>추천수</span>
+								<span class="span_con">${ldto.like_count}</span>
+								<span>조회수</span>
+								<span class="span_con">${ldto.view_count}</span>
+								<span>리뷰수</span>
+								<span class="span_con">${ldto.review_count}</span>
+								<span>평점</span>
+								<span class="span_con">${ldto.review_point}</span>
+							</div>
+						</div>
+					</div>
+					<div class="view_line">
+						<div>
+							<div class="third_line_left">
+								<ul>
+									<li>
+										<span>이메일</span>
+										<span class="span_con">${ldto.email}</span>
+									</li>
+									<li>
+										<span>전화번호</span>
+										<span class="span_con">${ldto.phone_country}${ldto.phone}</span>
+									</li>
+									<li>
+										<span>모집 기간</span>
+										<span class="span_con">${ldto.apply_start} ~ ${ldto.apply_end}</span>
+									</li>
+									<li>
+										<span>진행 기간</span>
+										<span class="span_con">${ldto.start_date} ~ ${ldto.end_date}</span>
+									</li>
+									<li>
+										<span>진행 시간</span>
+										<span class="span_con">${ldto.start_hour}:${ldto.start_minute} ~ ${ldto.end_hour}:${ldto.end_minute}</span>
+									</li>
+									<li>
+										<span>인원</span>
+										<span class="span_con">${ldto.cur_num}/${ldto.max_num}</span>
+									</li>
+								</ul>
+							</div>
+							<div class="third_line_right">
+								<ul>
+									<li>
+										<span>유형</span>
+										<span class="span_con">${ldto.category}</span>
+									</li>
+									<li>
+										<span>가격</span>
+										<span class="span_con">${ldto.price}</span>
+									</li>
+									<li>
+										<span>언어</span>
+										<span class="span_con">${ldto.language}</span>
+									</li>
+									<li>
+										<span>모집중</span>
+										<span class="span_con">
+											<c:if test="${ldto.applying == 'Y'}">○</c:if>
+											<c:if test="${ldto.applying == 'N'}">Ｘ</c:if>
+										</span>
+									</li>
+									<li>
+										<span>진행중</span>
+										<span class="span_con">
+											<c:if test="${ldto.proceeding == 'Y'}">○</c:if>
+											<c:if test="${ldto.proceeding == 'N'}">Ｘ</c:if>
+										</span>
+									</li>
+									<li>
+										<span>장소</span>
+										<span class="span_con">${ldto.location}</span>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="view_line">
+						<div id="contents">${ldto.curriculum}</div>
+					</div>
+				</c:otherwise>
+			</c:choose>
+			<div class="btn_wrap">
+				<div class="btns">
+					<button id="delete">삭제</button>
+					<button id="goToList">목록으로</button>
+				</div>
+			</div>
+			<script>
+				$('#delete').on('click', function(){
+					var conf = confirm('정말 삭제하시겠습니까?');
+					
+					if (conf) {
+						var seq = ${ldto.seq};
+						location.href = "/admins/deleteBySeq?pageName=lessonList&seq=" + seq;
+					}
+				})
+				
+				$('#goToList').on('click', function(){
+					location.href = "/admins/lessonList";
+				})
+			</script>
+		</div>
+	</div>
 </body>
 </html>

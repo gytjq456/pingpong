@@ -92,6 +92,7 @@ function uploadSummernoteImageFile(file, editor) {
 				</div>				
 				<div class="card_body">
 					<form action="/discussion/writeProc" method="post" enctype="multipart/form-data" id="writeForm">
+						<input type="hidden" name="id" value="${sessionScope.loginInfo.id}">
 						<input type="hidden" name="writer" value="${sessionScope.loginInfo.name}">
 						<section>
 							<div class="tit_s3">
@@ -132,7 +133,7 @@ function uploadSummernoteImageFile(file, editor) {
 							<div>
 								<input type="submit" value="전송">
 							</div>
-							<div><a href="#;">돌아가기</a></div>
+							<div><a href="javascript:window.history.back();">돌아가기</a></div>
 						</div>						
 					</form>
 				</div>

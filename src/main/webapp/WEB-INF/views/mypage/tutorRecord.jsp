@@ -1,27 +1,88 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<jsp:include page="/WEB-INF/views/header.jsp"/>
-	
-	<br><br><br><br><br><br><br><br><br><br><br><br><br>
-	
-	<article id="management">
-		<h2>나의 강의목록</h2>
-		<section class="tuteeRecord">
-			<div class="subContents">
-				<div class="session">		
-					<h4>강의목록</h4>
+<jsp:include page="/WEB-INF/views/header.jsp" />
+
+<script>
+		$(function(){
+			$(".refund").on("click", function(){
+				var seq = $(this).parent().siblings().find('.seq').val();
+				var start_date = $(this).parent().siblings().find('.start_date').val();
+				var price = $(this).parent().siblings().find('.price').val();
+				
+				$.ajax({
+					url:"/payments/refundTrue",
+					data:{
+						parent_seq : seq
+					},
+					type: "POST"
+				}).done(function(resp){
+					console.log(resp);
+					if(resp>0){
+						alert("이미 환불신청이 완료된 강의 입니다.");
+						location.href="/mypage/tutorRecord";
+						return false;
+					}else{
+						location.href="/payments/cancle?parent_seq="+seq+"&start_date="+start_date+"&price="+price;
+					}
+				}).fail(function(error1, error2) {
+					console.log(error1);
+					console.log(error2);
+				})
+				
+				
+				
+			})
+		})
+	</script>
+<div id="subWrap" class="hdMargin">
+	<section id="subContents">
+		<article id="jjimManage" class="inner1200">
+			<div class="tit_s1">
+				<h2>나의 강의목록</h2>
+			</div>
+			<div class="listWrap">
+				<section class="session card_body">		
+					<h4>강의 신청 리스트</h4>
 					<c:choose>
 						<c:when test="${empty telist}">
 							등록된 강의기록이 없습니다.
 						</c:when>
 						<c:otherwise>
-						
-							<c:forEach var="telist" items="${telist}">	
-								<table>
+							<table>
+								<colgroup>
+									<col width="30px"/>
+									<col width="360px"/>
+									<col width=""/>
+									<col width=""/>
+									<col width=""/>
+									<col width=""/>
+									<col width="100px"/>
+								</colgroup>
+								<thead>
 									<tr>
-										<td>강의번호:${telist.seq}</td>
+										<th>번호</th>
+										<th>제목</th>
+										<th>튜터</th>
+										<th>언어</th>
+										<!-- <th>커리큘럼</th> -->
+										<th>강의 기간</th>
+										<!-- <th>인원</th> -->
+										<th>장소</th>
+										<!-- <th>추천</th>
+										<th>리뷰</th>
+										<th>평점</th> -->
+										<th>비고</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="telist" items="${telist}">
+									<input type="hidden"  class="seq" value="${telist.seq}">
+									<input type="hidden" class="start_date" value="${telist.start_date}">
+									<input type="hidden" class="price" value="${telist.price }">
+									<tr id="${telist.seq}">
+										<td>${telist.seq}</td>
 										<td><a href="#;">${telist.title}</a></td>
 										<td><a href="#;">튜터명:${telist.name}</a></td>
 										<td>언어:${telist.language}</td>
@@ -35,22 +96,31 @@
 										
 										<a href="/payments/cancle?parent_seq=${telist.seq }&start_date=${telist.start_date }&price=${telist.price }">test환불</a>
 										<input type="button" value="삭제" onclick="SomeDeleteRowFunction()">
+
+										<td><a href="#;">${telist.name}</a></td>
+										<td>${telist.language}</td>
+										<%-- <td>${telist.curriculum}</td> --%>
+										<td>${telist.start_date}~${telist.end_date}</td>
+										<%-- <td>${telist.cur_num}/${telist.max_num}</td> --%>
+										<td>${telist.location}</td>
+										<%-- <td>${telist.like_count}</td>
+										<td>${telist.review_count}</td>
+										<td>${telist.review_point}</td> --%>
+										<td><input type="button" class="refund" value="강의 환불"></td>
+
 									</tr>
-								</table>
-								
-							</c:forEach>
+								</c:forEach>
+								</tbody>
+							</table>
 						</c:otherwise>
 					</c:choose>
-				</div>
+				</section>
 			</div>
-		</section>
-	</article>
-	<script>
-		function SomeDeleteRowFunction(){
-			$('table').on("click",'input[type=button]',function(e){
-				$(this).closest('tr').remove()
-			})
-		}
-	</script>
-	
-<jsp:include page="/WEB-INF/views/footer.jsp"/>
+			
+		</article>
+	</section>
+</div>
+
+
+
+<jsp:include page="/WEB-INF/views/footer.jsp" />

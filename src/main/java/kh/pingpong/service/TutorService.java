@@ -2,6 +2,7 @@ package kh.pingpong.service;
 
 import java.io.File;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -45,13 +46,23 @@ public class TutorService {
 	@Transactional("txManager")
 	public void tutorAppSend(TutorAppDTO tadto, List<FileDTO> fileList, String filePath) throws Exception{
 		
+		//파일 여러개를 string으로 변경하여 ndto에 Files_name 넣음
+		String[] files_insert = new String[fileList.size()];
+		int i = 0;
+		for(FileDTO f : fileList) {
+			files_insert[i++] = f.getSysname();
+		}
+		String arrayS = Arrays.toString(files_insert);
+		String arrayS_result = arrayS.substring(1, arrayS.length()-1);
+		tadto.setLicense(arrayS_result);
+		
 		tdao.insert(tadto);
 		//---------------------------------------�뙆�씪 �뾽濡쒕뱶
 		File tempFilepath = new File(filePath);
 		if (!tempFilepath.exists()) {
 			tempFilepath.mkdir();
 		}
-
+		
 		for(FileDTO file : fileList) {
 			fdao.tutorFileInsert(file);
 		}
@@ -130,7 +141,12 @@ public class TutorService {
 	public int payTrue(TuteeDTO ttdto) throws Exception{
 		int result = tdao.payTrue(ttdto);
 		return result;
-		
+	}
+	
+	//강의 취소한사람이 또 취소하는지
+	public int refundTrue(TuteeDTO ttdto) throws Exception{
+		int result = tdao.refundTrue(ttdto);
+		return result;
 	}
 	//찜 테이블 값넣기
 	public int insertJjim(JjimDTO jdto) throws Exception{
@@ -174,22 +190,29 @@ public class TutorService {
 	}
 	
 	//튜티 인서트
+	//현재인원 늘리는것까지
+	@Transactional("txManager")
 	public int tuteeInsert(TuteeDTO ttdto) throws Exception{
-		return tdao.tuteeInsert(ttdto);
-	}
-	
-	//강위취소 튜티 환불금액 update 하고 강의 취소 'Y'로 바꾸기
-	public int refundInsert(TuteeDTO ttdto) throws Exception{
-		return tdao.refundInsert(ttdto);
-	}
-	
-	//현재인원 늘리기
-	public int tuteeCurnumCount(TuteeDTO ttdto) throws Exception{
+		
+		tdao.tuteeInsert(ttdto);
+		ttdto.setCancle(ttdto.getCancle());
+		System.out.println(ttdto.getCancle());
 		return tdao.tuteeCurnumCount(ttdto);
 	}
 	
+	//강위취소 튜티 환불금액 update 하고 강의 취소 'Y'로 바꾸기
+	//현재인원 늘리기 / 줄이기
+	@Transactional("txManager")
+	public int refundInsert(TuteeDTO ttdto) throws Exception{
+		tdao.refundInsert(ttdto);
+		System.out.println(ttdto.getCancle());
+		return tdao.tuteeCurnumCountMinus(ttdto);
+	}
+
 	//레슨 페이징 만 이동
 		public String getPageNavi_lesson(int userCurrentPage, Map<String, String> param) throws SQLException, Exception {
+			System.out.println(param.get("keyword"));
+			
 			int recordTotalCount = tdao.getArticleCount_lesson(param); 
 			String orderBy = param.get("orderBy").toString();
 			
@@ -232,14 +255,24 @@ public class TutorService {
 			
 			if (param.containsKey("ing")) {
 				if (param.get("ing").toString().contentEquals("applying='N' and proceeding")) {
-					pagingUrl = "lessonListPeriod?orderBy=" + orderBy + "&ing=done";
+					pagingUrl = "lessonListPeriod?orderBy=" + orderBy + "&ing=done"+
+							"&keywordSelect=" + param.get("keywordSelect").toString()+ "&keyword="+ param.get("keyword").toString();
 				} else {
-					pagingUrl = "lessonListPeriod?orderBy=" + orderBy + "&ing=" + param.get("ing").toString();
+					pagingUrl = "lessonListPeriod?orderBy=" + orderBy + "&ing=" + param.get("ing").toString()+
+							"&keywordSelect=" + param.get("keywordSelect").toString()+ "&keyword="+ param.get("keyword").toString();
 				}
 			}
 			
 			if(param.containsKey("keyword")) {
-				pagingUrl = "searchKeword?orderBy=" +orderBy + "&keywordSelect=" + param.get("keywordSelect").toString()+ "&keyword="+ param.get("keyword").toString();
+				if(!param.containsKey("ing")) {
+					pagingUrl = "searchKeword?orderBy=" +orderBy + "&keywordSelect=" + param.get("keywordSelect").toString()+ "&keyword="+ param.get("keyword").toString();
+				}else if(param.get("ing").toString().contentEquals("applying='N' and proceeding")){
+					pagingUrl = "lessonListPeriod?orderBy=" + orderBy + "&ing=done"+
+							"&keywordSelect=" + param.get("keywordSelect").toString()+ "&keyword="+ param.get("keyword").toString();
+				}else {
+					pagingUrl = "lessonListPeriod?orderBy=" + orderBy + "&ing=" + param.get("ing").toString()+
+							"&keywordSelect=" + param.get("keywordSelect").toString()+ "&keyword="+ param.get("keyword").toString();
+				}
 			}
 			
 			if (param.containsKey("start_date")) {
@@ -251,19 +284,25 @@ public class TutorService {
 			}
 			
 			
-			
+			sb.append("<ul>");
 			if(needPrev) {
-				sb.append("<a href='/tutor/"+pagingUrl+"&cpage="+(startNavi-1)+"'><</a>");
+				sb.append("<li><a href='/tutor/"+pagingUrl+"&cpage="+(startNavi-1)+"'><</a></li>");
 			}
 			for(int i = startNavi ; i<=endNavi; i++) {
 
-				sb.append("<a href='/tutor/"+pagingUrl+"&cpage="+i+"'>"+i+"</a>");//袁몃ŉ二쇰뒗 寃�
+				
+				if(userCurrentPage == i) {
+					sb.append("<li class='on'><a href='/tutor/"+pagingUrl+"&cpage="+i+"'>"+i+"</a>");//袁몃ŉ二쇰뒗 寃�
+				}else {
+					sb.append("<li><a href='/tutor/"+pagingUrl+"&cpage="+i+"'>"+i+"</a></li>");//袁몃ŉ二쇰뒗 寃�
+				}
 			}
 			if(needNext) {
 
-				sb.append("<a href='/tutor/"+pagingUrl+"&cpage="+(endNavi+1)+"'>></a>");
+				sb.append("<li><a href='/tutor/"+pagingUrl+"&cpage="+(endNavi+1)+"'>></a></li>");
 			}
 			
+			sb.append("</ul>");
 			return sb.toString();
 		}
 		
@@ -302,18 +341,22 @@ public class TutorService {
 				
 				StringBuilder sb = new StringBuilder();
 				
+				sb.append("<ul>");
 				if(needPrev) {
-					sb.append("<a href='tutorList?cpage="+(startNavi-1)+"'><</a>");
+					sb.append("<li><a href='tutorList?cpage="+(startNavi-1)+"'><</a></li>");
 				}
 				for(int i = startNavi ; i<=endNavi; i++) {
-
-					sb.append("<a href='tutorList?cpage="+i+"'>"+i+"</a>");//꾸며주는 것
+					if(currentPage == i) {
+						sb.append("<li class='on'><a href='tutorList?cpage="+i+"'>"+i+"</a></li>");//꾸며주는 것
+					}else {
+						sb.append("<li><a href='tutorList?cpage="+i+"'>"+i+"</a></li>");//꾸며주는 것
+					}
 				}
 				if(needNext) {
 
-					sb.append("<a href='tutorList?cpage="+(endNavi+1)+"'>></a>");
+					sb.append("<li><a href='tutorList?cpage="+(endNavi+1)+"'>></a></li>");
 				}
-				
+				sb.append("</ul>");
 				return sb.toString();
 			}
 	

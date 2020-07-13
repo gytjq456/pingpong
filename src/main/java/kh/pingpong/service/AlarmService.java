@@ -24,6 +24,7 @@ public class AlarmService {
 	}
 	
 	public int insertAlarm(Map<String, Object> insertA) throws Exception{
+		
 		return aldao.alarmInsert(insertA);
 	}
 }

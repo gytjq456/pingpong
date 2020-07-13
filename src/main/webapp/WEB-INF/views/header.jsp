@@ -66,9 +66,9 @@
 								</ul>
 							</li>
 							<li>
-								<a href="/group/main?orderBy=seq">Group</a>
+								<a href="/group/main?orderBy=seq&ing=all">Group</a>
 								<ul class="depth2">
-									<li><a href="/group/main?orderBy=seq">그룹 찾기</a></li>
+									<li><a href="/group/main?orderBy=seq&ing=all">그룹 찾기</a></li>
 									<li><a href="/group/write">그룹 등록</a></li>
 								</ul>
 							</li>
@@ -76,15 +76,17 @@
 								<a href="/tutor/tutorList">Tutor</a>
 								<ul class="depth2">
 									<li><a href="/tutor/lessonList?orderBy=seq&keywordSelect=name">강의 목록</a></li>
-									<li><a id="tutorApp">튜터 신청</a></li>
+
+									<li><a href="/tutor/tutorList" >튜터 목록</a></li>
+									<li><a href="#;" id="tutorApp">튜터 신청</a></li>
 								</ul>
 							</li>												
 							<li>
-								<a href="/discussion/list">Board</a>
+								<a href="/discussion/list?cpage=1">Board</a>
 								<ul class="depth2">
 									<li><a href="/discussion/list?cpage=1">토론</a></li>
 									<li><a href="/correct/correct_list">질문</a></li>
-									<li><a href="/news/list">소식</a></li>
+									<li><a href="/news/listProc">소식</a></li>
 								</ul>
 							</li>												
 							<li>

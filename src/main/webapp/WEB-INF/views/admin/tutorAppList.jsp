@@ -1,63 +1,101 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-</head>
-<body>
-	<c:choose>
-		<c:when test="${empty talist}">
-			등록된 튜터 신청이 없습니다.
-		</c:when>
-		<c:otherwise>
-			<input type="checkbox" id="selectAll"><br>
-			<c:forEach var="talist" items="${talist}">
-				<input type="checkbox" value="${talist.seq}" class="deleteCheck">
-				${talist.seq} : ${talist.id} : 
-				<a href="/admin/tutorAppView?seq=${talist.seq}">${talist.title}</a>
-				 : ${talist.license} : 
-				${talist.recomm} : ${talist.pass}<br>
-			</c:forEach>
-		</c:otherwise>
-	</c:choose>
-	<button id="acceptAll">승인</button>
-	<button id="deleteAll">삭제</button>
-	<div class="navi">${navi}</div>
-	<a href="/admin">관리자 메인</a>
-	<script>
-		$('#selectAll').on('change', function(){
-			if ($('#selectAll').is(':checked')) {
-				$('.deleteCheck').attr('checked', 'true');
-			} else {
-				$('.deleteCheck').removeAttr('checked');
-			}
-		})
-		
-		$('#acceptAll').on('click', function(){
-			var accCount = $('.deleteCheck:checked').length;
-			var accList = [];
+<jsp:include page="/WEB-INF/views/admin/aheader.jsp"/>
+	<div id="main_wrap">
+		<div id="table_wrap">
+			<h3>튜터 신청</h3>
+			<table>
+				<thead>
+					<tr>
+						<th><input type="checkbox" id="selectAll"></th>
+						<th>번호</th>
+						<th>아이디</th>
+						<th>제목</th>
+						<th>처리 현황</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:choose>
+						<c:when test="${empty talist}">
+							<tr>
+								<td colspan="5">등록된 튜터 신청이 없습니다.</td>
+							</tr>
+						</c:when>
+						<c:otherwise>
+							<c:forEach var="talist" items="${talist}">
+								<tr>
+									<td><input type="checkbox" value="${talist.seq}" class="deleteCheck"></td>
+									<td>${talist.seq}</td>
+									<td>${talist.id}</td>
+									<td><a href="/admins/tutorAppView?seq=${talist.seq}">${talist.title}</a></td>
+									<td>
+										<c:if test="${talist.pass == 'Y'}">승인</c:if>
+										<c:if test="${talist.pass == 'N'}">대기</c:if>
+									</td>
+								</tr>
+							</c:forEach>
+						</c:otherwise>
+					</c:choose>
+				</tbody>
+			</table>
+			<div class="btn_wrap">
+				<div class="btns">
+					<button id="acceptAll">승인</button>
+					<button id="deleteAll">삭제</button>
+				</div>
+			</div>
+			<div class="navi">${navi}</div>
+			<script>
+				$('#selectAll').on('change', function(){
+					if ($('#selectAll').is(':checked')) {
+						$('.deleteCheck').attr('checked', 'true');
+					} else {
+						$('.deleteCheck').removeAttr('checked');
+					}
+				})
+				
+				$('#acceptAll').on('click', function(){
+					var accCount = $('.deleteCheck:checked').length;
+					
+					if (accCount == 0) {
+						alert('선택된 항목이 없습니다.');
+					} else {
+						var conf = confirm('선택한 항목들을 모두 승인하시겠습니까?');
+						
+						if (conf) {
+							var accList = [];
+							
+							for (var i = 0; i < accCount; i++){
+								accList[i] = $($('.deleteCheck:checked')[i]).val();
+							}
+							
+							location.href = '/admins/acceptAll?pageName=tutorAppList&values=' + accList;
+						}
+					}
+				})
 			
-			for (var i = 0; i < accCount; i++){
-				accList[i] = $($('.deleteCheck:checked')[i]).val();
-			}
-			
-			location.href = '/admin/acceptAll?pageName=tutorAppList&values=' + accList;
-		})
-	
-		$('#deleteAll').on('click', function(){
-			var delCount = $('.deleteCheck:checked').length;
-			var delList = [];
-			
-			for (var i = 0; i < delCount; i++) {
-				delList[i] = $($('.deleteCheck:checked')[i]).val();
-			}
-			
-			location.href = '/admin/deleteAll?pageName=tutorAppList&values=' + delList;
-		})
-	</script>
+				$('#deleteAll').on('click', function(){
+					var delCount = $('.deleteCheck:checked').length;
+					
+					if (delCount == 0) {
+						alert('선택된 항목이 없습니다.');
+					} else {
+						var conf = confirm('선택한 항목들을 정말 삭제하시겠습니까?');
+						
+						if (conf) {
+							var delList = [];
+							
+							for (var i = 0; i < delCount; i++) {
+								delList[i] = $($('.deleteCheck:checked')[i]).val();
+							}
+							
+							location.href = '/admins/deleteAll?pageName=tutorAppList&values=' + delList;
+						}
+					}
+				})
+			</script>
+		</div>
+	</div>
 </body>
 </html>

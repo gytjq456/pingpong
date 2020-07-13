@@ -12,9 +12,19 @@
 	update lesson set cur_num = cur_num+1 where seq = #{parent_seq}
 </update>
 
+<!-- 튜티 현재인원 줄이기 -->
+<update id="tuteeCurnumCountMinus">
+	update lesson set cur_num = cur_num-1 where seq= #{parent_seq}
+</update>
+
 <!-- 결제한사람이 또 결제하는지 -->
 <select id="payTrue" resultType="int">
 	select count(*) from tutee where parent_seq = #{parent_seq} and id =#{id}
+</select>
+
+<!-- 결제 취소한사람이 또 취소하는지 -->
+<select id="refundTrue" resultType="int">
+	select count(*) from tutee where parent_seq = #{parent_seq} and id =#{id} and cancle='Y'
 </select>
 
 <!-- 강위취소 튜티 환불금액 update 하고 강의 취소 'Y'로 바꾸기 -->
@@ -38,12 +48,12 @@
 
 <!-- 자격증 파일 insert -->
 <insert id="insertFiles">
-	insert into files values(files_seq.nextval,#{sysname}, #{oriname}, #{realpath,jdbcType=VARCHAR},'partner', 0)
+	insert into files values(files_seq.nextval,#{sysname}, #{oriname}, #{realpath,jdbcType=VARCHAR},'tutor', tutor_app_seq.currval)
 </insert>
 
 <!-- 강의 등록 신청서 -->
 <insert id="lessonAppProc">
-	insert into lesson values(lesson_seq.nextval, #{id}, #{name}, #{email}, #{phone_country}, #{phone}, #{sysname}, default, #{title}, #{price}, #{language},#{apply_start},#{apply_end},#{start_date},#{end_date},#{start_hour},#{start_minute},#{end_hour},#{end_minute},#{max_num},0,#{location},#{curriculum},default,#{view_count},default,default,default,default,default)
+	insert into lesson values(lesson_seq.nextval, #{id}, #{name}, #{email}, #{phone_country}, #{phone}, #{sysname}, default, #{title}, #{price}, #{language},#{apply_start},#{apply_end},#{start_date},#{end_date},#{start_hour},#{start_minute},#{end_hour},#{end_minute},#{max_num},0,#{location},#{location_lat},#{location_lng},#{curriculum},default,#{view_count},default,default,default,default,default)
 </insert>
 
 <!-- 강의 수정 신청서 -->
@@ -146,34 +156,49 @@
 
 <!-- 모집중, 진행중, 마감일 때 -->
 <select id="selectLessonListPeriod" resultMap="LessonProfile">
-	select * from (select lesson.*, row_number() over(order by ${orderBy} desc) rnum from lesson where pass='Y' and ${ing}=#{ingVal}) 
-	where rnum between #{start} and #{end}
+	select * from (select lesson.*, row_number() over(order by ${orderBy} desc) rnum from lesson where pass='Y' and ${ing}=#{ingVal} 
+	<trim prefixOverrides="and" prefix="and">
+		<if test="keyword!=null">
+			and ${keywordSelect} like '%${keyword}%'
+		</if>
+		<if test="end_date!=null">
+			and to_char(start_date) >= to_char(#{start_date}) and to_char(#{end_date}) >= to_char(end_date)
+		</if>
+		<if test="location!=null">
+			and location like '%${location}%'
+		</if>
+	</trim>
+	)where rnum between #{start} and #{end}
 </select>
 
 <!-- 모집 진행 마감 자동으로 바뀌게하기 스케쥴러 -->
 <update id="updateApplying">
-	update lesson set applying ='N' where apply_end = #{today_date}
+	update lesson set applying ='N' where #{today_date} > apply_end  
 </update>
 <update id="updateProceeding1">
-	update lesson set proceeding ='Y' where start_date = #{today_date} 
+	update lesson set proceeding ='Y' where start_date >= #{today_date} 
 </update>
 <update id="updateProceeding2">
-	update lesson set proceeding ='N' where end_date = #{today_date}
+	update lesson set proceeding ='N' where #{today_date} > end_date
 </update>
 
 
 <!-- 키워드로 검색해서 리스트 뿌려주기 -->
 <select id="search" resultMap="LessonProfile">
-	select * from (select lesson.*, row_number() over(order by ${orderBy} desc) rnum from lesson
+	select * from (select lesson.*, row_number() over(order by ${orderBy} desc) rnum from lesson 
 	<trim prefixOverrides="and" prefix="where">
+		pass='Y'
+		<if test="ing!=null">
+			and ${ing}=#{ingVal}
+		</if>
 		<if test="keyword!=null">
-			pass='Y' and ${keywordSelect} like '%${keyword}%'
+			and ${keywordSelect} like '%${keyword}%'
 		</if>
 		<if test="end_date!=null">
-			pass='Y' and to_char(start_date) >= to_char(#{start_date}) and to_char(#{end_date}) >= to_char(end_date)
+			and to_char(start_date) >= to_char(#{start_date}) and to_char(#{end_date}) >= to_char(end_date)
 		</if>
 		<if test="location!=null">
-			pass='Y' and location like '%${location}%'
+			and location like '%${location}%'
 		</if>
 	</trim>
 	)where rnum between #{start} and #{end}
@@ -186,17 +211,18 @@
 <select id="getArticleCount_lesson" resultType="int">
 	select count(*) from (select lesson.*, row_number() over(order by ${orderBy} desc) rnum from lesson
 	<trim prefixOverrides="and" prefix="where">
+		pass='Y' 
 		<if test="ing!=null">
-			pass='Y' and ${ing} = #{ingVal}
+			and ${ing} = #{ingVal}
 		</if>
 		<if test="keyword!=null">
-			pass='Y' and ${keywordSelect} like '%${keyword}%'
+			and ${keywordSelect} like '%${keyword}%'
 		</if>
 		<if test="end_date!=null">
-			pass='Y' and to_char(start_date) >= to_char(#{start_date}) and to_char(#{end_date}) >= to_char(end_date)
+			and to_char(start_date) >= to_char(#{start_date}) and to_char(#{end_date}) >= to_char(end_date)
 		</if>
 		<if test="location!=null">
-			pass='Y' and location like '%${location}%'
+			and location like '%${location}%'
 		</if>
 	</trim>
 	)

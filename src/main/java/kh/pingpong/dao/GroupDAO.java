@@ -19,6 +19,8 @@ import kh.pingpong.dto.GroupMemberDTO;
 import kh.pingpong.dto.HobbyDTO;
 import kh.pingpong.dto.JjimDTO;
 import kh.pingpong.dto.LikeListDTO;
+import kh.pingpong.dto.MemberDTO;
+import kh.pingpong.dto.ReportListDTO;
 import kh.pingpong.dto.ReviewDTO;
 
 @Repository
@@ -42,7 +44,7 @@ public class GroupDAO {
 		Date today = new Date();
 		
 		if (start.getTime() - today.getTime() > 0) {
-			gdto.setProceeding("N");
+			gdto.setProceeding("B");
 		} else {
 			gdto.setProceeding("Y");
 		}
@@ -191,6 +193,14 @@ public class GroupDAO {
 		return checkLike;
 	}
 	
+	public int selectReport(ReportListDTO rldto) {
+		return mybatis.selectOne("Group.selectReport", rldto);
+	}
+	
+	public int insertReport(ReportListDTO rldto) {
+		return mybatis.insert("Group.insertReport", rldto);
+	}
+	
 	public int updateIngDate(String today_date) {
 		int resultApplying = mybatis.update("Group.updateApplying", today_date);
 		int resultProceedingN = mybatis.update("Group.updateProceedingN", today_date);
@@ -248,5 +258,45 @@ public class GroupDAO {
 	//리뷰 리스트
 	public List<ReviewDTO> reviewList(int seq) {
 		return mybatis.selectList("Group.reviewList",seq);
+	}
+	
+	// 내가 등록한 그룹 신청서 관리
+	public List<GroupApplyDTO> allAppList(List<Integer> seq) throws Exception {
+		return mybatis.selectList("Group.allAppList", seq);
+	}
+	
+	// 내가 작성한 그룹 신청서 관리
+	public GroupApplyDTO myAppView(Map<String, Object> param) throws Exception {
+		return mybatis.selectOne("Group.myAppView", param);
+	}
+	
+	// 시퀀스로 그룹 신청서 찾기
+	public GroupApplyDTO showApp(int seq) throws Exception {
+		return mybatis.selectOne("Group.showApp", seq);
+	}
+	
+	// 그룹 승인-시퀀스
+	public int deleteAppAsAccept(int seq) throws Exception {
+		return mybatis.delete("Group.deleteAppAsAccept", seq);
+	}
+	
+	// 그룹 승인-아이디
+	public int insertGroupMember(Map<String, Object> param) throws Exception {
+		return mybatis.insert("Group.insertGroupMember", param);
+	}
+	
+	// 그룹 승인-부모 시퀀스
+	public int updateCurNum(int parent_seq) throws Exception {
+		return mybatis.update("Group.updateCurNum", parent_seq);
+	}
+	
+	// 그룹 신청 거절
+	public int refuseApp(int seq) throws Exception {
+		return mybatis.delete("Group.refuseApp", seq);
+	}
+	
+	// 내 신청서 보기
+	public GroupApplyDTO showMyApp(Map<String, Object> param) throws Exception {
+		return mybatis.selectOne("Group.showMyApp", param);
 	}
 }

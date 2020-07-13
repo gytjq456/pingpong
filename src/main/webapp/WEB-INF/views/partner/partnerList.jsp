@@ -227,13 +227,12 @@
 	
 	<div class="navi">${navi}</div>
  	
- 	<div class=modal>
+	<div class=modal>
 		<div id="writeEmail" >
 		  	<div id="" class="emailPop">
 				<h2>이메일 보내기</h2>
 				<form id="emailForm"> 
 				<!-- post방식으로 자료를 컨트롤러로 보냄 -->
-					<!-- <input type="hidden" name="seq"> -->
 					받는 사람  : <input name="name" id="receiverName"><br>
 					발신자 이메일 : <input name="memail" value="${loginInfo.email}"><br>
 					이메일 비밀번호 : <input type="password" name="emailPassword"><br>
@@ -244,7 +243,7 @@
 				</form>
 			</div>
 		</div>
-	</div> 
+	</div>
 	<script>
 	$(function(){
 		
@@ -255,9 +254,8 @@
 	     	 var seq = $(this).data("seq");
 	     	 var name = $(".list_"+seq).find(".name").text();
 	     	 var email = $(".list_"+seq).find(".email").text();
-	     	 alert(name)
-	     	writeEmail.find("#receiverName").val(name);
-	     	writeEmail.find("#sendrMail").val(email);
+	     	 writeEmail.find("#receiverName").val(name);
+	     	  writeEmail.find("#sendrMail").val(email);
 	    });
     
 		 $("#emailForm").submit(function(){

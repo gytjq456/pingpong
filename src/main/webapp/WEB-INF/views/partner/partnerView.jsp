@@ -2,6 +2,9 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 <jsp:include page="/WEB-INF/views/header.jsp"/>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <style>
@@ -115,7 +118,7 @@
 </script>
 
 <body>
-	<br><br><br><br><br><br><br><br><br><br><br>
+	
 	<c:choose>
 		<c:when test="${empty pdto }">
 			해당 뷰페이지에 파트너 정보를 찾을 수 없습니다.
@@ -145,7 +148,7 @@
 			<div class="button_aa">
 				<button class="letter">쪽지</button>
 				<button class="chat">채팅</button>
-				<button class="email">이메일</button>
+				<button class="email_a"><a href="#writeEmail" class='btn' data-seq="${pdto.seq}">이메일</a></button>
 				<button class="report">신고하기</button><br><br>
 				<button class="back">목록으로</button>
 				<c:if test="${sessionScope.loginInfo.id == pdto.id}">
@@ -154,18 +157,75 @@
 			</div>
 		</c:otherwise>
 	</c:choose>
+	
+	<div class=modal>
+		<div id="writeEmail" >
+		  	<div id="" class="emailPop">
+				<h2>이메일 보내기</h2>
+				<form id="emailForm"> 
+				<!-- post방식으로 자료를 컨트롤러로 보냄 -->
+					받는 사람  : <input name="name" id="receiverName"><br>
+					발신자 이메일 : <input name="memail" value="${loginInfo.email}"><br>
+					이메일 비밀번호 : <input type="password" name="emailPassword"><br>
+					수신자 이메일 : <input name="email" id="sendrMail"><br>
+					제목 : <input name="subject"><br>
+					내용 : <textarea rows="5" cols="80" name="contents"></textarea><br>
+					<input type="submit" value="전송" id="send">
+				</form>
+			</div>
+		</div>
+	</div>
+	
 	<script>
-		$(".email")
+	$(function(){
+		
+		var writeEmail = $("#writeEmail");
+	    $('a[href="#writeEmail"]').click(function(e) {
+	    	e.preventDefault();
+	     	 $("#writeEmail").stop().fadeIn();
+	     	 var seq = $(this).data("seq");
+	     	 var name = $(".list_"+seq).find(".name").text();
+	     	 var email = $(".list_"+seq).find(".email").text();
+	     	 alert(name, email);
+	     	writeEmail.find("#receiverName").val(name);
+	     	writeEmail.find("#sendrMail").val(email);
+	    });
+    
+		 $("#emailForm").submit(function(){
+			 var formData = new FormData($("#emailForm")[0]);
+			$.ajax({
+				url:"/partner/send",
+				data:formData,
+				type:"post",
+				dataType:"json",
+				cache:false,
+				contentType:false,
+				processData:false
+			}).done(function(resp){
+				alert("test :" + resp)
+			})
+			return false;
+		})
+		
+		$('a[href="#writeEmail"]').click(function(event) {
+		      event.preventDefault();
+		 
+		      $(this).modal({
+		        fadeDuration: 250
+		      });
+		    });
+		
+	})
 	</script>
+	
 	<script>
 		$(".back").on("click",function(){
 			location.href="/partner/partnerList";
 		})
 		
 		//이메일 팝업창 생성
-		$(".button_aa .email").on("click",function(e){
-			var seq = $(this).closest('.button_aa').siblings('.box').find('.seq').html();
-			
+		$(".button_aa  .email").on("click",function(e){
+			var seq = $(this).closest('.button_aa').siblings('.box').find('.seq').html();		
 		})
 		
 		$(".button_aa .delete").on("click",function(){
@@ -215,10 +275,11 @@
 									<h3>리뷰 작성</h3>
 								</div>
 								<form id="reviewtForm">
-									<input type="hidden" name="writer" value="홍길동">
+									<input type="hidden" name="writer" value="${loginInfo.id}">
 									<input type="hidden" name="point" value="0" id="point">
 									<input type="hidden" name="category" value="review">
 									<input type="hidden" name="parent_seq" value="${pdto.seq}">
+									<input type="hidden" name="thumNail" value="${loginInfo.sysname}">
 									<div class="starPoint">
 										<div>
 											<button type="button"><i class="fa fa-star" aria-hidden="true"></i></button>
@@ -231,7 +292,7 @@
 									</div>
 									<div class="textInput clearfix">
 										<div class="userInfo_s1 userInfo_s2">
-											<div class="thumb"><img src="/resources/img/sub/userThum.jpg"/></div>
+											<div class="thumb"><img src="/upload/member/${loginInfo.id}/${loginInfo.sysname}"></div>
 											<div class="info">
 												<p class="userId">홍길동</p>
 											</div>

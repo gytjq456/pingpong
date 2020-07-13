@@ -1,28 +1,85 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-</head>
-<body>
-	<c:choose>
-		<c:when test="${empty lddto}">
-			ㅠㅠ
-		</c:when>
-		<c:otherwise>
-			글번호: ${lddto.seq}<br>
-			작성자: ${lddto.id}<br>
-			카테고리: ${lddto.category}<br>
-			내용: ${lddto.contents}<br>
-			부모: ${lddto.parent_seq}<br>
-		</c:otherwise>
-	</c:choose>
-	<a href="/admin/deleteAppLesson?seq=${lddto.parent_seq}">승인</a>
-	<a href="/admin/deleteBySeq?pageName=lessonDelList&seq=${lddto.seq}">삭제</a>
-	<a href="/admin/lessonDelList">목록으로</a>
+<jsp:include page="/WEB-INF/views/admin/aheader.jsp"/>
+	<div id="main_wrap">
+		<div id="view_wrap">
+			<c:choose>
+				<c:when test="${empty lddto}">
+					<div>내용을 불러오는 데 실패하였습니다. 다시 시도해 주세요.</div>
+				</c:when>
+				<c:otherwise>
+					<div class="view_line">
+						<div class="first_line">
+							강의 삭제 신청서
+						</div>
+					</div>
+					<div class="view_line">
+						<div>
+							<div class="second_line_left">
+								<span>글번호</span>
+								<span class="span_con">${lddto.seq}</span>
+								<span>작성자</span>
+								<span class="span_con">${lddto.id}</span>
+							</div>
+						</div>
+					</div>
+					<div class="view_line">
+						<div>
+							<div class="third_line_left">
+								<ul>
+									<li>
+										<span>유형</span>
+										<span class="span_con">${lddto.category}</span>
+									</li>
+								</ul>
+							</div>
+							<div class="third_line_right">
+								<ul>
+									<li>
+										<span>강의 코드</span>
+										<span class="span_con">${lddto.parent_seq}</span>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="view_line">
+						<div id="contents">${lddto.contents}</div>
+					</div>
+				</c:otherwise>
+			</c:choose>
+			<div class="btn_wrap">
+				<div class="btns">
+					<button id="accept">승인</button>
+					<button id="delete">삭제</button>
+					<button id="goToList">목록으로</button>
+				</div>
+			</div>
+			<script>
+				$('#accept').on('click', function(){
+					var conf = confirm('정말 승인하시겠습니까?');
+					
+					if (conf) {
+						var seq = ${lddto.parent_seq};
+						location.href = "/admins/deleteAppLesson?seq=" + seq;
+					}
+				})
+				
+				$('#delete').on('click', function(){
+					var conf = confirm('정말 삭제하시겠습니까?');
+					
+					if (conf) {
+						var seq = ${lddto.seq};
+						location.href = "/admins/deleteBySeq?pageName=lessonDelList&seq=" + seq;
+					}
+				})
+				
+				$('#goToList').on('click', function(){
+					location.href = "/admins/lessonDelList";
+				})
+			</script>
+		</div>
+	</div>
 </body>
 </html>

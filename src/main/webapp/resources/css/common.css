@@ -13,9 +13,12 @@ body a:hover { color:#275ba0; text-decoration:none; }
 /* 타이틀 */
 .tit_s1 { text-align:center; margin-bottom:50px; padding-bottom:50px; border-bottom:1px solid #ddd;}
 .tit_s1 h2 {font-size:46px; font-family: 'Muli', sans-serif; margin-bottom:20px; font-weight:700; }
+.tit_s1 h3 {font-size:32px; font-family: 'Muli', sans-serif; margin-bottom:20px; font-weight:700; }
 .tit_s1 p {  line-height:1.6; color: #999;  font-size:18px; }
 
-
+#idpwWrap { max-width:400px; margin:0 auto; }
+#idpwWrap > div {}
+#login .tit_s1 { border:none; padding:0; margin:0; }
 /* header */
 header { position:fixed; width:100%; background:#fff; box-shadow:0 0 10px rgba(0,0,0,0.1); z-index:9999; font-family: 'Noto Sans SC', sans-serif;}
 header #hdTop { padding:16px 0; text-align:right; border-bottom:1px solid #ddd;}
@@ -26,7 +29,7 @@ header #hdTop .util > ul > li:last-child:after { display:none;}
 header #hdTop .util > ul > li:last-child { padding-right:0; margin-right:0;}
 header #hdTop .util li a { color:#a2a2a2; font-size:14px; font-weight:400;}
 header #hdTop .util li a:hover { color:#124d79; }
-header #hdTop .util .depth2 { position:absolute;  z-index:10; width:130px; left:50%; transform:translateX(-50%); top:20px; border:1px solid #ddd; border-radius:5px; display:block; padding:20px 10px; background:#fff; display:none; }
+header #hdTop .util .depth2 { position:absolute;  z-index:10; width:130px; left:50%; transform:translateX(-50%); top:30px; border:1px solid #ddd; border-radius:5px; display:block; padding:20px 10px; background:#fff; display:none; }
 header #hdTop .util .depth2 li {  margin-bottom:12px; }
 header #hdTop .util .depth2 li:last-child { margin:0; }
 header #hdBot { padding:12px 0;}

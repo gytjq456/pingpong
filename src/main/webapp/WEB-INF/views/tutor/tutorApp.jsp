@@ -2,70 +2,9 @@
 	pageEncoding="UTF-8"%>
 <jsp:include page="/WEB-INF/views/header.jsp" />
 
-<style>
-.main_wrapper {
-	width: 100%;
-	border: 1px solid black;
-}
-
-.top_wrapper {
-	width: 100%;
-	height: 130px;
-	border: 1px solid black;
-}
-
-.profile {
-	width: 30%;
-	height: 100%;
-	border: 1px solid black;
-	float: left;
-}
-
-.info {
-	width: 70%;
-	height: 100%;
-	border: 1px solid black;
-	float: left;
-	border: 1px solid black;
-}
-
-.bottom_wrapper {
-	margin-top: 30px;
-	width: 100%;
-	border: 1px solid black;
-	width: 100%;
-}
-
-.left_title {
-	width: 10%;
-	border: 1px solid black;
-	float: left;
-}
-
-.right_contents {
-	width: 90%;
-	border: 1px solid black;
-	float: left;
-}
-
-.botton_main {
-	width: 100%;
-}
-
-.main {
-	float: left;
-	width: 10%;
-}
-
-.contents {
-	float: left;
-	width: 90%;
-}
-.file{float:left;}
-</style>
-
 <script>
 	$(function() {
+		var totalSize=0;
 		
 		$("input, textarea").blur(function(){
 			var thisVal = $(this).val();
@@ -87,154 +26,161 @@
 		$(".license_contents").on('change','input[type=file]',function(e){
 
 			if(!$(this).val()) {return false};
-			
 			var f = this.files[0];
+			
 			var size = f.size || f.fileSize;
 			console.log(f.size + ":" +f.fileSize);
-			var limit = 1024*1024;
+			var limit = 1024*1024*5;
 			if(size > limit){
-				alert("파일용량 1GB을 초과했습니다.");
+				alert("파일용량 5GB을 초과했습니다.");
 				$(this).val("");
 				return false;
 			}
-			
+			totalSize = totalSize+size;
+			console.log(totalSize);
 		})
 		
 		//파일 첨부 여러개
 		$("#fileAdd").on("click", function() {
-			var fileComp = $("<div><input type=file class='file' name=files><input type='button' value='-' class='fileDelete'></div>");
+			var fileComp = $("<div class='fileDiv'><input type=file class='file' name=files><button type='button' class='fileDelete'>삭제</button></div>");
 			$("#fileAdd").after(fileComp);
 		})
 		
-		//파일 첨부한거 지우기
-		$(".license_contents").on("click",".fileDelete", function(){
+		//파일 첨부한거 지우기 / 사이즈도 같이지우기
+		$(".license_contents").on("click",".fileDelete", function(e){
 			console.log($(this).parent());
-			$(this).parent().remove();
+		
+			console.log($(this).siblings());
+			var f = ($(this).siblings())[0].files[0];
+			
+			/* console.log(($(this).siblings())[0].files[0]); */
+			if(f==null){
+				$(this).parent().remove();
+			}else{
+				var size = f.size || f.fileSize;
+				totalSize = totalSize-size;
+				console.log(totalSize);
+				$(this).parent().remove();
+			}
+
 		})
 		
 		// 글자수 체크 -3개 다
-		$("#tutorApp_view").find("#career").keyup(function(){
-			var word = $(this).val();
-			var wordSize = word.length;
-			console.log(wordSize)
-			if(wordSize <= 1000){
-				$(".wordsize .current1").text(wordSize);
-			}else{
-				word = word.substr(0,1000);
-				$(".wordsize .current1").text(word.length);
-				$(this).val(word);
-				alert("1000자 이하로 등록해 주세요")
-			}
-		})
-		$("#tutorApp_view").find("#exp").keyup(function(){
-			var word = $(this).val();
-			var wordSize = word.length;
-			console.log(wordSize)
-			if(wordSize <= 1000){
-				$(".wordsize .current2").text(wordSize);
-			}else{
-				word = word.substr(0,1000);
-				$(".wordsize .current2").text(word.length);
-				$(this).val(word);
-				alert("1000자 이하로 등록해 주세요")
-			}
-		})
-		$("#tutorApp_view").find("#introduce").keyup(function(){
-			var word = $(this).val();
-			var wordSize = word.length;
-			console.log(wordSize)
-			if(wordSize <= 1000){
-				$(".wordsize .current3").text(wordSize);
-			}else{
-				word = word.substr(0,1000);
-				$(".wordsize .current3").text(word.length);
-				$(this).val(word);
-				alert("1000자 이하로 등록해 주세요")
-			}
-		})
+		wordSize($(".tutorApp_view").find("#career"));
+		wordSize($(".tutorApp_view").find("#exp"));
+		wordSize($(".tutorApp_view").find("#introduce"));
+		function wordSize(obj){
+			obj.keyup(function(){
+				var word = $(this).val();
+				var wordSize = word.length;
+				console.log(wordSize)
+				if(wordSize <= 1000){
+					$(this).siblings().find(".current").text(wordSize);
+					//$(".wordsize .current1").text(wordSize);
+				}else{
+					word = word.substr(0,1000);
+					$(this).siblings().find(".current").text(word.length);
+					//$(".wordsize .current1").text(word.length);
+					$(this).val(word);
+					alert("1000자 이하로 작성해 주세요")
+				}			
+			})
+		}
 		
-		$("#frm").on("submit", function(){
-			var introduceVal = $("#introduce").val();
-
-			if (introduceVal.length == 0) {
-				alert("자기소개를 입력해주세요");
-				return false;
-			}
-		})
 	})
 </script>
 
 <div id="subWrap" class="hdMargin">
 	<section id="subContents">
-		<article id="tutorApp_view" class="inner1200">
-
-			<h6>튜터 신청서</h6>
+		<!-- tutorApp_view -->
+		<article id="discussion_write" class="inner1200 tutorApp_view">
+ 			<div class="tit_s1">
+				<h2>튜터 신청서</h2>
+			</div>
 			<form id ="frm" action="tutorAppSend" method="post" enctype="multipart/form-data">
 			
 				<div class="top_wrapper">
 					<div class="profile">
-						<img
-							src="/upload/member/${loginInfo.id}/${loginInfo.sysname}">
+						<%-- <img src="/upload/member/${loginInfo.id}/${loginInfo.sysname}"> --%>
+						<img src="/resources/img/sub/userThum.jpg">
 					</div>
 					<div class="info">
-						<p id="name">이름 : ${loginInfo.name}</p>
-						<p id="age">나이 : ${loginInfo.age}</p>
-						<p id="country">국적 : ${loginInfo.country}</p>
-						<p id="phone">전화번호 : ${loginInfo.phone}</p>
-						<p id="email">이메일 : ${loginInfo.email}</p>
-						<p id="lang_can">구사언어 : ${loginInfo.lang_can}</p>
+						<p id="name"><span>이름 :</span> ${loginInfo.name}</p>
+						<p id="age"><span>나이 :</span> ${loginInfo.age}</p>
+						<p id="country"><span>국적 :</span> ${loginInfo.country}</p>
+						<p id="phone"><span>전화번호 :</span> ${loginInfo.phone}</p>
+						<p id="email"><span>이메일 :</span> ${loginInfo.email}</p>
+						<p id="lang_can"><span>구사언어 :</span> ${loginInfo.lang_can}</p>
 					</div>
 				</div>
 
-				<div class="bottom_wrapper">
-					<div class="bottom_main">
-						<div class="title_main main">제목</div>
+				<div class="bottom_wrapper card_body">
+					<section class="bottom_main">
+						<div class="tit_s3">
+							<h4>제목</h4>
+						</div>						
 						<div class="title_contents contents">
 							<input type="hidden" name="id" value="${loginInfo.id}">
-							<input type="text" id="title" name="title"
-								value="${loginInfo.name}-튜터신청합니다." readonly>
-
+							<input type="text" id="title" name="title" value="${loginInfo.name}-튜터신청합니다." readonly>
 						</div>
-					</div>
-					<div class="bottom_main">
-						<div class="license_main main">자격증</div>
+					</section>
+					<section class="bottom_main">
+						<div class="tit_s3">
+							<h4>자격증</h4>
+						</div>						
 						<div class="license_contents contents">
 						*자격증사진을 찍어 첨부해주세요.
 							<input type="button" id="fileAdd" name="files" value="파일첨부[+]">
 						</div>
-					</div>
-					<div class="bottom_main">
-						<div class="career_main main">경력</div>
+					</section>
+					<section class="bottom_main">
+						<!-- <div class="career_main main">경력</div> -->
+						<div class="tit_s3">
+							<h4>경력</h4>
+						</div>						
 						<div class="career_contents contents">
 							<textarea class="wordCheck" id="career" name="career" placeholder="경력"></textarea>
-							<div class="wordsize"><span class="current1">0</span>/1000</div>
+							<div class="wordsize"><span class="current">0</span>/1000</div>
 						</div>
-					</div>
-					<div class="bottom_main">
-						<div class="exp_main main">해외경험</div>
+					</section>
+					<section class="bottom_main">
+						<!-- <div class="exp_main main">해외경험</div> -->
+						<div class="tit_s3">
+							<h4>해외경험</h4>
+						</div>							
 						<div class="exp_contents contents">
 							<textarea class="wordCheck" id="exp" name="exp" placeholder="해외경험"></textarea>
-							<div class="wordsize"><span class="current2">0</span>/1000</div>
+							<div class="wordsize"><span class="current">0</span>/1000</div>
 						</div>
-					</div>
-					<div class="bottom_main">
-						<div class="introduce_main main">자기소개</div>
+					</section>
+					<section class="bottom_main">
+						<!-- <div class="introduce_main main">자기소개</div> -->
+						<div class="tit_s3">
+							<h4>자기소개</h4>
+						</div>							
 						<div class="introduce_contents contents">
 							<textarea class="wordCheck" id="introduce" name="introduce" placeholder="자기소개"></textarea>
-							<div class="wordsize"><span class="current3">0</span>/1000</div>
+							<div class="wordsize"><span class="current">0</span>/1000</div>
 						</div>
-					</div>
-					<div class="bottom_main">
-						<div class="recomm_main main">추천인</div>
+					</section>
+					<section class="bottom_main">
+						<!-- <div class="recomm_main main">추천인</div> -->
+						<div class="tit_s3">
+							<h4>추천인</h4>
+						</div>							
 						<div class="recomm_contents contents">
 							<input type="text" id= "recomm" name="recomm" placeholder="추천인">
 						</div>
-					</div>
+					</section>
 
+					
+					<div class="btnS1 right">
+						<div>
+							<button>신청하기</button>
+						</div>
+						<div><input type="button" value="돌아가기"></div>
+					</div>				
 				</div>
-				
-				<button>신청하기</button>
-				<input type="button" value="돌아가기">
 				
 			</form>
 		</article>

@@ -11,6 +11,7 @@ public class ReviewDTO {
 	private Timestamp write_date;
 	private String category;
 	private int parent_seq;
+	private String thumNail;
 	private String dateString;
 	
 	public ReviewDTO() {
@@ -46,7 +47,7 @@ public class ReviewDTO {
 
 
 
-	public ReviewDTO(int seq, String writer, int point, String contents, Timestamp write_date, String category, int parent_seq) {
+	public ReviewDTO(int seq, String writer, int point, String contents, Timestamp write_date, String category, int parent_seq, String thumNail) {
 		super();
 		this.seq = seq;
 		this.writer = writer;
@@ -55,6 +56,7 @@ public class ReviewDTO {
 		this.write_date = write_date;
 		this.category = category;
 		this.parent_seq = parent_seq;
+		this.thumNail = thumNail;
 	}
 	
 	public int getSeq() {
@@ -98,6 +100,17 @@ public class ReviewDTO {
 	}
 	public void setParent_seq(int parent_seq) {
 		this.parent_seq = parent_seq;
+	}
+
+
+	public String getThumNail() {
+		return thumNail;
+	}
+
+
+
+	public void setThumNail(String thumNail) {
+		this.thumNail = thumNail;
 	}
 	
 

@@ -3,21 +3,30 @@
 <jsp:include page="/WEB-INF/views/header.jsp" />
 <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 <script src="/resources/js/login.js"></script>
-
+<style>
+	
+</style>
 <div id="subWrap" class="hdMargin" style="padding-top: 155.8px;">
 	<section id="subContents">
-		<div id="login">
-			<h1 class="h1">login</h1>
+		<div id="login" class="card_body">
+			<div class="tit_s1">
+				<h2>login</h2>
+			</div>				
 			<input type="text" name="id" id="id" placeholder="Id"><br>
 			<input type="password" name="pw" id="pw" placeholder="Password"><br>
-
-			<input type="checkbox" name="rememberId" id="rememberId"
-				name="rememberId"> <label for="rememberId">아이디 저장하기</label>
-			<input type="button" value="Login" id="isIdPwSame">  
-
-			<a id="login-form-btn" href="#;" onclick="loginFormWithKakao()">
-			 <span class="icon"><img src="/resources/img/login/kakao_login_large_wide.png" alt="카카오 로그인"></span>
-			</a>
+			
+			<div class="idSave">
+				<input type="checkbox" name="rememberId" id="rememberId" name="rememberId"> <label for="rememberId">아이디 저장하기</label>
+			</div>
+			<div class="loginBtn">
+				
+				<div class="btnS1 center ">
+					<input type="button" value="Login" id="isIdPwSame">
+				</div>
+				<a id="login-form-btn" href="#;" onclick="loginFormWithKakao()">
+					<span class="icon"><img src="/resources/img/login/kakao_login_large_wide.png" alt="카카오 로그인"></span>
+				</a>
+			</div>
 
 			<div id="other_text">
 				<a href="#" class="side" id="idFind">id찾기</a>

@@ -104,7 +104,7 @@
 	
 	<!-- 리뷰 글쓰기  -->
 	<insert id="reviewWrite">
-		insert into review values(review_seq.nextval, #{writer}, #{point}, #{contents}, default, #{category}, #{parent_seq})
+		insert into review values(review_seq.nextval, #{writer}, #{point}, #{contents}, default, #{category}, #{parent_seq}, #{thumNail})
 	</insert>
 	
 	<!-- 리뷰 리스트 출력  -->

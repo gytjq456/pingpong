@@ -40,10 +40,18 @@
 	
 	<!-- 멀티파트리졸버 찾아주는거 / 파일전송에 필요함 -->
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<beans:property name="maxUploadSize" value="1048576"/>
+		<beans:property name="maxUploadSize" value="5242880"/>
 	</beans:bean>
 
 	<context:component-scan base-package="kh.pingpong"/>
+	
+	<beans:bean class="kh.pingpong.admin.AdminLog" id="adminlog" />
+	<aop:config>
+		<aop:pointcut expression="execution(* kh.pingpong.admin.AdminController.*(..))" id="admin"/>
+		<aop:aspect id="adminCheck" ref="adminlog">
+			<aop:around pointcut-ref="admin" method="aroundAdminLog"/>
+		</aop:aspect>
+	</aop:config>
 
 	<beans:bean class="kh.pingpong.aspect.AlarmAdvisor" id="alarmaop" />
 	<aop:config>
@@ -74,8 +82,9 @@
 		<aop:aspect id="logCheck" ref="logaop">
 			<aop:around pointcut-ref="discussion" method="aroundBoardLog"/>
 		</aop:aspect>
-	</aop:config>	
+	</aop:config>
 	
+
 	<!-- <beans:bean class="kh.pingpong.aspect.AlarmAdvisor" id="alarmaop"/>
 	<aop:config>
 		<aop:pointcut expression="execution(* kh.pingpong.controller.PartnerController.*(..))" id="alarm"/>
@@ -83,6 +92,15 @@
 			<aop:around pointcut-ref="alarm" method="alarmLog"/>
 		</aop:aspect>
 	</aop:config> -->
+
+	<aop:config>
+		<aop:pointcut expression="execution(* kh.pingpong.controller.CorrectController.*(..))" id="correct"/>
+		<aop:aspect id="logCheck" ref="logaop">
+			<aop:around pointcut-ref="correct" method="aroundBoardLog"/>
+		</aop:aspect>
+	</aop:config>	
+	
+
 
 	
 </beans:beans>

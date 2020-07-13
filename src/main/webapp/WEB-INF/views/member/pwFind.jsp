@@ -57,18 +57,29 @@
 	});
 </script>
 
-<div id="subWrap" class="hdMargin" style="padding-top: 155.8px;">
+	<div id="subWrap" class="hdMargin">
 		<section id="subContents">
-			<div id="join">
-				<form id="pwFindProc">
-					<div><input type="text" id="f_id" name="id" placeholder="아이디을 입력해주세요"></div>
-					<div><input type="text" id="f_name" name="name" placeholder="이름을 입력해주세요"></div>
-					<div><input type="text" id="f_email" name="email" placeholder="이메일을 입력해주세요"></div>					
-					<div><input type="submit" id="submitBtn"></div>
-				</form>
-			</div>
+			<article id="" class="inner1200">
+			
+				<div id="login" class="card_body">
+					<div class="tit_s1">
+						<h3>패스워드 찾기</h3>
+					</div>				
+					<form id="pwFindProc">
+						<div><input type="text" id="f_id" name="id" placeholder="아이디을 입력해주세요"></div>
+						<div><input type="text" id="f_name" name="name" placeholder="이름을 입력해주세요"></div>
+						<div><input type="text" id="f_email" name="email" placeholder="이메일을 입력해주세요"></div>					
+						<div class="btnS1 center ">
+							<input type="submit" id="submitBtn">
+						</div>
+					</form>
+				</div>
+			</article>
+			
+			
+			
+			
 		</section>
-</div>
+	</div>
 
-<!--  
-<jsp:include page="/WEB-INF/views/footer.jsp" />-->
+<jsp:include page="/WEB-INF/views/footer.jsp" />

@@ -1,7 +1,10 @@
 package kh.pingpong.scheduler;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -26,7 +29,9 @@ public class GroupScheduler {
 	public void scheduleTest() throws Exception {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		Date date = new Date();
+
 		String today_date = format.format(date);
+
 		gservice.updateIngDate(today_date);
 		tservice.updateIngDate(today_date);
 		aservice.doneBlacklist(today_date);

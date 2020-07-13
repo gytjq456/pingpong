@@ -208,9 +208,19 @@ public class TutorDAO {
 		return mybatis.update("Tutor.tuteeCurnumCount", ttdto);
 	}
 	
+	//튜티 현재인원 줄이기
+	public int tuteeCurnumCountMinus(TuteeDTO ttdto) throws Exception{
+		return mybatis.update("Tutor.tuteeCurnumCountMinus", ttdto);
+	}
+	
 	//결제한 사람이 또 결제하는지
 	public int payTrue(TuteeDTO ttdto) throws Exception{
 		return mybatis.selectOne("Tutor.payTrue", ttdto);
+	}
+	
+	//결제 취소한사람이 또 취소하는지
+	public int refundTrue(TuteeDTO ttdto) throws Exception{
+		return mybatis.selectOne("Tutor.refundTrue", ttdto);
 	}
 
 	//강위취소 튜티 환불금액 update 하고 강의 취소 'Y'로 바꾸기

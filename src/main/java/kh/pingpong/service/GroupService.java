@@ -1,6 +1,7 @@
 package kh.pingpong.service;
 
 import java.text.ParseException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import kh.pingpong.config.Configuration;
 import kh.pingpong.dao.GroupDAO;
+import kh.pingpong.dao.MemberDAO;
 import kh.pingpong.dto.DeleteApplyDTO;
 import kh.pingpong.dto.GroupApplyDTO;
 import kh.pingpong.dto.GroupDTO;
@@ -27,6 +29,9 @@ import kh.pingpong.dto.ReviewDTO;
 public class GroupService {
 	@Autowired
 	private GroupDAO gdao;
+	
+	@Autowired
+	private MemberDAO mdao;
 	
 	@Autowired
 	private HttpSession session;
@@ -266,5 +271,48 @@ public class GroupService {
 	//리뷰 리스트 출력
 	public List<ReviewDTO> reviewList(int seq) throws Exception{
 		return gdao.reviewList(seq);
-	}	
+	}
+	
+	// 내가 등록한 그룹 신청서 관리
+	public List<GroupApplyDTO> allAppList(List<Integer> seq) throws Exception {
+		return gdao.allAppList(seq);
+	}
+	
+	// 내가 작성한 그룹 신청서 관리
+	public GroupApplyDTO myAppView(Map<String, Object> param) throws Exception {
+		return gdao.myAppView(param);
+	}
+	
+	// 시퀀스로 그룹 신청서 찾기
+	public GroupApplyDTO showApp(int seq) throws Exception {
+		return gdao.showApp(seq);
+	}
+	
+	// 그룹 신청 승인
+	@Transactional("txManager")
+	public boolean acceptApp(int seq, String id, int parent_seq) throws Exception {
+		boolean result = false;
+		
+		Map<String, Object> param = new HashMap<>();
+		MemberDTO mdto = mdao.getMemberInfo(id);
+		GroupDTO gdto = gdao.selectBySeq(parent_seq);
+		System.out.println(mdto.getId());
+		System.out.println(mdto.getProfile());
+		System.out.println(mdto.getSysname());
+		param.put("id", mdto.getId());
+		param.put("name", mdto.getName());
+		param.put("profile", mdto.getSysname());
+		param.put("parent_seq", parent_seq);
+		param.put("parent_title", gdto.getTitle());
+		
+		int result_by_seq = gdao.deleteAppAsAccept(seq);
+		int result_by_id = gdao.insertGroupMember(param);
+		int result_by_parent_seq = gdao.updateCurNum(parent_seq);
+		
+		if (result_by_seq + result_by_id + result_by_parent_seq == 3) {
+			result = true;
+		}
+		
+		return result;
+	}
 }

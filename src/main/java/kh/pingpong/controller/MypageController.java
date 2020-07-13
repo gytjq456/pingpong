@@ -1,5 +1,6 @@
 package kh.pingpong.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -14,7 +15,7 @@ import kh.pingpong.dto.GroupDTO;
 import kh.pingpong.dto.LessonDTO;
 import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.dto.PartnerDTO;
-import kh.pingpong.dto.TuteeDTO;
+import kh.pingpong.service.GroupService;
 import kh.pingpong.service.MyPageService;
 
 @Controller
@@ -30,6 +31,9 @@ public class MypageController {
 	@Autowired
 	private MyPageService mpservice;
 	
+	@Autowired
+	private GroupService gservice;
+	
 	//그룹 관련
 	@RequestMapping("groupRecord")
 	public String selectByIdInGroup(Model model) throws Exception{
@@ -37,10 +41,20 @@ public class MypageController {
 		System.out.println("현재 로그인한 회원 아이디 : " + loginInfo.getId());
 		
 		List<GroupDTO> gl_list = mpservice.selectByIdInGroup(loginInfo);
+		
+		List<Integer> seq = new ArrayList<>();
+		
+		for (int i = 0; i < gl_list.size(); i++) {
+			seq.add(gl_list.get(i).getSeq());
+		}
+		
 		List<GroupApplyDTO> gm_list = mpservice.selectByIdInGroupMem(loginInfo);
+		List<GroupApplyDTO> gla_list = gservice.allAppList(seq);
 		
 		model.addAttribute("gl_list", gl_list); // 그룹 리더의 경우
 		model.addAttribute("gm_list", gm_list); // 그룹 멤버의 경우
+		model.addAttribute("gla_list", gla_list); // 그룹 리더인 경우
+
 		return "/mypage/groupRecord";
 	}
 	

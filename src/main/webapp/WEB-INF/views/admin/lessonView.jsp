@@ -80,11 +80,17 @@
 									</li>
 									<li>
 										<span>모집중</span>
-										<span class="span_con">${ldto.applying}</span>
+										<span class="span_con">
+											<c:if test="${ldto.applying == 'Y'}">○</c:if>
+											<c:if test="${ldto.applying == 'N'}">Ｘ</c:if>
+										</span>
 									</li>
 									<li>
 										<span>진행중</span>
-										<span class="span_con">${ldto.proceeding}</span>
+										<span class="span_con">
+											<c:if test="${ldto.proceeding == 'Y'}">○</c:if>
+											<c:if test="${ldto.proceeding == 'N'}">Ｘ</c:if>
+										</span>
 									</li>
 									<li>
 										<span>장소</span>

@@ -1,81 +1,126 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
-
-<jsp:include page="/WEB-INF/views/header.jsp"/>
-	
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<jsp:include page="/WEB-INF/views/header.jsp" />
 <style>
-	table{border: 1px solid black;}
+	.app_list { display: none; }
 </style>
-	
-	<br><br><br><br><br><br><br><br><br><br><br><br><br>
-	<h2>그룹 관리</h2>
-	<div class="groupLeader">
-		<section id="subContents">
-			<div id="session">		
-				<h4>주선자</h4>
-				<c:choose>
-					<c:when test="${empty gl_list}">
-					 	주선자로서의 기록이 존재하지 않습니다.
-					</c:when>
-					<c:otherwise>
-						<c:forEach var="gl_list" items="${gl_list}">	
-							<table>
-								<tr>
-									<td>글번호:${gl_list.seq}</td>
-									<td>제목:${gl_list.title}</td>
-									<td>성격:</td>
-									<td>최대인원(현재인원/최대인원):${gl_list.cur_num}/${gl_list.max_num}</td>
-									<td>만남장소:${glist.location}</td>
-									<td>조회수:${gl_list.view_count}</td>
-									<td>추천수:${gl_list.like_count}</td>
-									<td>신청수:${gl_list.app_count}</td>
-									<td>리뷰수:${gl_list.review_count}</td>
-									<td>평점:${gl_list.review_point}</td>
-									<td><a href="#;">신청서보기:${gl_list.applying}</a></td>
-								</tr>
-							</table>
-						</c:forEach>
-					</c:otherwise>			
-				</c:choose>				
+<div id="subWrap" class="hdMargin">
+	<section id="subContents">
+		<article id="groupManage" class="inner1200">
+			<div class="tit_s1">
+				<h2>그룹 관리</h2>
 			</div>
-		</section>
-	</div>	
-	
-	<hr>
-	
-	<div class="groupMember">
-		<section id="subContents">
-			<div id="session">		
-				<h1>그룹원</h1>
-				<c:choose>
-					<c:when test="${empty gm_list}">
-						그룹 멤버로서 기록이 존재하지 않습니다.
-					</c:when>
-					<c:otherwise>
-						<c:forEach var="gm_list" items="${gm_list}">	
-							<table>
-								<tr>
-									<td>글번호:${gm_list.seq}</td>
-									<td>제목:${gm_list.title}</td>
-									<td>성격:</td>
-									<td>최대인원(현재인원/최대인원):${gm_list.cur_num}/${gm_list.max_num}</td>
-									<td>만남장소:${gm_list.location}</td>
-									<td>조회수:${gm_list.view_count}</td>
-									<td>추천수:${gm_list.like_count}</td>
-									<td>신청수:${gm_list.app_count}</td>
-									<td>리뷰수:${gm_list.review_count}</td>
-									<td>평점:${gm_list.review_point}</td>
-									<td><a href="#;">신청서보기:${gm_list.applying}</a></td>
-								</tr>
-							</table>
-						</c:forEach>					
-					</c:otherwise>
-				</c:choose>
+			<div class="groupWrap">
+				<section id="my_group_manage" class="card_body">
+					<div class="cate">주선자</div>
+					<div>
+						<div class="title_wrap">
+							<div class="my_seq">글번호</div>
+							<div class="my_title">제목</div>
+							<div class="my_num">인원</div>
+							<div class="my_loc">장소</div>
+							<div class="my_date">등록일</div>
+							<div class="my_app">신청</div>
+						</div>
+					</div>
+					<div>
+						<c:choose>
+							<c:when test="${empty gl_list}">
+								<div>
+									<div>주선자로서의 기록이 존재하지 않습니다.</div>
+								</div>
+							</c:when>
+							<c:otherwise>
+								<c:forEach var="gl_list" items="${gl_list}">
+									<div class="option_wrap">
+										<div class="my_seq">${gl_list.seq}</div>
+										<div class="my_title"><a href="/group/beforeView?seq=${gl_list.seq}">${gl_list.title}</a></div>
+										<div class="my_num">${gl_list.cur_num}/${gl_list.max_num}</div>
+										<div class="my_loc">${gl_list.location}</div>
+										<div class="my_date">${fn:substring(gl_list.write_date, 0, 10)}</div>
+										<div class="my_app"><button class="all_app">${gl_list.app_count}</button></div>
+									</div>
+									<div class="app_list">
+										<c:if test="${!empty gla_list}">
+											<div class="title_wrap">
+												<div class="app_seq">글번호</div>
+												<div class="app_name">이름(아이디)</div>
+												<div class="app_age">나이</div>
+												<div class="app_gender">성별</div>
+												<div class="app_lang_can">구사 언어</div>
+												<div class="app_lang_learn">학습 언어</div>
+												<div class="app_accept">신청서</div>
+											</div>
+											<c:forEach var="gla_list" items="${gla_list}">
+												<c:if test="${gla_list.parent_seq == gl_list.seq}">
+													<div class="option_wrap" id="${gla_list.seq}">
+														<div class="app_seq">${gla_list.seq}</div>
+														<div class="app_name">${gla_list.name}(${gla_list.id})</div>
+														<div class="app_age">${gla_list.age}</div>
+														<div class="app_gender">${gla_list.gender}</div>
+														<div class="app_lang_can">${gla_list.lang_can}</div>
+														<div class="app_lang_learn">${gla_list.lang_learn}</div>
+														<div class="app_accept"><button class="app_accpet_btn">보기</button></div>
+													</div>
+												</c:if>
+											</c:forEach>
+										</c:if>
+									</div>
+								</c:forEach>
+							</c:otherwise>
+						</c:choose>
+					</div>
+				</section>
+				<section id="group_manage" class="card_body">
+					<div class="cate">그룹원</div>
+					<div>
+						<div>
+							<div class="title_wrap">
+								<div class="mem_seq">글번호</div>
+								<div class="mem_title">제목</div>
+								<div class="mem_num">인원</div>
+								<div class="mem_loc">장소</div>
+								<div class="mem_leader">주선자</div>
+								<div class="mem_app">신청서</div>
+							</div>
+						</div>
+						<c:choose>
+							<c:when test="${empty gm_list}">
+								<div>
+									<div class="show_app">그룹 멤버로서 기록이 존재하지 않습니다.</div>
+								</div>
+							</c:when>
+							<c:otherwise>
+								<c:forEach var="gm_list" items="${gm_list}">
+									<div class="option_wrap">
+										<div class="mem_seq">${gm_list.seq}</div>
+										<div class="mem_title"><a href="/group/beforeView?seq=${glist.seq}">${gm_list.title}</a></div>
+										<div class="mem_num">${gm_list.cur_num}/${gm_list.max_num}</div>
+										<div class="mem_loc">${gm_list.location}</div>
+										<div class="mem_leader">${gm_list.writer_name}(${gm_list.writer_name})</div>
+										<div class="mem_app"><a href="group/myAppView?seq=${gm_list.seq}">신청서</a></div>
+									</div>
+								</c:forEach>
+							</c:otherwise>
+						</c:choose>
+					</div>
+				</section>
 			</div>
-		</section>
-	</div>	
-					
+		</article>
+	</section>
+</div>
+<script>
+	$('.all_app').on('click', function(){
+		var myGroupCount = $('.app_list').length;
 		
-
-<jsp:include page="/WEB-INF/views/footer.jsp"/>
+		for (var i = 0; i < myGroupCount; i++) {
+			$($('.app_list')[i]).hide();
+		}
+		
+		$(this).closest('.option_wrap').next().show();
+	})
+</script>
+<jsp:include page="/WEB-INF/views/mypage/groupApp.jsp" />
+<jsp:include page="/WEB-INF/views/footer.jsp" />

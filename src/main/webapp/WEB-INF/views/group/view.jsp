@@ -41,9 +41,8 @@
 	#view_btns #update { margin-right: 2px; }
 	#writer_profile img { vertical-align: top; }
 	#map { width: 100%; height: 200px; margin-top: 10px; }
-	#mini_option_wrap { position: relative; }
-	#three_options { position: absolute; right: 0; top: 0; }
-	#three_options span { margin-left: 8px; }
+	
+
 </style>
 <script>
 	$(function(){

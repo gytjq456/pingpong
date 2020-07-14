@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kh.pingpong.dto.CommentDTO;
-import kh.pingpong.dto.CorrectCDTO;
+import kh.pingpong.dto.Correct_CommentDTO;
 import kh.pingpong.dto.CorrectDTO;
 import kh.pingpong.dto.JjimDTO;
 import kh.pingpong.dto.LikeListDTO;
@@ -37,7 +37,6 @@ public class CorrectController {
 		try {
 		cpage =Integer.parseInt(request.getParameter("cpage"));
 		} catch (Exception e) {}
-		System.out.println("시퀀"+dto.getSeq());
 		boolean in = false;
 		dto = cservice.viewcount(dto.getSeq(),in);
 		List<CorrectDTO> list = cservice.selectAll(cpage);
@@ -54,7 +53,7 @@ public class CorrectController {
 	}
 	
 	@RequestMapping("/correct_view")
-	public String view(CorrectDTO dto, CorrectCDTO cdto, Model model, LikeListDTO ldto, JjimDTO jdto) throws Exception{
+	public String view(CorrectDTO dto, Correct_CommentDTO cdto, Model model, LikeListDTO ldto, JjimDTO jdto) throws Exception{
 		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
 		String id = mdto.getId();
 		
@@ -62,20 +61,17 @@ public class CorrectController {
 		ldto.setParent_seq(dto.getSeq());
 		
 		boolean checkLike = cservice.LikeIsTrue(ldto);
-		System.out.println("check :" +ldto.getParent_seq());
-		System.out.println("체크 :" + cdto.getLike_count());
 		
 		
 		int likecount = cservice.likecount(ldto);
 		
 		dto = cservice.selectOne(dto.getSeq());
-		System.out.println("test :" +dto.getSeq());
-		List<CorrectCDTO> ccdto = cservice.selectcAll(dto.getSeq());
-		List<CorrectCDTO> ccdto2 = cservice.bestcomm(dto.getSeq());
+		List<Correct_CommentDTO> list_dto = cservice.selectcAll(dto.getSeq());
+		List<Correct_CommentDTO> best_dto = cservice.bestcomm(dto.getSeq());
 		
 		model.addAttribute("dto", dto);
-		model.addAttribute("cdto2", ccdto2);
-		model.addAttribute("cdto", ccdto);
+		model.addAttribute("best_dto", best_dto);
+		model.addAttribute("list_dto", list_dto);
 		model.addAttribute("checkLike", checkLike);
 		model.addAttribute("likecount",likecount);
 		return "/correct/correct_view";
@@ -100,7 +96,6 @@ public class CorrectController {
 	
 	@RequestMapping("/modifyProc")
 	public String modifyP(CorrectDTO dto, Model model) throws Exception {
-		System.out.println("modify" +dto.getSeq());
 		model.addAttribute("seq",dto.getSeq());
 		cservice.modify(dto);
 		return "redirect:/correct/correct_view";
@@ -110,12 +105,11 @@ public class CorrectController {
 	
 	@ResponseBody
 	@RequestMapping("/commentProc")
-	public String commentProc(CorrectDTO dto,CorrectCDTO cdto, Model model) throws Exception{
+	public String commentProc(CorrectDTO dto,Correct_CommentDTO cdto, Model model) throws Exception{
 		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
 		String id = mdto.getId();
 		cdto.setId(id);
 		int result = cservice.commentInsert(cdto);
-		System.out.println("test :" + cdto.getContents());
 		model.addAttribute("parent_seq", cdto.getParent_seq());
 		cservice.countrep(cdto);
 		if(result > 0) {
@@ -130,7 +124,6 @@ public class CorrectController {
 	public String like(CorrectDTO dto, LikeListDTO ldto, Model model) throws Exception {
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
 		String id = loginInfo.getId();
-		System.out.println("like : " +dto.getSeq());
 		
 		ldto.setId(id);
 		ldto.setParent_seq(dto.getSeq());
@@ -148,7 +141,6 @@ public class CorrectController {
 	public String likecancle(CorrectDTO dto, LikeListDTO ldto, Model model) throws Exception {
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
 		String id = loginInfo.getId();
-		System.out.println("와안와 1: " +dto.getSeq());
 		
 		ldto.setId(id);
 		ldto.setParent_seq(dto.getSeq());
@@ -166,9 +158,7 @@ public class CorrectController {
 	@ResponseBody
 	@RequestMapping("/delete")
 	public String delete(CorrectDTO dto) throws Exception {
-		System.out.println("그 시퀀스값 :"+ dto.getSeq());
 		int result = cservice.delete(dto);
-		System.out.println(dto.getSeq());
 		if(result > 0) {
 			return String.valueOf(true);
 		}else {
@@ -177,9 +167,8 @@ public class CorrectController {
 	}
 	@ResponseBody
 	@RequestMapping("/commentDelete")
-	public String commentDelete(CorrectCDTO cdto) throws Exception{
+	public String commentDelete(Correct_CommentDTO cdto) throws Exception{
 		int result = cservice.commentDelete(cdto);
-		System.out.println("댓글 시퀀스 :"+cdto.getSeq());
 		if(result > 0) {
 			return String.valueOf(true);
 		}else {
@@ -202,6 +191,23 @@ public class CorrectController {
 	public String reportProc(ReportListDTO rldto, Model model) {
 		cservice.insertReport(rldto);
 		return "redirect:/correct/correct_view?seq=" + rldto.getParent_seq();
+	}
+	
+	@RequestMapping("/comment_report")
+	@ResponseBody
+	public int report(Model model, ReportListDTO rldto) throws Exception {
+		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
+		rldto.setReporter(mdto.getId());
+		int result = cservice.comment_report(rldto);
+		model.addAttribute("rldto",rldto);
+		return result;
+	}
+	
+	//신고 테이블에 저장
+	@RequestMapping("/comment_reportProc")
+	public String reportProc(Model model, ReportListDTO rldto) throws Exception{
+		cservice.comment_reportProc(rldto);
+		return "redirect:/correct/correct_view?seq="+rldto.getParent_seq();
 	}
 	
 	

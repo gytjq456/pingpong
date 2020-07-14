@@ -11,6 +11,7 @@ import kh.pingpong.dto.BlacklistDTO;
 import kh.pingpong.dto.CorrectDTO;
 import kh.pingpong.dto.DeleteApplyDTO;
 import kh.pingpong.dto.DiscussionDTO;
+import kh.pingpong.dto.FileDTO;
 import kh.pingpong.dto.GroupDTO;
 import kh.pingpong.dto.LanguageDTO;
 import kh.pingpong.dto.LessonDTO;
@@ -75,6 +76,11 @@ public class AdminDAO {
 	// 튜터 신청 뷰
 	public TutorAppDTO tutorAppView(int seq) {
 		return mybatis.selectOne("Admin.tutorAppView", seq);
+	}
+	
+	//자격증 파일 보기
+	public List<FileDTO> licenseViewFile(int seq){
+		return mybatis.selectList("Admin.licenseViewFile", seq);
 	}
 	
 	// 강의 목록

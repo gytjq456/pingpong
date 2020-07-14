@@ -35,7 +35,7 @@
 				<form action="/member/memberSelect" method="post">	
 					<div class="userInfo clearfix">
 						<div class="thum">
-							<div class="img"><img src="/resources/img/sub/userThum.jpg"></div>
+							<div class="img"><img src="/upload/member/${loginInfo.id}/${loginInfo.sysname}"></div>
 						</div>
 						<div class="infoBox">
 							<div class="name">

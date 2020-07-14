@@ -61,6 +61,16 @@
 		select * from tutor_app where seq = #{value}
 	</select>
 	
+	<!-- 자격증 파일들 select -->
+	<select id="licenseViewFile" resultType="kh.pingpong.dto.FileDTO">
+		select * from files where parent_seq=#{seq} and category = 'tutor'
+	</select>
+	
+	<!-- 파일 하나 select -->
+	<select id="downloadFileLicense" resultType="kh.pingpong.dto.FileDTO">
+		select * from files where parent_seq=#{seq} and category = 'tutor' and sysname = #{license}
+	</select>
+	
 	<!-- 강의 목록 -->
 	<select id="lessonList" resultType="kh.pingpong.dto.LessonDTO">
 		select * from

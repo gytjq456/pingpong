@@ -56,8 +56,10 @@ $(document).ready(function(){
     	
     	
     	var tabContWrap = $("#tabContWrap");
+/*    	tabContWrap.hide();*/
     	tab.find("li").click(function(){
-    		var idx = $(this).index();
+    		tabContWrap.show();
+    		var idx = $(this).index()-1;
     		tab.find("li").removeClass("on");
     		$(this).addClass("on");
     		tabContWrap.find("article").stop().hide();

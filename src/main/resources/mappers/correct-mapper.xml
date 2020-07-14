@@ -3,7 +3,7 @@
 <mapper namespace="Correct">
 	<insert id="insert">
 		insert into correct
-		values(correct_seq.nextval,#{id},#{writer},#{language},#{title},#{type},#{contents},sysdate,#{view_count},default,0,0)
+		values(correct_seq.nextval,#{id},#{writer},#{language},#{title},#{type},#{contents},sysdate,default,default,default,#{thumNail})
 	</insert>
 
 	<select id="select" resultType="kh.pingpong.dto.CorrectDTO">
@@ -26,7 +26,7 @@
 	</select>
 	<insert id="commentInsert">
 		insert into correctcomm
-		values(correctcomm_seq.nextval,#{id},#{writer},#{title},#{contents},default,default,default,${parent_seq})
+		values(correctcomm_seq.nextval,#{id},#{writer},#{contents},default,default,${parent_seq},#{thumNail})
 	</insert>
 
 	<select id="selectc" resultType="kh.pingpong.dto.CorrectDTO">
@@ -97,6 +97,14 @@
 	
 	<insert id="insertReport">
 		insert into reportlist values(reportlist_seq.nextval, #{id}, #{reason}, #{reporter}, sysdate, #{parent_seq}, '첨삭', default)
+	</insert>
+	
+	<select id="comment_report" resultType="int">
+		select count(*) from reportlist where parent_seq = #{parent_seq} and id=#{id} and category='첨삭-${commSeq}'
+	</select>
+	<!-- 신고테이블에 저장 -->
+	<insert id="comment_reportProc">
+		insert into reportlist values(reportlist_seq.nextval, #{id}, #{reason}, #{reporter}, sysdate, #{parent_seq}, '첨삭-${commSeq}', default)
 	</insert>
 
 </mapper>

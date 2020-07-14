@@ -4,18 +4,8 @@
 <jsp:include page="/WEB-INF/views/header.jsp" />
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=521d781cfe9fe7597693f2dc29a10601&libraries=services"></script>
 
-<!-- <style>
-	.review{border-bottom: 1px solid gray;}
-	.tab{border-bottom: 1px solid gray;}
-	.view_main{border-bottom: 1px solid gray; width:100%; height: 600px;}
-	.curriculum{float: left; width: 60%; height:100%;}
-	.curri_right{float: left; width: 40%; height:100%;}
-	.view_top_left{float: left; width: 20%; height: 100%;}
-	.view_top_right{float: left; width: 80%; height:100%;}
-	
-</style> -->
+ <style>
 
-<style>
 	.refund_guid { line-height:1.6; }
 	.refund_guid li { margin-bottom:6px; position:relative; padding-left:12px;}
 	.refund_guid li:last-child { margin:0; }
@@ -117,8 +107,11 @@ $(function(){
 			}).done(function(resp){
 				console.log(resp);
 				alert("찜을 취소합니다.");
-				$("#jjim").css('color','rgb(51, 51, 51)')
+				$("#jjim i").css('color','rgb(51, 51, 51)')
 				location.href="/tutor/lessonView?seq="+seq;
+				
+				
+				
 				return false;
 			}).fail(function(error1, error2) {
 				console.log(error1);
@@ -134,7 +127,7 @@ $(function(){
 			}).done(function(resp){
 				console.log(resp);
 				alert("찜에 등록되었습니다.");
-				$("#jjim").css('color','rgb(240, 7, 7)')
+				$("#jjim i").css('color','rgb(240, 7, 7)')
 				location.href="/tutor/lessonView?seq="+seq;
 				return false;
 			}).fail(function(error1, error2) {
@@ -143,6 +136,13 @@ $(function(){
 			})
 		}
 	})
+	
+	var checkJjim = ${checkJjim};
+	if (checkJjim) {
+		//$('#jjim').css('color', '#fbaab0');
+		$('#jjim i').removeClass('fa-heart-o');
+		$('#jjim i').addClass('fa-heart');
+	}
 	
 	// 리뷰 
 	var reviewtForm = $("#reviewtForm");
@@ -327,8 +327,7 @@ $(function(){
 					
 			<div class="group_title_wrapper card_body">
 				<div id="writer_info" class="group_info_top">
-					<%-- <div id="writer_profile"><img src="/upload/member/${ldto.id}/${ldto.sysname}"></div> --%>
-					<div id="writer_profile"><img src="/resources/img/sub/userThum.jpg"></div>
+					<div id="writer_profile"><img src="/upload/member/${ldto.id}/${ldto.sysname}"></div>
 					<div id="writer_name_id">${ldto.name}(${ldto.id})</div>
 				</div>
 				
@@ -341,7 +340,7 @@ $(function(){
 							<span id="point_avg"><i class="fa fa-star" aria-hidden="true"></i>${ldto.review_point}</span>
 							<div id="three_options">
 								<span id="like"><i id="like" class="fa fa-thumbs-up" style="color:"></i>추천</span>
-								<span id="jjim"><i id="jjim" class="fa fa-heart"></i>찜하기</span>
+								<span id="jjim"><i id="" class="fa fa-heart-o"></i>찜하기</span>
 								<a id="report" data-seq="${seq}" data-thisseq="" data-id="${ldto.id}" data-url="/tutor/report" data-proc="/tutor/reportProc"><i class="fa fa-exclamation" aria-hidden="true"></i> 신고</a>
 							</div>
 						</div>
@@ -401,7 +400,7 @@ $(function(){
 						<div id="group_optional" class="group_info">
 							<div class="optional_box">
 								<div class="optional_menu">가격</div>
-								<div class="optional_body">${ldto.price}원/시간</div>
+								<div class="optional_body">${ldto.price}원</div>
 							</div>
 							<div class="optional_box"> 
 								<div class="optional_menu">참여자 인원( ${ldto.cur_num} / ${ldto.max_num} )</div>
@@ -473,6 +472,7 @@ $(function(){
 								<input type="hidden" name="point" value="0" id="point">
 								<input type="hidden" id ="category" name="category" value="강의">
 								<input type="hidden" name="parent_seq" value="${ldto.seq}">
+								<input type="hidden" name="thumNail" value="${loginInfo.sysname}">
 								<div class="starPoint">
 									<div>
 										<button type="button"><i class="fa fa-star" aria-hidden="true"></i></button>
@@ -485,7 +485,7 @@ $(function(){
 								</div>
 								<div class="textInput clearfix">
 									<div class="userInfo_s1 userInfo_s2">
-										<div class="thumb"><img src="/resources/img/sub/userThum.jpg"/></div>
+										<div class="thumb"><img src="/upload/member/${loginInfo.id}/${loginInfo.sysname}"/></div>
 										<div class="info">
 											<p class="userId">${loginInfo.id }</p>
 										</div>
@@ -511,7 +511,8 @@ $(function(){
 						<c:forEach var="i" items="${reviewList}">
 							<article class="clearfix">
 								<div class="userInfo_s1">
-									<div class="thumb"><img src="/resources/img/sub/userThum.jpg"/></div>
+									<!-- <div class="thumb"><img src="/resources/img/sub/userThum.jpg"/></div> -->
+									<div class="thumb"><img src="/upload/member/${i.writer}/${i.thumNail}"/></div>
 									<div class="info">
 										<p class="userId">${i.writer}</p>
 										<p class="writeDate">${i.dateString}</p>

@@ -85,7 +85,7 @@
 											<tr>
 												<td>${glist.seq}</td>
 												<td>${glist.title}</td>
-												<td></td>
+												<td>${glist.hobby_type}</td>
 												<td>${glist.cur_num}/${glist.max_num}</td>
 												<td>${glist.location}</td>
 												<td>${glist.view_count}</td>

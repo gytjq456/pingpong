@@ -99,7 +99,7 @@ $(function(){
 <article id="layerPop_s3">
 	<div class="pop_body">
 		<div class="tit_s3">
-			<h4>그룹 신고</h4>
+			<h4>신고</h4>
 		</div>
 		<form action="" id="grouptProc" method="post">
 			<input type="hidden" name="reporter" value="${loginInfo.id}">

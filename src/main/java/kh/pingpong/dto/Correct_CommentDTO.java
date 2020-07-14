@@ -2,36 +2,33 @@ package kh.pingpong.dto;
 
 import java.sql.Timestamp;
 
-public class CorrectCDTO {
+public class Correct_CommentDTO {
 	private int seq;
 	private String id;
 	private String writer;
-	private String title;
 	private String contents;
 	private Timestamp write_date;
 	private int like_count;
-	private int hate_count;
 	private int parent_seq;
-	
-	public CorrectCDTO() {
+	private String thumNail;
+
+	public Correct_CommentDTO() {
+
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
-	
 
-	public CorrectCDTO(int seq, String id, String writer, String title, String contents, Timestamp write_date,
-			int like_count, int hate_count, int parent_seq) {
-		super();
+	public Correct_CommentDTO(int seq, String id, String writer, String contents, Timestamp write_date,
+			int like_count, int parent_seq, String thumNail) {
+
 		this.seq = seq;
 		this.id = id;
 		this.writer = writer;
-		this.title = title;
 		this.contents = contents;
 		this.write_date = write_date;
 		this.like_count = like_count;
-		this.hate_count = hate_count;
 		this.parent_seq = parent_seq;
+		this.thumNail = thumNail;
 	}
 
 
@@ -60,13 +57,6 @@ public class CorrectCDTO {
 		this.writer = writer;
 	}
 
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
 
 	public String getContents() {
 		return contents;
@@ -92,13 +82,6 @@ public class CorrectCDTO {
 		this.like_count = like_count;
 	}
 
-	public int getHate_count() {
-		return hate_count;
-	}
-
-	public void setHate_count(int hate_count) {
-		this.hate_count = hate_count;
-	}
 
 	public int getParent_seq() {
 		return parent_seq;
@@ -106,6 +89,16 @@ public class CorrectCDTO {
 
 	public void setParent_seq(int parent_seq) {
 		this.parent_seq = parent_seq;
+	}
+
+
+
+	public String getThumNail() {
+		return thumNail;
+	}
+
+	public void setThumNail(String thumNail) {
+		this.thumNail = thumNail;
 	}
 	
 	

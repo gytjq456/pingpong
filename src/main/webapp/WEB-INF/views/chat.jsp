@@ -15,7 +15,7 @@
 				<c:otherwise>
 				<div class="noList">
 					<p>서비스 정책에 따라 채팅기능은 일반 회원은 사용이 불가능 합니다. 파트너 등록을 하시면 서비스 이용이 가능합니다.</p>
-					<div><a href="">파트너 등록</a></div>
+					<div><a href="#;" class="resiterPop">파트너 등록</a></div>
 				</div>
 				</c:otherwise> 
 			</c:choose>

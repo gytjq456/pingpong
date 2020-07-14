@@ -431,27 +431,28 @@
 									<h3>리뷰 작성</h3>
 								</div>
 								<form id="reviewtForm">
-									<input type="hidden" name="writer" value="홍길동">
+									<input type="hidden" name="writer" value="${loginInfo.id}">
 									<input type="hidden" name="point" value="0" id="point">
 									<input type="hidden" name="category" value="그룹">
 									<input type="hidden" name="parent_seq" value="${gdto.seq}">
+									<input type="hidden" name="thumNail" value="${loginInfo.sysname}">
 									<c:if test="${checkMember || sessionScope.loginInfo.id == gdto.writer_id}">
-										<div class="starPoint">
-											<div>
-												<button type="button"><i class="fa fa-star" aria-hidden="true"></i></button>
-												<button type="button"><i class="fa fa-star" aria-hidden="true"></i></button>
-												<button type="button"><i class="fa fa-star" aria-hidden="true"></i></button>
-												<button type="button"><i class="fa fa-star" aria-hidden="true"></i></button>
-												<button type="button"><i class="fa fa-star" aria-hidden="true"></i></button>
-											</div>
-											<div class="point_box">(<span class="point">0</span>점)</div>
+									<div class="starPoint">
+										<div>
+											<button type="button"><i class="fa fa-star" aria-hidden="true"></i></button>
+											<button type="button"><i class="fa fa-star" aria-hidden="true"></i></button>
+											<button type="button"><i class="fa fa-star" aria-hidden="true"></i></button>
+											<button type="button"><i class="fa fa-star" aria-hidden="true"></i></button>
+											<button type="button"><i class="fa fa-star" aria-hidden="true"></i></button>
 										</div>
+									</div>
 									</c:if>
 									<div class="textInput clearfix">
 										<div class="userInfo_s1 userInfo_s2">
-											<div class="thumb"><img src="/resources/img/sub/userThum.jpg"/></div>
+											<!-- <div class="thumb"><img src="/resources/img/sub/userThum.jpg"/></div> -->
+											<div class="thumb"><img src="/upload/member/${loginInfo.id}/${loginInfo.sysname}"/></div>
 											<div class="info">
-												<p class="userId">홍길동</p>
+												<p class="userId">${loginInfo.id}</p>
 											</div>
 										</div>
 										<c:choose>
@@ -486,7 +487,7 @@
 							<c:forEach var="i" items="${reviewList}">
 								<article class="clearfix">
 									<div class="userInfo_s1">
-										<div class="thumb"><img src="/resources/img/sub/userThum.jpg"/></div>
+										<div class="thumb"><img src="/upload/member/${i.writer}/${i.thumNail}"/></div>
 										<div class="info">
 											<p class="userId">${i.writer}</p>
 											<p class="writeDate">${i.dateString}</p>

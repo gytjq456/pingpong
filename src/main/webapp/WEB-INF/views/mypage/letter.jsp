@@ -24,6 +24,7 @@
 							<p>받은 쪽지가 없습니다.</p>
 						</c:when>
 						<c:otherwise>
+							<div><button class="del_selected_let" id="receive_letter">삭제</button></div>
 							<table>
 								<thead>
 									<tr>
@@ -61,6 +62,7 @@
 							</table>
 						</c:otherwise>
 					</c:choose>
+					<div class="navi"></div>
 				</section>
 				<section class="session card_body">	
 					<h4>보낸 쪽지함</h4>
@@ -69,6 +71,7 @@
 							<p>보낸 쪽지가 없습니다.</p>
 						</c:when>
 						<c:otherwise>
+							<div><button class="del_selected_let" id="send_letter">삭제</button></div>
 							<table>
 								<thead>
 									<tr>
@@ -106,6 +109,7 @@
 							</table>
 						</c:otherwise>
 					</c:choose>
+					<div class="navi"></div>
 				</section>
 			</div>
 		</article>
@@ -164,6 +168,29 @@
 			if (conf) {
 				location.href = "/letter/deleteSendLetter?seq=" + seq;
 			}
+		})
+		
+		$('.del_selected_let').on('click', function(){
+			var checkBox = $(this).parent().next().find('.select_one');
+			var checkBoxLength = checkBox.length;
+			var selectedSeq = [];
+			var tableName = $(this).attr('id');
+			
+			for (var i = 0; i < checkBoxLength; i++) {
+				if ($(checkBox[i]).is(':checked')) {
+					var selected = $(checkBox[i]).parent().next().html();
+					selectedSeq[i] = selected;
+				}
+			}
+
+			$.ajax({
+				url: "deleteSelected",
+				data: { seqs: selectedSeq, tableName: tableName },
+				type: "POST",
+				traditional: "true"
+			}).done(function(resp){
+				location.href = "/letter/letterList";
+			})
 		})
 	})
 </script>

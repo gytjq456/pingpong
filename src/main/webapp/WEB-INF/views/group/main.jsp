@@ -386,7 +386,7 @@
 			var ing = $(this).attr('id');
 			
 			if (ing == 'all') {
-				location.href = '/group/main?orderBy=' + orderByVal;
+				location.href = '/group/main?orderBy=' + orderByVal + '&ing=all';
 				
 				return false;
 			}

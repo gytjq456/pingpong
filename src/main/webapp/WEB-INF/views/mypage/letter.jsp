@@ -12,6 +12,7 @@
 	.letter_btns > button { width: 50px; height: 30px; border: 1px solid #ddd; background-color: #fff; color: #aaa; border-radius: 6px; margin-top: 15px; float: right; }
 	.all_del_btn > button { width: 50px; height: 30px; border: 1px solid #ddd; background-color: #fff; color: #aaa; border-radius: 6px; }
 	.letter_btns > button:hover , .all_del_btn > button:hover { background-color: #4c98ff; color: #fff; border: none; }
+	.letter_btns > .rep_rec_let { margin-right: 6px; }
 </style>
 <div id="subWrap" class="hdMargin">
 	<section id="subContents">
@@ -44,7 +45,7 @@
 										<tr>
 											<td><input type="checkbox" class="select_one"></td>
 											<td class="seq_rec seq">${rlist.seq}</td>
-											<td>${rlist.from_id}</td>
+											<td class="rec_id">${rlist.from_id}</td>
 											<td class="show_con">${rlist.from_name} 님이 쪽지를 보냈습니다.</td>
 											<td>${fn:substring(rlist.write_date, 0, 10)}</td>
 											<td class="read">
@@ -57,6 +58,7 @@
 												<div>${rlist.contents}</div>
 												<div class="letter_btns">
 													<button class="del_rec_let">삭제</button>
+													<button class="rep_rec_let">답장</button>
 												</div>
 											</td>
 										</tr>
@@ -216,4 +218,5 @@
 		})
 	})
 </script>
+<jsp:include page="/WEB-INF/views/partner/sendLetter.jsp"/>
 <jsp:include page="/WEB-INF/views/footer.jsp"/>

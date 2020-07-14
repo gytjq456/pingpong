@@ -101,15 +101,16 @@ public class PartnerService {
 		return pdao.selectMember(id);
 	}
 	
-	//파트너 등록
-	public int partnerInsert(Map<String, Object> insertP) throws Exception{
+	//파트너 등록, 파트너 등록 후 멤버 등급 변경
+	@Transactional("txManager")
+	public int partnerInsert(Map<String, Object> insertP,MemberDTO mdto) throws Exception{
+		pdao.updateMemberGrade(mdto);
 		return pdao.insertPartner(insertP);
 	}
-	
-	//파트너 등록 후 멤버 등급 변경
-	public int updateMemberGrade(MemberDTO mdto) throws Exception{
-		return pdao.updateMemberGrade(mdto);
-	}
+		
+//	public int updateMemberGrade(MemberDTO mdto) throws Exception{
+//		return pdao.updateMemberGrade(mdto);
+//	}
 	
 	//파트너 삭제
 	@Transactional("txManager")

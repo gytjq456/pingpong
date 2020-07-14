@@ -23,7 +23,7 @@ public class AlarmDAO {
 		return mybatis.selectOne("Alarm.getAlarmCount",loginInfo);
 	}
 	
-	public int alarmInsert(Map<String, Object> insertA) throws Exception{
-		return mybatis.insert("Alarm.insertAlarm",insertA);
-	}
+//	public int alarmInsert(Map<String, Object> insertA) throws Exception{
+//		return mybatis.insert("Alarm.insertAlarm",insertA);
+//	}
 }

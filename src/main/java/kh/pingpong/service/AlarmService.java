@@ -23,8 +23,7 @@ public class AlarmService {
 		return aldao.getAlarmCount(loginInfo);
 	}
 	
-	public int insertAlarm(Map<String, Object> insertA) throws Exception{
-		
-		return aldao.alarmInsert(insertA);
-	}
+//	public int insertAlarm(Map<String, Object> insertA) throws Exception{	
+//		return aldao.alarmInsert(insertA);
+//	}
 }

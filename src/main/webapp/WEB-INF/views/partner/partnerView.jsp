@@ -158,35 +158,16 @@
 		</c:otherwise>
 	</c:choose>
 	
-	<div class=modal>
-		<div id="writeEmail" >
-		  	<div id="" class="emailPop">
-				<h2>이메일 보내기</h2>
-				<form id="emailForm"> 
-				<!-- post방식으로 자료를 컨트롤러로 보냄 -->
-					받는 사람  : <input name="name" id="receiverName"><br>
-					발신자 이메일 : <input name="memail" value="${loginInfo.email}"><br>
-					이메일 비밀번호 : <input type="password" name="emailPassword"><br>
-					수신자 이메일 : <input name="email" id="sendrMail"><br>
-					제목 : <input name="subject"><br>
-					내용 : <textarea rows="5" cols="80" name="contents"></textarea><br>
-					<input type="submit" value="전송" id="send">
-				</form>
-			</div>
-		</div>
-	</div>
-	
 	<script>
 	$(function(){
 		
 		var writeEmail = $("#writeEmail");
 	    $('a[href="#writeEmail"]').click(function(e) {
 	    	e.preventDefault();
-	     	 $("#writeEmail").stop().fadeIn();
-	     	 var seq = $(this).data("seq");
-	     	 var name = $(".list_"+seq).find(".name").text();
-	     	 var email = $(".list_"+seq).find(".email").text();
-	     	 alert(name, email);
+	     	$("#writeEmail").stop().fadeIn();
+	     	var seq = $(this).data("seq");
+	     	var name = $(".list_"+seq).find(".name").text();
+	     	var email = $(".list_"+seq).find(".email").text();
 	     	writeEmail.find("#receiverName").val(name);
 	     	writeEmail.find("#sendrMail").val(email);
 	    });
@@ -202,16 +183,19 @@
 				contentType:false,
 				processData:false
 			}).done(function(resp){
-				alert("test :" + resp)
+				alert("이메일이 전송되었습니다.");
+				//$(".blocker").css("opacity",'0'); 
+				location.href="#close-modal";
+				
 			})
-			return false;
+			//return false;
 		})
 		
 		$('a[href="#writeEmail"]').click(function(event) {
 		      event.preventDefault();
 		 
 		      $(this).modal({
-		        fadeDuration: 250
+		        fadeDuration: 300
 		      });
 		    });
 		

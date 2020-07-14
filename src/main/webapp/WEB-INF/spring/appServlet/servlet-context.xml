@@ -78,20 +78,25 @@
 	</aop:config>
 	
 	<aop:config>
+		<aop:pointcut expression="execution(* kh.pingpong.controller.PartnerController.*(..))" id="partner"/>
+		<aop:aspect id="logCheck" ref="logaop">
+			<aop:around pointcut-ref="partner" method="aroundBoardLog"/>
+		</aop:aspect>
+	</aop:config>
+	
+	<aop:config>
 		<aop:pointcut expression="execution(* kh.pingpong.controller.DiscussionController.*(..)) and args(..)" id="discussion"/>
 		<aop:aspect id="logCheck" ref="logaop">
 			<aop:around pointcut-ref="discussion" method="aroundBoardLog"/>
 		</aop:aspect>
 	</aop:config>
 	
-
-	<!-- <beans:bean class="kh.pingpong.aspect.AlarmAdvisor" id="alarmaop"/>
 	<aop:config>
-		<aop:pointcut expression="execution(* kh.pingpong.controller.PartnerController.*(..))" id="alarm"/>
-		<aop:aspect id="alarmCheck" ref="alarmaop">
-			<aop:around pointcut-ref="alarm" method="alarmLog"/>
+		<aop:pointcut expression="execution(* kh.pingpong.controller.MypageController.*(..))" id="mypage"/>
+		<aop:aspect id="logCheck" ref="logaop">
+			<aop:around pointcut-ref="mypage" method="aroundBoardLog"/>
 		</aop:aspect>
-	</aop:config> -->
+	</aop:config>
 
 	<aop:config>
 		<aop:pointcut expression="execution(* kh.pingpong.controller.CorrectController.*(..))" id="correct"/>

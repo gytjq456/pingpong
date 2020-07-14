@@ -43,19 +43,19 @@ public class AlarmController {
 		return "alarm";	
 	}
 	
-	@RequestMapping("insertAlarm")
-	public int insertAlarm(Model model,MemberDTO mdto,PartnerDTO pdto,ReviewDTO rvdto) throws Exception{
-		System.out.println("adasdsadsadasdads");
-		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
-		System.out.println("id :" +mdto.getId());
-		insertA.put("mdto", mdto);
-		insertA.put("pdto", pdto);
-		insertA.put("rvdto",rvdto);
-		System.out.println("222---"+this.insertA.get("mdto"));
-		System.out.println("222---"+this.insertA.get("pdto"));
-		int result = alservice.insertAlarm(insertA);
-		return result;
-	}
+//	@RequestMapping("insertAlarm")
+//	public int insertAlarm(Model model,MemberDTO mdto,PartnerDTO pdto,ReviewDTO rvdto) throws Exception{
+//		System.out.println("adasdsadsadasdads");
+//		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
+//		System.out.println("id :" +mdto.getId());
+//		insertA.put("mdto", mdto);
+//		insertA.put("pdto", pdto);
+//		insertA.put("rvdto",rvdto);
+//		System.out.println("222---"+this.insertA.get("mdto"));
+//		System.out.println("222---"+this.insertA.get("pdto"));
+//		int result = alservice.insertAlarm(insertA);
+//		return result;
+//	}
 	
 	public String alarmCount(Model model) throws Exception{
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");

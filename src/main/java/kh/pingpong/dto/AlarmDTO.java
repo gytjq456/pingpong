@@ -6,7 +6,7 @@ public class AlarmDTO {
 	private int alarm_seq;
 	private String alarm_sender;
 	private String alarm_receiver;
-	private String alarm_content;
+	private String alarm_title;
 	private Timestamp alarm_date;
 	private String alarm_read;
 	public AlarmDTO() {
@@ -15,13 +15,13 @@ public class AlarmDTO {
 	}
 	
 	
-	public AlarmDTO(int alarm_seq, String alarm_sender, String alarm_receiver, String alarm_content,
+	public AlarmDTO(int alarm_seq, String alarm_sender, String alarm_receiver, String alarm_title,
 			Timestamp alarm_date, String alarm_read) {
 		super();
 		this.alarm_seq = alarm_seq;
 		this.alarm_sender = alarm_sender;
 		this.alarm_receiver = alarm_receiver;
-		this.alarm_content = alarm_content;
+		this.alarm_title = alarm_title;
 		this.alarm_date = alarm_date;
 		this.alarm_read = alarm_read;
 	}
@@ -45,11 +45,11 @@ public class AlarmDTO {
 	public void setAlarm_receiver(String alarm_receiver) {
 		this.alarm_receiver = alarm_receiver;
 	}
-	public String getAlarm_content() {
-		return alarm_content;
+	public String getAlarm_title() {
+		return alarm_title;
 	}
-	public void setAlarm_content(String alarm_content) {
-		this.alarm_content = alarm_content;
+	public void setAlarm_title(String alarm_title) {
+		this.alarm_title = alarm_title;
 	}
 	public Timestamp getAlarm_date() {
 		return alarm_date;

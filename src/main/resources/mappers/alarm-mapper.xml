@@ -4,12 +4,12 @@
 	
 	<!-- 알람 갯수 -->
 	<select id="getAlarmCount" resultType="int">
-		select count(*) from alarm_1 where alarm_receiver = #{id,jdbcType=VARCHAR}
+		select count(*) from alarm where alarm_receiver = #{id,jdbcType=VARCHAR}
 	</select>
 	
 	<!-- insert  -->
 	<insert id="insertAlarm">
-		insert into alarm_1 values(alarm_1_seq.nextval,#{mdto.id,jdbcType=VARCHAR},#{pdto.id,jdbcType=VARCHAR},#{rvdto.category,jdbcType=VARCHAR},sysdate,'N')
+		insert into alarm values(alarm_seq.nextval,#{mdto.id,jdbcType=VARCHAR},#{pdto.id,jdbcType=VARCHAR},#{rvdto.category,jdbcType=VARCHAR},sysdate,'N')
 	</insert>
 	
 	<!-- 프로필 리뷰일 경우 : 리뷰 작성자 아이디 -->
@@ -24,7 +24,7 @@
 	
 	<!-- 그룹 참가 신청일 경우 : 신청자 아이디 -->
 	<select id="getGroupApply">
-		select seq = from group_app where parent_seq = #{parent_seq} and id = #{id}
+		select seq from group_app where parent_seq = #{parent_seq} and id = #{id}
 	</select>
 	
 	<!-- 그룹 신청 승인일 경우 : 그룹명 -->

@@ -30,7 +30,7 @@ public class AlarmAdvisor {
 		MemberDTO mdto = (MemberDTO) session.getAttribute("loginInfo");
 		System.out.println("-------------- 종료  ");
 		System.out.println(mdto.getId());
-		int result = alservice.insertAlarm(alc.insertA);
+		//int result = alservice.insertAlarm(alc.insertA);
 		System.out.println("---"+alc.insertA.get("mdto"));
 		System.out.println("---"+alc.insertA.get("pdto"));
 		System.out.println(alc.insertA);

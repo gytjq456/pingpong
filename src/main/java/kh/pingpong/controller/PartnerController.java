@@ -77,9 +77,9 @@ public class PartnerController {
 		//SMTP 서버 정보를 설정한다.
 		Properties props = new Properties();
 		props.put("mail.smtp.host", host);
-		props.put("mail.smtp.port", 587);
+		props.put("mail.smtp.port", 465);
 		props.put("mail.smtp.auth", "true");
-		//props.put("mail.smtp.ssl.enable", "true");
+		props.put("mail.smtp.ssl.enable", "true");
 
 		 //session 생성
         Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
@@ -198,11 +198,11 @@ public class PartnerController {
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
 		mdto = pservice.selectMember(loginInfo.getId());
 		mdto = mservice.memberSelect(loginInfo);
-		pservice.updateMemberGrade(mdto);
+		//pservice.updateMemberGrade(mdto);
 		Map<String, Object> insertP = new HashMap<>();
 		insertP.put("mdto", mdto);
 		insertP.put("contact", contact);	
-		pservice.partnerInsert(insertP);
+		pservice.partnerInsert(insertP,mdto);
 		return "redirect:/partner/partnerList";
 	}
 

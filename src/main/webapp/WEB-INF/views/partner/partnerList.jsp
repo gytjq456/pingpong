@@ -269,7 +269,8 @@
 				contentType:false,
 				processData:false
 			}).done(function(resp){
-				alert("test :" + resp)
+				alert("이메일이 전송되었습니다.");
+				$("#writeEmail").stop().fadeOut();
 			})
 			return false;
 		})
@@ -278,7 +279,7 @@
 		      event.preventDefault();
 		 
 		      $(this).modal({
-		        fadeDuration: 250
+		        fadeDuration: 300
 		      });
 		    });
 		

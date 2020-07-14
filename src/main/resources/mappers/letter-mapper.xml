@@ -12,12 +12,12 @@
 	
 	<!-- 받은 쪽지 리스트 -->
 	<select id="receiveLetterList" resultType="kh.pingpong.dto.LetterDTO">
-		select * from receive_letter where to_id = #{id} order by seq desc
+		select * from (select receive_letter.*, row_number() over(order by seq desc) rnum from receive_letter where to_id = #{id}) where rnum between #{start} and #{end}
 	</select>
 	
 	<!-- 보낸 쪽지 리스트 -->
 	<select id="sendLetterList" resultType="kh.pingpong.dto.LetterDTO">
-		select * from send_letter where from_id = #{id} order by seq desc
+		select * from (select send_letter.*, row_number() over(order by seq desc) rnum from send_letter where from_id = #{id}) where rnum between #{start} and #{end}
 	</select>
 	
 	<!-- 쪽지 뷰 -->
@@ -46,4 +46,17 @@
 	<update id="updateSendRead">
 		update send_letter set read = 'Y' where seq = #{seq}
 	</update>
+	
+	<!-- 페이징 -->
+	<select id="selectCount" resultType="int">
+		select count(*) from ${value}
+	</select>
+	
+	<!-- 여러 쪽지 삭제 -->
+	<delete id="deleteSelected">
+		delete ${tableName} where seq in 
+		<foreach collection="seqs" item="seq" open="(" close=")" separator=", ">
+			#{seq}
+		</foreach>
+	</delete>
 </mapper>

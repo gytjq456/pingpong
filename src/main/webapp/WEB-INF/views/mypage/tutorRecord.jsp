@@ -3,6 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <jsp:include page="/WEB-INF/views/header.jsp" />
+<style>
+	.hidden { display:none;}
+</style>
 
 <script>
 		$(function(){
@@ -79,9 +82,9 @@
 								<tbody>
 									<c:forEach var="telist" items="${telist}">
 									<tr id="${telist.seq}">
-										<td><input type="hidden"  class="seq" value="${telist.seq}"></td>
-										<td><input type="hidden" class="start_date" value="${telist.start_date}"/></td>
-										<td><input type="hidden" class="price" value="${telist.price }"/></td>
+										<td class="hidden"><input type="hidden"  class="seq" value="${telist.seq}"></td>
+										<td class="hidden"><input type="hidden" class="start_date" value="${telist.start_date}"/></td>
+										<td class="hidden"><input type="hidden" class="price" value="${telist.price }"/></td>
 										<td>${telist.seq}</td>
 										<td><a href="#;">${telist.title}</a></td>
 										<td><a href="#;">${telist.name}</a></td>

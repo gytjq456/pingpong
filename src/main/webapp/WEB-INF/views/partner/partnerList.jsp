@@ -28,10 +28,10 @@
 </style>
 <script>
 	$(function() {
-		$(".box").on("click", function() {
+		/* $(".box").on("click", function() {
 			var seq = $(this).find(".seq").html();
 			location.href = "/partner/partnerView?seq=" + seq;
-		})
+		}) */
 		
 		$('#partnerBtn').on('click', function(){				
 			var checkboxCount = $("input:checkbox[name='contactList']").length;
@@ -239,55 +239,48 @@
 						<c:otherwise>
 							<c:forEach var="plist" items="${alist}">
 								<article class="card_body">
-									<div class="box plist">
-										<%-- <span class="seq">${plist.seq}</span> --%> 
-										<div class="userInfo clearfix">
-											<%-- <div class="img"><img src ="/upload/member/${plist.id}/${plist.sysname}"></div> --%>
-											<div class="img"><img src ="/resources/img/sub/userThum.jpg"></div>
-											<div class="info">
-												<ul>
-													<li>
-														<span>이름</span>
-														<p>${plist.name}(${plist.id}, ${plist.age}세, ${plist.gender}) </p>
-													</li>
-													<li>
-														<span>이메일</span>
-														<p>${plist.email}</p>
-													</li>
-													<li>
-														<span>구사 언어</span>
-														<p>${plist.lang_can}</p>
-													</li>
-													<li>
-														<span>배울 언어</span>
-														<p>${plist.lang_learn}</p>
-													</li>
-													<li>
-														<span>취미</span>
-														<p>${plist.hobby}</p>
-													</li>
-													<li class="introduce">
-														<span>자기소개</span>
-														<p>${plist.introduce}${plist.introduce}</p>
-													</li>
-												</ul>
+									<a href="/partner/partnerView?seq=${plist.seq}">
+										<div class="box plist">
+											<%-- <span class="seq">${plist.seq}</span> --%> 
+											<div class="userInfo clearfix">
+												<div class="img"><img src ="/upload/member/${plist.id}/${plist.sysname}"></div>
+												<!-- <div class="img"><img src ="/resources/img/sub/userThum.jpg"></div> -->
+												<div class="info">
+													<ul>
+														<li>
+															<span>이름</span>
+															<p>${plist.name}(${plist.id}, ${plist.age}세, ${plist.gender}) </p>
+														</li>
+														<li>
+															<span>이메일</span>
+															<p>${plist.email}</p>
+														</li>
+														<li>
+															<span>구사 언어</span>
+															<p>${plist.lang_can}</p>
+														</li>
+														<li>
+															<span>배울 언어</span>
+															<p>${plist.lang_learn}</p>
+														</li>
+														<li>
+															<span>취미</span>
+															<p>${plist.hobby}</p>
+														</li>
+														<li class="introduce">
+															<span>자기소개</span>
+															<p>${plist.introduce}${plist.introduce}</p>
+														</li>
+													</ul>
+												</div>
 											</div>
 										</div>
-										
-										<%-- <span class="name"></span><br> 
-										<span class="id">아이디 : ${plist.id}</span><br> 
-										<span class="gender">성별 :</span><br> 
-										<span class="email">이메일 : ${plist.email}</span><br> 
-										<span class="lang_can">구사 가능한 언어 :${plist.lang_can}</span><br> 
-										<span class="lang_learn">배우고 싶은 언어 : ${plist.lang_learn}</span><br>
-										<span class="hobby">취미 : ${plist.}</span><br> 
-										<span class="">자기 소개 : ${plist.introduce}</span> --%>
-									</div>
-									<div class="btn_li">
-										<p><button class="letter">쪽지</button></p>
-										<p><button class="chatting" data-uid="${plist.id}" data-name="${plist.name}">채팅</button></p>
-										<p><button class="email_a">이메일</button></p>
-									</div>
+										<div class="btn_li">
+											<p><button class="letter">쪽지</button></p>
+											<p><button class="chatting" data-uid="${plist.id}" data-name="${plist.name}">채팅</button></p>
+											<p><button class="email_a">이메일</button></p>
+										</div>
+									</a>
 								</article>				
 							</c:forEach>
 						</c:otherwise>

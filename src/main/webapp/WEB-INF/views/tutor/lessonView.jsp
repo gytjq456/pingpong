@@ -296,7 +296,6 @@ $(function(){
 				})
 			}else{
 				$("html,body").stop().animate({
-					
 					scrollTop:topPos - headHeight - 160
 				})
 			}

@@ -200,6 +200,10 @@
 						li.append(info);
 						$(".groupClass ul").append(li);
 					}
+				}else{
+					var li = $("<li>");
+					li.append('<p>해당 그룹 모임이 없습니다.</p>');
+					$(".groupClass ul").append(li);
 				}
 				if(resp.LessonList.length){
 					for(var i=0; i<resp.LessonList.length; i++){
@@ -212,6 +216,10 @@
 						li.append(info);
 						$(".tutorClass ul").append(li);
 					}
+				}else{
+					var li = $("<li>");
+					li.append('<p>해당 강의가 없습니다.</p>');
+					$(".tutorClass ul").append(li);
 				}
 				
 

@@ -60,7 +60,7 @@
 							</div>												
 							<div class="se_con">
 								<div>
-									<button type="button" id="modyPwBtn">비밀번호 수정 바로가기</button>								
+									<button type="button" id="modyPwBtn">비밀번호 수정</button>								
 								</div>
 							</div>						
 						</div>

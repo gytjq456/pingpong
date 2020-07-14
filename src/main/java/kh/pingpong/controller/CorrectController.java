@@ -129,6 +129,7 @@ public class CorrectController {
 		ldto.setParent_seq(dto.getSeq());
 		model.addAttribute("ldto", ldto);
 		int result = cservice.like(ldto);
+		cservice.likecountAdd(dto);
 		if(result > 0) {
 			return String.valueOf(true);
 		}else {
@@ -146,9 +147,11 @@ public class CorrectController {
 		ldto.setParent_seq(dto.getSeq());
 		model.addAttribute("ldto", ldto);
 		int result = cservice.likecancle(ldto);
+		cservice.likecountMinus(dto);
 		if(result > 0) {
 			return String.valueOf(true);
 		}else {
+			
 			return String.valueOf(false);
 		}
 	}

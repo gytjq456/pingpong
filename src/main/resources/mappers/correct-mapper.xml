@@ -106,5 +106,12 @@
 	<insert id="comment_reportProc">
 		insert into reportlist values(reportlist_seq.nextval, #{id}, #{reason}, #{reporter}, sysdate, #{parent_seq}, '첨삭-${commSeq}', default)
 	</insert>
+	
+	<update id="likecountAdd">
+		update correct set like_count = like_count + 1 where seq = ${seq}
+	</update>
+	<update id="likecountMinus">
+		update correct set like_count = like_count - 1 where seq = ${seq}
+	</update>
 
 </mapper>

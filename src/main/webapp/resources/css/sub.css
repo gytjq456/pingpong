@@ -79,7 +79,7 @@ input:read-only {background-color: #e4e4e4;color:#a9a9a9;}
 .group_each_wrapper .each_writer { text-align: center; margin-top: 25px; margin-bottom: 10px; }
 .group_each_wrapper .each_writer .each_name { font-weight: bold; }
 .each_profile { border: 3px solid #fff; position: absolute; top:46px; left: 34.8%; width: 80px; height: 80px; line-height: 80px; text-align: center; border-radius: 50%; overflow: hidden; }
-.each_profile img { vertical-align: top; }
+.each_profile img { vertical-align: top; position:absolute; left:50%; top:50%; transform:translate(-50%, -50%); }
 .background_pink { background-color: #ffc3c5; }
 .background_purple { background-color: #a18ec1; }
 .background_blue { background-color: #3063a2; }
@@ -707,6 +707,8 @@ width:-webkit-calc(100% - 130px);
 .btns_s3 input,
 .btns_s3 button,
 .btns_s3 a { display:block; height:32px; line-height:32px; border:1px solid #ddd; border-radius:3px; background:#fff;  font-size:12px; }
+.btns_s3 input,
+.btns_s3 button { line-height:1;}
 
 .btns_s3 input:hover,
 .btns_s3 button:hover,

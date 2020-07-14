@@ -16,8 +16,27 @@
 				}
 			}
 		});
+		
+		
+		$("input,textarea").blur(function(){
+			var thisVal = $(this).val();
+			$(this).val(textChk(thisVal));
+		})
 
 	})
+	
+	
+	function textChk(thisVal){
+	var replaceId  = /(script)/gi;
+	var textVal = thisVal;
+    if (textVal.length > 0) {
+        if (textVal.match(replaceId)) {
+        	textVal = thisVal.replace(replaceId, "");
+        }
+    }
+    return textVal;
+}
+	
 	function uploadSummernoteImageFile(file, editor) {
 		data = new FormData();
 		data.append("file", file);

@@ -289,4 +289,14 @@ public class GroupDAO {
 	public int updateCurNum(int parent_seq) throws Exception {
 		return mybatis.update("Group.updateCurNum", parent_seq);
 	}
+	
+	// 그룹 신청 거절
+	public int refuseApp(int seq) throws Exception {
+		return mybatis.delete("Group.refuseApp", seq);
+	}
+	
+	// 내 신청서 보기
+	public GroupApplyDTO showMyApp(Map<String, Object> param) throws Exception {
+		return mybatis.selectOne("Group.showMyApp", param);
+	}
 }

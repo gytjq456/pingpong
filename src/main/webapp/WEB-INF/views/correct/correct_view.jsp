@@ -115,7 +115,7 @@
 				<div class="card_body">
 					<div class="title">${dto.title}</div>
 					<div class="userInfo_s1">
-						<div class="thumb"><img src="/resources/img/sub/userThum.jpg"/></div>
+						<div class="thumb"><img src="/upload/member/${dto.id}/${dto.thumNail}"/></div>
 						<div class="info">
 							<p class="userId">${dto.writer}</p>
 							<p class="writeDate">${dto.dateString}</p>
@@ -151,6 +151,7 @@
 									<input type="hidden" name="writer" value="박선호2"> 
 									<input type="hidden" name="title" value="안녕하세요"> 
 									<input type="hidden" name="parent_seq" value="${dto.seq}">
+									<input type="hidden" name="thumNail" value="${loginInfo.sysname}">
 									<div class="text">
 										<textarea name="contents" id="text"></textarea>
 									</div>
@@ -173,7 +174,7 @@
 							<c:forEach var="i" items="${best_dto}">
 							<article>
 								<div class="userInfo_s1">
-									<div class="thumb"><img src="/resources/img/sub/userThum.jpg"/></div>
+									<div class="thumb"><img src="/upload/member/${cdto2.id}/${cdto2.thumNail}"/></div>
 									<div class="info">
 										<p class="userId">${u.writer}</p>
 										<p class="writeDate">${u.dateString}</p>
@@ -199,7 +200,7 @@
 							<c:forEach var="i" items="${list_dto}">
 							<article>
 								<div class="userInfo_s1">
-									<div class="thumb"><img src="/resources/img/sub/userThum.jpg"/></div>
+									<div class="thumb"><img src="/upload/member/${i.id}/${i.thumNail}"/></div>
 									<div class="info">
 										<p class="userId">${i.writer}</p>
 										<p class="writeDate">${i.dateString}</p>

@@ -44,7 +44,7 @@
 									</li>
 									<li>
 										<span>전화번호</span>
-										<span class="span_con">(${ldto.phone_country})${ldto.phone}</span>
+										<span class="span_con">${ldto.phone_country}${ldto.phone}</span>
 									</li>
 									<li>
 										<span>모집 기간</span>

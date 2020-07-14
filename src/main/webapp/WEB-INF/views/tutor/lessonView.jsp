@@ -4,18 +4,8 @@
 <jsp:include page="/WEB-INF/views/header.jsp" />
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=521d781cfe9fe7597693f2dc29a10601&libraries=services"></script>
 
-<!-- <style>
-	.review{border-bottom: 1px solid gray;}
-	.tab{border-bottom: 1px solid gray;}
-	.view_main{border-bottom: 1px solid gray; width:100%; height: 600px;}
-	.curriculum{float: left; width: 60%; height:100%;}
-	.curri_right{float: left; width: 40%; height:100%;}
-	.view_top_left{float: left; width: 20%; height: 100%;}
-	.view_top_right{float: left; width: 80%; height:100%;}
-	
-</style> -->
+ <style>
 
-<style>
 	.refund_guid { line-height:1.6; }
 	.refund_guid li { margin-bottom:6px; position:relative; padding-left:12px;}
 	.refund_guid li:last-child { margin:0; }
@@ -327,8 +317,7 @@ $(function(){
 					
 			<div class="group_title_wrapper card_body">
 				<div id="writer_info" class="group_info_top">
-					<%-- <div id="writer_profile"><img src="/upload/member/${ldto.id}/${ldto.sysname}"></div> --%>
-					<div id="writer_profile"><img src="/resources/img/sub/userThum.jpg"></div>
+					<div id="writer_profile"><img src="/upload/member/${ldto.id}/${ldto.sysname}"></div>
 					<div id="writer_name_id">${ldto.name}(${ldto.id})</div>
 				</div>
 				
@@ -401,7 +390,7 @@ $(function(){
 						<div id="group_optional" class="group_info">
 							<div class="optional_box">
 								<div class="optional_menu">가격</div>
-								<div class="optional_body">${ldto.price}원/시간</div>
+								<div class="optional_body">${ldto.price}원</div>
 							</div>
 							<div class="optional_box"> 
 								<div class="optional_menu">참여자 인원( ${ldto.cur_num} / ${ldto.max_num} )</div>
@@ -473,6 +462,7 @@ $(function(){
 								<input type="hidden" name="point" value="0" id="point">
 								<input type="hidden" id ="category" name="category" value="강의">
 								<input type="hidden" name="parent_seq" value="${ldto.seq}">
+								<input type="hidden" name="thumNail" value="${loginInfo.sysname}">
 								<div class="starPoint">
 									<div>
 										<button type="button"><i class="fa fa-star" aria-hidden="true"></i></button>
@@ -485,7 +475,7 @@ $(function(){
 								</div>
 								<div class="textInput clearfix">
 									<div class="userInfo_s1 userInfo_s2">
-										<div class="thumb"><img src="/resources/img/sub/userThum.jpg"/></div>
+										<div class="thumb"><img src="/upload/member/${loginInfo.id}/${loginInfo.sysname}"/></div>
 										<div class="info">
 											<p class="userId">${loginInfo.id }</p>
 										</div>
@@ -511,7 +501,8 @@ $(function(){
 						<c:forEach var="i" items="${reviewList}">
 							<article class="clearfix">
 								<div class="userInfo_s1">
-									<div class="thumb"><img src="/resources/img/sub/userThum.jpg"/></div>
+									<!-- <div class="thumb"><img src="/resources/img/sub/userThum.jpg"/></div> -->
+									<div class="thumb"><img src="/upload/member/${i.writer}/${i.thumNail}"/></div>
 									<div class="info">
 										<p class="userId">${i.writer}</p>
 										<p class="writeDate">${i.dateString}</p>

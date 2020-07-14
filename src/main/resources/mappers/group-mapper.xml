@@ -32,15 +32,10 @@
 					${keywordType} = #{keywordValue}
 				</if>
 			</if>
-			<if test="hobby_type0 != null">
-				and (hobby_type like '%${hobby_type0}%'
-				<if test="hobby_type1 != null">
-					or hobby_type like '%${hobby_type1}%'
-				</if>
-				<if test="hobby_type2 != null">
-					or hobby_type like '%${hobby_type2}%'
-				</if>
-				)
+			<if test="hobby_type != null">
+				<foreach collection="hobby_type" item="hobby_type" open=" and " close="" separator="or">
+					hobby_type like '%${hobby_type}%'
+				</foreach>
 			</if>
 			<if test="period != null">
 				and period = #{period}
@@ -73,15 +68,10 @@
 					${keywordType} = #{keywordValue}
 				</if>
 			</if>
-			<if test="hobby_type0 != null">
-				and (hobby_type like '%${hobby_type0}%'
-				<if test="hobby_type1 != null">
-					or hobby_type like '%${hobby_type1}%'
-				</if>
-				<if test="hobby_type2 != null">
-					or hobby_type like '%${hobby_type2}%'
-				</if>
-				)
+			<if test="hobby_type != null">
+				<foreach collection="hobby_type" item="hobby_type" open=" and " close="" separator="or">
+					hobby_type like '%${hobby_type}%'
+				</foreach>
 			</if>
 			<if test="period != null">
 				and period = #{period}
@@ -229,7 +219,7 @@
 	
 	<!-- 리뷰 글쓰기  -->
 	<insert id="reviewWrite">
-		insert into review values(review_seq.nextval, #{writer}, #{point}, #{contents}, default, #{category}, #{parent_seq})
+		insert into review values(review_seq.nextval, #{writer}, #{point}, #{contents}, default, #{category}, #{parent_seq}, #{thumNail})
 	</insert>
 	
 	<!-- 리뷰 리스트 출력  -->
@@ -259,10 +249,13 @@
 
 	<!-- 내가 등록한 그룹 신청서 관리 -->
 	<select id="allAppList" resultType="kh.pingpong.dto.GroupApplyDTO">
-		select * from group_app where parent_seq in
-		<foreach collection="list" item="seq" open="(" close=")" separator=", ">
-			#{seq}
-		</foreach>
+		select * from group_app
+		<if test="list != null and list.size > 0">
+			where parent_seq in
+			<foreach collection="list" item="seq" open="(" close=")" separator=", ">
+				#{seq}
+			</foreach>
+		</if>
 	</select>
 	
 	<!-- 내가 작성한 그룹 신청서 관리 -->
@@ -289,4 +282,14 @@
 	<update id="updateCurNum">
 		update grouplist set cur_num = cur_num + 1 where seq = #{parent_seq}
 	</update>
+	
+	<!-- 그룹 신청 거절 -->
+	<delete id="refuseApp">
+		delete group_app where seq = #{seq}
+	</delete>
+	
+	<!-- 내 신청서 보기 -->
+	<select id="showMyApp" resultType="kh.pingpong.dto.GroupApplyDTO">
+		select * from group_app where id = #{id} and parent_seq = #{parent_seq}
+	</select>
 </mapper>

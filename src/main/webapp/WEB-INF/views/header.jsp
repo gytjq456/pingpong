@@ -62,20 +62,20 @@
 								<a href="/partner/partnerList">Partner</a>
 								<ul class="depth2">
 									<li><a href="/partner/partnerList?align=recent">파트너 목록</a></li>
-									<li><a href="#;">파트너 등록</a></li>
+									<li><a href="#;" class="resiterPop">파트너 등록</a></li>
 								</ul>
 							</li>
 							<li>
-								<a href="/group/main?orderBy=seq">Group</a>
+								<a href="/group/main?orderBy=seq&ing=all">Group</a>
 								<ul class="depth2">
-									<li><a href="/group/main?orderBy=seq">그룹 찾기</a></li>
+									<li><a href="/group/main?orderBy=seq&ing=all">그룹 찾기</a></li>
 									<li><a href="/group/write">그룹 등록</a></li>
 								</ul>
 							</li>
 							<li>
-								<a href="/tutor/lessonList?orderBy=seq&keywordSelect=name">Tutor</a>
+								<a href="/tutor/tutorList">Tutor</a>
 								<ul class="depth2">
-									<li><a href="/tutor/lessonList?orderBy=seq&keywordSelect=name">강의 목록</a></li>
+									<li><a href="/tutor/lessonList?schType=all&orderBy=seq&keywordSelect=name">강의 목록</a></li>
 									<li><a href="/tutor/tutorList" >튜터 목록</a></li>
 									<li><a href="#;" id="tutorApp">튜터 신청</a></li>
 								</ul>

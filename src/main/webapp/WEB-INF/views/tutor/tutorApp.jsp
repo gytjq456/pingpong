@@ -89,8 +89,14 @@
 		//보내기전에 자기소개랑 용량 체크 
 		$("#frm").on("submit", function(){
 			var introduceVal = $("#introduce").val();
+			var titleVal = $("#title").val();
+			
 			if (introduceVal.length == 0) {
 				alert("자기소개를 입력해주세요");
+				return false;
+			}
+			if (titleVal.length == 0) {
+				alert("제목을 입력해주세요");
 				return false;
 			}
 			

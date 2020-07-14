@@ -26,7 +26,7 @@
 	</select>
 	<insert id="commentInsert">
 		insert into correctcomm
-		values(correctcomm_seq.nextval,#{id},#{writer},#{title},#{contents},default,default,${parent_seq},#{thumNail})
+		values(correctcomm_seq.nextval,#{id},#{writer},#{contents},default,default,${parent_seq},#{thumNail})
 	</insert>
 
 	<select id="selectc" resultType="kh.pingpong.dto.CorrectDTO">

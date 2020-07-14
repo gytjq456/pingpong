@@ -122,7 +122,6 @@
 							<span id="report"><i class="fa fa-exclamation" aria-hidden="true"></i>신고</span>
 						</div>
 					</div>
-					<div class="language">${dto.language}</div>
 					<div class="contents ">
 						<div class="originTxt">${dto.contents}</div>
 					</div>
@@ -148,8 +147,7 @@
 							</div>
 							<div class="comment_box">
 								<form id="form">
-									<input type="hidden" name="writer" value="박선호2"> 
-									<input type="hidden" name="title" value="안녕하세요"> 
+									<input type="hidden" name="writer" value="${dto.id}"> 
 									<input type="hidden" name="parent_seq" value="${dto.seq}">
 									<input type="hidden" name="thumNail" value="${loginInfo.sysname}">
 									<div class="text">
@@ -212,7 +210,11 @@
 										<ul>
 											<li>
 												<button class="comment_delete normal" data-seq="${i.seq}">댓글삭제</button>
-												<span id="comment_report" data-thisSeq="${i.seq}" data-seq="${dto.seq}" data-id="${i.id}" data-url="/correct/comment_report" data-proc="/correct/comment_reportProc"><i class="fa fa-exclamation" aria-hidden="true"></i>신고</span>
+											</li>
+											<li>
+												<button type="button" class="comment_declaration report" id="comment_report" data-thisSeq="${i.seq}" data-seq="${dto.seq}" data-id="${i.id}" data-url="/correct/comment_report" data-proc="/correct/comment_reportProc">
+													<i class="fa fa-bell color_white" aria-hidden="true"></i>신고하기
+												</button>
 											</li>
 										</ul>
 									</div>
@@ -238,55 +240,12 @@
 				</div>			
 			</div>			
 			
-			<!--  
-			<div class="write_view">
-				<div>제목 : </div>
-				<div>작성자 : </div>
-				<div>등록 기간 : </div>
-				<div>질문 언어 : </div>
-				<div>유형 : ${dto.type}</div>
-				<div>
-					<button>조회수 : </button>
-					
-
-				</div>
-				<div>내용 : </div>
-				<div>댓글 ()</div>
-				<button type="button" id="modify">글수정</button>
-				<button type="button" id="delete" data-seq="${dto.seq}">글삭제</button>
-				<span id="report"><i class="fa fa-exclamation" aria-hidden="true"></i>신고</span>
-			</div>
-			<div id="comment">
-				<form id="form">
-					<input type="hidden" name="writer" value="박선호2"> <input
-						type="hidden" name="title" value="안녕하세요"> <input
-						type="hidden" name="parent_seq" value="${dto.seq}">
-					<div class="text">
-						<textarea name="contents" id="text"></textarea>
-					</div>
-					<input type="submit" value="등록"> <input type="reset"
-						value="취소">
-				</form>
-			</div>
-
-    		<br><br><div>전체댓글</div><br>
-			<c:forEach var="i" items="${cdto}">
-				<div class="info">
-					<p class="userId">${i.writer}</p>
-					<p class="writeDate">${i.write_date}</p>
-				</div>
-
-				<div class="cont">
-					<div class="contents">${i.contents}</div>
-					<button class="comment_delete normal" data-seq="${i.seq}">댓글삭제</button>
-					<span id="comment_report" data-thisSeq="${i.seq}" data-seq="${dto.seq}" data-id="${i.id}" data-url="/correct/comment_report" data-proc="/correct/comment_reportProc"><i class="fa fa-exclamation" aria-hidden="true"></i>신고</span>
-				</div>
-			</c:forEach>
-			-->
 			
 		</article>
 	</section>
 </div>
-<jsp:include page="/WEB-INF/views/correct/comment_report.jsp" />
+<%-- <jsp:include page="/WEB-INF/views/correct/comment_report.jsp" /> --%>
+
+<jsp:include page="/WEB-INF/views/reportPage.jsp" />
 <jsp:include page="/WEB-INF/views/correct/correct_report.jsp" />
 <jsp:include page="/WEB-INF/views/footer.jsp" />

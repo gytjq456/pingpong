@@ -4,11 +4,14 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <jsp:include page="/WEB-INF/views/header.jsp"/>
 <style>
+	.session { position: relative; }
 	#letter_list_wrap table .letter_con { display: none; }
 	#letter_list_wrap table .letter_con td { text-align: left; }
 	.letter_btns { overflow: hidden; }
-	.letter_btns > button { width: 100px; height: 30px; border: 1px solid #ddd; background-color: #fff; color: #aaa; border-radius: 6px; margin-top: 15px; float: right; }
-	.letter_btns > button:hover { background-color: #4c98ff; color: #fff; border: none; }
+	.all_del_btn { position: absolute; top: 30px; right: 30px; }
+	.letter_btns > button { width: 50px; height: 30px; border: 1px solid #ddd; background-color: #fff; color: #aaa; border-radius: 6px; margin-top: 15px; float: right; }
+	.all_del_btn > button { width: 50px; height: 30px; border: 1px solid #ddd; background-color: #fff; color: #aaa; border-radius: 6px; }
+	.letter_btns > button:hover , .all_del_btn > button:hover { background-color: #4c98ff; color: #fff; border: none; }
 </style>
 <div id="subWrap" class="hdMargin">
 	<section id="subContents">
@@ -24,7 +27,7 @@
 							<p>받은 쪽지가 없습니다.</p>
 						</c:when>
 						<c:otherwise>
-							<div><button class="del_selected_let" id="receive_letter">삭제</button></div>
+							<div class="all_del_btn"><button class="del_selected_let" id="receive_letter">삭제</button></div>
 							<table>
 								<thead>
 									<tr>
@@ -62,7 +65,7 @@
 							</table>
 						</c:otherwise>
 					</c:choose>
-					<div class="navi"></div>
+					<div class="navi_line">${rnavi}</div>
 				</section>
 				<section class="session card_body">	
 					<h4>보낸 쪽지함</h4>
@@ -71,7 +74,7 @@
 							<p>보낸 쪽지가 없습니다.</p>
 						</c:when>
 						<c:otherwise>
-							<div><button class="del_selected_let" id="send_letter">삭제</button></div>
+							<div class="all_del_btn"><button class="del_selected_let" id="send_letter">삭제</button></div>
 							<table>
 								<thead>
 									<tr>
@@ -109,7 +112,7 @@
 							</table>
 						</c:otherwise>
 					</c:choose>
-					<div class="navi"></div>
+					<div class="navi_line">${snavi}</div>
 				</section>
 			</div>
 		</article>
@@ -171,26 +174,45 @@
 		})
 		
 		$('.del_selected_let').on('click', function(){
-			var checkBox = $(this).parent().next().find('.select_one');
-			var checkBoxLength = checkBox.length;
-			var selectedSeq = [];
-			var tableName = $(this).attr('id');
+			var conf = confirm('선택한 항목들을 정말 삭제하시겠습니까?');
 			
-			for (var i = 0; i < checkBoxLength; i++) {
-				if ($(checkBox[i]).is(':checked')) {
-					var selected = $(checkBox[i]).parent().next().html();
-					selectedSeq[i] = selected;
+			if (conf) {
+				var checkBox = $(this).parent().next().find('.select_one');
+				var checkBoxLength = checkBox.length;
+				var selectedSeq = [];
+				var tableName = $(this).attr('id');
+				
+				for (var i = 0; i < checkBoxLength; i++) {
+					if ($(checkBox[i]).is(':checked')) {
+						var selected = $(checkBox[i]).parent().next().html();
+						selectedSeq.push(selected);
+					}
+				}
+				
+				$.ajax({
+					url: "deleteSelected",
+					data: { seqs: selectedSeq, tableName: tableName },
+					type: "POST",
+					traditional: "true"
+				}).done(function(resp){
+					location.href = "/letter/letterList";
+				})
+			}
+		})
+		
+		$('.select_all').on('change', function(){
+			var checkBox = $(this).closest('thead').next().find('.select_one');
+			var checkBoxLength = checkBox.length;
+
+			if ($(this).is(':checked')) {
+				for (var i = 0; i < checkBoxLength; i++) {
+					$(checkBox[i]).attr('checked', 'true');
+				}
+			} else {
+				for (var i = 0; i < checkBoxLength; i++) {
+					$(checkBox[i]).removeAttr('checked');
 				}
 			}
-
-			$.ajax({
-				url: "deleteSelected",
-				data: { seqs: selectedSeq, tableName: tableName },
-				type: "POST",
-				traditional: "true"
-			}).done(function(resp){
-				location.href = "/letter/letterList";
-			})
 		})
 	})
 </script>

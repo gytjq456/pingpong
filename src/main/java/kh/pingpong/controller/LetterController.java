@@ -76,8 +76,8 @@ public class LetterController {
 		List<LetterDTO> rlist = lservice.receiveLetterList(rparam);
 		List<LetterDTO> slist = lservice.sendLetterList(sparam);
 		
-		String rnavi = lservice.getPageNav(rcpage, "receive_letter");
-		String snavi = lservice.getPageNav(scpage, "send_letter");
+		String rnavi = lservice.getPageNav(rcpage, scpage, "receive_letter", id);
+		String snavi = lservice.getPageNav(scpage, rcpage, "send_letter", id);
 		
 		model.addAttribute("rlist", rlist);
 		model.addAttribute("slist", slist);

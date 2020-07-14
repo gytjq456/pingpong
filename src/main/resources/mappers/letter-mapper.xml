@@ -49,7 +49,7 @@
 	
 	<!-- 페이징 -->
 	<select id="selectCount" resultType="int">
-		select count(*) from ${value}
+		select count(*) from ${tableName} where ${columnName} = #{id}
 	</select>
 	
 	<!-- 여러 쪽지 삭제 -->

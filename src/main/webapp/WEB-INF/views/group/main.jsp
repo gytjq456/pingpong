@@ -3,6 +3,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:include page="/WEB-INF/views/header.jsp"/>
+<script>
+	$(function(){
+		if("${schType}" == "keyword" ){
+			$("#tabContWrap > article:eq(0)").show();
+		}
+	})
+</script>
 <div id="subWrap" class="hdMargin">
 		<section id="subContents">
 			<article id="group_list" class="inner1200">
@@ -306,7 +313,7 @@
 			}
 			var tabContWrap = $("#tabContWrap");
 			
-			tabContWrap.find("article").stop().hide();
+			//tabContWrap.find("article").stop().hide();
     		tabContWrap.find("article:eq("+idx+")").stop().fadeIn();
 		}
 		

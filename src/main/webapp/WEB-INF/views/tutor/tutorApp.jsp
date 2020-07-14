@@ -122,8 +122,8 @@
 			
 				<div class="top_wrapper">
 					<div class="profile">
-						<%-- <img src="/upload/member/${loginInfo.id}/${loginInfo.sysname}"> --%>
-						<img src="/resources/img/sub/userThum.jpg">
+						<img src="/upload/member/${loginInfo.id}/${loginInfo.sysname}">
+						<!-- <img src="/resources/img/sub/userThum.jpg"> -->
 					</div>
 					<div class="info">
 						<p id="name"><span>이름 :</span> ${loginInfo.name}</p>

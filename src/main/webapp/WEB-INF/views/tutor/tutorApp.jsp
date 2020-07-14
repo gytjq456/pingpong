@@ -86,6 +86,21 @@
 				}			
 			})
 		}
+		//보내기전에 자기소개랑 용량 체크 
+		$("#frm").on("submit", function(){
+			var introduceVal = $("#introduce").val();
+			if (introduceVal.length == 0) {
+				alert("자기소개를 입력해주세요");
+				return false;
+			}
+			
+			var limit = 1024*1024*5;
+			if(totalSize > limit){
+				alert("총 파일용량 5GB을 초과했습니다.");
+				$(this).val("");
+				return false;
+			}
+		})
 		
 	})
 </script>

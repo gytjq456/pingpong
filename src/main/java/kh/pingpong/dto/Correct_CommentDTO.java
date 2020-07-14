@@ -2,7 +2,7 @@ package kh.pingpong.dto;
 
 import java.sql.Timestamp;
 
-public class CorrectCDTO {
+public class Correct_CommentDTO {
 	private int seq;
 	private String id;
 	private String writer;
@@ -12,16 +12,16 @@ public class CorrectCDTO {
 	private int like_count;
 	private int parent_seq;
 	private String thumNail;
-	public CorrectCDTO() {
+
+	public Correct_CommentDTO() {
+
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
-	
 
-	public CorrectCDTO(int seq, String id, String writer, String title, String contents, Timestamp write_date,
+	public Correct_CommentDTO(int seq, String id, String writer, String title, String contents, Timestamp write_date,
 			int like_count, int parent_seq, String thumNail) {
-		super();
+
 		this.seq = seq;
 		this.id = id;
 		this.writer = writer;

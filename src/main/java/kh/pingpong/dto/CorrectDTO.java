@@ -1,6 +1,7 @@
 package kh.pingpong.dto;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 public class CorrectDTO {
 	private int seq;
@@ -15,8 +16,39 @@ public class CorrectDTO {
 	private int like_count;
 	private int hate_count;
 	private int reply_count;
+	private String dateString;
 	private String thumNail;
+
 	
+	public String getDateString() {
+		long write_date = this.write_date.getTime();
+		long current_date = System.currentTimeMillis();
+		long getTime = (current_date - write_date)/1000;
+		if(getTime < 60) {
+			return "방금 전";
+		}else if(getTime < 300) {
+			return "5분 이내";
+		}else if(getTime < 3600) {
+			return "1시간 이내";
+		}else if(getTime < 86400) {
+			return "24시간 이내";
+		}else {
+			this.dateString = new SimpleDateFormat("YYYY-MM-dd").format(write_date);
+			return dateString;
+		}
+	}
+	
+	public void setDateString(String dateString) {
+		this.dateString = dateString;
+	}
+	
+	public CorrectDTO(String dateString) {
+		super();
+		this.dateString = dateString;
+	}
+
+
+
 	public CorrectDTO() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -149,6 +181,8 @@ public class CorrectDTO {
 	public void setThumNail(String thumNail) {
 		this.thumNail = thumNail;
 	}
+	
+	
 	
 	
 	

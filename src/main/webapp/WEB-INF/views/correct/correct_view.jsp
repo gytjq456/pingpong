@@ -99,6 +99,10 @@
 					})
 				}
 			})		
+			
+			$("#historyBack").click(function(){
+				location.href="/correct/correct_list"
+			})
 	})
 		
 		
@@ -114,7 +118,8 @@
 						<div class="thumb"><img src="/upload/member/${dto.id}/${dto.thumNail}"/></div>
 						<div class="info">
 							<p class="userId">${dto.writer}</p>
-							<p class="writeDate">${dto.write_date}</p>
+							<p class="writeDate">${dto.dateString}</p>
+							<span id="report"><i class="fa fa-exclamation" aria-hidden="true"></i>신고</span>
 						</div>
 					</div>
 					<div class="language">${dto.language}</div>
@@ -166,13 +171,13 @@
 							<div class="tit_s2">
 								<h3>베스트 댓글</h3>
 							</div>
-							<c:forEach var="i" items="${cdto2}">
+							<c:forEach var="i" items="${best_dto}">
 							<article>
 								<div class="userInfo_s1">
 									<div class="thumb"><img src="/upload/member/${cdto2.id}/${cdto2.thumNail}"/></div>
 									<div class="info">
 										<p class="userId">${u.writer}</p>
-										<p class="writeDate">${u.write_date}</p>
+										<p class="writeDate">${u.dateString}</p>
 									</div>
 								</div>
 								<div class="cont">
@@ -190,15 +195,15 @@
 						</section>
 						<section class="comment_list card_body">
 							<div class="tit_s2">
-								<h3>댓글(${fn:length(cdto)})</h3>
+								<h3>댓글(${fn:length(list_dto)})</h3>
 							</div>
-							<c:forEach var="i" items="${cdto}">
+							<c:forEach var="i" items="${list_dto}">
 							<article>
 								<div class="userInfo_s1">
 									<div class="thumb"><img src="/upload/member/${i.id}/${i.thumNail}"/></div>
 									<div class="info">
 										<p class="userId">${i.writer}</p>
-										<p class="writeDate">${i.write_date}</p>
+										<p class="writeDate">${i.dateString}</p>
 									</div>
 								</div>
 								<div class="cont">
@@ -207,6 +212,7 @@
 										<ul>
 											<li>
 												<button class="comment_delete normal" data-seq="${i.seq}">댓글삭제</button>
+												<span id="comment_report" data-thisSeq="${i.seq}" data-seq="${dto.seq}" data-id="${i.id}" data-url="/correct/comment_report" data-proc="/correct/comment_reportProc"><i class="fa fa-exclamation" aria-hidden="true"></i>신고</span>
 											</li>
 										</ul>
 									</div>
@@ -226,7 +232,7 @@
 							<button type="button" id="historyBack">뒤로가기</button>					
 						</c:when>
 						<c:otherwise>
-							<button type="button" class="w100p" id="historyBack">뒤로가기</button>					
+							<button type="button" class="w100p" id="historyBack">뒤로가기</button>				
 						</c:otherwise>
 					</c:choose>
 				</div>			
@@ -262,19 +268,6 @@
 						value="취소">
 				</form>
 			</div>
-			<br><div>베스트 댓글</div><br>
-			<c:forEach var="u" items="${cdto2}">
-				<div class="info">
-					<p class="userId">${u.writer}</p>
-					<p class="writeDate">${u.write_date}</p>
-				</div>
-
-				<div class="cont">
-					<div class="contents">${u.contents}</div>
-					<button class="comment_delete normal" data-seq="${u.seq}">댓글삭제</button>
-				</div>
-			</c:forEach>
-
 
     		<br><br><div>전체댓글</div><br>
 			<c:forEach var="i" items="${cdto}">
@@ -286,6 +279,7 @@
 				<div class="cont">
 					<div class="contents">${i.contents}</div>
 					<button class="comment_delete normal" data-seq="${i.seq}">댓글삭제</button>
+					<span id="comment_report" data-thisSeq="${i.seq}" data-seq="${dto.seq}" data-id="${i.id}" data-url="/correct/comment_report" data-proc="/correct/comment_reportProc"><i class="fa fa-exclamation" aria-hidden="true"></i>신고</span>
 				</div>
 			</c:forEach>
 			-->
@@ -293,5 +287,6 @@
 		</article>
 	</section>
 </div>
+<jsp:include page="/WEB-INF/views/correct/comment_report.jsp" />
 <jsp:include page="/WEB-INF/views/correct/correct_report.jsp" />
 <jsp:include page="/WEB-INF/views/footer.jsp" />

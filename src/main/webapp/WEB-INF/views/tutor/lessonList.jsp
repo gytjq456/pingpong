@@ -317,7 +317,7 @@
 			<!-- 정렬 전체 모집중 진행중 마감 -->
 			<div class="search_btn_style">
 				<div class="btnS1 left">
-					<div><button type="button" id="all" class="ing ">전체</button></div>
+					<div><button type="button" id="all" class="ing <c:if test="${period == 'all'}">on</c:if>">전체</button></div>
 					<div><button type="button" id="applying" class="ing <c:if test="${period == 'applying'}">on</c:if>">모집중</button></div>
 					<div><button type="button" id="proceeding" class="ing <c:if test="${period == 'proceeding'}">on</c:if>">진행중</button></div>
 					<div><button type="button" id="done" class="ing <c:if test="${period == 'done'}">on</c:if>">마감</button></div>

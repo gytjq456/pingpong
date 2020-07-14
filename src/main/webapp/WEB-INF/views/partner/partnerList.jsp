@@ -6,7 +6,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 <style>
-	#tabContWrap { display:block;}
+	#tabContWrap { display:block !important;}
+	#tabContWrap > article {display:block !important;}
 	.defaultSch input { width:100%; }
 	.checkBox_s1 select { padding:5px; border:1px solid #ddd; box-sizing:border-box; border-radius:6px; font-size:14px;}
 	

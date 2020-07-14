@@ -561,9 +561,10 @@ textarea { resize:none; height:120px; line-height:1.6;}
  .tab_s2 ul li.on button,
  .tab_s2 ul li.on a { background:#f1989f; font-weight:500; color:#fff; }
  
- #tabContWrap { display:none; }
+ /* #tabContWrap { display:none; } */
  #tabContWrap > article { display:none;}
- #tabContWrap > article:first-child { display:block;}
+ /* #tabContWrap > article:first-child { display:block;} */
+ #tabContWrap > article.on { display:block; }
    
    
    

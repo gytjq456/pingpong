@@ -44,10 +44,11 @@
 		//orderBy 페이지 전환되도 안바뀌게
  		var orderBy = '${orderBy}';
 		console.log(orderBy);
-		if (orderBy != null) {
-			$('#orderBy').val(orderBy);
+		if (orderBy == "") {
+			$('#orderBy option:eq(0)').attr("selected","selected");
+			//$('#orderBy').val(orderBy);
 		} else {
-			$('#orderBy').val(seq);
+			$('#orderBy').val(orderBy);
 		}
 		
 		//keywordSelect 페이지 전환되도 안바뀌게
@@ -81,7 +82,54 @@
 			var selectVal = $("#keyword_type").val();
 			var period = $(".ing").attr('id');
 			var keywordVal = $("#keyword").val();
-			location.href="/tutor/lessonList?orderBy="+orderbyVal+"&keywordSelect="+selectVal;
+			
+			var start_dateVal = $("#start_date").val();
+			var end_dateVal = $("#end_date").val();
+			
+			var locationVal = $("#locationId").val();
+			
+			var schkey = ${schType == 'keyword'};
+			var schSchedule = ${schType == 'schedule'};
+			var schLocation = ${schType == 'mapLocation'};
+			
+
+			//정렬까지
+			if(!schkey && !schSchedule && !schLocation && period=='applying'){
+				location.href="tutor/lessonListPeriod?&orderBy="+orderbyVal+"&period="+period;
+			}
+			if(!schkey && !schSchedule && !schLocation && period=='proceeding'){
+				location.href="tutor/lessonListPeriod?&orderBy="+orderbyVal+"&period="+period;
+			}
+			if(!schkey && !schSchedule && !schLocation && period=='done'){
+				location.href="tutor/lessonListPeriod?&orderBy="+orderbyVal+"&period="+period;
+			}
+			
+			//검색하고 진행중/모집중/마감 하고 정렬까지
+			if(period == 'all'){
+				if(!schkey && !schSchedule && !schLocation){
+					location.href="tutor/lessonListPeriod?&orderBy="+orderbyVal+"&period=all";
+				}
+				if(schkey){
+					location.href="/tutor/searchKeword?schType=keyword&keywordSelect="+selectVal+"&keyword="+keywordVal+"&orderBy="+orderbyVal+"&period=all";
+				}
+				if(schSchedule){
+					location.href="/tutor/searchDate?schType=schedule&start_date="+start_dateVal+"&end_date="+end_dateVal+"&orderBy="+orderbyVal+"&period=all";
+				}
+				if(schLocation){
+					location.href="/tutor/searchMap?schType=mapLocation&location="+locationVal+"&orderBy="+orderbyVal+"&period=all";
+				}
+			}
+			if(schkey){
+				location.href="/tutor/searchKeword?schType=keyword&orderBy="+orderbyVal+"&period="+period+"&keywordSelect="
+						+selectVal+"&keyword="+keywordVal;
+			}
+ 			if(schSchedule){
+				location.href="/tutor/searchDate?schType=schedule&orderBy="+orderbyVal+"&period="+period+"&start_date="+start_dateVal+"&end_date="+end_dateVal
+			}
+			if(schLocation){
+				location.href="/tutor/searchMap?schType=mapLocation&orderBy="+orderbyVal+"&period="+period+"&location="+locationVal;
+			} 
+			//location.href="/tutor/lessonList?orderBy="+orderbyVal+"&keywordSelect="+selectVal;
 		})
 		
 		$(".ing").on("click", function(){
@@ -99,11 +147,32 @@
 			var schkey = ${schType == 'keyword'};
 			var schSchedule = ${schType == 'schedule'};
 			var schLocation = ${schType == 'mapLocation'};
-			//var topSearchVal = $(".topSearch").text();
 			
+			//진행중/모집중/마감 만 눌렀을 때
+			if(!schkey && !schSchedule && !schLocation && period=='applying'){
+				location.href="tutor/lessonListPeriod?&orderBy="+orderbyVal+"&period="+period;
+			}
+			if(!schkey && !schSchedule && !schLocation && period=='proceeding'){
+				location.href="tutor/lessonListPeriod?&orderBy="+orderbyVal+"&period="+period;
+			}
+			if(!schkey && !schSchedule && !schLocation && period=='done'){
+				location.href="tutor/lessonListPeriod?&orderBy="+orderbyVal+"&period="+period;
+			}
+			
+			//검색하고 진행중/모집중/마감 눌렀을 때
 			if(period == 'all'){
-				location.href="/tutor/lessonList?schType=all&orderBy="+orderbyVal+"&keywordSelect="+selectVal;
-				return false;
+				if(!schkey && !schSchedule && !schLocation){
+					location.href="tutor/lessonListPeriod?&orderBy="+orderbyVal+"&period=all";
+				}
+				if(schkey){
+					location.href="/tutor/searchKeword?schType=keyword&keywordSelect="+selectVal+"&keyword="+keywordVal+"&orderBy="+orderbyVal+"&period=all";
+				}
+				if(schSchedule){
+					location.href="/tutor/searchDate?schType=schedule&start_date="+start_dateVal+"&end_date="+end_dateVal+"&orderBy="+orderbyVal+"&period=all";
+				}
+				if(schLocation){
+					location.href="/tutor/searchMap?schType=mapLocation&location="+locationVal+"&orderBy="+orderbyVal+"&period=all";
+				}
 			}
 			if(schkey){
 				location.href="/tutor/searchKeword?schType=keyword&orderBy="+orderbyVal+"&period="+period+"&keywordSelect="
@@ -149,24 +218,9 @@
 		var tabContWrap = $("#tabContWrap");
 		var clearfix = $(".clearfix");
 		var btnAll = $("#all");
-    	tabContWrap.find("article").stop().hide();
-    	
-    	console.log(tabContWrap.find("article.on").text());
-    	console.log(btnAll.html() + " 룰루");
-    	console.log(btnAll.html() == "전체");
-    	
-    	/* if(btnAll.html() == "전체"){
-    		$("#tabContWrap").hide();
-    	} */
-    	
+
     	tabContWrap.find("article.on").stop().fadeIn();
-    	if("${schType}" == "all"){
-			$("#tabContWrap").hide();
-		}else{
-			$("#tabContWrap").show();
-		}
-	
-	
+
 	})
 </script>
 
@@ -183,7 +237,7 @@
 			<!-- 검색 3가지 -->
 			<div class="tab_s1">
 				<ul class="clearfix">
-					<li class="<c:if test="${schType == 'all'}">on</c:if>"><button type="button" id="all" class="ing">전체</button></li>
+					<%-- <li class="<c:if test="${schType == 'all'}">on</c:if>"><button type="button" id="all" class="ing">전체</button></li> --%>
 					<li class="topSearch <c:if test="${schType == 'keyword'}">on</c:if>" value="topKeyword" ><a href="#;" >키워드 검색</a></li>
 					<li class="topSearch <c:if test="${schType == 'schedule'}">on</c:if>" value="topCalendar"><a href="#;" >달력 검색</a></li>
 					<li class="topSearch <c:if test="${schType == 'mapLocation'}">on</c:if>" value="topMap"><a id="map_on" href="#;" >지도 검색</a></li>
@@ -212,7 +266,6 @@
 						</div>				
 					</div>
 				</article>
-				
 				<article id="tab_2" class="calendarSch <c:if test="${schType == 'schedule'}">on</c:if>">
 					<div class="search_as_calendar">
 						<div class="scheduleSchBox">
@@ -264,6 +317,7 @@
 			<!-- 정렬 전체 모집중 진행중 마감 -->
 			<div class="search_btn_style">
 				<div class="btnS1 left">
+					<div><button type="button" id="all" class="ing ">전체</button></div>
 					<div><button type="button" id="applying" class="ing <c:if test="${period == 'applying'}">on</c:if>">모집중</button></div>
 					<div><button type="button" id="proceeding" class="ing <c:if test="${period == 'proceeding'}">on</c:if>">진행중</button></div>
 					<div><button type="button" id="done" class="ing <c:if test="${period == 'done'}">on</c:if>">마감</button></div>

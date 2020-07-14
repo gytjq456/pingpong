@@ -89,8 +89,13 @@
 		)
 	</select>
 	
-	<select id="selectBySeq" resultType="kh.pingpong.dto.GroupDTO">
-		select * from grouplist where seq = #{value}
+
+	<select id="selectBySeq" resultMap="GroupProFile">
+		<!-- select * from grouplist where seq = #{value} -->
+		select g.*,m.profile from 
+		grouplist g inner join member m
+		on g.writer_id = m.id
+		where seq = #{value}
 	</select>
 	
 	<select id="searchSeq" resultType="int">

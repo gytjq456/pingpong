@@ -85,11 +85,26 @@
 	})
 </script>
 <style>
-	#layerPop_s1 { position:fixed; left:0; top:0; width:100%; height:100%; z-index:10001; display:none;  background:rgba(0,0,0,0.5); paddint: 15px; }
-	#layerPop_s1 .pop_body { position:absolute; left:50%; top:50%; transform:translate(-50%, -50%); max-width:640px; background:#fff;}
-	#layerPop_s1 .tit_s3 { margin: 12px; text-align: center; font-size: 20px; font-weight: bold; }
+
+	
+	/* 레이어 팝업 */
+	#layerPop_s1 { position:fixed; left:0; top:0; width:100%; height:100%; z-index:10001; display:none; background:rgba(0,0,0,0.5); }
+	#layerPop_s1 .pop_body { position:absolute; left:50%; top:50%; transform:translate(-50%, -50%); max-width:640px; background:#fff; padding:20px; width:100%; box-sizing:border-box;}
+	#layerPop_s1 .tit_s3 {text-align: center; font-size: 20px; font-weight: bold; border-bottom:1px solid #ddd; padding-bottom:12px; margin-bottom:12px;}
 	#layerPop_s1 .checkAgree { color: #999; }
 	#layerPop_s1 .checkLabel { vertical-align: middle; }
+	#layerPop_s1 .checkLabel { vertical-align: middle; }
+	#layerPop_s1 .tit { font-weight:500; }
+	#layerPop_s1 article > div { margin-bottom:10px;}
+	#layerPop_s1 article > div:last-child { margin:0; }
+	#layerPop_s1 dl { overflow:hidden; margin-bottom:10px;}
+	#layerPop_s1 dl:last-child { margin:0; }
+	#layerPop_s1 dl dt { margin-right:4px;}
+	#layerPop_s1 dl dd {}
+	#layerPop_s1 dl dt,
+	#layerPop_s1 dl dd { float:left; }
+	#layerPop_s1 .info {}
+	#layerPop_s1 .info > dl { }
 </style>
 <article id="layerPop_s1">
 	<div class="pop_body">
@@ -100,34 +115,42 @@
 		<input type="hidden" id="parent_seq_from_app">
 		<section>
 			<article>
+				<div class="info">
+					<dl>
+						<dt class="tit">신청자 :</dt>
+						<dd id="name_from_app"></dd>
+					</dl>
+					<dl>
+						<dt class="tit">나이 :</dt>
+						<dd id="age_from_app"></dd>
+					</dl>
+					<dl>
+						<dt class="tit">성별 :</dt>
+						<dd id="gender_from_app"></dd>
+					</dl>
+					<dl>
+						<dt class="tit">구사 언어 :</dt>
+						<dd id="lang_can_from_app"></dd>
+					</dl>
+					<dl>
+						<dt class="tit">학습 언어:</dt>
+						<dd id="lang_learn_from_app"></dd>
+					</dl>
+					<dl>
+						<dt class="tit">주소:</dt>
+						<dd id="add_from_app"></dd>
+					</dl>
+					<dl>
+						<dt class="tit">가입 이유/포부</dt>
+						<dd class="contents" id="contents_from_app"></dd>
+					</dl>
+				</div>				
 				<div>
-					<span>신청자</span>
-					<span id="name_from_app"></span>
 				</div>
-				<div>
-					<span>나이</span>
-					<span id="age_from_app"></span>
-					<span>성별</span>
-					<span id="gender_from_app"></span>
-				</div>
-				<div>
-					<span>구사 언어</span>
-					<span id="lang_can_from_app"></span>
-				</div>
-				<div>
-					<span>학습 언어</span>
-					<span id="lang_learn_from_app"></span>
-				</div>
-				<div>
-					<span>주소</span>
-					<span id="add_from_app"></span>
-				</div>
-				<div>가입 이유/포부</div>
-				<div class="contents" id="contents_from_app"></div>
-				<div>
-					<button id="accept">승인</button>
-					<button id="refuse">거절</button>
-					<button id="back">닫기</button>
+				<div class="btns_s3">
+					<p><button id="accept">승인</button></p>
+					<p><button id="refuse">거절</button></p>
+					<p><button id="back">닫기</button></p>
 				</div>
 			</article>
 		</section>

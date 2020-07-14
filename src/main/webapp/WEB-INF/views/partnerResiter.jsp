@@ -3,6 +3,24 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 
+<script>
+	$(function(){
+		var layerPop_s4 = $("#layerPop_s4");
+		$("#popClose").on("click", function(){
+			layerPop_s4.stop().fadeOut();
+			$("input[type='checkbox']").prop("checked", false);
+		})
+		
+		$(document).on("click",".resiterPop", function(){
+			if("${sessionScope.loginInfo}" == "" ){
+				alert("로그인후 이용이 가능합니다.")
+				location.href="/member/login";
+			}else{
+				layerPop_s4.stop().fadeIn();
+			}
+		})
+	})
+</script>
 <c:if test="${sessionScope.loginInfo.grade == 'default'}">
 <article id="layerPop_s4">
 	<div class="pop_body">
@@ -35,7 +53,7 @@
 								<label for="email" ><span></span>이메일</label>
 							</li>
 							<li>
-								<input type="checkbox" name="contactList" id="chatting" readonly checked>
+								<input type="checkbox" name="contactList" id="chatting" readonly checked required>
 								<label for="chatting" ><span></span>채팅(필수)</label>
 							</li>
 						</ul>
@@ -49,18 +67,7 @@
 		</form>
 	</div>
 </article>
-<script>
-	$(function(){
-		var layerPop_s4 = $("#layerPop_s4");
-		$("#popClose").on("click", function(){
-			layerPop_s4.stop().fadeOut();
-		})
-		
-		$(".resiterPop").click(function(){
-			layerPop_s4.stop().fadeIn();
-		})
-	})
-</script>
+
 </c:if>
 
 

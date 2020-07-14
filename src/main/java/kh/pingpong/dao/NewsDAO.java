@@ -68,20 +68,35 @@ public class NewsDAO {
 	
 	//프로필 수정
 	public int newsUpdate_ftn(FileDTO ftndto) throws Exception{
+		System.out.println("프로필 수정 DAO");
+		System.out.println(ftndto.getSysname());
 		return mybatis.update("News.newsUpdate_ftn", ftndto);
 	}
 	
 	//파일들 수정
 	public int newsUpdate_files(FileDTO filesAll) throws Exception {
+		System.out.println("파일들 수정 + DAO");
+		System.out.println("파일 시스네임 :: "+ filesAll.getSysname());
+		System.out.println("파일 오리네임 :: "+ filesAll.getOriname());
+		System.out.println("파일 리얼패스 :: "+ filesAll.getRealpath());
+		System.out.println("파일 parent_seq :: "+ filesAll.getParent_seq());
+		System.out.println("파일 seq :: "+ filesAll.getSeq());
+		System.out.println("파일 category :: "+ filesAll.getCategory());
+		
 		return mybatis.update("News.newsUpdate_files", filesAll);
 	}
 	
-	//수정
+	//수정 프로필 수정
 	public int newsUpdate_new(NewsDTO ndto, FileDTO ftndto) throws Exception{
 		Map<String, Object> newsAdd = new HashMap<>(); 
 		newsAdd.put("ndto", ndto);
 		newsAdd.put("ftndto", ftndto);		
 		return mybatis.update("News.newsUpdate_new", newsAdd);
+	}
+	
+	//수정 파일All
+	public int newsUpdate_new_filesAll(NewsDTO ndto) throws Exception{
+		return mybatis.update("News.newsUpdate_new_filesAll", ndto);
 	}
 	
 	//게시글 삭제

@@ -119,18 +119,16 @@
 							<div class="news_write_sub">
 								<div class="tit_s3 f_all">
 									<h4>첨부파일</h4>
-									<span class="notice">* 첨부파일이 있을 경우 +를 눌러주세요. +를 누를 때마다 첨부파일이 늘어납니다.</span>
-									<button type="button" id="addFile">+</button>								
+									<!-- <span class="notice">* 첨부파일이 있을 경우 +를 눌러주세요. +를 누를 때마다 첨부파일이 늘어납니다.</span>
+									<button type="button" id="addFile">+</button>		 -->						
 									<ul>
 										<c:forEach items="${files}" var="i">
 											<li>
-												<div>
-													${i.oriname}
-													<button type="button" class="x" data-seq="${ndto.seq}" data-files_name="${i.sysname}">X</button>
+												<div style="margin-bottom:10px;">
+													<span class="notice">${i.oriname}</span>
+													<input type="file" name="filesAll" value="${i.oriname}" style="display:inline; padding-left:10px;">
+													<input type="hidden" name="fileAllSeq" value="${i.seq}" style="display:inline; padding-left:10px;">
 												</div>
-												수정 파일 : <input type="file" name="files">
-												<br>
-												<br>
 											</li>
 										</c:forEach>
 									</ul>									

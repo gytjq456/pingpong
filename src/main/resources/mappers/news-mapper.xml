@@ -41,10 +41,10 @@
 	
 	<!-- 파일들 수정 -->
 	<update id="newsUpdate_files">
-		update files set sysname= #{sysname}, oriname=#{oriname}, realpath=#{realpath} where parent_seq = #{parent_seq} and category = 'news'
+		update files set sysname= #{sysname}, oriname=#{oriname}, realpath=#{realpath} where parent_seq = #{parent_seq} and seq= #{seq} and category = 'news'
 	</update>
 	
-	<!-- 수정 -->
+	<!-- 수정 프로필 수정 -->
 	<update id="newsUpdate_new">
 		update news set title= #{ndto.title}, writer=#{ndto.writer}, category=#{ndto.category}
 		, start_date=#{ndto.start_date}, end_date=#{ndto.end_date}, location=#{ndto.location}, contents=#{ndto.contents}
@@ -52,9 +52,13 @@
 			,thumbnail = #{ftndto.sysname}
 		</if>		
 		where seq = #{ndto.seq}
-		<!-- <if test="ndto.files_name != null">
-			,files=#{ndto.files_name} 
-		</if> -->
+	</update>
+	
+	<!-- 수정 파일All -->
+	<update id="newsUpdate_new_filesAll">
+		update news set title= #{title}, writer=#{writer}, category=#{category}
+		, start_date=#{start_date}, end_date=#{end_date}, location=#{location}, contents=#{contents},
+		files=#{files_name} where seq = #{seq}
 	</update>
 		
 	<!-- 파일들 select -->

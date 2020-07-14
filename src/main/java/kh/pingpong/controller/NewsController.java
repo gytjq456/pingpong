@@ -73,20 +73,22 @@ public class NewsController {
 	
 	/* 글쓰기 */
 	@RequestMapping("writeProc")
-	public String writeProc(NewsDTO ndto, FilesDTO fsdto) throws Exception{
+	public String writeProc(NewsDTO ndto, FilesDTO filesAll) throws Exception{
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
 		ndto.setWriter(loginInfo.getId());
 		ndto.setLocation(ndto.getAddress() + ndto.getDetailAddress() + ndto.getExtraAddress());
 		
 		FileDTO ftndto = new FileDTO();
-		
 		// 썸네일 파일 하나 저장
 		String realPath = session.getServletContext().getRealPath("upload/news/thumbnail/");
 		ftndto = fcon.newsFileOneInsert(ndto, ftndto, realPath);		
 		
+		
 		// 첨부파일 여러개
-		String realPath2 = session.getServletContext().getRealPath("upload/news/files/");
-		List<FileDTO> filseA = fcon.newsFileInsert(fsdto, realPath2);
+		//if(!filesAll.getFilesAll()[0].getOriginalFilename().contentEquals("")) {
+			String realPath2 = session.getServletContext().getRealPath("upload/news/files/");
+			List<FileDTO> filseA = fcon.newsFileInsert(filesAll, realPath2);
+		//}
 		
 		int result = newservice.newsInsert(ndto, ftndto, filseA);
 		
@@ -105,7 +107,7 @@ public class NewsController {
 	
 	/* 글 수정 */
 	@RequestMapping("modifyProc")
-	public String modifyProc(NewsDTO ndto, FilesDTO fsdto, Model model) throws Exception{
+	public String modifyProc(NewsDTO ndto, FilesDTO filesAll, Model model) throws Exception{
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
 		ndto.setWriter(loginInfo.getId());
 		
@@ -113,41 +115,40 @@ public class NewsController {
 		if(!ndto.getAddress().contentEquals("")) {
 			ndto.setLocation(ndto.getAddress() + ndto.getDetailAddress() + ndto.getExtraAddress());
 		}
-		
 		FileDTO ftndto = new FileDTO();
 		
 		// 썸네일 파일 하나 저장
-		System.out.println(ndto.getThumbnail() + " :: 프로필");
-		if(ndto.getThumbnail() != null) {
+		if(!ndto.getThumbnail().getOriginalFilename().contentEquals("")) {
+			//if(!ndto.getThumbnail().getOriginalFilename().contentEquals("")) {
 			System.out.println("컨트롤러 :: 썸네일 파일 하나");
 			String realPath = session.getServletContext().getRealPath("upload/news/thumbnail/");
 			ftndto = fcon.newsFileOneInsert(ndto, ftndto, realPath);
+			System.out.println("프로필 수정 컨트롤러");
 			int result = newservice.modifyProc(ndto, ftndto);
-		}
-		
+			
+		}else if(filesAll.getFilesAll().length > 0) {
+		//}else if(filesAll.getFilesAll()[0].getOriginalFilename() != null) {
+			//if(!filesAll.getFilesAll()[0].getOriginalFilename().contentEquals("")) {
 		// 첨부파일 여러개
-		/*
-		System.out.println(fsdto.getFiles().length + " :: 첨부파일 여러개");
-		if(fsdto.getFiles() != null) {
 			System.out.println("컨트롤러 :: 첨부파일 여러개");
 			String realPath2 = session.getServletContext().getRealPath("upload/news/files/");
-			List<FileDTO> filseA = fcon.newsFileInsert(fsdto, realPath2);
-			int result = newservice.modifyProcAll(ndto, ftndto, filseA);
+			List<FileDTO> filseA = fcon.newsFileInsert(filesAll, realPath2);
+			int result = newservice.modifyProcAll(ndto, filseA);
+			
 		}
-		*/
-		int result = newservice.modifyProc(ndto, ftndto);
-		
-		//return "/news/view";
+			//수정할 때 프로필과 파일 없을 때
+			//int result = newservice.modifyProc_newsA(ndto);
+				
 		return "redirect:/news/listProc";
 	}
 	
-	/* 글수정 첨부파일 하나 삭제 jsp */
+	/* 글수정 첨부파일 하나 삭제 jsp 
 	@ResponseBody
 	@RequestMapping("dele_fileOne")
 	public String dele_fileOne(NewsDTO ndto) throws Exception{
 		int result = newservice.dele_fileOne(ndto);
 		return String.valueOf(result);
-	}
+	}*/
 	
 	/* 글 삭제 */
 	@ResponseBody

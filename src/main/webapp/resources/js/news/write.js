@@ -84,7 +84,7 @@ $(function(){
 	$("#addFile").click(function(){		
 		if(countf<3){
 			$("#fileSpace").append(
-					"<div class='file_box'><input type='file' name='files' class='files'> <button type='button' class='minus'>-</button></div>"
+					"<div class='file_box'><input type='file' name='filesAll' class='files'> <button type='button' class='minus'>-</button></div>"
 			);
 			++countf;
 		}else{

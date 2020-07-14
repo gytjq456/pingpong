@@ -108,9 +108,9 @@ public class NewsService {
 		return newsdao.newsViewOne(ndto);
 	}
 	
-	//글 수정 (news테이블 수정 + 프로필 변경 + 첨부파일 변경시)
+	//글 수정 (news테이블 수정 + 첨부파일 변경시)
 	@Transactional("txManager")
-	public int modifyProcAll(NewsDTO ndto, FileDTO ftndto, List<FileDTO> filseA) throws Exception{
+	public int modifyProcAll(NewsDTO ndto, List<FileDTO> filseA) throws Exception{
 		//첨부파일들을 string으로 변경하여 ndto에 Files_name 넣음
 		String[] files_insert = new String[filseA.size()];
 		int i = 0;
@@ -121,17 +121,20 @@ public class NewsService {
 		String arrayS_result = arrayS.substring(1, arrayS.length()-1);
 		ndto.setFiles_name(arrayS_result);
 		
-		//프로필저장
-		newsdao.newsUpdate_ftn(ftndto);
+		System.out.println(":: 배열의 이름  :: " + arrayS_result);
 		
+		//뉴스 업로드		
+		System.out.println("ndto :: " + ndto.getFiles_name());
+		System.out.println("ndto :: " + ndto.getSeq());
+		System.out.println("ndto :: " + ndto.getTitle());
+		newsdao.newsUpdate_new_filesAll(ndto);
+		
+		System.out.println("파일들 수정 + sevice");
 		//첨부파일들 저장
 		for(FileDTO filesAll: filseA) {
+			filesAll.setParent_seq(ndto.getSeq());
 			newsdao.newsUpdate_files(filesAll);
 		}
-		
-		//파일 한개 세팅
-		ftndto.setParent_seq(ndto.getSeq());
-		newsdao.newsUpdate_new(ndto, ftndto);
 		
 		return 1;
 	}
@@ -141,8 +144,11 @@ public class NewsService {
 	public int modifyProc(NewsDTO ndto, FileDTO ftndto) throws Exception{
 		//파일 한개 세팅
 		ftndto.setParent_seq(ndto.getSeq());
+		
+		//news글 update
 		newsdao.newsUpdate_new(ndto, ftndto);
-			
+		
+		System.out.println("프로필 수정 service");
 		//프로필저장
 		newsdao.newsUpdate_ftn(ftndto);
 

@@ -72,8 +72,9 @@
 					</div>
 					
 					<div class="btnS1 right">						
-						<button type="button" id="write" class="on">글 작성</button>
+							<button type="button" id="write" class="on">글 작성</button>
 					</div>
+					
 				</div>
 			</article>
 		</section>

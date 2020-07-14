@@ -739,7 +739,7 @@ width:-webkit-calc(100% - 130px);
 #list_s2 ul li { float:left; width:23.5%; margin-right:2%; border:1px solid #ddd; box-sizing:border-box; margin-bottom:0; min-height:320px;}
 #list_s2 ul li:nth-child(4n) { margin-right:0; }
 #list_s2 ul li .topInfo { text-align:center;}
-#list_s2 ul li .profile { margin:0 auto; width:100px; height:100px; overflow:hidden; border-radius:50%; position:relative;}
+#list_s2 ul li .profile { margin:0 auto; width:100px; height:100px; overflow:hidden; border-radius:50%; position:relative; border:1px solid #ddd; box-sizing:border-box;}
 #list_s2 ul li .profile img { position:absolute; left:50%; top:50%; transform:translate(-50%, -50%); }
 #list_s2 ul li .name { font-size:18px; font-weight:700; margin-top:10px; }
 #list_s2 ul li .info { margin-top:20px; border-top:1px solid #ddd; padding-top:20px;}

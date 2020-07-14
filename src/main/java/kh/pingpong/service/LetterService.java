@@ -1,5 +1,6 @@
 package kh.pingpong.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -63,9 +64,31 @@ public class LetterService {
 	}
 	
 	// 페이징
-	public String getPageNav(int currentPage, String tableName) throws Exception{
+	public String getPageNav(int currentPage, int otherPage, String tableName, String id) throws Exception{
+		Map<String, Object> param = new HashMap<>();
+		
+		param.put("tableName", tableName);
+		param.put("id", id);
+		
+		String cpageName = "";
+		String otherPageName = "";
+		
+		if (tableName.contentEquals("receive_letter")) {
+			param.put("columnName", "to_id");
+			
+			cpageName = "rcpage";
+			otherPageName = "scpage";
+		} else if (tableName.contentEquals("send_letter")) {
+			param.put("columnName", "from_id");
+			
+			cpageName = "scpage";
+			otherPageName = "rcpage";
+		}
+		
 		// 총 게시물
-		int recordTotalCount = ldao.selectCount(tableName);
+		int recordTotalCount = ldao.selectCount(param);
+		
+		System.out.println(recordTotalCount);
 
 		int pageTotalCount = 0; //전체페이지 개수
 
@@ -77,7 +100,7 @@ public class LetterService {
 
 		if(currentPage < 1) {
 			currentPage = 1;
-		}else if(currentPage > pageTotalCount) {
+		} else if(currentPage > pageTotalCount) {
 			currentPage = pageTotalCount;
 		}
 
@@ -98,21 +121,23 @@ public class LetterService {
 		}					
 
 		StringBuilder sb = new StringBuilder();
+
 		sb.append("<ul>");
+		
 		if(needPrev) {
-			sb.append("<li><a href='/mypage/letter?cpage=" + (startNav - 1) + "' id='prevPage'><</a></li>");
+			sb.append("<li><a href='/letter/letterList?" + cpageName + "=" + (startNav - 1) + "&" + otherPageName + "=" + otherPage + "' id='prevPage'><</a></li>");
 		}
 
 		for(int i=startNav; i<= endNav; i++) {
 			if(currentPage == i) {
-				sb.append("<li class='on'><a href='/mypage/letter?cpage=" + i + "'>" + i + "</a></li>");
+				sb.append("<li class='on'><a href='/letter/letterList?" + cpageName + "=" + i + "&" + otherPageName + "=" + otherPage + "'>" + i + "</a></li>");
 			}else {
-				sb.append("<li><a href='/mypage/letter?cpage=" + i + "'>" + i + "</a></li>");
+				sb.append("<li><a href='/letter/letterList?" + cpageName + "=" + i + "&" + otherPageName + "=" + otherPage + "'>" + i + "</a></li>");
 			}
 		}
 
 		if(needNext) {
-			sb.append("<li><a href='/mypage/letter?cpage=" + (endNav + 1) + "' id='prevPage'>></a></li>");
+			sb.append("<li><a href='/letter/letterList?" + cpageName + "=" + (endNav + 1) + "&" + otherPageName + "=" + otherPage + "' id='prevPage'>></a></li>");
 		}
 		sb.append("</ul>");
 

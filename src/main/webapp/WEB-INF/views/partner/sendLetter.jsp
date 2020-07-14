@@ -10,9 +10,8 @@
 			
 			var from_id = '${sessionScope.loginInfo.id}';
 			var from_name = '${sessionScope.loginInfo.name}';
-			var to_id = $(this).parent().prev().find('.id').html();
-			var to_name = $(this).parent().prev().find('.name').html();
-			
+			var to_id = $(this).closest("article").find(".id").val();
+			var to_name = $(this).closest("article").find(".name").val();
 			if (from_id == to_id) {
 				alert('자신에게는 쪽지를 보낼 수 없습니다.');
 				return false;

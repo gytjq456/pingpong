@@ -238,12 +238,14 @@
 						<c:otherwise>
 							<c:forEach var="plist" items="${alist}">
 								<article class="card_body">
-									<a href="/partner/partnerView?seq=${plist.seq}">
 										<div class="box plist">
+										<a href="/partner/partnerView?seq=${plist.seq}">
 											<%-- <span class="seq">${plist.seq}</span> --%> 
 											<div class="userInfo clearfix">
 												<div class="img"><img src ="/upload/member/${plist.id}/${plist.sysname}"></div>
 												<!-- <div class="img"><img src ="/resources/img/sub/userThum.jpg"></div> -->
+												<input type="hidden" value="${plist.id}" class="id">
+												<input type="hidden" value="${plist.name}" class="name">
 												<div class="info">
 													<ul>
 														<li>
@@ -273,13 +275,13 @@
 													</ul>
 												</div>
 											</div>
+										</a>
 										</div>
 										<div class="btn_li">
 											<p><button class="letter">쪽지</button></p>
 											<p><button class="chatting" data-uid="${plist.id}" data-name="${plist.name}">채팅</button></p>
 											<p><button class="email_a">이메일</button></p>
 										</div>
-									</a>
 								</article>				
 							</c:forEach>
 						</c:otherwise>

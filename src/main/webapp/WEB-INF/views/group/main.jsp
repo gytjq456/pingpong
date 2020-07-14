@@ -136,7 +136,7 @@
 							<c:forEach var="glist" items="${glist}">
 								<div class="back_and_wrap item">
 									<a href="/group/beforeView?seq=${glist.seq}" class="group_list_a">
-										<div class="each_profile"><img src="/resources/img/sub/userThum.jpg"/></div>
+										<div class="each_profile"><img src="/upload/member/${glist.writer_id}/${glist.sysname}"/></div>
 										<c:if test="${fn:startsWith(glist.hobby_type, '영화')}">
 											<div class="group_background background_pink"></div>
 										</c:if>

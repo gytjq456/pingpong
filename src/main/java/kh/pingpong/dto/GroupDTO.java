@@ -29,6 +29,7 @@ public class GroupDTO {
 	private String applying;
 	private String proceeding;
 	private String date;
+	private String sysname;
 	
 	public GroupDTO() {}
 	public GroupDTO(int seq, String title, String writer_id, String writer_name, String hobby_type, String apply_start, String apply_end, String start_date,
@@ -223,4 +224,16 @@ public class GroupDTO {
 	public void setDate(String date) {
 		this.date = date;
 	}
+	
+	public String getSysname() {
+		return sysname;
+	}
+	
+	public void setSysname(String sysname) {
+		this.sysname = sysname;
+	}
+	
+	
+	
+	
 }

@@ -39,13 +39,13 @@ $(function () {
     			type:type
     		}
     	}).done(function(resp){
-    		//console.log(resp);
+    		console.log(resp);
     		chatList.find(".list").html("");
     		var userTag = $("<ul class='clearfix'>");
     		for(var i=0; i<resp.length; i++){
     			var userInfo_s1 = $("<div class='userInfo_s1'>");
     			var li = $("<li>");
-    			userInfo_s1.append("<div class='thumb'><img src='/resources/img/sub/userThum.jpg'>")
+    			userInfo_s1.append("<div class='thumb'><img src='/update/mamber/"+resp[i].id+"/"+resp[i].sysname+"'>")
     			userInfo_s1.append("<div class='info'><p class='userId'>"+resp[i].name+"("+resp[i].age+"세)</p><p class='txt'>"+resp[i].introduce+"</p>")
     			li.append(userInfo_s1)
     			userTag.append(li)    		

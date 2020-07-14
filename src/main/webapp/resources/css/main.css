@@ -88,7 +88,8 @@
 #toDayClass .classWrap .list ul li .info > div { margin-bottom:10px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }  
 #toDayClass .classWrap .list ul li .tit { font-size:18px; font-weight:700; color:#333;}  
 #toDayClass .classWrap .list ul li .txtBox { font-size: 16px;}  
-#toDayClass .classWrap .list ul li .thum { width:100px; height:100px; border-radius:50%; overflow:hidden;  margin-right:30px; font-size:12px; color:#999; }  
+#toDayClass .classWrap .list ul li .thum { width:100px; height:100px; border-radius:50%; overflow:hidden;  border:1px solid #ddd; box-sizing:borde-box; position:relative; margin-right:30px; font-size:12px; color:#999; }  
+#toDayClass .classWrap .list ul li .thum img { position:absolute; left:50%; top:50%; transform:translate(-50%, -50%);}  
 #toDayClass .scheduleWrap {border-top:1px solid #ddd; padding-top:20px; }
 #toDayClass .scheduleWrap .tip { }
 #toDayClass .scheduleWrap .tip p { line-height:1.6; position:relative; padding-left:12px; font-size:16px; margin-bottom:4px;}

@@ -8,10 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import kh.pingpong.config.Configuration;
 import kh.pingpong.dao.CorrectDAO;
-import kh.pingpong.dto.CommentDTO;
-import kh.pingpong.dto.Correct_CommentDTO;
 import kh.pingpong.dto.CorrectDTO;
-import kh.pingpong.dto.JjimDTO;
+import kh.pingpong.dto.Correct_CommentDTO;
 import kh.pingpong.dto.LikeListDTO;
 import kh.pingpong.dto.ReportListDTO;
 
@@ -167,5 +165,14 @@ public class CorrectService {
 		return sb.toString();
 	}
 
+	
+	
+	// like count
+	public int likecountAdd(CorrectDTO dto) throws Exception{
+		return dao.likecountAdd(dto);
+	}
+	public int likecountMinus(CorrectDTO dto) throws Exception{
+		return dao.likecountMinus(dto);
+	}
 
 }

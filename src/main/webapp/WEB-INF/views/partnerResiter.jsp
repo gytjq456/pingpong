@@ -4,7 +4,7 @@
 
 
 <c:if test="${sessionScope.loginInfo.grade == 'default'}">
-<article id="layerPop_s2">
+<article id="layerPop_s4">
 	<div class="pop_body">
 		<div class="tit_s3">
 			<h3>파트너 등록</h3>
@@ -42,7 +42,7 @@
 					</div>
 					<div class="btns_s3">
 						<p><button type="button" id="partnerBtn">등록</button></p>
-						<p><input type="button" id="back2" value="닫기"></p>
+						<p><input type="button" id="popClose" value="닫기"></p>
 					</div>
 				</article>
 			</section>
@@ -51,13 +51,13 @@
 </article>
 <script>
 	$(function(){
-		var layerPop_s2 = $("#layerPop_s2");
-		$("#back2").on("click", function(){
-			layerPop_s2.stop().fadeOut();
+		var layerPop_s4 = $("#layerPop_s4");
+		$("#popClose").on("click", function(){
+			layerPop_s4.stop().fadeOut();
 		})
 		
 		$(".resiterPop").click(function(){
-			layerPop_s2.stop().fadeIn();
+			layerPop_s4.stop().fadeIn();
 		})
 	})
 </script>

@@ -568,12 +568,19 @@ textarea { resize:none; height:120px; line-height:1.6;}
    
    
 /* 페이징  */
-#listNav { margin-top:40px; }   
-#listNav ul { text-align:center; }   
-#listNav ul li { display:inline-block; margin-right:8px;} 
-#listNav ul li:last-child { margin-right:0;} 
-#listNav ul li a{ display:block; width:36px;background:#fff; height:36px; line-height:34px; border-radius:6px; border:1px solid #ddd; box-sizing:border-box;}   
-#listNav ul li.on a{ background:#3e6caa; color:#fff; }   
+#listNav, .navi_line { margin-top:40px; }   
+
+
+#listNav ul, 
+.navi_line ul { text-align:center; }   
+#listNav ul li, 
+.navi_line ul li { display:inline-block; margin-right:8px;} 
+#listNav ul li:last-child, 
+.navi_line ul li:last-child { margin-right:0;} 
+#listNav ul li a, 
+.navi_line ul li a { display:block; width:36px;background:#fff; height:36px; line-height:34px; border-radius:6px; border:1px solid #ddd; box-sizing:border-box;}   
+#listNav ul li.on a, 
+.navi_line ul li.on a { background:#3e6caa; color:#fff; }   
 
 
 

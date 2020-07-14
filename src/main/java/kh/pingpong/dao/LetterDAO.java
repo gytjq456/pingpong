@@ -26,21 +26,27 @@ public class LetterDAO {
 	
 	// 보낸 쪽지/받은 쪽지 리스트
 	public List<LetterDTO> receiveLetterList(Map<String, Object> param) throws Exception {
-		int start = (int)param.get("rcpage") * Configuration.RECORD_COUNT_PER_PAGE - (Configuration.RECORD_COUNT_PER_PAGE - 1);
-		int end = start + (Configuration.RECORD_COUNT_PER_PAGE - 1);
+		int start = (int)param.get("rcpage") * Configuration.LETTER_COUNT_PER_PAGE - (Configuration.LETTER_COUNT_PER_PAGE - 1);
+		int end = start + (Configuration.LETTER_COUNT_PER_PAGE - 1);
 		
 		param.put("start", start);
 		param.put("end", end);
+
+		System.out.println("start: " + start);
+		System.out.println("end: " + end);
 		
 		return mybatis.selectList("Letter.receiveLetterList", param);
 	}
 
 	public List<LetterDTO> sendLetterList(Map<String, Object> param) throws Exception {
-		int start = (int)param.get("scpage") * Configuration.RECORD_COUNT_PER_PAGE - (Configuration.RECORD_COUNT_PER_PAGE - 1);
-		int end = start + (Configuration.RECORD_COUNT_PER_PAGE - 1);
+		int start = (int)param.get("scpage") * Configuration.LETTER_COUNT_PER_PAGE - (Configuration.LETTER_COUNT_PER_PAGE - 1);
+		int end = start + (Configuration.LETTER_COUNT_PER_PAGE - 1);
 		
 		param.put("start", start);
 		param.put("end", end);
+		
+		System.out.println("start: " + start);
+		System.out.println("end: " + end);
 		
 		return mybatis.selectList("Letter.sendLetterList", param);
 	}
@@ -73,8 +79,8 @@ public class LetterDAO {
 	}
 	
 	// 페이징
-	public int selectCount(String tableName) throws Exception {
-		return mybatis.selectOne("Letter.selectCount", tableName);
+	public int selectCount(Map<String, Object> param) throws Exception {
+		return mybatis.selectOne("Letter.selectCount", param);
 	}
 	
 	// 여러 쪽지 삭제

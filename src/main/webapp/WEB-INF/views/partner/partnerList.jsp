@@ -5,12 +5,33 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+<style>
+	#tabContWrap { display:block;}
+	.defaultSch input { width:100%; }
+	.checkBox_s1 select { padding:5px; border:1px solid #ddd; box-sizing:border-box; border-radius:6px; font-size:14px;}
+	
+		#layerPop_s3 { position:fixed; left:0; top:0; width:100%; height:100%; z-index:10001; display:none; background:rgba(0,0,0,0.5);  }
+		#layerPop_s3 .pop_body { position:absolute; left:50%; top:50%; transform:translate(-50%, -50%); max-width:640px; background:#fff; padding:30px 20px; box-sizing:border-box;}
+		#layerPop_s3 .tit_s3 { text-align:center; font-weight:700; font-size:20px; border-bottom:1px solid #ddd; padding-bottom:12px; margin-bottom:12px;}
+		#layerPop_s3 .tit {  font-weight:700; }
+		#layerPop_s3 .info {}
+		#layerPop_s3 input[type="password"],
+		#layerPop_s3 input[type="text"] { border:1px solid #ddd; border-radius:6px; width:100%; padding:5px 10px; font-size:12px; width:100%;}
+		#layerPop_s3 .info > dl { overflow:hidden; margin-bottom:14px;}
+		#layerPop_s3 .info > dl:last-child { margin:0; }
+		#layerPop_s3 .info > dl dt { margin-bottom:10px; } 
+		#layerPop_s3 .info > dl dd {}
+		#layerPop_s3 .info > dl { float:left; width:48%; margin-right:4%; } 
+		#layerPop_s3 .info > dl:nth-child(2n) { margin-right:0; } 
+		#layerPop_s3 .txtBox { margin-top:10px; }
+	
+</style>
 <script>
 	$(function() {
-		$(".box").on("click", function() {
+		/* $(".box").on("click", function() {
 			var seq = $(this).find(".seq").html();
 			location.href = "/partner/partnerView?seq=" + seq;
-		})
+		}) */
 		
 		$('#partnerBtn').on('click', function(){				
 			var checkboxCount = $("input:checkbox[name='contactList']").length;
@@ -77,181 +98,250 @@
 			$('#align').val('seq');
 		} */
 		
-		$('#align').on('change',function(){
+		$('#align').on('change', function(){
 			var orderByVal = $('#align').val();
 			location.href='/partner/partnerList?align='+orderByVal;
 		})
 		
 		// 로그인 후 이용가능
 		$(".box").on("click",function(){
-			if(${sessionScope.loginInfo.id == null}){
+			if(${sessionScope.loginInfo.id == ""}){
 				alert("로그인 후 이용해주세요.");
 				location.href="http://localhost/member/login";
 			}	
 		})
+		
+		$(".partnerBox article").each(function(){
+			var text = $(this).find(".introduce p").text();
+			var seq = $(this).data("seq");
+			//$(this).children("article").wrap('<a href="/discussion/view?seq='+seq+'">')
+		
+			var tagLt = text.replace(/<a/gim,"$lta;");
+			var tagGt = tagLt.replace(/a>/gim,"a$gt;");
+			console.log(tagGt)
+			if(text.length >= 100) { 
+				tagGt = tagGt.substring(0,60)+"...";;
+				$(this).find(".introduce p").text(tagGt);
+			}else{
+				$(this).find(".introduce p").text(tagGt);
+			}
+		})		
 	})
 </script>
 <body>
-	<div id="subWrap" class="hdMargin" style="padding-top: 155.924px;">
+	<div id="subWrap" class="hdMargin">
 		<section id=""></section>
 		<section id="subContents">
 			<article id="group_list" class="inner1200">
 				<div class="tit_s1">
-					<h2>Partner</h2>
+					<h2>Partner </h2>
 					<p>다양한 사람들을 원하시나요?<br>관심사가 비슷한 사람들과 함께 소통해 보세요.</p>
 				</div>
-				<div class="partner_register_box">
-					<div id="tab_2" class="profileShareAgree">			
-							<c:if test="${sessionScope.loginInfo.grade == 'default'}">
-								<form action="/partner/insertPartner" id="partnerRegister" method="post">
-									<h2>파트너를 등록해주세요</h2>
-									<div>자신의 프로필을 공유하여 다른 사람들과 소통해보세요.</div>
-									프로필 공유 동의 <input type="checkbox" name="agree" id="agree">(필수)<br> 
-									<span><input type="checkbox" name="contactList" id="letter" >쪽지</span> 
-									<span><input type="checkbox" name="contactList" id="email" >이메일</span> 
-									<span><input type="checkbox" name="contactList" id="chatting" >채팅(필수)</span><br>
-									<input type="hidden" name="contact" id="contact">
-									1:1 기본적으로 제공되는 서비스입니다.
-									<button type="button" id="partnerBtn">등록</button>
-								</form>
-							</c:if>
-					</div>
-				</div>
+				
+				
+				
+				
+				
+				
+				
+				
 				<div class="partner_search_box">
 					<div id="tabContWrap" class="search_wrap">
 						<article id="tab_1" class="kewordSch">
 							<div class="search_as_keyword">
-							<form action="/partner/partnerSearch" method="post" id="test">
-								<section class="defaultSch">
-									<div class="tit">검색어</div>
-									<div class="schCon ">
-										<input type="text" name="name" id="keyword_input" placeholder="파트너의 이름을 입력하세요.">
+								<form action="/partner/partnerSearch" method="post" id="test">
+									<div class="search_as_keyword">
+										<section class="defaultSch">
+											<div class="tit">검색어</div>
+											<div class="schCon ">
+												<input type="text" name="name" id="keyword_input" placeholder="파트너의 이름을 입력하세요.">
+											</div>
+										</section>
+										<section>
+											<div class="tit">유형</div>
+											<div class="schCon">
+												<ul class="checkBox_s1">
+													<li class="">
+														<select name="age" id="age" onchange="setSelectBox(this)">
+															<option value="" disabled selected >나이대</option>
+															<option value="1">10대</option>	
+															<option value="2">20대</option>	
+															<option value="3">30대</option>	
+															<option value="4">40대</option>	
+															<option value="5">50대</option>
+														</select>
+													</li>
+													<li class="">
+														<select name="gender" id="gender">
+															<option value="" disabled selected >성별</option>
+															<!-- <option value="전체">전체</option> -->
+															<option value="남자">남자</option>	
+															<option value="여자">여자</option>
+														</select>
+													</li>
+													<li>
+														<input type="hidden" id="address" name="address">
+														<select name="sido1" id="sido1"></select>
+													</li>
+													<li>
+														<select name="gugun1" id="gugun1"></select>
+													</li>
+													<li>
+														<select name="lang_can" id="lang_can">
+															<option value="" disabled selected >구사언어</option>
+															<c:forEach var="ldto" items="${ldto}">
+																<option value="${ldto.language}">${ldto.language}</option>
+															</c:forEach>
+														</select>
+													</li>
+													<li>
+														<select name="lang_learn" id="lang_learn">
+															<option value="" disabled selected >학습언어</option>
+															<c:forEach var="ldto" items="${ldto}">
+																<option value="${ldto.language}">${ldto.language}</option>
+															</c:forEach>	
+														</select>
+													</li>
+													<li>
+														<select name="hobby" id="hobby">
+															<option value="" disabled selected >취미</option>
+															<c:forEach var="hdto" items="${hdto}">
+																<option value="${hdto.hobby}">${hdto.hobby}</option>
+															</c:forEach>
+														</select>
+													</li>
+												</ul>
+											</div>
+										</section>
+										<div class="btnS1 center">
+											<div><input type="submit" value="검색" id=searchAsKeyword></div>
+										</div>
 									</div>
-								</section>
-								<section>
-									<div class="tit">유형</div>
-									<div class="schCon">
-										<ul class="checkBox_s1">
-											<li class="">
-												<select name="age" id="age" onchange="setSelectBox(this)">
-													<option value="" disabled selected >나이대</option>
-													<option value="1">10대</option>	
-													<option value="2">20대</option>	
-													<option value="3">30대</option>	
-													<option value="4">40대</option>	
-													<option value="5">50대</option>
-												</select>
-											</li>
-											<li class="">
-												<select name="gender" id="gender">
-													<option value="" disabled selected >성별</option>
-													<!-- <option value="전체">전체</option> -->
-													<option value="남자">남자</option>	
-													<option value="여자">여자</option>
-												</select>
-											</li>
-											<li>
-												<input type="hidden" id="address" name="address">
-												<select name="sido1" id="sido1"></select>
-											</li>
-											<li>
-												<select name="gugun1" id="gugun1"></select>
-											</li>
-											<li>
-												<select name="lang_can" id="lang_can">
-													<option value="" disabled selected >구사언어</option>
-													<c:forEach var="ldto" items="${ldto}">
-														<option value="${ldto.language}">${ldto.language}</option>
-													</c:forEach>
-												</select>
-											</li>
-											<li>
-												<select name="lang_learn" id="lang_learn">
-													<option value="" disabled selected >학습언어</option>
-													<c:forEach var="ldto" items="${ldto}">
-														<option value="${ldto.language}">${ldto.language}</option>
-													</c:forEach>	
-												</select>
-											</li>
-											<li>
-												<select name="hobby" id="hobby">
-													<option value="" disabled selected >취미</option>
-													<c:forEach var="hdto" items="${hdto}">
-														<option value="${hdto.hobby}">${hdto.hobby}</option>
-													</c:forEach>
-												</select>
-											</li>
-										</ul>
-									</div>
-									<div class="btnS1 center">
-										<div><input type="submit" value="검색" id=searchAsKeyword></div>
-									</div>
-								</section>
+								</form>
 							</div>
-							</form>
 						</article>
 					</div>
 				</div>
 				<div class="search_btn_style">
-					<div class="btnS1 right">
+					<div class="btnS1 right posStatic">
 						<select name="align" id="align">
 							<option value="recent" <c:if test="${align == 'recent'}">selected</c:if>>최신 순</option>
 							<option value="point" <c:if test="${align == 'point'}">selected</c:if>>인기 순</option>
 						</select>
 					</div>
 				</div>
-
-	<div class="partnerBox">
-		<c:choose>
-			<c:when test="${empty alist}">
-				등록된 파트너가 없습니다.
-			</c:when>
-			<c:otherwise>
-				<c:forEach var="plist" items="${alist}">
-					<div>
-						<div class="box">
-							<span class="seq">${plist.seq}</span> 
-							<img src ="/upload/member/${plist.id}/${plist.sysname}">
-							<span class="name">${plist.name}, ${plist.age}</span><br> 
-							<span class="id">아이디 : ${plist.id}</span><br> 
-							<span class="gender">성별 :${plist.gender}</span><br> 
-							<span class="email">이메일 : ${plist.email}</span><br> 
-							<span class="lang_can">구사 가능한 언어 :${plist.lang_can}</span><br> 
-							<span class="lang_learn">배우고 싶은 언어 : ${plist.lang_learn}</span><br>
-							<span class="hobby">취미 : ${plist.hobby}</span><br> 
-							<span class="introduce">자기 소개 : ${plist.introduce}</span>
-						</div>
-						<div class="button_aa">
-							<button class="letter">쪽지</button>
-							<button class="chatting" data-uid="${plist.id}" data-name="${plist.name}">채팅</button>
-							<button class="email_a">이메일</button>
-						</div>
-					</div><hr>						
-				</c:forEach>
-			</c:otherwise>
-		</c:choose>	
+				<div class="partnerBox clearfix">
+					<c:choose>
+						<c:when test="${empty alist}">
+							등록된 파트너가 없습니다.
+						</c:when>
+						<c:otherwise>
+							<c:forEach var="plist" items="${alist}">
+								<article class="card_body">
+									<a href="/partner/partnerView?seq=${plist.seq}">
+										<div class="box plist">
+											<%-- <span class="seq">${plist.seq}</span> --%> 
+											<div class="userInfo clearfix">
+												<div class="img"><img src ="/upload/member/${plist.id}/${plist.sysname}"></div>
+												<!-- <div class="img"><img src ="/resources/img/sub/userThum.jpg"></div> -->
+												<div class="info">
+													<ul>
+														<li>
+															<span>이름</span>
+															<p>${plist.name}(${plist.id}, ${plist.age}세, ${plist.gender}) </p>
+														</li>
+														<li>
+															<span>이메일</span>
+															<p>${plist.email}</p>
+														</li>
+														<li>
+															<span>구사 언어</span>
+															<p>${plist.lang_can}</p>
+														</li>
+														<li>
+															<span>배울 언어</span>
+															<p>${plist.lang_learn}</p>
+														</li>
+														<li>
+															<span>취미</span>
+															<p>${plist.hobby}</p>
+														</li>
+														<li class="introduce">
+															<span>자기소개</span>
+															<p>${plist.introduce}${plist.introduce}</p>
+														</li>
+													</ul>
+												</div>
+											</div>
+										</div>
+										<div class="btn_li">
+											<p><button class="letter">쪽지</button></p>
+											<p><button class="chatting" data-uid="${plist.id}" data-name="${plist.name}">채팅</button></p>
+											<p><button class="email_a">이메일</button></p>
+										</div>
+									</a>
+								</article>				
+							</c:forEach>
+						</c:otherwise>
+					</c:choose>	
+				</div>
+			</article>
+		</section>
 	</div>
-	<p><a class="btn" href="#ex7">도달창띄우기2</a></p>
- 	
-	<div id="ex7" class="modal">
-		<div class="emailPop">
-			<h2>이메일 보내기</h2>
+	 
+
+	
+	
+	
+	<article id="layerPop_s3">
+		<div class="pop_body">
+			<div class="tit_s3">
+				<h4>이메일 보내기</h4>
+				<p>이메일은 실제로 사용하시는 정보를 입력하셔야 합니다.</p>
+			</div>
 			<form id="emailForm"> 
-			<!-- post방식으로 자료를 컨트롤러로 보냄 -->
 				<input type="hidden" name="seq" value="${pdto.seq}">
-				받는 사람  : <input name="name" value="${pdto.name}"><br>
-				발신자 이메일 : <input name="memail" value="${loginInfo.email}"><br>
-				이메일 비밀번호 : <input type="password" name="emailPassword"><br>
-				수신자 이메일 : <input name="email" value="${pdto.email}"><br>
-				제목 : <input name="subject"><br>
-				내용 : <textarea rows="5" cols="80" name="contents"></textarea><br>
-				<input type="submit" value="전송" id="send">
+				
+				<div class="info clearfix">
+					<dl>
+						<dt class="tit">받는이 :</dt>
+						<dd><input type="text" name="name" value="${pdto.name}"></dd>
+					</dl>
+					<dl class="">
+						<dt class="tit">발신자 이메일</dt>
+						<dd><p><input type="text" name="memail" value="${loginInfo.email}"></p></dd>
+					</dl>
+					<dl class="">
+						<dt class="tit">이메일 비밀번호</dt>
+						<dd><p><input type="password" name="emailPassword" ></p></dd>
+					</dl>
+					<dl class="">
+						<dt class="tit">수신자 이메일</dt>
+						<dd><p><input type="text" name="email" value="${pdto.email}"></p></dd>
+					</dl>
+					<dl class="">
+						<dt class="tit">제목</dt>
+						<dd><p><input type="text" name="subject"></p></dd>
+					</dl>
+				</div>
+				<div data-seq="" class="txtBox">
+					<article>
+						<div class="tit">내용</div>
+						<div class="txtBox">
+							<textarea rows="5" cols="80" name="contents"></textarea>
+						</div>
+						<div class="btns_s3">
+							<p><input type="submit" value="전송" id="send"></p>
+							<p><input type="button" id="backReport" value="닫기"></p>
+						</div>
+					</article>
+				</div>
 			</form>
 		</div>
-	 	<script>
+		<script>
 	 		$(function(){
+	 			var layerPop_s3 = $("#layerPop_s3");
 				 $("#emailForm").on("submit",function(){
-					 alert("이메일")
 					 var formData = new FormData($("#emailForm")[0]);
 					$.ajax({
 						url:"/partner/send",
@@ -266,20 +356,18 @@
 					})
 					return false;
 				})
+				
+				$("#backReport").click(function(){
+					layerPop_s3.stop().fadeOut();
+				})
+				$(".email_a").click(function(){
+					layerPop_s3.stop().fadeIn();
+				})
 	 		})
 		</script>  
-	</div>
-	 
-	<script>
-	    $('a[href="#ex7"]').click(function(event) {
-	      event.preventDefault();
-	 
-	      $(this).modal({
-	        fadeDuration: 250
-	      });
-	    });
-	</script>
+	</article>
+	
 	
 	<div class="navi">${navi}</div>
-
+<jsp:include page="/WEB-INF/views/partner/sendLetter.jsp" />
 <jsp:include page="/WEB-INF/views/footer.jsp"/>

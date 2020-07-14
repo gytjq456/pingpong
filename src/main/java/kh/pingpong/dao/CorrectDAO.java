@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import kh.pingpong.dto.CommentDTO;
-import kh.pingpong.dto.CorrectCDTO;
+import kh.pingpong.dto.Correct_CommentDTO;
 import kh.pingpong.dto.CorrectDTO;
 import kh.pingpong.dto.JjimDTO;
 import kh.pingpong.dto.LikeListDTO;
@@ -46,15 +46,15 @@ public class CorrectDAO {
 	}
 
 	@Transactional("txManager")
-	public int commentInsert(CorrectCDTO cdto) throws Exception{
+	public int commentInsert(Correct_CommentDTO cdto) throws Exception{
 //	mybatis.update("Correct.CommentCount", dto);
 	return mybatis.insert("Correct.commentInsert",cdto);
 	}
-	public List<CorrectCDTO> selectc(int parent_seq) throws Exception{
+	public List<Correct_CommentDTO> selectc(int parent_seq) throws Exception{
 	return mybatis.selectList("Correct.selectc",parent_seq);
 	} 
 	
-	public List<CorrectCDTO> bestcomm(int parent_seq) throws Exception{
+	public List<Correct_CommentDTO> bestcomm(int parent_seq) throws Exception{
 		return mybatis.selectList("Correct.selectc2",parent_seq);
 		} 
 	
@@ -94,7 +94,7 @@ public class CorrectDAO {
 		return mybatis.selectOne("Correct.correctcount");
 	}
 	
-	public int countrep(CorrectCDTO cdto) throws Exception {
+	public int countrep(Correct_CommentDTO cdto) throws Exception {
 		return mybatis.update("Correct.countrep",cdto);
 	}
 	
@@ -102,7 +102,7 @@ public class CorrectDAO {
 		return mybatis.delete("Correct.delete",dto);
 	}
 	
-	public int commentDelete(CorrectCDTO cdto) throws Exception{
+	public int commentDelete(Correct_CommentDTO cdto) throws Exception{
 		return mybatis.delete("Correct.commentDelete",cdto);
 	}
 	
@@ -112,6 +112,15 @@ public class CorrectDAO {
 	
 	public int insertReport(ReportListDTO rldto) {
 		return mybatis.insert("Correct.insertReport", rldto);
+	}
+	
+	public int comment_report(ReportListDTO rldto) throws Exception{
+		return mybatis.selectOne("Correct.comment_report", rldto);
+	}
+	
+	//신고테이블에 저장
+	public int comment_reportProc(ReportListDTO rldto) throws Exception{
+		return mybatis.insert("Correct.comment_reportProc", rldto);
 	}
 	
 	}

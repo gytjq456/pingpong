@@ -143,7 +143,7 @@
 				${pdto.review_point}<br><br>
 			</div>
 			<div class="button_aa">
-				<button class="letter">쪽지</button>
+				<button id="sendLet">쪽지</button>
 				<button class="chat">채팅</button>
 				<button class="email">이메일</button>
 				<button class="report">신고하기</button><br><br>
@@ -279,5 +279,6 @@
 							</c:forEach>
 						</div>
 	</article>
+<jsp:include page="/WEB-INF/views/partner/sendLetter.jsp" />
 <jsp:include page="/WEB-INF/views/email/write.jsp"/>	
 <jsp:include page="/WEB-INF/views/footer.jsp"/>	

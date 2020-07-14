@@ -107,8 +107,11 @@ $(function(){
 			}).done(function(resp){
 				console.log(resp);
 				alert("찜을 취소합니다.");
-				$("#jjim").css('color','rgb(51, 51, 51)')
+				$("#jjim i").css('color','rgb(51, 51, 51)')
 				location.href="/tutor/lessonView?seq="+seq;
+				
+				
+				
 				return false;
 			}).fail(function(error1, error2) {
 				console.log(error1);
@@ -124,7 +127,7 @@ $(function(){
 			}).done(function(resp){
 				console.log(resp);
 				alert("찜에 등록되었습니다.");
-				$("#jjim").css('color','rgb(240, 7, 7)')
+				$("#jjim i").css('color','rgb(240, 7, 7)')
 				location.href="/tutor/lessonView?seq="+seq;
 				return false;
 			}).fail(function(error1, error2) {
@@ -133,6 +136,13 @@ $(function(){
 			})
 		}
 	})
+	
+	var checkJjim = ${checkJjim};
+	if (checkJjim) {
+		//$('#jjim').css('color', '#fbaab0');
+		$('#jjim i').removeClass('fa-heart-o');
+		$('#jjim i').addClass('fa-heart');
+	}
 	
 	// 리뷰 
 	var reviewtForm = $("#reviewtForm");
@@ -330,7 +340,7 @@ $(function(){
 							<span id="point_avg"><i class="fa fa-star" aria-hidden="true"></i>${ldto.review_point}</span>
 							<div id="three_options">
 								<span id="like"><i id="like" class="fa fa-thumbs-up" style="color:"></i>추천</span>
-								<span id="jjim"><i id="jjim" class="fa fa-heart"></i>찜하기</span>
+								<span id="jjim"><i id="" class="fa fa-heart-o"></i>찜하기</span>
 								<a id="report" data-seq="${seq}" data-thisseq="" data-id="${ldto.id}" data-url="/tutor/report" data-proc="/tutor/reportProc"><i class="fa fa-exclamation" aria-hidden="true"></i> 신고</a>
 							</div>
 						</div>

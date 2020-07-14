@@ -44,7 +44,7 @@ $(function() {
 										<%-- <div class="thumb"><img src="/resources/img/sub/${sessionScope.loginInfo.profile}"/></div> --%>
 										<div class="info">
 											<p class="userId">${i.writer}</p>
-											<p class="writeDate">${i.write_date}</p>
+											<p class="writeDate">${i.dateString}</p>
 										</div>
 									</div>
 									<div class="contents">
@@ -59,9 +59,6 @@ $(function() {
 										</c:choose>
 									</div>			
 									<div class="sideInfo">
-										<div class="lang_date">
-											<div class="info-language">언어 : ${i.language}</div>			
-										</div> 
 										<div class="countList">
 											<ul>
 												<li><i class="fa fa-eye"></i> ${i.view_count}</li>

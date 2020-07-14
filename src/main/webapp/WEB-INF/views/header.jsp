@@ -43,6 +43,7 @@
 										<li><a href="/mypage/tutorRecord">나의 강의목록</a></li>
 										<li><a href="/mypage/groupRecord">모임기록</a></li>
 										<li><a href="/mypage/likeRecord">찜목록</a></li>
+										<li><a href="/letter/letterList">쪽지함</a></li>
 									</ul>
 								</li>
 								<li><a href="/member/logout">Logout</a></li>

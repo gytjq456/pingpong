@@ -230,7 +230,6 @@
 						</select>
 					</div>
 				</div>
-
 				<div class="partnerBox clearfix">
 					<c:choose>
 						<c:when test="${empty alist}">
@@ -370,5 +369,5 @@
 	
 	
 	<div class="navi">${navi}</div>
-
+<jsp:include page="/WEB-INF/views/partner/sendLetter.jsp" />
 <jsp:include page="/WEB-INF/views/footer.jsp"/>

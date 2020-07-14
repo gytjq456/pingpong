@@ -241,11 +241,13 @@ width:-webkit-calc(100% - 108px);
 #group_view #group_tab_menu.fixed > ul { max-width:1200px; margin:0 auto;}
 #group_view #group_contents_wrapper { position: relative; }
 #group_view #group_contents { 
-width:calc(100% - 340px);s
+width:calc(100% - 340px);
 width:-moz-calc(100% - 340px);
 width:-webkit-calc(100% - 340px);
+border-right: 1px solid #ddd;
+min-height: 600px; 
 }
-#group_view #group_optional { width: 340px; border-left: 1px solid #ddd; padding: 0 0 0 30px; }
+#group_view #group_optional { width: 340px; padding: 0 0 0 30px; }
 #group_view #group_view_card { position: relative; }
 #group_view #group_optional .optional_menu { font-size:18px; margin-bottom:10px; }
 #group_view #group_optional .optional_body { color:#999; }
@@ -534,7 +536,7 @@ textarea { resize:none; height:120px; line-height:1.6;}
 .review_list article .starPoint {}
 .review_list article .starPoint > div {  }
 .review_list article .txtBox a { line-height:1.6; margin-top:8px; word-break:break-all; display:block;}
-
+.not_member { background-color: #eee; }
 
 
  /* 탭 디자인 */

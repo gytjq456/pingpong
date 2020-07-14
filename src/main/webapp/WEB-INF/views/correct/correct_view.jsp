@@ -99,6 +99,10 @@
 					})
 				}
 			})		
+			
+			$("#historyBack").click(function(){
+				location.href="/correct/correct_list"
+			})
 	})
 		
 		
@@ -114,7 +118,8 @@
 						<div class="thumb"><img src="/resources/img/sub/userThum.jpg"/></div>
 						<div class="info">
 							<p class="userId">${dto.writer}</p>
-							<p class="writeDate">${dto.write_date}</p>
+							<p class="writeDate">${dto.dateString}</p>
+							<span id="report"><i class="fa fa-exclamation" aria-hidden="true"></i>신고</span>
 						</div>
 					</div>
 					<div class="language">${dto.language}</div>
@@ -165,13 +170,13 @@
 							<div class="tit_s2">
 								<h3>베스트 댓글</h3>
 							</div>
-							<c:forEach var="i" items="${cdto2}">
+							<c:forEach var="i" items="${best_dto}">
 							<article>
 								<div class="userInfo_s1">
 									<div class="thumb"><img src="/resources/img/sub/userThum.jpg"/></div>
 									<div class="info">
 										<p class="userId">${u.writer}</p>
-										<p class="writeDate">${u.write_date}</p>
+										<p class="writeDate">${u.dateString}</p>
 									</div>
 								</div>
 								<div class="cont">
@@ -189,15 +194,15 @@
 						</section>
 						<section class="comment_list card_body">
 							<div class="tit_s2">
-								<h3>댓글(${fn:length(cdto)})</h3>
+								<h3>댓글(${fn:length(list_dto)})</h3>
 							</div>
-							<c:forEach var="i" items="${cdto}">
+							<c:forEach var="i" items="${list_dto}">
 							<article>
 								<div class="userInfo_s1">
 									<div class="thumb"><img src="/resources/img/sub/userThum.jpg"/></div>
 									<div class="info">
 										<p class="userId">${i.writer}</p>
-										<p class="writeDate">${i.write_date}</p>
+										<p class="writeDate">${i.dateString}</p>
 									</div>
 								</div>
 								<div class="cont">
@@ -206,6 +211,7 @@
 										<ul>
 											<li>
 												<button class="comment_delete normal" data-seq="${i.seq}">댓글삭제</button>
+												<span id="comment_report" data-thisSeq="${i.seq}" data-seq="${dto.seq}" data-id="${i.id}" data-url="/correct/comment_report" data-proc="/correct/comment_reportProc"><i class="fa fa-exclamation" aria-hidden="true"></i>신고</span>
 											</li>
 										</ul>
 									</div>
@@ -225,7 +231,7 @@
 							<button type="button" id="historyBack">뒤로가기</button>					
 						</c:when>
 						<c:otherwise>
-							<button type="button" class="w100p" id="historyBack">뒤로가기</button>					
+							<button type="button" class="w100p" id="historyBack">뒤로가기</button>				
 						</c:otherwise>
 					</c:choose>
 				</div>			

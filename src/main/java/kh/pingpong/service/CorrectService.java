@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import kh.pingpong.config.Configuration;
 import kh.pingpong.dao.CorrectDAO;
 import kh.pingpong.dto.CommentDTO;
-import kh.pingpong.dto.CorrectCDTO;
+import kh.pingpong.dto.Correct_CommentDTO;
 import kh.pingpong.dto.CorrectDTO;
 import kh.pingpong.dto.JjimDTO;
 import kh.pingpong.dto.LikeListDTO;
@@ -51,15 +51,15 @@ public class CorrectService {
 		return dao.selectOne(seq);
 	}
 
-	public int commentInsert(CorrectCDTO cdto) throws Exception{
+	public int commentInsert(Correct_CommentDTO cdto) throws Exception{
 		return dao.commentInsert(cdto);
 	}
 
-	public List<CorrectCDTO> selectcAll(int parent_seq) throws Exception{
+	public List<Correct_CommentDTO> selectcAll(int parent_seq) throws Exception{
 		return dao.selectc(parent_seq);
 	}
 
-	public List<CorrectCDTO> bestcomm(int parent_seq) throws Exception{
+	public List<Correct_CommentDTO> bestcomm(int parent_seq) throws Exception{
 		return dao.bestcomm(parent_seq);
 	}
 
@@ -85,7 +85,7 @@ public class CorrectService {
 	}
 
 
-	public int countrep(CorrectCDTO cdto) throws Exception {
+	public int countrep(Correct_CommentDTO cdto) throws Exception {
 		return dao.countrep(cdto);
 	}
 
@@ -94,7 +94,7 @@ public class CorrectService {
 	}
 
 
-	public int commentDelete(CorrectCDTO cdto) throws Exception{
+	public int commentDelete(Correct_CommentDTO cdto) throws Exception{
 		return dao.commentDelete(cdto);
 	}
 	

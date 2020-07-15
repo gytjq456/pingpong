@@ -100,6 +100,7 @@
 							</c:forEach>
 						</c:otherwise>
 					</c:choose>
+					<div class="navi_line">${lnavi}</div>
 				</section>
 				<section id="group_manage" class="card_body">
 					<div class="cate">그룹원</div>
@@ -134,6 +135,7 @@
 									</c:forEach>
 						</c:otherwise>
 					</c:choose>
+					<div class="navi_line">${mnavi}</div>
 				</section>
 			</div>
 		</article>

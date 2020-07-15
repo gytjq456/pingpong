@@ -43,78 +43,94 @@
 	<section id="subContents">
 		<article id="jjimManage" class="inner1200">
 			<div class="tit_s1">
-				<h2>나의 강의목록</h2>
+				<h2>나의 강의 목록</h2>
 			</div>
 			<div class="listWrap">
 				<section class="session card_body">		
-					<h4>강의 신청 리스트</h4>
+					<h4>강의 리스트</h4>
 					<c:choose>
-						<c:when test="${empty telist}">
-							등록된 강의기록이 없습니다.
+						<c:when test="${loginInfo.grade == 'tutor'}">
+							<c:choose>
+								<c:when test="${empty trlist}">
+									등록하신 강의가 없습니다.
+								</c:when>
+								<c:otherwise>
+									<table>
+										<thead>
+											<tr>
+												<th>강의 코드</th>
+												<th>강의명</th>
+												<th>가격</th>
+												<th>수강 인원</th>
+												<th>언어</th>
+												<th>장소</th>
+												<th>강의 기간</th>
+												<th>강의 시간</th>
+												<th>모집중</th>
+											</tr>
+										</thead>
+										<tbody>
+											<c:forEach var="trlist" items="${trlist}">
+												<tr>
+													<td>${trlist.seq}</td>
+													<td><a href="/tutor/lessonView?seq=${trlist.seq}">${trlist.title}</a></td>
+													<td>${trlist.price}</td>
+													<td>${trlist.cur_num}/${trlist.max_num}</td>
+													<td>${trlist.language}</td>
+													<td>${trlist.location}</td>
+													<td>${trlist.start_date} ~ ${trlist.end_date}</td>
+													<td>${trlist.start_hour}:${trlist.start_minute} ~ ${trlist.end_hour}:${trlist.end_minute}</td>
+													<td>
+														<c:if test="${trlist.applying == 'Y'}">모집중</c:if>
+														<c:if test="${trlist.applying == 'N'}">마감</c:if>
+													</td>
+												</tr>
+											</c:forEach>
+										</tbody>
+									</table>
+								</c:otherwise>
+							</c:choose>
+							<div class="navi_line">${trnavi}</div>
 						</c:when>
 						<c:otherwise>
-							<table>
-								<colgroup>
-									<col width="50px"/>
-									<col width="360px"/>
-									<col width=""/>
-									<col width=""/>
-									<col width=""/>
-									<col width=""/>
-									<col width="100px"/>
-								</colgroup>
-								<thead>
-									<tr>
-										<th>번호</th>
-										<th>제목</th>
-										<th>튜터</th>
-										<th>언어</th>
-										<!-- <th>커리큘럼</th> -->
-										<th>강의 기간</th>
-										<!-- <th>인원</th> -->
-										<th>장소</th>
-										<!-- <th>추천</th>
-										<th>리뷰</th>
-										<th>평점</th> -->
-										<th>비고</th>
-									</tr>
-								</thead>
-								<tbody>
-									<c:forEach var="telist" items="${telist}">
-									<tr id="${telist.seq}">
-										<td class="hidden"><input type="hidden"  class="seq" value="${telist.seq}"></td>
-										<td class="hidden"><input type="hidden" class="start_date" value="${telist.start_date}"/></td>
-										<td class="hidden"><input type="hidden" class="price" value="${telist.price }"/></td>
-										<td>${telist.seq}</td>
-										<td><a href="#;">${telist.title}</a></td>
-										<td><a href="#;">튜터명:${telist.name}</a></td>
-										<td>언어:${telist.language}</td>
-										<td>커리큘럼:${telist.curriculum}</td>
-										<td>강의 기간:${telist.start_date}~${telist.end_date}</td>
-										<td>최대인원(현재인원/최대인원):${telist.cur_num}/${telist.max_num}</td>
-										<td>만남장소:${telist.location}</td>
-										<td>추천수:${telist.like_count}</td>
-										<td>리뷰수:${telist.review_count}</td>
-										<td>평점:${telist.review_point}</td>
-										
-										<a href="/payments/cancle?parent_seq=${telist.seq }&start_date=${telist.start_date }&price=${telist.price }">test환불</a>
-										<input type="button" value="삭제" onclick="SomeDeleteRowFunction()">
-
-										<td><a href="#;">${telist.name}</a></td>
-										<td>${telist.language}</td>
-										<%-- <td>${telist.curriculum}</td> --%>
-										<td>${telist.start_date}~${telist.end_date}</td>
-										<%-- <td>${telist.cur_num}/${telist.max_num}</td> --%>
-										<td>${telist.location}</td>
-										<%-- <td>${telist.like_count}</td>
-										<td>${telist.review_count}</td>
-										<td>${telist.review_point}</td> --%>
-										<td><input type="button" class="refund" value="강의 환불"></td>
-
-									</tr>
-								</c:forEach>
-								</tbody>
-							</table>
+<<<<<<< HEAD
+							<c:choose>
+								<c:when test="${empty telist}">
+									수강 중인 강의가 없습니다.
+								</c:when>
+								<c:otherwise>
+									<table>
+										<thead>
+											<tr>
+												<th>번호</th>
+												<th>제목</th>
+												<th>튜터</th>
+												<th>언어</th>
+												<th>강의 기간</th>
+												<th>장소</th>
+												<th>비고</th>
+											</tr>
+										</thead>
+										<tbody>
+											<c:forEach var="telist" items="${telist}">
+											<tr id="${telist.seq}">
+												<td class="hidden"><input type="hidden"  class="seq" value="${telist.seq}"></td>
+												<td class="hidden"><input type="hidden" class="start_date" value="${telist.start_date}"/></td>
+												<td class="hidden"><input type="hidden" class="price" value="${telist.price }"/></td>
+												<td>${telist.seq}</td>
+												<td><a href="/tutor/lessonView?seq=${telist.seq}">${telist.title}</a></td>
+												<td><a href="#;">${telist.name}</a></td>
+												<td>${telist.language}</td>
+												<td>${telist.start_date}~${telist.end_date}</td>
+												<td>${telist.location}</td>
+												<td><input type="button" class="refund" value="강의 환불"></td>
+											</tr>
+										</c:forEach>
+										</tbody>
+									</table>
+								</c:otherwise>
+							</c:choose>
+							<div class="navi_line">${tenavi}</div>
 						</c:otherwise>
 					</c:choose>
 				</section>

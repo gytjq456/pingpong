@@ -545,7 +545,7 @@ textarea { resize:none; height:120px; line-height:1.6;}
  /* 탭 디자인 */
  .tab_s1 {}   
  .tab_s1 ul{}   
- .tab_s1 ul li { float:left; margin-right:2%; border:1px solid #ddd; border-radius:6px; }  
+ .tab_s1 ul li { float:left; margin-right:2%; border:1px solid #ddd; border-radius:6px; overflow: hidden; }  
  .tab_s1 ul li:last-child { margin-right:0; }
  .tab_s1 ul li button { width:100%; background:none; }
  .tab_s1 ul li button,   

@@ -8,6 +8,13 @@
 		if("${schType}" == "keyword" ){
 			$("#tabContWrap > article:eq(0)").show();
 		}
+		
+		$("#keyword_input").keyup(function(e){
+			if(e.keyCode == 13){
+				$("#searchAsKeyword").click();
+				return false;
+			}
+		})
 	})
 </script>
 <div id="subWrap" class="hdMargin">

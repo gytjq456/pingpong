@@ -93,7 +93,6 @@
 							<div class="navi_line">${trnavi}</div>
 						</c:when>
 						<c:otherwise>
-<<<<<<< HEAD
 							<c:choose>
 								<c:when test="${empty telist}">
 									수강 중인 강의가 없습니다.

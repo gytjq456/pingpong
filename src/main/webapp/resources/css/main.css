@@ -85,7 +85,9 @@
 	width:-moz-calc(100% - 130px);
 	width:-webkit-calc(100% - 130px);	
 }
-#toDayClass .classWrap .list ul li .info > div { margin-bottom:10px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }  
+#toDayClass .classWrap .list ul li .info > div { margin-bottom:10px; }
+#toDayClass .classWrap .list ul li .info > div p  {overflow:hidden; text-overflow:ellipsis; white-space:nowrap; display:inline;}
+#toDayClass .classWrap .list ul li .info > div br { display:none; }
 #toDayClass .classWrap .list ul li .tit { font-size:18px; font-weight:700; color:#333;}  
 #toDayClass .classWrap .list ul li .txtBox { font-size: 16px;}  
 #toDayClass .classWrap .list ul li .thum { width:100px; height:100px; border-radius:50%; overflow:hidden;  border:1px solid #ddd; box-sizing:borde-box; position:relative; margin-right:30px; font-size:12px; color:#999; }  

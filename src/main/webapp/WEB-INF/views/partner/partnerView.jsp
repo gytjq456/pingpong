@@ -241,7 +241,7 @@
 					
 					$(".button_li .delete").on("click",function(){
 						confirm("정말 파트너 취소 하시겠습니까?");
-						location.href="/partner/deletePartner";
+						location.href="/partner/deletePartner?id=${loginInfo.id}";
 					})
 					
 					//찜하기

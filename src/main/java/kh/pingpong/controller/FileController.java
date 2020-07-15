@@ -96,7 +96,7 @@ public class FileController {
 	}
 	
 	/* news 파일 업로드 */
-	public List<FileDTO> newsFileInsert(FilesDTO filesAll, String realPath) throws Exception{
+	public List<FileDTO> newsFilesInsert(FilesDTO filesAll, String realPath) throws Exception{
 		
 		System.out.println(realPath + " :: 리얼패스");
 		File filePath = new File(realPath);

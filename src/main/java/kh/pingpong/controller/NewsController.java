@@ -79,18 +79,15 @@ public class NewsController {
 		ndto.setLocation(ndto.getAddress() + ndto.getDetailAddress() + ndto.getExtraAddress());
 		
 		FileDTO ftndto = new FileDTO();
-		// 썸네일 파일 하나 저장
+		// 썸네일 드라이브에 저장
 		String realPath = session.getServletContext().getRealPath("upload/news/thumbnail/");
 		ftndto = fcon.newsFileOneInsert(ndto, ftndto, realPath);		
 		
+		// 첨부파일 드라이브에 저장
+		String realPath2 = session.getServletContext().getRealPath("upload/news/files/");
+		List<FileDTO> filseA = fcon.newsFilesInsert(filesAll, realPath2);
 		
-		// 첨부파일 여러개
-		//if(!filesAll.getFilesAll()[0].getOriginalFilename().contentEquals("")) {
-			String realPath2 = session.getServletContext().getRealPath("upload/news/files/");
-			List<FileDTO> filseA = fcon.newsFileInsert(filesAll, realPath2);
-		//}
-		
-		int result = newservice.newsInsert(ndto, ftndto, filseA);
+		newservice.newsInsert(ndto, ftndto, filseA);
 		
 		return "redirect:/news/listProc";
 	}
@@ -121,29 +118,21 @@ public class NewsController {
 		
 		// 썸네일 파일 하나 저장
 		if(!ndto.getThumbnail().getOriginalFilename().contentEquals("")) {
-			//if(!ndto.getThumbnail().getOriginalFilename().contentEquals("")) {
-			System.out.println("컨트롤러 :: 썸네일 파일 하나");
 			String realPath = session.getServletContext().getRealPath("upload/news/thumbnail/");
 			ftndto = fcon.newsFileOneInsert(ndto, ftndto, realPath);
-			System.out.println("프로필 수정 컨트롤러");
-			int result = newservice.modifyProc(ndto, ftndto);
+			newservice.modifyProc(ndto, ftndto);
 			
 		}else if(filesAll.getFilesAll() != null) {
-		//}else if(filesAll.getFilesAll()[0].getOriginalFilename() != null) {
-			//if(!filesAll.getFilesAll()[0].getOriginalFilename().contentEquals("")) {
 		// 첨부파일 여러개
-			System.out.println("컨트롤러 :: 첨부파일 여러개");
 			String realPath2 = session.getServletContext().getRealPath("upload/news/files/");
-			List<FileDTO> filseA = fcon.newsFileInsert(filesAll, realPath2);
-			int result = newservice.modifyProcAll(ndto, filseA);
+			List<FileDTO> filseA = fcon.newsFilesInsert(filesAll, realPath2);
+			newservice.modifyProcAll(ndto, filseA);
 			
 		}else {
 			//수정할 때 프로필과 파일 없을 때
 			System.out.println("프로필 수정 안했을 때!");
-			int result = newservice.modifyProc_news(ndto);
+			newservice.modifyProc_news(ndto);
 		}
-		
-		
 				
 		return "redirect:/news/listProc";
 	}
@@ -182,6 +171,5 @@ public class NewsController {
 		
 		return "/news/list";
 	}
-	
 	
 }

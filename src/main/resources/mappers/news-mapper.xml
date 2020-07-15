@@ -2,20 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="News">
 	
-	<insert id="newsInsert_new">
+	<insert id="newsInsert">
 		insert into news values(
 			news_seq.nextval, #{ndto.title}, #{ndto.writer}, #{ndto.category}, #{ndto.start_date}, #{ndto.end_date},
 			#{ndto.location}, #{ftndto.sysname}, #{ndto.files_name}, #{ndto.contents}, default, 0, 0, 0
 		)
 	</insert>
 	
-	<insert id="newsInsert_ftn">
+	<insert id="newsInsert_thumb">
 		insert into files values(
 			files_seq.nextval, #{sysname}, #{oriname}, #{realpath}, #{category}, news_seq.currval
 		)
 	</insert>
 	
-	<insert id="newsInsert_filseA">
+	<insert id="newsInsert_files">
 		insert into files values(
 			files_seq.nextval, #{sysname}, #{oriname}, #{realpath}, #{category}, news_seq.currval
 		)

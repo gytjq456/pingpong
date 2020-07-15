@@ -6,8 +6,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestMapping;
-
 import kh.pingpong.config.Configuration;
 import kh.pingpong.dao.NewsDAO;
 import kh.pingpong.dto.FileDTO;
@@ -22,7 +20,7 @@ public class NewsService {
 	@Transactional("txManager")
 	public int newsInsert(NewsDTO ndto, FileDTO ftndto, List<FileDTO> filseA) throws Exception{
 		
-		//파일 여러개를 string으로 변경하여 ndto에 Files_name 넣음
+		//첨부파일을 string으로 변경하여 ndto에 Files_name넣음
 		String[] files_insert = new String[filseA.size()];
 		int i = 0;
 		for(FileDTO f : filseA) {
@@ -32,23 +30,23 @@ public class NewsService {
 		String arrayS_result = arrayS.substring(1, arrayS.length()-1);
 		ndto.setFiles_name(arrayS_result);
 		
-		//파일 한개 세팅
-		newsdao.newsInsert_new(ndto, ftndto);
-		newsdao.newsInsert_ftn(ftndto); //프로필저장
+		//insert 진행
+		newsdao.newsInsert(ndto, ftndto);
 		
+		//프로필 DB 저장
+		newsdao.newsInsert_thumb(ftndto);
+		
+		//첨부파일 DB 저장
 		for(FileDTO all: filseA) {
-			newsdao.newsInsert_filseA(all);
+			newsdao.newsInsert_files(all);
 		}
 		
 		return 1;
 	}
 	
-	//list
-	//네비바
+	//list & 네비바
 	public String getPageNavi_news(int userCurrentPage) throws Exception{
 		int recordTotalCount = newsdao.newsBoard_count(); 
-		System.out.println(recordTotalCount +"게시물의 총 갯수");
-		
 		
 		int pageTotalCount = 0; // 모든 페이지 개수
 		
@@ -104,6 +102,7 @@ public class NewsService {
 		return newsdao.newsPage(cpage);
 	}	
 	
+	//view 페이지 게시물
 	public NewsDTO newsViewOne(NewsDTO ndto) throws Exception{
 		return newsdao.newsViewOne(ndto);
 	}

@@ -18,21 +18,21 @@ public class NewsDAO {
 	@Autowired
 	private SqlSessionTemplate mybatis;
 	
-	public int newsInsert_new(NewsDTO ndto, FileDTO ftndto) throws Exception{
+	public int newsInsert(NewsDTO ndto, FileDTO ftndto) throws Exception{
 		
 		Map<String, Object> newsAdd = new HashMap<>(); 
 		newsAdd.put("ndto", ndto);
 		newsAdd.put("ftndto", ftndto);		
 		
-		return mybatis.insert("News.newsInsert_new", newsAdd);
+		return mybatis.insert("News.newsInsert", newsAdd);
 	}
 	
-	public int newsInsert_ftn(FileDTO ftndto) throws Exception{
-		return mybatis.insert("News.newsInsert_ftn", ftndto);		
+	public int newsInsert_thumb(FileDTO ftndto) throws Exception{
+		return mybatis.insert("News.newsInsert_thumb", ftndto);		
 	}
 	
-	public int newsInsert_filseA(FileDTO all) throws Exception{
-		return mybatis.insert("News.newsInsert_filseA", all);		
+	public int newsInsert_files(FileDTO all) throws Exception{
+		return mybatis.insert("News.newsInsert_files", all);		
 	}
 	
 	public List<NewsDTO> newsSelect() throws Exception{
@@ -40,6 +40,7 @@ public class NewsDAO {
 		return a;
 	}
 	
+	//view 페이지 게시물
 	public NewsDTO newsViewOne(NewsDTO ndto) throws Exception{
 		return mybatis.selectOne("News.newsViewOne", ndto);
 	}

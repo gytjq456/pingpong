@@ -213,7 +213,13 @@
 			var orderByVal = $('#orderBy').val();
 			location.href="/tutor/searchMap?schType=mapLocation&location="+locationVal+"&orderBy="+orderByVal+"&period=all";
 		}) 
-
+		
+		$("#keyword").keyup(function(e){
+			if(e.keyCode == 13){
+				$("#searchkeyword").click();
+				return false;
+			}
+		})
 		
 		var tabContWrap = $("#tabContWrap");
 		var clearfix = $(".clearfix");

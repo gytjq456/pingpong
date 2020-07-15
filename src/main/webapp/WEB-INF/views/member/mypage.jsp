@@ -23,6 +23,13 @@
 					alert("관리자에게 문의 주세요");
 				});
 			});
+			
+			$("#tutorWithdraw").on("click", function(){
+				$.ajax({
+					type:"post",
+					url: "/tutor/"
+				})
+			})
 		});	
 	</script>
 

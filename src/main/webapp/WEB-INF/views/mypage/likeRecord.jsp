@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%> 
 
 <jsp:include page="/WEB-INF/views/header.jsp"/>
 
@@ -48,6 +49,7 @@
 										<td>${plist.address}</td>
 										<td>${plist.hobby}</td>
 										<td>${plist.review_point}</td>
+										<td><a href="/partner/partnerView?seq=${plist.seq}">보러가기</a></td>
 									</tr>
 									</c:forEach>
 								</tbody>
@@ -93,6 +95,7 @@
 												<td>${glist.app_count}</td>
 												<td>${glist.review_count}</td>
 												<td>${glist.review_point}</td>
+												<td><a href="/group/view?seq=${glist.seq}">보러가기</a></td>
 												<%-- <td><a href="#;">${glist.applying}</a></td> --%>
 											</tr>
 											</c:forEach>
@@ -102,15 +105,16 @@
 						</c:choose>	
 				</section>
 				<section class="session card_body">	
-					<h4>찜한 튜터 리스트</h4>
+					<h4>찜한 강의 리스트</h4>
 					<c:choose>
 						<c:when test="${empty tlist }">
-							찜한 튜터가 없습니다.
+							찜한 강의가 없습니다.
 						</c:when>
 						<c:otherwise>
 								<table>
 									<thead>
 										<tr>
+											<th>강의명</th>
 											<th>이름</th>
 											<th>이메일</th>
 											<th>전화번호</th>
@@ -123,6 +127,7 @@
 									<tbody>
 										<c:forEach var="tlist" items="${tlist}">	
 										<tr>
+											<td>${tlist.title}</td>
 											<td>${tlist.name}</td>
 											<td>${tlist.email}</td>
 											<td>${tlist.phone_country}${tlist.phone}</td>
@@ -130,6 +135,7 @@
 											<td>${tlist.like_count}</td>
 											<td>${tlist.review_count}</td>
 											<td>${tlist.review_point}</td>
+											<td><a href="/tutor/lessonView?seq=${tlist.seq}">보러가기</a></td>
 										</tr>
 										</c:forEach>
 									</tbody>

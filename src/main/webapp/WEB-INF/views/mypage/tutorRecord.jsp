@@ -87,6 +87,19 @@
 										<td class="hidden"><input type="hidden" class="price" value="${telist.price }"/></td>
 										<td>${telist.seq}</td>
 										<td><a href="#;">${telist.title}</a></td>
+										<td><a href="#;">튜터명:${telist.name}</a></td>
+										<td>언어:${telist.language}</td>
+										<td>커리큘럼:${telist.curriculum}</td>
+										<td>강의 기간:${telist.start_date}~${telist.end_date}</td>
+										<td>최대인원(현재인원/최대인원):${telist.cur_num}/${telist.max_num}</td>
+										<td>만남장소:${telist.location}</td>
+										<td>추천수:${telist.like_count}</td>
+										<td>리뷰수:${telist.review_count}</td>
+										<td>평점:${telist.review_point}</td>
+										
+										<a href="/payments/cancle?parent_seq=${telist.seq }&start_date=${telist.start_date }&price=${telist.price }">test환불</a>
+										<input type="button" value="삭제" onclick="SomeDeleteRowFunction()">
+
 										<td><a href="#;">${telist.name}</a></td>
 										<td>${telist.language}</td>
 										<%-- <td>${telist.curriculum}</td> --%>
@@ -97,6 +110,7 @@
 										<td>${telist.review_count}</td>
 										<td>${telist.review_point}</td> --%>
 										<td><input type="button" class="refund" value="강의 환불"></td>
+
 									</tr>
 								</c:forEach>
 								</tbody>

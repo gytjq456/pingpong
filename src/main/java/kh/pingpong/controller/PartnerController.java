@@ -20,7 +20,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -29,6 +28,7 @@ import kh.pingpong.dto.JjimDTO;
 import kh.pingpong.dto.LanguageDTO;
 import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.dto.PartnerDTO;
+import kh.pingpong.dto.ReportListDTO;
 import kh.pingpong.dto.ReviewDTO;
 import kh.pingpong.service.GroupService;
 import kh.pingpong.service.MemberService;
@@ -77,9 +77,9 @@ public class PartnerController {
 		//SMTP 서버 정보를 설정한다.
 		Properties props = new Properties();
 		props.put("mail.smtp.host", host);
-		props.put("mail.smtp.port", 587);
+		props.put("mail.smtp.port", 465);
 		props.put("mail.smtp.auth", "true");
-		//props.put("mail.smtp.ssl.enable", "true");
+		props.put("mail.smtp.ssl.enable", "true");
 
 		 //session 생성
         Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
@@ -198,12 +198,12 @@ public class PartnerController {
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
 		mdto = pservice.selectMember(loginInfo.getId());
 		mdto = mservice.memberSelect(loginInfo);
-		pservice.updateMemberGrade(mdto);
+		//pservice.updateMemberGrade(mdto);
 		Map<String, Object> insertP = new HashMap<>();
 		insertP.put("mdto", mdto);
 		insertP.put("contact", contact);	
-		pservice.partnerInsert(insertP);
-		return "redirect:/partner/partnerList";
+		pservice.partnerInsert(insertP,mdto);
+		return "redirect:/partner/partnerList?align=recent";
 	}
 
 	//파트너 삭제
@@ -223,7 +223,7 @@ public class PartnerController {
 		try {
 			cpage = Integer.parseInt(request.getParameter("cpage"));
 		}catch(Exception e) {}
-
+                                                                               
 		Map<String, Object> search = new HashMap<>();	
 		
 		List<PartnerDTO> alist = pservice.search(cpage, search, pdto);
@@ -240,18 +240,40 @@ public class PartnerController {
 		return "/partner/partnerList";
 	}
 
-	//리뷰 글쓰기
+	//파트너 신고
+	@RequestMapping("report")
 	@ResponseBody
+	public int report(ReportListDTO rldto, Model model) {
+		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
+		rldto.setReporter(mdto.getId());
+		
+		int result = pservice.selectReport(rldto);
+		model.addAttribute("rldto", rldto);
+		
+		return result;
+	}
+	
+	@RequestMapping("reportProc")
+	public String reportProc(ReportListDTO rldto, Model model) {
+		System.out.println("rldto =" + rldto.getSeq());
+		pservice.insertReport(rldto);
+		return "redirect:/partner/partnerView?seq=" + rldto.getParent_seq();
+	}
+	
+	//리뷰 글쓰기
 	@RequestMapping("reviewWrite")
-	public String reviewWrite(ReviewDTO redto) throws Exception{
+	@ResponseBody
+	public String reviewWrite(ReviewDTO redto,MemberDTO mdto) throws Exception{
+		
 		int result = gservice.reviewWrite(redto);
-
+		session.setAttribute("loginInfo2", mdto);
 		if(result>0) {
 			return String.valueOf(true);
 		}else {
 			return String.valueOf(false);
 		}
 	}
+	
 	
 	//찜하기
 	@RequestMapping("jjim")

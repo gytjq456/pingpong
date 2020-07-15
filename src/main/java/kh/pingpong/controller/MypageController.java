@@ -58,15 +58,6 @@ public class MypageController {
 		return "/mypage/groupRecord";
 	}
 	
-	//파트너 관련
-	@RequestMapping("partnerRecord")
-	public String partnerRecord(Model model) throws Exception{
-		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
-		List<PartnerDTO> plist = mpservice.selectPartnerList();
-		model.addAttribute("plist", plist);
-		return "/mypage/partnerRecord";
-	}
-	
 	@RequestMapping("tutorRecord")
 	public String tutorRecord(Model model) throws Exception{
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
@@ -89,5 +80,14 @@ public class MypageController {
 		model.addAttribute("tlist", tlist);
 		return "/mypage/likeRecord";
 	}
-
+	
+	//파트너 관련
+//	@RequestMapping("partnerRecord")
+//	public String partnerRecord(Model model) throws Exception{
+//		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
+//		List<PartnerDTO> plist = mpservice.selectPartnerList();
+//		model.addAttribute("plist", plist);
+//		return "/mypage/partnerRecord";
+//	}
+	
 }

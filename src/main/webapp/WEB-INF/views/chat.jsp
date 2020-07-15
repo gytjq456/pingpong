@@ -52,14 +52,14 @@
 					type:"partner"
 				},
 			}).done(function(resp){
-				//console.log(resp)
+				console.log(resp)
 				for(var i=0; i<resp.length; i++){
 					if("${sessionScope.loginInfo.name}"!= resp[i].name){
 						var chatList = $("#chatList");
 						var userTag = $("<li>");
 						var userInfo_s1 = $("<div class='userInfo_s1'>");
 						var info = $("<div class='info'>"); 
-						userInfo_s1.append("<div class='thumb'><img src='/resources/img/sub/userThum.jpg'>")
+						userInfo_s1.append("<div class='thumb'><img src='/upload/member/"+resp[i].id+"/"+resp[i].sysname+"'>")
 						userInfo_s1.append("<div class='info'><p class='userId'>"+resp[i].name+"</p>")
 						userInfo_s1.append("<button data-uid="+resp[i].id+" data-name="+resp[i].name+" class='chatting'>채팅</button>")
 						userTag.append(userInfo_s1);

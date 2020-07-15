@@ -10,18 +10,24 @@
         <section id="mainVisual">
             <div class="visu">
                 <article class="item item1">
-
+					<div class="txt_box">
+		                <h2>Enjoy Your Language Life </h2>
+		                <a href="#;">이용가이드</a>
+		            </div>
                 </article>
                 <article class="item item2">
-
+					<div class="txt_box">
+		                <h2>현재 접속한 파트너를 만나보세요 </h2>
+		                <a href="/partner/partnerList?align=recent">바로가기</a>
+		            </div>
                 </article>
-                <article class="item item3">
-
-                </article>
+                <!-- <article class="item item3">
+					<div class="txt_box">
+		                <h2>텍스트 텍스트 텍스트 텍스트 텍스트 </h2>
+		            </div>
+                </article> -->
             </div>
-            <div class="txt_box">
-                <h2>텍스트 텍스트 텍스트 텍스트 텍스트 </h2>
-            </div>
+            
         </section>
 	</div>
 	

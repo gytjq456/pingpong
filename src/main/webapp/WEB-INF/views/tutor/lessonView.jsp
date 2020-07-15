@@ -312,6 +312,24 @@ $(function(){
 			}
 			
 		})
+		
+		$(".reviewDelete").click(function(){
+			var result = confirm("리뷰를 삭제하시겠습니까?");
+			if(result){
+				var seq = $(this).data("seq");
+				$.ajax({
+					url:"/group/reviewDelete",
+					type:"post",
+					dataType:"json",
+					data:{
+						seq:seq
+					},
+				}).done(function(resp){
+					location.href="/tutor/lessonView?seq=${ldto.seq}"
+				});
+			}
+			
+		})
 })
 
 </script>
@@ -531,6 +549,11 @@ $(function(){
 									<div class="txtBox">
 										<a href="#;">${i.contents}</a>
 									</div>
+									<c:if test="${loginInfo.id == i.writer }">
+										<div class="btnS1 right">
+											<div><input type="button" class="reviewDelete" value="삭제"  data-seq="${i.seq}"></div>
+										</div>		
+									</c:if>
 								</div>
 							</article>
 						</c:forEach>

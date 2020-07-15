@@ -94,26 +94,7 @@
 					<h2>Partner </h2>
 					<p>다양한 사람들을 원하시나요?<br>관심사가 비슷한 사람들과 함께 소통해 보세요.</p>
 				</div>
-<%-- <<<<<<< HEAD
-				<div class="partner_register_box">
-					<div id="tab_2" class="profileShareAgree">			
-							<c:if test="${sessionScope.loginInfo.grade == 'default'}">
-								<form action="/partner/insertPartner" id="partnerRegister" method="post">
-									<h2>파트너를 등록해주세요</h2>
-									<div>자신의 프로필을 공유하여 다른 사람들과 소통해보세요.</div>
-									프로필 공유 동의 <input type="checkbox" name="agree" id="agree">(필수)<br> 
-									<span><input type="checkbox" name="contactList" id="letter" >쪽지</span> 
-									<span><input type="checkbox" name="contactList" id="email">이메일</span> 
-									<span><input type="checkbox" name="contactList" id="chatting" >채팅(필수)</span><br>
-									<input type="hidden" name="contact" id="contact">
-									1:1 기본적으로 제공되는 서비스입니다.
-									<button type="button" id="partnerBtn">등록</button>
-								</form>
-							</c:if>
-					</div>
-				</div>
-=======
->>>>>>> 22a98959ebe63ced0ae37a5bb500ce94a5c6c9ab --%>
+
 				<div class="partner_search_box">
 					<div id="tabContWrap" class="search_wrap">
 						<article id="tab_1" class="kewordSch">

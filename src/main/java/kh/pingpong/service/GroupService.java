@@ -336,4 +336,12 @@ public class GroupService {
 	public GroupApplyDTO showMyApp(Map<String, Object> param) throws Exception {
 		return gdao.showMyApp(param);
 	}
+	
+	
+	// 리뷰 삭제
+	public int reviewDelete(int seq) throws Exception{
+		return gdao.reviewDelete(seq);
+	}
+	
+	
 }

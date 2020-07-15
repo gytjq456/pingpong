@@ -516,4 +516,20 @@ public class GroupController {
 	public boolean refuseApp(int seq) throws Exception {
 		return gservice.refuseApp(seq);
 	}
+	
+	
+	// 리뷰 삭제
+	@ResponseBody
+	@RequestMapping("reviewDelete") 
+	public String reviewDelete(int seq) throws Exception{
+		int result = gservice.reviewDelete(seq);
+		if(result > 0) { 
+			 return String.valueOf(true); 
+		}else { 
+			return String.valueOf(false); 
+		}
+	}
+	
+	
+	
 }

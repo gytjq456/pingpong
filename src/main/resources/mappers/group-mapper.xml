@@ -308,4 +308,11 @@
 	<select id="showMyApp" resultType="kh.pingpong.dto.GroupApplyDTO">
 		select * from group_app where id = #{id} and parent_seq = #{parent_seq}
 	</select>
+	
+	
+	<!-- 리뷰삭제  -->
+	<delete id="reviewDelete">
+		delete review where seq = #{value}
+	</delete>
+	
 </mapper>

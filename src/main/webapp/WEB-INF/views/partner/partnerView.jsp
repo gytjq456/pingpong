@@ -149,7 +149,8 @@
 				<button class="letter">쪽지</button>
 				<button class="chat">채팅</button>
 				<button class="email_a"><a href="#writeEmail" class='btn' data-seq="${pdto.seq}">이메일</a></button>
-				<button class="report">신고하기</button><br><br>
+				<span id="report" data-seq="${pdto.seq}" data-id="${pdto.id}" 
+				data-thisseq="" data-url="/partner/report" data-proc="/partner/reportProc"><i class="fa fa-exclamation" aria-hidden="true"></i>신고</span>
 				<button class="back">목록으로</button>
 				<c:if test="${sessionScope.loginInfo.id == pdto.id}">
 					<button class="delete">파트너 삭제</button>
@@ -327,5 +328,8 @@
 							</c:forEach>
 						</div>
 	</article>
+	
+<!-- 공통 신고하기  -->
+<jsp:include page="/WEB-INF/views/reportPage.jsp" />	
 <jsp:include page="/WEB-INF/views/email/write.jsp"/>
 <jsp:include page="/WEB-INF/views/footer.jsp"/>	

@@ -14,6 +14,7 @@ import kh.pingpong.dto.JjimDTO;
 import kh.pingpong.dto.LanguageDTO;
 import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.dto.PartnerDTO;
+import kh.pingpong.dto.ReportListDTO;
 import kh.pingpong.dto.ReviewDTO;
 
 @Service
@@ -47,6 +48,15 @@ public class PartnerService {
 	}
 	public List<PartnerDTO> partnerListAll() throws Exception{
 		return pdao.partnerListAll();
+	}
+	
+	//파트너 신고
+	public int selectReport(ReportListDTO rldto) {
+		return pdao.selectReport(rldto);
+	}
+	
+	public int insertReport(ReportListDTO rldto) {
+		return pdao.insertReport(rldto);
 	}
 	
 	//페이지 네비게이션

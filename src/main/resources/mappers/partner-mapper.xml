@@ -102,6 +102,15 @@
 		select * from partner
 	</select>
 	
+	<!-- 파트너 신고 -->
+	<select id="selectReport" resultType="int">
+		select count(*) from reportlist where parent_seq = #{parent_seq} and id = #{id} and category = '파트너'
+	</select>
+	
+	<insert id="insertReport">
+		insert into reportlist values(reportlist_seq.nextval, #{id}, #{reason}, #{reporter}, sysdate, #{parent_seq}, '파트너', default)
+	</insert>
+	
 	<!-- 리뷰 글쓰기  -->
 	<insert id="reviewWrite">
 		insert into review values(review_seq.nextval, #{writer}, #{point}, #{contents}, default, #{category}, #{parent_seq}, #{thumNail})

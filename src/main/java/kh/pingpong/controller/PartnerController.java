@@ -20,7 +20,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -29,6 +28,7 @@ import kh.pingpong.dto.JjimDTO;
 import kh.pingpong.dto.LanguageDTO;
 import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.dto.PartnerDTO;
+import kh.pingpong.dto.ReportListDTO;
 import kh.pingpong.dto.ReviewDTO;
 import kh.pingpong.service.GroupService;
 import kh.pingpong.service.MemberService;
@@ -240,6 +240,26 @@ public class PartnerController {
 		return "/partner/partnerList";
 	}
 
+	//파트너 신고
+	@RequestMapping("report")
+	@ResponseBody
+	public int report(ReportListDTO rldto, Model model) {
+		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
+		rldto.setReporter(mdto.getId());
+		
+		int result = pservice.selectReport(rldto);
+		model.addAttribute("rldto", rldto);
+		
+		return result;
+	}
+	
+	@RequestMapping("reportProc")
+	public String reportProc(ReportListDTO rldto, Model model) {
+		System.out.println("rldto =" + rldto.getSeq());
+		pservice.insertReport(rldto);
+		return "redirect:/partner/partnerView?seq=" + rldto.getParent_seq();
+	}
+	
 	//리뷰 글쓰기
 	@RequestMapping("reviewWrite")
 	@ResponseBody

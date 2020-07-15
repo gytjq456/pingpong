@@ -67,7 +67,6 @@
 		</form>
 	</div>
 </article>
-
 </c:if>
 
 

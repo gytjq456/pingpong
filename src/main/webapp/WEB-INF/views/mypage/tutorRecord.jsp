@@ -3,13 +3,16 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <jsp:include page="/WEB-INF/views/header.jsp" />
+<style>
+	.hidden { display:none;}
+</style>
 
 <script>
 		$(function(){
 			$(".refund").on("click", function(){
-				var seq = $(this).parent().siblings().find('.seq').val();
-				var start_date = $(this).parent().siblings().find('.start_date').val();
-				var price = $(this).parent().siblings().find('.price').val();
+				var seq = $(this).closest("tr").find('.seq').val();
+				var start_date = $(this).closest("tr").find('.start_date').val();
+				var price = $(this).closest("tr").find('.price').val();
 				
 				$.ajax({
 					url:"/payments/refundTrue",
@@ -52,7 +55,7 @@
 						<c:otherwise>
 							<table>
 								<colgroup>
-									<col width="30px"/>
+									<col width="50px"/>
 									<col width="360px"/>
 									<col width=""/>
 									<col width=""/>
@@ -78,10 +81,10 @@
 								</thead>
 								<tbody>
 									<c:forEach var="telist" items="${telist}">
-									<input type="hidden"  class="seq" value="${telist.seq}">
-									<input type="hidden" class="start_date" value="${telist.start_date}">
-									<input type="hidden" class="price" value="${telist.price }">
 									<tr id="${telist.seq}">
+										<td class="hidden"><input type="hidden"  class="seq" value="${telist.seq}"></td>
+										<td class="hidden"><input type="hidden" class="start_date" value="${telist.start_date}"/></td>
+										<td class="hidden"><input type="hidden" class="price" value="${telist.price }"/></td>
 										<td>${telist.seq}</td>
 										<td><a href="#;">${telist.title}</a></td>
 										<td><a href="#;">튜터명:${telist.name}</a></td>

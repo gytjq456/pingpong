@@ -86,6 +86,27 @@
 				}			
 			})
 		}
+		//보내기전에 자기소개랑 용량 체크 
+		$("#frm").on("submit", function(){
+			var introduceVal = $("#introduce").val();
+			var titleVal = $("#title").val();
+			
+			if (introduceVal.length == 0) {
+				alert("자기소개를 입력해주세요");
+				return false;
+			}
+			if (titleVal.length == 0) {
+				alert("제목을 입력해주세요");
+				return false;
+			}
+			
+			var limit = 1024*1024*5;
+			if(totalSize > limit){
+				alert("총 파일용량 5GB을 초과했습니다.");
+				$(this).val("");
+				return false;
+			}
+		})
 		
 	})
 </script>
@@ -101,8 +122,8 @@
 			
 				<div class="top_wrapper">
 					<div class="profile">
-						<%-- <img src="/upload/member/${loginInfo.id}/${loginInfo.sysname}"> --%>
-						<img src="/resources/img/sub/userThum.jpg">
+						<img src="/upload/member/${loginInfo.id}/${loginInfo.sysname}">
+						<!-- <img src="/resources/img/sub/userThum.jpg"> -->
 					</div>
 					<div class="info">
 						<p id="name"><span>이름 :</span> ${loginInfo.name}</p>

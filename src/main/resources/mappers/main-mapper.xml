@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="MainDB">
-
- 	<select id="groupClassList" resultType="kh.pingpong.dto.GroupDTO">
-		select * from ( select grouplist.*, row_number() over(order by seq desc) rnum 
-		from grouplist where <![CDATA[start_date < #{value} and #{value} < end_date]]>) <![CDATA[where rnum <= 2]]>
+	<resultMap id="GroupProFile" type="kh.pingpong.dto.GroupDTO">
+		<result property="sysname" column="profile"></result>
+	</resultMap>
+ 	<select id="groupClassList" resultMap="GroupProFile">
+		select * from ( select g.writer_id,g.title, g.contents, g.start_date, g.end_date, m.profile, row_number() over(order by seq desc) rnum 
+		from grouplist g inner join member m
+        on g.writer_id = m.id
+        where <![CDATA[start_date < #{value} and #{value} < end_date]]> ) <![CDATA[where rnum <= 2]]>
 	</select>
 
- 	<select id="lessonClassList" resultType="kh.pingpong.dto.LessonDTO">
-		select * from ( select lesson.*, row_number() over(order by seq desc) rnum 
-		from lesson where <![CDATA[start_date < #{value} and #{value} < end_date]]>) <![CDATA[where rnum <= 2]]>
+	
+	<resultMap id="LessonProFile" type="kh.pingpong.dto.LessonDTO">
+		<result property="sysname" column="profile"></result>
+	</resultMap>	
+	 <select id="lessonClassList" resultMap="LessonProFile">
+		select * from ( select l.id,l.title, l.curriculum, l.start_date, l.end_date, m.profile, row_number() over(order by seq desc) rnum 
+		from lesson l inner join member m
+        on l.id = m.id
+        where <![CDATA[start_date < #{value} and #{value} < end_date]]> ) <![CDATA[where rnum <= 2]]>
 	</select>
 	
 	

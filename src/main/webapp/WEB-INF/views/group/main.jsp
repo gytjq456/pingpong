@@ -3,6 +3,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:include page="/WEB-INF/views/header.jsp"/>
+<script>
+	$(function(){
+		if("${schType}" == "keyword" ){
+			$("#tabContWrap > article:eq(0)").show();
+		}
+	})
+</script>
 <div id="subWrap" class="hdMargin">
 		<section id="subContents">
 			<article id="group_list" class="inner1200">
@@ -136,7 +143,7 @@
 							<c:forEach var="glist" items="${glist}">
 								<div class="back_and_wrap item">
 									<a href="/group/beforeView?seq=${glist.seq}" class="group_list_a">
-										<div class="each_profile"><img src="/resources/img/sub/userThum.jpg"/></div>
+										<div class="each_profile"><img src="/upload/member/${glist.writer_id}/${glist.sysname}"/></div>
 										<c:if test="${fn:startsWith(glist.hobby_type, '영화')}">
 											<div class="group_background background_pink"></div>
 										</c:if>
@@ -306,7 +313,7 @@
 			}
 			var tabContWrap = $("#tabContWrap");
 			
-			tabContWrap.find("article").stop().hide();
+			//tabContWrap.find("article").stop().hide();
     		tabContWrap.find("article:eq("+idx+")").stop().fadeIn();
 		}
 		
@@ -386,7 +393,7 @@
 			var ing = $(this).attr('id');
 			
 			if (ing == 'all') {
-				location.href = '/group/main?orderBy=' + orderByVal;
+				location.href = '/group/main?orderBy=' + orderByVal + '&ing=all';
 				
 				return false;
 			}

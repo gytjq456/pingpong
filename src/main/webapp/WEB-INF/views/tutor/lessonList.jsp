@@ -44,39 +44,92 @@
 		//orderBy 페이지 전환되도 안바뀌게
  		var orderBy = '${orderBy}';
 		console.log(orderBy);
-		if (orderBy != null) {
-			$('#orderBy').val(orderBy);
+		if (orderBy == "") {
+			$('#orderBy option:eq(0)').attr("selected","selected");
+			//$('#orderBy').val(orderBy);
 		} else {
-			$('#orderBy').val(seq);
+			$('#orderBy').val(orderBy);
 		}
 		
 		//keywordSelect 페이지 전환되도 안바뀌게
-		var keywordSelect = '${keywordSelect}';
-		console.log(keywordSelect);
-		if(keywordSelect!=null){
-			$('#keyword_type').val(keywordSelect);
+		//공백이 아니라면 넘어온 값을 넘겨주고 공백이라면 다른곳에서 검색하고 있다는 뜻이니까 selected의 첫번째값을 selected해주게 만들어줌 
+	 	var keywordSelect = '${keywordSelect}';
+		if(keywordSelect == ""){
+			//$('#keyword_type').val(keywordSelect);
+			$('#keyword_type option:eq(0)').attr("selected","selected");
 		}else{
-			$('#keyword_type').val(name);
-		}
-		
+			$('#keyword_type').val(keywordSelect);
+			//$('#keyword_type').val(name);
+		} 
+		//검색 내용
 		var keyword = '${keyword}';
 		console.log(keyword);
 		if(keyword!=null){
 			$('#keyword').val(keyword);
 		}
-		
-/* 		var topSearch = '${topSearch}';
-		console.log(topSearch);
-		if(topSearch!=null){
-			$('.topSearch').val(topSearch);
-		} */
+		//달력내용
+		var start_date = '${start_date}';
+		var end_date = '${end_date}';
+		if(start_date!=null){
+			$('#start_date').val(start_date);
+		}
+		if(end_date!=null){
+			$("#end_date").val(end_date);
+		}
 
 		$("#orderBy").on("change",function(){
 			var orderbyVal = $("#orderBy").val();
 			var selectVal = $("#keyword_type").val();
 			var period = $(".ing").attr('id');
 			var keywordVal = $("#keyword").val();
-			location.href="/tutor/lessonList?orderBy="+orderbyVal+"&keywordSelect=";
+			
+			var start_dateVal = $("#start_date").val();
+			var end_dateVal = $("#end_date").val();
+			
+			var locationVal = $("#locationId").val();
+			
+			var schkey = ${schType == 'keyword'};
+			var schSchedule = ${schType == 'schedule'};
+			var schLocation = ${schType == 'mapLocation'};
+			
+
+			//정렬까지
+			if(!schkey && !schSchedule && !schLocation && period=='applying'){
+				location.href="tutor/lessonListPeriod?&orderBy="+orderbyVal+"&period="+period;
+			}
+			if(!schkey && !schSchedule && !schLocation && period=='proceeding'){
+				location.href="tutor/lessonListPeriod?&orderBy="+orderbyVal+"&period="+period;
+			}
+			if(!schkey && !schSchedule && !schLocation && period=='done'){
+				location.href="tutor/lessonListPeriod?&orderBy="+orderbyVal+"&period="+period;
+			}
+			
+			//검색하고 진행중/모집중/마감 하고 정렬까지
+			if(period == 'all'){
+				if(!schkey && !schSchedule && !schLocation){
+					location.href="tutor/lessonListPeriod?&orderBy="+orderbyVal+"&period=all";
+				}
+				if(schkey){
+					location.href="/tutor/searchKeword?schType=keyword&keywordSelect="+selectVal+"&keyword="+keywordVal+"&orderBy="+orderbyVal+"&period=all";
+				}
+				if(schSchedule){
+					location.href="/tutor/searchDate?schType=schedule&start_date="+start_dateVal+"&end_date="+end_dateVal+"&orderBy="+orderbyVal+"&period=all";
+				}
+				if(schLocation){
+					location.href="/tutor/searchMap?schType=mapLocation&location="+locationVal+"&orderBy="+orderbyVal+"&period=all";
+				}
+			}
+			if(schkey){
+				location.href="/tutor/searchKeword?schType=keyword&orderBy="+orderbyVal+"&period="+period+"&keywordSelect="
+						+selectVal+"&keyword="+keywordVal;
+			}
+ 			if(schSchedule){
+				location.href="/tutor/searchDate?schType=schedule&orderBy="+orderbyVal+"&period="+period+"&start_date="+start_dateVal+"&end_date="+end_dateVal
+			}
+			if(schLocation){
+				location.href="/tutor/searchMap?schType=mapLocation&orderBy="+orderbyVal+"&period="+period+"&location="+locationVal;
+			} 
+			//location.href="/tutor/lessonList?orderBy="+orderbyVal+"&keywordSelect="+selectVal;
 		})
 		
 		$(".ing").on("click", function(){
@@ -89,29 +142,52 @@
 			var start_dateVal = $("#start_date").val();
 			var end_dateVal = $("#end_date").val();
 			
-			var locationVal = $("#location").val();
-			//var topSearchVal = $(".topSearch").text();
+			var locationVal = $("#locationId").val();
 			
-			if(period == 'all'){
-				location.href="/tutor/lessonList?orderBy="+orderbyVal+"&keywordSelect="+selectVal;
-				return false;
+			var schkey = ${schType == 'keyword'};
+			var schSchedule = ${schType == 'schedule'};
+			var schLocation = ${schType == 'mapLocation'};
+			
+			//진행중/모집중/마감 만 눌렀을 때
+			if(!schkey && !schSchedule && !schLocation && period=='applying'){
+				location.href="tutor/lessonListPeriod?&orderBy="+orderbyVal+"&period="+period;
 			}
-			if(keywordVal!=null){
-				location.href="/tutor/searchKeword?orderBy="+orderbyVal+"&period="+period+"&keywordSelect="
+			if(!schkey && !schSchedule && !schLocation && period=='proceeding'){
+				location.href="tutor/lessonListPeriod?&orderBy="+orderbyVal+"&period="+period;
+			}
+			if(!schkey && !schSchedule && !schLocation && period=='done'){
+				location.href="tutor/lessonListPeriod?&orderBy="+orderbyVal+"&period="+period;
+			}
+			
+			//검색하고 진행중/모집중/마감 눌렀을 때
+			if(period == 'all'){
+				if(!schkey && !schSchedule && !schLocation){
+					location.href="tutor/lessonListPeriod?&orderBy="+orderbyVal+"&period=all";
+				}
+				if(schkey){
+					location.href="/tutor/searchKeword?schType=keyword&keywordSelect="+selectVal+"&keyword="+keywordVal+"&orderBy="+orderbyVal+"&period=all";
+				}
+				if(schSchedule){
+					location.href="/tutor/searchDate?schType=schedule&start_date="+start_dateVal+"&end_date="+end_dateVal+"&orderBy="+orderbyVal+"&period=all";
+				}
+				if(schLocation){
+					location.href="/tutor/searchMap?schType=mapLocation&location="+locationVal+"&orderBy="+orderbyVal+"&period=all";
+				}
+			}
+			if(schkey){
+				location.href="/tutor/searchKeword?schType=keyword&orderBy="+orderbyVal+"&period="+period+"&keywordSelect="
 						+selectVal+"&keyword="+keywordVal;
 			}
-/* 			else if(start_dateVal!=null){
-				location.href="/tutor/lessonListPeriod?orderBy="+orderbyVal+"&period="+period+"&keywordSelect="
-				+selectVal+
+ 			if(schSchedule){
+				location.href="/tutor/searchDate?schType=schedule&orderBy="+orderbyVal+"&period="+period+"&start_date="+start_dateVal+"&end_date="+end_dateVal
 			}
-			else if(locationVal != null){
-				
-			} */
+			if(schLocation){
+				location.href="/tutor/searchMap?schType=mapLocation&orderBy="+orderbyVal+"&period="+period+"&location="+locationVal;
+			} 
 		})
 
 		 //키워드로 검색
 		$("#searchkeyword").on("click", function(){
-			var topSearchVal = $(this).text();
 			//여기서
 			var selectVal = $("#keyword_type").val();
 			console.log(selectVal);
@@ -120,7 +196,7 @@
 			//조회순 최신순 ...
 			var orderbyVal = $("#orderBy").val();
 			
-			location.href="/tutor/searchKeword?keywordSelect="+selectVal+"&keyword="+keywordVal+"&orderBy="+orderbyVal+"&period=all";
+			location.href="/tutor/searchKeword?schType=keyword&keywordSelect="+selectVal+"&keyword="+keywordVal+"&orderBy="+orderbyVal+"&period=all";
 		})
 		
 		//달력으로 검색
@@ -128,18 +204,23 @@
 			var orderByVal = $('#orderBy').val();
 			var start_dateVal = $("#start_date").val();
 			var end_dateVal = $("#end_date").val();
-			location.href="/tutor/searchDate?start_date="+start_dateVal+"&end_date="+end_dateVal+"&orderBy="+orderByVal+"&period=all";
+			location.href="/tutor/searchDate?schType=schedule&start_date="+start_dateVal+"&end_date="+end_dateVal+"&orderBy="+orderByVal+"&period=all";
 		})
 		
 		//지도로 검색
 		$("#searchMap").on("click", function(){
-			var locationVal = $("#location").val();
+			var locationVal = $("#locationId").val();
 			var orderByVal = $('#orderBy').val();
-			
-			location.href="/tutor/searchMap?location="+locationVal+"&orderBy="+orderByVal+"&period=all";
+			location.href="/tutor/searchMap?schType=mapLocation&location="+locationVal+"&orderBy="+orderByVal+"&period=all";
 		}) 
 
-	
+		
+		var tabContWrap = $("#tabContWrap");
+		var clearfix = $(".clearfix");
+		var btnAll = $("#all");
+
+    	tabContWrap.find("article.on").stop().fadeIn();
+
 	})
 </script>
 
@@ -152,19 +233,21 @@
 			<div class="tit_s1">
 				<h2>강의 목록</h2>
 				<p>전문적으로 배워보고싶나요?<br>전문 튜터를 통해 강의를 들어보세요.</p>
-			</div>
-			
+			</div>	
 			<!-- 검색 3가지 -->
 			<div class="tab_s1">
 				<ul class="clearfix">
-					<li class="on topSearch" value="topKeyword"><a href="#;" >키워드 검색</a></li>
-					<li class="topSearch" value="topCalendar"><a href="#;" >달력 검색</a></li>
-					<li class="topSearch" value="topMap"><a id="map_on" href="#;" >지도 검색</a></li>
+					<%-- <li class="<c:if test="${schType == 'all'}">on</c:if>"><button type="button" id="all" class="ing">전체</button></li> --%>
+					<li class="topSearch <c:if test="${schType == 'keyword'}">on</c:if>" value="topKeyword" ><a href="#;" >키워드 검색</a></li>
+					<li class="topSearch <c:if test="${schType == 'schedule'}">on</c:if>" value="topCalendar"><a href="#;" >달력 검색</a></li>
+					<li class="topSearch <c:if test="${schType == 'mapLocation'}">on</c:if>" value="topMap"><a id="map_on" href="#;" >지도 검색</a></li>
 				</ul>
 			</div>
-
+			
+			
+			
 			<div id="tabContWrap" class="search_wrap">
-				<article id="tab_1" class="kewordSch ">
+				<article id="tab_1" class="kewordSch <c:if test="${schType == 'keyword'}">on</c:if>">
 					<div class="search_as_keyword">
 						<section id="keywordSelect" class="defaultSch">
 							<div class="tit">검색어</div>
@@ -183,8 +266,7 @@
 						</div>				
 					</div>
 				</article>
-				
-				<article id="tab_2" class="calendarSch">
+				<article id="tab_2" class="calendarSch <c:if test="${schType == 'schedule'}">on</c:if>">
 					<div class="search_as_calendar">
 						<div class="scheduleSchBox">
 							<div><span>수업기간</span></div>
@@ -213,12 +295,12 @@
 					
 				</article>
 				
-				<article id="tab_3" class="mapSch">
+				<article id="tab_3" class="mapSch <c:if test="${schType == 'mapLocation'}">on</c:if>">
 
 					<div class="search_as_map">
 						<section id="mapWrap">
 							<div class="mapSelect">
-								<input type="hidden" name="location" id="location">
+								<input type="hidden" name="location" id="locationId">
 								<select name="sido1" id="sido1"></select> 
 								<select name="gugun1" id="gugun1"></select>		
 							</div>
@@ -235,10 +317,10 @@
 			<!-- 정렬 전체 모집중 진행중 마감 -->
 			<div class="search_btn_style">
 				<div class="btnS1 left">
-					<div><button type="button" id="all" class="ing">전체</button></div>
-					<div><button type="button" id="applying" class="ing">모집중</button></div>
-					<div><button type="button" id="proceeding" class="ing">진행중</button></div>
-					<div><button type="button" id="done" class="ing">마감</button></div>
+					<div><button type="button" id="all" class="ing <c:if test="${period == 'all'}">on</c:if>">전체</button></div>
+					<div><button type="button" id="applying" class="ing <c:if test="${period == 'applying'}">on</c:if>">모집중</button></div>
+					<div><button type="button" id="proceeding" class="ing <c:if test="${period == 'proceeding'}">on</c:if>">진행중</button></div>
+					<div><button type="button" id="done" class="ing <c:if test="${period == 'done'}">on</c:if>">마감</button></div>
 				</div>
 				<div class="btnS1 right">
 					<div>
@@ -364,6 +446,25 @@
 	</section>
 	
 	<script>
+		//지도
+		var locationVal = '${location}'
+		console.log(locationVal);
+		if(locationVal != null){
+			$("#location").val(locationVal);
+			var siguLocation = locationVal.split(' ');		
+			
+			new sojaeji('sido1', 'gugun1');
+			$("#sido1").val(siguLocation[0]);
+			new sojaeji('sido1', 'gugun1');
+			$("#gugun1").val(siguLocation[1]);
+			
+		}else{
+			new sojaeji('sido1', 'gugun1');
+			$("#gugun1").val('구, 군 선택');
+		}
+		
+		
+
 		new sojaeji('sido1', 'gugun1');
 		
 		var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
@@ -375,7 +476,15 @@
 		
 		var sidogugun;
 		$("#map_on").on("click", function(){
+			mapOn();
+		})
+		if("${schType}" == "mapLocation"){
+			mapOn();
+		}
+		
+		function mapOn(){
 			setTimeout(function(){
+				var marker;
 				var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
 				// 주소-좌표 변환 객체를 생성합니다
 				var geocoder = new kakao.maps.services.Geocoder();
@@ -384,11 +493,8 @@
 					var sido = $('#sido1 option:selected').val();
 					var gugun = $('#gugun1 option:selected').val();
 					sidogugun = sido + ' ' + gugun;
-					$('#location').val(sidogugun);
+					$('#locationId').val(sidogugun);
 					
-					// 주소-좌표 변환 객체를 생성합니다
-					var geocoder = new kakao.maps.services.Geocoder();
-	
 					// 주소로 좌표를 검색합니다
 					geocoder.addressSearch(sidogugun, function(result, status) {
 						// 정상적으로 검색이 완료됐으면 
@@ -396,11 +502,13 @@
 	
 							var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 	
-							// 결과값으로 받은 위치를 마커로 표시합니다
-							/* var marker = new kakao.maps.Marker({
-								map : map,
-								position : coords
-							}); */
+							 // 결과값으로 받은 위치를 마커로 표시합니다
+					        if (marker == null) {
+						        marker = new kakao.maps.Marker({
+						            map: map,
+						            position: coords
+						        });
+					        }
 	
 							// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
 							map.setCenter(coords);
@@ -409,7 +517,7 @@
 				})
 				
 				// 지도를 클릭한 위치에 표출할 마커입니다
-				var marker = new kakao.maps.Marker({ 
+				marker = new kakao.maps.Marker({ 
 				    // 지도 중심좌표에 마커를 생성합니다 
 				    position: map.getCenter() 
 				}),  infowindow = new kakao.maps.InfoWindow({zindex:1}); 
@@ -432,6 +540,8 @@
 				    
 				    $("#location_lat").val(latlng.getLat());
 				    $("#location_lng").val(latlng.getLng());
+				    
+				    coords = new kakao.maps.LatLng(latlng.getLat(), latlng.getLng());
 				    
 				    //지도를 클릭했을 때 클릭 위치 좌표에 대한 주소정보를 표시하도록 이벤트를 등록
 				    searchDetailAddrFromCoords(mouseEvent.latLng, function(result, status) {
@@ -493,15 +603,34 @@
 					            $("#gugun1").val(gugun1Val); 
 
 					            sidogugun = sido1Val + ' ' + gugun1Val;
-								$('#location').val(sidogugun);
+								$('#locationId').val(sidogugun);
 				                break;
 				            }
 				        }
 				    }    
 				}
+				// 주소로 좌표를 검색합니다
+				geocoder.addressSearch(locationVal, function(result, status) {
+					// 정상적으로 검색이 완료됐으면 
+					if (status === kakao.maps.services.Status.OK) {
 
+						var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+						 // 결과값으로 받은 위치를 마커로 표시합니다
+				        if (marker == null) {
+					        marker = new kakao.maps.Marker({
+					            map: map,
+					            position: coords
+					        });
+				        }
+						// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+						marker.setPosition(coords);
+						map.setCenter(coords);
+					}
+				});
+		
 			},100)
-		})
+		}
 			
 		
 	</script>

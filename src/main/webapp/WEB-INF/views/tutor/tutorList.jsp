@@ -31,7 +31,7 @@
 							<li class="card_body">
 								<%-- <div class="profile"><img src="/upload/member/${i.id}/${i.sysname}"></div> --%>
 								<div class="topInfo">
-									<div class="profile"><img src="/resources/img/sub/userThum.jpg"></div>
+									<div class="profile"><img src="/upload/member/${i.id}/${i.sysname}"></div>
 									<div class="name">${i.name}(${i.age})</div>
 								</div>
 								<div class="info clearfix">

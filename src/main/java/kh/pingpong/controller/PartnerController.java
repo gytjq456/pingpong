@@ -203,7 +203,7 @@ public class PartnerController {
 		insertP.put("mdto", mdto);
 		insertP.put("contact", contact);	
 		pservice.partnerInsert(insertP,mdto);
-		return "redirect:/partner/partnerList";
+		return "redirect:/partner/partnerList?align=recent";
 	}
 
 	//파트너 삭제

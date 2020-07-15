@@ -19,8 +19,6 @@ public class ReviewDTO {
 		// TODO Auto-generated constructor stub
 	}
 
-	
-	
 	public String getDateString() {
 		long write_date = this.write_date.getTime();
 		long current_date = System.currentTimeMillis();
@@ -101,17 +99,13 @@ public class ReviewDTO {
 	public void setParent_seq(int parent_seq) {
 		this.parent_seq = parent_seq;
 	}
-
-
 	public String getThumNail() {
 		return thumNail;
 	}
-
-
-
 	public void setThumNail(String thumNail) {
 		this.thumNail = thumNail;
 	}
+
 	
 
 	

@@ -14,11 +14,14 @@
 			#{contents}, default, 0, 0, 0, 0, 0, default, #{proceeding})
 	</insert>
 	
-
-	<select id="selectGroupList" resultType="kh.pingpong.dto.GroupDTO">
+	<resultMap id="GroupProFile" type="kh.pingpong.dto.GroupDTO">
+		<result property="sysname" column="profile"></result>
+	</resultMap>
+	<select id="selectGroupList" resultMap="GroupProFile">
 		select * from
-		(select grouplist.*, row_number() over(order by ${orderBy} desc, seq desc) rnum
-		from grouplist
+		(select g.*, m.profile, row_number() over(order by ${orderBy} desc, seq desc) rnum
+		from grouplist g inner join member m
+		on g.writer_id = m.id
 		<trim prefix="where" prefixOverrides="and">
 			<if test="ing != null">
 				${ing} = #{ingValue}
@@ -86,8 +89,13 @@
 		)
 	</select>
 	
-	<select id="selectBySeq" resultType="kh.pingpong.dto.GroupDTO">
-		select * from grouplist where seq = #{value}
+
+	<select id="selectBySeq" resultMap="GroupProFile">
+		<!-- select * from grouplist where seq = #{value} -->
+		select g.*,m.profile from 
+		grouplist g inner join member m
+		on g.writer_id = m.id
+		where seq = #{value}
 	</select>
 	
 	<select id="searchSeq" resultType="int">

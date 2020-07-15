@@ -5,21 +5,7 @@
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=521d781cfe9fe7597693f2dc29a10601&libraries=services"></script>
 
  <style>
-/* 	.review{border-bottom: 1px solid gray;}
-	.tab{border-bottom: 1px solid gray;}
-	.view_main{border-bottom: 1px solid gray; width:100%; height: 600px;}
-	.curriculum{float: left; width: 60%; height:100%;}
-	.curri_right{float: left; width: 40%; height:100%;}
-	.view_top_left{float: left; width: 20%; height: 100%;}
-<<<<<<< HEAD
-	.view_top_right{float: left; width: 80%; height:100%;}  */
-	.customoverlay {position:relative;bottom: 60px; left: 5px;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;float:left;}
-	.customoverlay:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}
-	.customoverlay a {display:block;text-decoration:none;color:#000;text-align:center;border-radius:6px;font-size:14px;font-weight:bold;overflow:hidden;background: #f1989f;background: #f1989f url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;}
-	.customoverlay .mapTitle {display:block;text-align:center;background:#fff;margin-right:35px;padding:10px 15px;font-size:14px;font-weight:bold;}
-	.customoverlay:after {content:'';position:absolute;margin-left:-12px;left:50%;bottom:-12px;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
 
-<style>
 	.refund_guid { line-height:1.6; }
 	.refund_guid li { margin-bottom:6px; position:relative; padding-left:12px;}
 	.refund_guid li:last-child { margin:0; }
@@ -121,8 +107,11 @@ $(function(){
 			}).done(function(resp){
 				console.log(resp);
 				alert("찜을 취소합니다.");
-				$("#jjim").css('color','rgb(51, 51, 51)')
+				$("#jjim i").css('color','rgb(51, 51, 51)')
 				location.href="/tutor/lessonView?seq="+seq;
+				
+				
+				
 				return false;
 			}).fail(function(error1, error2) {
 				console.log(error1);
@@ -138,7 +127,7 @@ $(function(){
 			}).done(function(resp){
 				console.log(resp);
 				alert("찜에 등록되었습니다.");
-				$("#jjim").css('color','rgb(240, 7, 7)')
+				$("#jjim i").css('color','rgb(240, 7, 7)')
 				location.href="/tutor/lessonView?seq="+seq;
 				return false;
 			}).fail(function(error1, error2) {
@@ -147,6 +136,13 @@ $(function(){
 			})
 		}
 	})
+	
+	var checkJjim = ${checkJjim};
+	if (checkJjim) {
+		//$('#jjim').css('color', '#fbaab0');
+		$('#jjim i').removeClass('fa-heart-o');
+		$('#jjim i').addClass('fa-heart');
+	}
 	
 	// 리뷰 
 	var reviewtForm = $("#reviewtForm");
@@ -300,7 +296,6 @@ $(function(){
 				})
 			}else{
 				$("html,body").stop().animate({
-					
 					scrollTop:topPos - headHeight - 160
 				})
 			}
@@ -331,8 +326,7 @@ $(function(){
 					
 			<div class="group_title_wrapper card_body">
 				<div id="writer_info" class="group_info_top">
-					<%-- <div id="writer_profile"><img src="/upload/member/${ldto.id}/${ldto.sysname}"></div> --%>
-					<div id="writer_profile"><img src="/resources/img/sub/userThum.jpg"></div>
+					<div id="writer_profile"><img src="/upload/member/${ldto.id}/${ldto.sysname}"></div>
 					<div id="writer_name_id">${ldto.name}(${ldto.id})</div>
 				</div>
 				
@@ -345,7 +339,7 @@ $(function(){
 							<span id="point_avg"><i class="fa fa-star" aria-hidden="true"></i>${ldto.review_point}</span>
 							<div id="three_options">
 								<span id="like"><i id="like" class="fa fa-thumbs-up" style="color:"></i>추천</span>
-								<span id="jjim"><i id="jjim" class="fa fa-heart"></i>찜하기</span>
+								<span id="jjim"><i id="" class="fa fa-heart-o"></i>찜하기</span>
 								<a id="report" data-seq="${seq}" data-thisseq="" data-id="${ldto.id}" data-url="/tutor/report" data-proc="/tutor/reportProc"><i class="fa fa-exclamation" aria-hidden="true"></i> 신고</a>
 							</div>
 						</div>
@@ -477,6 +471,7 @@ $(function(){
 								<input type="hidden" name="point" value="0" id="point">
 								<input type="hidden" id ="category" name="category" value="강의">
 								<input type="hidden" name="parent_seq" value="${ldto.seq}">
+								<input type="hidden" name="thumNail" value="${loginInfo.sysname}">
 								<div class="starPoint">
 									<div>
 										<button type="button"><i class="fa fa-star" aria-hidden="true"></i></button>
@@ -489,7 +484,7 @@ $(function(){
 								</div>
 								<div class="textInput clearfix">
 									<div class="userInfo_s1 userInfo_s2">
-										<div class="thumb"><img src="/resources/img/sub/userThum.jpg"/></div>
+										<div class="thumb"><img src="/upload/member/${loginInfo.id}/${loginInfo.sysname}"/></div>
 										<div class="info">
 											<p class="userId">${loginInfo.id }</p>
 										</div>
@@ -515,7 +510,8 @@ $(function(){
 						<c:forEach var="i" items="${reviewList}">
 							<article class="clearfix">
 								<div class="userInfo_s1">
-									<div class="thumb"><img src="/resources/img/sub/userThum.jpg"/></div>
+									<!-- <div class="thumb"><img src="/resources/img/sub/userThum.jpg"/></div> -->
+									<div class="thumb"><img src="/upload/member/${i.writer}/${i.thumNail}"/></div>
 									<div class="info">
 										<p class="userId">${i.writer}</p>
 										<p class="writeDate">${i.dateString}</p>

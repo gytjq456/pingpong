@@ -255,11 +255,26 @@ public class TutorService {
 			
 			if (param.containsKey("ing")) {
 				if (param.get("ing").toString().contentEquals("applying='N' and proceeding")) {
-					pagingUrl = "lessonListPeriod?orderBy=" + orderBy + "&ing=done"+
-							"&keywordSelect=" + param.get("keywordSelect").toString()+ "&keyword="+ param.get("keyword").toString();
-				} else {
+					if(param.containsKey("keyword")) {
+						pagingUrl = "lessonListPeriod?orderBy=" + orderBy + "&ing=done" + param.get("ing").toString()+
+								"&keywordSelect=" + param.get("keywordSelect").toString()+ "&keyword="+ param.get("keyword").toString();
+					}
+					else if(param.containsKey("start_date")) {
+						pagingUrl = "searchDate?orderBy=" + orderBy + "&ing=" + param.get("ing").toString()+ "&start_date=" + param.get("start_date").toString() + "&end_date=" + param.get("end_date").toString();
+					}
+					else if(param.containsKey("location")) {
+						pagingUrl = "searchMap?orderBy=" + orderBy + "&ing=" + param.get("ing").toString()+"&location=" + param.get("location").toString();
+					}
+				} 
+				else if(param.containsKey("keyword")) {
 					pagingUrl = "lessonListPeriod?orderBy=" + orderBy + "&ing=" + param.get("ing").toString()+
 							"&keywordSelect=" + param.get("keywordSelect").toString()+ "&keyword="+ param.get("keyword").toString();
+				}
+				else if(param.containsKey("start_date")) {
+					pagingUrl = "searchDate?orderBy=" + orderBy + "&ing=" + param.get("ing").toString()+ "&start_date=" + param.get("start_date").toString() + "&end_date=" + param.get("end_date").toString();
+				}
+				else if(param.containsKey("location")) {
+					pagingUrl = "searchMap?orderBy=" + orderBy + "&ing=" + param.get("ing").toString()+"&location=" + param.get("location").toString();
 				}
 			}
 			
@@ -276,11 +291,23 @@ public class TutorService {
 			}
 			
 			if (param.containsKey("start_date")) {
-				pagingUrl = "searchDate?orderBy=" + orderBy + "&start_date=" + param.get("start_date").toString() + "&end_date=" + param.get("end_date").toString();
+				if(!param.containsKey("ing")) {
+					pagingUrl = "searchDate?orderBy=" + orderBy + "&start_date=" + param.get("start_date").toString() + "&end_date=" + param.get("end_date").toString();
+				}else if(param.get("ing").toString().contentEquals("applying='N' and proceeding")){
+					pagingUrl = "searchDate?orderBy=" + orderBy + "&ing=done"+ "&start_date=" + param.get("start_date").toString() + "&end_date=" + param.get("end_date").toString();
+				}else {
+					pagingUrl = "searchDate?orderBy=" + orderBy + "&ing=" + param.get("ing").toString()+ "&start_date=" + param.get("start_date").toString() + "&end_date=" + param.get("end_date").toString();
+				}
 			}
 			
 			if (param.containsKey("location")) {
-				pagingUrl = "searchMap?orderBy=" + orderBy + "&location=" + param.get("location").toString();
+				if(!param.containsKey("ing")) {
+					pagingUrl = "searchMap?orderBy=" + orderBy + "&location=" + param.get("location").toString();
+				}else if(param.get("ing").toString().contentEquals("applying='N' and proceeding")){
+					pagingUrl = "searchMap?orderBy=" + orderBy + "&ing=done"+"&location=" + param.get("location").toString();
+				}else {
+					pagingUrl = "searchMap?orderBy=" + orderBy + "&ing=" + param.get("ing").toString()+"&location=" + param.get("location").toString();
+				}
 			}
 			
 			

@@ -39,7 +39,7 @@ public class GroupController {
 	
 	// header.jsp에서 그룹 찾기 탭 눌렀을 때 이동
 	@RequestMapping("main")
-	public String groupMain(String orderBy, String ing, HttpServletRequest request, Model model) throws Exception {
+	public String groupMain(String schType, String orderBy, String ing, HttpServletRequest request, Model model) throws Exception {
 		int cpage = 1;
         try {
            cpage = Integer.parseInt(request.getParameter("cpage"));
@@ -66,6 +66,7 @@ public class GroupController {
 		model.addAttribute("glist", glist);
 		model.addAttribute("navi", navi);
 		model.addAttribute("param", search);
+		model.addAttribute("schType", schType);
 		
 		return "/group/main";
 	}
@@ -460,8 +461,6 @@ public class GroupController {
 	@RequestMapping("reviewWrite")
 	public String reviewWrite(ReviewDTO redto) throws Exception{
 		int result = gservice.reviewWrite(redto);
-
-		
 		if(result > 0) { 
 			 return String.valueOf(true); 
 		}else { 

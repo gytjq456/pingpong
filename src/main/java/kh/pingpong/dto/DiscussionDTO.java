@@ -16,6 +16,7 @@ public class DiscussionDTO {
 	private int comment_count;
 	private String dateString;
 	private String id;
+	private String thumNail;
 	
 	
 	public DiscussionDTO() {
@@ -53,7 +54,7 @@ public class DiscussionDTO {
 
 	
 	public DiscussionDTO(int seq, String writer, String title, String contents, String caution, String language, Timestamp write_date, int view_count,
-			int like_count, int comment_count, String id) {
+			int like_count, int comment_count, String id, String thumNail) {
 		super();
 		this.seq = seq;
 		this.writer = writer;
@@ -66,6 +67,7 @@ public class DiscussionDTO {
 		this.like_count = like_count;
 		this.comment_count = comment_count;
 		this.id = id;
+		this.thumNail = thumNail;
 		//this.dateString = dateString;
 		/*this.dateString = new SimpleDateFormat("YYYY-MM-dd").format(write_date);*/
 	}
@@ -176,20 +178,26 @@ public class DiscussionDTO {
 
 
 
-	/**
-	 * @return the id
-	 */
 	public String getId() {
 		return id;
 	}
 
 
 
-	/**
-	 * @param id the id to set
-	 */
 	public void setId(String id) {
 		this.id = id;
+	}
+
+
+
+	public String getThumNail() {
+		return thumNail;
+	}
+
+
+
+	public void setThumNail(String thumNail) {
+		this.thumNail = thumNail;
 	}
 
 	

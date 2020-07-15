@@ -56,6 +56,7 @@ $(document).ready(function(){
     	
     	
     	var tabContWrap = $("#tabContWrap");
+    	
     	tab.find("li").click(function(){
     		var idx = $(this).index();
     		tab.find("li").removeClass("on");

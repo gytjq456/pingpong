@@ -181,7 +181,7 @@ public class MemberController {
 		fdto = fcon.fileOneInsert(mdto, fdto, realPath);
 		mservice.memberInsert(mdto, fdto);
 
-		return "redirect:/member/memberComplete";
+		return "redirect:/";
 	}
 
 	/* 회원가입 - 아이디 중복 */

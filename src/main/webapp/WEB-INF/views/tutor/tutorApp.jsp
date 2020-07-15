@@ -32,7 +32,7 @@
 			console.log(f.size + ":" +f.fileSize);
 			var limit = 1024*1024*5;
 			if(size > limit){
-				alert("파일용량 5GB을 초과했습니다.");
+				alert("파일용량 5MB을 초과했습니다.");
 				$(this).val("");
 				return false;
 			}
@@ -102,7 +102,7 @@
 			
 			var limit = 1024*1024*5;
 			if(totalSize > limit){
-				alert("총 파일용량 5GB을 초과했습니다.");
+				alert("총 파일용량 5MB을 초과했습니다.");
 				$(this).val("");
 				return false;
 			}

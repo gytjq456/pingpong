@@ -53,7 +53,11 @@
 									</div>
 									<div class="title">${list.title}</div>
 									<div>${list.writer}</div>
-									<div>행사기간 : ${list.start_date} ~ ${list.end_date}</div>
+									
+									<c:if test="${not empty list.start_date || not empty list.end_date}">
+										<div>행사기간 : ${list.start_date} ~ ${list.end_date}</div>
+									</c:if>
+									
 									<span>${list.write_date_st}</span>
 									<div class="countList" style="position:static;">
 										<ul>
@@ -72,7 +76,9 @@
 					</div>
 					
 					<div class="btnS1 right">
-						<button type="button" id="write" class="on">글 작성</button>
+						<c:if test="${not empty sessionScope.loginInfo}">
+							<button type="button" id="write" class="on">글 작성</button>
+						</c:if>
 					</div>
 					
 				</div>

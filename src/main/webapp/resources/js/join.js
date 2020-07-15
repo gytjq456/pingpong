@@ -116,6 +116,17 @@ $(function(){
 			return false;
 		}
 		
+		//비밀번호 일치
+		var pwResult1 = $("#pw").val();
+		var pwResult2 = $("#pw_ck").val();
+		alert(pwResult1 + " :: "+pwResult2);
+		
+		if(pwResult1 != pwResult2){
+			alert("비밀번호가 일치 하지 않습니다.");
+			pw_ck.focus();
+			return false;
+		}
+		
 		//이름		
 		var regexName = /^[가-힣 a-z A-Z]{3,}$/g;
 		var result_name = regexName.test(name.val());
@@ -144,21 +155,11 @@ $(function(){
 		
 		//email
 		//이메일은 고정으로 바뀌지 않게 작업	
-		
-		//전화번호 (앞자리)
-		/*
-		if(phone_country == 'null'){
-			alert("전화번호 앞자리를 입력해주세요.");
-			$('#phone_country').focus();			
-			return false;
-		}*/
-		
+
 		//전화번호	(뒷자리)
-		//var regexPhone = /^(\d){8}$/g;
-		//var regexPhone = /^[^010 070 011 a-z A-Z 가-힣 ㄱ-ㅎ ! @ # $ %](\d){7}$/gm;
-		var regexPhone = /^(010|070|011)(\d){5}/gm;
+		var regexPhone = /^(?!010|070|011)(\d){8}$/g;
 		var result_phone = regexPhone.test(phone.val());
-		if(result_phone){
+		if(!result_phone){
 			alert("전화번호 : 숫자이며 8글자입니다. 010 / 011 / 070 빼주세요.");
 			phone.focus();
 			return false;

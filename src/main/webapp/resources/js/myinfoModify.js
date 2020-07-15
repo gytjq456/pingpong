@@ -76,7 +76,7 @@ $(function() {
 		}*/
 
 		// 전화번호 (뒷자리)
-		var regexPhone = /^[^010 070 011 a-z A-Z 가-힣 ㄱ-ㅎ ! @ # $ %](\d){7}$/gm;
+		var regexPhone = /^(?!010|070|011)(\d){8}$/gm;
 		var result_phone = regexPhone.test(phone.val());
 		if(!result_phone){
 			alert("전화번호 : 숫자이며 8글자입니다. 010 / 011 / 070 빼주세요.");

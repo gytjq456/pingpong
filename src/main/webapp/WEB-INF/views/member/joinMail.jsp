@@ -7,7 +7,6 @@
 	
 	$(function(){
 		
-		var emailRegex = /^[a-z A-Z 0-9]+@[a-z]+\.[a-z]{2,6}$/g;
 		var userMailSend = $("#userMailSend");
 		var sendEmailCode = "";
 		var code = $("#code").val();
@@ -47,12 +46,14 @@
 		
 		//인증번호 발송
 		$("#sendEmail").on("click",function(){
+			var emailRegex = /^[a-z A-Z 0-9]+@[a-z]+\.[a-z]{2,6}$/g;
 			var result_email = emailRegex.test(userMailSend.val());
-
+			
 			if(userMailSend.val() == "" || result_email == false){
 				alert("이메일을 입력해주세요.");
 				userMailSend.focus();
 				return false;
+				
 			}else{
 				$.ajax({
 					url :"/member/joinSendMail",
@@ -60,8 +61,8 @@
 					data : {
 						"userMailSend" : userMailSend.val()
 					}
-				}).done(function(resp){					
-					alert(resp + "인증번호가 발송되었습니다.");
+				}).done(function(resp){	
+					alert("인증번호가 발송되었습니다.");
 					sendEmailCode = resp;
 					console.log(sendEmailCode + "코드");
 					clearInterval(tid);

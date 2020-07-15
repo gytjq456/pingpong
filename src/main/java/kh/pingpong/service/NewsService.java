@@ -155,6 +155,13 @@ public class NewsService {
 		return 1;
 	}
 	
+	//글 수정 (news테이블 수정)
+	@Transactional("txManager")
+	public int modifyProc_news(NewsDTO ndto) throws Exception{
+		newsdao.modifyProc_news(ndto);
+		return 1;
+	}
+	
 	//list 파일 select
 	public List <FileDTO> newsViewFile(NewsDTO ndto) throws Exception{
 		return newsdao.newsViewFile(ndto);

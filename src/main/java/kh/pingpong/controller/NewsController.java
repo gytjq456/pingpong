@@ -117,6 +117,8 @@ public class NewsController {
 		}
 		FileDTO ftndto = new FileDTO();
 		
+		System.out.println(filesAll.getFilesAll() + " 뉴스 컨트롤러 파일들 길이");
+		
 		// 썸네일 파일 하나 저장
 		if(!ndto.getThumbnail().getOriginalFilename().contentEquals("")) {
 			//if(!ndto.getThumbnail().getOriginalFilename().contentEquals("")) {
@@ -126,7 +128,7 @@ public class NewsController {
 			System.out.println("프로필 수정 컨트롤러");
 			int result = newservice.modifyProc(ndto, ftndto);
 			
-		}else if(filesAll.getFilesAll().length > 0) {
+		}else if(filesAll.getFilesAll() != null) {
 		//}else if(filesAll.getFilesAll()[0].getOriginalFilename() != null) {
 			//if(!filesAll.getFilesAll()[0].getOriginalFilename().contentEquals("")) {
 		// 첨부파일 여러개
@@ -135,9 +137,13 @@ public class NewsController {
 			List<FileDTO> filseA = fcon.newsFileInsert(filesAll, realPath2);
 			int result = newservice.modifyProcAll(ndto, filseA);
 			
-		}
+		}else {
 			//수정할 때 프로필과 파일 없을 때
-			//int result = newservice.modifyProc_newsA(ndto);
+			System.out.println("프로필 수정 안했을 때!");
+			int result = newservice.modifyProc_news(ndto);
+		}
+		
+		
 				
 		return "redirect:/news/listProc";
 	}

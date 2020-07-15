@@ -11,17 +11,20 @@
 			});
 			
 			$('#memWithdrawal').on("click",function(){
-				var id = '${mdto.id}';
-				$.ajax({
-					type : "post",
-					url : "/member/memWithdrawal"					
-				}).done(function(resp){
-					alert("회원 탈퇴 되었습니다.");
-					location.href="/";
-					
-				}).fail(function(error1, error2){
-					alert("관리자에게 문의 주세요");
-				});
+				var result = confirm("회원탈퇴를 진행하시겠습니까?");
+				if(result){
+					var id = '${mdto.id}';
+					$.ajax({
+						type : "post",
+						url : "/member/memWithdrawal"					
+					}).done(function(resp){
+						alert("회원 탈퇴 되었습니다.");
+						location.href="/";
+						
+					}).fail(function(error1, error2){
+						alert("관리자에게 문의 주세요");
+					});
+				}				
 			});
 		});	
 	</script>

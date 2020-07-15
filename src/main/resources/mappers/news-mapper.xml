@@ -30,7 +30,7 @@
 	<select id="newsViewOne" resultMap="thumbnail_img">
 		select seq, title, writer, category, 
 		to_char(start_date,'yyyy-mm-dd') start_date, to_char(end_date,'yyyy-mm-dd') end_date, location, thumbnail,
-        files, contents, to_char(write_date,'yyyy-mm-ss') write_date,view_count,like_count,comment_count
+        files, contents, to_char(write_date,'yyyy-mm-dd') write_date,view_count,like_count,comment_count
 		from news where seq=${seq}
 	</select>
 	
@@ -60,7 +60,14 @@
 		, start_date=#{start_date}, end_date=#{end_date}, location=#{location}, contents=#{contents},
 		files=#{files_name} where seq = #{seq}
 	</update>
-		
+	
+	<!-- 수정 파일All -->
+	<update id="modifyProc_news">
+		update news set title= #{title}, writer=#{writer}, category=#{category}
+		, start_date=#{start_date}, end_date=#{end_date}, location=#{location}, contents=#{contents}
+		where seq = #{seq}
+	</update>
+
 	<!-- 파일들 select -->
 	<select id="newsViewFile" resultType="kh.pingpong.dto.FileDTO">
 		select * from files where parent_seq=${seq} and category = 'news'
@@ -90,7 +97,7 @@
 	<select id="newsPage" resultMap="thumbnail_img">
 		select seq, title, writer, category, 
 		to_char(start_date,'yyyy-mm-dd') start_date, to_char(end_date,'yyyy-mm-dd') end_date, location, thumbnail,
-        files, contents, to_char(write_date,'yyyy-mm-ss') write_date,view_count,like_count,comment_count
+        files, contents, to_char(write_date,'yyyy-mm-dd') write_date,view_count,like_count,comment_count
 		from (select news.*,row_number() over(order by seq desc) rnum from news)where rnum between #{start} and #{end} order by seq
 	</select>
 	
@@ -104,7 +111,7 @@
 		select 
 		seq, title, writer, category, 
 		to_char(start_date,'yyyy-mm-dd') start_date, to_char(end_date,'yyyy-mm-dd') end_date, location, thumbnail,
-        files, contents, to_char(write_date,'yyyy-mm-ss') write_date,view_count,like_count,comment_count
+        files, contents, to_char(write_date,'yyyy-mm-dd') write_date,view_count,like_count,comment_count
 		from (select news.*,row_number() over(
 		<trim prefix="order by"> 
 	         <if test="schAlign == 'recent'">  write_date</if>

@@ -51,7 +51,7 @@
 									<img src="/upload/news/thumbnail/${ndto.thumbnail_img}" alt="이미지">
 								</div>
 								<div class="textbox">
-									<h3 class="se_top">
+									<div class="se_top">
 										<div class="title">${ndto.title}</div>
 										<div class="writer">
 											${ndto.writer}<span class="stick">|</span>${ndto.write_date_st}
@@ -59,7 +59,7 @@
 												<li><i class="fa fa-eye"></i>${ndto.view_count}</li>
 											</ul>
 										</div>
-									</h3>
+									</div>
 									<ul class="tb_se">
 										<li>
 											<ul>
@@ -73,7 +73,7 @@
 											<ul>
 												<li>행사기간</li>
 												<c:choose>
-													<c:when test="${ndto.start_date != ''}">
+													<c:when test="${not empty ndto.start_date || not empty ndto.start_date}">
 														<li>${ndto.start_date} ~ ${ndto.end_date}</li>
 													</c:when>
 													<c:otherwise>
@@ -88,11 +88,11 @@
 											<ul>
 												<li>행사장소</li>
 												<c:choose>
-													<c:when test="${ndto.location != ''}">
+													<c:when test="${not empty ndto.location}">
 														<li>${ndto.location}</li>
 													</c:when>
 													<c:otherwise>
-														<li>gkgkgkgkgk</li>
+														<li>&nbsp;</li>
 													</c:otherwise>
 												</c:choose>
 											</ul>

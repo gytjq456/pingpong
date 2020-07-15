@@ -1,5 +1,7 @@
 //글쓰기 페이지
 $(function(){
+	var totalSize=0;
+	
 	/** 타이틀 숫자 카운트 **/
 	$("#title").keyup(function(e){
 		var word = $("#title").val();
@@ -84,7 +86,7 @@ $(function(){
 	$("#addFile").click(function(){		
 		if(countf<3){
 			$("#fileSpace").append(
-					"<div class='file_box'><input type='file' name='filesAll' class='files'> <button type='button' class='minus'>-</button></div>"
+					"<div class='file_box'><input type='file' name='filesAll' class='files, fileDelete'> <button type='button' class='minus'>-</button></div>"
 			);
 			++countf;
 		}else{
@@ -95,6 +97,88 @@ $(function(){
 	$("#fileSpace").on("click",".minus",function(){
 		$(this).parent().css('display','none');
 		--countf;
+	});
+	
+	//첨부파일 용량 제한하기
+	$("#fileSpace").on('change','input[type=file]',function(e){
+		alert($(this).val());
+		
+		if(!$(this).val()) {return false};
+		var f = this.files[0];
+		
+		var size = f.size || f.fileSize;
+		console.log(f.size + ":" +f.fileSize);
+		var limit = 1024*1024*5; //바이트
+		if(size > limit){
+			alert("파일용량 5MB을 초과했습니다.");
+			$(this).val("");
+			return false;
+		}
+		totalSize = totalSize+size;
+		console.log(totalSize);
+	});
+	
+	//파일 첨부한거 지우기 / 사이즈도 같이지우기
+	$("#fileSpace").on("click",".fileDelete", function(e){
+		console.log($(this).val() + "??");
+		
+		console.log($(this).siblings());
+		var f = ($(this).siblings())[0].files[0];
+			
+		/* console.log(($(this).siblings())[0].files[0]); */
+		if(f==null){
+			$(this).parent().remove();
+		}else{
+			var size = f.size || f.fileSize;
+			totalSize = totalSize-size;
+			console.log(totalSize);
+			$(this).parent().remove();
+		}
+
+	});
+	
+	//보내기 전에 용량 체크
+	$("#writeForm").submit(function(){
+		
+		var title = $("#title")
+		var category = $('#category')
+		var contents = $("#contents")
+		var thumbnail = $("#thumbnail")
+
+		
+		if(title.val() == ""){
+			alert("제목을 입력해주세요");
+			$("#title").focus();
+			return false;
+		}
+		
+		if(category.val() == ""){
+			alert("카테고리를 입력해주세요");
+			$('#category').focus();
+			return false;
+		}
+		
+		if(contents.val() == ""){
+			alert("내용를 입력해주세요");
+			$('div.note-editable').focus();
+			return false;
+		}
+		
+		if(thumbnail.val() == ""){
+			alert("썸네일을 입력해주세요");
+			$('#thumbnail').focus();
+			return false;
+		}
+		
+		//파일 용량 체크
+		/*var limit = 1024*1024*5;
+		alert(limit)*/
+		alert(totalSize);
+		if(thumbnail == ""){
+			alert("썸네일을 입력해주세요");
+			thumbnail.focus();
+			return false;
+		}
 	});
 	
 });

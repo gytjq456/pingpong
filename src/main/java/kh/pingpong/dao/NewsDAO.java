@@ -99,6 +99,11 @@ public class NewsDAO {
 		return mybatis.update("News.newsUpdate_new_filesAll", ndto);
 	}
 	
+	//글 수정 (news테이블 수정)
+	public int modifyProc_news(NewsDTO ndto) throws Exception{
+		return mybatis.update("News.modifyProc_news", ndto);
+	}
+	
 	//게시글 삭제
 	public int delete(NewsDTO ndto) throws Exception{
 		return mybatis.delete("News.delete", ndto);

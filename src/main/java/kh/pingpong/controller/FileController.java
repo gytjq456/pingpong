@@ -109,7 +109,10 @@ public class FileController {
 		/* 파일 업로드 */
 		List<FileDTO> filelist = new ArrayList<FileDTO>();
 		
-		if(filesAll.getFilesAll().length != 0) {
+		System.out.println(filesAll.getFilesAll());
+		//System.out.println(filesAll.getFilesAll().length);
+		if(filesAll.getFilesAll() != null) {
+		//if(filesAll.getFilesAll().length != 0) {
 			int count = 0;
 			for(MultipartFile file : filesAll.getFilesAll()) {				
 				if(!file.isEmpty()) {

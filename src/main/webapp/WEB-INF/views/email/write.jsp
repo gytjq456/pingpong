@@ -10,13 +10,13 @@
 </head>
 <body>
 	<h2>이메일 보내기</h2>
-	<form method="post" action="/partner/send"> 
+	<form action="/partner/send" method="post" > 
 	<!-- post방식으로 자료를 컨트롤러로 보냄 -->
 		<input type="hidden" name="seq" value="${pdto.seq}">
-		받는 사람  : <input name="senderName" value=${pdto.name}><br>
-		발신자 이메일 : <input name="memail" value="${loginInfo.email}"><br>
+		받는 사람  : <input name="senderName" value="${pdto.name}"><br>
+		발신자 이메일 : <input name="memail" value="${loginInfo.email }"><br>
 		이메일 비밀번호 : <input type="password" name="emailPassword"><br>
-		수신자 이메일 : <input name="pemail" value=${pdto.email}><br>
+		수신자 이메일 : <input name="pemail" value="${pdto.email}"><br>
 		제목 : <input name="subject"><br>
 		내용 : <textarea rows="5" cols="80" name="message"></textarea><br>
 		<input type="submit" value="전송" id="send">

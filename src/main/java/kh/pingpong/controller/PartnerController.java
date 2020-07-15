@@ -88,7 +88,6 @@ public class PartnerController {
 		});
 
 		//email 전송
-		//System.out.println("to_email:"+to_email);
 		try {
 			MimeMessage msg = new MimeMessage(session);
 			msg.setFrom(new InternetAddress(user, "tt"));
@@ -98,7 +97,6 @@ public class PartnerController {
 			//메일 제목
 			msg.setSubject(memail+"님이 보낸 메일입니다.");
 			//메일 내용
-			//msg.setText("인증번호는 :");
 			Transport.send(msg);
 			System.out.println("메시지를 성공적으로 보냈습니다.");   
 			return !result;
@@ -107,11 +105,13 @@ public class PartnerController {
 		}
 	}
 
-	//이메일 작성
+	//이메일 작성(일단 여기까지는 넘어감)
 	@RequestMapping("selectPartnerEmail")
 	public String selectPartnerEmail(int seq, Model model) throws Exception{
+		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
 		PartnerDTO pdto = pservice.selectBySeq(seq);
 		model.addAttribute("pdto", pdto);
+		model.addAttribute("loginInfo", loginInfo);
 		return "email/write";
 	}
 	//이메일 보내기
@@ -157,7 +157,7 @@ public class PartnerController {
 	@RequestMapping("partnerView")
 	public String partnerView(int seq, Model model) throws Exception{
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
-		String id = loginInfo.getId();
+		//String id = loginInfo.getId();
 		PartnerDTO pdto = pservice.selectBySeq(seq);
 		model.addAttribute("pdto", pdto);
 

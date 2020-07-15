@@ -12,7 +12,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import kh.pingpong.config.Configuration;
-import kh.pingpong.dao.GroupDAO;
 import kh.pingpong.dao.PartnerDAO;
 import kh.pingpong.dto.HobbyDTO;
 import kh.pingpong.dto.LanguageDTO;
@@ -121,7 +120,7 @@ public class PartnerService {
 		return pdao.deletePartner(mdto);
 	}
 	
-//	//이메일 전송
+	//이메일 전송
 //	public void SendMail(PartnerDTO pdto, MemberDTO mdto) {
 //		try {
 //			//이메일 객체

@@ -60,7 +60,7 @@ public class PartnerService {
 	}
 	
 	//페이지 네비게이션
-	public String getPageNavi(int currentPage) throws Exception{
+	public String getPageNavi(int currentPage, String align,Map<String, Object> search) throws Exception{
 		int recordTotalCount = pdao.getArticleCount(); 
 		int pageTotalCount = 0; 
 		//System.out.println(pdao.getArticleCount());
@@ -93,16 +93,27 @@ public class PartnerService {
 		if(endNavi == pageTotalCount) {needNext = false;}		
 
 		StringBuilder sb = new StringBuilder();
-		
-		if(needPrev) {
-			sb.append("<a href ='partnerList?cpage="+(startNavi-1)+"'>"+" <<  " + "</a>");
+		String alignType = align; 
+		//String selectOption = (String)search.get(key)
+		sb.append("<ul>");
+		if(alignType != null) {
+			if(needPrev) {
+				sb.append("<li><a href ='partnerList?cpage="+(startNavi-1)+"'>"+" <<  " + "</a></li>");
+			}
+			for(int i = startNavi; i<=endNavi; i++) {
+				if(currentPage == i) {
+					sb.append("<li class='on'><a href ='partnerList?cpage="+i+"&align="+alignType+"'> "+ i +"</a></li>");
+				}else {
+					sb.append("<li><a href ='partnerList?cpage="+i+"&align="+alignType+"'> "+ i +"</a></li>");
+				}
+			}
+			if(needNext) {
+				sb.append("<li><a href ='partnerList?cpage="+(endNavi+1)+"'>"+" >>" + "</a></li>");
+			}			
+		}else {
+			//if()
 		}
-		for(int i = startNavi; i<=endNavi; i++) {
-			sb.append("<a href ='partnerList?cpage="+i+"'> "+ i +"</a>");
-		}
-		if(needNext) {
-			sb.append("<a href ='partnerList?cpage="+(endNavi+1)+"'>"+" >>" + "</a>");
-		}				
+		sb.append("</ul>");
 		return sb.toString();
 	}
 	
@@ -175,7 +186,7 @@ public class PartnerService {
 	}
 	
 	//검색 최신순 / 평점순
-	public List<PartnerDTO> searchAlign(String align) throws Exception{
-		return pdao.searchAlign(align);
+	public List<PartnerDTO> searchAlign(int cpage,String align) throws Exception{
+		return pdao.searchAlign(cpage,align);
 	}
 }

@@ -60,9 +60,9 @@
 					<div >
 						<ul class="clearfix gnb">
 							<li>
-								<a href="/partner/partnerList?align=recent">Partner</a>
+								<a href="/partner/partnerList?cpage=1&align=recent">Partner</a>
 								<ul class="depth2">
-									<li><a href="/partner/partnerList?align=recent">파트너 목록</a></li>
+									<li><a href="/partner/partnerList?cpage=1&align=recent">파트너 목록</a></li>
 									<li><a href="#;" class="resiterPop">파트너 등록</a></li>
 								</ul>
 							</li>

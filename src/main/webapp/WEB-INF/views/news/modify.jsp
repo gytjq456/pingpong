@@ -119,8 +119,6 @@
 							<div class="news_write_sub">
 								<div class="tit_s3 f_all">
 									<h4>첨부파일</h4>
-									<!-- <span class="notice">* 첨부파일이 있을 경우 +를 눌러주세요. +를 누를 때마다 첨부파일이 늘어납니다.</span>
-									<button type="button" id="addFile">+</button>		 -->						
 									<ul>
 										<c:forEach items="${files}" var="i">
 											<li>

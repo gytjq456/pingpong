@@ -70,7 +70,6 @@ public class FileController {
 		
 		MultipartFile thumbnail = ndto.getThumbnail();
 		
-		//System.out.println(realPath + " :: 리얼패스");
 		File filePath = new File(realPath);
 		
 		//폴더 존재여부
@@ -117,7 +116,6 @@ public class FileController {
 					String write_date = new SimpleDateFormat("YYYY-MM-dd-ss").format(System.currentTimeMillis());
 					
 					/* 하드디스크 파일 업로드 */
-					//System.out.println(filesAll.getFileAllSeq().length + "길이");
 					if(filesAll.getFileAllSeq() != null){singlefdto.setSeq(filesAll.getFileAllSeq()[count++]);}					
 					singlefdto.setOriname(file.getOriginalFilename());
 					singlefdto.setSysname(write_date + "_"+"("+(count)+")" + file.getOriginalFilename());
@@ -127,9 +125,6 @@ public class FileController {
 					File fileDownload = new File(realPath + "/" + systemFileName);
 					file.transferTo(fileDownload);
 					filelist.add(singlefdto);
-					
-					//System.out.println(file.getOriginalFilename() + " :: file +++++++");
-					
 				}				
 			}
 		}		

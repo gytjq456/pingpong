@@ -1,67 +1,22 @@
 	<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:include page="/WEB-INF/views/header.jsp"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+
 <style>
 	#tabContWrap { display:block !important;}
 	#tabContWrap > article {display:block !important;}
 	.defaultSch input { width:100%; }
 	.checkBox_s1 select { padding:5px; border:1px solid #ddd; box-sizing:border-box; border-radius:6px; font-size:14px;}
-	
-		#layerPop_s3 { position:fixed; left:0; top:0; width:100%; height:100%; z-index:10001; display:none; background:rgba(0,0,0,0.5);  }
-		#layerPop_s3 .pop_body { position:absolute; left:50%; top:50%; transform:translate(-50%, -50%); max-width:640px; background:#fff; padding:30px 20px; box-sizing:border-box;}
-		#layerPop_s3 .tit_s3 { text-align:center; font-weight:700; font-size:20px; border-bottom:1px solid #ddd; padding-bottom:12px; margin-bottom:12px;}
-		#layerPop_s3 .tit {  font-weight:700; }
-		#layerPop_s3 .info {}
-		#layerPop_s3 input[type="password"],
-		#layerPop_s3 input[type="text"] { border:1px solid #ddd; border-radius:6px; width:100%; padding:5px 10px; font-size:12px; width:100%;}
-		#layerPop_s3 .info > dl { overflow:hidden; margin-bottom:14px;}
-		#layerPop_s3 .info > dl:last-child { margin:0; }
-		#layerPop_s3 .info > dl dt { margin-bottom:10px; } 
-		#layerPop_s3 .info > dl dd {}
-		#layerPop_s3 .info > dl { float:left; width:48%; margin-right:4%; } 
-		#layerPop_s3 .info > dl:nth-child(2n) { margin-right:0; } 
-		#layerPop_s3 .txtBox { margin-top:10px; }
-	
 </style>
+
 <script>
 	$(function() {
-		/* $(".box").on("click", function() {
-			var seq = $(this).find(".seq").html();
-			location.href = "/partner/partnerView?seq=" + seq;
-		}) */
 		
-		$('#partnerBtn').on('click', function(){				
-			var checkboxCount = $("input:checkbox[name='contactList']").length;
-			console.log('checkboxCount: ' + checkboxCount)
-			var selectedContact = [];
-			
-			for (var i = 0; i < checkboxCount; i++) {
-				var inputChecked = $("input:checkbox[name='contactList']:eq(" + i + ")").is(":checked");
-				if (inputChecked) {
-					selectedContact.push($("input:checkbox[name='contactList']:eq(" + i + ")").val());
-					console.log('selectedContact: ' + selectedContact)
-				}
-			}
-			
-			$("#contact").val(selectedContact);
-			
-			$('#partnerRegister').submit();
-		
-		})
-		
-		var grade = '${sessionScope.loginInfo.grade}';
-		
-		
-		//이메일 팝업창 생성
-		$(".button_aa .email_a").on("click",function(e){
-			alert("이메일 페이지로 이동하실께요.");
-			var seq = $(this).closest('.button_aa').siblings('.box').find('.seq').html();
-			window.open("http://localhost:8888/partner/selectPartnerEmail?seq="+seq,"width=800,height=400");
-		})
 				
 		//시군 
 		   new sojaeji('sido1', 'gugun1');
@@ -89,8 +44,8 @@
 			console.log($('#address').val(sido + ' ' + gugun));
 		});
 		
-		
 		//최신순, 평점순
+		$('#align').on('change',function(){
 		/* var align = '${align}';
 		if(align != null){
 			$("#align").val(align);
@@ -111,6 +66,7 @@
 				location.href="http://localhost/member/login";
 			}	
 		})
+	});
 		
 		$(".partnerBox article").each(function(){
 			var text = $(this).find(".introduce p").text();
@@ -127,7 +83,7 @@
 				$(this).find(".introduce p").text(tagGt);
 			}
 		})		
-	})
+	});
 </script>
 <body>
 	<div id="subWrap" class="hdMargin">
@@ -138,14 +94,26 @@
 					<h2>Partner </h2>
 					<p>다양한 사람들을 원하시나요?<br>관심사가 비슷한 사람들과 함께 소통해 보세요.</p>
 				</div>
-				
-				
-				
-				
-				
-				
-				
-				
+<%-- <<<<<<< HEAD
+				<div class="partner_register_box">
+					<div id="tab_2" class="profileShareAgree">			
+							<c:if test="${sessionScope.loginInfo.grade == 'default'}">
+								<form action="/partner/insertPartner" id="partnerRegister" method="post">
+									<h2>파트너를 등록해주세요</h2>
+									<div>자신의 프로필을 공유하여 다른 사람들과 소통해보세요.</div>
+									프로필 공유 동의 <input type="checkbox" name="agree" id="agree">(필수)<br> 
+									<span><input type="checkbox" name="contactList" id="letter" >쪽지</span> 
+									<span><input type="checkbox" name="contactList" id="email">이메일</span> 
+									<span><input type="checkbox" name="contactList" id="chatting" >채팅(필수)</span><br>
+									<input type="hidden" name="contact" id="contact">
+									1:1 기본적으로 제공되는 서비스입니다.
+									<button type="button" id="partnerBtn">등록</button>
+								</form>
+							</c:if>
+					</div>
+				</div>
+=======
+>>>>>>> 22a98959ebe63ced0ae37a5bb500ce94a5c6c9ab --%>
 				<div class="partner_search_box">
 					<div id="tabContWrap" class="search_wrap">
 						<article id="tab_1" class="kewordSch">
@@ -279,9 +247,15 @@
 										</a>
 										</div>
 										<div class="btn_li">
-											<p><button class="letter">쪽지</button></p>
-											<p><button class="chatting" data-uid="${plist.id}" data-name="${plist.name}">채팅</button></p>
-											<p><button class="email_a">이메일</button></p>
+											<c:if test = "${fn : contains(plist.contact, '쪽지')}">
+												<p><button class="letter">쪽지</button></p>
+											</c:if>								
+											<c:if test = "${fn : contains(plist.contact, '채팅')}">
+												<p><span>채팅</span></p>
+											</c:if>								
+											<c:if test = "${fn : contains(plist.contact, '이메일')}">
+												<p><button class="email_a">이메일</button></p>
+											</c:if>								
 										</div>
 								</article>				
 							</c:forEach>
@@ -296,81 +270,10 @@
 	
 	
 	
-	<article id="layerPop_s3">
-		<div class="pop_body">
-			<div class="tit_s3">
-				<h4>이메일 보내기</h4>
-				<p>이메일은 실제로 사용하시는 정보를 입력하셔야 합니다.</p>
-			</div>
-			<form id="emailForm"> 
-				<input type="hidden" name="seq" value="${pdto.seq}">
-				
-				<div class="info clearfix">
-					<dl>
-						<dt class="tit">받는이 :</dt>
-						<dd><input type="text" name="name" value="${pdto.name}"></dd>
-					</dl>
-					<dl class="">
-						<dt class="tit">발신자 이메일</dt>
-						<dd><p><input type="text" name="memail" value="${loginInfo.email}"></p></dd>
-					</dl>
-					<dl class="">
-						<dt class="tit">이메일 비밀번호</dt>
-						<dd><p><input type="password" name="emailPassword" ></p></dd>
-					</dl>
-					<dl class="">
-						<dt class="tit">수신자 이메일</dt>
-						<dd><p><input type="text" name="email" value="${pdto.email}"></p></dd>
-					</dl>
-					<dl class="">
-						<dt class="tit">제목</dt>
-						<dd><p><input type="text" name="subject"></p></dd>
-					</dl>
-				</div>
-				<div data-seq="" class="txtBox">
-					<article>
-						<div class="tit">내용</div>
-						<div class="txtBox">
-							<textarea rows="5" cols="80" name="contents"></textarea>
-						</div>
-						<div class="btns_s3">
-							<p><input type="submit" value="전송" id="send"></p>
-							<p><input type="button" id="backReport" value="닫기"></p>
-						</div>
-					</article>
-				</div>
-			</form>
-		</div>
-		<script>
-	 		$(function(){
-	 			var layerPop_s3 = $("#layerPop_s3");
-				 $("#emailForm").on("submit",function(){
-					 var formData = new FormData($("#emailForm")[0]);
-					$.ajax({
-						url:"/partner/send",
-						data:formData,
-						type:"post",
-						dataType:"json",
-						cache:false,
-						contentType:false,
-						processData:false
-					}).done(function(resp){
-						alert("test :" + resp)
-					})
-					return false;
-				})
-				
-				$("#backReport").click(function(){
-					layerPop_s3.stop().fadeOut();
-				})
-				$(".email_a").click(function(){
-					layerPop_s3.stop().fadeIn();
-				})
-	 		})
-		</script>  
-	</article>
+	
 	
 	
 	<div class="navi">${navi}</div>
 <jsp:include page="/WEB-INF/views/partner/sendLetter.jsp" />
+<jsp:include page="/WEB-INF/views/email/write.jsp"/>
 <jsp:include page="/WEB-INF/views/footer.jsp"/>

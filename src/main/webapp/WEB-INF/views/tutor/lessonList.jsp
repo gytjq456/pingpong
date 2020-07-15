@@ -442,7 +442,7 @@
 			</div>
 			<div class="btnS1 right">
 				<c:choose>
-					<c:when test="${loginInfo.grade == 'tutor' }">
+					<c:when test="${sessionScope.loginInfo.grade == 'tutor' }">
 						<div><a href="/tutor/lessonApp" class="on">강의 신청</a></div>
 					</c:when>
 				</c:choose>

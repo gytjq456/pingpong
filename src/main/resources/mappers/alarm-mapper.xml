@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Alarm">
+	
+	<!-- 알람 갯수 -->
+	<select id="getAlarmCount" resultType="int">
+		select count(*) from alarm where alarm_receiver = #{id,jdbcType=VARCHAR}
+	</select>
+	
+	<!-- insert  -->
+	<insert id="insertAlarm">
+		insert into alarm values(alarm_seq.nextval,#{mdto.id,jdbcType=VARCHAR},#{pdto.id,jdbcType=VARCHAR},#{rvdto.category,jdbcType=VARCHAR},sysdate,'N')
+	</insert>
+	
+	<!-- 프로필 리뷰일 경우 : 리뷰 작성자 아이디 -->
+	<select id="receiveReview" resultType="kh.pingpong.dto.AlarmDTO">
+		select * from (select review.*, row_number() over(order by seq desc)
+		rnum from review where category = 'review') where rnum between #{start} and #{end}
+	</select>
+	
+	<!-- 파트너 대화 신청이 올 경우 : 신청자 아이디 -->
+	<select id="receiveChat">
+	</select>
+	
+	<!-- 그룹 참가 신청일 경우 : 신청자 아이디 -->
+	<select id="getGroupApply">
+		select seq from group_app where parent_seq = #{parent_seq} and id = #{id}
+	</select>
+	
+	<!-- 그룹 신청 승인일 경우 : 그룹명 -->
+	<update id="getGroupOK">
+		update grouplist set applying = "Y" where apply_end = #{today_date}
+	</update>
+
+	<!-- 튜터 신청 승인일 경우: 튜터명(자신 이름) -->
+	<update id="getTutorOK">
+		update member set grade='tutor' where id=#{id}
+	</update>
+
+	<!-- 강의 신청 승인일 경우: 강의명(개설) -->
+	<update id="getLessonOK">
+		update lesson set pass='Y' where seq = #{seq}
+	</update>
+
+	<!-- 신고 경고일 경우: 관리자 아이디 -->
+	<select id="report" resultType="kh.pingpong.dto.ReportListDTO">
+		select * from reportlist where id=#{id}
+	</select>
+</mapper>

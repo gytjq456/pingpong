@@ -38,7 +38,7 @@
 	#view_btns #update, #view_btns #delete { width: 49%; display: inline-block; }
 	#view_btns button { width: 100%; margin-top: 5px; }
 	#view_btns #update { margin-right: 2px; }
-	#writer_profile img { vertical-align: top; }
+	#writer_profile img { vertical-align: top; position:absolute; lefft:50%; top:50%; transform:translate(-50%, -50%);}
 	#map { width: 100%; height: 200px; margin-top: 10px; }
 	
 
@@ -182,9 +182,15 @@
 		$(".tab_s2 ul li").click(function(){
 			var idx = $(this).index()+1;
 			var topPos = $("#tab_"+idx).offset().top;
-			$("html,body").stop().animate({
-				scrollTop:topPos - headHeight - 80
-			})
+			if($(".tab_s2").hasClass("fixed")){
+				$("html,body").stop().animate({
+					scrollTop:topPos - headHeight - 80
+				})
+			}else{
+				$("html,body").stop().animate({
+					scrollTop:topPos - headHeight - 160
+				})
+			}
 		})
 		
 		var menuObj = $("#group_tab_menu");
@@ -207,7 +213,7 @@
 			<article id="group_view" class="inner1200 clearfix">
 				<div class="group_title_wrapper card_body">
 					<div id="writer_info" class="group_info_top">
-						<div id="writer_profile"><img src="/resources/img/sub/userThum.jpg"/></div>
+						<div id="writer_profile"><img src="/upload/member/${gdto.writer_id}/${gdto.sysname}"/></div>
 						<div id="writer_name_id">${gdto.writer_name}(${gdto.writer_id})</div>
 					</div>
 					<div id="group_base" class="group_info_top">
@@ -311,7 +317,7 @@
 											</c:when>
 											<c:otherwise>
 												<c:forEach var="member" items="${memberList}">
-													<div class="member_profile"><img src="/resources/img/sub/userThum.jpg"/></div>
+													<div class="member_profile"><img src="/upload/member/${member.id}/${member.sysname}"/></div>
 												</c:forEach>
 											</c:otherwise>
 										</c:choose>
@@ -350,7 +356,8 @@
 									<c:forEach var="related" items="${relatedGroup}">
 										<div class="back_and_wrap item">
 											<a href="/group/beforeView?seq=${related.seq}" class="group_list_a">
-												<div class="each_profile"><img src="/resources/img/sub/userThum.jpg"/></div>
+												<!-- <div class="each_profile"><img src="/resources/img/sub/userThum.jpg"/></div> -->
+												<div class="each_profile"><img src="/upload/member/${related.writer_id}/${related.sysname}"/></div>
 												<c:if test="${fn:startsWith(related.hobby_type, '영화')}">
 													<div class="group_background background_pink"></div>
 												</c:if>
@@ -482,7 +489,7 @@
 						</div>	
 						<div class="review_list card_body" >
 							<div class="tit_s2">
-								<h3>리뷰 작성</h3>
+								<h3>리뷰 목록</h3>
 							</div>				
 							<c:forEach var="i" items="${reviewList}">
 								<article class="clearfix">
@@ -564,10 +571,12 @@
 		})
 		
 		var inputLocation = '${gdto.location}';
+		var inputLocationLat = '${gdto.location_lat}';
+		var inputLocationLng = '${gdto.location_lng}';
 		
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 		    mapOption = { 
-		        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+		        center: new kakao.maps.LatLng(inputLocationLat, inputLocationLng), // 지도의 중심좌표
 		        level: 3 // 지도의 확대 레벨
 		    };  
 		
@@ -581,7 +590,7 @@
 		    // 정상적으로 검색이 완료됐으면 
 		     if (status === kakao.maps.services.Status.OK) {
 
-		        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+		        var coords = new kakao.maps.LatLng(inputLocationLat, inputLocationLng);
 
 		        // 결과값으로 받은 위치를 마커로 표시합니다
 		        var marker = new kakao.maps.Marker({
@@ -591,7 +600,7 @@
 
 				// 지도에 표시할 원을 생성합니다
 				var circle = new kakao.maps.Circle({
-				    center : new kakao.maps.LatLng(result[0].y, result[0].x),  // 원의 중심좌표 입니다 
+				    center : new kakao.maps.LatLng(inputLocationLat, inputLocationLng),  // 원의 중심좌표 입니다 
 				    radius: 50, // 미터 단위의 원의 반지름입니다 
 				    strokeWeight: 1, // 선의 두께입니다 
 				    strokeColor: '#75B8FA', // 선의 색깔입니다

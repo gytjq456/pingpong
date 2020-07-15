@@ -2,11 +2,24 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 <jsp:include page="/WEB-INF/views/header.jsp"/>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <style>
-	#jjim { right: -72%; }
-	#jjim i { color: #fbaab0; }
+	.pushBtn { position:absolute; right:0; top:0;}
+	.pushBtn > p { display:inline-block; margin-right:6px; font-size:14px !important; }
+	.pushBtn > p i {  font-size:14px;}
+	.pushBtn > p:last-child { margin:0; }
+	.fa-star { color:#fcba03;}
+	.fa-heart-o { color:#fbaab0;}
+	.seq { display:none; }
+	#jjim { cursor:pointer; }
+	.button_li { text-align:center;}
+	.button_li button { display:inline-block; border:1px solid #ddd; background:none; height:42px; line-height:42px; padding:0 12px; border-radius:6px; margin-right:6px; transition:all 0.5s;}	
+	.button_li button:last-child { margin:0; }
+	.button_li button:hover { background:#fbaab0; color:#fff;}
 </style>
 <script>
 	$(function(){
@@ -114,15 +127,16 @@
 	
 </script>
 
+<%-- <<<<<<< HEAD
 <body>
-	<br><br><br><br><br><br><br><br><br><br><br>
+	
 	<c:choose>
 		<c:when test="${empty pdto }">
 			해당 뷰페이지에 파트너 정보를 찾을 수 없습니다.
 		</c:when>
 		<c:otherwise>
 			<div class="box">
-				<%-- <img src ="/upload/member/${plist.id}/${plist.sysname}"> --%>
+				<img src ="/upload/member/${plist.id}/${plist.sysname}">
 				<span class="jjim"><i class="fa fa-heart-o" aria-hidden="true"></i>찜하기</span><br>
 				<span class="seq">${pdto.seq}</span> <br>
 				${pdto.id}<br>
@@ -143,10 +157,11 @@
 				${pdto.review_point}<br><br>
 			</div>
 			<div class="button_aa">
-				<button id="sendLet">쪽지</button>
+				<button class="letter">쪽지</button>
 				<button class="chat">채팅</button>
-				<button class="email">이메일</button>
-				<button class="report">신고하기</button><br><br>
+				<button class="email_a"><a href="#writeEmail" class='btn' data-seq="${pdto.seq}">이메일</a></button>
+				<span id="report" data-seq="${pdto.seq}" data-id="${pdto.id}" 
+				data-thisseq="" data-url="/partner/report" data-proc="/partner/reportProc"><i class="fa fa-exclamation" aria-hidden="true"></i>신고</span>
 				<button class="back">목록으로</button>
 				<c:if test="${sessionScope.loginInfo.id == pdto.id}">
 					<button class="delete">파트너 삭제</button>
@@ -154,55 +169,51 @@
 			</div>
 		</c:otherwise>
 	</c:choose>
-
-	<script>
-		$(".back").on("click",function(){
-			location.href="/partner/partnerList";
-		})
-		
-		//이메일 팝업창 생성
-		$(".button_aa .email").on("click",function(e){
-			var seq = $(this).closest('.button_aa').siblings('.box').find('.seq').html();
-		})
-		
-		$(".button_aa .delete").on("click",function(){
-			confirm("정말 파트너 취소 하시겠습니까?");
-			location.href="/partner/deletePartner";
-		})
-		
-		//찜하기
-		var checkJjim = ${checkJjim};
-		console.log(checkJjim);
-		if(checkJjim){
-			$('.jjim').css('color','#fbaab0');
-			$('.jjim i').removeClass('fa-heart-o');
-			$('.jjim i').addClass('fa-heart');
-		}
-		
-		$('.jjim').on('click', function(){
-			var seq = $('.seq').html();
-			
-			if ($(this).css('color') != 'rgb(251, 170, 176)') {
-				$.ajax({
-					url: '/partner/jjim',
-					data: {'parent_seq': seq},
-					type: 'POST'
-				}).done(function(resp){
-					console.log(resp);
-					location.href = '/partner/partnerView?seq=' + seq;
-				})
-			} else {
-				$.ajax({
-					url: '/partner/delJjim',
-					data: {'parent_seq': seq},
-					type: 'POST'
-				}).done(function(resp){
-					location.href = '/partner/partnerView?seq=' + seq;
-				})
-			}
-		})
-	</script>
 	
+	<script>
+	$(function(){
+		
+		var writeEmail = $("#writeEmail");
+	    $('a[href="#writeEmail"]').click(function(e) {
+	    	e.preventDefault();
+	     	$("#writeEmail").stop().fadeIn();
+	     	var seq = $(this).data("seq");
+	     	var name = $(".list_"+seq).find(".name").text();
+	     	var email = $(".list_"+seq).find(".email").text();
+	     	writeEmail.find("#receiverName").val(name);
+	     	writeEmail.find("#sendrMail").val(email);
+	    });
+    
+		 $("#emailForm").submit(function(){
+			 var formData = new FormData($("#emailForm")[0]);
+			$.ajax({
+				url:"/partner/send",
+				data:formData,
+				type:"post",
+				dataType:"json",
+				cache:false,
+				contentType:false,
+				processData:false
+			}).done(function(resp){
+				alert("이메일이 전송되었습니다.");
+				//$(".blocker").css("opacity",'0'); 
+				location.href="#close-modal";
+				
+			})
+			//return false;
+		})
+		
+		$('a[href="#writeEmail"]').click(function(event) {
+		      event.preventDefault();
+		 
+		      $(this).modal({
+		        fadeDuration: 300
+		      });
+		    });
+		
+	})
+	</script>
+
 	<!-- 리뷰 -->
 	<article id="tab_3" class="mapSch">
 						<!-- 리뷰  -->
@@ -212,10 +223,11 @@
 									<h3>리뷰 작성</h3>
 								</div>
 								<form id="reviewtForm">
-									<input type="hidden" name="writer" value="홍길동">
+									<input type="hidden" name="writer" value="${loginInfo.id}">
 									<input type="hidden" name="point" value="0" id="point">
 									<input type="hidden" name="category" value="review">
 									<input type="hidden" name="parent_seq" value="${pdto.seq}">
+									<input type="hidden" name="thumNail" value="${loginInfo.sysname}">
 									<div class="starPoint">
 										<div>
 											<button type="button"><i class="fa fa-star" aria-hidden="true"></i></button>
@@ -228,57 +240,225 @@
 									</div>
 									<div class="textInput clearfix">
 										<div class="userInfo_s1 userInfo_s2">
-											<div class="thumb"><img src="/resources/img/sub/userThum.jpg"/></div>
+											<div class="thumb"><img src="/upload/member/${loginInfo.id}/${loginInfo.sysname}"></div>
 											<div class="info">
 												<p class="userId">홍길동</p>
+--%>
+	<div id="subWrap" class="hdMargin">
+		<section id="subContents">
+			<article id="mypage" class="inner1200 clearfix">
+			<c:choose>
+					<c:when test="${empty pdto }">
+						해당 뷰페이지에 파트너 정보를 찾을 수 없습니다.
+					</c:when>
+					<c:otherwise>
+						<div id="session" class="card_body">
+							<span class="seq">${pdto.seq}</span>
+							<form action="/member/memberSelect" method="post">	
+								<div class="userInfo clearfix">
+									<div class="thum">
+										<div class="img"><img src ="/upload/member/${pdto.id}/${pdto.sysname}"></div>
+									</div>
+									<div class="infoBox">
+										<div class="name">
+											<span class="grade">파트너</span>
+											${pdto.name} <span>(${pdto.age}, ${pdto.id}, ${pdto.gender})</span>
+											
+											<div class="pushBtn">
+												<p class="jjim"><i class="fa fa-heart-o" aria-hidden="true"></i> 찜하기</p>
+												<p><i class="fa fa-file-text-o" aria-hidden="true"></i> ${pdto.review_count}</p>
+												<p><i class="fa fa-star" aria-hidden="true"></i> ${pdto.review_point}</p>
 											</div>
 										</div>
-										<div>
-											<textarea name="contents" id="textCont"></textarea>
-											<div class="wordsize"><span class="current">0</span>/1000</div>
+										<div class="infoTxt">
+											<ul>
+												<li>
+													<span>이메일</span>
+													<p>${pdto.email}</p>
+												</li>
+												<li>
+													<span>전화번호</span>
+													<p>${pdto.phone_country}${pdto.phone}</p>
+												</li>
+												<li>
+													<span>국적</span>
+													<p>${pdto.country}</p>
+												</li>
+												<li>
+													<span>지역</span>
+													<p>${pdto.address}</p>
+												</li>
+												<li>
+													<span>은행</span>
+													<p>SC제일은행 ( 1111 )</p>
+												</li>
+											</ul>
 										</div>
 									</div>
-									<div class="btnS1 right">
-										<div><input type="submit" value="작성" class="on"></div>
-										<div>
-											<input type="reset" value="취소">
-										</div>
-									</div>										
-								</form>
+								</div>
+								<div class="sideInfo">
+									<ul>
+										<li>
+											<span>구사 가능언어</span>
+											<p>${pdto.lang_can}</p>
+										</li>
+										<li>
+											<span>배우고 싶은 언어</span>
+											<p>${pdto.lang_learn}</p>
+										</li>
+										<li>
+											<span>취미</span>
+											<p>${pdto.hobby}</p>
+										</li>
+										<li class="introduce">
+											<span>자기소개</span>
+											<p>${pdto.introduce}</p>
+										</li>
+									</ul>
+								</div>
+							</form>
+							<div class="button_li">
+								<button id="sendLet">쪽지</button>
+								<!-- <button class="chat">채팅</button> -->
+								<button class="email_a">이메일</button>
+								<button class="report" data-id="${loginInfo.id}" data-thisseq="0" data-seq="${pdto.seq}" data-proc="/partner/reportProc" data-url="/partner/report">신고하기</button>
+								<button class="back">목록으로</button>
+								<c:if test="${sessionScope.loginInfo.id == pdto.id}">
+									<button class="delete">파트너 삭제</button>
+								</c:if>
 							</div>
-						</div>	
-						<div class="review_list card_body" >
+						</div>			
+					</c:otherwise>
+				</c:choose>
+				<script>
+					$(".back").on("click",function(){
+						location.href="/partner/partnerList";
+					})
+					
+					/* 이메일 팝업창 생성
+					$(".button_aa .email").on("click",function(e){
+						var seq = $(this).closest('.button_aa').siblings('.box').find('.seq').html();
+					}) */
+					
+					$(".button_li .delete").on("click",function(){
+						confirm("정말 파트너 취소 하시겠습니까?");
+						location.href="/partner/deletePartner";
+					})
+					
+					//찜하기
+					var checkJjim = ${checkJjim};
+					console.log(checkJjim);
+					if(checkJjim){
+						$('.jjim').css('color','#fbaab0');
+						$('.jjim i').removeClass('fa-heart-o');
+						$('.jjim i').addClass('fa-heart');
+					}
+					
+					$('.jjim').on('click', function(){
+						var seq = $('.seq').html();
+						
+						if ($(this).css('color') != 'rgb(251, 170, 176)') {
+							$.ajax({
+								url: '/partner/jjim',
+								data: {'parent_seq': seq},
+								type: 'POST'
+							}).done(function(resp){
+								console.log(resp);
+								location.href = '/partner/partnerView?seq=' + seq;
+							})
+						} else {
+							$.ajax({
+								url: '/partner/delJjim',
+								data: {'parent_seq': seq},
+								type: 'POST'
+							}).done(function(resp){
+								location.href = '/partner/partnerView?seq=' + seq;
+							})
+						}
+					})
+				</script>
+				
+				<!-- 리뷰 -->
+				<article id="tab_3" class="mapSch">
+					<!-- 리뷰  -->
+					<div id="review_wrap" class="card_body">
+						<div class="review_box">
 							<div class="tit_s2">
 								<h3>리뷰 작성</h3>
-							</div>				
-							<c:forEach var="i" items="${reviewList}">
-								<article class="clearfix">
-									<div class="userInfo_s1">
-										<div class="thumb"><img src="/resources/img/sub/userThum.jpg"/></div>
+							</div>
+							<form id="reviewtForm">
+								<input type="hidden" name="writer" value="${loginInfo.id}">
+								<input type="hidden" name="point" value="0" id="point">
+								<input type="hidden" name="category" value="파트너">
+								<input type="hidden" name="parent_seq" value="${pdto.seq}">
+								<input type="hidden" name="thumNail" value="${loginInfo.sysname}">
+								<div class="starPoint">
+									<div>
+										<button type="button"><i class="fa fa-star" aria-hidden="true"></i></button>
+										<button type="button"><i class="fa fa-star" aria-hidden="true"></i></button>
+										<button type="button"><i class="fa fa-star" aria-hidden="true"></i></button>
+										<button type="button"><i class="fa fa-star" aria-hidden="true"></i></button>
+										<button type="button"><i class="fa fa-star" aria-hidden="true"></i></button>
+									</div>
+									<div class="point_box">(<span class="point">0</span>점)</div>
+								</div>
+								<div class="textInput clearfix">
+									<div class="userInfo_s1 userInfo_s2">
+										<div class="thumb"><img src="/upload/member/${loginInfo.id}/${loginInfo.sysname}"/></div>
 										<div class="info">
-											<p class="userId">${i.writer}</p>
-											<p class="writeDate">${i.dateString}</p>
+											<p class="userId">${loginInfo.name}</p>
 										</div>
 									</div>
-									<div class="cont">
-										<div class="starPoint" data-star="${i.point}">
-											<div>
-												<em><i class="fa fa-star" aria-hidden="true"></i></em>
-												<em><i class="fa fa-star" aria-hidden="true"></i></em>
-												<em><i class="fa fa-star" aria-hidden="true"></i></em>
-												<em><i class="fa fa-star" aria-hidden="true"></i></em>
-												<em><i class="fa fa-star" aria-hidden="true"></i></em>
-											</div>
-											<div>(<span>${i.point}</span>점)</div>
-										</div>
-										<div class="txtBox">
-											<a href="#;">${i.contents}</a>
-										</div>
+									<div>
+										<textarea name="contents" id="textCont"></textarea>
+										<div class="wordsize"><span class="current">0</span>/1000</div>
 									</div>
-								</article>
-							</c:forEach>
+								</div>
+								<div class="btnS1 right">
+									<div><input type="submit" value="작성" class="on"></div>
+									<div>
+										<input type="reset" value="취소">
+									</div>
+								</div>										
+							</form>
 						</div>
-	</article>
+					</div>	
+					<div class="review_list card_body" >
+						<div class="tit_s2">
+							<h3>리뷰 목록</h3>
+						</div>				
+						<c:forEach var="i" items="${reviewList}">
+							<article class="clearfix">
+								<div class="userInfo_s1">
+									<div class="thumb"><img src="/upload/member/${i.writer}/${i.thumNail}"/></div>
+									<div class="info">
+										<p class="userId">${i.writer}</p>
+										<p class="writeDate">${i.dateString}</p>
+									</div>
+								</div>
+								<div class="cont">
+									<div class="starPoint" data-star="${i.point}">
+										<div>
+											<em><i class="fa fa-star" aria-hidden="true"></i></em>
+											<em><i class="fa fa-star" aria-hidden="true"></i></em>
+											<em><i class="fa fa-star" aria-hidden="true"></i></em>
+											<em><i class="fa fa-star" aria-hidden="true"></i></em>
+											<em><i class="fa fa-star" aria-hidden="true"></i></em>
+										</div>
+										<div>(<span>${i.point}</span>점)</div>
+									</div>
+									<div class="txtBox">
+										<a href="#;">${i.contents}</a>
+									</div>
+								</div>
+							</article>
+						</c:forEach>
+					</div>
+				</article>
+			</article>
+		</section>
+	</div>
+<jsp:include page="/WEB-INF/views/reportPage.jsp" />
 <jsp:include page="/WEB-INF/views/partner/sendLetter.jsp" />
 <jsp:include page="/WEB-INF/views/email/write.jsp"/>	
 <jsp:include page="/WEB-INF/views/footer.jsp"/>	

@@ -5,41 +5,56 @@
 	
 	<!-- 그룹 주선자일 경우의 기록   -->
 	<select id="selectByIdInGroup" resultType="kh.pingpong.dto.GroupDTO">
-		select * from grouplist where writer_id = #{id} order by seq desc
+		select * from 
+		(select grouplist.*, row_number() over(order by seq desc) rnum from grouplist where ${columnName} = #{columnValue})
+		where rnum between #{start} and #{end}
 	</select>
 	
 	<!-- 그룹 멤버일 경우의 기록  -->
 	<select id="selectByIdInGroup_app" resultType="kh.pingpong.dto.GroupDTO">
-		select * from grouplist where seq in (select parent_seq from groupmember where id = #{id}) order by seq desc
+		select * from
+		(select grouplist.*, row_number() over(order by seq desc) rnum from grouplist 
+		where seq in (select parent_seq from groupmember where ${columnName} = #{columnValue})) 
+		where rnum between #{start} and #{end}
 	</select>
 	
+	<!-- 그룹 페이징 -->
+	<select id="selectCount" resultType="int">
+		select count(*) from ${tableName} where ${columnName} = #{columnValue}
+	</select>
+	
+	<!-- 튜터/튜티 관련 -->
+	<select id="lessonList" resultType="kh.pingpong.dto.LessonDTO">
+		select * from 
+		(select lesson.*, row_number() over(order by seq desc) rnum from lesson where id = #{columnValue})
+		where rnum between #{start} and #{end}
+	</select>
 	
 	<select id="tuteeList" resultType="kh.pingpong.dto.LessonDTO">
-		select * from lesson where seq in (select parent_seq from tutee where id=#{id}) order by seq desc
-	</select>
-
-	<!-- <select id="tuteeList" resultType="kh.pingpong.dto.TuteeDTO">
-		select * from tutee where parent_seq in (select seq from lesson)
-	</select> -->
-	
-	<!-- <select id="partnerList" resultType="kh.pingpong.dto.PartnerDTO">
-		select * from partner 
-	</select> -->
-	
-	<select id="likeList" resultType="kh.pingpong.dto.LikeListDTO">
-		select * from jjim 
+		select * from 
+		(select lesson.*, row_number() over(order by seq desc) rnum from lesson where seq in (select parent_seq from tutee where id = #{columnValue}))
+		where rnum between #{start} and #{end}
 	</select>
 	
 	<select id="partnerJjim" resultType="kh.pingpong.dto.PartnerDTO">
-		select * from partner where seq in (select parent_seq from jjim where category = '파트너' and id=#{id})
+		select * from
+		(select partner.*, row_number() over(order by seq desc) rnum from partner where seq in (select parent_seq from jjim where category = '파트너' and id = #{id}))
+		where rnum between #{start} and #{end}
 	</select>
 	
 	<select id="groupJjim" resultType="kh.pingpong.dto.GroupDTO">
-		select * from grouplist where seq in (select parent_seq from jjim where category = '그룹' and id=#{id})
+		select * from 
+		(select grouplist.*, row_number() over(order by seq desc) rnum from grouplist where seq in (select parent_seq from jjim where category = '그룹' and id = #{id}))
+		where rnum between #{start} and #{end}
 	</select>
 	
-	<select id="tutorJjim" resultType="kh.pingpong.dto.LessonDTO">
-		select * from lesson where seq in (select parent_seq from jjim where category = '강의' and id=#{id})
+	<select id="lessonJjim" resultType="kh.pingpong.dto.LessonDTO">
+		select * from
+		(select lesson.*, row_number() over(order by seq desc) rnum from lesson where seq in (select parent_seq from jjim where category = '강의' and id = #{id}))
+		where rnum between #{start} and #{end}
 	</select>
 	
+	<select id="jjimCount" resultType="int">
+		select count(*) from ${tableName} where seq in (select parent_seq from jjim where category = #{category} and id = #{id})
+	</select>
 </mapper>

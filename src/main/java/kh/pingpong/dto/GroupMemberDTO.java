@@ -7,6 +7,7 @@ public class GroupMemberDTO {
 	private String profile;
 	private int parent_seq;
 	private String parent_title;
+	private String sysname;
 	
 	public GroupMemberDTO() {}
 	public GroupMemberDTO(int seq, String id, String name, String profile, int parent_seq, String parent_title) {
@@ -54,4 +55,17 @@ public class GroupMemberDTO {
 	public void setParent_title(String parent_title) {
 		this.parent_title = parent_title;
 	}
+
+	
+	public String getSysname() {
+		return sysname;
+	}
+	
+	public void setSysname(String sysname) {
+		this.sysname = sysname;
+	}
+	
+	
+	
+	
 }

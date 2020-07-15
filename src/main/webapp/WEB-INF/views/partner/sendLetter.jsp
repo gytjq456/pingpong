@@ -45,7 +45,25 @@
 			layerPop_s2.stop().fadeIn();
 		})
 		
-		$('#send_letter').on('click', function(){
+		$(".rep_rec_let").on("click", function(){
+			$('#sender').val('');
+			$('#receiver').val('');
+			$('#letter_contents').val('');
+			
+			var from_id = '${sessionScope.loginInfo.id}';
+			var from_name = '${sessionScope.loginInfo.name}';
+			var to_id = $(this).closest(".letter_con").prev().find('.rec_id').html();
+			var to_name = $(this).closest(".letter_con").prev().find('.show_con').html();;
+			
+			to_name = to_name.split(' ')[0];
+			
+			$('#sender').html(from_name + "(" + from_id + ")");
+			$('#receiver').html(to_name + "(" + to_id + ")");
+			
+			layerPop_s2.stop().fadeIn();
+		})
+		
+		$('#send_letter_btn').on('click', function(){
 			var to_name = ($('#receiver').html().split('('))[0];
 			var to_id = ($('#receiver').html().split('('))[1];
 			to_id = to_id.substring(0, to_id.length - 1);
@@ -81,32 +99,36 @@
 	#layerPop_s2 .tit_s3 { margin: 12px; text-align: center; font-size: 20px; font-weight: bold; }
 	#layerPop_s2 .checkAgree { color: #999; }
 	#layerPop_s2 .checkLabel { vertical-align: middle; }
+	#layerPop_s2 .layer_let_btns { text-align: center; }
+	#layerPop_s2 .layer_let_btns > button { width: 50px; height: 30px; border: 1px solid #ddd; color: #aaa; background-color: #fff; border-radius: 6px; }
+	#layerPop_s2 .layer_let_btns > button:first-child { margin-right: 6px; }
+	#layerPop_s2 .layer_let_btns > button:hover { background-color: #4c98ff; color: #fff; border: none; }
 </style>
 <article id="layerPop_s2">
 	<div class="pop_body">
 		<div class="tit_s3">
 			<h3>쪽지 보내기</h3>
 		</div>
-			<input type="hidden" name="parent_seq" value="">
-			<section>
-				<article>
-					<div>
-						<span>보내는 사람</span>
-						<span id="sender"></span>
-					</div>
-					<div>
-						<span>받는 사람</span>
-						<span id="receiver"></span>
-					</div>
-					<div>내용</div>
-					<div class="contents">
-						<textarea rows="30" cols="50" name="contents" id="letter_contents"></textarea>
-					</div>
-					<div>
-						<button id="send_letter">전송</button>
-						<input type="button" id="back2" value="닫기">
-					</div>
-				</article>
-			</section>
+		<input type="hidden" name="parent_seq" value="">
+		<section>
+			<article>
+				<div>
+					<span>보내는 사람</span>
+					<span id="sender"></span>
+				</div>
+				<div>
+					<span>받는 사람</span>
+					<span id="receiver"></span>
+				</div>
+				<div>내용</div>
+				<div class="contents">
+					<textarea rows="30" cols="50" name="contents" id="letter_contents"></textarea>
+				</div>
+				<div class="layer_let_btns">
+					<button id="send_letter_btn">전송</button>
+					<button id="back2">닫기</button>
+				</div>
+			</article>
+		</section>
 	</div>
 </article>

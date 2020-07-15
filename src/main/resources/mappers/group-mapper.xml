@@ -89,8 +89,13 @@
 		)
 	</select>
 	
-	<select id="selectBySeq" resultType="kh.pingpong.dto.GroupDTO">
-		select * from grouplist where seq = #{value}
+
+	<select id="selectBySeq" resultMap="GroupProFile">
+		<!-- select * from grouplist where seq = #{value} -->
+		select g.*,m.profile from 
+		grouplist g inner join member m
+		on g.writer_id = m.id
+		where seq = #{value}
 	</select>
 	
 	<select id="searchSeq" resultType="int">
@@ -135,8 +140,16 @@
 		insert into delete_app values(delete_app_seq.nextval, #{id}, '그룹', #{contents}, #{parent_seq})
 	</insert>
 	
-	<select id="selectGroupMemberList" resultType="kh.pingpong.dto.GroupMemberDTO">
-		select * from groupmember where parent_seq = #{parent_seq}
+	
+	<resultMap id="GroupMemberProFile" type="kh.pingpong.dto.GroupMemberDTO">
+		<result property="sysname" column="profile"></result>
+	</resultMap>
+	<select id="selectGroupMemberList" resultMap="GroupMemberProFile">
+		<!-- select * from groupmember where parent_seq = #{parent_seq} -->
+		select g.*, m.profile from groupmember g 
+		inner join member m
+		on g.id = m.id
+		where parent_seq = #{parent_seq}
 	</select>
 	
 	<select id="selectGroupMemberById" resultType="int">

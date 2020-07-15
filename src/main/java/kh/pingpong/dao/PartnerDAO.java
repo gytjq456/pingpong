@@ -15,6 +15,7 @@ import kh.pingpong.dto.JjimDTO;
 import kh.pingpong.dto.LanguageDTO;
 import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.dto.PartnerDTO;
+import kh.pingpong.dto.ReportListDTO;
 import kh.pingpong.dto.ReviewDTO;
 
 @Repository
@@ -93,11 +94,25 @@ public class PartnerDAO {
 	public int deletePartner(MemberDTO mdto) throws Exception{
 		return mybatis.delete("Partner.deletePartner", mdto);
 	}
+	
+	// 파트너 멤버 업데이트
+	public int updateMemberGradeD(MemberDTO mdto) throws Exception {
+		return mybatis.update("Partner.updateMemberGradeD", mdto);
+	}
 
 	public List<PartnerDTO> partnerListAll() throws Exception{
 		return mybatis.selectList("Partner.partnerListAll");
 	}
 
+	//파트너 신고
+	public int selectReport(ReportListDTO rldto) {
+		return mybatis.selectOne("Partner.selectReport", rldto);
+	}
+	
+	public int insertReport(ReportListDTO rldto) {
+		return mybatis.insert("Partner.insertReport", rldto);
+	}
+	
 	//리뷰 글쓰기
 	public int reviewWrite(ReviewDTO redto) throws Exception{
 		return mybatis.insert("Partner.reviewWrite",redto);

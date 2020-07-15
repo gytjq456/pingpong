@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,7 +18,6 @@ import kh.pingpong.dto.CorrectDTO;
 import kh.pingpong.dto.DeleteApplyDTO;
 import kh.pingpong.dto.DiscussionDTO;
 import kh.pingpong.dto.FileDTO;
-import kh.pingpong.dto.FileTnDTO;
 import kh.pingpong.dto.GroupDTO;
 import kh.pingpong.dto.LessonDTO;
 import kh.pingpong.dto.MemberDTO;
@@ -26,12 +26,19 @@ import kh.pingpong.dto.PartnerDTO;
 import kh.pingpong.dto.ReportListDTO;
 import kh.pingpong.dto.TuteeDTO;
 import kh.pingpong.dto.TutorAppDTO;
+import kh.pingpong.service.MemberService;
 
 @Controller
 @RequestMapping("/admins")
 public class AdminController {
 	@Autowired
 	private AdminService aservice;
+	
+	@Autowired
+	private MemberService mservice;
+	
+	@Autowired
+	private HttpSession session;
 	
 	// 회원 리스트
 	@RequestMapping("/memberList")
@@ -222,6 +229,16 @@ public class AdminController {
 	@RequestMapping("/tutorAppUpdate")
 	public String tutorAppUpdate(int seq, String id, Model model) {
 		aservice.updateTutorApp(seq, id);
+		
+		String loginId = ((MemberDTO)session.getAttribute("loginInfo")).getId();
+		
+		if (loginId.contentEquals(id) ) {
+			MemberDTO mdto = aservice.memberView(id);
+			System.out.println(mdto.getId());
+			session.removeAttribute("loginInfo");
+			session.setAttribute("loginInfo", mdto);
+		}
+		
 		model.addAttribute("seq", seq);
 		return "redirect:/admins/tutorAppView";
 	}

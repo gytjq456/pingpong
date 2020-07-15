@@ -2,6 +2,9 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 <jsp:include page="/WEB-INF/views/header.jsp"/>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <style>
@@ -124,6 +127,123 @@
 	
 </script>
 
+<%-- <<<<<<< HEAD
+<body>
+	
+	<c:choose>
+		<c:when test="${empty pdto }">
+			해당 뷰페이지에 파트너 정보를 찾을 수 없습니다.
+		</c:when>
+		<c:otherwise>
+			<div class="box">
+				<img src ="/upload/member/${plist.id}/${plist.sysname}">
+				<span class="jjim"><i class="fa fa-heart-o" aria-hidden="true"></i>찜하기</span><br>
+				<span class="seq">${pdto.seq}</span> <br>
+				${pdto.id}<br>
+				${pdto.name}<br>
+				${pdto.age}<br>
+				${pdto.gender}<br>
+				${pdto.email}<br>
+				${pdto.country}<br>
+				${pdto.phone_country}<br>
+				${pdto.phone}<br>
+				${pdto.address}<br>
+				${pdto.lang_can}<br>
+				${pdto.lang_learn}<br>
+				${pdto.hobby}<br>
+				${pdto.introduce}<br>
+				${pdto.partner_date}<br>
+				${pdto.review_count}<br>
+				${pdto.review_point}<br><br>
+			</div>
+			<div class="button_aa">
+				<button class="letter">쪽지</button>
+				<button class="chat">채팅</button>
+				<button class="email_a"><a href="#writeEmail" class='btn' data-seq="${pdto.seq}">이메일</a></button>
+				<span id="report" data-seq="${pdto.seq}" data-id="${pdto.id}" 
+				data-thisseq="" data-url="/partner/report" data-proc="/partner/reportProc"><i class="fa fa-exclamation" aria-hidden="true"></i>신고</span>
+				<button class="back">목록으로</button>
+				<c:if test="${sessionScope.loginInfo.id == pdto.id}">
+					<button class="delete">파트너 삭제</button>
+				</c:if>
+			</div>
+		</c:otherwise>
+	</c:choose>
+	
+	<script>
+	$(function(){
+		
+		var writeEmail = $("#writeEmail");
+	    $('a[href="#writeEmail"]').click(function(e) {
+	    	e.preventDefault();
+	     	$("#writeEmail").stop().fadeIn();
+	     	var seq = $(this).data("seq");
+	     	var name = $(".list_"+seq).find(".name").text();
+	     	var email = $(".list_"+seq).find(".email").text();
+	     	writeEmail.find("#receiverName").val(name);
+	     	writeEmail.find("#sendrMail").val(email);
+	    });
+    
+		 $("#emailForm").submit(function(){
+			 var formData = new FormData($("#emailForm")[0]);
+			$.ajax({
+				url:"/partner/send",
+				data:formData,
+				type:"post",
+				dataType:"json",
+				cache:false,
+				contentType:false,
+				processData:false
+			}).done(function(resp){
+				alert("이메일이 전송되었습니다.");
+				//$(".blocker").css("opacity",'0'); 
+				location.href="#close-modal";
+				
+			})
+			//return false;
+		})
+		
+		$('a[href="#writeEmail"]').click(function(event) {
+		      event.preventDefault();
+		 
+		      $(this).modal({
+		        fadeDuration: 300
+		      });
+		    });
+		
+	})
+	</script>
+
+	<!-- 리뷰 -->
+	<article id="tab_3" class="mapSch">
+						<!-- 리뷰  -->
+						<div id="review_wrap" class="card_body">
+							<div class="review_box">
+								<div class="tit_s2">
+									<h3>리뷰 작성</h3>
+								</div>
+								<form id="reviewtForm">
+									<input type="hidden" name="writer" value="${loginInfo.id}">
+									<input type="hidden" name="point" value="0" id="point">
+									<input type="hidden" name="category" value="review">
+									<input type="hidden" name="parent_seq" value="${pdto.seq}">
+									<input type="hidden" name="thumNail" value="${loginInfo.sysname}">
+									<div class="starPoint">
+										<div>
+											<button type="button"><i class="fa fa-star" aria-hidden="true"></i></button>
+											<button type="button"><i class="fa fa-star" aria-hidden="true"></i></button>
+											<button type="button"><i class="fa fa-star" aria-hidden="true"></i></button>
+											<button type="button"><i class="fa fa-star" aria-hidden="true"></i></button>
+											<button type="button"><i class="fa fa-star" aria-hidden="true"></i></button>
+										</div>
+										<div class="point_box">(<span class="point">0</span>점)</div>
+									</div>
+									<div class="textInput clearfix">
+										<div class="userInfo_s1 userInfo_s2">
+											<div class="thumb"><img src="/upload/member/${loginInfo.id}/${loginInfo.sysname}"></div>
+											<div class="info">
+												<p class="userId">홍길동</p>
+--%>
 	<div id="subWrap" class="hdMargin">
 		<section id="subContents">
 			<article id="mypage" class="inner1200 clearfix">
@@ -137,7 +257,7 @@
 							<form action="/member/memberSelect" method="post">	
 								<div class="userInfo clearfix">
 									<div class="thum">
-										<div class="img"><img src ="/upload/member/${plist.id}/${plist.sysname}"></div>
+										<div class="img"><img src ="/upload/member/${pdto.id}/${pdto.sysname}"></div>
 									</div>
 									<div class="infoBox">
 										<div class="name">
@@ -199,9 +319,9 @@
 							</form>
 							<div class="button_li">
 								<button id="sendLet">쪽지</button>
-								<button class="chat">채팅</button>
+								<!-- <button class="chat">채팅</button> -->
 								<button class="email_a">이메일</button>
-								<button class="report">신고하기</button>
+								<button class="report" data-id="${loginInfo.id}" data-thisseq="0" data-seq="${pdto.seq}" data-proc="/partner/reportProc" data-url="/partner/report">신고하기</button>
 								<button class="back">목록으로</button>
 								<c:if test="${sessionScope.loginInfo.id == pdto.id}">
 									<button class="delete">파트너 삭제</button>
@@ -210,31 +330,17 @@
 						</div>			
 					</c:otherwise>
 				</c:choose>
-			
-			
-			
-				
-			<%-- 			<div class="box">
-							<img src ="/upload/member/${plist.id}/${plist.sysname}">
-							<br>
-							<span class="seq">${pdto.seq}</span> <br>
-							${pdto.partner_date}<br>
-						</div>
-						
-					</c:otherwise>
-				</c:choose> --%>
-			
 				<script>
 					$(".back").on("click",function(){
 						location.href="/partner/partnerList";
 					})
 					
-					//이메일 팝업창 생성
+					/* 이메일 팝업창 생성
 					$(".button_aa .email").on("click",function(e){
 						var seq = $(this).closest('.button_aa').siblings('.box').find('.seq').html();
-					})
+					}) */
 					
-					$(".button_aa .delete").on("click",function(){
+					$(".button_li .delete").on("click",function(){
 						confirm("정말 파트너 취소 하시겠습니까?");
 						location.href="/partner/deletePartner";
 					})
@@ -281,10 +387,11 @@
 								<h3>리뷰 작성</h3>
 							</div>
 							<form id="reviewtForm">
-								<input type="hidden" name="writer" value="홍길동">
+								<input type="hidden" name="writer" value="${loginInfo.id}">
 								<input type="hidden" name="point" value="0" id="point">
-								<input type="hidden" name="category" value="review">
+								<input type="hidden" name="category" value="파트너">
 								<input type="hidden" name="parent_seq" value="${pdto.seq}">
+								<input type="hidden" name="thumNail" value="${loginInfo.sysname}">
 								<div class="starPoint">
 									<div>
 										<button type="button"><i class="fa fa-star" aria-hidden="true"></i></button>
@@ -297,9 +404,9 @@
 								</div>
 								<div class="textInput clearfix">
 									<div class="userInfo_s1 userInfo_s2">
-										<div class="thumb"><img src="/resources/img/sub/userThum.jpg"/></div>
+										<div class="thumb"><img src="/upload/member/${loginInfo.id}/${loginInfo.sysname}"/></div>
 										<div class="info">
-											<p class="userId">홍길동</p>
+											<p class="userId">${loginInfo.name}</p>
 										</div>
 									</div>
 									<div>
@@ -323,7 +430,7 @@
 						<c:forEach var="i" items="${reviewList}">
 							<article class="clearfix">
 								<div class="userInfo_s1">
-									<div class="thumb"><img src="/resources/img/sub/userThum.jpg"/></div>
+									<div class="thumb"><img src="/upload/member/${i.writer}/${i.thumNail}"/></div>
 									<div class="info">
 										<p class="userId">${i.writer}</p>
 										<p class="writeDate">${i.dateString}</p>
@@ -351,7 +458,7 @@
 			</article>
 		</section>
 	</div>
-
+<jsp:include page="/WEB-INF/views/reportPage.jsp" />
 <jsp:include page="/WEB-INF/views/partner/sendLetter.jsp" />
 <jsp:include page="/WEB-INF/views/email/write.jsp"/>	
 <jsp:include page="/WEB-INF/views/footer.jsp"/>	

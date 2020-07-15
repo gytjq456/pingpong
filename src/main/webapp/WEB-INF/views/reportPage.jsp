@@ -25,6 +25,7 @@ $(function(){
 		var url = $(this).data("url");
 		var proc = $(this).data("proc");
 		var thisSeq = $(this).data("thisseq");
+		
 		if(thisSeq == ""){
 			thisSeq = 0;
 		}
@@ -101,7 +102,7 @@ $(function(){
 		<div class="tit_s3">
 			<h4>신고</h4>
 		</div>
-		<form action="" id="grouptProc" method="post">
+		<form id="grouptProc" method="post" action="">
 			<input type="hidden" name="reporter" value="${loginInfo.id}">
 			<input type="hidden" name="parent_seq" value="">
 			<input type="hidden" name="id" value="">
@@ -113,13 +114,13 @@ $(function(){
 					<dd>${loginInfo.id}</dd>
 				</dl>
 				<dl class="writer_id">
-					<dt class="tit">게시물 올린 사람 :</dt>
+					<dt class="tit">신고 대상:</dt>
 					<dd><p></p></dd>
 				</dl>
 			</div>
 			<div data-seq="${gdto.seq}" class="txtBox">
 				<article>
-					<div class="tit">신고사유</div>
+					<div class="tit">신고 사유</div>
 					<div class="reportContents">
 						<textarea rows="30" cols="50" name="reason" ></textarea>
 					</div>

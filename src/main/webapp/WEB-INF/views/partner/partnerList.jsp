@@ -1,54 +1,22 @@
 	<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:include page="/WEB-INF/views/header.jsp"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+
 <style>
 	#tabContWrap { display:block !important;}
 	#tabContWrap > article {display:block !important;}
 	.defaultSch input { width:100%; }
 	.checkBox_s1 select { padding:5px; border:1px solid #ddd; box-sizing:border-box; border-radius:6px; font-size:14px;}
-	
-		
-	
 </style>
+
 <script>
 	$(function() {
-		/* $(".box").on("click", function() {
-			var seq = $(this).find(".seq").html();
-			location.href = "/partner/partnerView?seq=" + seq;
-		}) */
 		
-		$('#partnerBtn').on('click', function(){				
-			var checkboxCount = $("input:checkbox[name='contactList']").length;
-			console.log('checkboxCount: ' + checkboxCount)
-			var selectedContact = [];
-			
-			for (var i = 0; i < checkboxCount; i++) {
-				var inputChecked = $("input:checkbox[name='contactList']:eq(" + i + ")").is(":checked");
-				if (inputChecked) {
-					selectedContact.push($("input:checkbox[name='contactList']:eq(" + i + ")").val());
-					console.log('selectedContact: ' + selectedContact)
-				}
-			}
-			
-			$("#contact").val(selectedContact);
-			
-			$('#partnerRegister').submit();
-		
-		})
-		
-		var grade = '${sessionScope.loginInfo.grade}';
-		
-		
-		//이메일 팝업창 생성
-		$(".button_aa .email_a").on("click",function(e){
-			alert("이메일 페이지로 이동하실께요.");
-			var seq = $(this).closest('.button_aa').siblings('.box').find('.seq').html();
-			window.open("http://localhost:8888/partner/selectPartnerEmail?seq="+seq,"width=800,height=400");
-		})
 				
 		//시군 
 		   new sojaeji('sido1', 'gugun1');
@@ -76,8 +44,8 @@
 			console.log($('#address').val(sido + ' ' + gugun));
 		});
 		
-		
 		//최신순, 평점순
+		$('#align').on('change',function(){
 		/* var align = '${align}';
 		if(align != null){
 			$("#align").val(align);
@@ -98,6 +66,7 @@
 				location.href="http://localhost/member/login";
 			}	
 		})
+	});
 		
 		$(".partnerBox article").each(function(){
 			var text = $(this).find(".introduce p").text();
@@ -114,7 +83,7 @@
 				$(this).find(".introduce p").text(tagGt);
 			}
 		})		
-	})
+	});
 </script>
 <body>
 	<div id="subWrap" class="hdMargin">
@@ -125,6 +94,26 @@
 					<h2>Partner </h2>
 					<p>다양한 사람들을 원하시나요?<br>관심사가 비슷한 사람들과 함께 소통해 보세요.</p>
 				</div>
+<%-- <<<<<<< HEAD
+				<div class="partner_register_box">
+					<div id="tab_2" class="profileShareAgree">			
+							<c:if test="${sessionScope.loginInfo.grade == 'default'}">
+								<form action="/partner/insertPartner" id="partnerRegister" method="post">
+									<h2>파트너를 등록해주세요</h2>
+									<div>자신의 프로필을 공유하여 다른 사람들과 소통해보세요.</div>
+									프로필 공유 동의 <input type="checkbox" name="agree" id="agree">(필수)<br> 
+									<span><input type="checkbox" name="contactList" id="letter" >쪽지</span> 
+									<span><input type="checkbox" name="contactList" id="email">이메일</span> 
+									<span><input type="checkbox" name="contactList" id="chatting" >채팅(필수)</span><br>
+									<input type="hidden" name="contact" id="contact">
+									1:1 기본적으로 제공되는 서비스입니다.
+									<button type="button" id="partnerBtn">등록</button>
+								</form>
+							</c:if>
+					</div>
+				</div>
+=======
+>>>>>>> 22a98959ebe63ced0ae37a5bb500ce94a5c6c9ab --%>
 				<div class="partner_search_box">
 					<div id="tabContWrap" class="search_wrap">
 						<article id="tab_1" class="kewordSch">
@@ -258,9 +247,15 @@
 										</a>
 										</div>
 										<div class="btn_li">
-											<p><button class="letter">쪽지</button></p>
-											<p><button class="chatting" data-uid="${plist.id}" data-name="${plist.name}">채팅</button></p>
-											<p><button class="email_a">이메일</button></p>
+											<c:if test = "${fn : contains(plist.contact, '쪽지')}">
+												<p><button class="letter">쪽지</button></p>
+											</c:if>								
+											<c:if test = "${fn : contains(plist.contact, '채팅')}">
+												<p><span>채팅</span></p>
+											</c:if>								
+											<c:if test = "${fn : contains(plist.contact, '이메일')}">
+												<p><button class="email_a">이메일</button></p>
+											</c:if>								
 										</div>
 								</article>				
 							</c:forEach>

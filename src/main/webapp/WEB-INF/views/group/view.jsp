@@ -317,7 +317,7 @@
 											</c:when>
 											<c:otherwise>
 												<c:forEach var="member" items="${memberList}">
-													<div class="member_profile"><img src="/upload/member/${member.id}/${member.profile}"/></div>
+													<div class="member_profile"><img src="/upload/member/${member.id}/${member.sysname}"/></div>
 												</c:forEach>
 											</c:otherwise>
 										</c:choose>

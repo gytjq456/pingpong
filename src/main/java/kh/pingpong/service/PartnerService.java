@@ -3,22 +3,18 @@ package kh.pingpong.service;
 import java.util.List;
 import java.util.Map;
 
-import javax.mail.Message.RecipientType;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import kh.pingpong.config.Configuration;
-import kh.pingpong.dao.GroupDAO;
 import kh.pingpong.dao.PartnerDAO;
 import kh.pingpong.dto.HobbyDTO;
 import kh.pingpong.dto.JjimDTO;
 import kh.pingpong.dto.LanguageDTO;
 import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.dto.PartnerDTO;
+import kh.pingpong.dto.ReportListDTO;
 import kh.pingpong.dto.ReviewDTO;
 
 @Service
@@ -52,6 +48,15 @@ public class PartnerService {
 	}
 	public List<PartnerDTO> partnerListAll() throws Exception{
 		return pdao.partnerListAll();
+	}
+	
+	//파트너 신고
+	public int selectReport(ReportListDTO rldto) {
+		return pdao.selectReport(rldto);
+	}
+	
+	public int insertReport(ReportListDTO rldto) {
+		return pdao.insertReport(rldto);
 	}
 	
 	//페이지 네비게이션
@@ -106,18 +111,21 @@ public class PartnerService {
 		return pdao.selectMember(id);
 	}
 	
-	//파트너 등록
-	public int partnerInsert(Map<String, Object> insertP) throws Exception{
+	//파트너 등록, 파트너 등록 후 멤버 등급 변경
+	@Transactional("txManager")
+	public int partnerInsert(Map<String, Object> insertP,MemberDTO mdto) throws Exception{
+		pdao.updateMemberGrade(mdto);
 		return pdao.insertPartner(insertP);
 	}
-	
-	//파트너 등록 후 멤버 등급 변경
-	public int updateMemberGrade(MemberDTO mdto) throws Exception{
-		return pdao.updateMemberGrade(mdto);
-	}
+		
+//	public int updateMemberGrade(MemberDTO mdto) throws Exception{
+//		return pdao.updateMemberGrade(mdto);
+//	}
 	
 	//파트너 삭제
+	@Transactional("txManager")
 	public int deletePartner(MemberDTO mdto) throws Exception{
+		pdao.updateMemberGradeD(mdto);
 		return pdao.deletePartner(mdto);
 	}
 	

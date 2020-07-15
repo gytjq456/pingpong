@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%> 
 
 <jsp:include page="/WEB-INF/views/header.jsp"/>
 
 <style>
-	
+	#jjimManage .listWrap h4 span { color: #999; display: block; margin-top: 10px; font-size: 14px; font-weight: 400; }
 </style>
 
 <div id="subWrap" class="hdMargin">
@@ -16,7 +17,10 @@
 			</div>
 			<div class="listWrap">
 				<section class="session card_body">		
-					<h4>찜한 파트너 리스트</h4>
+					<h4>
+						찜한 파트너 리스트
+						<span class="under_h4">* 파트너 이름을 누르면 해당 파트너 뷰 페이지로 이동합니다.</span>
+					</h4>
 					<c:choose>
 						<c:when test="${empty plist }">
 							<p>찜한 파트너가 없습니다.<p>
@@ -59,7 +63,11 @@
 				
 				<section class="session card_body">	
 				
-					<h4>찜한 그룹 리스트</h4>
+					<h4>
+						찜한 그룹 리스트
+						<span class="under_h4">* 그룹명을 누르면 해당 그룹 뷰 페이지로 이동합니다.</span>
+					</h4>
+					
 						<c:choose>
 							<c:when test="${empty glist }">
 								찜한 그룹이 없습니다.
@@ -105,7 +113,10 @@
 						<div class="navi_line">${gnavi}</div>
 				</section>
 				<section class="session card_body">	
-					<h4>찜한 강의 리스트</h4>
+					<h4>
+						찜한 강의 리스트
+						<span class="under_h4">* 강의 제목을 누르면 해당 강의 뷰 페이지로 이동합니다.</span>
+					</h4>
 					<c:choose>
 						<c:when test="${empty llist }">
 							찜한 강의가 없습니다.

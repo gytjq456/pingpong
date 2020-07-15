@@ -39,7 +39,7 @@ public class GroupController {
 	
 	// header.jsp에서 그룹 찾기 탭 눌렀을 때 이동
 	@RequestMapping("main")
-	public String groupMain(String orderBy, HttpServletRequest request, Model model) throws Exception {
+	public String groupMain(String schType, String orderBy, String ing, HttpServletRequest request, Model model) throws Exception {
 		int cpage = 1;
         try {
            cpage = Integer.parseInt(request.getParameter("cpage"));
@@ -48,6 +48,14 @@ public class GroupController {
         Map<String, Object> search = new HashMap<>();
         
         search.put("orderBy", orderBy);
+
+        if (ing.contentEquals("done")) {
+        	search.put("ing", "applying = 'N' and proceeding");
+        	search.put("ingValue", "N");
+        } else if (ing.contentEquals("applying") || ing.contentEquals("proceeding")) {
+        	search.put("ing", ing);
+        	search.put("ingValue", "Y");
+        }
         
         List<HobbyDTO> hblist = gservice.selectHobby();
 		List<GroupDTO> glist = gservice.selectGroupList(cpage, search);
@@ -57,7 +65,8 @@ public class GroupController {
 		model.addAttribute("hblist", hblist);
 		model.addAttribute("glist", glist);
 		model.addAttribute("navi", navi);
-		model.addAttribute("orderBy", orderBy);
+		model.addAttribute("param", search);
+		model.addAttribute("schType", schType);
 		
 		return "/group/main";
 	}
@@ -158,8 +167,12 @@ public class GroupController {
 	}
 	
 	@RequestMapping("delete")
-	public String groupDelete(int seq) {
+	public String groupDelete(int seq, Model model) {
 		gservice.delete(seq);
+		
+		model.addAttribute("orderBy", "seq");
+		model.addAttribute("ing", "all");
+		
 		return "redirect:/group/main";
 	}
 	
@@ -288,40 +301,40 @@ public class GroupController {
 		return "redirect:/group/view?seq=" + rldto.getParent_seq();
 	}
 	
-	@RequestMapping("mainOption")
-	public String mainOption(String orderBy, String ing, HttpServletRequest request, Model model) throws Exception {
-		int cpage = 1;
-        try {
-           cpage = Integer.parseInt(request.getParameter("cpage"));
-        } catch (Exception e) {}
-        
-        Map<String, Object> search = new HashMap<>();
-        
-        search.put("orderBy", orderBy);
-        
-        if (ing.contentEquals("done")) {
-        	search.put("ing", "applying = 'N' and proceeding");
-        	search.put("ingValue", "N");
-        } else {
-        	search.put("ing", ing);
-        	search.put("ingValue", "Y");
-        }
-        
-        List<HobbyDTO> hblist = gservice.selectHobby();
-		List<GroupDTO> glist = gservice.selectGroupList(cpage, search);
-		
-		String navi = gservice.getPageNav(cpage, search);
-		
-		model.addAttribute("hblist", hblist);
-		model.addAttribute("glist", glist);
-		model.addAttribute("navi", navi);
-		model.addAttribute("orderBy", orderBy);
-		
-		return "/group/main";
-	}
+//	@RequestMapping("mainOption")
+//	public String mainOption(String orderBy, String ing, HttpServletRequest request, Model model) throws Exception {
+//		int cpage = 1;
+//        try {
+//           cpage = Integer.parseInt(request.getParameter("cpage"));
+//        } catch (Exception e) {}
+//        
+//        Map<String, Object> search = new HashMap<>();
+//        
+//        search.put("orderBy", orderBy);
+//        
+//        if (ing.contentEquals("done")) {
+//        	search.put("ing", "applying = 'N' and proceeding");
+//        	search.put("ingValue", "N");
+//        } else {
+//        	search.put("ing", ing);
+//        	search.put("ingValue", "Y");
+//        }
+//        
+//        List<HobbyDTO> hblist = gservice.selectHobby();
+//		List<GroupDTO> glist = gservice.selectGroupList(cpage, search);
+//		
+//		String navi = gservice.getPageNav(cpage, search);
+//		
+//		model.addAttribute("hblist", hblist);
+//		model.addAttribute("glist", glist);
+//		model.addAttribute("navi", navi);
+//		model.addAttribute("param", search);
+//		
+//		return "/group/main";
+//	}
 	
 	@RequestMapping("search")
-	public String search(String orderBy, String keywordType, String keywordValue, String hobbyType, String period, HttpServletRequest request, Model model) throws Exception {
+	public String search(String orderBy, String ing, String keywordType, String keywordValue, String hobbyType, String period, HttpServletRequest request, Model model) throws Exception {
 		int cpage = 1;
         try {
            cpage = Integer.parseInt(request.getParameter("cpage"));
@@ -331,10 +344,13 @@ public class GroupController {
 		
 		if (!hobbyType.contentEquals("")) {
 			String hobby[] = hobbyType.split(",");
+			List<String> hobby_type = new ArrayList<>();
 			
 			for (int i = 0; i < hobby.length; i++) {
-				search.put("hobby_type" + i, hobby[i]);
+				hobby_type.add(hobby[i]);
 			}
+			
+			search.put("hobby_type", hobby_type);
 		}
 		
 		if (!keywordValue.contentEquals("null")) {
@@ -348,6 +364,14 @@ public class GroupController {
 		
 		search.put("orderBy", orderBy);
 		
+		if (ing.contentEquals("done")) {
+        	search.put("ing", "applying = 'N' and proceeding");
+        	search.put("ingValue", "N");
+        } else if (ing.contentEquals("applying") || ing.contentEquals("proceeding")) {
+        	search.put("ing", ing);
+        	search.put("ingValue", "Y");
+        }
+		
 		List<HobbyDTO> hblist = gservice.selectHobby();
 		List<GroupDTO> glist = gservice.selectGroupList(cpage, search);
 		
@@ -356,13 +380,15 @@ public class GroupController {
 		model.addAttribute("hblist", hblist);
 		model.addAttribute("glist", glist);
 		model.addAttribute("navi", navi);
-		model.addAttribute("orderBy", orderBy);
+		model.addAttribute("param", search);
+		model.addAttribute("hobby_type", hobbyType);
+		model.addAttribute("searchType", "keyword");
 		
 		return "/group/main";
 	}
 	
 	@RequestMapping("searchDate")
-	public String searchDate(String orderBy, String start_date, String end_date, HttpServletRequest request, Model model) throws Exception {
+	public String searchDate(String orderBy, String ing, String start_date, String end_date, HttpServletRequest request, Model model) throws Exception {
 		int cpage = 1;
         try {
            cpage = Integer.parseInt(request.getParameter("cpage"));
@@ -374,6 +400,14 @@ public class GroupController {
         search.put("start_date", start_date);
         search.put("end_date", end_date);
         
+        if (ing.contentEquals("done")) {
+        	search.put("ing", "applying = 'N' and proceeding");
+        	search.put("ingValue", "N");
+        } else if (ing.contentEquals("applying") || ing.contentEquals("proceeding")) {
+        	search.put("ing", ing);
+        	search.put("ingValue", "Y");
+        }
+        
         List<HobbyDTO> hblist = gservice.selectHobby();
         List<GroupDTO> glist = gservice.selectGroupList(cpage, search);
         
@@ -382,13 +416,14 @@ public class GroupController {
         model.addAttribute("hblist", hblist);
         model.addAttribute("glist", glist);
         model.addAttribute("navi", navi);
-        model.addAttribute("orderBy", orderBy);
+        model.addAttribute("param", search);
+        model.addAttribute("searchType", "date");
         
         return "/group/main";
 	}
 	
 	@RequestMapping("searchLocation")
-	public String searchLocation(String location, String orderBy, HttpServletRequest request, Model model) throws Exception {
+	public String searchLocation(String location, String ing, String orderBy, HttpServletRequest request, Model model) throws Exception {
 		int cpage = 1;
         try {
            cpage = Integer.parseInt(request.getParameter("cpage"));
@@ -399,6 +434,14 @@ public class GroupController {
         search.put("orderBy", orderBy);
         search.put("location", location);
         
+        if (ing.contentEquals("done")) {
+        	search.put("ing", "applying = 'N' and proceeding");
+        	search.put("ingValue", "N");
+        } else if (ing.contentEquals("applying") || ing.contentEquals("proceeding")) {
+        	search.put("ing", ing);
+        	search.put("ingValue", "Y");
+        }
+        
         List<HobbyDTO> hblist = gservice.selectHobby();
         List<GroupDTO> glist = gservice.selectGroupList(cpage, search);
         
@@ -407,7 +450,8 @@ public class GroupController {
         model.addAttribute("hblist", hblist);
         model.addAttribute("glist", glist);
         model.addAttribute("navi", navi);
-        model.addAttribute("orderBy", orderBy);
+        model.addAttribute("param", search);
+        model.addAttribute("searchType", "map");
         
         return "/group/main";
 	}
@@ -417,12 +461,59 @@ public class GroupController {
 	@RequestMapping("reviewWrite")
 	public String reviewWrite(ReviewDTO redto) throws Exception{
 		int result = gservice.reviewWrite(redto);
-
-		
 		if(result > 0) { 
 			 return String.valueOf(true); 
 		}else { 
 			return String.valueOf(false); 
 		}
+	}
+	
+	// 내가 작성한 그룹 신청서 관리
+	@ResponseBody
+	@RequestMapping("myAppView")
+	public GroupApplyDTO myAppView(int seq) throws Exception {
+		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
+		Map<String, Object> param = new HashMap<>();
+		param.put("seq", seq);
+		param.put("id", mdto.getId());
+		GroupApplyDTO gadto = gservice.myAppView(param);
+		return gadto;
+	}
+	
+	// 신청서 보기
+	@ResponseBody
+	@RequestMapping("showApp")
+	public GroupApplyDTO showApp(int seq, HttpServletRequest request) throws Exception {
+		GroupApplyDTO resp = gservice.showApp(seq);
+		
+		if (request.getParameter("id") != null) {
+			String leader_id = request.getParameter("id");
+			String id = ((MemberDTO)session.getAttribute("loginInfo")).getId();
+
+			if (!leader_id.contentEquals(id)) {
+				Map<String, Object> param = new HashMap<>();
+				
+				param.put("id", id);
+				param.put("parent_seq", seq);
+				
+				resp = gservice.showMyApp(param);
+			}
+		}
+		
+		return resp;
+	}
+	
+	// 그룹 신청 승인
+	@ResponseBody
+	@RequestMapping("acceptApp")
+	public boolean acceptApp(int seq, String id, int parent_seq) throws Exception {
+		return gservice.acceptApp(seq, id, parent_seq);
+	}
+	
+	// 그룹 신청 거절
+	@ResponseBody
+	@RequestMapping("refuseApp")
+	public boolean refuseApp(int seq) throws Exception {
+		return gservice.refuseApp(seq);
 	}
 }

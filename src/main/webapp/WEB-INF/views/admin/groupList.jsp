@@ -32,12 +32,13 @@
 									<td><a href="/admins/groupView?seq=${glist.seq}">${glist.title}</a></td>
 									<td>${glist.writer_id}(${glist.writer_name})</td>
 									<td>
-										<c:if test="${glist.applying == 'Y'}">O</c:if>
-										<c:if test="${glist.applying == 'N'}">X</c:if>
+										<c:if test="${glist.applying == 'Y'}">○</c:if>
+										<c:if test="${glist.applying == 'N'}">Ｘ</c:if>
 									</td>
 									<td>
-										<c:if test="${glist.proceeding == 'Y'}">O</c:if>
-										<c:if test="${glist.proceeding == 'N'}">X</c:if>
+										<c:if test="${glist.proceeding == 'Y'}">○</c:if>
+										<c:if test="${glist.proceeding == 'N'}">Ｘ</c:if>
+										<c:if test="${glist.proceeding == 'B'}">△</c:if>
 									</td> 
 									<td>${glist.date}</td>
 								</tr>

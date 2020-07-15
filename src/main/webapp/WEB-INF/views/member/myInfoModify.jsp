@@ -5,18 +5,51 @@
 
 <script src="/resources/js/myinfoModify.js"></script>
 
+<Style>
+	#joinForm input,
+	#joinForm select, 
+	#joinForm button { max-width:140px; }
+	#joinForm input[type="submit"] { 
+	    height: 32px;
+	    line-height: 32px;
+	    border: 1px solid #ddd;
+	    box-sizing: border-box;
+	    border-radius: 6px;
+	    width: 100%;
+	    margin: 0;
+	    padding: 0 10px;
+	}
+	#joinForm input[type="submit"],
+	#joinForm button { position:absolute; right:0; top:0; font-size:12px;}
+	.se_singup { position:relative;}
+	.se_con p { margin-bottom:10px;}
+	.se_con { margin-top:20px;}
+	
+	
+	.phoneInput select {}
+	#joinForm .phoneInput input[type="text"] { 
+		width:calc(100% - 143px);
+		width:-webkit-calc(100% - 143px);
+		width:-moz-calc(100% - 143px);
+	}
+</Style>
+
     <div id="subWrap" class="hdMargin" style="padding-top: 155.8px;">
 		<section id="subContents">
-			<div id="join">
-			    <h1>MEMBER</h1>
-			    <input type="hidden" id="id" name="id" value="${sessionScope.loginInfo.id}">
+			<div id="joinForm">
+				<div class="tit_s1">
+					<h2>MEMBER</h2>
+					<p>다양한 사람들을 원하시나요?<br>관심사가 비슷한 사람들과 함께 소통해 보세요.</p>
+				</div>
+				<input type="hidden" id="id" name="id" value="${sessionScope.loginInfo.id}">
 				<input type="hidden" id="name" name="name" value="${sessionScope.loginInfo.name}">
 				<input type="hidden" id="email" name="email" value="${sessionScope.loginInfo.email}">
-			    
+				
+				<div class="formBox card_body">
 					<div class="se_singup">
 						<div class="title">아이디</div>
 						<div class="se_con">
-							${sessionScope.loginInfo.id}
+							<p>${sessionScope.loginInfo.id}</p>
 						</div>
 					</div>
 					
@@ -27,7 +60,7 @@
 							</div>												
 							<div class="se_con">
 								<div>
-									<button type="button" id="modyPwBtn">비밀번호 수정 바로가기</button>								
+									<button type="button" id="modyPwBtn">비밀번호 수정</button>								
 								</div>
 							</div>						
 						</div>
@@ -36,30 +69,34 @@
 					<div class="se_singup">
 						<div class="title">이름</div>
 						<div class="se_con">
-							${sessionScope.loginInfo.name}
+							<p>${sessionScope.loginInfo.name}</p>
 						</div>
 					</div>
 		
 					<div class="se_singup">
 						<div class="title">나이</div>
 						<div class="se_con">
-							${sessionScope.loginInfo.age}				
-							${sessionScope.loginInfo.gender}
+							<p>
+								${sessionScope.loginInfo.age}				
+								${sessionScope.loginInfo.gender}
+							</p>
 						</div>
 					</div>
 		
 					<div class="se_singup">
 						<div class="title">e-mail</div>
 						<div class="se_con">
-							${sessionScope.loginInfo.email}
+							<p>${sessionScope.loginInfo.email}</p>
 						</div>
 					</div>
 		
 					<div class="se_singup">
 						<div class="title">전화번호</div>
-						<div class="se_con">
-							${sessionScope.loginInfo.phone_country}
-							${sessionScope.loginInfo.phone}
+						<div class="se_con phoneInput">
+							<p>
+								${sessionScope.loginInfo.phone_country}
+								${sessionScope.loginInfo.phone}
+							</p>
 							<div>
 								<button type="button" class="modyBtn">수정</button>
 								<div class="show_input">
@@ -79,7 +116,7 @@
 					<div class="se_singup">
 						<div class="title">주소</div>
 						<div class="se_con">
-							${sessionScope.loginInfo.address}
+							<p>${sessionScope.loginInfo.address}</p>
 							<div>
 								<button type="button" class="modyBtn">수정</button>
 								<div class="show_input">
@@ -96,9 +133,11 @@
 		
 					<div class="se_singup">
 						<div class="title">은행</div>
-						<div class="se_con">
-							${sessionScope.loginInfo.bank_name}
-							${sessionScope.loginInfo.account}
+						<div class="se_con phoneInput">
+							<p>
+								${sessionScope.loginInfo.bank_name}
+								${sessionScope.loginInfo.account}
+							</p>
 							<div>
 								<button type="button" class="modyBtn">수정</button>
 								<div class="show_input">
@@ -118,7 +157,7 @@
 					<div class="se_singup">
 						<div class="title">프로필 사진</div>
 						<div class="se_con">
-							<img src="/upload/member/${sessionScope.loginInfo.id}/${sessionScope.loginInfo.sysname}">
+							<p><img src="/upload/member/${sessionScope.loginInfo.id}/${sessionScope.loginInfo.sysname}"></p>
 							<div>
 								<button type="button" class="modyBtn">수정</button>
 								<div class="show_input">
@@ -134,7 +173,7 @@
 					<div class="se_singup">
 						<div class="title">나라</div>
 						<div class="se_con">
-						${sessionScope.loginInfo.country}
+							<p>${sessionScope.loginInfo.country}</p>
 							<div>
 								<button type="button" class="modyBtn">수정</button>
 								<div class="show_input">
@@ -153,14 +192,18 @@
 					<div class="se_singup">
 						<div class="title">구사 가능 언어 (최대 3개)</div>
 						<div class="se_con">
-						${sessionScope.loginInfo.lang_can}
+							<p>${sessionScope.loginInfo.lang_can}</p>
 							<div>
 								<button type="button" class="modyBtn">수정</button>
 								<div class="show_input">
-									<c:forEach var="i" items="${lanList}" varStatus="status">	
-										<input type="checkbox" name="lang_can" value="${i.language}" id="test${status.index}" name="lang_can"/>
-										<label for="test${status.index}" >${i.language}</label>
+									<ul class="checkBox_s1">
+									<c:forEach var="i" items="${lanList}" varStatus="status">
+										<li>
+											<input type="checkbox" name="lang_can" value="${i.language}" id="test${status.index}" name="lang_can"/>
+											<label for="test${status.index}" ><span></span>${i.language}</label>
+										</li>
 									</c:forEach>
+									</ul>
 									<button type="button" id="lang_can_Result">수정완료</button>
 								</div>
 							</div>
@@ -170,16 +213,18 @@
 					<div class="se_singup">
 						<div class="title">배우고 싶은 언어 (최대 3개)</div>
 						<div class="se_con">
-						${sessionScope.loginInfo.lang_learn}
+							<p>${sessionScope.loginInfo.lang_learn}</p>
 							<div>
 								<button type="button" class="modyBtn">수정</button>
 								<div class="show_input">
+									<ul class="checkBox_s1">
 									<c:forEach var="i" items="${lanList}" varStatus="status">	
-										<span class="o_box">					
+										<li>
 											<input type="checkbox" name="lang_learn" value="${i.language}" id="test2${status.index}" />
-											<label for="test2${status.index}" >${i.language}</label>
-										</span>	
+											<label for="test2${status.index}" ><span></span>${i.language}</label>
+										</li>
 									</c:forEach>
+									</ul>
 									<button type="button" id="lang_learn_Result">수정완료</button>
 								</div>
 							</div>
@@ -189,14 +234,18 @@
 					<div class="se_singup">
 						<div class="title">취미 (최대 3개)</div>
 						<div class="se_con">
-						${sessionScope.loginInfo.hobby}
+							<p>${sessionScope.loginInfo.hobby}</p>
 							<div>
 								<button type="button" class="modyBtn">수정</button>
 								<div class="show_input">
+									<ul class="checkBox_s1">
 									<c:forEach var="i" items="${hobbyList}" varStatus="status">		
-										<input type="checkbox" name="hobby" value="${i.hobby}" id="test3${status.index}" name="hobby">
-										<label for="test3${status.index}">${i.hobby}</label>
+										<li>
+											<input type="checkbox" name="hobby" value="${i.hobby}" id="test3${status.index}" name="hobby">
+											<label for="test3${status.index}"><span></span>${i.hobby}</label>
+										</li>
 									</c:forEach>
+									</ul>
 									<button type="button" id="hobby_Result">수정완료</button>
 								</div>
 							</div>
@@ -206,7 +255,7 @@
 					<div class="se_singup">
 						<div class="title">자기소개</div>
 						<div class="se_con">
-						${sessionScope.loginInfo.introduce}
+							<p>${sessionScope.loginInfo.introduce}</p>
 							<div>
 								<button type="button" class="modyBtn">수정</button>
 								<div class="show_input">							
@@ -217,7 +266,9 @@
 							</div>
 						</div>
 					</div>
+				</div>
 			</div>
+		
 		</section>
 	</div>
 			

@@ -44,7 +44,7 @@
 									</li>
 									<li>
 										<span>전화번호</span>
-										<span class="span_con">(${ldto.phone_country})${ldto.phone}</span>
+										<span class="span_con">${ldto.phone_country}${ldto.phone}</span>
 									</li>
 									<li>
 										<span>모집 기간</span>
@@ -80,11 +80,17 @@
 									</li>
 									<li>
 										<span>모집중</span>
-										<span class="span_con">${ldto.applying}</span>
+										<span class="span_con">
+											<c:if test="${ldto.applying == 'Y'}">○</c:if>
+											<c:if test="${ldto.applying == 'N'}">Ｘ</c:if>
+										</span>
 									</li>
 									<li>
 										<span>진행중</span>
-										<span class="span_con">${ldto.proceeding}</span>
+										<span class="span_con">
+											<c:if test="${ldto.proceeding == 'Y'}">○</c:if>
+											<c:if test="${ldto.proceeding == 'N'}">Ｘ</c:if>
+										</span>
 									</li>
 									<li>
 										<span>장소</span>

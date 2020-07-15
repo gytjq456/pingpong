@@ -15,7 +15,7 @@
 				<c:otherwise>
 				<div class="noList">
 					<p>서비스 정책에 따라 채팅기능은 일반 회원은 사용이 불가능 합니다. 파트너 등록을 하시면 서비스 이용이 가능합니다.</p>
-					<div><a href="">파트너 등록</a></div>
+					<div><a href="#;" class="resiterPop">파트너 등록</a></div>
 				</div>
 				</c:otherwise> 
 			</c:choose>
@@ -126,12 +126,12 @@
 						var member = chatWrap.find(".title p").text().split(",");
 						chatWrap.find(".title span").text(member.length);
 						txtInput.focus();
-						//console.log(typeof resp)
+						console.log(typeof resp)
 						if(typeof resp == 'string'){
 							chatRoom = resp
 							$(".chatBox .sysdate").html(theYear+"년 "+theMonth+"월 "+theDate+"일 "+todayLabel);
 						}else{
-							//console.log(resp);
+							console.log(resp);
 							var record = resp;
 							chatRoom = record[0].roomId;
 							$(".chatBox .sysdate").html(record[0].realWriteDate);
@@ -172,7 +172,7 @@
 				})
 				
 				ws.onmessage = function(e){
-					//console.log(e.data);
+					console.log(e.data);
 					var msg = JSON.parse(e.data);
 					var time = new Date(msg.date);
 					var timeStr = time.toLocaleTimeString();

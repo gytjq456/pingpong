@@ -5,17 +5,17 @@
 	
 	<!-- 그룹 주선자일 경우의 기록   -->
 	<select id="selectByIdInGroup" resultType="kh.pingpong.dto.GroupDTO">
-		select * from grouplist where writer_id = #{id}
+		select * from grouplist where writer_id = #{id} order by seq desc
 	</select>
 	
 	<!-- 그룹 멤버일 경우의 기록  -->
 	<select id="selectByIdInGroup_app" resultType="kh.pingpong.dto.GroupDTO">
-		select * from grouplist where seq in (select parent_seq from groupmember where id = #{id})
+		select * from grouplist where seq in (select parent_seq from groupmember where id = #{id}) order by seq desc
 	</select>
 	
 	
 	<select id="tuteeList" resultType="kh.pingpong.dto.LessonDTO">
-		select * from lesson where seq in (select parent_seq from tutee where id=#{id})
+		select * from lesson where seq in (select parent_seq from tutee where id=#{id}) order by seq desc
 	</select>
 
 	<!-- <select id="tuteeList" resultType="kh.pingpong.dto.TuteeDTO">

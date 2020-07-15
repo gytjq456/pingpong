@@ -8,12 +8,23 @@
 <style>
 	#title{width:80%;}
 /*     .hAddr {position:absolute;left:10px;top:10px;border-radius: 2px;background:#fff;background:rgba(255,255,255,0.8);z-index:1;padding:5px;}
-    #centerAddr {display:block;margin-top:2px;font-weight: normal;}*/
-    .bAddr {padding:5px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;} 
+    #centerAddr {display:block;margin-top:2px;font-weight: normal;}
+    .bAddr {padding:5px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;} */
+    .price_wrap {}
+    .price_wrap input { width:200px !important; margin-right:10px;}
+    #map { margin-top:20px;}
     
 </style>
 <script>
 	$(function() {
+		$("#back").on("click", function(){
+			var result = confirm("강의 목록으로 돌아가시겠습니까?");
+			if(result){
+				location.href="/tutor/lessonList?orderBy=seq&keywordSelect=name";
+			}else{
+				return false;
+			}
+		})
 		
 		$("input, textarea").blur(function(){
 			var thisVal = $(this).val();
@@ -227,166 +238,172 @@
 	}		
 </script>
 
+
 <div id="subWrap" class="hdMargin">
 	<section id="subContents">
-		<article id="lessonApp_view" class="inner1200">
+		<!--lessonApp_view  -->
+		<article id="discussion_write" class="inner1200">
 			<div class="tit_s1">
 				<h2>Lesson</h2>
 				<p>새 강의 등록하기</p>
 			</div>
 
-			<form action="lessonAppProc" id="frm" method="post">
-				<div class="title_wrap">
-					<div class="tit_s3">
-						<h4>제목</h4>
+			<div class="card_body" id="find_group_write">
+				<form action="lessonAppProc" id="frm" method="post">
+					<section class="title_wrap">
+						<div class="tit_s3">
+							<h4>제목</h4>
+						</div>
+						<div class="">
+							<input type="text" id="title" name="title" placeholder="강의 성격이 드러날 키워드를 포함하여 간결한 제목으로 설정해 주세요.">
+						</div>
+					</section>
+					<section class="price_wrap">
+						<div class="tit_s3">
+							<h4>가격</h4>
+							<span class="notice">*한달기준 최대 30만원 입니다. 일기준 최대 만원으로 잡아 날짜에 맞춰 금액을 정해주세요.</span>
+						</div>
+						<div class="right">
+							<input type="text" id="price" name="price" placeholder="총 가격">원 
+						</div>
+					</section>
+					<section>
+						<div class="language_wrap">
+							<div class="tit_s3">
+								<h4>언어</h4>
+							</div>
+							<div class="right">
+								<select id="language" name="language">
+									<c:forEach var="i" items="${lanList}">
+										<option value="${i.language}">${i.language}</option>
+									</c:forEach>
+								</select>
+							</div>
+						</div>					
+					</section>
+					<section>
+						<div class="apply_date">
+							<div class="tit_s3">
+								<h4>모집 기간</h4>
+							</div>
+							<label for="apply_start" class="calendar_icon">
+								<i class="fa fa-calendar" aria-hidden="true"></i>
+							</label>
+							<input type="text" id="apply_start" name="apply_start" size="12" readonly> 
+							~ 
+							<label for="apply_end" class="calendar_icon">
+								<i class="fa fa-calendar" aria-hidden="true"></i>
+							</label>
+							<input type="text" id="apply_end" name="apply_end" size="12" readonly> 
+						</div>					
+					</section>
+					<section>
+						<div class="lesson_date">
+							<div class="tit_s3">
+								<h4>수업 기간</h4>
+								<span class="notice">*수업기간은 최대 한달만 가능합니다.</span>
+							</div>
+							<label for="start_date" class="calendar_icon">
+								<i class="fa fa-calendar" aria-hidden="true"></i>
+							</label>
+							<input type="text" id="start_date" name="start_date" size="12" readonly>
+							 ~ 
+							<label for="end_date" class="calendar_icon">
+								<i class="fa fa-calendar" aria-hidden="true"></i>
+							</label>
+							<input type="text" id="end_date" name="end_date" size="12" readonly> 
+						</div>					
+					</section>
+					<section>
+						<div class="lesson_time">
+							<div class="tit_s3">
+								<h4>수업 시간</h4>
+							</div>
+							<!-- <input type="time" id="start_hour" name="start_hour"> : 
+							<input type="time" id="end_hour" name="end_hour"> -->
+							<select id="start_hour" name="start_hour">
+								<option value="07">07</option>
+								<option value="08">08</option>
+								<option value="09">09</option>
+								<option value="10">10</option>
+								<option value="11">11</option>
+								<option value="12">12</option>
+								<option value="13">13</option>
+								<option value="14">14</option>
+								<option value="15">15</option>
+								<option value="16">16</option>
+								<option value="17">17</option>
+								<option value="18">18</option>
+							</select> : <select id="start_minute" name="start_minute">
+								<option>00</option>
+								<option>15</option>
+								<option>30</option>
+								<option>45</option>
+							</select> ~ <select id="end_hour" name="end_hour">
+								<option value="08">08</option>
+								<option value="09">09</option>
+								<option value="10">10</option>
+								<option value="11">11</option>
+								<option value="12">12</option>
+								<option value="13">13</option>
+								<option value="14">14</option>
+								<option value="15">15</option>
+								<option value="16">16</option>
+								<option value="17">17</option>
+								<option value="18">18</option>
+								<option value="19">19</option>
+								<option value="20">20</option>
+								<option value="21">21</option>
+								<option value="22">22</option>
+							</select> : <select id="end_minute" name="end_minute">
+								<option>00</option>
+								<option>15</option>
+								<option>30</option>
+								<option>45</option>
+							</select>
+						</div>					
+					</section>
+					<section>
+						<div class="max_num_wrap">
+							<div class="tit_s3">
+								<h4>최대 인원</h4>
+							</div>
+							<!-- 조건 걸기 -->
+							<input type="text" id="max_num" name="max_num"
+								placeholder="최소5명 최대30명">
+						</div>					
+					</section>
+					<section>
+						<div class="mapWrap">
+							<div class="tit_s3">
+								<h4>장소</h4>
+							</div>
+							<select name="sido1" id="sido1"></select> 
+							<select name="gugun1" id="gugun1"></select>
+							<input type="hidden" id="location" name="location">
+							<input type="hidden" id="location_lat" name="location_lat">
+							<input type="hidden" id="location_lng" name="location_lng">
+							
+							<div id="map"></div>
+								
+						</div>					
+					</section>
+					<section>
+						<div class="contents">
+							<div class="tit_s3">
+								<h4>커리큘럼</h4>
+							</div>
+							<textarea id="summernote" name="curriculum"></textarea>
+						</div>					
+					</section>
+					<div class="btnS1 center">
+						<div>
+							<button id="submit">신청하기</button>
+						</div>
+						<div><button type="button" id="back">목록</button></div>
 					</div>
-					<div class="right">
-						<input type="text" id="title" name="title"
-							placeholder="강의 성격이 드러날 키워드를 포함하여 간결한 제목으로 설정해 주세요.">
-					</div>
-
-				</div>
-
-
-				<div class="price_wrap">
-					<div class="tit_s3">
-						<h4>가격</h4>
-						<span class="notice">*한달기준 최대 30만원 입니다. 일기준 최대 만원으로 잡아 날짜에 맞춰 금액을 정해주세요.</span>
-					</div>
-					<div class="right">
-						<input type="text" id="price" name="price" placeholder="총 가격">
-						원 
-					</div>
-				</div>
-
-
-				<div class="language_wrap">
-					<div class="tit_s3">
-						<h4>언어</h4>
-					</div>
-					<div class="right">
-						<select id="language" name="language">
-							<c:forEach var="i" items="${lanList}">
-								<option value="${i.language}">${i.language}</option>
-							</c:forEach>
-						</select>
-					</div>
-				</div>
-
-
-
-				<div class="apply_date">
-					<div class="tit_s3">
-						<h4>모집 기간</h4>
-					</div>
-					<label for="apply_start" class="calendar_icon">
-						<i class="fa fa-calendar" aria-hidden="true"></i>
-					</label>
-					<input type="text" id="apply_start" name="apply_start" size="12" readonly> 
-					~ 
-					<label for="apply_end" class="calendar_icon">
-						<i class="fa fa-calendar" aria-hidden="true"></i>
-					</label>
-					<input type="text" id="apply_end" name="apply_end" size="12" readonly> 
-				</div>
-
-				<div class="lesson_date">
-					<div class="tit_s3">
-						<h4>수업 기간</h4>
-						<span class="notice">*수업기간은 최대 한달만 가능합니다.</span>
-					</div>
-					<label for="start_date" class="calendar_icon">
-						<i class="fa fa-calendar" aria-hidden="true"></i>
-					</label>
-					<input type="text" id="start_date" name="start_date" size="12" readonly>
-					 ~ 
-					<label for="end_date" class="calendar_icon">
-						<i class="fa fa-calendar" aria-hidden="true"></i>
-					</label>
-					<input type="text" id="end_date" name="end_date" size="12" readonly> 
-				</div>
-
-				<div class="lesson_time">
-					<div class="tit_s3">
-						<h4>수업 시간</h4>
-					</div>
-					<!-- <input type="time" id="start_hour" name="start_hour"> : 
-					<input type="time" id="end_hour" name="end_hour"> -->
-					<select id="start_hour" name="start_hour">
-						<option value="07">07</option>
-						<option value="08">08</option>
-						<option value="09">09</option>
-						<option value="10">10</option>
-						<option value="11">11</option>
-						<option value="12">12</option>
-						<option value="13">13</option>
-						<option value="14">14</option>
-						<option value="15">15</option>
-						<option value="16">16</option>
-						<option value="17">17</option>
-						<option value="18">18</option>
-					</select> : <select id="start_minute" name="start_minute">
-						<option>00</option>
-						<option>15</option>
-						<option>30</option>
-						<option>45</option>
-					</select> ~ <select id="end_hour" name="end_hour">
-						<option value="08">08</option>
-						<option value="09">09</option>
-						<option value="10">10</option>
-						<option value="11">11</option>
-						<option value="12">12</option>
-						<option value="13">13</option>
-						<option value="14">14</option>
-						<option value="15">15</option>
-						<option value="16">16</option>
-						<option value="17">17</option>
-						<option value="18">18</option>
-						<option value="19">19</option>
-						<option value="20">20</option>
-						<option value="21">21</option>
-						<option value="22">22</option>
-					</select> : <select id="end_minute" name="end_minute">
-						<option>00</option>
-						<option>15</option>
-						<option>30</option>
-						<option>45</option>
-					</select>
-				</div>
-
-				<div class="max_num_wrap">
-					<div class="tit_s3">
-						<h4>최대 인원</h4>
-					</div>
-					<!-- 조건 걸기 -->
-					<input type="text" id="max_num" name="max_num"
-						placeholder="최소5명 최대30명">
-				</div>
-
-				<div class="mapWrap">
-					<div class="tit_s3">
-						<h4>장소</h4>
-					</div>
-					<select name="sido1" id="sido1"></select> 
-					<select name="gugun1" id="gugun1"></select>
-					<input type="hidden" id="location" name="location">
-					<input type="hidden" id="location_lat" name="location_lat">
-					<input type="hidden" id="location_lng" name="location_lng">
-					
-					<div id="map" style="width:500px;height:400px;"></div>
-						
-				</div>
-
-				<div class="contents">
-					<div class="tit_s3">
-						<h4>커리큘럼</h4>
-					</div>
-					<textarea id="summernote" name="curriculum"></textarea>
-				</div>
-				<div>
-					<button id="submit">신청하기</button>
-				</div>
-			</form>
+				</form>
+			</div>
 		</article>
 	</section>
 	<script>

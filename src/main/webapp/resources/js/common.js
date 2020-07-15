@@ -38,7 +38,7 @@ $(document).ready(function(){
     		break;
     		case 4 : tab.find("li").css({ width:23.5+"%" });
     		break;
-    		case 5 : tab.find("li").css({ width:18.5+"%" });
+    		case 5 : tab.find("li").css({ width:18.4+"%" });
     		break;
     	}
     	switch(tabLength2){
@@ -56,6 +56,7 @@ $(document).ready(function(){
     	
     	
     	var tabContWrap = $("#tabContWrap");
+    	
     	tab.find("li").click(function(){
     		var idx = $(this).index();
     		tab.find("li").removeClass("on");

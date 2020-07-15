@@ -3,6 +3,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:include page="/WEB-INF/views/header.jsp"/>
+<script>
+	$(function(){
+		if("${schType}" == "keyword" ){
+			$("#tabContWrap > article:eq(0)").show();
+		}
+	})
+</script>
 <div id="subWrap" class="hdMargin">
 		<section id="subContents">
 			<article id="group_list" class="inner1200">
@@ -11,7 +18,7 @@
 					<p>다양한 사람들을 원하시나요?<br>관심사가 비슷한 사람들과 함께 소통해 보세요.</p>
 				</div>
 				<div class="group_search_box">
-					<div class="tab_s1">
+					<div class="tab_s1" id="tabs_for_search">
 						<ul class="clearfix">
 							<li class="on"><a href="#;">키워드 검색</a></li>
 							<li><a href="#;">달력 검색</a></li>
@@ -85,8 +92,6 @@
 										</p>
 									</div>
 								</div>
-								
-								
 								<div class="btnS1 center">
 									<div><button type="button" id="search_cal_btn">검색</button></div>
 								</div>
@@ -94,8 +99,6 @@
 						</article>
 						<article id="tab_3" class="mapSch">
 							<div class="search_as_map">
-							
-							
 								<section id="mapWrap">
 									<div class="mapSelect">
 										<input type="hidden" name="location" id="location">
@@ -104,14 +107,6 @@
 									</div>
 									<div id="map" style="width: 100%; height: 350px;"></div>
 								</section>							
-								<!-- <div id="location_text"></div> -->
-								
-								
-								
-								
-								
-								
-								
 								<div class="btnS1 center">
 									<div><button type="button" id="search_map_btn">검색</button></div>
 								
@@ -148,7 +143,7 @@
 							<c:forEach var="glist" items="${glist}">
 								<div class="back_and_wrap item">
 									<a href="/group/beforeView?seq=${glist.seq}" class="group_list_a">
-										<div class="each_profile"><img src="/resources/img/sub/userThum.jpg"/></div>
+										<div class="each_profile"><img src="/upload/member/${glist.writer_id}/${glist.sysname}"/></div>
 										<c:if test="${fn:startsWith(glist.hobby_type, '영화')}">
 											<div class="group_background background_pink"></div>
 										</c:if>
@@ -229,10 +224,103 @@
 	</div>
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=033532d2fa35e423d2d5e723c0bfd1fe&libraries=services"></script>
 	<script>
+		console.log("${searchType}")
+		var ing = ${param.ing != null};
+		if (ing) {
+			var ing = '${param.ing}';
+			
+			$('#' + ing).addClass('select_ing_now');
+		} else {
+			$('#all').addClass('select_ing_now');
+		}
+		
+		var searchType = ${searchType != null};
+		if (searchType) {
+			searching();
+		}
+		
+		function searching() {
+			var searchType = '${searchType}';
+			var idx = 0;
+			$('.group_search_box ul li:first-child').removeClass('on');
+			
+			if (searchType == 'keyword') {
+				var keywordType = '${param.keywordType}';
+				var keywordValue = '${param.keywordValue}';
+				var period = '${param.period}';
+				var hobbyType = '${hobby_type}';
+				
+				$('.group_search_box ul li:first-child').addClass('on');
+				
+				if (keywordType != 'null' && keywordValue != 'null') {
+					$('#keyword_type').val(keywordType);
+					$('#keyword_input').val(keywordValue);
+				}
+				
+				if (period != 'null') {
+					if (period == '단기') {
+						$('#short_period').attr('checked', 'true');
+					} else {
+						$('#long_period').attr('checked', 'true');
+					}
+				}
+				
+				if (hobbyType != 'null') {
+					var hobby_type = hobbyType.split(',');
+					var optionLength = $('.hobby_list').length;
+					var options = [];
+					
+					for (var i = 0; i < optionLength; i++) {
+						options[i] = $($('.hobby_list')[i]).val();
+						
+						for (var j = 0; j < hobby_type.length; j++) {
+							if (options[i] == hobby_type[j]) {
+								$($('.hobby_list')[i]).attr('checked', 'true');
+							}
+						}
+					}
+				}
+				
+			} else if (searchType == 'date') {
+				var start_date = '${param.start_date}';
+				var end_date = '${param.end_date}';
+				
+				$('#date_start').val(start_date);
+				$('#date_end').val(end_date);
+				
+				$('.group_search_box ul li:nth-child(2)').addClass('on');
+				idx = 1;
+			} else if (searchType == 'map') {
+				var searchLocation = '${param.location}';
+
+				$('#location').val(searchLocation);
+				
+				var inputLocation = searchLocation.split(' ');
+				
+				if (inputLocation.length > 2) {
+					inputLocation[1] = inputLocation[1] + ' ' + inputLocation[2];
+				}
+				console.log(inputLocation[1])
+				
+				new sojaeji('sido1', 'gugun1');
+				$('#sido1').val(inputLocation[0]);
+				new sojaeji('sido1', 'gugun1');
+				$('#gugun1').val(inputLocation[1]);
+				
+				$('.group_search_box ul li:last-child').addClass('on');
+				idx = 2;
+				mapOn();
+			}
+			var tabContWrap = $("#tabContWrap");
+			
+			//tabContWrap.find("article").stop().hide();
+    		tabContWrap.find("article:eq("+idx+")").stop().fadeIn();
+		}
+		
 		$('#date_start').datepicker({ dateFormat: 'yy-mm-dd' });
 		$('#date_end').datepicker({ dateFormat: 'yy-mm-dd' });
 		
-		var orderBy = '${orderBy}';
+		var orderBy = '${param.orderBy}';
 		if (orderBy != null) {
 			$('#orderBy').val(orderBy);
 		} else {
@@ -241,8 +329,63 @@
 		
 		$('#orderBy').on('change', function() {
 			var orderByVal = $('#orderBy').val();
+			var ing = '${param.ing}';
 			
-			location.href = '/group/main?orderBy=' + orderByVal;
+			var liCount = $('#tabs_for_search ul li').length;
+			var selectedTab = [];
+			for (var i = 0; i < liCount; i++) {
+				var liClass = $($('.group_search_box ul li')[i]);
+				if (liClass.attr('class') == 'on') {
+					var tabName = liClass.find('a').html();
+					
+					if (tabName == '키워드 검색') {
+						var selectedHobbyLength = $('.hobby_list:checked').length;
+						var selectedHobby = [];
+						var keywordType = null;
+						var keywordInput = null;
+						var periodLength = $('.period:checked').length;
+						var period = null;
+						var hobbyType = null;
+						
+						if (periodLength > 0) {
+							period = $('.period:checked').val();
+						}
+						
+						if (selectedHobbyLength > 0) {
+							for (var i = 0; i < selectedHobbyLength; i++) {
+								selectedHobby[i] = $($('.hobby_list:checked')[i]).val();
+							}
+							$('#selected_hobby').val(selectedHobby);
+						}
+						
+						var hobbyType = $('#selected_hobby').val();
+						
+						if ($('#keyword_input').val() != '') {
+							var keywordType = $('#keyword_type').val();
+							var keywordInput = $('#keyword_input').val();
+						}
+						
+						location.href = '/group/search?keywordType=' + keywordType + '&keywordValue=' + keywordInput + 
+								'&orderBy=' + orderByVal + '&hobbyType=' + hobbyType + '&period=' + period + '&ing=' + ing;
+						
+						return false;
+					} else if (tabName == '달력 검색') {
+						var dateStart = $('#date_start').val();
+						var dateEnd = $('#date_end').val();
+						
+						location.href = '/group/searchDate?start_date=' + dateStart + '&end_date=' + dateEnd + '&orderBy=' + orderByVal + '&ing=' + ing;
+					
+						return false;
+					} else if (tabName == '지도 검색') {
+						var locationVal = $('#location').val();
+						location.href = '/group/searchLocation?location=' + locationVal + '&orderBy=' + orderByVal + '&ing=' + ing;
+					
+						return false;
+					}
+				}
+			}
+			
+			location.href = '/group/main?orderBy=' + orderByVal + '&ing=' + ing;
 		})
 		
 		$('.ing').on('click', function(){
@@ -250,27 +393,71 @@
 			var ing = $(this).attr('id');
 			
 			if (ing == 'all') {
-				location.href = '/group/main?orderBy=' + orderByVal;
+				location.href = '/group/main?orderBy=' + orderByVal + '&ing=all';
 				
 				return false;
+			}
+			
+			var liCount = $('#tabs_for_search ul li').length;
+			var selectedTab = [];
+			for (var i = 0; i < liCount; i++) {
+				var liClass = $($('.group_search_box ul li')[i]);
+				if (liClass.attr('class') == 'on') {
+					var tabName = liClass.find('a').html();
+					
+					if (tabName == '키워드 검색') {
+						var selectedHobbyLength = $('.hobby_list:checked').length;
+						var selectedHobby = [];
+						var keywordType = null;
+						var keywordInput = null;
+						var periodLength = $('.period:checked').length;
+						var period = null;
+						var hobbyType = null;
+						
+						if (periodLength > 0) {
+							period = $('.period:checked').val();
+						}
+						
+						if (selectedHobbyLength > 0) {
+							for (var i = 0; i < selectedHobbyLength; i++) {
+								selectedHobby[i] = $($('.hobby_list:checked')[i]).val();
+							}
+							$('#selected_hobby').val(selectedHobby);
+						}
+						
+						var hobbyType = $('#selected_hobby').val();
+						
+						if ($('#keyword_input').val() != '') {
+							var keywordType = $('#keyword_type').val();
+							var keywordInput = $('#keyword_input').val();
+						}
+						
+						location.href = '/group/search?keywordType=' + keywordType + '&keywordValue=' + keywordInput + 
+								'&orderBy=' + orderByVal + '&hobbyType=' + hobbyType + '&period=' + period + '&ing=' + ing;
+						
+						return false;
+					} else if (tabName == '달력 검색') {
+						var dateStart = $('#date_start').val();
+						var dateEnd = $('#date_end').val();
+						
+						location.href = '/group/searchDate?start_date=' + dateStart + '&end_date=' + dateEnd + '&orderBy=' + orderByVal + '&ing=' + ing;
+					
+						return false;
+					} else if (tabName == '지도 검색') {
+						var locationVal = $('#location').val();
+						location.href = '/group/searchLocation?location=' + locationVal + '&orderBy=' + orderByVal + '&ing=' + ing;
+					
+						return false;
+					}
+				}
 			}
 			
 			location.href = '/group/mainOption?orderBy=' + orderByVal + '&ing=' + ing;
 		})
 		
-		$('.hobby_list').change(function(){
-			if($(this).is(':checked')) {
-				var checkedCount = $('.hobby_list:checked').length;
-				
-				if (checkedCount > 3) {
-					alert('유형은 세 개까지만 선택 가능합니다.');
-					$(this).prop('checked', false);
-				}
-			}
-		})
-		
 		$('#searchAsKeyword').on('click', function(){
 			var orderByVal = $('#orderBy').val();
+			var ing = '${param.ing}';
 			var selectedHobbyLength = $('.hobby_list:checked').length;
 			var selectedHobby = [];
 			var keywordType = null;
@@ -302,25 +489,29 @@
 				}
 			}
 			
-			location.href = '/group/search?keywordType=' + keywordType + '&keywordValue=' + keywordInput + '&orderBy=' + orderByVal + '&hobbyType=' + hobbyType + '&period=' + period;
+			location.href = '/group/search?keywordType=' + keywordType + '&keywordValue=' + keywordInput + 
+					'&orderBy=seq&hobbyType=' + hobbyType + '&period=' + period + '&ing=all';
 		})
 		
 		$('#search_cal_btn').on('click', function(){
 			var orderByVal = $('#orderBy').val();
+			var ing = '${param.ing}';
 			var dateStart = $('#date_start').val();
 			var dateEnd = $('#date_end').val();
 			
-			location.href = '/group/searchDate?start_date=' + dateStart + '&end_date=' + dateEnd + '&orderBy=' + orderByVal;
+			location.href = '/group/searchDate?start_date=' + dateStart + '&end_date=' + dateEnd + '&orderBy=seq&ing=all';
 		})
 		
 		$('#search_map_btn').on('click', function(){
 			var orderByVal = $('#orderBy').val();
+			var ing = '${param.ing}';
 			var locationVal = $('#location').val();
-			console.log(orderBy + ' ' + location)
-			location.href = '/group/searchLocation?location=' + locationVal + '&orderBy=' + orderByVal;
+			location.href = '/group/searchLocation?location=' + locationVal + '&orderBy=seq&ing=all';
 		})
 		
-		new sojaeji('sido1', 'gugun1');
+		if ($('#location').val() == '') {
+			new sojaeji('sido1', 'gugun1');
+		}
 		// 지도
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 	    mapOption = { 
@@ -329,6 +520,10 @@
 	    };
 		
 		$('#map_on').on('click', function(){
+			mapOn();
+		})
+		
+		function mapOn() {
 			setTimeout(function(){
 				var marker;
 				var circle;
@@ -338,7 +533,6 @@
 					var gugun = $('#gugun1 option:selected').val();
 					
 					$('#location').val(sido + ' ' + gugun);
-					$('#location_text').html(sido + ' ' + gugun);
 					
 					kakaoMapLocation($('#location').val());
 				})
@@ -489,6 +683,6 @@
 					});
 				}
 			}, 100)
-		})
+		}
 	</script>
 <jsp:include page="/WEB-INF/views/footer.jsp"/>

@@ -16,6 +16,8 @@ import kh.pingpong.dto.BlacklistDTO;
 import kh.pingpong.dto.CorrectDTO;
 import kh.pingpong.dto.DeleteApplyDTO;
 import kh.pingpong.dto.DiscussionDTO;
+import kh.pingpong.dto.FileDTO;
+import kh.pingpong.dto.FileTnDTO;
 import kh.pingpong.dto.GroupDTO;
 import kh.pingpong.dto.LessonDTO;
 import kh.pingpong.dto.MemberDTO;
@@ -209,6 +211,9 @@ public class AdminController {
 	@RequestMapping("/tutorAppView")
 	public String tutorAppView(int seq, Model model) {
 		TutorAppDTO tadto = aservice.tutorAppView(seq);
+		List <FileDTO> files = aservice.licenseViewFile(seq);
+		
+		model.addAttribute("files", files);
 		model.addAttribute("tadto", tadto);
 		return "/admin/tutorAppView";
 	}

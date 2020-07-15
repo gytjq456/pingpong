@@ -21,6 +21,7 @@ import kh.pingpong.dto.FileDTO;
 import kh.pingpong.dto.FilesDTO;
 import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.dto.NewsDTO;
+import kh.pingpong.dto.TutorAppDTO;
 
 @Controller
 @RequestMapping("file")
@@ -158,5 +159,30 @@ public class FileController {
 		
 	}
 	
-
+	//자격증 파일 다운로드
+		@RequestMapping("downloadFileLicense")
+		public void downloadFileLicense(TutorAppDTO tadto, HttpServletResponse resp) throws Exception{
+			FileDTO fdto = fdao.downloadFileLicense(tadto);
+			String filePath = session.getServletContext().getRealPath("upload/tutorLicense/");
+			
+			File target = new File(filePath + "/"+ fdto.getSysname()); // 서버경로
+			System.out.println(target);
+			
+			try(	DataInputStream dis = new DataInputStream(new FileInputStream(target));
+					ServletOutputStream sos = resp.getOutputStream();
+					){
+				String fileName = new String (fdto.getOriname().getBytes("utf-8"),"iso-8859-1");
+				
+				byte[] fileContents = new byte[(int)target.length()];
+				dis.readFully(fileContents);
+				
+				resp.reset();
+				resp.setContentType("application/pctet-stream");
+				resp.setHeader("Content-disposition", "attachment;filename=" + fileName + ";");
+				
+				sos.write(fileContents);
+				sos.flush();
+			}
+			
+		}
 }

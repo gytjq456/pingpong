@@ -328,7 +328,6 @@ $(function(){
 					location.href="/tutor/lessonView?seq=${ldto.seq}"
 				});
 			}
-			
 		})
 })
 

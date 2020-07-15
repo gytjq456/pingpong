@@ -3,7 +3,9 @@ package kh.pingpong.controller;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -187,26 +189,12 @@ public class PaymentsController {
 	public String refundInsert(TuteeDTO ttdto, Model model) throws Exception{
 		//환불했을때 현재인원 다시 내리기 포함
 		tservice.refundInsert(ttdto);
-
-		
-		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
-		List<LessonDTO> telist = mpservice.selectTuteeList(loginInfo); 
-		
-		
-		ttdto.getParent_seq();
-		model.addAttribute(ttdto);
-		model.addAttribute("telist", telist);
-		return "/mypage/tutorRecord";
+		return "redirect:/mypage/tutorRecord";
 	}
 	
 	@RequestMapping("refundFail")
 	public String refundFail(Model model) throws Exception{
-		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
-		List<LessonDTO> telist = mpservice.selectTuteeList(loginInfo); 
-		model.addAttribute("telist", telist);
-		return "/mypage/tutorRecord";
+		return "redirect:/mypage/tutorRecord";
 	}
-	
-	
 	
 }

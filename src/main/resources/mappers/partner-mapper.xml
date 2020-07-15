@@ -61,7 +61,6 @@
 		select * from (select partner.*,row_number() over(order by seq desc) rnum from partner) where rnum between #{start} and #{end}
 	</select>
 
-
 	<!-- 파트너 등록 -->
 	<resultMap id="MemProfile" type="kh.pingpong.dto.MemberDTO">
     	<result property="sysname" column="profile"/>
@@ -91,15 +90,29 @@
 	<delete id="deletePartner">
 		delete from partner where id=#{id} and name=#{name}
 	</delete>
+	
+	<!-- 파트너 삭제로 멤버 업데이트 -->
+	<update id="updateMemberGradeD">
+		update member set grade = 'default' where id = #{id}
+	</update>
 
 	<!-- 전체 파트너  -->
 	<select id="partnerListAll" resultType="kh.pingpong.dto.PartnerDTO">
 		select * from partner
 	</select>
 	
+	<!-- 파트너 신고 -->
+	<select id="selectReport" resultType="int">
+		select count(*) from reportlist where parent_seq = #{parent_seq} and id = #{id} and category = '파트너'
+	</select>
+	
+	<insert id="insertReport">
+		insert into reportlist values(reportlist_seq.nextval, #{id}, #{reason}, #{reporter}, sysdate, #{parent_seq}, '파트너', default)
+	</insert>
+	
 	<!-- 리뷰 글쓰기  -->
 	<insert id="reviewWrite">
-		insert into review values(review_seq.nextval, #{writer}, #{point}, #{contents}, default, #{category}, #{parent_seq})
+		insert into review values(review_seq.nextval, #{writer}, #{point}, #{contents}, default, #{category}, #{parent_seq}, #{thumNail})
 	</insert>
 	
 	<!-- 리뷰 리스트 출력  -->

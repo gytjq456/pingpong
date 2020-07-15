@@ -53,7 +53,7 @@
 
 <!-- 강의 등록 신청서 -->
 <insert id="lessonAppProc">
-	insert into lesson values(lesson_seq.nextval, #{id}, #{name}, #{email}, #{phone_country}, #{phone}, #{sysname}, default, #{title}, #{price}, #{language},#{apply_start},#{apply_end},#{start_date},#{end_date},#{start_hour},#{start_minute},#{end_hour},#{end_minute},#{max_num},0,#{location},#{location_lat},#{location_lng},#{curriculum},default,#{view_count},default,default,default,default,default)
+	insert into lesson values(lesson_seq.nextval, #{id}, #{name}, #{email}, #{phone_country}, #{phone},default, #{title}, #{price}, #{language},#{apply_start},#{apply_end},#{start_date},#{end_date},#{start_hour},#{start_minute},#{end_hour},#{end_minute},#{max_num},0,#{location},#{location_lat},#{location_lng},#{curriculum},default,#{view_count},default,default,default,default,default)
 </insert>
 
 <!-- 강의 수정 신청서 -->

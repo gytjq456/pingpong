@@ -29,7 +29,7 @@
 	         <div class="inner1200">
 	            <div class="util">
 	               <ul>
-						<li class="alram"><a href="#;"><img src="/resources/img/common/alram.png"><span class="length"></span></a></li>
+						<li class="alram"><a href="/alarm/alarm2"><img src="/resources/img/common/alram.png"><span class="length"><c:out value="${alarmCount}"/></span></a></li>
 						<c:choose>
 							<c:when test="${empty sessionScope.loginInfo}">
 								<li><a href="/member/login">Login</a></li>
@@ -60,7 +60,7 @@
 					<div >
 						<ul class="clearfix gnb">
 							<li>
-								<a href="/partner/partnerList">Partner</a>
+								<a href="/partner/partnerList?align=recent">Partner</a>
 								<ul class="depth2">
 									<li><a href="/partner/partnerList?align=recent">파트너 목록</a></li>
 									<li><a href="#;" class="resiterPop">파트너 등록</a></li>
@@ -101,4 +101,4 @@
 			</div>
 		</section>
 	</header>
-
+	

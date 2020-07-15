@@ -140,8 +140,16 @@
 		insert into delete_app values(delete_app_seq.nextval, #{id}, '그룹', #{contents}, #{parent_seq})
 	</insert>
 	
-	<select id="selectGroupMemberList" resultType="kh.pingpong.dto.GroupMemberDTO">
-		select * from groupmember where parent_seq = #{parent_seq}
+	
+	<resultMap id="GroupMemberProFile" type="kh.pingpong.dto.GroupMemberDTO">
+		<result property="sysname" column="profile"></result>
+	</resultMap>
+	<select id="selectGroupMemberList" resultMap="GroupMemberProFile">
+		<!-- select * from groupmember where parent_seq = #{parent_seq} -->
+		select g.*, m.profile from groupmember g 
+		inner join member m
+		on g.id = m.id
+		where parent_seq = #{parent_seq}
 	</select>
 	
 	<select id="selectGroupMemberById" resultType="int">
@@ -283,7 +291,7 @@
 	
 	<!-- 그룹 승인-아이디 -->
 	<insert id="insertGroupMember">
-		insert into groupmember values(groupmember_seq.nextval, #{id}, #{name}, #{profile}, #{parent_seq}, #{parent_title})
+		insert into groupmember values(groupmember_seq.nextval, #{id}, #{name}, #{parent_seq}, #{parent_title})
 	</insert>
 	
 	<!-- 그룹 승인-부모 시퀀스 -->

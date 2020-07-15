@@ -456,42 +456,38 @@ public class TutorController {
 		return result;
 	}
 	
-	//강의 신청서 수정버튼
-	@RequestMapping("lessonUpdate")
-	public String lessonUpdate(Model model, int seq) throws Exception{
-		LessonDTO ldto = tservice.lessonView(seq);
-		model.addAttribute("seq", seq);
-		model.addAttribute("ldto",ldto);
-		return "/tutor/lessonUpdate";
-	}
+	/*
+	 * //강의 신청서 수정버튼
+	 * 
+	 * @RequestMapping("lessonUpdate") public String lessonUpdate(Model model, int
+	 * seq) throws Exception{ LessonDTO ldto = tservice.lessonView(seq);
+	 * model.addAttribute("seq", seq); model.addAttribute("ldto",ldto); return
+	 * "/tutor/lessonUpdate"; }
+	 */
+
+	/*
+	 * //강의 신청서 수정
+	 * 
+	 * @RequestMapping("lessonAppUpdateProc") public String
+	 * lessonAppUpdateProc(LessonDTO ldto, Model model) throws Exception{ MemberDTO
+	 * mdto = (MemberDTO)session.getAttribute("loginInfo");
+	 * 
+	 * System.out.println(ldto.getPrice()); model.addAttribute("loginInfo",
+	 * session.getAttribute("loginInfo")); String id = mdto.getId(); Map<Object,
+	 * Object> param = new HashMap<>(); param.put("id", id); param.put("parent_seq",
+	 * ldto.getSeq());
+	 * 
+	 * boolean checkLike = tservice.LikeIsTrue(param);
+	 * model.addAttribute(checkLike); // ldto.setId(mdto.getId()); //
+	 * ldto.setName(mdto.getName()); // ldto.setEmail(mdto.getEmail()); //
+	 * ldto.setPhone_country(mdto.getPhone_country()); //
+	 * ldto.setPhone(mdto.getPhone()); // ldto.setSysname(mdto.getSysname());
+	 * 
+	 * tservice.lessonAppUpdateProc(ldto); model.addAttribute("ldto",ldto);
+	 * 
+	 * return "/tutor/lessonView"; }
+	 */
 	
-	//강의 신청서 수정
-	@RequestMapping("lessonAppUpdateProc")
-	public String lessonAppUpdateProc(LessonDTO ldto, Model model) throws Exception{
-		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
-		
-		System.out.println(ldto.getPrice());
-		model.addAttribute("loginInfo", session.getAttribute("loginInfo"));
-		String id = mdto.getId();
-		Map<Object, Object> param = new HashMap<>();
-		param.put("id", id);
-		param.put("parent_seq", ldto.getSeq());
-		
-		boolean checkLike = tservice.LikeIsTrue(param);
-		model.addAttribute(checkLike);
-//		ldto.setId(mdto.getId());
-//		ldto.setName(mdto.getName());
-//		ldto.setEmail(mdto.getEmail());
-//		ldto.setPhone_country(mdto.getPhone_country());
-//		ldto.setPhone(mdto.getPhone());
-//		ldto.setSysname(mdto.getSysname());
-
-		tservice.lessonAppUpdateProc(ldto);
-		model.addAttribute("ldto",ldto);
-		
-		return "/tutor/lessonView";
-	}
-
 	//같은사람이 게시물 신고했는지 확인
 	@RequestMapping("report")
 	@ResponseBody
@@ -518,6 +514,6 @@ public class TutorController {
 		tservice.reviewUpdate(rdto);
 		return "redirect: /tutor/lessonView?seq="+ rdto.getParent_seq();
 	}
-
+	
 
 }

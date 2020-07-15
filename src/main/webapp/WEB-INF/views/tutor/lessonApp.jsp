@@ -20,7 +20,7 @@
 		$("#back").on("click", function(){
 			var result = confirm("강의 목록으로 돌아가시겠습니까?");
 			if(result){
-				location.href="/tutor/lessonList?orderBy=seq&keywordSelect=name";
+				location.href="/tutor/lessonList?schType=keyword&orderBy=seq&keywordSelect=name";
 			}else{
 				return false;
 			}
@@ -367,10 +367,10 @@
 						<div class="max_num_wrap">
 							<div class="tit_s3">
 								<h4>최대 인원</h4>
+								<span class="notice">*최소 5명부터 최대 30명까지 가능합니다.</span>
 							</div>
 							<!-- 조건 걸기 -->
-							<input type="text" id="max_num" name="max_num"
-								placeholder="최소5명 최대30명">
+							<input type="text" id="max_num" name="max_num">
 						</div>					
 					</section>
 					<section>

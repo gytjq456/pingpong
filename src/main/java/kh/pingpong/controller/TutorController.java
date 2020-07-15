@@ -206,7 +206,8 @@ public class TutorController {
 
 		//ing 는 컬럼에 들어갈 값임
 		if(period.contentEquals("applying")) {
-			param.put("ing",period); param.put("ingVal", "Y"); 
+			param.put("ing",period); 
+			param.put("ingVal", "Y"); 
 		}else if(period.contentEquals("proceeding")) { 
 			param.put("ing",period);
 			param.put("ingVal", "Y"); 

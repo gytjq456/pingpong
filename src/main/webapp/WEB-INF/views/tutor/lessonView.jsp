@@ -489,6 +489,9 @@ $(function(){
 											<p class="userId">${loginInfo.id }</p>
 										</div>
 									</div>
+									<c:choose>
+										<c:when test=""></c:when>
+									</c:choose>
 									<div>
 										<textarea name="contents" id="textCont"></textarea>
 										<div class="wordsize"><span class="current">0</span>/1000</div>

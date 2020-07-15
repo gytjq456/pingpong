@@ -95,19 +95,19 @@
 
 			//정렬까지
 			if(!schkey && !schSchedule && !schLocation && period=='applying'){
-				location.href="tutor/lessonListPeriod?&orderBy="+orderbyVal+"&period="+period;
+				location.href="/tutor/lessonListPeriod?orderBy="+orderbyVal+"&period="+period;
 			}
 			if(!schkey && !schSchedule && !schLocation && period=='proceeding'){
-				location.href="tutor/lessonListPeriod?&orderBy="+orderbyVal+"&period="+period;
+				location.href="/tutor/lessonListPeriod?orderBy="+orderbyVal+"&period="+period;
 			}
 			if(!schkey && !schSchedule && !schLocation && period=='done'){
-				location.href="tutor/lessonListPeriod?&orderBy="+orderbyVal+"&period="+period;
+				location.href="/tutor/lessonListPeriod?orderBy="+orderbyVal+"&period="+period;
 			}
 			
 			//검색하고 진행중/모집중/마감 하고 정렬까지
 			if(period == 'all'){
 				if(!schkey && !schSchedule && !schLocation){
-					location.href="tutor/lessonListPeriod?&orderBy="+orderbyVal+"&period=all";
+					location.href="/tutor/lessonListPeriod?orderBy="+orderbyVal+"&period=all";
 				}
 				if(schkey){
 					location.href="/tutor/searchKeword?schType=keyword&keywordSelect="+selectVal+"&keyword="+keywordVal+"&orderBy="+orderbyVal+"&period=all";
@@ -150,19 +150,19 @@
 			
 			//진행중/모집중/마감 만 눌렀을 때
 			if(!schkey && !schSchedule && !schLocation && period=='applying'){
-				location.href="tutor/lessonListPeriod?&orderBy="+orderbyVal+"&period="+period;
+				location.href="/tutor/lessonListPeriod?orderBy="+orderbyVal+"&period="+period;
 			}
 			if(!schkey && !schSchedule && !schLocation && period=='proceeding'){
-				location.href="tutor/lessonListPeriod?&orderBy="+orderbyVal+"&period="+period;
+				location.href="/tutor/lessonListPeriod?orderBy="+orderbyVal+"&period="+period;
 			}
 			if(!schkey && !schSchedule && !schLocation && period=='done'){
-				location.href="tutor/lessonListPeriod?&orderBy="+orderbyVal+"&period="+period;
+				location.href="/tutor/lessonListPeriod?orderBy="+orderbyVal+"&period="+period;
 			}
 			
 			//검색하고 진행중/모집중/마감 눌렀을 때
 			if(period == 'all'){
 				if(!schkey && !schSchedule && !schLocation){
-					location.href="tutor/lessonListPeriod?&orderBy="+orderbyVal+"&period=all";
+					location.href="/tutor/lessonListPeriod?orderBy="+orderbyVal+"&period=all";
 				}
 				if(schkey){
 					location.href="/tutor/searchKeword?schType=keyword&keywordSelect="+selectVal+"&keyword="+keywordVal+"&orderBy="+orderbyVal+"&period=all";

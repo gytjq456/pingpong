@@ -61,7 +61,6 @@
 		select * from (select partner.*,row_number() over(order by seq desc) rnum from partner) where rnum between #{start} and #{end}
 	</select>
 
-
 	<!-- 파트너 등록 -->
 	<resultMap id="MemProfile" type="kh.pingpong.dto.MemberDTO">
     	<result property="sysname" column="profile"/>
@@ -110,11 +109,6 @@
 	<insert id="insertReport">
 		insert into reportlist values(reportlist_seq.nextval, #{id}, #{reason}, #{reporter}, sysdate, #{parent_seq}, '파트너', default)
 	</insert>
-	
-	<!-- 
-	<update id="commentCount" resultType="java.lang.Integer">
-		select count(*) from 
-	</update> -->
 	
 	<!-- 리뷰 글쓰기  -->
 	<insert id="reviewWrite">

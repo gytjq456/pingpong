@@ -299,4 +299,10 @@ public class GroupDAO {
 	public GroupApplyDTO showMyApp(Map<String, Object> param) throws Exception {
 		return mybatis.selectOne("Group.showMyApp", param);
 	}
+	
+	// 리뷰 삭제하기
+	public int reviewDelete(int seq) throws Exception{
+		return mybatis.delete("Group.reviewDelete",seq);
+	}
+	
 }

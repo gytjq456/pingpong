@@ -32,20 +32,21 @@
 				and address like '%'||#{pdto.address}||'%'
 			</if>  
  			<if test="pdto.age != 0">
-				and age like '%'||#{pdto.age}||'%'
+				and age like #{pdto.age}||'%'
 			</if>
 			
 		</trim>
-		) where rnum between 1 and 10
+		) where rnum between #{start} and #{end}
 	</select>
 	
 	<!-- 검색 최신순 / 인기순 -->
 	<select id="alignT" resultType="kh.pingpong.dto.PartnerDTO">
-		select * from partner
+		select * from ( select partner.*, row_number() over (
 		<trim prefix="ORDER BY">
 	         <if test="align == 'recent'">  partner_date desc</if>
 	         <if test="align == 'point'">  review_point desc</if>
-		</trim> 
+		</trim>
+		) rnum from partner ) where rnum between #{start} and #{end} 
 	</select>
 	
 	<select resultType="int" id="getArticleCount">

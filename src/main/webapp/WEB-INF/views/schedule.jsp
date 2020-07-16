@@ -188,7 +188,6 @@
 					day:day
 				}
 			}).done(function(resp){
-				console.log(resp)
 				if(resp.gList.length){
 					for(var i=0; i<resp.gList.length; i++){
 						var li = $("<li>");
@@ -207,6 +206,8 @@
 				}
 				if(resp.LessonList.length){
 					for(var i=0; i<resp.LessonList.length; i++){
+						var txt = resp.LessonList[i].curriculum;
+						console.log(txt);
 						var li = $("<li>");
 						var info = $('<div class="info">');
 						li.append('<div class="thum"><img src="/upload/member/'+resp.LessonList[i].id+'/'+resp.LessonList[i].sysname+'"></div>')

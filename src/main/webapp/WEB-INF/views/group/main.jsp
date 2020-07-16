@@ -5,10 +5,19 @@
 <jsp:include page="/WEB-INF/views/header.jsp"/>
 <script>
 	$(function(){
-		if("${schType}" == "keyword" ){
+		var firstTab = ${!empty keywordValue || !empty period || !empty hobbyType};
+		var secondTab = ${!empty start_date};
+		var thirdTab = ${!empty location};
+		var forMain = ${schType == 'keyword'};
+		if (firstTab) {
+			$("#tabContWrap > article:eq(0)").show();
+		} else if (secondTab) {
+			$("#tabContWrap > article:eq(1)").show();
+		} else if (thirdTab) {
+			$("#tabContWrap > article:eq(2)").show();
+		} else if (forMain) {
 			$("#tabContWrap > article:eq(0)").show();
 		}
-		
 		$("#keyword_input").keyup(function(e){
 			if(e.keyCode == 13){
 				$("#searchAsKeyword").click();
@@ -506,6 +515,11 @@
 			var dateStart = $('#date_start').val();
 			var dateEnd = $('#date_end').val();
 			
+			if (dateStart == '' || dateEnd == '') {
+				alert('시작 날짜와 끝 날짜를 정확히 선택해 주세요.');
+				return false;
+			}
+			
 			location.href = '/group/searchDate?start_date=' + dateStart + '&end_date=' + dateEnd + '&orderBy=seq&ing=all';
 		})
 		
@@ -513,6 +527,12 @@
 			var orderByVal = $('#orderBy').val();
 			var ing = '${param.ing}';
 			var locationVal = $('#location').val();
+
+			if (locationVal == '') {
+				alert('위치를 선택해 주세요.');
+				return false;
+			}
+			
 			location.href = '/group/searchLocation?location=' + locationVal + '&orderBy=seq&ing=all';
 		})
 		

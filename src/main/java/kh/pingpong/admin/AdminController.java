@@ -235,7 +235,6 @@ public class AdminController {
 		if (loginId.contentEquals(id) ) {
 			MemberDTO mdto = aservice.memberView(id);
 			System.out.println(mdto.getId());
-			session.removeAttribute("loginInfo");
 			session.setAttribute("loginInfo", mdto);
 		}
 		

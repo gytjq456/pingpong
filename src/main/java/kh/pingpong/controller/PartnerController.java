@@ -116,6 +116,7 @@ public class PartnerController {
 	@ResponseBody
 	@RequestMapping("send")
 	public String send(PartnerDTO pdto, MemberDTO mdto,  Model model, HttpServletRequest request, HttpServletResponse response) throws Exception{
+		System.out.println("================== test ================");
 		System.out.println(pdto.getEmail());
 		Boolean result = this.mail(request, response, pdto.getEmail(), mdto.getMemail(), mdto.getEmailPassword(),mdto.getContents());
 		System.out.println("in send: " + result);	
@@ -125,20 +126,19 @@ public class PartnerController {
 
 	//파트너 목록 페이지
 	@RequestMapping("partnerList")
-	public String partnerList(String align,HttpServletRequest request, Model model) throws Exception{
+	public String partnerList(String align,HttpServletRequest request, Model model,Map<String,Object> search) throws Exception{
 		int cpage = 1;
 		try {
 			cpage = Integer.parseInt(request.getParameter("cpage"));
 		}catch(Exception e) {}
 		//List<PartnerDTO> plist = pservice.partnerList(cpage);
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
-		String navi = pservice.getPageNavi(cpage);
 		List<HobbyDTO> hdto = pservice.selectHobby();
 		List<LanguageDTO> ldto = pservice.selectLanguage();
-		List<PartnerDTO> alist = pservice.searchAlign(align);
+		List<PartnerDTO> alist = pservice.searchAlign(cpage,align);
+		String navi = pservice.getPageNavi(cpage,align,search);
 		
 		model.addAttribute("loginInfo", loginInfo);
-		//model.addAttribute("plist", plist);
 		model.addAttribute("navi", navi);
 		model.addAttribute("hdto", hdto);
 		model.addAttribute("ldto", ldto);
@@ -175,6 +175,7 @@ public class PartnerController {
 		System.out.println(checkJjim);
 		model.addAttribute("checkJjim",checkJjim);
 		model.addAttribute("pdto", pdto);
+		System.out.println("리뷰 포="+ pdto.getReview_point());
 
 		//리뷰 리스트 출력
 		List<ReviewDTO> reviewList = gservice.reviewList(seq);
@@ -196,24 +197,34 @@ public class PartnerController {
 	@RequestMapping("insertPartner")
 	public String insertPartner(MemberDTO mdto, String contact, Model model) throws Exception{
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
+		
 		mdto = pservice.selectMember(loginInfo.getId());
 		mdto = mservice.memberSelect(loginInfo);
-		//pservice.updateMemberGrade(mdto);
 		Map<String, Object> insertP = new HashMap<>();
 		insertP.put("mdto", mdto);
 		insertP.put("contact", contact);	
 		pservice.partnerInsert(insertP,mdto);
+		
+		if (loginInfo.getId().contentEquals(mdto.getId()) ) {
+			MemberDTO mbdto = pservice.selectMember(loginInfo.getId());
+			session.setAttribute("loginInfo", mbdto);
+		}		
+		
 		return "redirect:/partner/partnerList?align=recent";
 	}
 
 	//파트너 삭제
 	@RequestMapping("deletePartner")
-	public String deletePartner(Model model) throws Exception{
+	public String deletePartner(Model model, String id) throws Exception{
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
-		//PartnerDTO pdto = pservice.selectBySeq(seq)
 		pservice.deletePartner(loginInfo);
 		//model.addAttribute(attributeName, attributeValue)
-		return "redirect:/partner/partnerList";
+		
+		if (loginInfo.getId().contentEquals(id) ) {
+			MemberDTO mbdto = pservice.selectMember(loginInfo.getId());
+			session.setAttribute("loginInfo", mbdto);
+		}	
+		return "redirect:/partner/partnerList?align=recent";
 	}
 
 	//상세 검색
@@ -225,9 +236,8 @@ public class PartnerController {
 		}catch(Exception e) {}
                                                                                
 		Map<String, Object> search = new HashMap<>();	
-		
 		List<PartnerDTO> alist = pservice.search(cpage, search, pdto);
-		String navi = pservice.getPageNavi(cpage);
+		String navi = pservice.getPageNavi(cpage,align,search);
 		List<HobbyDTO> hdto = pservice.selectHobby();
 		List<LanguageDTO> ldto = pservice.selectLanguage();
 		//List<PartnerDTO> alist = pservice.searchAlign(align);
@@ -302,23 +312,16 @@ public class PartnerController {
 	}
 	
 	//최신순, 평점순
-//	@RequestMapping("align")
-//	public String align(HttpServletRequest request, Model model) throws Exception{
-//		String alignType = request.getParameter("align");
-//		List<PartnerDTO> alist = pservice.searchAlign(alignType);
-//		System.out.println(alignType);
-//		model.addAttribute("align", alignType);
-//		model.addAttribute("alist", alist);
-//		return "/partner/partnerList";
-//	}
-	//	<aop:config>
-	//	<aop:pointcut expression="execution(* kh.pingpong.controller.GroupController.*(..))" id="group"/>
-	//	<aop:pointcut expression="execution(* kh.pingpong.controller.PartnerController.*(..))" id="partner"/>
-	//	<aop:aspect id="logPrint" ref="logaop">
-	//		<aop:around pointcut-ref="group" method="aroundBoardLog"/>
-	//		<aop:around pointcut-ref="partner" method="aroundBoardLog"/>
-	//	</aop:aspect>
-	//	</aop:config>
+	@RequestMapping("align")
+	public String align(HttpServletRequest request, Model model, int cpage) throws Exception{
+		String alignType = request.getParameter("align");
+		List<PartnerDTO> alist = pservice.searchAlign(cpage,alignType);
+		System.out.println(alignType);
+		model.addAttribute("align", alignType);
+		model.addAttribute("alist", alist);
+		return "/partner/partnerList";
+	}
+
 
 }
 

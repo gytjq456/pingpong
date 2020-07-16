@@ -116,6 +116,7 @@ public class PartnerController {
 	@ResponseBody
 	@RequestMapping("send")
 	public String send(PartnerDTO pdto, MemberDTO mdto,  Model model, HttpServletRequest request, HttpServletResponse response) throws Exception{
+		System.out.println("================== test ================");
 		System.out.println(pdto.getEmail());
 		Boolean result = this.mail(request, response, pdto.getEmail(), mdto.getMemail(), mdto.getEmailPassword(),mdto.getContents());
 		System.out.println("in send: " + result);	
@@ -174,6 +175,7 @@ public class PartnerController {
 		System.out.println(checkJjim);
 		model.addAttribute("checkJjim",checkJjim);
 		model.addAttribute("pdto", pdto);
+		System.out.println("리뷰 포="+ pdto.getReview_point());
 
 		//리뷰 리스트 출력
 		List<ReviewDTO> reviewList = gservice.reviewList(seq);
@@ -195,21 +197,34 @@ public class PartnerController {
 	@RequestMapping("insertPartner")
 	public String insertPartner(MemberDTO mdto, String contact, Model model) throws Exception{
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
+		
 		mdto = pservice.selectMember(loginInfo.getId());
 		mdto = mservice.memberSelect(loginInfo);
 		Map<String, Object> insertP = new HashMap<>();
 		insertP.put("mdto", mdto);
 		insertP.put("contact", contact);	
 		pservice.partnerInsert(insertP,mdto);
+		
+		if (loginInfo.getId().contentEquals(mdto.getId()) ) {
+			MemberDTO mbdto = pservice.selectMember(loginInfo.getId());
+			session.setAttribute("loginInfo", mbdto);
+		}		
+		
 		return "redirect:/partner/partnerList?align=recent";
 	}
 
 	//파트너 삭제
 	@RequestMapping("deletePartner")
-	public String deletePartner(Model model) throws Exception{
+	public String deletePartner(Model model, String id) throws Exception{
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
 		pservice.deletePartner(loginInfo);
-		return "redirect:/partner/partnerList";
+		//model.addAttribute(attributeName, attributeValue)
+		
+		if (loginInfo.getId().contentEquals(id) ) {
+			MemberDTO mbdto = pservice.selectMember(loginInfo.getId());
+			session.setAttribute("loginInfo", mbdto);
+		}	
+		return "redirect:/partner/partnerList?align=recent";
 	}
 
 	//상세 검색

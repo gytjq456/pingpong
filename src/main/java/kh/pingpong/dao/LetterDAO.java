@@ -31,9 +31,6 @@ public class LetterDAO {
 		
 		param.put("start", start);
 		param.put("end", end);
-
-		System.out.println("start: " + start);
-		System.out.println("end: " + end);
 		
 		return mybatis.selectList("Letter.receiveLetterList", param);
 	}
@@ -44,9 +41,6 @@ public class LetterDAO {
 		
 		param.put("start", start);
 		param.put("end", end);
-		
-		System.out.println("start: " + start);
-		System.out.println("end: " + end);
 		
 		return mybatis.selectList("Letter.sendLetterList", param);
 	}

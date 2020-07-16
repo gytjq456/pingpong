@@ -215,7 +215,7 @@
 												<p><span>채팅</span></p>
 											</c:if>								
 											<c:if test = "${fn : contains(plist.contact, '이메일')}">
-												<p><button class="email_a">이메일</button></p>
+												<p><button class="email_a" data-seq="${plist.seq}" data-email="${plist.email}" data-name="${plist.name}">이메일</button></p>
 											</c:if>								
 										</div>
 								</article>				

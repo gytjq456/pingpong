@@ -27,7 +27,9 @@
 #mainVisual .visu article.item2 { background:url("/resources/img/main/mainVisual02.jpg") no-repeat center;}
 #mainVisual .visu article.item3 { background:url("/resources/img/main/mainVisual03.jpg") no-repeat center;}
 #mainVisual .txt_box { position:absolute; left:50%; top:50%; width:100%; max-width:1200px; transform:translate(-50%,-50%); text-align:center; }
-#mainVisual .txt_box h2 { text-shadow:0 0 5px rgba(0,0,0,0.2); color:#fff; font-family: 'Sunflower', sans-serif; font-size:68px; font-weight:300; text-shadow: 0 5px 4px rgba(0, 0, 0, 0.2);}
+#mainVisual .txt_box h2 { color:#fff; font-family: 'Sunflower', sans-serif; font-size:68px; font-weight:300; text-shadow: 0 5px 4px rgba(0, 0, 0, 0.2);}
+#mainVisual .txt_box a { display:block; width:120px; height:42px; line-height:42px; color:#333; background:#fff; border-radius:6px; margin:20px auto 0; box-shadow:0 0 5px rgba(0,0,0,0.2); transition:all 0.5s;}
+#mainVisual .txt_box a:hover { background:#fbaab0; color:#fff; }
 #mainVisual .txt_box .tagList { margin-top:60px; }
 #mainVisual .txt_box .tagList ul { font-size:0; letter-spacing:-4px;}
 #mainVisual .txt_box .tagList ul li { display:inline-block; letter-spacing: -1px; margin-right:10px; }
@@ -85,7 +87,9 @@
 	width:-moz-calc(100% - 130px);
 	width:-webkit-calc(100% - 130px);	
 }
-#toDayClass .classWrap .list ul li .info > div { margin-bottom:10px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }  
+#toDayClass .classWrap .list ul li .info > div { margin-bottom:10px; }
+#toDayClass .classWrap .list ul li .info > div p  {overflow:hidden; text-overflow:ellipsis; white-space:nowrap; display:inline;}
+#toDayClass .classWrap .list ul li .info > div br { display:none; }
 #toDayClass .classWrap .list ul li .tit { font-size:18px; font-weight:700; color:#333;}  
 #toDayClass .classWrap .list ul li .txtBox { font-size: 16px;}  
 #toDayClass .classWrap .list ul li .thum { width:100px; height:100px; border-radius:50%; overflow:hidden;  border:1px solid #ddd; box-sizing:borde-box; position:relative; margin-right:30px; font-size:12px; color:#999; }  
@@ -113,7 +117,7 @@
 
 /* 지도 */
 #mapWrap { padding:0 !important; position:relative; }
-#mapWrap .mapSelect { position: absolute; width:300px; background:rgb(51, 100, 165,0.8); left:20px; top:20px; z-index: 8888; padding: 20px; font-size:0; letter-spacing:-4px;}
+#mapWrap .mapSelect { position: absolute; width:360px; background:rgb(51, 100, 165,0.8); left:20px; top:20px; z-index: 8888; padding: 20px; font-size:0; letter-spacing:-4px;}
 #mapWrap .mapSelect select { background: none; color:#fff; padding: 5px 10px; display: inline-block; vertical-align: middle; height: 42px; line-height: 42px; border: 1px solid #ddd; box-sizing: border-box; font-size:14px; width:49%; margin-right:2%; letter-spacing: -0.5px;}
 #mapWrap .mapSelect select:last-child { margin:0; }
 #map { height:500px; width:100% !important;}

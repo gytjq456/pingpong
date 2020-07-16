@@ -196,6 +196,9 @@
 			//조회순 최신순 ...
 			var orderbyVal = $("#orderBy").val();
 			
+			if(keywordVal=="" || keywordVal==" "){
+				alert("검색어를 입력해주세요");
+			}
 			location.href="/tutor/searchKeword?schType=keyword&keywordSelect="+selectVal+"&keyword="+keywordVal+"&orderBy="+orderbyVal+"&period=all";
 		})
 		
@@ -204,6 +207,14 @@
 			var orderByVal = $('#orderBy').val();
 			var start_dateVal = $("#start_date").val();
 			var end_dateVal = $("#end_date").val();
+			
+			if(start_dateVal==""){
+				alert("시작기간을 설정해주세요");
+			}
+			else if(end_dateVal==""){
+				alert("마감기간을 설정해주세요");
+			}
+			
 			location.href="/tutor/searchDate?schType=schedule&start_date="+start_dateVal+"&end_date="+end_dateVal+"&orderBy="+orderByVal+"&period=all";
 		})
 		

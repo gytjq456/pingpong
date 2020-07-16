@@ -31,7 +31,7 @@
 			              	 	msg += '\n상점 거래ID : ' + rsp.merchant_uid;
 			              	 	msg += '\n결제 금액 : ' + rsp.paid_amount;
 			             	 	msg += '카드 승인번호 : ' + rsp.apply_num;
-			               	alert(msg);
+			               	//alert(msg);
 							//[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
 							$.ajax({
 								url : "/payments/complete",

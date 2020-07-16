@@ -213,7 +213,8 @@ public class TutorController {
 			param.put("ingVal", "Y"); 
 		}
 		else if(period.contentEquals("done")) {
-			param.put("ing", "applying='N' and proceeding"); param.put("ingVal", "N"); 
+			param.put("ing", "applying='N' and proceeding");
+			param.put("ingVal", "N"); 
 		}
 
 		int cpage = 1; 
@@ -372,6 +373,15 @@ public class TutorController {
 		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
 		String id = mdto.getId();
 		
+		List<TuteeDTO> tuteeList = tservice.tuteeList(seq);
+		if(tuteeList.size()==0) {
+			System.out.println("===============nullnulll");
+		}
+		for(TuteeDTO i : tuteeList) {
+			System.out.println("======================"+i.getId());
+		}
+		
+		
 		Map<Object, Object> param = new HashMap<>();
 		param.put("id", id);
 		param.put("parent_seq", seq);
@@ -394,6 +404,7 @@ public class TutorController {
 		model.addAttribute("checkLike", checkLike);
 		model.addAttribute("checkJjim",checkJjim);
 		model.addAttribute("reviewList", reviewList);
+		model.addAttribute("tuteeList", tuteeList);
 		return "/tutor/lessonView";
 	}
 	

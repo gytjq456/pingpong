@@ -151,18 +151,23 @@
 				}
 			})
 		})
-/* 		
-		$("#end_hour").on("change", function(){
-			var end_hourVal = $("#end_hour").val();
-			console.log(end_hourVal);
-			$("#start_hour").on("change", function(){
-				//$("select option[value<="+start_hourVal+"]").prop('disabled',true);
-				if($("#start_hour").val()>=end_hourVal){
-					alert("끝나는 시간보다 빠른 시간으로 설정해주세요.");
-					$("#start_hour").val('');
-				}
+
+		wordSize($(".lessonApp_view").find("#title"));
+		function wordSize(obj){
+			obj.keyup(function(){
+				var word = $(this).val();
+				var wordSize = word.length;
+				console.log(wordSize)
+				if(wordSize <= 100){
+					$(this).siblings().find(".current").text(wordSize);
+				}else{
+					word = word.substr(0,100);
+					$(this).siblings().find(".current").text(word.length);
+					$(this).val(word);
+					alert("100자 이하로 작성해 주세요")
+				}			
 			})
-		}) */
+		}
 
 		$("#frm").on("submit", function() {
 			var titleVal = $("#title").val();
@@ -242,7 +247,7 @@
 <div id="subWrap" class="hdMargin">
 	<section id="subContents">
 		<!--lessonApp_view  -->
-		<article id="discussion_write" class="inner1200">
+		<article id="discussion_write" class="inner1200 lessonApp_view">
 			<div class="tit_s1">
 				<h2>Lesson</h2>
 				<p>새 강의 등록하기</p>
@@ -253,9 +258,11 @@
 					<section class="title_wrap">
 						<div class="tit_s3">
 							<h4>제목</h4>
+							<span class="notice">*강의 성격이 드러날 키워드를 포함하여 간결한 제목으로 설정해 주세요.</span>
 						</div>
 						<div class="">
-							<input type="text" id="title" name="title" placeholder="강의 성격이 드러날 키워드를 포함하여 간결한 제목으로 설정해 주세요.">
+							<input type="text" id="title" name="title">
+							<div class="wordsize"><span class="current">0</span>/100</div>
 						</div>
 					</section>
 					<section class="price_wrap">

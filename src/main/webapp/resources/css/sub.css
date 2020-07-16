@@ -317,6 +317,7 @@ min-height: 600px;
 #discussion_write select,
 textarea,
 #discussion_write input[type="text"] { width:100%; padding:10px; height:42px; line-height:40px; border:1px solid #ddd; border-radius:5px; box-sizing:border-box;}
+#discussion_write input[type="text"] { white-space:nowrap;}
 #discussion_write select { width:auto; }
 textarea { resize:none; height:120px; line-height:1.6;}
 
@@ -661,7 +662,7 @@ width:-moz-calc(100% - 100px);
 #chatWrap .top #close i { font-size:22px; color:#fff; font-weight:700;}
 
 
-#chatOpenBtn { position:fixed; right:20px; bottom:20px;}
+#chatOpenBtn { position:fixed; right:20px; bottom:20px; z-index:9999;}
 #chatOpenBtn button { border:none; width:50px; transition:all 0.5s; height:50px; border-radius:50%; color:#fff; background:#4b98ff; font-size:12px; fontt-weight:700;}
 #chatOpenBtn button:hover { background:#3162a4;}
 
@@ -804,7 +805,7 @@ width:-webkit-calc(100% - 60px);
 #mypage .sideInfo ul li span { font-weight:700; color:#333;  margin-right:10px;}
 #mypage .sideInfo ul li p { color:#999; }
 
-#mypage .sideInfo ul li.introduce span { }
+#mypage .sideInfo ul li.introduce span { width:100%; margin-right:0;}
 #mypage .sideInfo ul li.introduce p { margin-top:10px; }
 
 

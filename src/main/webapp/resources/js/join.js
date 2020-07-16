@@ -119,7 +119,6 @@ $(function(){
 		//비밀번호 일치
 		var pwResult1 = $("#pw").val();
 		var pwResult2 = $("#pw_ck").val();
-		alert(pwResult1 + " :: "+pwResult2);
 		
 		if(pwResult1 != pwResult2){
 			alert("비밀번호가 일치 하지 않습니다.");

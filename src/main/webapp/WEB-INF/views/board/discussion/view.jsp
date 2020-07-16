@@ -219,6 +219,17 @@
 					$(this).addClass("checkOn")
 				}
 			})
+			
+			
+			// 댓글 작성중 취소후 글자수 0으로 바꾸기
+			$("input[type='reset']").click(function(){
+				$(".wordsize .current").text("0");
+			})
+			
+			$("input,textarea").blur(function(){
+				var thisVal = $(this).val();
+				$(this).val(textChk(thisVal));
+			})			
 		})
 
 		function likeHateCount(btn, url,category) {
@@ -253,6 +264,17 @@
 					location.href = "/discussion/view?seq=${disDto.seq}"
 				})
 			})
+		}
+		
+		function textChk(thisVal){
+			var replaceId  = /(script)/gi;
+			var textVal = thisVal;
+		    if (textVal.length > 0) {
+		        if (textVal.match(replaceId)) {
+		        	textVal = thisVal.replace(replaceId, "");
+		        }
+		    }
+		    return textVal;
 		}
 		
 		
@@ -372,9 +394,11 @@
 													<li>
 														<button class="comment_declaration report" data-thisSeq="${i.seq}" data-seq="${disDto.seq}" data-id="${i.id}" data-url="/discussion/report" data-proc="/discussion/reportProc"><i class="fa fa-bell color_white" aria-hidden="true"></i> 신고하기</button>
 													</li>
-													<li>
-														<button class="comment_delete normal" data-seq="${i.seq}" data-parent_seq="${disDto.seq}">댓글삭제</button>
-													</li>
+													<c:if test="${loginInfo.id == i.id}">
+														<li>
+															<button class="comment_delete normal" data-seq="${i.seq}" data-parent_seq="${disDto.seq}">댓글삭제</button>
+														</li>
+													</c:if>
 												</ul>
 											</div>
 										</div>
@@ -412,9 +436,11 @@
 													<li>
 														<button class="comment_declaration report" data-thisSeq="${i.seq}" data-seq="${disDto.seq}" data-id="${i.id}" data-url="/discussion/report" data-proc="/discussion/reportProc"><i class="fa fa-bell color_white" aria-hidden="true"></i> 신고하기</button>
 													</li>
-													<li>
-														<button class="comment_delete normal" data-seq="${i.seq}"  data-parent_seq="${disDto.seq}">댓글삭제</button>
-													</li>
+													<c:if test="${loginInfo.id == i.id}">
+														<li>
+															<button class="comment_delete normal" data-seq="${i.seq}"  data-parent_seq="${disDto.seq}">댓글삭제</button>
+														</li>
+													</c:if>
 												</ul>
 											</div>
 										</div>

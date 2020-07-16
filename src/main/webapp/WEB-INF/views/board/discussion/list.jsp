@@ -44,7 +44,8 @@
 				var value = $(this).val();
 				if(value == ""){
 					$("#keyword_input").attr("readonly",true);						
-					$("#keyword_input").val("");						
+					$("#keyword_input").val("");		
+					location.href = "/discussion/list?cpage=1"
 				}else{
 					$("#keyword_input").removeAttr("readonly"); 
 				}

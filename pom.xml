@@ -251,6 +251,12 @@
 			<artifactId>spring-test</artifactId>
 			<version>5.1.9.RELEASE</version>
 		</dependency>
+		<!-- spring junit을 사용하기 위해 추가 -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>5.1.9.RELEASE</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

@@ -16,8 +16,7 @@
 
 <script>
 	$(function() {
-		
-				
+						
 		//시군 
 		   new sojaeji('sido1', 'gugun1');
 				 var addrTxt = "";
@@ -44,29 +43,11 @@
 			console.log($('#address').val(sido + ' ' + gugun));
 		});
 		
-		//최신순, 평점순
-		$('#align').on('change',function(){
-		/* var align = '${align}';
-		if(align != null){
-			$("#align").val(align);
-			console.log(align);
-		}else{
-			$('#align').val('seq');
-		} */
-		
+		//최신순, 평점순	
 		$('#align').on('change', function(){
 			var orderByVal = $('#align').val();
 			location.href='/partner/partnerList?align='+orderByVal;
 		})
-		
-		// 로그인 후 이용가능
-		$(".box").on("click",function(){
-			if(${sessionScope.loginInfo.id == ""}){
-				alert("로그인 후 이용해주세요.");
-				location.href="http://localhost/member/login";
-			}	
-		})
-	});
 		
 		$(".partnerBox article").each(function(){
 			var text = $(this).find(".introduce p").text();
@@ -190,7 +171,6 @@
 								<article class="card_body">
 										<div class="box plist">
 										<a href="/partner/partnerView?seq=${plist.seq}">
-											<%-- <span class="seq">${plist.seq}</span> --%> 
 											<div class="userInfo clearfix">
 												<div class="img"><img src ="/upload/member/${plist.id}/${plist.sysname}"></div>
 												<!-- <div class="img"><img src ="/resources/img/sub/userThum.jpg"></div> -->
@@ -235,7 +215,7 @@
 												<p><span>채팅</span></p>
 											</c:if>								
 											<c:if test = "${fn : contains(plist.contact, '이메일')}">
-												<p><button class="email_a">이메일</button></p>
+												<p><button class="email_a" data-seq="${plist.seq}" data-email="${plist.email}" data-name="${plist.name}">이메일</button></p>
 											</c:if>								
 										</div>
 								</article>				
@@ -245,16 +225,8 @@
 				</div>
 			</article>
 		</section>
+		<div id="listNav">${navi}</div>
 	</div>
-	 
-
-	
-	
-	
-	
-	
-	
-	<div class="navi">${navi}</div>
 <jsp:include page="/WEB-INF/views/partner/sendLetter.jsp" />
 <jsp:include page="/WEB-INF/views/email/write.jsp"/>
 <jsp:include page="/WEB-INF/views/footer.jsp"/>

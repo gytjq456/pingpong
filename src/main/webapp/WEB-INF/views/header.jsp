@@ -21,7 +21,6 @@
 <script src="/resources/js/slick.min.js"></script>
 <script src="/resources/js/common.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
 </head>
 	<body>
 	   <header>
@@ -37,7 +36,7 @@
 							</c:when>
 							<c:otherwise>
 								<li>
-		 							<a href="/member/myInfo">MyPage</a>
+		 							<a href="/member/myInfo">MyPage </a>
 									<ul class="depth2">
 										<li><a href="/member/myInfo">나의 정보수정</a></li>
 										<li><a href="/mypage/tutorRecord">나의 강의목록</a></li>
@@ -60,9 +59,9 @@
 					<div >
 						<ul class="clearfix gnb">
 							<li>
-								<a href="/partner/partnerList?align=recent">Partner</a>
+								<a href="/partner/partnerList?cpage=1&align=recent">Partner</a>
 								<ul class="depth2">
-									<li><a href="/partner/partnerList?align=recent">파트너 목록</a></li>
+									<li><a href="/partner/partnerList?cpage=1&align=recent">파트너 목록</a></li>
 									<li><a href="#;" class="resiterPop">파트너 등록</a></li>
 								</ul>
 							</li>
@@ -77,7 +76,7 @@
 								<a href="/tutor/tutorList">Tutor</a>
 								<ul class="depth2">
 									<li><a href="/tutor/tutorList" >튜터 목록</a></li>
-									<li><a href="#;" id="tutorApp">튜터 신청</a></li>
+									<li><a href="#;" id="tutorApp" data-grade="${loginInfo.grade}">튜터 신청</a></li>
 									<li><a href="/tutor/lessonList?schType=keyword&orderBy=seq&keywordSelect=name">강의 목록</a></li>
 								</ul>
 							</li>												

@@ -145,9 +145,15 @@ public class PartnerDAO {
 	}
 
 	//검색 최신순 / 인기순
-	public List<PartnerDTO> searchAlign(String align){
+	public List<PartnerDTO> searchAlign(int cpage,String align){
+		int start = cpage * Configuration.RECORD_COUNT_PER_PAGE - (Configuration.RECORD_COUNT_PER_PAGE - 1);
+		int end = start + (Configuration.RECORD_COUNT_PER_PAGE - 1);
+		
 		Map<String, Object> condition = new HashMap<String, Object>();
 		condition.put("align" , align);
+		condition.put("start",start);
+		condition.put("end",end);
+		
 		return mybatis.selectList("Partner.alignT", condition);
 	}
 

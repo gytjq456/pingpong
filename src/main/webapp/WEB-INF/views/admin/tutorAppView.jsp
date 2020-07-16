@@ -87,7 +87,9 @@
 			</c:choose>
 			<div class="btn_wrap">
 				<div class="btns">
-					<button id="accept">승인</button>
+					<c:if test="${tadto.pass == 'N'}">
+						<button id="accept">승인</button>
+					</c:if>
 					<button id="delete">삭제</button>
 					<button id="goToList">목록으로</button>
 				</div>

@@ -98,7 +98,7 @@ public class TutorController {
 		
 		int result = tservice.lessonAppProc(ldto);
 		
-		return "redirect: /tutor/lessonList?orderBy=seq";
+		return "redirect: /tutor/lessonList?schType=keyword&orderBy=seq&keywordSelect=name";
 	}
 
 	//헤더에서 튜터신청 버튼 누르기

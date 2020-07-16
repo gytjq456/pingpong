@@ -19,7 +19,7 @@
 <script>
 $(function(){
 	$("#backList").on("click", function(){
-		location.href="/tutor/lessonList?orderBy=seq";
+		location.href="/tutor/lessonList?schType=keyword&orderBy=seq&keywordSelect=name";
 	})
 	
 	var checkLikeVal = ${checkLike};

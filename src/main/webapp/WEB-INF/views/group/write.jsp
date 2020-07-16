@@ -103,7 +103,7 @@
 		})
 		
 		$('#back').on('click', function(){
-			location.href = "/group/main?orderBy=seq&ing=all";
+			location.href = "/group/main?orderBy=seq&ing=all&schType=keyword";
 		})
 		
 		function uploadSummernoteImageFile(file, editor) {

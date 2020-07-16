@@ -81,11 +81,11 @@ public class GroupController {
 	
 	@RequestMapping("writeProc")
 	public String groupWriteProc(GroupDTO gdto, Model model) throws ParseException {
-		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
-		String id = loginInfo.getId();
-		String name = loginInfo.getName();
-		gdto.setWriter_id(id);
-		gdto.setWriter_name(name);
+//		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
+//		String id = loginInfo.getId();
+//		String name = loginInfo.getName();
+//		gdto.setWriter_id(id);
+//		gdto.setWriter_name(name);
 		int seq = gservice.insertGroup(gdto);
 		model.addAttribute("seq", seq);
 		return "redirect:/group/view";
@@ -296,42 +296,9 @@ public class GroupController {
 	
 	@RequestMapping("reportProc")
 	public String reportProc(ReportListDTO rldto, Model model) {
-		System.out.println("rldto =" + rldto.getSeq());
 		gservice.insertReport(rldto);
 		return "redirect:/group/view?seq=" + rldto.getParent_seq();
 	}
-	
-//	@RequestMapping("mainOption")
-//	public String mainOption(String orderBy, String ing, HttpServletRequest request, Model model) throws Exception {
-//		int cpage = 1;
-//        try {
-//           cpage = Integer.parseInt(request.getParameter("cpage"));
-//        } catch (Exception e) {}
-//        
-//        Map<String, Object> search = new HashMap<>();
-//        
-//        search.put("orderBy", orderBy);
-//        
-//        if (ing.contentEquals("done")) {
-//        	search.put("ing", "applying = 'N' and proceeding");
-//        	search.put("ingValue", "N");
-//        } else {
-//        	search.put("ing", ing);
-//        	search.put("ingValue", "Y");
-//        }
-//        
-//        List<HobbyDTO> hblist = gservice.selectHobby();
-//		List<GroupDTO> glist = gservice.selectGroupList(cpage, search);
-//		
-//		String navi = gservice.getPageNav(cpage, search);
-//		
-//		model.addAttribute("hblist", hblist);
-//		model.addAttribute("glist", glist);
-//		model.addAttribute("navi", navi);
-//		model.addAttribute("param", search);
-//		
-//		return "/group/main";
-//	}
 	
 	@RequestMapping("search")
 	public String search(String orderBy, String ing, String keywordType, String keywordValue, String hobbyType, String period, HttpServletRequest request, Model model) throws Exception {

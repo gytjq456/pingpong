@@ -26,122 +26,29 @@
 	})
 </script>
 
-<%-- <article id="layerPop_s3">
-	<div class="pop_body">
-		<div class="tit_s3">
-			<h4>이메일 보내기</h4>
-		</div>
-		<form action="" id="emailProc" method="post">
-			<input type="hidden" name="reporter" value="${loginInfo.id}">
-			<input type="hidden" name="parent_seq" value="">
-			<input type="hidden" name="id" value="">
-			<input type="hidden" name="commSeq" value="">
-			
-			<div class="info">
-				<dl class="receiver">
-					<dt class="tit">받는 사람:</dt>
-					<dd>${loginInfo.id}</dd>
-				</dl>
-				<dl class="receiver_email">
-					<dt class="tit">발신자 이메일 :</dt>
-					<dd>${loginInfo.email}</dd>
-				</dl>
-				<dl class="email_password">
-					<dt class="tit">이메일 비밀번호 :</dt>
-					<dd>${loginInfo.email}</dd>
-				</dl>
-				<dl class="email_password">
-					<dt class="tit">수신자 이메일 :</dt>
-					<dd>${pdto.email}</dd>
-				</dl>
-				
-				<div data-seq="${pdto.seq}" class="txtBox">
-					<article>
-						<div class="tit">제목</div>
-						<div class="email_title">
-							<textarea rows="5" cols="50" name="contents" ></textarea>
-						</div>
-						<div class="tit">내용</div>
-						<div class="contents">
-							<textarea rows="30" cols="50" name="contents" ></textarea>
-						</div>
-						<div class="btns_s3">
-						<p><button>보내기</button></p>
-						<p><input type="button" id="backPage" value="닫기"></p>
-					</div>
-					</article>
-				</div>
-			</div>
-		</form>
-	</div>
-</article> --%>
-<%-- <div class=modal>
-	<div id="writeEmail">
-		<div id="" class="emailPop">
-			<h2>이메일 보내기</h2>
-			<form id="emailForm"> 
-			<!-- post방식으로 자료를 컨트롤러로 보냄 -->
-				<input type="hidden" name="seq" value="${pdto.seq}">
-				받는 사람  : <input name="name" value="${pdto.name}"><br>
-				발신자 이메일 : <input name="memail" value="${loginInfo.email}"><br>
-				이메일 비밀번호 : <input type="password" name="emailPassword"><br>
-				수신자 이메일 : <input name="email" value="${pdto.email}"><br>
-				제목 : <input name="subject"><br>
-				내용 : <textarea rows="5" cols="80" name="contents"></textarea><br>
-				<input type="submit" value="전송" id="send">
-			</form>
-		</div>
-	</div>	
-</div> --%>
-
-	<%-- <div id="" class="emailPop">
-		<h2>이메일 보내기</h2>
-		<form id="emailForm"> 
-		<!-- post방식으로 자료를 컨트롤러로 보냄 -->
-			<input type="hidden" name="seq" value="${pdto.seq}">
-			받는 사람  : <input name="name" value="${pdto.name}"><br>
-			발신자 이메일 : <input name="memail" value="${loginInfo.email}"><br>
-			이메일 비밀번호 : <input type="password" name="emailPassword"><br>
-			수신자 이메일 : <input name="email" value="${pdto.email}"><br>
-			제목 : <input name="subject"><br>
-			내용 : <textarea rows="5" cols="80" name="contents"></textarea><br>
-			<input type="submit" value="전송" id="send">
-		</form>
-	</div>
- 	<script>
- 		$(function(){
-			 $("#emailForm").on("submit",function(){
-				 alert("이메일")
-				 var formData = new FormData($("#emailForm")[0]);
-				$.ajax({
-					url:"/partner/send",
-					data:formData,
-					type:"post",
-					dataType:"json",
-					cache:false,
-					contentType:false,
-					processData:false
-				}).done(function(resp){
-					alert("test :" + resp)
-				})
-				return false;
-			})
- 		})
-	</script> --%>
-	
 	<article id="layerPop_s5">
 		<div class="pop_body">
 			<div class="tit_s3">
-				<h4>이메일 보내기</h4>
+				<h4>이메일 보내기 </h4>
 				<p>이메일은 실제로 사용하시는 정보를 입력하셔야 합니다.</p>
 			</div>
 			<form id="emailForm"> 
-				<input type="hidden" name="seq" value="${pdto.seq}">
+				<c:if test="${!empty pdto.seq}">
+					<input type="hidden" name="seq" value="${pdto.seq}">
+				</c:if>
+				<c:if test="${empty pdto.seq}">
+					<input type="hidden" name="seq" value="">
+				</c:if>
 				
 				<div class="info clearfix">
 					<dl>
 						<dt class="tit">받는이 </dt>
-						<dd><input type="text" name="name" value="${pdto.name}"></dd>
+						<c:if test="${!empty pdto}">
+							<dd><input type="text" name="name" value="${pdto.name}"></dd>
+						</c:if>
+						<c:if test="${empty pdto}">
+							<dd><input type="text" name="name" value=""></dd>
+						</c:if>
 					</dl>
 					<dl class="">
 						<dt class="tit">발신자 이메일</dt>
@@ -153,7 +60,12 @@
 					</dl>
 					<dl class="">
 						<dt class="tit">수신자 이메일</dt>
-						<dd><p><input type="text" name="email" value="${pdto.email}"></p></dd>
+						<c:if test="${!empty pdto}">
+							<dd><p><input type="text" name="email" value="${pdto.email}"></p></dd>
+						</c:if>
+						<c:if test="${empty pdto}">
+							<dd><p><input type="text" name="email" value=""></p></dd>
+						</c:if>
 					</dl>
 					<dl class="">
 						<dt class="tit">제목</dt>
@@ -179,24 +91,41 @@
 	 			var layerPop_s5 = $("#layerPop_s5");
 				 $("#emailForm").on("submit",function(){
 					 var formData = new FormData($("#emailForm")[0]);
-					$.ajax({
-						url:"/partner/send",
-						data:formData,
-						type:"post",
-						dataType:"json",
-						cache:false,
-						contentType:false,
-						processData:false
-					}).done(function(resp){
-						alert("test :" + resp)
-					})
+					 setTimeout(function(){
+						$.ajax({
+							url:"/partner/send",
+							data:formData,
+							type:"post",
+							dataType:"json",
+							cache:false,
+							contentType:false,
+							processData:false
+						}).done(function(resp){
+							alert("이메일이 발송되었습니다.");
+							layerPop_s5.stop().fadeOut();
+							$("input[name='emailPassword']").val("");
+							$("input[name='subject']").val("");
+							$("textarea[name='contents']").val("");
+						})
+					 })
 					return false;
 				})
 				
 				$(".back").click(function(){
 					layerPop_s5.stop().fadeOut();
+					$("input[name='emailPassword']").val("");
+					$("input[name='subject']").val("");
+					$("textarea[name='contents']").val("");
 				})
 				$(".email_a").click(function(){
+					if("${pdto}" == ""){
+						var seq = $(this).data("seq");
+						var name = $(this).data("name");
+						var email = $(this).data("email");
+						$("input[name='seq']").val(seq);
+						$("input[name='name']").val(name);
+						$("input[name='email']").val(email);
+					}
 					layerPop_s5.stop().fadeIn();
 				})
 	 		})

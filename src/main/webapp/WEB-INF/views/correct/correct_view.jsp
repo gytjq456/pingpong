@@ -8,7 +8,6 @@
 <script>
 	$(function() {
 		$('#form').submit(function() {
-			console.log(form);
 			var formData = new FormData($('#form')[0]);
 			console.log(formData);
 			$.ajax({
@@ -25,6 +24,7 @@
 					location.href = "/correct/correct_view?seq=${dto.seq}"
 				}
 			})
+			
 			return false;
 		})
 		
@@ -32,7 +32,7 @@
 			location.href="/correct/correct_modify?seq=${dto.seq}"
 		})
 		
-		var checkLikeVal = ${checkLike};
+		/* var checkLikeVal = ${checkLike};
 		console.log(checkLikeVal);
 		$(".correct_like").click(function() {
 			
@@ -62,7 +62,25 @@
 			})
 			}
 			
+		}) */
+		
+		$(".comment_like").click(function() {
+				var thisSeq = $(this).data("seq");
+				$.ajax ({
+					url : "/correct/comment_like",
+					 dataType : "json", 
+					type : "post",
+					data : {
+						comm_seq:thisSeq
+					}
+				}).done(function(resp){
+				location.href = "/correct/correct_view?seq=${dto.seq}"
+				});
+				
 		})
+
+		
+		
 		
 		
 		$("#delete").click(function() {
@@ -89,7 +107,7 @@
 						dataType:"json",
 						data:"post",
 						data:{
-							seq:seq
+							comm_seq:seq
 						}
 					}).done(function(resp){
 						if(resp){
@@ -98,7 +116,7 @@
 						}
 					})
 				}
-			})		
+			})
 			
 			$("#historyBack").click(function(){
 				location.href="/correct/correct_list"
@@ -131,9 +149,9 @@
 							<li><i class="fa fa-eye"></i> ${dto.view_count}</li>			
 							<li><i class="fa fa-commenting-o" aria-hidden="true"></i> ${dto.reply_count}</li>
 							<li>
-								<button class="correct_like" data-seq ="${dto.seq}">
-									<i class="fa fa-thumbs-up"></i> ${likecount}
-								</button>
+								<%-- <button class="correct_like" data-seq ="${dto.seq}"> --%>
+								<%-- 	<i class="fa fa-thumbs-up"></i> ${likecount} --%>
+							<!-- 	</button> -->
 							</li>
 						</ul>
 					</div>
@@ -169,7 +187,7 @@
 							<div class="tit_s2">
 								<h3>베스트 댓글</h3>
 							</div>
-							<c:forEach var="i" items="${best_dto}">
+							<c:forEach var="u" items="${best_dto}">
 							<article>
 								<div class="userInfo_s1">
 									<div class="thumb"><img src="/upload/member/${cdto2.id}/${cdto2.thumNail}"/></div>
@@ -183,7 +201,7 @@
 									<div class="countList">
 										<ul>
 											<li>
-												<button class="comment_delete normal" data-seq="${u.seq}">댓글삭제</button>
+												<%-- <button class="comment_delete normal" data-seq="${u.comm_seq}">댓글삭제</button> --%>
 											</li>
 										</ul>
 									</div>
@@ -201,7 +219,7 @@
 									<div class="thumb"><img src="/upload/member/${i.id}/${i.thumNail}"/></div>
 									<div class="info">
 										<p class="userId">${i.writer}</p>
-										<p class="writeDate">${i.dateString}</p>
+										<p class="writeDate">${i.write_date}</p>
 									</div>
 								</div>
 								<div class="cont">
@@ -209,10 +227,11 @@
 									<div class="countList">
 										<ul>
 											<li>
-												<button class="comment_delete normal" data-seq="${i.seq}">댓글삭제</button>
+												<button class="comment_delete normal" data-seq="${i.comm_seq}">댓글삭제</button>
 											</li>
 											<li>
-												<button type="button" class="comment_declaration report" id="comment_report" data-thisSeq="${i.seq}" data-seq="${dto.seq}" data-id="${i.id}" data-url="/correct/comment_report" data-proc="/correct/comment_reportProc">
+											<button class="comment_like" data-seq="${i.comm_seq}">좋아요 :${i.like_count} </button>
+												<button type="button" class="comment_declaration" id="comment_report" data-thisSeq="${i.comm_seq}" data-seq="${dto.seq}" data-id="${i.id}" data-url="/correct/comment_report" data-proc="/correct/comment_reportProc">
 													<i class="fa fa-bell color_white" aria-hidden="true"></i>신고하기
 												</button>
 											</li>

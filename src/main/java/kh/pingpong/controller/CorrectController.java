@@ -1,12 +1,15 @@
 package kh.pingpong.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -57,23 +60,37 @@ public class CorrectController {
 		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
 		String id = mdto.getId();
 		
-		ldto.setId(id);
-		ldto.setParent_seq(dto.getSeq());
+		// 게시물 부모시퀀스 보내기
+		/*
+		 * Map<String, Object> param1 = new HashMap<>(); param1.put("id", id);
+		 * param1.put("parent_seq", dto.getSeq());
+		 */
+		/*
+		 * ldto.setId(id); ldto.setParent_seq(dto.getSeq());
+		 */
+		/* boolean checkLike = cservice.LikeIsTrue(param1); */
+		//boolean checkLike = cservice.LikeIsTrue(ldto);
 		
-		boolean checkLike = cservice.LikeIsTrue(ldto);
+		//댓글 부모시퀀스 보내기
 		
 		
-		int likecount = cservice.likecount(ldto);
+		/*
+		 * jdto.setId(id); jdto.setParent_seq(cdto.getLikecheck());
+		 */
+		/* int likecount = cservice.likecount(ldto); */
+		
 		
 		dto = cservice.selectOne(dto.getSeq());
+		System.out.println("--=-=-=-==-"+dto.getSeq());
 		List<Correct_CommentDTO> list_dto = cservice.selectcAll(dto.getSeq());
+		System.out.println("아좌좌"+list_dto);
 		List<Correct_CommentDTO> best_dto = cservice.bestcomm(dto.getSeq());
 		
 		model.addAttribute("dto", dto);
 		model.addAttribute("best_dto", best_dto);
 		model.addAttribute("list_dto", list_dto);
-		model.addAttribute("checkLike", checkLike);
-		model.addAttribute("likecount",likecount);
+		/* model.addAttribute("checkLike", checkLike); */
+		/* model.addAttribute("likecount",likecount); */
 		return "/correct/correct_view";
 	}
 	@RequestMapping("/writeProc")
@@ -119,42 +136,85 @@ public class CorrectController {
 		}
 	}
 	
+	/*
+	 * @ResponseBody
+	 * 
+	 * @RequestMapping("/like") public String like(CorrectDTO dto, LikeListDTO ldto,
+	 * Model model) throws Exception { MemberDTO loginInfo =
+	 * (MemberDTO)session.getAttribute("loginInfo"); String id = loginInfo.getId();
+	 * 
+	 * ldto.setId(id); ldto.setParent_seq(dto.getSeq()); model.addAttribute("ldto",
+	 * ldto); int result = cservice.like(ldto); cservice.likecountAdd(dto);
+	 * if(result > 0) { return String.valueOf(true); }else { return
+	 * String.valueOf(false); } }
+	 * 
+	 * @ResponseBody
+	 * 
+	 * @RequestMapping("/likecancle") public String likecancle(CorrectDTO dto,
+	 * LikeListDTO ldto, Model model) throws Exception { MemberDTO loginInfo =
+	 * (MemberDTO)session.getAttribute("loginInfo"); String id = loginInfo.getId();
+	 * 
+	 * ldto.setId(id); ldto.setParent_seq(dto.getSeq()); model.addAttribute("ldto",
+	 * ldto); int result = cservice.likecancle(ldto); if(result > 0) { return
+	 * String.valueOf(true); }else { return String.valueOf(false); } }
+	 */
+	
+	@Transactional("txManager")
 	@ResponseBody
-	@RequestMapping("/like")
-	public String like(CorrectDTO dto, LikeListDTO ldto, Model model) throws Exception {
+	@RequestMapping("/comment_like")
+	public String comment_like(Correct_CommentDTO cdto, LikeListDTO ldto, Model model) throws Exception {
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
 		String id = loginInfo.getId();
 		
-		ldto.setId(id);
-		ldto.setParent_seq(dto.getSeq());
-		model.addAttribute("ldto", ldto);
-		int result = cservice.like(ldto);
-		cservice.likecountAdd(dto);
-		if(result > 0) {
+		Map<String, Object> param2 = new HashMap<>();
+		param2.put("id", id);
+		param2.put("parent_seq", cdto.getComm_seq());
+		System.out.println("id:"+id);
+		System.out.println("댓글 시퀀스"+cdto.getComm_seq());
+		int likeResult = 0;
+		boolean comment_checkLike = cservice.commentLikeIsTrue(param2);
+		System.out.println("불린값 :"+comment_checkLike);
+		if(comment_checkLike) {
+			ldto.setId(id);
+			ldto.setParent_seq(cdto.getComm_seq());
+			cservice.comment_likecancle(ldto);
+			likeResult=cservice.comment_likecancle_update(cdto.getComm_seq());
+		}
+		
+		if(!comment_checkLike) {
+			ldto.setId(id);
+			ldto.setParent_seq(cdto.getComm_seq());
+			cservice.comment_like(ldto);
+			likeResult=cservice.comment_like_update(cdto.getComm_seq());
+		}
+		
+		if(likeResult > 0) {
 			return String.valueOf(true);
 		}else {
 			return String.valueOf(false);
 		}
+		
 	}
 	
-	@ResponseBody
-	@RequestMapping("/likecancle")
-	public String likecancle(CorrectDTO dto, LikeListDTO ldto, Model model) throws Exception {
-		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
-		String id = loginInfo.getId();
-		
-		ldto.setId(id);
-		ldto.setParent_seq(dto.getSeq());
-		model.addAttribute("ldto", ldto);
-		int result = cservice.likecancle(ldto);
-		cservice.likecountMinus(dto);
-		if(result > 0) {
-			return String.valueOf(true);
-		}else {
-			
-			return String.valueOf(false);
-		}
-	}
+//	@Transactional("txManager")
+//	@ResponseBody
+//	@RequestMapping("/comment_likecancle")
+//	public String likecancle(Correct_CommentDTO cdto, LikeListDTO ldto, Model model) throws Exception {
+//		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
+//		String id = loginInfo.getId();
+//		
+//		ldto.setId(id);
+//		ldto.setParent_seq(cdto.getComm_seq());
+//		model.addAttribute("ldto", ldto);
+//		int result = cservice.comment_likecancle(ldto);
+//		cservice.comment_likecancle_update(cdto.getComm_seq());
+//		if(result > 0) {
+//			return String.valueOf(true);
+//		}else {
+//			
+//			return String.valueOf(false);
+//		}
+//	}
 	
 	
 	

@@ -1,6 +1,7 @@
 package kh.pingpong.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import kh.pingpong.config.Configuration;
 import kh.pingpong.dao.CorrectDAO;
 import kh.pingpong.dto.CorrectDTO;
 import kh.pingpong.dto.Correct_CommentDTO;
+import kh.pingpong.dto.JjimDTO;
 import kh.pingpong.dto.LikeListDTO;
 import kh.pingpong.dto.ReportListDTO;
 
@@ -65,21 +67,40 @@ public class CorrectService {
 		return dao.modify(dto);
 	}
 
-	public int like(LikeListDTO ldto) throws Exception {
-		return dao.like(ldto);
+	/*
+	 * public int like(LikeListDTO ldto) throws Exception { return dao.like(ldto); }
+	 */
+	
+	public int comment_like(LikeListDTO ldto) throws Exception {
+		return dao.comment_like(ldto);
 	}
 
-	public int likecancle(LikeListDTO ldto) throws Exception {
-		return dao.likecancle(ldto);
+	/*
+	 * public int likecancle(LikeListDTO ldto) throws Exception { return
+	 * dao.likecancle(ldto); }
+	 */
+	
+	public int comment_likecancle(LikeListDTO ldto) throws Exception {
+		return dao.comment_likecancle(ldto);
 	}
 
-	public boolean LikeIsTrue(LikeListDTO ldto) throws Exception {
-		boolean result =dao.LikeIsTrue(ldto);
+	/*
+	 * public boolean LikeIsTrue(Map<String, Object> param1) throws Exception {
+	 * boolean result =dao.LikeIsTrue(param1); return result; }
+	 */
+	
+	public boolean commentLikeIsTrue(Map<String, Object> param2) throws Exception {
+		boolean result =dao.comment_LikeIsTrue(param2);
 		return result;
 	}
 
-	public int likecount(LikeListDTO ldto) throws Exception {
-		return dao.likecount(ldto);
+	/*
+	 * public int likecount(LikeListDTO ldto) throws Exception { return
+	 * dao.likecount(ldto); }
+	 */
+	
+	public int comment_likecount(LikeListDTO ldto) throws Exception {
+		return dao.comment_likecount(ldto);
 	}
 
 
@@ -168,11 +189,17 @@ public class CorrectService {
 	
 	
 	// like count
-	public int likecountAdd(CorrectDTO dto) throws Exception{
-		return dao.likecountAdd(dto);
+	/*
+	 * public int likecountAdd(CorrectDTO dto) throws Exception{ return
+	 * dao.likecountAdd(dto); } public int likecountMinus(CorrectDTO dto) throws
+	 * Exception{ return dao.likecountMinus(dto); }
+	 */
+	
+	public int comment_like_update(int comm_seq) throws Exception {
+		return dao.comment_like_update(comm_seq);
 	}
-	public int likecountMinus(CorrectDTO dto) throws Exception{
-		return dao.likecountMinus(dto);
+	public int comment_likecancle_update(int comm_seq) throws Exception {
+		return dao.comment_likecancle_update(comm_seq);
 	}
 
 }

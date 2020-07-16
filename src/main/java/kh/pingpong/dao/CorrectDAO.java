@@ -51,11 +51,12 @@ public class CorrectDAO {
 		return mybatis.insert("Correct.commentInsert",cdto);
 	}
 	public List<Correct_CommentDTO> selectc(int parent_seq) throws Exception{
+		System.out.println("제발 돼라"+ parent_seq);
 		return mybatis.selectList("Correct.selectc",parent_seq);
 	} 
 
 	public List<Correct_CommentDTO> bestcomm(int parent_seq) throws Exception{
-		return mybatis.selectList("Correct.selectc2",parent_seq);
+		return mybatis.selectList("Correct.best",parent_seq);
 	} 
 
 	public int viewcount(int seq) throws Exception {
@@ -68,26 +69,49 @@ public class CorrectDAO {
 	//		return mybatis.select("Correct.select", dto);
 	//	}
 
-	public int like(LikeListDTO ldto) throws Exception{
-		return mybatis.insert("Correct.like",ldto);
+//	public int like(LikeListDTO ldto) throws Exception{
+//		return mybatis.insert("Correct.like",ldto);
+//	}
+	
+	public int comment_like(LikeListDTO ldto) throws Exception{
+		return mybatis.insert("Correct.comment_like",ldto);
 	}
-	public int likecancle(LikeListDTO ldto) throws Exception{
-		return mybatis.delete("Correct.likecancle",ldto);
+//	public int likecancle(LikeListDTO ldto) throws Exception{
+//		return mybatis.delete("Correct.likecancle",ldto);
+//	}
+	
+	public int comment_likecancle(LikeListDTO ldto) throws Exception{
+		return mybatis.delete("Correct.comment_likecancle",ldto);
 	}
 
-	public boolean LikeIsTrue(LikeListDTO ldto) throws Exception{
-		Integer result = mybatis.selectOne("Correct.LikeIsTrue", ldto);
-		boolean checkLike=false;
-
+//	public Boolean LikeIsTrue(Map<String, Object> param1) throws Exception{
+//		Integer result = mybatis.selectOne("Correct.LikeIsTrue", param1);
+//		boolean checkLike=false;
+//
+//		if(result>0) {
+//			checkLike=true;
+//		}
+//
+//		return checkLike;
+//	}
+	
+	public boolean comment_LikeIsTrue(Map<String, Object> param2) throws Exception{
+		int result = mybatis.selectOne("Correct.comment_LikeIsTrue", param2);
+		boolean comment_checkLike=false;
+System.out.println("result :"+result);
 		if(result>0) {
-			checkLike=true;
+			comment_checkLike=true;
 		}
 
-		return checkLike;
+		return comment_checkLike;
 	}
 
-	public int likecount(LikeListDTO ldto) throws Exception {
-		return mybatis.selectOne("Correct.likecount", ldto);
+//	public int likecount(LikeListDTO ldto) throws Exception {
+//		return mybatis.selectOne("Correct.likecount", ldto);
+//	}
+	
+	public int comment_likecount(LikeListDTO ldto) throws Exception {
+		return mybatis.selectOne("Correct.comment_likecount", ldto);
 	}
 
 	public int correctcount() throws Exception{
@@ -124,13 +148,20 @@ public class CorrectDAO {
 	}
 
 	// likecount
-	public int likecountAdd(CorrectDTO dto) throws Exception{
-		System.out.println(dto.getSeq());
-		return mybatis.update("Correct.likecountAdd", dto);
+//	public int likecountAdd(CorrectDTO dto) throws Exception{
+//		System.out.println(dto.getSeq());
+//		return mybatis.update("Correct.likecountAdd", dto);
+//	}
+//	public int likecountMinus(CorrectDTO dto) throws Exception{
+//		System.out.println(dto.getSeq());
+//		return mybatis.update("Correct.likecountMinus", dto);
+//	}
+	
+	public int comment_like_update(int comm_seq) throws Exception {
+		return mybatis.update("Correct.comment_like_update", comm_seq);
 	}
-	public int likecountMinus(CorrectDTO dto) throws Exception{
-		System.out.println(dto.getSeq());
-		return mybatis.update("Correct.likecountMinus", dto);
+	public int comment_likecancle_update(int comm_seq) throws Exception {
+		return mybatis.update("Correct.comment_likecancle_update", comm_seq);
 	}
 	
 	

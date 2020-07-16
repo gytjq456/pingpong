@@ -66,14 +66,7 @@
 				return false;
 			})
 			
-			// 댓글 좋아요, 싫어요 증가
-			var comment_likeBtn = $(".comment_likeBtn");
-			var comment_hateBtn = $(".comment_hateBtn");
-			var discussion_likeBtn = $(".discussion_likeBtn");
-			likeHateCount(comment_likeBtn,"/discussion/commentLike","토론 댓글");
-			likeHateCount(comment_hateBtn,"/discussion/commentHate","토론 댓글");
-			likeHateCount(discussion_likeBtn,"/discussion/like","토론 게시글");
-			console.log(likeHateCount);
+			
 			
 			// 댓글 삭제
 			$(".comment_delete").click(function(){
@@ -221,6 +214,17 @@
 			})
 		})
 
+		
+		// 댓글 좋아요, 싫어요 증가
+			var comment_likeBtn = $(".comment_likeBtn");
+			var comment_hateBtn = $(".comment_hateBtn");
+			var discussion_likeBtn = $(".discussion_likeBtn");
+			likeHateCount(comment_likeBtn,"/discussion/commentLike","토론 댓글");
+			likeHateCount(comment_hateBtn,"/discussion/commentHate","토론 댓글");
+			likeHateCount(discussion_likeBtn,"/discussion/like","토론 게시글");
+			console.log(likeHateCount);
+			
+			
 		function likeHateCount(btn, url,category) {
 			btn.click(function() {
 				var seq = $(this).data("seq");

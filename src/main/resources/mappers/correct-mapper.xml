@@ -29,13 +29,13 @@
 		values(correctcomm_seq.nextval,#{id},#{writer},#{contents},default,default,${parent_seq},#{thumNail})
 	</insert>
 
-	<select id="selectc" resultType="kh.pingpong.dto.CorrectDTO">
-		<!-- select * from discussion order by seq desc -->
-		select * from correctcomm where parent_seq = #{value} order by seq
+	<select id="selectc" resultType="kh.pingpong.dto.Correct_CommentDTO">
+		
+		select * from correctcomm where parent_seq = ${value} order by comm_seq
 		desc
 	</select>
 
-	<select id="selectc2" resultType="kh.pingpong.dto.CorrectDTO">
+	<select id="best" resultType="kh.pingpong.dto.Correct_CommentDTO">
 		<!-- select * from discussion order by seq desc -->
 		select * from (select correctcomm.*, row_number() over(order by
 		like_count desc) rnum from correctcomm where parent_seq =
@@ -55,23 +55,49 @@
 	</update>
 
 
-	<insert id="like">
+	<update id="comment_like_update">
+		update correctcomm set like_count = like_count + 1 where comm_seq = #{value}
+	</update>
+	
+	<update id="comment_likecancle_update">
+		update correctcomm set like_count = like_count - 1 where comm_seq = #{value}
+	</update>
+
+	<!-- <insert id="like">
 		insert into like_list values(like_list_seq.nextval,#{id},'첨삭',#{parent_seq})
+	</insert> -->
+	
+	<insert id="comment_like">
+		insert into like_list values(like_list_seq.nextval,#{id},'첨삭-댓글',#{parent_seq})
 	</insert>
 
-	<!-- 강의 좋아요 됬는지 확인 -->
-	<select id="LikeIsTrue" resultType="int">
+<!-- 강의 좋아요 됬는지 확인 -->
+	<!-- <select id="LikeIsTrue" resultType="int">
 		select count(*) from like_list where parent_seq = #{parent_seq} and id
 		=#{id} and category='첨삭'
+	</select> -->
+	
+	<select id="comment_LikeIsTrue" resultType="int">
+		select count(*) from like_list where parent_seq = #{parent_seq} and id
+		=#{id} and category='첨삭-댓글'
 	</select>
 	
-	<delete id="likecancle">
+	<!-- <delete id="likecancle">
 		delete like_list where id = #{id} and parent_seq = #{parent_seq} and
 		category='첨삭'
+	</delete> -->
+	
+	<delete id="comment_likecancle">
+		delete like_list where id = #{id} and parent_seq = #{parent_seq} and
+		category='첨삭-댓글'
 	</delete>
 	
-	<select id = "likecount" resultType = "int">
+	<!-- <select id = "likecount" resultType = "int">
 	select count(*) from like_list where parent_seq = #{parent_seq} and category='첨삭'
+	</select> -->
+	
+	<select id = "comment_likecount" resultType = "int">
+	select count(*) from like_list where parent_seq = #{parent_seq} and category='첨삭-댓글'
 	</select>
 
 	<update id="countrep">
@@ -85,10 +111,11 @@
 
 	<delete id="delete">
 		delete correct where seq = ${seq}
+		
 	</delete>
 	
 	<delete id="commentDelete">
-		delete correctcomm where seq = ${seq}
+		delete correctcomm where comm_seq = ${comm_seq}
 	</delete>
 	
 	<select id="selectReport" resultType="int">
@@ -113,5 +140,7 @@
 	<update id="likecountMinus">
 		update correct set like_count = like_count - 1 where seq = ${seq}
 	</update>
+	
+	
 
 </mapper>

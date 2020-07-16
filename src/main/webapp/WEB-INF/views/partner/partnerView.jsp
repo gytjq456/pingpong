@@ -122,128 +122,27 @@
 			}
 		})
 		
-		
+		$(".reviewDelete").click(function(){
+			var result = confirm("리뷰를 삭제하시겠습니까?");
+			if(result){
+				var seq = $(this).data("seq");
+				$.ajax({
+					url:"/group/reviewDelete",
+					type:"post",
+					dataType:"json",
+					data:{
+						seq:seq
+					},
+				}).done(function(resp){
+					location.href="/partner/partnerView?seq=${pdto.seq}"
+				});
+			}
+		})
 	})
 	
 </script>
 
-<%-- <<<<<<< HEAD
-<body>
-	
-	<c:choose>
-		<c:when test="${empty pdto }">
-			해당 뷰페이지에 파트너 정보를 찾을 수 없습니다.
-		</c:when>
-		<c:otherwise>
-			<div class="box">
-				<img src ="/upload/member/${plist.id}/${plist.sysname}">
-				<span class="jjim"><i class="fa fa-heart-o" aria-hidden="true"></i>찜하기</span><br>
-				<span class="seq">${pdto.seq}</span> <br>
-				${pdto.id}<br>
-				${pdto.name}<br>
-				${pdto.age}<br>
-				${pdto.gender}<br>
-				${pdto.email}<br>
-				${pdto.country}<br>
-				${pdto.phone_country}<br>
-				${pdto.phone}<br>
-				${pdto.address}<br>
-				${pdto.lang_can}<br>
-				${pdto.lang_learn}<br>
-				${pdto.hobby}<br>
-				${pdto.introduce}<br>
-				${pdto.partner_date}<br>
-				${pdto.review_count}<br>
-				${pdto.review_point}<br><br>
-			</div>
-			<div class="button_aa">
-				<button class="letter">쪽지</button>
-				<button class="chat">채팅</button>
-				<button class="email_a"><a href="#writeEmail" class='btn' data-seq="${pdto.seq}">이메일</a></button>
-				<span id="report" data-seq="${pdto.seq}" data-id="${pdto.id}" 
-				data-thisseq="" data-url="/partner/report" data-proc="/partner/reportProc"><i class="fa fa-exclamation" aria-hidden="true"></i>신고</span>
-				<button class="back">목록으로</button>
-				<c:if test="${sessionScope.loginInfo.id == pdto.id}">
-					<button class="delete">파트너 삭제</button>
-				</c:if>
-			</div>
-		</c:otherwise>
-	</c:choose>
-	
-	<script>
-	$(function(){
-		
-		var writeEmail = $("#writeEmail");
-	    $('a[href="#writeEmail"]').click(function(e) {
-	    	e.preventDefault();
-	     	$("#writeEmail").stop().fadeIn();
-	     	var seq = $(this).data("seq");
-	     	var name = $(".list_"+seq).find(".name").text();
-	     	var email = $(".list_"+seq).find(".email").text();
-	     	writeEmail.find("#receiverName").val(name);
-	     	writeEmail.find("#sendrMail").val(email);
-	    });
-    
-		 $("#emailForm").submit(function(){
-			 var formData = new FormData($("#emailForm")[0]);
-			$.ajax({
-				url:"/partner/send",
-				data:formData,
-				type:"post",
-				dataType:"json",
-				cache:false,
-				contentType:false,
-				processData:false
-			}).done(function(resp){
-				alert("이메일이 전송되었습니다.");
-				//$(".blocker").css("opacity",'0'); 
-				location.href="#close-modal";
-				
-			})
-			//return false;
-		})
-		
-		$('a[href="#writeEmail"]').click(function(event) {
-		      event.preventDefault();
-		 
-		      $(this).modal({
-		        fadeDuration: 300
-		      });
-		    });
-		
-	})
-	</script>
 
-	<!-- 리뷰 -->
-	<article id="tab_3" class="mapSch">
-						<!-- 리뷰  -->
-						<div id="review_wrap" class="card_body">
-							<div class="review_box">
-								<div class="tit_s2">
-									<h3>리뷰 작성</h3>
-								</div>
-								<form id="reviewtForm">
-									<input type="hidden" name="writer" value="${loginInfo.id}">
-									<input type="hidden" name="point" value="0" id="point">
-									<input type="hidden" name="category" value="review">
-									<input type="hidden" name="parent_seq" value="${pdto.seq}">
-									<input type="hidden" name="thumNail" value="${loginInfo.sysname}">
-									<div class="starPoint">
-										<div>
-											<button type="button"><i class="fa fa-star" aria-hidden="true"></i></button>
-											<button type="button"><i class="fa fa-star" aria-hidden="true"></i></button>
-											<button type="button"><i class="fa fa-star" aria-hidden="true"></i></button>
-											<button type="button"><i class="fa fa-star" aria-hidden="true"></i></button>
-											<button type="button"><i class="fa fa-star" aria-hidden="true"></i></button>
-										</div>
-										<div class="point_box">(<span class="point">0</span>점)</div>
-									</div>
-									<div class="textInput clearfix">
-										<div class="userInfo_s1 userInfo_s2">
-											<div class="thumb"><img src="/upload/member/${loginInfo.id}/${loginInfo.sysname}"></div>
-											<div class="info">
-												<p class="userId">홍길동</p>
---%>
 	<div id="subWrap" class="hdMargin">
 		<section id="subContents">
 			<article id="mypage" class="inner1200 clearfix">
@@ -342,7 +241,7 @@
 					
 					$(".button_li .delete").on("click",function(){
 						confirm("정말 파트너 취소 하시겠습니까?");
-						location.href="/partner/deletePartner";
+						location.href="/partner/deletePartner?id=${loginInfo.id}";
 					})
 					
 					//찜하기
@@ -450,6 +349,11 @@
 									<div class="txtBox">
 										<a href="#;">${i.contents}</a>
 									</div>
+									<c:if test="${loginInfo.id == i.writer }">
+										<div class="btnS1 right">
+											<div><input type="button" class="reviewDelete" value="삭제"  data-seq="${i.seq}"></div>
+										</div>		
+									</c:if>
 								</div>
 							</article>
 						</c:forEach>

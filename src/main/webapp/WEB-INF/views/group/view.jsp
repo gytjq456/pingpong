@@ -206,6 +206,25 @@
 		})
 		
 		
+		$(".reviewDelete").click(function(){
+			var result = confirm("리뷰를 삭제하시겠습니까?");
+			if(result){
+				var seq = $(this).data("seq");
+				$.ajax({
+					url:"/group/reviewDelete",
+					type:"post",
+					dataType:"json",
+					data:{
+						seq:seq
+					},
+				}).done(function(resp){
+					location.href="/group/view?seq=${gdto.seq}"
+				});
+			}
+			
+		})
+		
+		
 	})
 </script>
 	<div id="subWrap" class="hdMargin">
@@ -514,6 +533,11 @@
 										<div class="txtBox">
 											<a href="#;">${i.contents}</a>
 										</div>
+										<c:if test="${loginInfo.id == i.writer }">
+											<div class="btnS1 right">
+												<div><input type="button" class="reviewDelete" value="삭제"  data-seq="${i.seq}"></div>
+											</div>		
+										</c:if>
 									</div>
 								</article>
 							</c:forEach>
@@ -526,7 +550,7 @@
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=033532d2fa35e423d2d5e723c0bfd1fe&libraries=services"></script>
 	<script>
 		function toList() {
-			location.href = '/group/main?orderBy=seq&ing=all';
+			location.href = '/group/main?orderBy=seq&ing=all&schType=keyword';
 		}
 		
 		$('#like').on('click', function(){

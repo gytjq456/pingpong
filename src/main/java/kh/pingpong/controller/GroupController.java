@@ -301,38 +301,6 @@ public class GroupController {
 		return "redirect:/group/view?seq=" + rldto.getParent_seq();
 	}
 	
-//	@RequestMapping("mainOption")
-//	public String mainOption(String orderBy, String ing, HttpServletRequest request, Model model) throws Exception {
-//		int cpage = 1;
-//        try {
-//           cpage = Integer.parseInt(request.getParameter("cpage"));
-//        } catch (Exception e) {}
-//        
-//        Map<String, Object> search = new HashMap<>();
-//        
-//        search.put("orderBy", orderBy);
-//        
-//        if (ing.contentEquals("done")) {
-//        	search.put("ing", "applying = 'N' and proceeding");
-//        	search.put("ingValue", "N");
-//        } else {
-//        	search.put("ing", ing);
-//        	search.put("ingValue", "Y");
-//        }
-//        
-//        List<HobbyDTO> hblist = gservice.selectHobby();
-//		List<GroupDTO> glist = gservice.selectGroupList(cpage, search);
-//		
-//		String navi = gservice.getPageNav(cpage, search);
-//		
-//		model.addAttribute("hblist", hblist);
-//		model.addAttribute("glist", glist);
-//		model.addAttribute("navi", navi);
-//		model.addAttribute("param", search);
-//		
-//		return "/group/main";
-//	}
-	
 	@RequestMapping("search")
 	public String search(String orderBy, String ing, String keywordType, String keywordValue, String hobbyType, String period, HttpServletRequest request, Model model) throws Exception {
 		int cpage = 1;
@@ -516,4 +484,20 @@ public class GroupController {
 	public boolean refuseApp(int seq) throws Exception {
 		return gservice.refuseApp(seq);
 	}
+	
+	
+	// 리뷰 삭제
+	@ResponseBody
+	@RequestMapping("reviewDelete") 
+	public String reviewDelete(int seq) throws Exception{
+		int result = gservice.reviewDelete(seq);
+		if(result > 0) { 
+			 return String.valueOf(true); 
+		}else { 
+			return String.valueOf(false); 
+		}
+	}
+	
+	
+	
 }

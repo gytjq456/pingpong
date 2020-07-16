@@ -192,16 +192,8 @@ public class GroupService {
 		String pagingUrl = "/group/";
 		
 		if (!search.containsKey("keywordType") && !search.containsKey("hobbyType") && !search.containsKey("period") && !search.containsKey("start_date") && !search.containsKey("location")) {
-			pagingUrl = pagingUrl + "main?orderBy=" + orderBy + "&ing=" + ing;
+			pagingUrl = pagingUrl + "main?schType=keyword&orderBy=" + orderBy + "&ing=" + ing;
 		}
-		
-//		if (search.containsKey("ing")) {
-//			if (search.get("ing").toString().contentEquals("applying = 'N' and proceeding")) {
-//				pagingUrl = pagingUrl + "mainOption?orderBy=" + orderBy + "&ing=done";
-//			} else {
-//				pagingUrl = pagingUrl + "mainOption?orderBy=" + orderBy + "&ing=" + search.get("ing").toString();
-//			}
-//		} 
 		
 		if (search.containsKey("keywordType")) {
 			if (search.containsKey("hobbyType")) {
@@ -336,4 +328,12 @@ public class GroupService {
 	public GroupApplyDTO showMyApp(Map<String, Object> param) throws Exception {
 		return gdao.showMyApp(param);
 	}
+	
+	
+	// 리뷰 삭제
+	public int reviewDelete(int seq) throws Exception{
+		return gdao.reviewDelete(seq);
+	}
+	
+	
 }

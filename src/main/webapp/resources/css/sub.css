@@ -365,7 +365,7 @@ button.normal:hover { background:#c7c7c7 !important; color:#fff; }
 .viewPage_style1 .body_right .tit_s2 { margin-bottom:10px;}
 .viewPage_style1 .body_right .moreList li { margin-bottom:10px;}
 .viewPage_style1 .body_right .moreList li:last-child { margin:0; }
-
+.viewPage_style1 .body_right .moreList li a { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; display:block;}
 
 .viewPage_style1 .title { font-size:24px; margin-bottom:30px; }
 .viewPage_style1 .contents { font-size:14px; line-height:1.8; border-top:1px solid #ddd; margin:20px 0; padding-top:16px;}

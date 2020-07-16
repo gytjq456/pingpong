@@ -292,7 +292,7 @@
 								<label for="start_date" class="calendar_icon"> 
 									<i class="fa fa-calendar" aria-hidden="true"></i>
 								</label>
-								<input type="text" id="start_date" name="start_date" size="12">
+								<input type="text" id="start_date" name="start_date" size="12" readonly>
 								</p>
 								<p>
 									<span class="between_calendar">~</span>
@@ -301,7 +301,7 @@
 									<label for="end_date" class="calendar_icon"> 
 										<i class="fa fa-calendar" aria-hidden="true"></i>
 									</label>
-									<input type="text" id="end_date" name="end_date" size="12"> 
+									<input type="text" id="end_date" name="end_date" size="12" readonly> 
 								</p>
 							</div>
 						</div>

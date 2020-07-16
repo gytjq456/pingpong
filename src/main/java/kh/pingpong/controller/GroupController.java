@@ -296,7 +296,6 @@ public class GroupController {
 	
 	@RequestMapping("reportProc")
 	public String reportProc(ReportListDTO rldto, Model model) {
-		System.out.println("rldto =" + rldto.getSeq());
 		gservice.insertReport(rldto);
 		return "redirect:/group/view?seq=" + rldto.getParent_seq();
 	}

@@ -81,11 +81,11 @@ public class GroupController {
 	
 	@RequestMapping("writeProc")
 	public String groupWriteProc(GroupDTO gdto, Model model) throws ParseException {
-		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
-		String id = loginInfo.getId();
-		String name = loginInfo.getName();
-		gdto.setWriter_id(id);
-		gdto.setWriter_name(name);
+//		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
+//		String id = loginInfo.getId();
+//		String name = loginInfo.getName();
+//		gdto.setWriter_id(id);
+//		gdto.setWriter_name(name);
 		int seq = gservice.insertGroup(gdto);
 		model.addAttribute("seq", seq);
 		return "redirect:/group/view";

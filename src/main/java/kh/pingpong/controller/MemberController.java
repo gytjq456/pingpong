@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kh.pingpong.admin.AdminService;
+import kh.pingpong.config.Configuration;
 import kh.pingpong.dto.BankDTO;
 import kh.pingpong.dto.CountryDTO;
 import kh.pingpong.dto.FileDTO;
@@ -105,6 +106,8 @@ public class MemberController {
 			}
 		}
 		String AuthenticationKey = temp.toString();
+		Configuration.emailKey = AuthenticationKey;
+		//Configuration.emailKey = "Y12385**";
 
 		// session 생성
 		Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
@@ -136,25 +139,29 @@ public class MemberController {
 
 	/* 회원가입 jsp로 이동 */
 	@RequestMapping("join")
-	public String signup(Model model, String mail) throws Exception {
-		model.addAttribute("mail", mail);
-
-		// 은행
-		List<BankDTO> bankList = mservice.bankList();
-		model.addAttribute("bankList", bankList);
-
-		// 나라
-		List<CountryDTO> countryList = mservice.countryList();
-		model.addAttribute("countryList", countryList);
-
-		// 언어
-		List<LanguageDTO> lanList = mservice.lanList();
-		model.addAttribute("lanList", lanList);
-
-		// 취미
-		List<HobbyDTO> hobbyList = mservice.hobbyList();
-		model.addAttribute("hobbyList", hobbyList);
-		return "member/join";
+	public String signup(Model model, String mail, String ck) throws Exception {
+		if(ck.contentEquals(Configuration.emailKey)) {
+			model.addAttribute("mail", mail);
+	
+			// 은행
+			List<BankDTO> bankList = mservice.bankList();
+			model.addAttribute("bankList", bankList);
+	
+			// 나라
+			List<CountryDTO> countryList = mservice.countryList();
+			model.addAttribute("countryList", countryList);
+	
+			// 언어
+			List<LanguageDTO> lanList = mservice.lanList();
+			model.addAttribute("lanList", lanList);
+	
+			// 취미
+			List<HobbyDTO> hobbyList = mservice.hobbyList();
+			model.addAttribute("hobbyList", hobbyList);
+			return "member/join";
+		}else {
+			return "/member/login";
+		}
 	}
 
 	/* 이메일 jsp */

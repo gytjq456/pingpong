@@ -66,7 +66,7 @@ public class MemberController {
 
 	/* 이메일 발송 */
 	public String sendEmail(String userMailSend, HttpServletResponse response) throws ServletException, IOException {
-
+		
 		// mail server 설정
 		String userMail = userMailSend;
 		String host = "smtp.naver.com";
@@ -117,7 +117,6 @@ public class MemberController {
 		});
 
 		// email 전송
-
 		try {
 			MimeMessage msg = new MimeMessage(session);
 			msg.setFrom(new InternetAddress(user, "pingpong"));
@@ -125,9 +124,9 @@ public class MemberController {
 			msg.addRecipient(Message.RecipientType.TO, new InternetAddress(to_email));
 
 			// 메일 제목
-			msg.setSubject("안녕하세요. pingpong 인증 메일입니다.");
+			msg.setSubject("Welecome to pingpong email.");
 			// 메일 내용
-			msg.setText("인증 번호는 :" + temp);
+			msg.setText("Put this code :" + temp);
 			Transport.send(msg);
 
 		} catch (Exception e) {

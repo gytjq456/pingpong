@@ -5,7 +5,7 @@
 <jsp:include page="/WEB-INF/views/admin/aheader.jsp"/>
 	<div id="main_wrap">
 		<div id="table_wrap">
-			<h3>신고</h3>
+			<h3 class="tit">신고</h3>
 			<table>
 				<thead>
 					<tr>

@@ -4,7 +4,7 @@
 <jsp:include page="/WEB-INF/views/admin/aheader.jsp"/>
 	<div id="main_wrap">
 		<div id="table_wrap">
-			<h3>토론 게시판</h3>
+			<h3 class="tit">토론 게시판</h3>
 			<table>
 				<thead>
 					<tr>

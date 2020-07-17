@@ -16,8 +16,15 @@
 			<input type="password" name="pw" id="pw" placeholder="Password"><br>
 			
 			<div class="idSave">
-				<input type="checkbox" name="rememberId" id="rememberId" name="rememberId"> <label for="rememberId">아이디 저장하기</label>
+				<ul class="checkBox_s1">
+					<li class="">
+						<input type="checkbox" name="rememberId" id="rememberId" name="rememberId"> 
+						<label for="rememberId"><span></span>아이디 저장하기</label>
+					</li>
+				</ul>
 			</div>
+			
+			
 			<div class="loginBtn">
 				
 				<div class="btnS1 center ">

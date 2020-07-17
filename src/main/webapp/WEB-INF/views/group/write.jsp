@@ -348,9 +348,9 @@
 			                if (result[i].region_type === 'H') {
 			                    var detailClickedLocation = result[i].address_name;
 			                    var detailSplit = detailClickedLocation.split(' ');
-			                    var detailThird = detailSplit[2];
-			                    var detailThirdLast = detailThird.charAt(detailThird.length - 1);
-			                    if (detailThirdLast == '구') {
+			                    if (detailSplit[1] == '용인시' || detailSplit[1] == '안양시' || detailSplit[1] == '안산시' || detailSplit[1] == '수원시'
+			                    		|| detailSplit[1] == '성남시' || detailSplit[1] == '고양시' || detailSplit[1] == '전주시' || detailSplit[1] == '청주시'
+			                    		|| detailSplit[1] == '포항시' || detailSplit[1] == '천안시') {
 			                    	detailSplit[1] = detailSplit[1] + ' ' + detailSplit[2];
 			                    }
 		                    	inputLocation = detailSplit[0] + ' ' + detailSplit[1];

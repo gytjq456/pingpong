@@ -216,10 +216,10 @@
 													<span>지역</span>
 													<p>${pdto.address}</p>
 												</li>
-												<li>
+												<!-- <li>
 													<span>은행</span>
 													<p>SC제일은행 ( 1111 )</p>
-												</li>
+												</li> -->
 											</ul>
 										</div>
 									</div>

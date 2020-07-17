@@ -47,17 +47,17 @@
 			</div>
 			<div class="card_body">
 				<form action="/correct/modifyProc" method="post">
-					<input type="hidden" name="seq" value="${dto.seq}"> 
-					<input type="hidden" name="writer" value="${dto.writer}"> 
-					<input type="hidden" name="language" value="${dto.language}">
-					
+					<input type="hidden" name="seq" value="${dto.seq}"> <input
+						type="hidden" name="writer" value="${dto.writer}"> <input
+						type="hidden" name="language" value="${dto.language}">
+
 					<section>
 						<div class="tit_s3">
 							<h4>토론 주제</h4>
 						</div>
 						<input type="text" name="title" value="${dto.title}">
 					</section>
-					
+
 					<section>
 						<div class="tit_s3">
 							<h4>카테고리</h4>
@@ -74,14 +74,16 @@
 						<textarea id="summernote" name="contents">${dto.contents}</textarea>
 					</section>
 					<!--  -->
-				
+
 					<div class="btnS1 right">
 						<div>
 							<input type="submit" value="등록">
 						</div>
-						<div><a href="javascript:window.history.back();">돌아가기</a></div>
+						<div>
+							<a href="javascript:window.history.back();">돌아가기</a>
+						</div>
 					</div>
-						
+
 				</form>
 			</div>
 		</article>

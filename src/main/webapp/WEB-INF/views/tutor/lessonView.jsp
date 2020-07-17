@@ -290,6 +290,8 @@ $(function(){
 		$(".tab_s2 ul li").click(function(){
 			var idx = $(this).index()+1;
 			var topPos = $("#tab_"+idx).offset().top;
+			$(".tab_s2 ul li").removeClass("on")
+			$(this).addClass("on");
 			if($(".tab_s2").hasClass("fixed")){
 				$("html,body").stop().animate({
 					scrollTop:topPos - headHeight - 80
@@ -310,7 +312,6 @@ $(function(){
 			}else{
 				menuObj.removeClass("fixed");
 			}
-			
 		})
 		
 		$(".reviewDelete").click(function(){
@@ -329,7 +330,37 @@ $(function(){
 				});
 			}
 		})
+		
+		
+		
+		$("input,textarea").blur(function(){
+			var thisVal = $(this).val();
+			$(this).val(textChk(thisVal,$(this)));
+		})
+	 	$(".note-editable").blur(function(){
+			var thisVal = $(this).html();
+			$(this).text(textChk(thisVal,$(this)));
+		});
 })
+
+
+	function textChk(thisVal, obj){
+		var replaceId  = /(script)/gi;
+		var textVal = thisVal;
+	    if (textVal.length > 0) {
+	        if (textVal.match(replaceId)) {
+	        	console.log(obj)
+	        	if(obj.val().length){
+		        	obj.val("");
+		        	textVal = obj.val();
+	        	}else{
+		        	obj.html("");
+		        	textVal = obj.val();
+	        	}
+	        }
+	    }
+	    return textVal;
+	}
 
 </script>
 
@@ -506,13 +537,11 @@ $(function(){
 											<p class="userId">${loginInfo.id }</p>
 										</div>
 									</div>
-									<c:choose>
-									<c:when test="${empty tuteeList}">
+									<c:if test="${empty tuteeList}">
 										<div>
 											<textarea name="contents" id="textCont" class="not_member" placeholder="수강 학생만 작성할 수 있습니다." readonly></textarea>
 										</div>
-									</c:when>
-									</c:choose>
+									</c:if>
 
 									<c:forEach var="i" items="${tuteeList }">
 										<c:choose>

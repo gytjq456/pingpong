@@ -33,7 +33,7 @@
 					DBMS_LOB.INSTR(contents, #{keywordValue}) > 0
 				</if>
 				<if test="keywordType != 'contents'">
-					${keywordType} = #{keywordValue}
+					${keywordType} like '%${keywordValue}%'
 				</if>
 			</if>
 			<if test="hobby_type != null">
@@ -70,7 +70,7 @@
 					DBMS_LOB.INSTR(contents, #{keywordValue}) > 0
 				</if>
 				<if test="keywordType != 'contents'">
-					${keywordType} = #{keywordValue}
+					${keywordType} like '%${keywordValue}%'
 				</if>
 			</if>
 			<if test="hobby_type != null">

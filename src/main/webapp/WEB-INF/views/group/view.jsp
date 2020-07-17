@@ -65,6 +65,10 @@
 			}
 		})
 		
+		$('#groupApplyManage').on('click', function(){
+			location.href = '/mypage/groupRecord';
+		})
+		
 		var checkLike = ${checkLike};
 		if (checkLike) {
 			$('#like').css('color', '#3162a4');
@@ -182,6 +186,8 @@
 		$(".tab_s2 ul li").click(function(){
 			var idx = $(this).index()+1;
 			var topPos = $("#tab_"+idx).offset().top;
+			$(".tab_s2 ul li").removeClass("on")
+			$(this).addClass("on");
 			if($(".tab_s2").hasClass("fixed")){
 				$("html,body").stop().animate({
 					scrollTop:topPos - headHeight - 80
@@ -225,7 +231,34 @@
 		})
 		
 		
+		$("input,textarea").blur(function(){
+			var thisVal = $(this).val();
+			$(this).val(textChk(thisVal,$(this)));
+		})
+	 	$(".note-editable").blur(function(){
+			var thisVal = $(this).html();
+			$(this).text(textChk(thisVal,$(this)));
+		});
+		
 	})
+	
+	function textChk(thisVal, obj){
+		var replaceId  = /(script)/gi;
+		var textVal = thisVal;
+	    if (textVal.length > 0) {
+	        if (textVal.match(replaceId)) {
+	        	console.log(obj)
+	        	if(obj.val().length){
+		        	obj.val("");
+		        	textVal = obj.val();
+	        	}else{
+		        	obj.html("");
+		        	textVal = obj.val();
+	        	}
+	        }
+	    }
+	    return textVal;
+	}
 </script>
 	<div id="subWrap" class="hdMargin">
 		<section id="subContents">

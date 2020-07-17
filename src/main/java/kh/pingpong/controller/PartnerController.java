@@ -50,29 +50,31 @@ public class PartnerController {
 	@Autowired
 	private HttpSession session;
 
-	@Autowired
+	
+	@Autowired 
 	JavaMailSender mailSender;
+	 
 
 	// 메일 
 	private Boolean mail(HttpServletRequest request, HttpServletResponse response, String pemail, String memail, String emailPassword,String contents) {
 		Boolean result = false;
 		System.out.println("mail start");
-		String uri = request.getRequestURI();
-		String contextPath = request.getContextPath();
-		String cmd = uri.substring(contextPath.length());
+//		String uri = request.getRequestURI();
+//		String contextPath = request.getContextPath();
+//		String cmd = uri.substring(contextPath.length());
 
 		//mail server 설정
 		//String userMail = request.getParameter("mailId");
-		String host = "smtp.naver.com";
+		String host = "smtp.gmail.com";
 		String user = memail; //자신의 네이버 계정
 		String password = emailPassword;// 자신의 패스워드
-		System.out.println("host : " + host);
-		System.out.println("user : " + user);
-		System.out.println("password : " + password);
+//		System.out.println("host : " + host);
+//		System.out.println("user : " + user);
+//		System.out.println("password : " + password);
 
 		//메일 받을 주소
 		String to_email = pemail;
-		System.out.println("to_email : " + to_email);
+		//System.out.println("to_email : " + to_email);
 		
 		//SMTP 서버 정보를 설정한다.
 		Properties props = new Properties();
@@ -80,6 +82,7 @@ public class PartnerController {
 		props.put("mail.smtp.port", 465);
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.ssl.enable", "true");
+		props.put("mail.smtp.ssl.trust",host);
 
 		 //session 생성
         Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
@@ -183,7 +186,7 @@ public class PartnerController {
 		model.addAttribute("reviewList", reviewList);
 		return "partner/partnerView";
 	}
-
+	
 	//멤버 선택 
 	@RequestMapping("selectMember")
 	public String selectMember(MemberDTO mdto, Model model, HttpServletRequest request) throws Exception{

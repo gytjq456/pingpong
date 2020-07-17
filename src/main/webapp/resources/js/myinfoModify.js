@@ -76,7 +76,7 @@ $(function() {
 		}*/
 
 		// 전화번호 (뒷자리)
-		var regexPhone = /^[^010 070 011 a-z A-Z 가-힣 ㄱ-ㅎ ! @ # $ %](\d){7}$/gm;
+		var regexPhone = /^(?!010|070|011)(\d){8}$/gm;
 		var result_phone = regexPhone.test(phone.val());
 		if(!result_phone){
 			alert("전화번호 : 숫자이며 8글자입니다. 010 / 011 / 070 빼주세요.");
@@ -209,6 +209,15 @@ $(function() {
 		if (profile.val() == "") {
 			alert("프로필 사진을 넣어주세요");
 			profile.focus();
+			return false;
+		}
+		
+		//프로필 용량
+		var limit = 1024*1024*5;
+		if(limit < profile[0].files[0].size){
+			alert("파일용량 5MB을 초과했습니다. 다른 파일로 변경해주세요");
+			profile.val("");
+			$('#profile').focus();
 			return false;
 		}
 		

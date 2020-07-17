@@ -1,5 +1,7 @@
 //글쓰기 페이지
 $(function(){
+	var totalSize=0;
+	
 	/** 타이틀 숫자 카운트 **/
 	$("#title").keyup(function(e){
 		var word = $("#title").val();
@@ -79,6 +81,26 @@ $(function(){
 		});
 	}
 	
+	$("#thumbnail").on('change',function(){
+		var thumbnail= $("#thumbnail");
+		//프로필 확장자 체크
+		if(!/\.(gif|jpg|jpeg|png)$/i.test(thumbnail.val())){
+			alert("확장자 확인 하기 " + thumbnail.val());
+			alert('gif, jpg, png 파일만 선택해 주세요.\n\n현재 파일 : ' + thumbnail.val());
+			thumbnail.focus();
+			thumbnail.val("");
+			return false;
+		}
+		
+		//프로필 용량
+		var limit = 1024*1024*5;
+		if(limit < thumbnail[0].files[0].size){
+			alert("파일용량 5MB을 초과했습니다. 다른 파일로 변경해주세요");
+			thumbnail.val("");
+			return false;
+		}
+	});
+	
 	/** 첨부파일 삭제 **/
 	$(".x").click(function(){
 		var data_seq = $(this).data('seq');
@@ -107,20 +129,32 @@ $(function(){
 	
 	/** 첨부파일 **/
 	var countf = 0;
-	$("#addFile").click(function(){		
-		if(countf<3){
+	$("#addFile").click(function(){	
+		var count = $(".f_all ul li").length;
+		if(count<3){
 			$("#fileSpace").append(
 					"<div class='file_box'><input type='file' name='files' class='files'> <button type='button' class='minus'>-</button></div>"
 			);
-			++countf;
 		}else{
 			alert("파일은 3개 까지 생성 가능합니다.");
 		}		
 	});
 	
-	$("#fileSpace").on("click",".minus",function(){
-		$(this).parent().css('display','none');
-		--countf;
+	//첨부파일 용량 제한하기
+	$("#fileSpace").on('change','input[type=file]',function(e){
+		if(!$(this).val()) {return false};
+		var f = this.files[0];
+		
+		var size = f.size || f.fileSize;
+		console.log(f.size + ":" +f.fileSize);
+		var limit = 1024*1024*5; //바이트
+		if(size > limit){
+			alert("파일용량 5MB을 초과했습니다.");
+			$(this).val("");
+			return false;
+		}
+		totalSize = totalSize+size;
+		console.log(totalSize);
 	});
 	
 });

@@ -7,7 +7,6 @@
 	
 	$(function(){
 		
-		var emailRegex = /^[a-z A-Z 0-9]+@[a-z]+\.[a-z]{2,6}$/g;
 		var userMailSend = $("#userMailSend");
 		var sendEmailCode = "";
 		var code = $("#code").val();
@@ -47,12 +46,14 @@
 		
 		//인증번호 발송
 		$("#sendEmail").on("click",function(){
+			var emailRegex = /^[a-z A-Z 0-9]+@[a-z]+\.[a-z]{2,6}$/g;
 			var result_email = emailRegex.test(userMailSend.val());
-
+			
 			if(userMailSend.val() == "" || result_email == false){
 				alert("이메일을 입력해주세요.");
 				userMailSend.focus();
 				return false;
+				
 			}else{
 				$.ajax({
 					url :"/member/joinSendMail",
@@ -60,8 +61,8 @@
 					data : {
 						"userMailSend" : userMailSend.val()
 					}
-				}).done(function(resp){					
-					alert(resp + "인증번호가 발송되었습니다.");
+				}).done(function(resp){	
+					alert("인증번호가 발송되었습니다.");
 					sendEmailCode = resp;
 					console.log(sendEmailCode + "코드");
 					clearInterval(tid);
@@ -98,10 +99,11 @@
 				$("input[name=ckbox2]").prop("checked",false);
 			}
 		});
-				
+		
+		
+		
 		//다음버튼을 눌렀을 때 
-		$("#join").on("click", function(){			
-			
+		$("#join").on("click", function(){
 			//이용약관 체크박스
 			var ckbox1 = $("input:checkbox[name=ckbox1]");
 			var ckIsNull = ckbox1.is(":checked") == true;
@@ -109,8 +111,6 @@
 			//개인정보취급방침 체크박스
 			var ckbox2 = $("input:checkbox[name=ckbox2]");
 			var ckIsNull2 = ckbox2.is(":checked") == true;
-			
-			
 			
 			if(userMailSend.val() == "" || code == "" || ckIsNull == false || ckIsNull2 == false){
 	
@@ -134,7 +134,12 @@
 				
 			}else{
 				if(sendEmailCode == code){
-					location.href= "/member/join?mail="+ userMailSend.val();
+					
+					//join url로 다이렉트 접속이 되지 않게 작업
+					$('#join').attr('data-ck', code);
+					var checkd = $('#join').data('ck');
+					
+					location.href= "/member/join?mail="+ userMailSend.val()+"&ck="+checkd;
 				}else{
 					alert("인증번호가 불일치합니다.");
 					$("#codeCk").focus();
@@ -230,7 +235,7 @@
 				</div>
 				
 				<div class="btnS1 center ">
-					<div><button class="w100" type="button" id="join" name="join">다음</button></div>
+					<div><button class="w100" type="button" id="join" name="join" data-ck="">다음</button></div>
 				</div>
 			</div>
 		</div>

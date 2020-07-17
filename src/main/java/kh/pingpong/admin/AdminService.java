@@ -320,7 +320,7 @@ public class AdminService {
 	
 	// 강의 삭제 승인
 	@Transactional("txManager")
-	public int deleteApplyLesson(int seq) {
+	public int deleteApplyLesson(int seq, int parent_seq) {
 		Map<String, Object> param = new HashMap<>();
 		
 		param.put("tableName", "delete_app");
@@ -328,7 +328,7 @@ public class AdminService {
 		param.put("columnValue", seq);
 		
 		adao.deleteOne(param);
-		return adao.deleteApplyLesson(seq);
+		return adao.deleteApplyLesson(parent_seq);
 	}
 	
 	// 신고 승인
@@ -419,6 +419,8 @@ public class AdminService {
 			param.put("idList", idList);
 			
 			adao.acceptAllTutorApp(param);
+		} else if (tableName.contentEquals("lesson")) {
+			adao.acceptAllLessonDel(param);
 		}
 		
 		return adao.acceptAll(param);

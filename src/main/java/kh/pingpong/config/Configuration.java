@@ -20,4 +20,7 @@ public class Configuration {
 	public static List<ChatRecordDTO> chatRecord = new ArrayList();
 	public static String room;
 	//public static Map<String,String> room = new HashMap<>();
+	
+	//이메일 인증번호
+	public static String emailKey;
 }

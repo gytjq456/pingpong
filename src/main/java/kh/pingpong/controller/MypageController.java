@@ -18,8 +18,10 @@ import kh.pingpong.dto.GroupDTO;
 import kh.pingpong.dto.LessonDTO;
 import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.dto.PartnerDTO;
+import kh.pingpong.dto.TuteeDTO;
 import kh.pingpong.service.GroupService;
 import kh.pingpong.service.MyPageService;
+import kh.pingpong.service.TutorService;
 
 @Controller
 @RequestMapping("/mypage/")
@@ -36,6 +38,9 @@ public class MypageController {
 	
 	@Autowired
 	private GroupService gservice;
+	
+	@Autowired
+	private TutorService tservice;
 	
 	//그룹 관련
 	@RequestMapping("groupRecord")
@@ -116,7 +121,7 @@ public class MypageController {
 
 		List<LessonDTO> trlist = mpservice.selectLessonList(trparam);
 		List<LessonDTO> telist = mpservice.selectTuteeList(teparam); 
-		
+
 		String trnavi = mpservice.getPageNav(trparam);
 		String tenavi = mpservice.getPageNav(teparam);
 		

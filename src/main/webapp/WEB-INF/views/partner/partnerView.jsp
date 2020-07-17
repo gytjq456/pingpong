@@ -138,7 +138,35 @@
 				});
 			}
 		})
+		
+		$("input,textarea").blur(function(){
+			var thisVal = $(this).val();
+			$(this).val(textChk(thisVal,$(this)));
+		})
+	 	$(".note-editable").blur(function(){
+			var thisVal = $(this).html();
+			$(this).text(textChk(thisVal,$(this)));
+		});
 	})
+	
+	
+	function textChk(thisVal, obj){
+		var replaceId  = /(script)/gi;
+		var textVal = thisVal;
+	    if (textVal.length > 0) {
+	        if (textVal.match(replaceId)) {
+	        	console.log(obj)
+	        	if(obj.val().length){
+		        	obj.val("");
+		        	textVal = obj.val();
+	        	}else{
+		        	obj.html("");
+		        	textVal = obj.val();
+	        	}
+	        }
+	    }
+	    return textVal;
+	}
 	
 </script>
 
@@ -153,7 +181,8 @@
 					<c:otherwise>
 						<div id="session" class="card_body">
 							<span class="seq">${pdto.seq}</span>
-							<form action="/member/memberSelect" method="post">	
+							<form action="/member/memberSelect" method="post">
+								<input type="hidden" value="${pdto.id}" id="partner_name">	
 								<div class="userInfo clearfix">
 									<div class="thum">
 										<div class="img"><img src ="/upload/member/${pdto.id}/${pdto.sysname}"></div>
@@ -239,10 +268,14 @@
 						var seq = $(this).closest('.button_aa').siblings('.box').find('.seq').html();
 					}) */
 					
+					var id =$("#partner_name").val();
 					$(".button_li .delete").on("click",function(){
-						confirm("정말 파트너 취소 하시겠습니까?");
-						location.href="/partner/deletePartner?id=${loginInfo.id}";
-					})
+						var con = confirm("정말 파트너 취소 하시겠습니까?");
+						console.log(con);
+						if(con){
+							location.href="/partner/deletePartner?id="+id;
+						}					
+					});
 					
 					//찜하기
 					var checkJjim = ${checkJjim};

@@ -14,6 +14,7 @@
 			#{contents}, default, 0, 0, 0, 0, 0, default, #{proceeding})
 	</insert>
 	
+	<!-- 그룹 목록 출력 -->
 	<resultMap id="GroupProFile" type="kh.pingpong.dto.GroupDTO">
 		<result property="sysname" column="profile"></result>
 	</resultMap>
@@ -32,7 +33,7 @@
 					DBMS_LOB.INSTR(contents, #{keywordValue}) > 0
 				</if>
 				<if test="keywordType != 'contents'">
-					${keywordType} = #{keywordValue}
+					${keywordType} like '%${keywordValue}%'
 				</if>
 			</if>
 			<if test="hobby_type != null">
@@ -54,6 +55,7 @@
 		where rnum between #{start} and #{end}
 	</select>
 	
+	<!-- 그룹 페이징 -->
 	<select id="selectGroupCount" resultType="int">
 		select count(*) from
 		(select grouplist.*, row_number() over(order by ${orderBy} desc, seq desc) rnum
@@ -68,7 +70,7 @@
 					DBMS_LOB.INSTR(contents, #{keywordValue}) > 0
 				</if>
 				<if test="keywordType != 'contents'">
-					${keywordType} = #{keywordValue}
+					${keywordType} like '%${keywordValue}%'
 				</if>
 			</if>
 			<if test="hobby_type != null">
@@ -89,23 +91,25 @@
 		)
 	</select>
 	
-
+	<!-- 그룹 뷰 페이지 -->
 	<select id="selectBySeq" resultMap="GroupProFile">
-		<!-- select * from grouplist where seq = #{value} -->
 		select g.*,m.profile from 
 		grouplist g inner join member m
 		on g.writer_id = m.id
 		where seq = #{value}
 	</select>
 	
+	<!-- 시퀀스 -->
 	<select id="searchSeq" resultType="int">
 		select * from (select seq from grouplist where writer_id = #{value} order by seq desc) where rownum = 1
 	</select>
 	
+	<!-- 그룹 게시글 삭제 -->
 	<delete id="delete">
 		delete grouplist where seq = #{value}
 	</delete>
 	
+	<!-- 그룹 게시글 출력 -->
 	<update id="update">
 		update grouplist set title = #{title}, hobby_type = #{hobby_type},
 			apply_start = #{apply_start}, apply_end = #{apply_end},
@@ -119,51 +123,59 @@
 		select count(*) from grouplist
 	</select>
 	
+	<!-- 조회수 증가 -->
 	<update id="updateViewCount">
 		update grouplist set view_count = view_count + 1 where seq = #{seq}
 	</update>
 	
+	<!-- 그룹 신청서 등록 -->
 	<insert id="insertApp">
 		insert into group_app values(group_app_seq.nextval, #{id}, #{name}, #{age}, #{gender}, #{address},
 			#{profile}, #{lang_can}, #{lang_learn}, #{contents}, #{parent_seq})
 	</insert>
 	
+	<!-- 그룹 신청서 확인 -->
 	<select id="selectApplyForm" resultType="int">
 		select seq from group_app where parent_seq = #{parent_seq} and id = #{id}
 	</select>
 	
+	<!-- 그룹 신청서 삭제 -->
 	<delete id="deleteApplyForm">
 		delete group_app where seq = #{seq}
 	</delete>
 	
+	<!-- 그룹 탈퇴 신청서 -->
 	<insert id="insertDeleteApply">
 		insert into delete_app values(delete_app_seq.nextval, #{id}, '그룹', #{contents}, #{parent_seq})
 	</insert>
 	
-	
+	<!-- 그룹 멤버 출력 -->
 	<resultMap id="GroupMemberProFile" type="kh.pingpong.dto.GroupMemberDTO">
 		<result property="sysname" column="profile"></result>
 	</resultMap>
 	<select id="selectGroupMemberList" resultMap="GroupMemberProFile">
-		<!-- select * from groupmember where parent_seq = #{parent_seq} -->
 		select g.*, m.profile from groupmember g 
 		inner join member m
 		on g.id = m.id
 		where parent_seq = #{parent_seq}
 	</select>
 	
+	<!-- 그룹 멤버 아이디로 검색 -->
 	<select id="selectGroupMemberById" resultType="int">
 		select seq from groupmember where id = #{id} and parent_seq = #{parent_seq}
 	</select>
 	
+	<!-- 그룹 멤버 나가면 인원수 감소 -->
 	<update id="updateGroupMemberOut">
 		update grouplist set cur_num = cur_num - 1 where seq = #{seq}
 	</update>
 	
+	<!-- 그룹 멤버 삭제 -->
 	<delete id="deleteGroupMember">
 		delete groupmember where id = #{id} and parent_seq = #{parent_seq}
 	</delete>
 	
+	<!-- 그룹 탈퇴 신청 목록 -->
 	<select id="selectDeleteApplyList" resultType="kh.pingpong.dto.DeleteApplyDTO">
 		select * from delete_app where category = '그룹' and parent_seq = #{parent_seq}
 	</select>

@@ -17,7 +17,7 @@
                 </article>
                 <article class="item item2">
 					<div class="txt_box">
-		                <h2>현재 접속한 파트너를 만나보세요 </h2>
+		                <h2>파트너를 만나보세요 </h2>
 		                <a href="/partner/partnerList?align=recent">바로가기</a>
 		            </div>
                 </article>

@@ -25,7 +25,9 @@
 						<c:otherwise>
 							<c:forEach var="talist" items="${talist}">
 								<tr>
-									<td><input type="checkbox" value="${talist.seq}" class="deleteCheck"></td>
+									<td>
+										<c:if test="${talist.pass == 'N'}"><input type="checkbox" value="${talist.seq}" class="deleteCheck"></c:if>
+									</td>
 									<td>${talist.seq}</td>
 									<td>${talist.id}</td>
 									<td><a href="/admins/tutorAppView?seq=${talist.seq}">${talist.title}</a></td>

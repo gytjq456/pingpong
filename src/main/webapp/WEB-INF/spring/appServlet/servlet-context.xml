@@ -53,14 +53,14 @@
 		</aop:aspect>
 	</aop:config>
 
-	<beans:bean class="kh.pingpong.aspect.AlarmAdvisor" id="alarmaop" />
+	<!-- <beans:bean class="kh.pingpong.aspect.AlarmAdvisor" id="alarmaop" />
 	<aop:config>
-		<!-- <aop:pointcut expression="execution(* kh.pingpong.controller.PartnerController.reviewWrite(..))" id="alarmAll"/> -->
+		<aop:pointcut expression="execution(* kh.pingpong.controller.PartnerController.reviewWrite(..))" id="alarmAll"/>
 		<aop:pointcut expression="execution(* kh.pingpong.controller.GroupController.reviewWrite(..))" id="alarmAll"/>
 		<aop:aspect id="alarmCheck" ref="alarmaop">
 			<aop:around pointcut-ref="alarmAll" method="alarmLog" />
 		</aop:aspect>
-	</aop:config>
+	</aop:config> -->
 	
 	<beans:bean class="kh.pingpong.aspect.LogAdvisor" id="logaop" />
 	<aop:config>
@@ -103,10 +103,21 @@
 		<aop:aspect id="logCheck" ref="logaop">
 			<aop:around pointcut-ref="correct" method="aroundBoardLog"/>
 		</aop:aspect>
-	</aop:config>	
+	</aop:config>
 	
-
-
+	<aop:config>
+		<aop:pointcut expression="execution(* kh.pingpong.controller.NewsController.write(..))" id="correct"/>
+		<aop:aspect id="logCheck" ref="logaop">
+			<aop:around pointcut-ref="correct" method="aroundBoardLog"/>
+		</aop:aspect>
+	</aop:config>
+	
+	<aop:config>
+		<aop:pointcut expression="execution(* kh.pingpong.controller.MemberController.myInfo(..))" id="correct"/>
+		<aop:aspect id="logCheck" ref="logaop">
+			<aop:around pointcut-ref="correct" method="aroundBoardLog"/>
+		</aop:aspect>
+	</aop:config>	
 	
 </beans:beans>
 

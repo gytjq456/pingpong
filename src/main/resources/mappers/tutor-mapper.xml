@@ -4,7 +4,7 @@
 
 <!-- 튜티 insert -->
 <insert id="tuteeInsert">
-	insert into tutee values(tutee_seq.nextval, #{id}, #{name}, #{email}, #{phone_country}, #{phone}, #{bank_name}, #{price}, #{account}, #{sysname}, #{title},#{address}, default,#{refundPrice,jdbcType=VARCHAR},#{parent_seq})
+	insert into tutee values(tutee_seq.nextval, #{id}, #{name}, #{email}, #{phone_country}, #{phone}, #{bank_name}, #{price}, #{account}, #{title},#{address}, default,#{refundPrice,jdbcType=VARCHAR},#{parent_seq})
 </insert>
 
 <!-- 튜티 현재인원 늘리기 -->
@@ -16,6 +16,11 @@
 <update id="tuteeCurnumCountMinus">
 	update lesson set cur_num = cur_num-1 where seq= #{parent_seq}
 </update>
+
+<!-- 현재 강의 수강중인 튜티 뽑기 -->
+<select id="tuteeList" resultType="kh.pingpong.dto.TuteeDTO">
+	select * from tutee where parent_seq = #{seq}
+</select>
 
 <!-- 결제한사람이 또 결제하는지 -->
 <select id="payTrue" resultType="int">
@@ -156,13 +161,16 @@
 
 <!-- 모집중, 진행중, 마감일 때 -->
 <select id="selectLessonListPeriod" resultMap="LessonProfile">
-	select * from (select lesson.*, row_number() over(order by ${orderBy} desc) rnum from lesson where pass='Y' and ${ing}=#{ingVal} 
+	select * from (select lesson.*, row_number() over(order by ${orderBy} desc) rnum from lesson where pass='Y' 
 	<trim prefixOverrides="and" prefix="and">
+		<if test="ing !=null">
+			and ${ing}=#{ingVal} 
+		</if>
 		<if test="keyword!=null">
 			and ${keywordSelect} like '%${keyword}%'
 		</if>
 		<if test="end_date!=null">
-			and to_char(start_date) >= to_char(#{start_date}) and to_char(#{end_date}) >= to_char(end_date)
+			and start_date >= #{start_date} and #{end_date} >= end_date
 		</if>
 		<if test="location!=null">
 			and location like '%${location}%'

@@ -24,8 +24,12 @@ $(function(){
 	
 	$("input,textarea").blur(function(){
 		var thisVal = $(this).val();
-		$(this).val(textChk(thisVal));
+		$(this).val(textChk(thisVal,$(this)));
 	})
+ 	$(".note-editable").blur(function(){
+		var thisVal = $(this).html();
+		$(this).text(textChk(thisVal,$(this)));
+	});
 	
 	$("#modifyForm").on("submit",function(){
 		var titleObj = $("#title");
@@ -33,7 +37,7 @@ $(function(){
 		var cautionObj = $("#caution")
 		var cautionVal = cautionObj.val()
 		var noteObj = $(".note-editable");
-	
+		
 		if(titleVal.replace(/\s|　/gi, "").length == 0){
 			alert("제목을 입력해주세요.")
 			titleObj.val("");
@@ -49,38 +53,44 @@ $(function(){
 			cautionObj.val("");
 			cautionObj.focus();
 			return false;
+		}else{
+	        var form = $('#modifyForm')[0];
+	        var formData = new FormData(form);
+	
+	        $.ajax({
+	        	url:"/discussion/modifyProc",
+	        	type : 'POST',
+	        	dataType:"json",
+	        	data : formData,
+	        	contentType : false,
+	            processData : false   
+	        }).done(function(data){
+	        	if(data){
+	        		alert("수정이 완료 되었습니다.")
+					location.href="/discussion/view?seq=${disDto.seq}"		
+	        	}
+	        });
+	
+			return false;
+			
 		}
 	})
 	
 	
-	$('#modifyForm').submit(function(){
-        var form = $('#modifyForm')[0];
-        var formData = new FormData(form);
-
-        $.ajax({
-        	url:"/discussion/modifyProc",
-        	type : 'POST',
-        	dataType:"json",
-        	data : formData,
-        	contentType : false,
-            processData : false   
-        }).done(function(data){
-        	if(data){
-        		alert("수정이 완료 되었습니다.")
-				location.href="/discussion/view?seq=${disDto.seq}"		
-        	}
-        });
-
-		return false;
-    });
-	
 })
-function textChk(thisVal){
+function textChk(thisVal, obj){
 	var replaceId  = /(script)/gi;
 	var textVal = thisVal;
     if (textVal.length > 0) {
         if (textVal.match(replaceId)) {
-        	textVal = thisVal.replace(replaceId, "");
+        	console.log(obj)
+        	if(obj.val().length){
+	        	obj.val("");
+	        	textVal = obj.val();
+        	}else{
+	        	obj.html("");
+	        	textVal = obj.val();
+        	}
         }
     }
     return textVal;

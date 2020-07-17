@@ -68,7 +68,10 @@ $(document).ready(function(){
     
     //tutor일때 튜터신청 이미 했다고 말해주려고
     $("#tutorApp").on("click", function(){
-
+    	if($(this).data("grade") == "tutor"){
+    		alert("이미 튜터입니다.");
+    		return false;
+    	}
     	$.ajax({
     		url: "/tutor/tutorTrue",
     		type: 'POST'

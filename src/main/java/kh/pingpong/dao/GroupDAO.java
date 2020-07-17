@@ -64,6 +64,7 @@ public class GroupDAO {
         } else {
         	gdto.setPeriod("단기");
         }
+        System.out.println(gdto.getWriter_id());
 
 		return mybatis.insert("Group.insert", gdto);
 	}

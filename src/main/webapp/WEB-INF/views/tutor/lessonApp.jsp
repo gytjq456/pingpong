@@ -17,6 +17,11 @@
 </style>
 <script>
 	$(function() {
+		$("input, textarea").blur(function(){
+			var thisVal = $(this).val();
+			$(this).val(textChk(thisVal));
+		})
+		
 		$("#back").on("click", function(){
 			var result = confirm("강의 목록으로 돌아가시겠습니까?");
 			if(result){
@@ -217,6 +222,8 @@
 		$('#summernote').summernote({
 			height: 300,
 			lang: "ko-KR",
+			codeviewFilter: false,
+			codeviewIframeFilter: true,
 			callbacks:{
 				onImageUpload : function(files){
 					uploadSummernoteImageFile(files[0],this);

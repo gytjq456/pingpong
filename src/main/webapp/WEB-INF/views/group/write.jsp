@@ -12,7 +12,7 @@
 	.vertical_top{vertical-align: top; margin-top: 3px;}
 	#hobby_type{display: none;}
 	#map{margin-top: 10px;}
-	#writeProc .wordsize { float: right; transform: translate(-15px, -70px); color: #999; }
+	#writeProc .wordsize { float: right; transform: translate(-15px, -70px); color: #999; margin:0;}
 	#find_group_write #title { padding-right: 76px; }
 </style>
 <script>

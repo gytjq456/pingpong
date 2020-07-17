@@ -65,6 +65,10 @@
 			}
 		})
 		
+		$('#groupApplyManage').on('click', function(){
+			location.href = '/mypage/groupRecord';
+		})
+		
 		var checkLike = ${checkLike};
 		if (checkLike) {
 			$('#like').css('color', '#3162a4');

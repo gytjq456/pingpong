@@ -230,12 +230,14 @@ public class AdminController {
 	public String tutorAppUpdate(int seq, String id, Model model) {
 		aservice.updateTutorApp(seq, id);
 		
-		String loginId = ((MemberDTO)session.getAttribute("loginInfo")).getId();
-		
-		if (loginId.contentEquals(id) ) {
-			MemberDTO mdto = aservice.memberView(id);
-			System.out.println(mdto.getId());
-			session.setAttribute("loginInfo", mdto);
+		if (session.getAttribute("loginInfo") != null) {
+			String loginId = ((MemberDTO)session.getAttribute("loginInfo")).getId();
+			
+			if (loginId.contentEquals(id) ) {
+				MemberDTO mdto = aservice.memberView(id);
+				System.out.println(mdto.getId());
+				session.setAttribute("loginInfo", mdto);
+			}
 		}
 		
 		model.addAttribute("seq", seq);
@@ -347,8 +349,8 @@ public class AdminController {
 	
 	// 강의 삭제 승인
 	@RequestMapping("/deleteAppLesson")
-	public String deleteAppLesson(int seq) {
-		aservice.deleteApplyLesson(seq);
+	public String deleteAppLesson(int seq, int parent_seq) {
+		aservice.deleteApplyLesson(seq, parent_seq);
 		return "redirect:/admins/lessonDelList";
 	}
 	

@@ -217,6 +217,15 @@ $(function(){
 			return false;
 		}
 		
+		//프로필 용량
+		var limit = 1024*1024*5;
+		if(limit < profile[0].files[0].size){
+			alert("파일용량 5MB을 초과했습니다. 다른 파일로 변경해주세요");
+			profile.val("");
+			$('#profile').focus();
+			return false;
+		}
+		
 		//나라
 		if(country == "null"){
 			alert("나라를 선택해주세요.");

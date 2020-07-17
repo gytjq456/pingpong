@@ -119,7 +119,7 @@
 							<div class="news_write_sub">
 								<div class="tit_s3 f_all">
 									<h4>첨부파일</h4>
-									<ul>
+									<ul id ="fileSpace">
 										<c:forEach items="${files}" var="i">
 											<li>
 												<div style="margin-bottom:10px;">

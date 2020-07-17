@@ -86,7 +86,7 @@ $(function(){
 	$("#addFile").click(function(){		
 		if(countf<3){
 			$("#fileSpace").append(
-					"<div class='file_box'><input type='file' name='filesAll' class='files, fileDelete'> <button type='button' class='minus'>-</button></div>"
+					"<div class='file_box'><input type='file' id='file"+countf+"' name='filesAll' class='files fileDelete'> <button type='button' class='minus'>-</button></div>"
 			);
 			++countf;
 		}else{
@@ -119,22 +119,20 @@ $(function(){
 	});
 	
 	//파일 첨부한거 지우기 / 사이즈도 같이지우기
-	$("#fileSpace").on("click",".fileDelete", function(e){
-		console.log($(this).val() + "??");
-		
-		console.log($(this).siblings());
-		var f = ($(this).siblings())[0].files[0];
-			
-		/* console.log(($(this).siblings())[0].files[0]); */
-		if(f==null){
-			$(this).parent().remove();
-		}else{
-			var size = f.size || f.fileSize;
-			totalSize = totalSize-size;
-			console.log(totalSize);
-			$(this).parent().remove();
-		}
-
+	$("#fileSpace").on('click','.minus',function(e){
+		 var f = $(this).prev()[0].files[0];
+		 
+		 if(f==null){
+				$(this).parent().remove();
+				return false;
+				
+			}else{
+				var size = f.size || f.fileSize;
+				totalSize = totalSize-size;
+				console.log(totalSize);
+				$(this).parent().remove();
+				return false;
+			}
 	});
 	
 	//보내기 전에 용량 체크
@@ -164,16 +162,35 @@ $(function(){
 			return false;
 		}
 		
+		//프로필 확장자 체크
+		if(!/\.(gif|jpg|jpeg|png)$/i.test(thumbnail.val())){
+			alert("확장자 확인 하기 " + thumbnail.val());
+			alert('gif, jpg, png 파일만 선택해 주세요.\n\n현재 파일 : ' + thumbnail.val());
+			thumbnail.focus();
+			return false;
+		}
+		
+		//프로필 넣었는지 안넣었는지
 		if(thumbnail.val() == ""){
 			alert("썸네일을 입력해주세요");
 			$('#thumbnail').focus();
 			return false;
 		}
 		
+		//프로필 용량
+		var limit = 1024*1024*5;
+		if(limit < thumbnail[0].files[0].size){
+			alert("파일용량 5MB을 초과했습니다. 다른 파일로 변경해주세요");
+			thumbnail.val("");
+			return false;
+		}
+		
 		//파일 용량 체크
-		/*var limit = 1024*1024*5;
-		alert(limit)*/
-		alert(totalSize);
+		var limit = 1024*1024*5;
+		if(limit < totalSize){
+			alert("파일용량 5MB을 초과했습니다. 파일을 삭제해주세요");
+			return false;
+		}
 		if(thumbnail == ""){
 			alert("썸네일을 입력해주세요");
 			thumbnail.focus();

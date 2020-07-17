@@ -212,6 +212,15 @@ $(function() {
 			return false;
 		}
 		
+		//프로필 용량
+		var limit = 1024*1024*5;
+		if(limit < profile[0].files[0].size){
+			alert("파일용량 5MB을 초과했습니다. 다른 파일로 변경해주세요");
+			profile.val("");
+			$('#profile').focus();
+			return false;
+		}
+		
 		$.ajax({
 			type : "post",
 			url : "/member/myInfoProfile",

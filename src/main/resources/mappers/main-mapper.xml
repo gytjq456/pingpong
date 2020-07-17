@@ -8,7 +8,7 @@
 		select * from ( select g.writer_id,g.title, g.contents, g.start_date, g.end_date, m.profile, row_number() over(order by seq desc) rnum 
 		from grouplist g inner join member m
         on g.writer_id = m.id
-        where <![CDATA[start_date < #{value} and #{value} < end_date]]> ) <![CDATA[where rnum <= 2]]>
+        where <![CDATA[start_date <= #{value} and #{value} <= end_date]]> ) <![CDATA[where rnum <= 2]]>
 	</select>
 
 	

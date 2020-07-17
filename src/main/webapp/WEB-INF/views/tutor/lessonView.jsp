@@ -559,12 +559,18 @@ $(function(){
 									</c:forEach>
 
 								</div>
-								<div class="btnS1 right">
-									<div><input type="submit" value="작성" class="on"></div>
-									<div>
-										<input type="reset" value="취소">
-									</div>
-								</div>								
+								<c:forEach var="i" items="${tuteeList }">
+									<c:choose>
+										<c:when test="${sessionScope.loginInfo.id ==i.id || sessionScope.loginInfo.id == ldto.id}">
+											<div class="btnS1 right">
+												<div><input type="submit" value="작성" class="on"></div>
+												<div>
+													<input type="reset" value="취소">
+												</div>
+											</div>					
+										</c:when>
+									</c:choose>
+								</c:forEach>	
 							</form>
 						</div>
 					</div>	

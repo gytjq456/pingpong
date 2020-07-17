@@ -92,7 +92,7 @@
 								<a href="#;">Guide</a>
 							</li>												
 							<li>
-								<a href="#;">Developer</a>
+								<a href="/developer/list">Developer</a>
 							</li>												
 						</ul>
 					</div>

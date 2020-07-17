@@ -19,7 +19,7 @@
 		select * from ( select l.id,l.title, l.curriculum, l.start_date, l.end_date, m.profile, row_number() over(order by seq desc) rnum 
 		from lesson l inner join member m
         on l.id = m.id
-        where <![CDATA[start_date < #{value} and #{value} < end_date]]> ) <![CDATA[where rnum <= 2]]>
+        where <![CDATA[start_date <= #{value} and #{value} <= end_date]]> ) <![CDATA[where rnum <= 2]]>
 	</select>
 	
 	

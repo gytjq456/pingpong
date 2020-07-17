@@ -1,15 +1,13 @@
 package kh.pingpong.service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import kh.pingpong.controller.FileController;
 import kh.pingpong.dao.MemberDAO;
+import kh.pingpong.dao.PartnerDAO;
 import kh.pingpong.dto.BankDTO;
 import kh.pingpong.dto.CountryDTO;
 import kh.pingpong.dto.FileDTO;
@@ -22,6 +20,9 @@ public class MemberService {
 	
 	@Autowired
 	MemberDAO mdao = new MemberDAO();
+	
+	@Autowired
+	PartnerDAO pdao = new PartnerDAO();
 	
 	public List<BankDTO> bankList() throws Exception{
 		return mdao.bankList();
@@ -96,6 +97,7 @@ public class MemberService {
 	@Transactional("txManager")
 	public int memWithdrawal(MemberDTO mdto) throws Exception{
 		mdao.memProfileDele(mdto);
+		pdao.deletePartner(mdto);
 		return mdao.memWithdrawal(mdto);
 	}
 	

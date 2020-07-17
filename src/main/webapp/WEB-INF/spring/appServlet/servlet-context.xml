@@ -113,9 +113,9 @@
 	</aop:config>
 	
 	<aop:config>
-		<aop:pointcut expression="execution(* kh.pingpong.controller.MemberController.myInfo(..))" id="mypage"/>
+		<aop:pointcut expression="execution(* kh.pingpong.controller.MemberController.myInfo(..))" id="myInfo"/>
 		<aop:aspect id="logCheck" ref="logaop">
-			<aop:around pointcut-ref="mypage" method="aroundBoardLog"/>
+			<aop:around pointcut-ref="myInfo" method="aroundBoardLog"/>
 		</aop:aspect>
 	</aop:config>	
 	

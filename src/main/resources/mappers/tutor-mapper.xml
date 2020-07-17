@@ -170,7 +170,7 @@
 			and ${keywordSelect} like '%${keyword}%'
 		</if>
 		<if test="end_date!=null">
-			and to_char(start_date) >= to_char(#{start_date}) and to_char(#{end_date}) >= to_char(end_date)
+			and start_date >= #{start_date} and #{end_date} >= end_date
 		</if>
 		<if test="location!=null">
 			and location like '%${location}%'

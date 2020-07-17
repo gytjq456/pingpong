@@ -3,7 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <jsp:include page="/WEB-INF/views/header.jsp" />
-
+<style>
+	.top .comment_declaration { position:absolute;right:30px; top:30px;}
+</style>
 
 <script>
 	$(function() {
@@ -175,7 +177,7 @@
 		<article id="discussion_view"
 			class="viewPage_style1 inner1200 clearfix">
 			<div class="body_left">
-				<div class="card_body">
+				<div class="card_body top">
 					<div class="title">${dto.title}</div>
 					<div class="userInfo_s1">
 						<div class="thumb">
@@ -270,8 +272,9 @@
 														data-parent_seq="${u.parent_seq}" data-seq="${u.comm_seq}">댓글삭제</button>
 												</li>
 												<li>
-													<button class="comment_like" data-seq="${u.comm_seq}">좋아요
-														:${u.like_count}</button>
+													<button class="comment_like" data-seq="${u.comm_seq}">좋아요 ${u.like_count}</button>
+												</li>
+												<li>
 													<button type="button" class="comment_declaration report"
 														class="comment_report" data-thisSeq="${u.comm_seq}"
 														data-seq="${dto.seq}" data-id="${u.id}"
@@ -306,12 +309,11 @@
 										<div class="countList">
 											<ul>
 												<li>
-													<button class="comment_delete normal"
-														data-parent_seq="${i.parent_seq}" data-seq="${i.comm_seq}">댓글삭제</button>
+													<button class="comment_delete normal" data-parent_seq="${i.parent_seq}" data-seq="${i.comm_seq}">댓글삭제</button>
 												</li>
 												<li>
-													<button class="comment_like" data-seq="${i.comm_seq}">좋아요
-														:${i.like_count}</button>
+													<button class="comment_like" data-seq="${i.comm_seq}">좋아요 ${i.like_count}</button>												</li>
+												<li>
 													<button type="button" class="comment_declaration report"
 														class="comment_report" data-thisSeq="${i.comm_seq}"
 														data-seq="${dto.seq}" data-id="${i.id}"

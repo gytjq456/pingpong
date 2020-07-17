@@ -67,7 +67,7 @@ input:read-only {background-color: #e4e4e4;color:#a9a9a9;}
 #updateProc #location_lng { display: none; }
 
 /* 그룹 게시판 리스트 */
-.card_body:after { content:""; display:block; clear:both; }
+.card_body:after { content:""; display:block; clear:both;  }
 .back_and_wrap { position: relative; width: 23.5%; float:left;  margin-right:2%; margin-top: 35px; }
 .back_and_wrap:first-child,
 .back_and_wrap:nth-child(2),
@@ -201,7 +201,7 @@ width:-webkit-calc(100% - 108px);
 
 
 /* 토론 게시판 리스트 */
-.card_body { background:#fff; box-shadow: 0 7px 25px 0 rgba(0,0,0,0.1); border-radius:6px; padding:30px; margin-bottom:20px; margin-top:20px;}
+.card_body { background:#fff; box-shadow: 0 7px 25px 0 rgba(0,0,0,0.1); border-radius:6px; padding:30px; margin-bottom:20px; margin-top:20px;position:relative;}
 .card_body:last-child { margin-bottom:0; }
 #listStyle1 a {color:#777; }
 #listStyle1 > section { border-bottom:1px solid #ddd; padding-bottom:30px; margin-bottom:30px;}
@@ -475,7 +475,7 @@ textarea { resize:none; height:120px; line-height:1.6;}
 .comment_wrap .comment_list .cont {   }
 .comment_wrap .comment_list .cont .contents { margin:0 0 20px; border-top:none; padding-top:0; word-break:break-all;}
 .comment_wrap .comment_list button {background:none; border-radius:6px; padding:0 10px; height:32px; line-height:32px; transition:all 0.5s; border:1px solid #ddd; }
-.comment_wrap .comment_list button.comment_declaration { background:#fbaab0; color:#fff; border:none; }
+button.comment_declaration { background:#fbaab0 !important; border-radius:6px; padding:0 10px; height:32px; line-height:32px; transition:all 0.5s; border:none; color:#fff;}
 
 
 .comment_write { }

@@ -122,6 +122,7 @@
 												<td>${telist.language}</td>
 												<td>${telist.start_date}~${telist.end_date}</td>
 												<td>${telist.location}</td>
+
 												<td><input type="button" class="refund" value="강의 환불"></td>
 											</tr>
 										</c:forEach>

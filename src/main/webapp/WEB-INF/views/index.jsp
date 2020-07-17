@@ -17,7 +17,7 @@
                 </article>
                 <article class="item item2">
 					<div class="txt_box">
-		                <h2>현재 접속한 파트너를 만나보세요 </h2>
+		                <h2>파트너를 만나보세요 </h2>
 		                <a href="/partner/partnerList?align=recent">바로가기</a>
 		            </div>
                 </article>
@@ -102,7 +102,7 @@
 	</div>
 	
 	
-	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=cb57281667e3a6a69eb9d73a89f1f42f"></script>
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=033532d2fa35e423d2d5e723c0bfd1fe"></script>
 	<script>
 		new sojaeji('sido1', 'gugun1');
 		$("#sido1 option:eq(1)").attr("selected", "selected");

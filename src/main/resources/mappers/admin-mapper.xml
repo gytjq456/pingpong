@@ -211,7 +211,7 @@
 	
 	<!-- 강의 삭제 승인(lesson delete) -->
 	<delete id="deleteApplyLesson">
-		delete lesson where seq = #{seq}
+		delete lesson where seq = #{value}
 	</delete>
 	
 	<!-- 신고 승인(pass update) -->
@@ -268,6 +268,15 @@
 			#{eachValue}
 		</foreach>
 	</update>
+	
+	<!-- 여러 강의 삭제 신청 승인 -->
+	<delete id="acceptAllLessonDel">
+		delete lesson where seq in (select parent_seq from delete_app where seq in
+		<foreach collection="valueList" item="eachValue" open="(" close=")" separator=", ">
+			#{eachValue}
+		</foreach>
+		)
+	</delete>
 	
 	<!-- 튜터 신청 아이디 셀렉트 -->
 	<select id="getIdFromTutorApp" resultType="String">

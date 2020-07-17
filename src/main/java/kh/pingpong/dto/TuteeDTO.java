@@ -13,7 +13,6 @@ public class TuteeDTO {
    private String bank_name;
    private int price;
    private String account;
-   private MultipartFile profile;
    private String title;
    private String address;
    private String cancle;
@@ -27,8 +26,8 @@ public class TuteeDTO {
    }
 
 public TuteeDTO(int seq, String id, String name, String email, String phone_country, String phone, String bank_name,
-		int price, String account, MultipartFile profile, String title, String address, String cancle, int refundPrice,
-		int parent_seq, String sysname) {
+		int price, String account, String title, String address, String cancle, int refundPrice, int parent_seq,
+		String sysname) {
 	super();
 	this.seq = seq;
 	this.id = id;
@@ -39,7 +38,6 @@ public TuteeDTO(int seq, String id, String name, String email, String phone_coun
 	this.bank_name = bank_name;
 	this.price = price;
 	this.account = account;
-	this.profile = profile;
 	this.title = title;
 	this.address = address;
 	this.cancle = cancle;
@@ -120,14 +118,6 @@ public void setAccount(String account) {
 	this.account = account;
 }
 
-public MultipartFile getProfile() {
-	return profile;
-}
-
-public void setProfile(MultipartFile profile) {
-	this.profile = profile;
-}
-
 public String getTitle() {
 	return title;
 }
@@ -175,7 +165,7 @@ public String getSysname() {
 public void setSysname(String sysname) {
 	this.sysname = sysname;
 }
-   
+
    
 
 }

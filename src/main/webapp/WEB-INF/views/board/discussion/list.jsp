@@ -47,6 +47,7 @@
 					$("#keyword_input").val("");		
 					location.href = "/discussion/list?cpage=1"
 				}else{
+					$("#keyword_input").attr("placeholder","검색어를 입력해주세요.")
 					$("#keyword_input").removeAttr("readonly"); 
 				}
 			})
@@ -93,7 +94,7 @@
 									
 									<c:choose>
 										<c:when test="${empty keyword}">
-											<input type="text" name="keyword" id="keyword_input" placeholder="검색어를 입력하세요." readonly>
+											<input type="text" name="keyword" id="keyword_input" placeholder="카테고리 선택후 검색해주세요." readonly>
 										</c:when>
 										<c:otherwise>
 											<input type="text" name="keyword" id="keyword_input" placeholder="검색어를 입력하세요." value="${keyword}">

@@ -1,5 +1,7 @@
 //글쓰기 페이지
 $(function(){
+	var totalSize=0;
+	
 	/** 타이틀 숫자 카운트 **/
 	$("#title").keyup(function(e){
 		var word = $("#title").val();
@@ -84,7 +86,7 @@ $(function(){
 	$("#addFile").click(function(){		
 		if(countf<3){
 			$("#fileSpace").append(
-					"<div class='file_box'><input type='file' name='files' class='files'> <button type='button' class='minus'>-</button></div>"
+					"<div class='file_box'><input type='file' id='file"+countf+"' name='filesAll' class='files fileDelete'> <button type='button' class='minus'>-</button></div>"
 			);
 			++countf;
 		}else{
@@ -95,6 +97,105 @@ $(function(){
 	$("#fileSpace").on("click",".minus",function(){
 		$(this).parent().css('display','none');
 		--countf;
+	});
+	
+	//첨부파일 용량 제한하기
+	$("#fileSpace").on('change','input[type=file]',function(e){
+		alert($(this).val());
+		
+		if(!$(this).val()) {return false};
+		var f = this.files[0];
+		
+		var size = f.size || f.fileSize;
+		console.log(f.size + ":" +f.fileSize);
+		var limit = 1024*1024*5; //바이트
+		if(size > limit){
+			alert("파일용량 5MB을 초과했습니다.");
+			$(this).val("");
+			return false;
+		}
+		totalSize = totalSize+size;
+		console.log(totalSize);
+	});
+	
+	//파일 첨부한거 지우기 / 사이즈도 같이지우기
+	$("#fileSpace").on('click','.minus',function(e){
+		 var f = $(this).prev()[0].files[0];
+		 
+		 if(f==null){
+				$(this).parent().remove();
+				return false;
+				
+			}else{
+				var size = f.size || f.fileSize;
+				totalSize = totalSize-size;
+				console.log(totalSize);
+				$(this).parent().remove();
+				return false;
+			}
+	});
+	
+	//보내기 전에 용량 체크
+	$("#writeForm").submit(function(){
+		
+		var title = $("#title")
+		var category = $('#category')
+		var contents = $("#contents")
+		var thumbnail = $("#thumbnail")
+
+		
+		if(title.val() == ""){
+			alert("제목을 입력해주세요");
+			$("#title").focus();
+			return false;
+		}
+		
+		if(category.val() == ""){
+			alert("카테고리를 입력해주세요");
+			$('#category').focus();
+			return false;
+		}
+		
+		if(contents.val() == ""){
+			alert("내용를 입력해주세요");
+			$('div.note-editable').focus();
+			return false;
+		}
+		
+		//프로필 확장자 체크
+		if(!/\.(gif|jpg|jpeg|png)$/i.test(thumbnail.val())){
+			alert("확장자 확인 하기 " + thumbnail.val());
+			alert('gif, jpg, png 파일만 선택해 주세요.\n\n현재 파일 : ' + thumbnail.val());
+			thumbnail.focus();
+			return false;
+		}
+		
+		//프로필 넣었는지 안넣었는지
+		if(thumbnail.val() == ""){
+			alert("썸네일을 입력해주세요");
+			$('#thumbnail').focus();
+			return false;
+		}
+		
+		//프로필 용량
+		var limit = 1024*1024*5;
+		if(limit < thumbnail[0].files[0].size){
+			alert("파일용량 5MB을 초과했습니다. 다른 파일로 변경해주세요");
+			thumbnail.val("");
+			return false;
+		}
+		
+		//파일 용량 체크
+		var limit = 1024*1024*5;
+		if(limit < totalSize){
+			alert("파일용량 5MB을 초과했습니다. 파일을 삭제해주세요");
+			return false;
+		}
+		if(thumbnail == ""){
+			alert("썸네일을 입력해주세요");
+			thumbnail.focus();
+			return false;
+		}
 	});
 	
 });

@@ -16,27 +16,25 @@
 				}
 			}
 		});
-		
-		
-		$("input,textarea").blur(function(){
+
+		$("input,textarea").blur(function() {
 			var thisVal = $(this).val();
 			$(this).val(textChk(thisVal));
 		})
 
 	})
-	
-	
-	function textChk(thisVal){
-	var replaceId  = /(script)/gi;
-	var textVal = thisVal;
-    if (textVal.length > 0) {
-        if (textVal.match(replaceId)) {
-        	textVal = thisVal.replace(replaceId, "");
-        }
-    }
-    return textVal;
-}
-	
+
+	function textChk(thisVal) {
+		var replaceId = /(script)/gi;
+		var textVal = thisVal;
+		if (textVal.length > 0) {
+			if (textVal.match(replaceId)) {
+				textVal = thisVal.replace(replaceId, "");
+			}
+		}
+		return textVal;
+	}
+
 	function uploadSummernoteImageFile(file, editor) {
 		data = new FormData();
 		data.append("file", file);
@@ -47,7 +45,6 @@
 			contentType : false,
 			processData : false,
 			success : function(data) {
-				//항상 업로드된 파일의 url이 있어야 한다.
 				console.log(data)
 				$(editor).summernote('insertImage', data.url);
 			}
@@ -64,17 +61,18 @@
 			</div>
 			<div class="card_body">
 				<form action="/correct/writeProc" method="post">
-					<input type="hidden" value="${sessionScope.loginInfo.id}" name="writer">
-					<input type="hidden" value="한국어" name="language">
-					<input type="hidden" value="${loginInfo.sysname}" name="thumNail">
-					
+					<input type="hidden" value="${sessionScope.loginInfo.id}"
+						name="writer"> <input type="hidden" value="한국어"
+						name="language"> <input type="hidden"
+						value="${loginInfo.sysname}" name="thumNail">
+
 					<section>
 						<div class="tit_s3">
 							<h4>제목</h4>
 						</div>
-						 <input type="text" name="title" required>
+						<input type="text" name="title" required>
 					</section>
-					
+
 					<section>
 						<div class="tit_s3">
 							<h4>카테고리</h4>
@@ -90,15 +88,16 @@
 						</div>
 						<textarea id="summernote" name="contents"></textarea>
 					</section>
-					<!--  -->
-				
+
 					<div class="btnS1 right">
 						<div>
-							<input type="submit" value="등록"> 
+							<input type="submit" value="등록">
 						</div>
-						<div><a href="javascript:window.history.back();">돌아가기</a></div>
+						<div>
+							<a href="javascript:window.history.back();">돌아가기</a>
+						</div>
 					</div>
-						
+
 				</form>
 			</div>
 		</article>

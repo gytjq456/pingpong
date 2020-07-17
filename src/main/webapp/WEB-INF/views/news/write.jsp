@@ -29,7 +29,7 @@
 								<div class="tit_s3">
 									<h4>유형</h4>
 								</div>
-								<select id="category" name="category" id="category">
+								<select id="category" name="category" >
 									<option value=""> 유형 선택 </option>
 									<option value="세미나">세미나</option>
 									<option value="공모전">공모전</option>

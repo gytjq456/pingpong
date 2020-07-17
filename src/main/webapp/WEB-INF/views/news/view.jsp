@@ -51,16 +51,15 @@
 									<img src="/upload/news/thumbnail/${ndto.thumbnail_img}" alt="이미지">
 								</div>
 								<div class="textbox">
-									<h3 class="se_top">
+									<div class="se_top">
 										<div class="title">${ndto.title}</div>
 										<div class="writer">
 											${ndto.writer}<span class="stick">|</span>${ndto.write_date_st}
 											<ul class="count_news_eye">
-												<li><i class="fa fa-eye"></i> 1</li>
-												<li><i class="fa fa-commenting-o" aria-hidden="true"></i> 0</li>
+												<li><i class="fa fa-eye"></i>${ndto.view_count}</li>
 											</ul>
 										</div>
-									</h3>
+									</div>
 									<ul class="tb_se">
 										<li>
 											<ul>
@@ -73,7 +72,14 @@
 										<li>
 											<ul>
 												<li>행사기간</li>
-												<li>${ndto.start_date} ~ ${ndto.end_date}</li>
+												<c:choose>
+													<c:when test="${not empty ndto.start_date || not empty ndto.start_date}">
+														<li>${ndto.start_date} ~ ${ndto.end_date}</li>
+													</c:when>
+													<c:otherwise>
+														<li>&nbsp;</li>
+													</c:otherwise>
+												</c:choose>
 											</ul>
 										</li>
 									</ul>
@@ -81,7 +87,14 @@
 										<li>
 											<ul>
 												<li>행사장소</li>
-												<li>${ndto.location}</li>
+												<c:choose>
+													<c:when test="${not empty ndto.location}">
+														<li>${ndto.location}</li>
+													</c:when>
+													<c:otherwise>
+														<li>&nbsp;</li>
+													</c:otherwise>
+												</c:choose>
 											</ul>
 										</li>
 									</ul>
@@ -91,7 +104,7 @@
 												<li>첨부파일</li>
 												<li>
 													<c:forEach items="${files}" var="i">
-														<a href="/file/downloadFile?seq=${ndto.seq}&files_name=${i.oriname}" class="downloadF">
+														<a href="/file/downloadFile?seq=${ndto.seq}&files_name=${i.sysname}" class="downloadF">
 															${i.oriname}
 														</a>
 													</c:forEach>

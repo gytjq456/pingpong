@@ -204,8 +204,8 @@ public class AdminDAO {
 	}
 	
 	// 강의 삭제 승인
-	public int deleteApplyLesson(int seq) {
-		return mybatis.delete("Admin.deleteApplyLesson", seq);
+	public int deleteApplyLesson(int parent_seq) {
+		return mybatis.delete("Admin.deleteApplyLesson", parent_seq);
 	}
 	
 	// 신고 승인(reportlist 테이블 pass 컬럼)
@@ -246,6 +246,11 @@ public class AdminDAO {
 	// 체크박스로 여러 개 승인
 	public int acceptAll(Map<String, Object> param) {
 		return mybatis.update("Admin.acceptAll", param);
+	}
+	
+	// 체크박스로 여러 강의 삭제 승인
+	public int acceptAllLessonDel(Map<String, Object> param) {
+		return mybatis.delete("Admin.acceptAllLessonDel", param);
 	}
 	
 	// 튜터 신청 아이디 셀렉트

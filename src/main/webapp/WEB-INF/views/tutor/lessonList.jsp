@@ -3,7 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:include page="/WEB-INF/views/header.jsp" />
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=521d781cfe9fe7597693f2dc29a10601&libraries=services"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=033532d2fa35e423d2d5e723c0bfd1fe&libraries=services"></script>
+
 <style>
 /* .profile{width:50px; height:100px;}
 .wrapper{border: 1px solid black; float: left; width: 25%;}
@@ -95,19 +96,19 @@
 
 			//정렬까지
 			if(!schkey && !schSchedule && !schLocation && period=='applying'){
-				location.href="tutor/lessonListPeriod?&orderBy="+orderbyVal+"&period="+period;
+				location.href="/tutor/lessonListPeriod?orderBy="+orderbyVal+"&period="+period;
 			}
 			if(!schkey && !schSchedule && !schLocation && period=='proceeding'){
-				location.href="tutor/lessonListPeriod?&orderBy="+orderbyVal+"&period="+period;
+				location.href="/tutor/lessonListPeriod?orderBy="+orderbyVal+"&period="+period;
 			}
 			if(!schkey && !schSchedule && !schLocation && period=='done'){
-				location.href="tutor/lessonListPeriod?&orderBy="+orderbyVal+"&period="+period;
+				location.href="/tutor/lessonListPeriod?orderBy="+orderbyVal+"&period="+period;
 			}
 			
 			//검색하고 진행중/모집중/마감 하고 정렬까지
 			if(period == 'all'){
 				if(!schkey && !schSchedule && !schLocation){
-					location.href="tutor/lessonListPeriod?&orderBy="+orderbyVal+"&period=all";
+					location.href="/tutor/lessonListPeriod?orderBy="+orderbyVal+"&period=all";
 				}
 				if(schkey){
 					location.href="/tutor/searchKeword?schType=keyword&keywordSelect="+selectVal+"&keyword="+keywordVal+"&orderBy="+orderbyVal+"&period=all";
@@ -150,19 +151,19 @@
 			
 			//진행중/모집중/마감 만 눌렀을 때
 			if(!schkey && !schSchedule && !schLocation && period=='applying'){
-				location.href="tutor/lessonListPeriod?&orderBy="+orderbyVal+"&period="+period;
+				location.href="/tutor/lessonListPeriod?orderBy="+orderbyVal+"&period="+period;
 			}
 			if(!schkey && !schSchedule && !schLocation && period=='proceeding'){
-				location.href="tutor/lessonListPeriod?&orderBy="+orderbyVal+"&period="+period;
+				location.href="/tutor/lessonListPeriod?orderBy="+orderbyVal+"&period="+period;
 			}
 			if(!schkey && !schSchedule && !schLocation && period=='done'){
-				location.href="tutor/lessonListPeriod?&orderBy="+orderbyVal+"&period="+period;
+				location.href="/tutor/lessonListPeriod?orderBy="+orderbyVal+"&period="+period;
 			}
 			
 			//검색하고 진행중/모집중/마감 눌렀을 때
 			if(period == 'all'){
 				if(!schkey && !schSchedule && !schLocation){
-					location.href="tutor/lessonListPeriod?&orderBy="+orderbyVal+"&period=all";
+					location.href="/tutor/lessonListPeriod?orderBy="+orderbyVal+"&period=all";
 				}
 				if(schkey){
 					location.href="/tutor/searchKeword?schType=keyword&keywordSelect="+selectVal+"&keyword="+keywordVal+"&orderBy="+orderbyVal+"&period=all";
@@ -196,6 +197,9 @@
 			//조회순 최신순 ...
 			var orderbyVal = $("#orderBy").val();
 			
+			if(keywordVal=="" || keywordVal==" "){
+				alert("검색어를 입력해주세요");
+			}
 			location.href="/tutor/searchKeword?schType=keyword&keywordSelect="+selectVal+"&keyword="+keywordVal+"&orderBy="+orderbyVal+"&period=all";
 		})
 		
@@ -204,6 +208,14 @@
 			var orderByVal = $('#orderBy').val();
 			var start_dateVal = $("#start_date").val();
 			var end_dateVal = $("#end_date").val();
+			
+			if(start_dateVal==""){
+				alert("시작기간을 설정해주세요");
+			}
+			else if(end_dateVal==""){
+				alert("마감기간을 설정해주세요");
+			}
+			
 			location.href="/tutor/searchDate?schType=schedule&start_date="+start_dateVal+"&end_date="+end_dateVal+"&orderBy="+orderByVal+"&period=all";
 		})
 		
@@ -281,7 +293,7 @@
 								<label for="start_date" class="calendar_icon"> 
 									<i class="fa fa-calendar" aria-hidden="true"></i>
 								</label>
-								<input type="text" id="start_date" name="start_date" size="12">
+								<input type="text" id="start_date" name="start_date" size="12" readonly>
 								</p>
 								<p>
 									<span class="between_calendar">~</span>
@@ -290,7 +302,7 @@
 									<label for="end_date" class="calendar_icon"> 
 										<i class="fa fa-calendar" aria-hidden="true"></i>
 									</label>
-									<input type="text" id="end_date" name="end_date" size="12"> 
+									<input type="text" id="end_date" name="end_date" size="12" readonly> 
 								</p>
 							</div>
 						</div>

@@ -66,14 +66,7 @@
 				return false;
 			})
 			
-			// 댓글 좋아요, 싫어요 증가
-			var comment_likeBtn = $(".comment_likeBtn");
-			var comment_hateBtn = $(".comment_hateBtn");
-			var discussion_likeBtn = $(".discussion_likeBtn");
-			likeHateCount(comment_likeBtn,"/discussion/commentLike","토론 댓글");
-			likeHateCount(comment_hateBtn,"/discussion/commentHate","토론 댓글");
-			likeHateCount(discussion_likeBtn,"/discussion/like","토론 게시글");
-			console.log(likeHateCount);
+			
 			
 			// 댓글 삭제
 			$(".comment_delete").click(function(){
@@ -219,8 +212,30 @@
 					$(this).addClass("checkOn")
 				}
 			})
+			
+			
+			// 댓글 작성중 취소후 글자수 0으로 바꾸기
+			$("input[type='reset']").click(function(){
+				$(".wordsize .current").text("0");
+			})
+			
+			$("input,textarea").blur(function(){
+				var thisVal = $(this).val();
+				$(this).val(textChk(thisVal));
+			})			
+		// 댓글 좋아요, 싫어요 증가
+			var comment_likeBtn = $(".comment_likeBtn");
+			var comment_hateBtn = $(".comment_hateBtn");
+			var discussion_likeBtn = $(".discussion_likeBtn");
+			likeHateCount(comment_likeBtn,"/discussion/commentLike","토론 댓글");
+			likeHateCount(comment_hateBtn,"/discussion/commentHate","토론 댓글");
+			likeHateCount(discussion_likeBtn,"/discussion/like","토론 게시글");
+			console.log(likeHateCount);
 		})
 
+		
+			
+			
 		function likeHateCount(btn, url,category) {
 			btn.click(function() {
 				var seq = $(this).data("seq");
@@ -253,6 +268,17 @@
 					location.href = "/discussion/view?seq=${disDto.seq}"
 				})
 			})
+		}
+		
+		function textChk(thisVal){
+			var replaceId  = /(script)/gi;
+			var textVal = thisVal;
+		    if (textVal.length > 0) {
+		        if (textVal.match(replaceId)) {
+		        	textVal = thisVal.replace(replaceId, "");
+		        }
+		    }
+		    return textVal;
 		}
 		
 		
@@ -372,9 +398,11 @@
 													<li>
 														<button class="comment_declaration report" data-thisSeq="${i.seq}" data-seq="${disDto.seq}" data-id="${i.id}" data-url="/discussion/report" data-proc="/discussion/reportProc"><i class="fa fa-bell color_white" aria-hidden="true"></i> 신고하기</button>
 													</li>
-													<li>
-														<button class="comment_delete normal" data-seq="${i.seq}" data-parent_seq="${disDto.seq}">댓글삭제</button>
-													</li>
+													<c:if test="${loginInfo.id == i.id}">
+														<li>
+															<button class="comment_delete normal" data-seq="${i.seq}" data-parent_seq="${disDto.seq}">댓글삭제</button>
+														</li>
+													</c:if>
 												</ul>
 											</div>
 										</div>
@@ -412,9 +440,11 @@
 													<li>
 														<button class="comment_declaration report" data-thisSeq="${i.seq}" data-seq="${disDto.seq}" data-id="${i.id}" data-url="/discussion/report" data-proc="/discussion/reportProc"><i class="fa fa-bell color_white" aria-hidden="true"></i> 신고하기</button>
 													</li>
-													<li>
-														<button class="comment_delete normal" data-seq="${i.seq}"  data-parent_seq="${disDto.seq}">댓글삭제</button>
-													</li>
+													<c:if test="${loginInfo.id == i.id}">
+														<li>
+															<button class="comment_delete normal" data-seq="${i.seq}"  data-parent_seq="${disDto.seq}">댓글삭제</button>
+														</li>
+													</c:if>
 												</ul>
 											</div>
 										</div>

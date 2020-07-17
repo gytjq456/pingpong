@@ -1,4 +1,4 @@
-0.<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
 <jsp:include page="/WEB-INF/views/header.jsp"/>
@@ -21,18 +21,19 @@ $(function(){
 	
 	$("input,textarea").blur(function(){
 		var thisVal = $(this).val();
-		$(this).val(textChk(thisVal));
+		$(this).val(textChk(thisVal,$(this)));
 	})
-/* 	$(".note-editable").blur(function(){
+ 	$(".note-editable").blur(function(){
 		var thisVal = $(this).html();
-		$(this).text(textChk(thisVal));
-	}); */
+		$(this).text(textChk(thisVal,$(this)));
+	});
 	
 	$("#writeForm").on("submit",function(){
 		var titleVal = titleObj.val();
 		var cautionVal = cautionObj.val();
 		var noteObj = $(".note-editable");
-	
+		var replaceId  = /(script)/gi;
+		
 		if(titleVal.replace(/\s|　/gi, "").length == 0){
 			alert("제목을 입력해주세요.")
 			titleObj.val("");
@@ -55,12 +56,19 @@ $(function(){
 	})
 	
 })
-function textChk(thisVal){
+function textChk(thisVal, obj){
 	var replaceId  = /(script)/gi;
 	var textVal = thisVal;
     if (textVal.length > 0) {
         if (textVal.match(replaceId)) {
-        	textVal = thisVal.replace(replaceId, "");
+        	console.log(obj)
+        	if(obj.val().length){
+	        	obj.val("");
+	        	textVal = obj.val();
+        	}else{
+	        	obj.html("");
+	        	textVal = obj.val();
+        	}
         }
     }
     return textVal;

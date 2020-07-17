@@ -11,7 +11,7 @@
 			<div id="joinForm">
 				<div class="tit_s1">
 					<h2>MEMBER</h2>
-					<p>다양한 사람들을 원하시나요?<br>관심사가 비슷한 사람들과 함께 소통해 보세요.</p>
+					<p>회원가입</p>
 				</div>
 				<div class="formBox card_body">
 								    

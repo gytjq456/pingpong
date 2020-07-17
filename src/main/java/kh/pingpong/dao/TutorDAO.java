@@ -228,4 +228,9 @@ public class TutorDAO {
 	public int refundInsert(TuteeDTO ttdto) throws Exception{
 		return mybatis.update("Tutor.refundInsert", ttdto);
 	}
+	
+	//현재 강의 수강중인 튜티인원 뽑기
+	public List<TuteeDTO> tuteeList(int seq) throws Exception{
+		return mybatis.selectList("Tutor.tuteeList", seq);
+	}
 }

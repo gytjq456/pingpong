@@ -1,6 +1,7 @@
 package kh.pingpong.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,8 @@ import kh.pingpong.config.Configuration;
 import kh.pingpong.dao.CorrectDAO;
 import kh.pingpong.dto.CorrectDTO;
 import kh.pingpong.dto.Correct_CommentDTO;
+import kh.pingpong.dto.JjimDTO;
+import kh.pingpong.dto.LanguageDTO;
 import kh.pingpong.dto.LikeListDTO;
 import kh.pingpong.dto.ReportListDTO;
 
@@ -18,12 +21,14 @@ public class CorrectService {
 	@Autowired
 	private CorrectDAO dao;
 
-	//	@Transactional("txManager")
-	//	public void correctWrite(correct_dto dto) throws Exception{
-	//		dto.setSeq(cdao.getSeq());
-	//		cdao.insert(dto);
-	//		
-	//	}]
+	public List<LanguageDTO> langSelectlAll() throws Exception{
+		return dao.langSelectlAll();
+	}
+
+	public LanguageDTO langSelectlOne(String original_lang) throws Exception {
+		return dao.langSelectlOne(original_lang);
+	}
+
 	public int insert(CorrectDTO dto) throws Exception {
 		return dao.insert(dto);
 	}
@@ -65,26 +70,30 @@ public class CorrectService {
 		return dao.modify(dto);
 	}
 
-	public int like(LikeListDTO ldto) throws Exception {
-		return dao.like(ldto);
+	public int comment_like(LikeListDTO ldto) throws Exception {
+		return dao.comment_like(ldto);
 	}
 
-	public int likecancle(LikeListDTO ldto) throws Exception {
-		return dao.likecancle(ldto);
+	public int comment_likecancle(LikeListDTO ldto) throws Exception {
+		return dao.comment_likecancle(ldto);
 	}
 
-	public boolean LikeIsTrue(LikeListDTO ldto) throws Exception {
-		boolean result =dao.LikeIsTrue(ldto);
+	public boolean commentLikeIsTrue(Map<String, Object> param2) throws Exception {
+		boolean result =dao.comment_LikeIsTrue(param2);
 		return result;
 	}
 
-	public int likecount(LikeListDTO ldto) throws Exception {
-		return dao.likecount(ldto);
+	public int comment_likecount(LikeListDTO ldto) throws Exception {
+		return dao.comment_likecount(ldto);
 	}
 
 
 	public int countrep(Correct_CommentDTO cdto) throws Exception {
 		return dao.countrep(cdto);
+	}
+
+	public int countupdate(Correct_CommentDTO cdto) throws Exception {
+		return dao.countupdate(cdto);
 	}
 
 	public int delete(CorrectDTO dto) throws Exception {
@@ -95,20 +104,19 @@ public class CorrectService {
 	public int commentDelete(Correct_CommentDTO cdto) throws Exception{
 		return dao.commentDelete(cdto);
 	}
-	
+
 	public int selectReport(ReportListDTO rldto) {
 		return dao.selectReport(rldto);
 	}
 	public int insertReport(ReportListDTO rldto) {
 		return dao.insertReport(rldto);
 	}
-	
+
 	public int comment_report(ReportListDTO rldto) throws Exception{
 		int result = dao.comment_report(rldto);
 		return result;
 	}
-	
-	//신고테이블에 저장
+
 	public int comment_reportProc(ReportListDTO rldto) throws Exception{
 		int result = dao.comment_reportProc(rldto);
 		return result;
@@ -116,17 +124,16 @@ public class CorrectService {
 	public String correct_paging (int userCurrentPage) throws Exception {
 		int recordTotalCount = dao.correctcount(); 
 		System.out.println(recordTotalCount);
-		int pageTotalCount = 0; // 모든 페이지 개수
+		int pageTotalCount = 0;
 
 		if(recordTotalCount % 10 > 0) {
 			pageTotalCount = recordTotalCount / 10 + 1;
-			//게시글 개수를 페이지당 게시글로 나누어 나머지 값이 있으면 한 페이지를 더한다.
+
 		}else {
 			pageTotalCount = recordTotalCount / 10;
 		}
 
-		int currentPage = userCurrentPage;//현재 내가 위치한 페이지 번호.	클라이언트 요청값
-		//공격자가 currentPage를 변조할 경우에 대한 보안처리
+		int currentPage = userCurrentPage;
 		if(currentPage < 1) {
 			currentPage = 1;
 		}else if(currentPage > pageTotalCount) {
@@ -165,14 +172,12 @@ public class CorrectService {
 		return sb.toString();
 	}
 
-	
-	
-	// like count
-	public int likecountAdd(CorrectDTO dto) throws Exception{
-		return dao.likecountAdd(dto);
+	public int comment_like_update(int comm_seq) throws Exception {
+		return dao.comment_like_update(comm_seq);
 	}
-	public int likecountMinus(CorrectDTO dto) throws Exception{
-		return dao.likecountMinus(dto);
+	
+	public int comment_likecancle_update(int comm_seq) throws Exception {
+		return dao.comment_likecancle_update(comm_seq);
 	}
 
 }

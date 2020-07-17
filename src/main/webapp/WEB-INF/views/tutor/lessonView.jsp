@@ -506,12 +506,14 @@ $(function(){
 											<p class="userId">${loginInfo.id }</p>
 										</div>
 									</div>
-									<c:if test="${empty tuteeList}">
+									<c:choose>
+									<c:when test="${empty tuteeList}">
 										<div>
 											<textarea name="contents" id="textCont" class="not_member" placeholder="수강 학생만 작성할 수 있습니다." readonly></textarea>
 										</div>
-									</c:if>
-									
+									</c:when>
+									</c:choose>
+
 									<c:forEach var="i" items="${tuteeList }">
 										<c:choose>
 												<c:when test="${sessionScope.loginInfo.id !=i.id} || ${sessionScope.loginInfo.id != ldto.id}">
@@ -529,6 +531,7 @@ $(function(){
 									</c:forEach>
 
 								</div>
+								
 								<div class="btnS1 right">
 									<div><input type="submit" value="작성" class="on"></div>
 									<div>

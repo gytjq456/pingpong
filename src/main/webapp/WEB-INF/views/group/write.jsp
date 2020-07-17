@@ -17,21 +17,33 @@
 </style>
 <script>
 	$(function(){
-		$("input, textarea").blur(function(){
+		$("input,textarea").blur(function(){
 			var thisVal = $(this).val();
-			$(this).val(textChk(thisVal));
+			$(this).val(textChk(thisVal,$(this)));
 		})
+	 	$(".note-editable").blur(function(){
+			var thisVal = $(this).html();
+			$(this).text(textChk(thisVal,$(this)));
+		});
 		
-		function textChk(thisVal){
+		function textChk(thisVal, obj){
 			var replaceId  = /(script)/gi;
 			var textVal = thisVal;
 		    if (textVal.length > 0) {
 		        if (textVal.match(replaceId)) {
-		        	textVal = thisVal.replace(replaceId, "");
+		        	console.log(obj)
+		        	if(obj.val().length){
+			        	obj.val("");
+			        	textVal = obj.val();
+		        	}else{
+			        	obj.html("");
+			        	textVal = obj.val();
+		        	}
 		        }
 		    }
 		    return textVal;
 		}
+		
 		
 		$('#apply_start').datepicker({
 			dateFormat: 'yy-mm-dd',
@@ -105,6 +117,8 @@
 		$('#back').on('click', function(){
 			location.href = "/group/main?orderBy=seq&ing=all&schType=keyword";
 		})
+		
+		
 		
 		function uploadSummernoteImageFile(file, editor) {
 			data = new FormData();
@@ -229,6 +243,38 @@
 		function writeProc_func(){
 			var hobbyCheckLength = $("input:checkbox[name='hobby']").length;
 			var hobbyList = [];
+			
+			var chkLength = $("input[name='hobby']:checked").length;
+			if($("#title").val() == ""){
+				alert("제목을 입력해 주세요.")
+				$("#title").focus();
+				return false;
+			}			
+			if(chkLength == 0){
+				alert("유형을 1개이상 선택해 주세요.")
+				$("input[name='hobby']").focus();
+				return false;
+			}			
+			
+			if($("#apply_end").val() == "" || $("#start_date").val() == "" || $("#end_date").val() == ""){
+				alert("날짜를 입력해주세요.")
+				$("#apply_end").focus();
+				return false;
+			}
+			
+			if($("#max_num").val() == ""){
+				alert("인원 수를 입력해주세요.")
+				$("#max_num").focus();
+				return false;
+			}
+			
+			var noteObj = $(".note-editable");
+			if(noteObj.text().replace(/\s|　/gi, "").length == 0){
+				alert("내용을 입력해주세요.")
+				noteObj.text("");
+				noteObj.focus();
+				return false;
+			}
 			
 			for (var i = 0; i < hobbyCheckLength; i++) {
 				if ($("input:checkbox[name='hobby']:eq(" + i + ")").prop('checked') == true) {

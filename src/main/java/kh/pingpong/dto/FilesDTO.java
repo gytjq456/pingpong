@@ -3,34 +3,34 @@ package kh.pingpong.dto;
 import org.springframework.web.multipart.MultipartFile;
 
 public class FilesDTO {
-	private MultipartFile[] files;
-	private int[] fileSeq;
+	private MultipartFile[] filesAll;
+	private int[] fileAllSeq;
 	
+	public FilesDTO(MultipartFile[] filesAll, int[] fileAllSeq) {
+		super();
+		this.filesAll = filesAll;
+		this.fileAllSeq = fileAllSeq;
+	}
+
 	public FilesDTO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public FilesDTO(MultipartFile[] files, int[] fileSeq) {
-		super();
-		this.files = files;
-		this.fileSeq = fileSeq;
+	public MultipartFile[] getFilesAll() {
+		return filesAll;
 	}
 
-	public MultipartFile[] getFiles() {
-		return files;
+	public void setFilesAll(MultipartFile[] filesAll) {
+		this.filesAll = filesAll;
 	}
 
-	public void setFiles(MultipartFile[] files) {
-		this.files = files;
+	public int[] getFileAllSeq() {
+		return fileAllSeq;
 	}
 
-	public int[] getFileSeq() {
-		return fileSeq;
-	}
-
-	public void setFileSeq(int[] fileSeq) {
-		this.fileSeq = fileSeq;
+	public void setFileAllSeq(int[] fileAllSeq) {
+		this.fileAllSeq = fileAllSeq;
 	}
 	
 	

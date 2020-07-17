@@ -18,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import kh.pingpong.dao.FileDAO;
 import kh.pingpong.dto.FileDTO;
-import kh.pingpong.dto.FileTnDTO;
 import kh.pingpong.dto.FilesDTO;
 import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.dto.NewsDTO;
@@ -68,11 +67,10 @@ public class FileController {
 	}	
 	
 	/* news 썸네일 파일 업로드 */
-	public FileTnDTO newsFileOneInsert(NewsDTO ndto, FileTnDTO ftndto, String realPath) throws Exception{
+	public FileDTO newsFileOneInsert(NewsDTO ndto, FileDTO fdto, String realPath) throws Exception{
 		
 		MultipartFile thumbnail = ndto.getThumbnail();
 		
-		//System.out.println(realPath + " :: 리얼패스");
 		File filePath = new File(realPath);
 		
 		//폴더 존재여부
@@ -83,24 +81,22 @@ public class FileController {
 		//현재시간
 		String write_date = new SimpleDateFormat("YYYY-MM-dd-ss").format(System.currentTimeMillis());
 		
-		
-		System.out.println(thumbnail.getOriginalFilename());
 		/* 하드디스크 파일 업로드 */		
-		ftndto.setOriname(thumbnail.getOriginalFilename());
-		ftndto.setSysname(write_date + "_" + thumbnail.getOriginalFilename());
-		ftndto.setRealpath(realPath + ftndto.getSysname());
-		ftndto.setCategory("news_thumb");
-		String systemFileName = write_date +"_"+ftndto.getOriname(); 
+		fdto.setOriname(thumbnail.getOriginalFilename());
+		fdto.setSysname(write_date + "_" + thumbnail.getOriginalFilename());
+		fdto.setRealpath(realPath + fdto.getSysname());
+		fdto.setCategory("news_thumb");
+		String systemFileName = write_date +"_"+fdto.getOriname(); 
 		
 		//파일을 저장하기 위한 파일 객체 생성
 		File fileDownload = new File(realPath + "/" + systemFileName);		
 		thumbnail.transferTo(fileDownload); //파일 저장
 		
-		return ftndto;
+		return fdto;
 	}
 	
 	/* news 파일 업로드 */
-	public List<FileDTO> newsFileInsert(FilesDTO fsdto, String realPath) throws Exception{
+	public List<FileDTO> newsFilesInsert(FilesDTO filesAll, String realPath) throws Exception{
 		
 		System.out.println(realPath + " :: 리얼패스");
 		File filePath = new File(realPath);
@@ -112,20 +108,24 @@ public class FileController {
 		
 		/* 파일 업로드 */
 		List<FileDTO> filelist = new ArrayList<FileDTO>();
-		if(fsdto.getFiles().length != 0) {
+		
+		System.out.println(filesAll.getFilesAll());
+		//System.out.println(filesAll.getFilesAll().length);
+		if(filesAll.getFilesAll() != null) {
+		//if(filesAll.getFilesAll().length != 0) {
 			int count = 0;
-			for(MultipartFile file : fsdto.getFiles()) {				
+			for(MultipartFile file : filesAll.getFilesAll()) {				
 				if(!file.isEmpty()) {
 					FileDTO singlefdto = new FileDTO();
 					String write_date = new SimpleDateFormat("YYYY-MM-dd-ss").format(System.currentTimeMillis());
 					
-					/* 하드디스크 파일 업로드 */		
+					/* 하드디스크 파일 업로드 */
+					if(filesAll.getFileAllSeq() != null){singlefdto.setSeq(filesAll.getFileAllSeq()[count++]);}					
 					singlefdto.setOriname(file.getOriginalFilename());
-					singlefdto.setSysname(write_date + "_"+"("+(++count)+")" + file.getOriginalFilename());
+					singlefdto.setSysname(write_date + "_"+"("+(count)+")" + file.getOriginalFilename());
 					singlefdto.setRealpath(realPath + file.getOriginalFilename());
 					singlefdto.setCategory("news");
 					String systemFileName = write_date + "_"+"("+(count)+")" + file.getOriginalFilename(); 
-					
 					File fileDownload = new File(realPath + "/" + systemFileName);
 					file.transferTo(fileDownload);
 					filelist.add(singlefdto);

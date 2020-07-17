@@ -645,7 +645,6 @@
 		});    
 		
 	</script>
-<%-- <jsp:include page="/WEB-INF/views/group/report.jsp" /> --%>
 <!-- 공통 신고하기  -->
 <jsp:include page="/WEB-INF/views/reportPage.jsp" />
 

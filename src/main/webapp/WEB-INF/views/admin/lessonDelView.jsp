@@ -62,7 +62,8 @@
 					
 					if (conf) {
 						var seq = ${lddto.parent_seq};
-						location.href = "/admins/deleteAppLesson?seq=" + seq;
+						var parent_seq = ${lddto.parent_seq};
+						location.href = "/admins/deleteAppLesson?seq=" + seq + "&parent_seq=" + parent_seq;
 					}
 				})
 				

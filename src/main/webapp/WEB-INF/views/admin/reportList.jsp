@@ -29,7 +29,9 @@
 						<c:otherwise>
 							<c:forEach var="rlist" items="${rlist}">
 								<tr>
-									<td><input type="checkbox" value="${rlist.seq}" class="deleteCheck"></td>
+									<td>
+										<c:if test="${rlist.pass == 'N'}"><input type="checkbox" value="${rlist.seq}" class="deleteCheck"></c:if>
+									</td>
 									<td>${rlist.seq}</td>
 									<td><a href="/admins/reportView?seq=${rlist.seq}">${rlist.id}</a></td>
 									<td>${rlist.reporter}</td>

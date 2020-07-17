@@ -208,6 +208,12 @@ public class TutorService {
 		System.out.println(ttdto.getCancle());
 		return tdao.tuteeCurnumCountMinus(ttdto);
 	}
+	
+	//해당 게시물의 튜티 뽑기
+	public List<TuteeDTO> tuteeList(int seq) throws Exception{
+		List<TuteeDTO> tuteeList = tdao.tuteeList(seq);
+		return tuteeList;
+	}
 
 	//레슨 페이징 만 이동
 		public String getPageNavi_lesson(int userCurrentPage, Map<String, String> param) throws SQLException, Exception {
@@ -248,65 +254,69 @@ public class TutorService {
 			StringBuilder sb = new StringBuilder();
 			
 			String pagingUrl = null;
-			
+			//아무것도없을떄
 			if (!param.containsKey("ing")&& !param.containsKey("keyword") && !param.containsKey("end_date") && !param.containsKey("location")) {
-				pagingUrl = "lessonList?orderBy=" + orderBy;
+				pagingUrl = "lessonList?schType=keyword&orderBy=" + orderBy;
 			}
 			
+			//진행중 모집중 마감 눌렀을때
 			if (param.containsKey("ing")) {
 				if (param.get("ing").toString().contentEquals("applying='N' and proceeding")) {
 					if(param.containsKey("keyword")) {
-						pagingUrl = "lessonListPeriod?orderBy=" + orderBy + "&ing=done" + param.get("ing").toString()+
+						pagingUrl = "searchKeword?schType=keyword&orderBy=" + orderBy + "&period=done" + param.get("ing").toString()+
 								"&keywordSelect=" + param.get("keywordSelect").toString()+ "&keyword="+ param.get("keyword").toString();
 					}
 					else if(param.containsKey("start_date")) {
-						pagingUrl = "searchDate?orderBy=" + orderBy + "&ing=" + param.get("ing").toString()+ "&start_date=" + param.get("start_date").toString() + "&end_date=" + param.get("end_date").toString();
+						pagingUrl = "searchDate?schType=schedule&orderBy=" + orderBy + "&period=" + param.get("ing").toString()+ "&start_date=" + param.get("start_date").toString() + "&end_date=" + param.get("end_date").toString();
 					}
 					else if(param.containsKey("location")) {
-						pagingUrl = "searchMap?orderBy=" + orderBy + "&ing=" + param.get("ing").toString()+"&location=" + param.get("location").toString();
+						pagingUrl = "searchMap?schType=mapLocation&orderBy=" + orderBy + "&period=" + param.get("ing").toString()+"&location=" + param.get("location").toString();
 					}
 				} 
 				else if(param.containsKey("keyword")) {
-					pagingUrl = "lessonListPeriod?orderBy=" + orderBy + "&ing=" + param.get("ing").toString()+
+					pagingUrl = "searchKeword?schType=keyword&orderBy=" + orderBy + "&period=" + param.get("ing").toString()+
 							"&keywordSelect=" + param.get("keywordSelect").toString()+ "&keyword="+ param.get("keyword").toString();
 				}
 				else if(param.containsKey("start_date")) {
-					pagingUrl = "searchDate?orderBy=" + orderBy + "&ing=" + param.get("ing").toString()+ "&start_date=" + param.get("start_date").toString() + "&end_date=" + param.get("end_date").toString();
+					pagingUrl = "searchDate?schType=schedule&orderBy=" + orderBy + "&period=" + param.get("ing").toString()+ "&start_date=" + param.get("start_date").toString() + "&end_date=" + param.get("end_date").toString();
 				}
 				else if(param.containsKey("location")) {
-					pagingUrl = "searchMap?orderBy=" + orderBy + "&ing=" + param.get("ing").toString()+"&location=" + param.get("location").toString();
+					pagingUrl = "searchMap?schType=mapLocation&orderBy=" + orderBy + "&period=" + param.get("ing").toString()+"&location=" + param.get("location").toString();
 				}
 			}
 			
+			//키워드 검색할때
 			if(param.containsKey("keyword")) {
 				if(!param.containsKey("ing")) {
-					pagingUrl = "searchKeword?orderBy=" +orderBy + "&keywordSelect=" + param.get("keywordSelect").toString()+ "&keyword="+ param.get("keyword").toString();
+					pagingUrl = "searchKeword?schType=keyword&orderBy=" +orderBy + "&keywordSelect=" + param.get("keywordSelect").toString()+ "&keyword="+ param.get("keyword").toString()+"&period=all";
 				}else if(param.get("ing").toString().contentEquals("applying='N' and proceeding")){
-					pagingUrl = "lessonListPeriod?orderBy=" + orderBy + "&ing=done"+
+					pagingUrl = "searchKeword?schType=keyword&orderBy=" + orderBy + "&period=done"+
 							"&keywordSelect=" + param.get("keywordSelect").toString()+ "&keyword="+ param.get("keyword").toString();
 				}else {
-					pagingUrl = "lessonListPeriod?orderBy=" + orderBy + "&ing=" + param.get("ing").toString()+
+					pagingUrl = "searchKeword?schType=keyword&orderBy=" + orderBy + "&period=" + param.get("ing").toString()+
 							"&keywordSelect=" + param.get("keywordSelect").toString()+ "&keyword="+ param.get("keyword").toString();
 				}
 			}
 			
+			//달력 검색할때
 			if (param.containsKey("start_date")) {
 				if(!param.containsKey("ing")) {
-					pagingUrl = "searchDate?orderBy=" + orderBy + "&start_date=" + param.get("start_date").toString() + "&end_date=" + param.get("end_date").toString();
+					pagingUrl = "searchDate?schType=schedule&orderBy=" + orderBy + "&start_date=" + param.get("start_date").toString() + "&end_date=" + param.get("end_date").toString()+"&period=all";
 				}else if(param.get("ing").toString().contentEquals("applying='N' and proceeding")){
-					pagingUrl = "searchDate?orderBy=" + orderBy + "&ing=done"+ "&start_date=" + param.get("start_date").toString() + "&end_date=" + param.get("end_date").toString();
+					pagingUrl = "searchDate?schType=schedule&orderBy=" + orderBy + "&period=done"+ "&start_date=" + param.get("start_date").toString() + "&end_date=" + param.get("end_date").toString();
 				}else {
-					pagingUrl = "searchDate?orderBy=" + orderBy + "&ing=" + param.get("ing").toString()+ "&start_date=" + param.get("start_date").toString() + "&end_date=" + param.get("end_date").toString();
+					pagingUrl = "searchDate?schType=schedule&orderBy=" + orderBy + "&period=" + param.get("ing").toString()+ "&start_date=" + param.get("start_date").toString() + "&end_date=" + param.get("end_date").toString();
 				}
 			}
 			
+			//지도 검색할때
 			if (param.containsKey("location")) {
 				if(!param.containsKey("ing")) {
-					pagingUrl = "searchMap?orderBy=" + orderBy + "&location=" + param.get("location").toString();
+					pagingUrl = "searchMap?schType=mapLocation&orderBy=" + orderBy + "&location=" + param.get("location").toString()+"&period=all";
 				}else if(param.get("ing").toString().contentEquals("applying='N' and proceeding")){
-					pagingUrl = "searchMap?orderBy=" + orderBy + "&ing=done"+"&location=" + param.get("location").toString();
+					pagingUrl = "searchMap?schType=mapLocation&orderBy=" + orderBy + "&period=done"+"&location=" + param.get("location").toString();
 				}else {
-					pagingUrl = "searchMap?orderBy=" + orderBy + "&ing=" + param.get("ing").toString()+"&location=" + param.get("location").toString();
+					pagingUrl = "searchMap?schType=mapLocation&orderBy=" + orderBy + "&period=" + param.get("ing").toString()+"&location=" + param.get("location").toString();
 				}
 			}
 			

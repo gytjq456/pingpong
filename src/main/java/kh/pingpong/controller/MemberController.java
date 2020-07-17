@@ -542,7 +542,7 @@ public class MemberController {
 
 	/* sns jsp */
 	@RequestMapping("snsSignUp")
-	public String snsSignUp(String mem_type, String kakaoId, String kakaoNickname, String pw, Model model) throws Exception {
+	public String snsSignUp(String mem_type, String kakaoId, String kakaoNickname, String kakaoProfile, String kakaothumnail, String pw, Model model) throws Exception {
 		MemberDTO mdto = new MemberDTO();
 		mdto.setId(kakaoId);
 		mdto.setPw(pw);

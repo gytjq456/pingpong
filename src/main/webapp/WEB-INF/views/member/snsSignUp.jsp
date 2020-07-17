@@ -7,8 +7,12 @@
 
 <div id="subWrap" class="hdMargin" style="padding-top: 155.8px;">
 		<section id="subContents">
+		<article id="group_list" class="inner1200">	
 			<div id="join">
-			    <h1>MEMBER</h1>
+				<div class="tit_s1">
+			    	<h2>MEMBER</h2>
+			    	<p>회원가입</p>
+			    </div>
 				<form action="snsSingUpProc" method="post" id="joinProc" enctype="multipart/form-data">
 					<input type="hidden" name="mem_type" value="${mdto.mem_type}">
 					<input type="hidden" name="category" value="member">
@@ -150,6 +154,7 @@
 					</div>
 				</form>
 			</div>
+			</article>
 		</section>
 	</div>
 	

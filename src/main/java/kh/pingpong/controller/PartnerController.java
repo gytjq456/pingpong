@@ -3,13 +3,7 @@ package kh.pingpong.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
-import javax.mail.Message;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -50,78 +45,60 @@ public class PartnerController {
 	@Autowired
 	private HttpSession session;
 
-	
+
 	@Autowired 
 	JavaMailSender mailSender;
-	 
 
-	// 메일 
-	private Boolean mail(HttpServletRequest request, HttpServletResponse response, String pemail, String memail, String emailPassword,String contents) {
+
+	private boolean mail(HttpServletRequest request,HttpServletResponse response, String pemail) {
 		Boolean result = false;
-		System.out.println("mail start");
-//		String uri = request.getRequestURI();
-//		String contextPath = request.getContextPath();
-//		String cmd = uri.substring(contextPath.length());
-
-		//mail server 설정
-		//String userMail = request.getParameter("mailId");
-		String host = "smtp.gmail.com";
-		String user = memail; //자신의 네이버 계정
-		String password = emailPassword;// 자신의 패스워드
-//		System.out.println("host : " + host);
-//		System.out.println("user : " + user);
-//		System.out.println("password : " + password);
-
-		//메일 받을 주소
-		String to_email = pemail;
-		//System.out.println("to_email : " + to_email);
 		
-		//SMTP 서버 정보를 설정한다.
-		Properties props = new Properties();
-		props.put("mail.smtp.host", host);
-		props.put("mail.smtp.port", 465);
-		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.ssl.enable", "true");
-		props.put("mail.smtp.ssl.trust",host);
-
-		 //session 생성
-        Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
-           protected PasswordAuthentication getPasswordAuthentication() {
-              return new PasswordAuthentication(user, password);
-           }
-        });
-
-		String charset = "UTF-8";
-		
-		//email 전송
+		String setfrom = request.getParameter("memail");
+		String email = request.getParameter("email"); // 받는 사람 이메일
+		String subject = request.getParameter("subject"); // 제목
+		String contents = request.getParameter("contents"); // 내용
+		System.out.println(setfrom);
+		System.out.println(email);
+		System.out.println(subject);
+		System.out.println(contents);
 		try {
-			MimeMessage msg = new MimeMessage(session);
-            msg.setFrom(new InternetAddress(user));
-            msg.addRecipient(Message.RecipientType.TO, new InternetAddress(to_email));
+			MimeMessage message = mailSender.createMimeMessage();
+			MimeMessageHelper messageHelper = new MimeMessageHelper(message,
+					true, "UTF-8");
 			
-			//메일 제목
-			msg.setSubject(user + "님이 보낸 메일입니다.",charset); 
-			
-			//메일 내용
-			msg.setText(contents,charset);
-			
-			Transport.send(msg);
-			System.out.println("메시지를 성공적으로 보냈습니다.");   
-			return !result;
-		}catch (Exception e) {
-			e.printStackTrace();
-			System.out.println(e.getStackTrace().toString());
-			return result;
+			messageHelper.setFrom(setfrom); // 보내는사람 생략하면 정상작동을 안함
+			messageHelper.setTo(pemail); // 받는사람 이메일
+			messageHelper.setSubject(subject); // 메일제목은 생략이 가능하다
+			messageHelper.setText(contents); // 메일 내용
+
+			mailSender.send(message);
+			return true;
+		} catch (Exception e) {
+			System.out.println(e);
 		}
+
+		return result;
 	}
-	
+
+
+
+	//이메일 작성(일단 여기까지는 넘어감)
+	@RequestMapping("selectPartnerEmail")
+	public String selectPartnerEmail(int seq, Model model) throws Exception{
+		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
+		PartnerDTO pdto = pservice.selectBySeq(seq);
+		model.addAttribute("pdto", pdto);
+		model.addAttribute("loginInfo", loginInfo);
+		return "email/write";
+	}
+
 	//이메일 보내기
 	@ResponseBody
 	@RequestMapping("send")
-	public String send(PartnerDTO pdto, MemberDTO mdto,  Model model, HttpServletRequest request, HttpServletResponse response) throws Exception{
+	public String send(PartnerDTO pdto, MemberDTO mdto,  Model model, HttpServletRequest request, HttpServletResponse response,String subject) throws Exception{
 		System.out.println("================== test ================");
 		System.out.println(pdto.getEmail());
-		Boolean result = this.mail(request, response, pdto.getEmail(), mdto.getMemail(), mdto.getEmailPassword(),mdto.getContents());
+		boolean result = this.mail(request, response, pdto.getEmail());
 		System.out.println("in send: " + result);	
 		//return "redirect:/partner/partnerList";
 		return String.valueOf(result);
@@ -140,14 +117,14 @@ public class PartnerController {
 		List<LanguageDTO> ldto = pservice.selectLanguage();
 		List<PartnerDTO> alist = pservice.searchAlign(cpage,align);
 		String navi = pservice.getPageNavi(cpage,align,search);
-		
+
 		model.addAttribute("loginInfo", loginInfo);
 		model.addAttribute("navi", navi);
 		model.addAttribute("hdto", hdto);
 		model.addAttribute("ldto", ldto);
 		model.addAttribute("align", align);
 		model.addAttribute("alist", alist);
-		
+
 		return "partner/partnerList";
 	}
 
@@ -165,15 +142,15 @@ public class PartnerController {
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
 		String id = loginInfo.getId();
 		PartnerDTO pdto = pservice.selectBySeq(seq);
-		
+
 		Map<Object, Object> param = new HashMap<>();
 		param.put("id", id);
 		param.put("parent_seq", seq);
-		
+
 		JjimDTO jdto = new JjimDTO();
 		jdto.setId(id);
 		jdto.setParent_seq(seq);
-		
+
 		boolean checkJjim = pservice.selectJjim(jdto);
 		System.out.println(checkJjim);
 		model.addAttribute("checkJjim",checkJjim);
@@ -186,7 +163,7 @@ public class PartnerController {
 		model.addAttribute("reviewList", reviewList);
 		return "partner/partnerView";
 	}
-	
+
 	//멤버 선택 
 	@RequestMapping("selectMember")
 	public String selectMember(MemberDTO mdto, Model model, HttpServletRequest request) throws Exception{
@@ -200,19 +177,19 @@ public class PartnerController {
 	@RequestMapping("insertPartner")
 	public String insertPartner(MemberDTO mdto, String contact, Model model) throws Exception{
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
-		
+
 		mdto = pservice.selectMember(loginInfo.getId());
 		mdto = mservice.memberSelect(loginInfo);
 		Map<String, Object> insertP = new HashMap<>();
 		insertP.put("mdto", mdto);
 		insertP.put("contact", contact);	
 		pservice.partnerInsert(insertP,mdto);
-		
+
 		if (loginInfo.getId().contentEquals(mdto.getId()) ) {
 			MemberDTO mbdto = pservice.selectMember(loginInfo.getId());
 			session.setAttribute("loginInfo", mbdto);
 		}		
-		
+
 		return "redirect:/partner/partnerList?align=recent";
 	}
 
@@ -222,7 +199,7 @@ public class PartnerController {
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
 		pservice.deletePartner(loginInfo);
 		//model.addAttribute(attributeName, attributeValue)
-		
+
 		if (loginInfo.getId().contentEquals(id) ) {
 			MemberDTO mbdto = pservice.selectMember(loginInfo.getId());
 			session.setAttribute("loginInfo", mbdto);
@@ -237,7 +214,7 @@ public class PartnerController {
 		try {
 			cpage = Integer.parseInt(request.getParameter("cpage"));
 		}catch(Exception e) {}
-                                                                               
+
 		Map<String, Object> search = new HashMap<>();	
 		List<PartnerDTO> alist = pservice.search(cpage, search, pdto);
 		String navi = pservice.getPageNavi(cpage,align,search);
@@ -259,25 +236,25 @@ public class PartnerController {
 	public int report(ReportListDTO rldto, Model model) {
 		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
 		rldto.setReporter(mdto.getId());
-		
+
 		int result = pservice.selectReport(rldto);
 		model.addAttribute("rldto", rldto);
-		
+
 		return result;
 	}
-	
+
 	@RequestMapping("reportProc")
 	public String reportProc(ReportListDTO rldto, Model model) {
 		System.out.println("rldto =" + rldto.getSeq());
 		pservice.insertReport(rldto);
 		return "redirect:/partner/partnerView?seq=" + rldto.getParent_seq();
 	}
-	
+
 	//리뷰 글쓰기
 	@RequestMapping("reviewWrite")
 	@ResponseBody
 	public String reviewWrite(ReviewDTO redto,MemberDTO mdto) throws Exception{
-		
+
 		int result = gservice.reviewWrite(redto);
 		session.setAttribute("loginInfo2", mdto);
 		if(result>0) {
@@ -286,34 +263,34 @@ public class PartnerController {
 			return String.valueOf(false);
 		}
 	}
-	
-	
+
+
 	//찜하기
 	@RequestMapping("jjim")
 	@ResponseBody
 	public int partnerInsertJjim(JjimDTO jdto) {
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
 		String id = loginInfo.getId();
-		
+
 		jdto.setId(id);
-		
+
 		int result = pservice.insertJjim(jdto);
 		return result;
 	}
-	
+
 
 	@RequestMapping("delJjim")
 	@ResponseBody
 	public int groupDeleteJjim(JjimDTO jdto) {
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
 		String id = loginInfo.getId();
-		
+
 		jdto.setId(id);
-		
+
 		int result = pservice.deleteJjim(jdto);
 		return result;
 	}
-	
+
 	//최신순, 평점순
 	@RequestMapping("align")
 	public String align(HttpServletRequest request, Model model, int cpage) throws Exception{

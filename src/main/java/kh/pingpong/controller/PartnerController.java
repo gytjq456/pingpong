@@ -53,22 +53,26 @@ public class PartnerController {
 	private boolean mail(HttpServletRequest request,HttpServletResponse response, String pemail) {
 		Boolean result = false;
 		
-		String setfrom = "";
+		String setfrom = request.getParameter("memail");
 		String email = request.getParameter("email"); // 받는 사람 이메일
 		String subject = request.getParameter("subject"); // 제목
 		String contents = request.getParameter("contents"); // 내용
-		
+		System.out.println(setfrom);
+		System.out.println(email);
+		System.out.println(subject);
+		System.out.println(contents);
 		try {
 			MimeMessage message = mailSender.createMimeMessage();
 			MimeMessageHelper messageHelper = new MimeMessageHelper(message,
 					true, "UTF-8");
 			
-			//messageHelper.setFrom(setfrom); // 보내는사람 생략하면 정상작동을 안함
+			messageHelper.setFrom(setfrom); // 보내는사람 생략하면 정상작동을 안함
 			messageHelper.setTo(pemail); // 받는사람 이메일
 			messageHelper.setSubject(subject); // 메일제목은 생략이 가능하다
 			messageHelper.setText(contents); // 메일 내용
 
 			mailSender.send(message);
+			return true;
 		} catch (Exception e) {
 			System.out.println(e);
 		}

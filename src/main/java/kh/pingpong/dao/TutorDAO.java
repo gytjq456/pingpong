@@ -16,6 +16,8 @@ import kh.pingpong.dto.LessonDTO;
 import kh.pingpong.dto.LikeListDTO;
 import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.dto.ReportListDTO;
+import kh.pingpong.dto.ReviewDTO;
+import kh.pingpong.dto.TuteeDTO;
 import kh.pingpong.dto.TutorAppDTO;
 
 @Repository
@@ -36,6 +38,25 @@ public class TutorDAO {
 		return mybatis.selectOne("Tutor.lessonView", seq);
 	}
 
+	//리뷰 갯수랑 평점 업데이트
+	public void reviewUpdate(ReviewDTO rdto) throws Exception{
+		System.out.println(rdto.getParent_seq() + rdto.getCategory());
+		Double reviewAvg = mybatis.selectOne("Tutor.reviewAvg", rdto);
+		if(reviewAvg != null) {
+			reviewAvg = mybatis.selectOne("Tutor.reviewAvg", rdto);
+		}else {
+			reviewAvg = 0.0;
+		}
+		int reviewCount = mybatis.selectOne("Tutor.reviewCount", rdto);
+		Map<String, Object> paramVal = new HashMap<>();
+		int seq = rdto.getParent_seq();
+		paramVal.put("seq", seq);
+		paramVal.put("reviewCount", reviewCount);
+		paramVal.put("reviewAvg", reviewAvg);	
+		mybatis.update("Tutor.groupReviewPoint",paramVal);		
+		mybatis.update("Tutor.groupReviewCount",paramVal);
+		
+	}
 	
 	public int lessonCancleProc(DeleteApplyDTO dadto) throws Exception{
 		return mybatis.insert("Tutor.lessonCancleProc", dadto);
@@ -153,12 +174,21 @@ public class TutorDAO {
 		return mybatis.selectList("Tutor.selectLessonListPeriod", param);
 	}
 	
-	public int getArticleCount_lesson() throws SQLException, Exception {
-		return mybatis.selectOne("Tutor.getArticleCount_lesson");
+	public int getArticleCount_lesson(Map<String, String> param) throws SQLException, Exception {
+		return mybatis.selectOne("Tutor.getArticleCount_lesson",param);
+	}
+	
+	//모집중 진행중 마감 시간에 따라 알아서 바뀌게하기 스케쥴러
+	public int updateIngDate(String today_date) throws Exception{
+		
+		int resultApplying = mybatis.update("Tutor.updateApplying", today_date);
+		int resultProceeding1 = mybatis.update("Tutor.updateProceeding1", today_date);
+		int resultProcedding2 = mybatis.update("Tutor.updateProceeding2", today_date);
+		return resultApplying + resultProceeding1 + resultProcedding2;
 	}
 	
 	//키워드로 검색해서 리스트 뽑기
-	public List<LessonDTO> searchKeword(int cpage, Map<String, String> param) throws Exception{
+	public List<LessonDTO> search(int cpage, Map<String, String> param) throws Exception{
 		int start = cpage*Configuration.RECORD_COUNT_PER_PAGE - (Configuration.RECORD_COUNT_PER_PAGE - 1);
 		int end = start + (Configuration.RECORD_COUNT_PER_PAGE - 1);
 		
@@ -166,7 +196,41 @@ public class TutorDAO {
 		param.put("start", String.valueOf(start));
 		param.put("end", String.valueOf(end));
 		
-		return mybatis.selectList("Tutor.searchKeword", param);
+		return mybatis.selectList("Tutor.search", param);
+	}
+	
+	//튜티 insert
+	public int tuteeInsert(TuteeDTO ttdto) throws Exception{
+		return mybatis.insert("Tutor.tuteeInsert", ttdto);
+	}
+	
+	//튜티 현재인원 늘리기
+	public int tuteeCurnumCount(TuteeDTO ttdto) throws Exception{
+		return mybatis.update("Tutor.tuteeCurnumCount", ttdto);
+	}
+	
+	//튜티 현재인원 줄이기
+	public int tuteeCurnumCountMinus(TuteeDTO ttdto) throws Exception{
+		return mybatis.update("Tutor.tuteeCurnumCountMinus", ttdto);
+	}
+	
+	//결제한 사람이 또 결제하는지
+	public int payTrue(TuteeDTO ttdto) throws Exception{
+		return mybatis.selectOne("Tutor.payTrue", ttdto);
+	}
+	
+	//결제 취소한사람이 또 취소하는지
+	public int refundTrue(TuteeDTO ttdto) throws Exception{
+		return mybatis.selectOne("Tutor.refundTrue", ttdto);
 	}
 
+	//강위취소 튜티 환불금액 update 하고 강의 취소 'Y'로 바꾸기
+	public int refundInsert(TuteeDTO ttdto) throws Exception{
+		return mybatis.update("Tutor.refundInsert", ttdto);
+	}
+	
+	//현재 강의 수강중인 튜티인원 뽑기
+	public List<TuteeDTO> tuteeList(int seq) throws Exception{
+		return mybatis.selectList("Tutor.tuteeList", seq);
+	}
 }

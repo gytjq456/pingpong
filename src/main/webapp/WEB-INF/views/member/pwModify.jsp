@@ -6,14 +6,24 @@
 <script>
 	$(function(){
 		//비밀번호 일치
+		$("#pw").on("keyup",function(){
+			var pwResult1 = $("#pw").val();
+			var pwResult2 = $("#pw_ck").val();
+			if(pwResult1 == pwResult2){
+				$("#pwConfrom").text("비밀번호가 일치합니다.");
+			}else{
+				$("#pwConfrom").text("비밀번호 일치 하지 않습니다.");
+			}
+		});
+		
+		//비밀번호 일치
 		$("#pw_ck").on("keyup",function(){
 			var pwResult1 = $("#pw").val();
 			var pwResult2 = $("#pw_ck").val();
 			if(pwResult1 == pwResult2){
-				$("#pwConfrom").text("비밀번호가 일치합니다.");				
+				$("#pwConfrom").text("비밀번호가 일치합니다.");
 			}else{
 				$("#pwConfrom").text("비밀번호 일치 하지 않습니다.");
-				return false
 			}
 		});
 		
@@ -72,21 +82,28 @@
 	});
 </script>
 
-<div id="subWrap" class="hdMargin" style="padding-top: 155.8px;">
+	<div id="subWrap" class="hdMargin">
 		<section id="subContents">
-			<div id="join">
-				<form id="pwModify">
-					<input type="hidden" name="id" id="id" value="${mdto.id}">
-					<input type="hidden" name="name" id="name" value="${mdto.name}">
-					<input type="hidden" name="email" id="email" value="${mdto.email}">
-					<div><input type="password" id="pw" name="pw" placeholder="수정할 비밀번호를 입력해주세요"></div>
-					<div><input type="password" id="pw_ck" name="pw_ck" placeholder="수정할 비밀번호를 재입력해주세요"></div>				
-					<div id="pwConfrom">ㅇㅇ</div>
-					<div><input type="submit" id="submitBtn"></div>
-				</form>
-			</div>
+			<article id="" class="inner1200">
+				<div id="login" class="card_body">
+					<div class="tit_s1">
+						<h3>비밀번호 변경</h3>
+					</div>				
+					<form id="pwModify">
+						<input type="hidden" name="id" id="id" value="${mdto.id}">
+						<input type="hidden" name="name" id="name" value="${mdto.name}">
+						<input type="hidden" name="email" id="email" value="${mdto.email}">
+						<div><input type="password" id="pw" name="pw" placeholder="수정할 비밀번호를 입력해주세요"></div>
+						<div><input type="password" id="pw_ck" name="pw_ck" placeholder="수정할 비밀번호를 재입력해주세요"></div>				
+						<div id="pwConfrom"></div>
+						<div class="btnS1 center ">
+							<input type="submit" id="submitBtn">
+						</div>
+					</form>
+				</div>
+			</article>
 		</section>
-</div>
+	</div>
 
-<!--  
-<jsp:include page="/WEB-INF/views/footer.jsp" />-->
+
+<jsp:include page="/WEB-INF/views/footer.jsp" />

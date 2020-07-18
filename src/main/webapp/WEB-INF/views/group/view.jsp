@@ -9,8 +9,8 @@
 	.group_info { display: inline-block; }
 	.group_info_top { float: left; }
 	.group_title_wrapper { overflow: hidden; }
-	#writer_info { width: 30%; position: relateive; }
-	#group_base { width: 62%; margin-left: 3%; }
+	/* #writer_info { width: 30%; position: relateive   ; } */
+	/* #group_base { width: 62%; margin-left: 3%; } */
 	#writer_profile { width: 240px; height: 240px; border-radius: 50%; text-align: center; line-height: 300px; position: relative; top: 50%; left: 50%; transform: translate(-50%, 0); overflow: hidden; }
 	#writer_name_id { position: relative; left: 50%; transform: translate(-50%, 0); display: inline-block; margin-top: 20px; }
 	.base_info { position: relative; }
@@ -18,10 +18,6 @@
 	#group_base_info { padding: 15px 0; border-bottom: 1px solid #ddd; }
 	#group_base_info span { position: relative; }
 	#group_base_info span i { margin-right: 5px; }
-	#like { right: -70%; }
-	#jjim { right: -72%; }
-	#report { right: -74%; }
-	#like:hover, #jjim:hover, #report:hover { cursor: pointer; }
 	#point_avg i { color: #fcba03; }
 	#like i { color: #3162a4; }
 	#jjim i { color: #fbaab0; }
@@ -31,39 +27,24 @@
 	#group_tab_menu { width: 100%; }
 	#group_contents_wrapper { position: relative; }
 	#group_contents { width: 69%; vertical-align: top; }
-	#group_optional { width: 30%; border-left: 1px solid #ddd; padding: 0 30px; }
 	#group_view_card { position: relative; }
 	#group_optional .optional_menu { font-size: 22px; margin-bottom: 5px; }
 	#group_optional .member_profile { display: inline-block; width: 50px; height: 50px; border-radius: 50%; border: 1px solid #ddd; line-height: 50px; text-align: center; margin-right: 5px; }
 	#group_optional .optional_sub { font-weight: bold; }
 	#group_optional span { margin-right: 5px; }
-	#group_optional .sep_bar { color: #999; margin: 0 5px; font-size: 12px; vertical-align: top; }
+	#group_optional #like_count { border-right: 1px solid #ddd; padding-right: 10px; }
 	#group_optional .optional_box { margin-bottom: 20px; }
 	#related_group_title { font-size: 22px; }
 	#view_btns #update, #view_btns #delete { width: 49%; display: inline-block; }
 	#view_btns button { width: 100%; margin-top: 5px; }
 	#view_btns #update { margin-right: 2px; }
-	#writer_profile img { vertical-align: top; }
+	#writer_profile img { vertical-align: top; position:absolute; lefft:50%; top:50%; transform:translate(-50%, -50%);}
 	#map { width: 100%; height: 200px; margin-top: 10px; }
+	
+
 </style>
 <script>
 	$(function(){
-		$("input, textarea").blur(function(){
-			var thisVal = $(this).val();
-			$(this).val(textChk(thisVal));
-		})
-		
-		function textChk(thisVal){
-			var replaceId  = /(script)/gi;
-			var textVal = thisVal;
-		    if (textVal.length > 0) {
-		        if (textVal.match(replaceId)) {
-		        	textVal = thisVal.replace(replaceId, "");
-		        }
-		    }
-		    return textVal;
-		}
-		
 		var seq = $('#seq').html();
 
 		$('#delete').on('click', function(){
@@ -82,6 +63,10 @@
 			if (conf) {
 				location.href = '/group/deleteApplyForm?seq=' + seq;
 			}
+		})
+		
+		$('#groupApplyManage').on('click', function(){
+			location.href = '/mypage/groupRecord';
 		})
 		
 		var checkLike = ${checkLike};
@@ -196,33 +181,114 @@
 				}
 			}
 		})
+		
+		var headHeight = $("header").height();
+		$(".tab_s2 ul li").click(function(){
+			var idx = $(this).index()+1;
+			var topPos = $("#tab_"+idx).offset().top;
+			$(".tab_s2 ul li").removeClass("on")
+			$(this).addClass("on");
+			if($(".tab_s2").hasClass("fixed")){
+				$("html,body").stop().animate({
+					scrollTop:topPos - headHeight - 80
+				})
+			}else{
+				$("html,body").stop().animate({
+					scrollTop:topPos - headHeight - 160
+				})
+			}
+		})
+		
+		var menuObj = $("#group_tab_menu");
+		var menuTopPos = menuObj.offset().top;
+		$(window).scroll(function(){
+			var scrollTop = $(this).scrollTop();
+			if(menuTopPos <= scrollTop + headHeight){
+				menuObj.addClass("fixed");
+			}else{
+				menuObj.removeClass("fixed");
+			}
+			
+		})
+		
+		
+		$(".reviewDelete").click(function(){
+			var result = confirm("리뷰를 삭제하시겠습니까?");
+			if(result){
+				var seq = $(this).data("seq");
+				$.ajax({
+					url:"/group/reviewDelete",
+					type:"post",
+					dataType:"json",
+					data:{
+						seq:seq
+					},
+				}).done(function(resp){
+					location.href="/group/view?seq=${gdto.seq}"
+				});
+			}
+			
+		})
+		
+		
+		$("input,textarea").blur(function(){
+			var thisVal = $(this).val();
+			$(this).val(textChk(thisVal,$(this)));
+		})
+	 	$(".note-editable").blur(function(){
+			var thisVal = $(this).html();
+			$(this).text(textChk(thisVal,$(this)));
+		});
+		
 	})
+	
+	function textChk(thisVal, obj){
+		var replaceId  = /(script)/gi;
+		var textVal = thisVal;
+	    if (textVal.length > 0) {
+	        if (textVal.match(replaceId)) {
+	        	console.log(obj)
+	        	if(obj.val().length){
+		        	obj.val("");
+		        	textVal = obj.val();
+	        	}else{
+		        	obj.html("");
+		        	textVal = obj.val();
+	        	}
+	        }
+	    }
+	    return textVal;
+	}
 </script>
 	<div id="subWrap" class="hdMargin">
 		<section id="subContents">
 			<article id="group_view" class="inner1200 clearfix">
 				<div class="group_title_wrapper card_body">
 					<div id="writer_info" class="group_info_top">
-						<div id="writer_profile"><img src="/resources/img/sub/userThum.jpg"/></div>
+						<div id="writer_profile"><img src="/upload/member/${gdto.writer_id}/${gdto.sysname}"/></div>
 						<div id="writer_name_id">${gdto.writer_name}(${gdto.writer_id})</div>
 					</div>
 					<div id="group_base" class="group_info_top">
 						<span id="seq">${gdto.seq}</span>
 						<div id="group_base_info" class="base_info">
 							<div id="group_title">${gdto.title}</div>
-							<span id="point_avg"><i class="fa fa-star" aria-hidden="true"></i>${gdto.review_point}</span>
-							<span id="like"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>추천</span>
-							<span id="jjim"><i class="fa fa-heart-o" aria-hidden="true"></i>찜하기</span>
-							<span id="report"><i class="fa fa-exclamation" aria-hidden="true"></i>신고</span>
+							<div id="mini_option_wrap">
+								<span id="point_avg"><i class="fa fa-star" aria-hidden="true"></i>${gdto.review_point}</span>
+								<div id="three_options">
+									<span id="like"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>추천</span>
+									<span id="jjim"><i class="fa fa-heart-o" aria-hidden="true"></i>찜하기</span>
+									<span id="report" data-seq="${gdto.seq}" data-id="${gdto.writer_id}" data-thisseq="" data-url="/group/report" data-proc="/group/reportProc"><i class="fa fa-exclamation" aria-hidden="true"></i>신고</span>
+								</div>
+							</div>
 						</div>
-						<div id="group_detail" class="base_info">
+						<div id="group_detail" class="base_info clearfix">
 							<div class="info_with_icon">
 								<i class="fa fa-map-marker" aria-hidden="true"></i><br>
 								${gdto.location}
 							</div>
 							<div class="info_with_icon">
 								<i class="fa fa-calendar" aria-hidden="true"></i><br>
-								${gdto.start_date} ~ ${gdto.end_date}
+								<span>${gdto.start_date}</span> <span>~</span> <span>${gdto.end_date}</span>
 							</div>
 							<div class="info_with_icon">
 								<i class="fa fa-users" aria-hidden="true"></i><br>
@@ -269,54 +335,62 @@
 						<li><a href="#;">리뷰(${gdto.review_count})</a></li>
 						<li>
 							<c:if test="${checkApply == true}">
-								<span id="applyCancel">신청 취소</span>
+								<button id="applyCancel">신청 취소</button>
 							</c:if>
-							<c:if test="${checkApply == false && (sessionScope.loginInfo.id != gdto.writer_id)}">
-								<span id="applyForm">신청하기</span>
+							<c:if test="${checkApply == false && (sessionScope.loginInfo.id != gdto.writer_id) && checkMember == false}">
+								<button type="button" id="applyForm">신청하기</button>
 							</c:if>
 							<c:if test="${checkMember == true}">
-								<span id="deleteForm">탈퇴하기</span>
+								<button id="deleteForm">탈퇴하기</button>
 							</c:if>
 							<c:if test="${sessionScope.loginInfo.id == gdto.writer_id}">
-								<span id="groupApplyManage">신청 현황</span>
+								<button id="groupApplyManage">신청 현황</button>
 							</c:if>
 						</li>
 					</ul>
 				</div>
 				<div id="tabContWrap_s2">
 					<article id="tab_1" class="kewordSch">
-						<div id="group_contents_wrapper" class="card_body">
+						<div id="group_contents_wrapper" class="card_body clearfix">
 							<div id="group_contents" class="group_info">
 								${gdto.contents}
 							</div>
 							<div id="group_optional" class="group_info">
 								<div class="optional_box">
 									<div class="optional_menu">모집 기간</div>
-									<div>${gdto.apply_start} ~ ${gdto.apply_end}</div>
+									<div class="optional_body">${gdto.apply_start} ~ ${gdto.apply_end}</div>
 								</div>
 								<div class="optional_box">
 									<div class="optional_menu">참여자 인원(${gdto.cur_num})</div>
-									<div class="group_members">
-										<div class="member_profile">플</div>
-										<div class="member_profile">플</div>
-										<div class="member_profile">플</div>
+									<div class="group_members optional_body">
+										<c:choose>
+											<c:when test="${empty memberList}">
+												아직 참여 중인 인원이 없습니다.
+											</c:when>
+											<c:otherwise>
+												<c:forEach var="member" items="${memberList}">
+													<div class="member_profile"><img src="/upload/member/${member.id}/${member.sysname}"/></div>
+												</c:forEach>
+											</c:otherwise>
+										</c:choose>
 									</div>
 								</div>
 								<div class="optional_box">
 									<div class="optional_menu">위치</div>
-									<div>${gdto.location}</div>
+									<div class="optional_body">${gdto.location}</div>
 									<div id="map"></div>
 								</div>
-								<div class="optional_box">
-									<span class="optional_sub">조회</span><span>${gdto.view_count}</span><span class="sep_bar">|</span>
-									<span class="optional_sub">추천</span><span>${gdto.like_count}</span><span class="sep_bar">|</span>
-									<span class="optional_sub">신청</span><span>${gdto.app_count}</span><br>
-									<span class="optional_sub">작성일</span><span>${gdto.date}</span><br>
+
+								<div class="optional_box countList_s2" >
+									<span class="optional_sub"><i class="fa fa-eye"></i>${gdto.view_count}</span>
+									<span class="optional_sub"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> ${gdto.like_count}</span>
+									<span class="optional_sub"><i class="fa fa-file-text-o" aria-hidden="true"></i> ${gdto.app_count}</span>
+									<%-- <span class="optional_sub">작성일</span><span>${gdto.date}</span><br> --%>
 								</div>
 								<div class="btnS1" id="view_btns">
 									<c:if test="${sessionScope.loginInfo.id == gdto.writer_id}">
-											<button type="button" id="update">수정</button>
-											<button type="button" id="delete">삭제</button>
+										<button type="button" id="update">수정</button>
+										<button type="button" id="delete">삭제</button>
 									</c:if>
 									<button type="button" id="toList" onclick="javascript:toList()">목록</button>
 								</div>
@@ -325,37 +399,84 @@
 					</article>
 					<article id="tab_2" class="calendarSch card_body">
 						<div id="related_group_title">관련 모임</div>
-						<div>
+						<div id="related_groups">
 							<c:choose>
 								<c:when test="${empty relatedGroup}">
 									관련 모임이 없습니다.
 								</c:when>
 								<c:otherwise>
 									<c:forEach var="related" items="${relatedGroup}">
-										<a href="/group/beforeView?seq=${related.seq}">
-											<div class="group_each_wrapper">
-												<div><span class="sub_title">작성자</span> ${related.writer_name}(${related.writer_id})</div>
-												<div><span class="sub_title">제목</span> ${related.title}</div>
-												<div><span class="sub_title">유형</span> ${related.hobby_type}</div>
-												<div><span class="sub_title">모집 기간</span> ${related.apply_start} ~ ${related.apply_end}</div>
-												<div><span class="sub_title">진행 기간</span> ${related.start_date} ~ ${related.end_date}</div>
-												<div><span class="sub_title">평점</span> ★ ${related.review_point}</div>
-												<div>
-													<span class="sub_title">조회</span> ${related.view_count}  
-													<span class="sub_title">추천</span> ${related.like_count}  
-													<span class="sub_title">리뷰</span> ${related.review_count}
+										<div class="back_and_wrap item">
+											<a href="/group/beforeView?seq=${related.seq}" class="group_list_a">
+												<!-- <div class="each_profile"><img src="/resources/img/sub/userThum.jpg"/></div> -->
+												<div class="each_profile"><img src="/upload/member/${related.writer_id}/${related.sysname}"/></div>
+												<c:if test="${fn:startsWith(related.hobby_type, '영화')}">
+													<div class="group_background background_pink"></div>
+												</c:if>
+												<c:if test="${fn:startsWith(related.hobby_type, '공연')}">
+													<div class="group_background background_purple"></div>
+												</c:if>
+												<c:if test="${fn:startsWith(related.hobby_type, '음악')}">
+													<div class="group_background background_blue"></div>
+												</c:if>
+												<c:if test="${fn:startsWith(related.hobby_type, '독서')}">
+													<div class="group_background background_brown"></div>
+												</c:if>
+												<c:if test="${fn:startsWith(related.hobby_type, '스포츠')}">
+													<div class="group_background background_red"></div>
+												</c:if>
+												<c:if test="${fn:startsWith(related.hobby_type, '게임')}">
+													<div class="group_background background_yellow"></div>
+												</c:if>
+												<c:if test="${fn:startsWith(related.hobby_type, '여행')}">
+													<div class="group_background background_green"></div>
+												</c:if>
+												<c:if test="${fn:startsWith(related.hobby_type, '요리')}">
+													<div class="group_background background_orange"></div>
+												</c:if>
+												<c:if test="${fn:startsWith(related.hobby_type, '기타')}">
+													<div class="group_background background_gray"></div>
+												</c:if>
+												<div class="group_each_wrapper">
+													<div class="each_writer"><span class="each_name">${related.writer_name}</span>(${related.writer_id})</div>
+													<div class="each_title">${related.title}</div>
+													<div class="each_body">
+														<div><span class="sub_title">장소</span> <p>${related.location}</p></div>
+														<div><span class="sub_title">유형</span> <p>${related.hobby_type}</p></div>
+														<div><span class="sub_title">모집</span>
+															<c:if test="${related.applying == 'N'}">
+															 - 
+															</c:if>
+															<c:if test="${related.applying == 'Y'}">
+															 <p>${related.apply_start} ~ ${related.apply_end}</p>
+															</c:if>
+														</div>
+														<div><span class="sub_title">진행</span> <p>${related.start_date} ~ ${related.end_date}</p></div>
+														<div><span class="sub_title">평점</span> <p><i class="fa fa-star" aria-hidden="true"></i> ${related.review_point}</p></div>
+													</div>
+													<div class="countList_s2">
+														<span class="sub_title"><i class="fa fa-eye"></i>${related.view_count}</span>   
+														<span class="sub_title"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>${related.like_count}</span>   
+														<span class="sub_title"><i class="fa fa-commenting-o" aria-hidden="true"></i>${related.review_count}</span> 
+														<span class="sub_title"><i class="fa fa-file-text-o" aria-hidden="true"></i>${related.app_count}</span> 
+													</div>
+													<div class="status clearfix">
+														<c:if test="${related.applying == 'Y'}">
+															<div class="group_applying">모집중</div>  
+														</c:if>
+														<c:if test="${related.proceeding == 'Y'}">
+															<div class="group_proceeding">진행중</div>
+														</c:if>
+														<c:if test="${related.proceeding == 'B'}">
+															<div class="group_ready">준비중</div>
+														</c:if>
+														<c:if test="${related.proceeding == 'N' && related.applying == 'N'}">
+															<div class="group_done">마감</div>
+														</c:if>
+													</div>
 												</div>
-												<c:if test="${related.applying == 'Y'}">
-													<span>모집중</span>  
-												</c:if>
-												<c:if test="${related.proceeding == 'Y'}">
-													<span>진행중</span>
-												</c:if>
-												<c:if test="${related.proceeding == 'N' && related.applying == 'N'}">
-													<span>마감</span>
-												</c:if>
-											</div>
-										</a>
+											</a>
+										</div>
 									</c:forEach>
 								</c:otherwise>
 							</c:choose>
@@ -369,10 +490,12 @@
 									<h3>리뷰 작성</h3>
 								</div>
 								<form id="reviewtForm">
-									<input type="hidden" name="writer" value="홍길동">
+									<input type="hidden" name="writer" value="${loginInfo.id}">
 									<input type="hidden" name="point" value="0" id="point">
-									<input type="hidden" name="category" value="review">
+									<input type="hidden" name="category" value="그룹">
 									<input type="hidden" name="parent_seq" value="${gdto.seq}">
+									<input type="hidden" name="thumNail" value="${loginInfo.sysname}">
+									<c:if test="${checkMember || sessionScope.loginInfo.id == gdto.writer_id}">
 									<div class="starPoint">
 										<div>
 											<button type="button"><i class="fa fa-star" aria-hidden="true"></i></button>
@@ -381,37 +504,49 @@
 											<button type="button"><i class="fa fa-star" aria-hidden="true"></i></button>
 											<button type="button"><i class="fa fa-star" aria-hidden="true"></i></button>
 										</div>
-										<div class="point_box">(<span class="point">0</span>점)</div>
 									</div>
+									</c:if>
 									<div class="textInput clearfix">
 										<div class="userInfo_s1 userInfo_s2">
-											<div class="thumb"><img src="/resources/img/sub/userThum.jpg"/></div>
+											<!-- <div class="thumb"><img src="/resources/img/sub/userThum.jpg"/></div> -->
+											<div class="thumb"><img src="/upload/member/${loginInfo.id}/${loginInfo.sysname}"/></div>
 											<div class="info">
-												<p class="userId">홍길동</p>
+												<p class="userId">${loginInfo.id}</p>
 											</div>
 										</div>
-										<div>
-											<textarea name="contents" id="textCont"></textarea>
-											<div class="wordsize"><span class="current">0</span>/1000</div>
-										</div>
+										<c:choose>
+											<c:when test="${!checkMember && sessionScope.loginInfo.id != gdto.writer_id}">
+												<div>
+													<textarea name="contents" id="textCont" class="not_member" placeholder="그룹원만 작성할 수 있습니다." readonly></textarea>
+												</div>
+											</c:when>
+											<c:otherwise>
+												<div>
+													<textarea name="contents" id="textCont"></textarea>
+													<div class="wordsize"><span class="current">0</span>/1000</div>
+												</div>
+											</c:otherwise>
+										</c:choose>
 									</div>
-									<div class="btnS1 right">
-										<div><input type="submit" value="작성" class="on"></div>
-										<div>
-											<input type="reset" value="취소">
-										</div>
-									</div>										
+									<c:if test="${checkMember || sessionScope.loginInfo.id == gdto.writer_id}">
+										<div class="btnS1 right">
+											<div><input type="submit" value="작성" class="on"></div>
+											<div>
+												<input type="reset" value="취소">
+											</div>
+										</div>						
+									</c:if>				
 								</form>
 							</div>
 						</div>	
 						<div class="review_list card_body" >
 							<div class="tit_s2">
-								<h3>리뷰 작성</h3>
+								<h3>리뷰 목록</h3>
 							</div>				
 							<c:forEach var="i" items="${reviewList}">
 								<article class="clearfix">
 									<div class="userInfo_s1">
-										<div class="thumb"><img src="/resources/img/sub/userThum.jpg"/></div>
+										<div class="thumb"><img src="/upload/member/${i.writer}/${i.thumNail}"/></div>
 										<div class="info">
 											<p class="userId">${i.writer}</p>
 											<p class="writeDate">${i.dateString}</p>
@@ -431,6 +566,11 @@
 										<div class="txtBox">
 											<a href="#;">${i.contents}</a>
 										</div>
+										<c:if test="${loginInfo.id == i.writer }">
+											<div class="btnS1 right">
+												<div><input type="button" class="reviewDelete" value="삭제"  data-seq="${i.seq}"></div>
+											</div>		
+										</c:if>
 									</div>
 								</article>
 							</c:forEach>
@@ -443,7 +583,7 @@
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=033532d2fa35e423d2d5e723c0bfd1fe&libraries=services"></script>
 	<script>
 		function toList() {
-			location.href = '/group/main?orderBy=seq';
+			location.href = '/group/main?orderBy=seq&ing=all&schType=keyword';
 		}
 		
 		$('#like').on('click', function(){
@@ -488,43 +628,59 @@
 		})
 		
 		var inputLocation = '${gdto.location}';
-		var locationLat = '${gdto.location_lat}';
-		var locationLng = '${gdto.location_lng}';
+		var inputLocationLat = '${gdto.location_lat}';
+		var inputLocationLng = '${gdto.location_lng}';
 		
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 		    mapOption = { 
-		        center: new kakao.maps.LatLng(locationLat, locationLng), // 지도의 중심좌표
+		        center: new kakao.maps.LatLng(inputLocationLat, inputLocationLng), // 지도의 중심좌표
 		        level: 3 // 지도의 확대 레벨
 		    };  
 		
 		var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 		
-		var circle = new kakao.maps.Circle({
-		    center : new kakao.maps.LatLng(locationLat, locationLng),  // 원의 중심좌표 입니다 
-		    radius: 50, // 미터 단위의 원의 반지름입니다 
-		    strokeWeight: 1, // 선의 두께입니다 
-		    strokeColor: '#75B8FA', // 선의 색깔입니다
-		    strokeOpacity: 1, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
-		    strokeStyle: 'solid', // 선의 스타일 입니다
-		    fillColor: '#CFE7FF', // 채우기 색깔입니다
-		    fillOpacity: 0.7  // 채우기 불투명도 입니다   
-		}); 
-
-		// 지도에 원을 표시합니다 
-		circle.setMap(map); 
+		// 주소-좌표 변환 객체를 생성합니다
+		var geocoder = new kakao.maps.services.Geocoder();
 		
-		// 마커가 표시될 위치입니다 
-		var markerPosition  = new kakao.maps.LatLng(locationLat, locationLng); 
+		geocoder.addressSearch(inputLocation, function(result, status) {
 
-		// 마커를 생성합니다
-		var marker = new kakao.maps.Marker({
-		    position: markerPosition
-		});
+		    // 정상적으로 검색이 완료됐으면 
+		     if (status === kakao.maps.services.Status.OK) {
 
-		// 마커가 지도 위에 표시되도록 설정합니다
-		marker.setMap(map);
+		        var coords = new kakao.maps.LatLng(inputLocationLat, inputLocationLng);
+
+		        // 결과값으로 받은 위치를 마커로 표시합니다
+		        var marker = new kakao.maps.Marker({
+		            map: map,
+		            position: coords
+		        });
+
+				// 지도에 표시할 원을 생성합니다
+				var circle = new kakao.maps.Circle({
+				    center : new kakao.maps.LatLng(inputLocationLat, inputLocationLng),  // 원의 중심좌표 입니다 
+				    radius: 50, // 미터 단위의 원의 반지름입니다 
+				    strokeWeight: 1, // 선의 두께입니다 
+				    strokeColor: '#75B8FA', // 선의 색깔입니다
+				    strokeOpacity: 1, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+				    fillColor: '#CFE7FF', // 채우기 색깔입니다
+				    fillOpacity: 0.7  // 채우기 불투명도 입니다   
+				}); 
+				
+				// 지도에 원을 표시합니다 
+				circle.setMap(map); 
+		        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+		        map.setCenter(coords);
+		    } 
+		});    
+		
 	</script>
+<!-- 공통 신고하기  -->
+<jsp:include page="/WEB-INF/views/reportPage.jsp" />
 
-<jsp:include page="/WEB-INF/views/group/apply.jsp" />
-<jsp:include page="/WEB-INF/views/group/out.jsp" />
+<c:if test="${checkApply == false && (sessionScope.loginInfo.id != gdto.writer_id) && checkMember == false}">
+	<jsp:include page="/WEB-INF/views/group/apply.jsp" />
+</c:if>
+<c:if test="${checkMember == true}">
+	<jsp:include page="/WEB-INF/views/group/out.jsp" />
+</c:if>
 <jsp:include page="/WEB-INF/views/footer.jsp"/>

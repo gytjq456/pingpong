@@ -1,79 +1,145 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<jsp:include page="/WEB-INF/views/header.jsp"/>
-	
-	<script>
-	
+<jsp:include page="/WEB-INF/views/header.jsp" />
+<style>
+	.hidden { display:none;}
+</style>
+
+<script>
+		$(function(){
+			$(".refund").on("click", function(){
+				var seq = $(this).closest("tr").find('.seq').val();
+				var start_date = $(this).closest("tr").find('.start_date').val();
+				var price = $(this).closest("tr").find('.price').val();
+				
+				$.ajax({
+					url:"/payments/refundTrue",
+					data:{
+						parent_seq : seq
+					},
+					type: "POST"
+				}).done(function(resp){
+					console.log(resp);
+					if(resp>0){
+						alert("이미 환불신청이 완료된 강의 입니다.");
+						location.href="/mypage/tutorRecord";
+						return false;
+					}else{
+						location.href="/payments/cancle?parent_seq="+seq+"&start_date="+start_date+"&price="+price;
+					}
+				}).fail(function(error1, error2) {
+					console.log(error1);
+					console.log(error2);
+				})
+				
+				
+				
+			})
+		})
 	</script>
-	
-	<br><br><br><br><br><br><br><br><br><br><br><br><br>
-	
-	<article id="management">
-		<h2>튜터/튜티관리</h2>
-		<section class="tutorRecord">
-			<div class="subContents">
-				<div class="session">		
-					<h4>튜터인 경우</h4>
-					<c:choose>
-						<c:when test="${empty trlist }">
-							튜터로서의 기록이 존재하지 않습니다.
-						</c:when>
-						<c:otherwise>						
-							<c:forEach var="trlist" items="${trlist}">	
-								<table>
-									<tr>
-										<td>강의번호:${trlist.class_num}</td>
-										<td><a href="#;">강의명:${trlist.class_name}</a></td>
-										<td>언어:${trlist.lang_can}</td>
-										<td>강의 기간:없음</td>
-										<td>인원(현재인원/최대인원):${trlist.cur_num}/${trlist.max_num}</td>
-										<td>만남장소:${trlist.address}</td>
-										<td>추천수:${trlist.like_count}</td>
-										<td>리뷰수:${trlist.review_count}</td>
-										<td>평점:${trlist.review_point}</td>
-									</tr>
-								</table>
-							</c:forEach>
-						</c:otherwise>
-					</c:choose>
-				</div>
+<div id="subWrap" class="hdMargin">
+	<section id="subContents">
+		<article id="jjimManage" class="inner1200">
+			<div class="tit_s1">
+				<h2>나의 강의 목록</h2>
 			</div>
-		</section>
-		
-		<section class="tuteeRecord">
-			<div class="subContents">
-				<div class="session">		
-					<h4>튜티</h4>
+			<div class="listWrap">
+				<section class="session card_body">		
+					<h4>강의 리스트</h4>
 					<c:choose>
-						<c:when test="${empty telist}">
-							튜티로서의 기록이 존재하지 않습니다.
+						<c:when test="${loginInfo.grade == 'tutor'}">
+							<c:choose>
+								<c:when test="${empty trlist}">
+									등록하신 강의가 없습니다.
+								</c:when>
+								<c:otherwise>
+									<table>
+										<thead>
+											<tr>
+												<th>강의 코드</th>
+												<th>강의명</th>
+												<th>가격</th>
+												<th>수강 인원</th>
+												<th>언어</th>
+												<th>장소</th>
+												<th>강의 기간</th>
+												<th>강의 시간</th>
+												<th>모집중</th>
+											</tr>
+										</thead>
+										<tbody>
+											<c:forEach var="trlist" items="${trlist}">
+												<tr>
+													<td>${trlist.seq}</td>
+													<td><a href="/tutor/lessonView?seq=${trlist.seq}">${trlist.title}</a></td>
+													<td>${trlist.price}</td>
+													<td>${trlist.cur_num}/${trlist.max_num}</td>
+													<td>${trlist.language}</td>
+													<td>${trlist.location}</td>
+													<td>${trlist.start_date} ~ ${trlist.end_date}</td>
+													<td>${trlist.start_hour}:${trlist.start_minute} ~ ${trlist.end_hour}:${trlist.end_minute}</td>
+													<td>
+														<c:if test="${trlist.applying == 'Y'}">모집중</c:if>
+														<c:if test="${trlist.applying == 'N'}">마감</c:if>
+													</td>
+												</tr>
+											</c:forEach>
+										</tbody>
+									</table>
+								</c:otherwise>
+							</c:choose>
+							<div class="navi_line">${trnavi}</div>
 						</c:when>
 						<c:otherwise>
-						
-							<c:forEach var="telist" items="${telist}">	
-								<table>
-									<tr>
-										<td>강의번호:${telist.seq}</td>
-										<td><a href="#;">강의명:없음</a></td>
-										<td><a href="#;">튜터명:튜티명은 tuteeApp참조</a></td>
-										<td>언어:${trlist.lang_can}</td>
-										<td>강의 기간:없음</td>
-										<td>최대인원(현재인원/최대인원):${trlist.cur_num}/${trlist.max_num}</td>
-										<td>만남장소:없음</td>
-										<td>추천수:${trlist.like_count}</td>
-										<td>리뷰수:${trlist.review_count}</td>
-										<td>평점:${trlist.review_point}</td>
-									</tr>
-								</table>
-							</c:forEach>
+							<c:choose>
+								<c:when test="${empty telist}">
+									수강 중인 강의가 없습니다.
+								</c:when>
+								<c:otherwise>
+									<table>
+										<thead>
+											<tr>
+												<th>번호</th>
+												<th>제목</th>
+												<th>튜터</th>
+												<th>언어</th>
+												<th>강의 기간</th>
+												<th>장소</th>
+												<th>비고</th>
+											</tr>
+										</thead>
+										<tbody>
+											<c:forEach var="telist" items="${telist}">
+											<tr id="${telist.seq}">
+												<td class="hidden"><input type="hidden"  class="seq" value="${telist.seq}"></td>
+												<td class="hidden"><input type="hidden" class="start_date" value="${telist.start_date}"/></td>
+												<td class="hidden"><input type="hidden" class="price" value="${telist.price }"/></td>
+												<td>${telist.seq}</td>
+												<td><a href="/tutor/lessonView?seq=${telist.seq}">${telist.title}</a></td>
+												<td><a href="#;">${telist.name}</a></td>
+												<td>${telist.language}</td>
+												<td>${telist.start_date}~${telist.end_date}</td>
+												<td>${telist.location}</td>
+
+												<td><input type="button" class="refund" value="강의 환불"></td>
+											</tr>
+										</c:forEach>
+										</tbody>
+									</table>
+								</c:otherwise>
+							</c:choose>
+							<div class="navi_line">${tenavi}</div>
 						</c:otherwise>
 					</c:choose>
-				</div>
+				</section>
 			</div>
-		</section>
-	</article>
-	
-	
-<jsp:include page="/WEB-INF/views/footer.jsp"/>
+			
+		</article>
+	</section>
+</div>
+
+
+
+<jsp:include page="/WEB-INF/views/footer.jsp" />

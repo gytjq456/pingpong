@@ -66,13 +66,6 @@
 				return false;
 			})
 			
-			// 댓글 좋아요, 싫어요 증가
-			var comment_likeBtn = $(".comment_likeBtn");
-			var comment_hateBtn = $(".comment_hateBtn");
-			var discussion_likeBtn = $(".discussion_likeBtn");
-			likeHateCount(comment_likeBtn,"/discussion/commentLike");
-			likeHateCount(comment_hateBtn,"/discussion/commentHate");
-			likeHateCount(discussion_likeBtn,"/discussion/like");
 			
 			
 			// 댓글 삭제
@@ -169,6 +162,13 @@
 						console.log("qqq"+json);
 						var obj = JSON.parse(json);
 						console.log("ttt:"+obj.errorCode)
+						if(obj.errorCode == "N2MT04" || obj.errorCode == "N2MT02"){
+							alert("지원하지 않는 언어 입니다.");
+						}
+						if(obj.errorCode == "N2MT05"){
+							alert("원본언어와 동일합니다.");
+						}
+						
 						if(obj.errorCode == "undefined"){
 							if(data[0] == "ko"){
 								alert(lanArr.ko+"만 번역이 가능합니다.")
@@ -197,25 +197,91 @@
 					}
 				});
 			});
+			
+			
+			
+			$(".like-hate-btn").each(function(){
+				var dataCheck = $(this).data("check");
+				if(dataCheck){
+					$(this).addClass("checkOn")
+				}
+			})
+			$(".discussion_likeBtn").each(function(){
+				var dataCheck = $(this).data("check");
+				if(dataCheck){
+					$(this).addClass("checkOn")
+				}
+			})
+			
+			
+			// 댓글 작성중 취소후 글자수 0으로 바꾸기
+			$("input[type='reset']").click(function(){
+				$(".wordsize .current").text("0");
+			})
+			
+			$("input,textarea").blur(function(){
+				var thisVal = $(this).val();
+				$(this).val(textChk(thisVal));
+			})			
+		// 댓글 좋아요, 싫어요 증가
+			var comment_likeBtn = $(".comment_likeBtn");
+			var comment_hateBtn = $(".comment_hateBtn");
+			var discussion_likeBtn = $(".discussion_likeBtn");
+			likeHateCount(comment_likeBtn,"/discussion/commentLike","토론 댓글");
+			likeHateCount(comment_hateBtn,"/discussion/commentHate","토론 댓글");
+			likeHateCount(discussion_likeBtn,"/discussion/like","토론 게시글");
+			console.log(likeHateCount);
 		})
 
-		function likeHateCount(btn, url) {
+		
+			
+			
+		function likeHateCount(btn, url,category) {
 			btn.click(function() {
 				var seq = $(this).data("seq");
 				$.ajax({
 					url : url,
-					dataType : "json",
+					//dataType : "json",
 					data : "post",
 					data : {
-						seq : seq,
+						category:category,
+						parent_seq:seq
 					}
 				}).done(function(resp) {
-					if (resp) {
-						location.href = "/discussion/view?seq=${disDto.seq}"
+					if(resp == "cancel"){
+						if(btn.hasClass("comment_likeBtn")){
+							alert("좋아요 취소")
+						}else if(btn.hasClass("comment_hateBtn")){
+							alert('싫어요 취소');
+						}
+					}else{
+						var isBoolean = JSON.parse(resp);
+						if (!isBoolean) {
+							if(btn.hasClass("comment_likeBtn")){
+								alert('이미 싫어요 된 게시글 입니다.');
+							}else if(btn.hasClass("comment_hateBtn")){
+								alert('이미 좋아요 된 게시글 입니다.');
+							}
+						}
 					}
+					
+					location.href = "/discussion/view?seq=${disDto.seq}"
 				})
 			})
 		}
+		
+		function textChk(thisVal){
+			var replaceId  = /(script)/gi;
+			var textVal = thisVal;
+		    if (textVal.length > 0) {
+		        if (textVal.match(replaceId)) {
+		        	textVal = thisVal.replace(replaceId, "");
+		        }
+		    }
+		    return textVal;
+		}
+		
+		
 	</Script>
 
 	<div id="subWrap" class="hdMargin">
@@ -228,7 +294,7 @@
 						<%-- <div id="">번호 : ${disDto.seq}</div> --%>
 						<div class="title">${disDto.title}</div>
 						<div class="userInfo_s1">
-							<div class="thumb"><img src="/resources/img/sub/userThum.jpg"/></div>
+							<div class="thumb"><img src="/upload/member/${disDto.id}/${disDto.thumNail}"/></div>
 							<div class="info">
 								<p class="userId">${disDto.writer}</p>
 								<p class="writeDate">${disDto.dateString}</p>
@@ -237,15 +303,18 @@
 						<div class="language">${disDto.language}</div>	
 						<div class="contents ">
 							<div class="originTxt">${disDto.contents}</div>
-							<div class="langCountry">
-								<select>
-									<c:forEach var="i" items="${langList}">
-										<option value="${i.language_country}">${i.language}</option>
-									</c:forEach>
-								</select>
+							<div class="langCountry convertWrap clearfix">
+								<div>
+									<select>
+										<c:forEach var="i" items="${langList}">
+											<option value="${i.language_country}">${i.language}</option>
+										</c:forEach>
+									</select>
+								</div>
+								<div id="convertBtn"><button type="button" id="jsonConvertStringSend">번역하기</button></div>
 							</div>
-							<div><button type="button" id="jsonConvertStringSend">번역하기</button></div>
 							<div class="convert">
+							
 							</div>
 						</div>
 						
@@ -254,7 +323,7 @@
 								<li><i class="fa fa-eye"></i> ${disDto.view_count}</li>			
 								<li><i class="fa fa-commenting-o" aria-hidden="true"></i> ${disDto.comment_count}</li>
 								<li>
-									<button class="discussion_Btn Btn -hate-btn" data-seq="${disDto.seq}">
+									<button class="discussion_likeBtn likeBtn" data-check="${boardCheckLike}" data-seq="${disDto.seq}">
 										<i class="fa fa-thumbs-up"></i> ${disDto.like_count}
 									</button>
 								</li>
@@ -271,8 +340,10 @@
 								<div class="comment_box">
 									<form id="commentForm">
 										<input type="hidden" name="category" value="discussion">
-										<input type="hidden" name="writer" value="홍길동">
+										<input type="hidden" name="writer" value="${loginInfo.name}">
+										<input type="hidden" name="id" value="${loginInfo.id}">
 										<input type="hidden" name="parent_seq" value="${disDto.seq}">
+										<input type="hidden" name="thumNail" value="${loginInfo.sysname}">
 										<div class="opinion">
 											<div>의견(찬/반)</div>
 											<div>
@@ -301,10 +372,10 @@
 								<div class="tit_s2">
 									<h3>베스트 댓글(${fn:length(bestCommentList)})</h3>
 								</div>
-								<c:forEach var="i" items="${bestCommentList}">
+								<c:forEach var="i" items="${bestCommentList}" varStatus="status">
 									<article>
 										<div class="userInfo_s1">
-											<div class="thumb"><img src="/resources/img/sub/userThum.jpg"/></div>
+											<div class="thumb"><img src="/upload/member/${i.id}/${i.thumNail}"/></div>
 											<div class="info">
 												<p class="userId">${i.writer}</p>
 												<p class="writeDate">${i.dateString}</p>
@@ -319,17 +390,19 @@
 											<div class="countList">
 												<ul>
 													<li>
-														<button class="comment_likeBtn likeBtn like-hate-btn" data-seq="${i.seq}"><i class="fa fa-thumbs-up"></i> ${i.like_count}</button>
+														<button class="comment_likeBtn likeBtn like-hate-btn" data-check="${checkLike[status.index]}" data-seq="${i.seq}"><i class="fa fa-thumbs-up"></i> ${i.like_count}</button>
 													</li>
 													<li>
-														<button class="comment_hateBtn hateBtn like-hate-btn" data-seq="${i.seq}"><i class="fa fa-thumbs-down"></i> ${i.hate_count}</button>
+														<button class="comment_hateBtn hateBtn like-hate-btn" data-check="${checkHate[status.index]}" data-seq="${i.seq}"><i class="fa fa-thumbs-down"></i> ${i.hate_count}</button>
 													</li>
 													<li>
-														<button class="comment_declaration" data-seq="${i.seq}"><i class="fa fa-bell color_white" aria-hidden="true"></i> 신고하기</button>
+														<button class="comment_declaration report" data-thisSeq="${i.seq}" data-seq="${disDto.seq}" data-id="${i.id}" data-url="/discussion/report" data-proc="/discussion/reportProc"><i class="fa fa-bell color_white" aria-hidden="true"></i> 신고하기</button>
 													</li>
-													<li>
-														<button class="comment_delete normal" data-seq="${i.seq}" data-parent_seq="${disDto.seq}">댓글삭제</button>
-													</li>
+													<c:if test="${loginInfo.id == i.id}">
+														<li>
+															<button class="comment_delete normal" data-seq="${i.seq}" data-parent_seq="${disDto.seq}">댓글삭제</button>
+														</li>
+													</c:if>
 												</ul>
 											</div>
 										</div>
@@ -341,10 +414,10 @@
 								<div class="tit_s2">
 									<h3>댓글(${fn:length(commentList)})</h3>
 								</div>
-								<c:forEach var="i" items="${commentList}">
+								<c:forEach var="i" items="${commentList}" varStatus="status">
 									<article>
 										<div class="userInfo_s1">
-											<div class="thumb"><img src="/resources/img/sub/userThum.jpg"/></div>
+											<div class="thumb"><img src="/upload/member/${i.id}/${i.thumNail}"/></div>
 											<div class="info">
 												<p class="userId">${i.writer}</p>
 												<p class="writeDate">${i.dateString}</p>
@@ -359,17 +432,19 @@
 											<div class="countList">
 												<ul>
 													<li>
-														<button class="comment_likeBtn likeBtn like-hate-btn" data-seq="${i.seq}"><i class="fa fa-thumbs-up"></i> ${i.like_count}</button>
+														<button class="comment_likeBtn likeBtn like-hate-btn" data-check="${checkLike[status.index]}" data-seq="${i.seq}"><i class="fa fa-thumbs-up"></i> ${i.like_count}</button>
 													</li>
 													<li>
-														<button class="comment_hateBtn hateBtn like-hate-btn" data-seq="${i.seq}"><i class="fa fa-thumbs-down"></i> ${i.hate_count}</button>
+														<button class="comment_hateBtn hateBtn like-hate-btn" data-check="${checkHate[status.index]}" data-seq="${i.seq}"><i class="fa fa-thumbs-down"></i> ${i.hate_count}</button>
 													</li>
 													<li>
-														<button class="comment_declaration" data-seq="${i.seq}"><i class="fa fa-bell color_white" aria-hidden="true"></i> 신고하기</button>
+														<button class="comment_declaration report" data-thisSeq="${i.seq}" data-seq="${disDto.seq}" data-id="${i.id}" data-url="/discussion/report" data-proc="/discussion/reportProc"><i class="fa fa-bell color_white" aria-hidden="true"></i> 신고하기</button>
 													</li>
-													<li>
-														<button class="comment_delete normal" data-seq="${i.seq}" data-parent_seq="${disDto.seq}">댓글삭제</button>
-													</li>
+													<c:if test="${loginInfo.id == i.id}">
+														<li>
+															<button class="comment_delete normal" data-seq="${i.seq}"  data-parent_seq="${disDto.seq}">댓글삭제</button>
+														</li>
+													</c:if>
 												</ul>
 											</div>
 										</div>
@@ -399,23 +474,23 @@
 						</div>
 					</div>	
 					<div class="btns_s2">
-						<button type="button" id="modify">글수정</button>
-						<button type="button" id="delete">글삭제</button>
-						<button type="button" id="historyBack">뒤로가기</button>					
+						<c:choose>
+							<c:when test="${loginInfo.id == disDto.id}">
+								<button type="button" id="modify">글수정</button>
+								<button type="button" id="delete">글삭제</button>
+								<button type="button" id="historyBack">뒤로가기</button>					
+							</c:when>
+							<c:otherwise>
+								<button type="button" class="w100p" id="historyBack">뒤로가기</button>					
+							</c:otherwise>
+						</c:choose>
 					</div>			
-		
-				
-
-		
-	
-				
-				
-
-				
+				</div>
 			</article>
 		</section>
 	</div>
+<%-- <jsp:include page="/WEB-INF/views/group/report.jsp" /> --%>
 
-
-
+<!-- 공통 신고하기  -->
+<jsp:include page="/WEB-INF/views/reportPage.jsp" />
 <jsp:include page="/WEB-INF/views/footer.jsp"/>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="News">
+	
+	<insert id="newsInsert">
+		insert into news values(
+			news_seq.nextval, #{ndto.title}, #{ndto.writer}, #{ndto.category}, #{ndto.start_date}, #{ndto.end_date},
+			#{ndto.location}, #{ftndto.sysname}, #{ndto.files_name}, #{ndto.contents}, default, 0, 0, 0
+		)
+	</insert>
+	
+	<insert id="newsInsert_thumb">
+		insert into files values(
+			files_seq.nextval, #{sysname}, #{oriname}, #{realpath}, #{category}, news_seq.currval
+		)
+	</insert>
+	
+	<insert id="newsInsert_files">
+		insert into files values(
+			files_seq.nextval, #{sysname}, #{oriname}, #{realpath}, #{category}, news_seq.currval
+		)
+	</insert>
+	
+	<resultMap id="thumbnail_img" type="kh.pingpong.dto.NewsDTO">
+		<result property="thumbnail_img" column="thumbnail"/>
+		<result property="files_name" column="files"/>
+		<result property="write_date_st" column="write_date"/>
+	</resultMap>
+		
+	<select id="newsViewOne" resultMap="thumbnail_img">
+		select seq, title, writer, category, 
+		to_char(start_date,'yyyy-mm-dd') start_date, to_char(end_date,'yyyy-mm-dd') end_date, location, thumbnail,
+        files, contents, to_char(write_date,'yyyy-mm-dd') write_date,view_count,like_count,comment_count
+		from news where seq=${seq}
+	</select>
+	
+	<!-- 프로필 수정 -->
+	<update id="newsUpdate_ftn">
+		update files set sysname= #{sysname}, oriname=#{oriname}, realpath=#{realpath} where parent_seq = #{parent_seq} and category ='news_thumb'
+	</update>
+	
+	<!-- 파일들 수정 -->
+	<update id="newsUpdate_files">
+		update files set sysname= #{sysname}, oriname=#{oriname}, realpath=#{realpath} where parent_seq = #{parent_seq} and seq= #{seq} and category = 'news'
+	</update>
+	
+	<!-- 수정 프로필 수정 -->
+	<update id="newsUpdate_new">
+		update news set title= #{ndto.title}, writer=#{ndto.writer}, category=#{ndto.category}
+		, start_date=#{ndto.start_date}, end_date=#{ndto.end_date}, location=#{ndto.location}, contents=#{ndto.contents}
+		<if test="ftndto.sysname != null">
+			,thumbnail = #{ftndto.sysname}
+		</if>		
+		where seq = #{ndto.seq}
+	</update>
+	
+	<!-- 수정 파일All -->
+	<update id="newsUpdate_new_filesAll">
+		update news set title= #{title}, writer=#{writer}, category=#{category}
+		, start_date=#{start_date}, end_date=#{end_date}, location=#{location}, contents=#{contents},
+		files=#{files_name} where seq = #{seq}
+	</update>
+	
+	<!-- 수정 파일All -->
+	<update id="modifyProc_news">
+		update news set title= #{title}, writer=#{writer}, category=#{category}
+		, start_date=#{start_date}, end_date=#{end_date}, location=#{location}, contents=#{contents}
+		where seq = #{seq}
+	</update>
+
+	<!-- 파일들 select -->
+	<select id="newsViewFile" resultType="kh.pingpong.dto.FileDTO">
+		select * from files where parent_seq=${seq} and category = 'news'
+	</select>
+	
+	<!-- 파일 하나 select -->
+	<select id="newsViewFileOne" resultType="kh.pingpong.dto.FileDTO">
+		select * from files where parent_seq=${seq} and category = 'news' and sysname = #{files_name}
+	</select>
+	
+	<delete id="delete">
+		delete from news where seq=${seq}
+	</delete>
+	
+	<delete id="fileDelete">
+		delete from files where parent_seq=#{seq} and category in ('news','news_thumb')
+		<if test="files_name != null">
+			and sysname = #{files_name}
+		</if>
+	</delete>
+	
+	<!-- 뉴스 총 게시물 수 -->
+	<select id="newsBoard_count" resultType="int">
+		select count(*) from news
+	</select>
+	
+	<select id="newsPage" resultMap="thumbnail_img">
+		select seq, title, writer, category, 
+		to_char(start_date,'yyyy-mm-dd') start_date, to_char(end_date,'yyyy-mm-dd') end_date, location, thumbnail,
+        files, contents, to_char(write_date,'yyyy-mm-dd') write_date,view_count,like_count,comment_count
+		from (select news.*,row_number() over(order by seq desc) rnum from news)where rnum between #{start} and #{end} order by seq desc
+	</select>
+	
+	<!-- 카운트 -->
+	<update id="viewCount">
+		update news set view_count = view_count+1 where seq=${seq}
+	</update>
+	
+	<!-- 정렬 -->
+	<select id="schAlign" resultMap="thumbnail_img">
+		select 
+		seq, title, writer, category, 
+		to_char(start_date,'yyyy-mm-dd') start_date, to_char(end_date,'yyyy-mm-dd') end_date, location, thumbnail,
+        files, contents, to_char(write_date,'yyyy-mm-dd') write_date,view_count,like_count,comment_count
+		from (select news.*,row_number() over(
+		<trim prefix="order by"> 
+	         <if test="schAlign == 'recent'">  write_date</if>
+	         <if test="schAlign == 'like'">  view_count desc</if>
+		</trim>
+		) rnum from news)where rnum between #{start} and #{end}
+	</select>
+	
+
+</mapper>

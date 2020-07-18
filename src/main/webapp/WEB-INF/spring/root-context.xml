@@ -35,7 +35,7 @@
 	
 	<!-- 이메일 발송 bean 설정 -->
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-        <property name="host" value="smtp.gmail.com" /> <!-- gmail을 사용 -->
+        <property name="host" value="smtp.gmail.com" />
         <property name="port" value="587" />
         <property name="username" value="jkl02138@gmail.com" />
         <property name="password" value="xygrlrwfokiajbys" />

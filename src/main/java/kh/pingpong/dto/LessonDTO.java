@@ -12,7 +12,6 @@ public class LessonDTO {
 	private String email;
 	private String phone_country;
 	private String phone;
-	private MultipartFile profile;
 	private String category;
 	private String title;
 	private int price;
@@ -28,6 +27,8 @@ public class LessonDTO {
 	private int max_num;
 	private int cur_num;
 	private String location;
+	private String location_lat;
+	private String location_lng;
 	private String curriculum;
 	private int like_count;
 	private int view_count;
@@ -44,12 +45,12 @@ public class LessonDTO {
 		// TODO Auto-generated constructor stub
 	}
 
-	public LessonDTO(int seq, String id, String name, String email, String phone_country, String phone,
-			MultipartFile profile, String category, String title, int price, String language, String apply_start,
-			String apply_end, String start_date, String end_date, String start_hour, String start_minute,
-			String end_hour, String end_minute, int max_num, int cur_num, String location, String curriculum,
-			int like_count, int view_count, int review_count, float review_point, String applying, String proceeding,
-			String pass, String sysname) {
+	public LessonDTO(int seq, String id, String name, String email, String phone_country, String phone, String category,
+			String title, int price, String language, String apply_start, String apply_end, String start_date,
+			String end_date, String start_hour, String start_minute, String end_hour, String end_minute, int max_num,
+			int cur_num, String location, String location_lat, String location_lng, String curriculum, int like_count,
+			int view_count, int review_count, float review_point, String applying, String proceeding, String pass,
+			String sysname) {
 		super();
 		this.seq = seq;
 		this.id = id;
@@ -57,7 +58,6 @@ public class LessonDTO {
 		this.email = email;
 		this.phone_country = phone_country;
 		this.phone = phone;
-		this.profile = profile;
 		this.category = category;
 		this.title = title;
 		this.price = price;
@@ -73,6 +73,8 @@ public class LessonDTO {
 		this.max_num = max_num;
 		this.cur_num = cur_num;
 		this.location = location;
+		this.location_lat = location_lat;
+		this.location_lng = location_lng;
 		this.curriculum = curriculum;
 		this.like_count = like_count;
 		this.view_count = view_count;
@@ -130,14 +132,6 @@ public class LessonDTO {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
-	}
-
-	public MultipartFile getProfile() {
-		return profile;
-	}
-
-	public void setProfile(MultipartFile profile) {
-		this.profile = profile;
 	}
 
 	public String getCategory() {
@@ -260,6 +254,22 @@ public class LessonDTO {
 		this.location = location;
 	}
 
+	public String getLocation_lat() {
+		return location_lat;
+	}
+
+	public void setLocation_lat(String location_lat) {
+		this.location_lat = location_lat;
+	}
+
+	public String getLocation_lng() {
+		return location_lng;
+	}
+
+	public void setLocation_lng(String location_lng) {
+		this.location_lng = location_lng;
+	}
+
 	public String getCurriculum() {
 		return curriculum;
 	}
@@ -333,4 +343,5 @@ public class LessonDTO {
 	}
 
 
+	
 }

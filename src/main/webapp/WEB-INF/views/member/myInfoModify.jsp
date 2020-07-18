@@ -5,73 +5,109 @@
 
 <script src="/resources/js/myinfoModify.js"></script>
 
+<Style>
+	#joinForm input,
+	#joinForm select, 
+	#joinForm button { max-width:140px; }
+	#joinForm input[type="submit"] { 
+	    height: 32px;
+	    line-height: 32px;
+	    border: 1px solid #ddd;
+	    box-sizing: border-box;
+	    border-radius: 6px;
+	    width: 100%;
+	    margin: 0;
+	    padding: 0 10px;
+	}
+	#joinForm input[type="submit"],
+	#joinForm button { position:absolute; right:0; top:0; font-size:12px;}
+	.se_singup { position:relative;}
+	.se_con p { margin-bottom:10px;}
+	.se_con { margin-top:20px;}
+	
+	
+	.phoneInput select {}
+	#joinForm .phoneInput input[type="text"] { 
+		width:calc(100% - 143px);
+		width:-webkit-calc(100% - 143px);
+		width:-moz-calc(100% - 143px);
+	}
+</Style>
+
     <div id="subWrap" class="hdMargin" style="padding-top: 155.8px;">
 		<section id="subContents">
-			<div id="join">
-			    <h1>MEMBER</h1>
-				<form id="myInfoModifyProc">
-					<input type="hidden" name="mem_type" value="basic">
-					<input type="hidden" name="category" value="member">
-					<input type="hidden" name="grade" value="defalut">
-					
+			<div id="joinForm">
+				<div class="tit_s1">
+					<h2>MEMBER</h2>
+					<p>다양한 사람들을 원하시나요?<br>관심사가 비슷한 사람들과 함께 소통해 보세요.</p>
+				</div>
+				<input type="hidden" id="id" name="id" value="${sessionScope.loginInfo.id}">
+				<input type="hidden" id="name" name="name" value="${sessionScope.loginInfo.name}">
+				<input type="hidden" id="email" name="email" value="${sessionScope.loginInfo.email}">
+				
+				<div class="formBox card_body">
 					<div class="se_singup">
 						<div class="title">아이디</div>
 						<div class="se_con">
-							${sessionScope.loginInfo.id}
+							<p>${sessionScope.loginInfo.id}</p>
 						</div>
 					</div>
-		
-					<div class="se_singup">
-						<div class="title">
-							비밀번호 							
+					
+					<c:if test="${mdto.mem_type != 'kakao'}">
+						<div class="se_singup" id="kakaoNot">
+							<div class="title">
+								비밀번호 							
+							</div>												
+							<div class="se_con">
+								<div>
+									<button type="button" id="modyPwBtn">비밀번호 수정</button>								
+								</div>
+							</div>						
 						</div>
-												
-						<div class="se_con">
-							<div>
-								<button type="button" class="modyBtn">링크연결 수정</button>								
-							</div>
-						</div>
-						
-					</div>
+					</c:if>
 		
 					<div class="se_singup">
 						<div class="title">이름</div>
 						<div class="se_con">
-							${sessionScope.loginInfo.name}
+							<p>${sessionScope.loginInfo.name}</p>
 						</div>
 					</div>
 		
 					<div class="se_singup">
 						<div class="title">나이</div>
 						<div class="se_con">
-							${sessionScope.loginInfo.age}				
-							${sessionScope.loginInfo.gender}
+							<p>
+								${sessionScope.loginInfo.age}				
+								${sessionScope.loginInfo.gender}
+							</p>
 						</div>
 					</div>
 		
 					<div class="se_singup">
 						<div class="title">e-mail</div>
 						<div class="se_con">
-							${sessionScope.loginInfo.email}
+							<p>${sessionScope.loginInfo.email}</p>
 						</div>
 					</div>
 		
 					<div class="se_singup">
 						<div class="title">전화번호</div>
-						<div class="se_con">
-							${sessionScope.loginInfo.phone_country}
-							${sessionScope.loginInfo.phone}
+						<div class="se_con phoneInput">
+							<p>
+								${sessionScope.loginInfo.phone_country}
+								${sessionScope.loginInfo.phone}
+							</p>
 							<div>
 								<button type="button" class="modyBtn">수정</button>
-								
-								<div class="show_input" id="phone_submit">
+								<div class="show_input">
 									<select id="phone_country" name="phone_country" class="w20">
-										<option value="null" id="phone_countryNull">선택 안함</option>
+										<!-- <option value="null" id="phone_countryNull">선택 안함</option> -->
 										<option value="010">010</option>
 										<option value="011">011</option>
 										<option value="070">070</option>
 									</select>
 									<input type="text" id="phone" name="phone" class="w80" placeholder="'-'는 제외하고 작성">
+									<button type="button" id="phone_Result">수정완료</button>
 								</div>
 							</div>							
 						</div>
@@ -80,7 +116,7 @@
 					<div class="se_singup">
 						<div class="title">주소</div>
 						<div class="se_con">
-							${sessionScope.loginInfo.address}
+							<p>${sessionScope.loginInfo.address}</p>
 							<div>
 								<button type="button" class="modyBtn">수정</button>
 								<div class="show_input">
@@ -89,7 +125,7 @@
 										<select name="gugun1" id="gugun1"></select>
 										<input type="hidden" name="address" id="address">
 									</div>
-									<button type="button" id="addressBtn">수정완료</button>
+									<button type="button" id="address_Result">수정완료</button>
 								</div>
 							</div>
 						</div>
@@ -97,9 +133,11 @@
 		
 					<div class="se_singup">
 						<div class="title">은행</div>
-						<div class="se_con">
-							${sessionScope.loginInfo.bank_name}
-							${sessionScope.loginInfo.account}
+						<div class="se_con phoneInput">
+							<p>
+								${sessionScope.loginInfo.bank_name}
+								${sessionScope.loginInfo.account}
+							</p>
 							<div>
 								<button type="button" class="modyBtn">수정</button>
 								<div class="show_input">
@@ -110,6 +148,7 @@
 										</c:forEach>
 									</select>
 									<input type="text" id="account" name="account" class="w80">
+									<button type="button" id="bank_Result">수정완료</button>
 								</div>
 							</div>
 						</div>
@@ -118,12 +157,15 @@
 					<div class="se_singup">
 						<div class="title">프로필 사진</div>
 						<div class="se_con">
-							<img src="/upload/member/${sessionScope.loginInfo.id}/${sessionScope.loginInfo.sysname}">
+							<p><img src="/upload/member/${sessionScope.loginInfo.id}/${sessionScope.loginInfo.sysname}"></p>
 							<div>
 								<button type="button" class="modyBtn">수정</button>
 								<div class="show_input">
-									<input type="file" id="profile" name="profile">
-								</div>
+									<form id="profile_form" enctype="multipart/form-data">
+										<input type="file" id="profile" name="profile">
+										<input type="submit" id="profile_Result" value="수정완료">
+									</form>
+								</div>								
 							</div>
 						</div>
 					</div>
@@ -131,7 +173,7 @@
 					<div class="se_singup">
 						<div class="title">나라</div>
 						<div class="se_con">
-						${sessionScope.loginInfo.country}
+							<p>${sessionScope.loginInfo.country}</p>
 							<div>
 								<button type="button" class="modyBtn">수정</button>
 								<div class="show_input">
@@ -141,6 +183,7 @@
 											<option value="${i.name}">${i.name}</option>
 										</c:forEach>
 									</select>
+									<button type="button" id="country_Result">수정완료</button>
 								</div>
 							</div>
 						</div>
@@ -149,14 +192,19 @@
 					<div class="se_singup">
 						<div class="title">구사 가능 언어 (최대 3개)</div>
 						<div class="se_con">
-						${sessionScope.loginInfo.lang_can}
+							<p>${sessionScope.loginInfo.lang_can}</p>
 							<div>
 								<button type="button" class="modyBtn">수정</button>
 								<div class="show_input">
-									<c:forEach var="i" items="${lanList}" varStatus="status">	
-										<input type="checkbox" name="lang_can" value="${i.language}" id="test${status.index}" name="lang_can"/>
-										<label for="test${status.index}" >${i.language}</label>
+									<ul class="checkBox_s1">
+									<c:forEach var="i" items="${lanList}" varStatus="status">
+										<li>
+											<input type="checkbox" name="lang_can" value="${i.language}" id="test${status.index}" name="lang_can"/>
+											<label for="test${status.index}" ><span></span>${i.language}</label>
+										</li>
 									</c:forEach>
+									</ul>
+									<button type="button" id="lang_can_Result">수정완료</button>
 								</div>
 							</div>
 						</div>
@@ -165,16 +213,19 @@
 					<div class="se_singup">
 						<div class="title">배우고 싶은 언어 (최대 3개)</div>
 						<div class="se_con">
-						${sessionScope.loginInfo.lang_learn}
+							<p>${sessionScope.loginInfo.lang_learn}</p>
 							<div>
 								<button type="button" class="modyBtn">수정</button>
 								<div class="show_input">
+									<ul class="checkBox_s1">
 									<c:forEach var="i" items="${lanList}" varStatus="status">	
-										<span class="o_box">					
+										<li>
 											<input type="checkbox" name="lang_learn" value="${i.language}" id="test2${status.index}" />
-											<label for="test2${status.index}" >${i.language}</label>
-										</span>	
+											<label for="test2${status.index}" ><span></span>${i.language}</label>
+										</li>
 									</c:forEach>
+									</ul>
+									<button type="button" id="lang_learn_Result">수정완료</button>
 								</div>
 							</div>
 						</div>
@@ -183,14 +234,19 @@
 					<div class="se_singup">
 						<div class="title">취미 (최대 3개)</div>
 						<div class="se_con">
-						${sessionScope.loginInfo.hobby}
+							<p>${sessionScope.loginInfo.hobby}</p>
 							<div>
 								<button type="button" class="modyBtn">수정</button>
 								<div class="show_input">
+									<ul class="checkBox_s1">
 									<c:forEach var="i" items="${hobbyList}" varStatus="status">		
-										<input type="checkbox" name="hobby" value="${i.hobby}" id="test3${status.index}" name="hobby">
-										<label for="test3${status.index}">${i.hobby}</label>
+										<li>
+											<input type="checkbox" name="hobby" value="${i.hobby}" id="test3${status.index}" name="hobby">
+											<label for="test3${status.index}"><span></span>${i.hobby}</label>
+										</li>
 									</c:forEach>
+									</ul>
+									<button type="button" id="hobby_Result">수정완료</button>
 								</div>
 							</div>
 						</div>
@@ -199,23 +255,20 @@
 					<div class="se_singup">
 						<div class="title">자기소개</div>
 						<div class="se_con">
-						${sessionScope.loginInfo.introduce}
+							<p>${sessionScope.loginInfo.introduce}</p>
 							<div>
 								<button type="button" class="modyBtn">수정</button>
 								<div class="show_input">							
 									<textarea id="introduce" name="introduce" class="w100" placeholder="50글자 이상 작성해주세요"></textarea>
 									<span id="counter">(0 / 최대 500자)</span>
+									<button type="button" id="introduce_Result">수정완료</button>
 								</div>
 							</div>
 						</div>
 					</div>
-		
-					<div class="si_btn">
-						<input value="회원가입" type="submit" id="myInfoModifyBtn">
-						<a href="javascript:history.back();">뒤로가기</a>
-					</div>
-				</form>
+				</div>
 			</div>
+		
 		</section>
 	</div>
 			

@@ -26,8 +26,10 @@ import kh.pingpong.dto.LessonDTO;
 import kh.pingpong.dto.LikeListDTO;
 import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.dto.ReportListDTO;
+import kh.pingpong.dto.ReviewDTO;
+import kh.pingpong.dto.TuteeDTO;
 import kh.pingpong.dto.TutorAppDTO;
-import kh.pingpong.dto.TutorDTO;
+import kh.pingpong.service.GroupService;
 import kh.pingpong.service.MemberService;
 import kh.pingpong.service.TutorService;
 
@@ -43,6 +45,9 @@ public class TutorController {
 	
 	@Autowired
 	private MemberService mservice;
+	
+	@Autowired
+	private GroupService gservice;
 	
 	//헤더에서 튜터신청하기 버튼눌렀을때 이미 튜터인지, 냈는지 판별
 	@RequestMapping("tutorTrue")
@@ -93,7 +98,7 @@ public class TutorController {
 		
 		int result = tservice.lessonAppProc(ldto);
 		
-		return "redirect: /tutor/lessonList?orderBy=seq";
+		return "redirect: /tutor/lessonList?schType=keyword&orderBy=seq&keywordSelect=name";
 	}
 
 	//헤더에서 튜터신청 버튼 누르기
@@ -118,6 +123,7 @@ public class TutorController {
 		if(files.length != 0) {
 			for(MultipartFile file : files) {
 				FileDTO fdto = new FileDTO();
+			
 				fdto.setOriname(file.getOriginalFilename());
 				systemFileName=System.currentTimeMillis()+"_"+file.getOriginalFilename(); 
 				fdto.setSysname(systemFileName);
@@ -156,31 +162,81 @@ public class TutorController {
 	
 	//강의 list
 	@RequestMapping("lessonList")
-	public String lessonList(String orderBy,HttpServletRequest request, Model model) throws Exception{
+	public String lessonList(String orderBy,String keywordSelect,HttpServletRequest request, Model model, String schType) throws Exception{
 		model.addAttribute("loginInfo", session.getAttribute("loginInfo"));
 		
 		//언어 
 		List<LanguageDTO> lanList = mservice.lanList();
 		model.addAttribute("lanList",lanList);
 		
-		
 		int cpage = 1;
         try {
            cpage = Integer.parseInt(request.getParameter("cpage"));
         } catch (Exception e) {}
         
-		String navi = tservice.getPageNavi_lesson(cpage, orderBy);
+        Map<String, String> param = new HashMap<>();
+        param.put("orderBy", orderBy);
+        
+		String navi = tservice.getPageNavi_lesson(cpage, param);
 		model.addAttribute("navi", navi);
 		
 		List<LessonDTO> lessonlist = tservice.lessonList(cpage, orderBy);
 		System.out.println(lessonlist);
 		model.addAttribute("lessonlist",lessonlist);
+		model.addAttribute("orderBy",orderBy);
+		model.addAttribute("keywordSelect", keywordSelect);
+		model.addAttribute("schType",schType);
 		return "/tutor/lessonList";
 	}
 	
-	//모집중, 진행중, 마감 클릭했을때 리스트 새로 뽑기
-	@RequestMapping("lessonListPeriod")
+	
+	  //모집중, 진행중, 마감 클릭했을때 리스트 새로 뽑기
+	  
+	@RequestMapping("lessonListPeriod") 
 	public String lessonListPeriod(String period, String orderBy, HttpServletRequest request, Model model) throws Exception{
+		model.addAttribute("loginInfo", session.getAttribute("loginInfo"));
+
+		//언어
+		List<LanguageDTO> lanList = mservice.lanList();
+		model.addAttribute("lanList",lanList);
+
+		Map<String,String> param = new HashMap<>(); 
+		param.put("orderBy", orderBy);
+
+
+		//ing 는 컬럼에 들어갈 값임
+		if(period.contentEquals("applying")) {
+			param.put("ing",period); 
+			param.put("ingVal", "Y"); 
+		}else if(period.contentEquals("proceeding")) { 
+			param.put("ing",period);
+			param.put("ingVal", "Y"); 
+		}
+		else if(period.contentEquals("done")) {
+			param.put("ing", "applying='N' and proceeding");
+			param.put("ingVal", "N"); 
+		}
+
+		int cpage = 1; 
+		try { 
+			cpage = Integer.parseInt(request.getParameter("cpage"));
+		} 
+		catch (Exception e) {}
+	
+		String navi = tservice.getPageNavi_lesson(cpage, param);
+		model.addAttribute("navi", navi);
+	
+		List<LessonDTO> lessonlist = tservice.lessonListPeriod(cpage, param);
+		System.out.println(lessonlist); model.addAttribute("lessonlist",lessonlist);
+		model.addAttribute("orderBy",orderBy);
+		return "/tutor/lessonList"; 
+}
+
+	
+
+	//키워드로 검색해서 리스트 뽑기
+	@RequestMapping("searchKeword")
+	public String searchKeyord(String orderBy, String keyword, String keywordSelect,String period, HttpServletRequest request, Model model, String schType) throws Exception{
 		model.addAttribute("loginInfo", session.getAttribute("loginInfo"));
 
 		//언어 
@@ -188,9 +244,10 @@ public class TutorController {
 		model.addAttribute("lanList",lanList);
 		
 		Map<String,String> param = new HashMap<>();
+		param.put("keywordSelect", keywordSelect);
+		param.put("keyword", keyword);
 		param.put("orderBy", orderBy);
 		
-		//ing 는 컬럼에 들어갈 값임
 		if(period.contentEquals("applying")) {
 			param.put("ing",period);
 			param.put("ingVal", "Y");
@@ -202,24 +259,29 @@ public class TutorController {
 			param.put("ingVal", "N");
 		}
 
+		
 		int cpage = 1;
 		try {
 			cpage = Integer.parseInt(request.getParameter("cpage"));
 		} catch (Exception e) {}
 
-		String navi = tservice.getPageNavi_lesson(cpage, orderBy);
+		String navi = tservice.getPageNavi_lesson(cpage, param);
 		model.addAttribute("navi", navi);
 
-		List<LessonDTO> lessonlist = tservice.lessonListPeriod(cpage, param);
+		List<LessonDTO> lessonlist = tservice.search(cpage, param);
 		System.out.println(lessonlist);
 		model.addAttribute("lessonlist",lessonlist);
+		model.addAttribute("orderBy",orderBy);
+		model.addAttribute("keywordSelect", keywordSelect);
+		model.addAttribute("keyword", keyword);
+		model.addAttribute("period", period);
+		model.addAttribute("schType", schType);
 		return "/tutor/lessonList";
 	}
 	
-
-	//키워드로 검색해서 리스트 뽑기
-	@RequestMapping("searchKeword")
-	public String searchKeyord(String orderBy, String keyword, String keywordSelect,HttpServletRequest request, Model model) throws Exception{
+	//달력으로 검색해서 리스트 뽑기
+	@RequestMapping("searchDate")
+	public String searchDate(String orderBy, String start_date, String end_date,String period,HttpServletRequest request, Model model, String schType) throws Exception{
 		model.addAttribute("loginInfo", session.getAttribute("loginInfo"));
 
 		//언어 
@@ -227,23 +289,82 @@ public class TutorController {
 		model.addAttribute("lanList",lanList);
 		
 		Map<String,String> param = new HashMap<>();
-		param.put("keywordSelect", keywordSelect);
-		param.put("keyword", keyword);
+		param.put("start_date", start_date);
+		param.put("end_date", end_date);
 		param.put("orderBy", orderBy);
+		
+		if(period.contentEquals("applying")) {
+			param.put("ing",period);
+			param.put("ingVal", "Y");
+		}else if(period.contentEquals("proceeding")) {
+			param.put("ing",period);
+			param.put("ingVal", "Y");
+		}else if(period.contentEquals("done")) {
+			param.put("ing", "applying='N' and proceeding");
+			param.put("ingVal", "N");
+		}
+
 
 		int cpage = 1;
 		try {
 			cpage = Integer.parseInt(request.getParameter("cpage"));
 		} catch (Exception e) {}
 
-		String navi = tservice.getPageNavi_lesson(cpage, orderBy);
+		String navi = tservice.getPageNavi_lesson(cpage, param);
 		model.addAttribute("navi", navi);
 
-		List<LessonDTO> lessonlist = tservice.searchKeword(cpage, param);
+		List<LessonDTO> lessonlist = tservice.search(cpage, param);
 		System.out.println(lessonlist);
 		model.addAttribute("lessonlist",lessonlist);
+		model.addAttribute("orderBy",orderBy);
+		model.addAttribute("schType",schType);
+		model.addAttribute("start_date", start_date);
+		model.addAttribute("period", period);
+		model.addAttribute("end_date", end_date);
 		return "/tutor/lessonList";
+	}
+	
+	//지도로 검색하기
+	@RequestMapping("searchMap")
+	public String searchMap(String location, String orderBy,String period,HttpServletRequest request, Model model, String schType) throws Exception{
+		model.addAttribute("loginInfo", session.getAttribute("loginInfo"));
 
+		//언어 
+		List<LanguageDTO> lanList = mservice.lanList();
+		model.addAttribute("lanList",lanList);
+		
+		Map<String,String> param = new HashMap<>();
+		param.put("location", location);
+		param.put("orderBy", orderBy);
+		
+		if(period.contentEquals("applying")) {
+			param.put("ing",period);
+			param.put("ingVal", "Y");
+		}else if(period.contentEquals("proceeding")) {
+			param.put("ing",period);
+			param.put("ingVal", "Y");
+		}else if(period.contentEquals("done")) {
+			param.put("ing", "applying='N' and proceeding");
+			param.put("ingVal", "N");
+		}
+
+
+		int cpage = 1;
+		try {
+			cpage = Integer.parseInt(request.getParameter("cpage"));
+		} catch (Exception e) {}
+
+		String navi = tservice.getPageNavi_lesson(cpage, param);
+		model.addAttribute("navi", navi);
+
+		List<LessonDTO> lessonlist = tservice.search(cpage, param);
+		System.out.println(lessonlist);
+		model.addAttribute("lessonlist",lessonlist);
+		model.addAttribute("orderBy",orderBy);
+		model.addAttribute("schType",schType);
+		model.addAttribute("period", period);
+		model.addAttribute("location", location);
+		return "/tutor/lessonList";
 	}
 	
 	//강의 view
@@ -251,6 +372,15 @@ public class TutorController {
 	public String lessonView(Model model, int seq) throws Exception{
 		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
 		String id = mdto.getId();
+		
+		List<TuteeDTO> tuteeList = tservice.tuteeList(seq);
+		if(tuteeList.size()==0) {
+			System.out.println("===============nullnulll");
+		}
+		for(TuteeDTO i : tuteeList) {
+			System.out.println("======================"+i.getId());
+		}
+		
 		
 		Map<Object, Object> param = new HashMap<>();
 		param.put("id", id);
@@ -264,6 +394,8 @@ public class TutorController {
 		
 		//언어 
 		List<LanguageDTO> lanList = mservice.lanList();
+		//리뷰 리스트 출력
+		List<ReviewDTO> reviewList = gservice.reviewList(seq);
 		
 		model.addAttribute("loginInfo", session.getAttribute("loginInfo"));
 		model.addAttribute("lanList",lanList);
@@ -271,6 +403,8 @@ public class TutorController {
 		model.addAttribute("seq", seq);
 		model.addAttribute("checkLike", checkLike);
 		model.addAttribute("checkJjim",checkJjim);
+		model.addAttribute("reviewList", reviewList);
+		model.addAttribute("tuteeList", tuteeList);
 		return "/tutor/lessonView";
 	}
 	
@@ -334,43 +468,38 @@ public class TutorController {
 		return result;
 	}
 	
-	//강의 신청서 수정버튼
-	@RequestMapping("lessonUpdate")
-	public String lessonUpdate(Model model, int seq) throws Exception{
-		
-		LessonDTO ldto = tservice.lessonView(seq);
-		model.addAttribute("seq", seq);
-		model.addAttribute("ldto",ldto);
-		return "/tutor/lessonUpdate";
-	}
+	/*
+	 * //강의 신청서 수정버튼
+	 * 
+	 * @RequestMapping("lessonUpdate") public String lessonUpdate(Model model, int
+	 * seq) throws Exception{ LessonDTO ldto = tservice.lessonView(seq);
+	 * model.addAttribute("seq", seq); model.addAttribute("ldto",ldto); return
+	 * "/tutor/lessonUpdate"; }
+	 */
+
+	/*
+	 * //강의 신청서 수정
+	 * 
+	 * @RequestMapping("lessonAppUpdateProc") public String
+	 * lessonAppUpdateProc(LessonDTO ldto, Model model) throws Exception{ MemberDTO
+	 * mdto = (MemberDTO)session.getAttribute("loginInfo");
+	 * 
+	 * System.out.println(ldto.getPrice()); model.addAttribute("loginInfo",
+	 * session.getAttribute("loginInfo")); String id = mdto.getId(); Map<Object,
+	 * Object> param = new HashMap<>(); param.put("id", id); param.put("parent_seq",
+	 * ldto.getSeq());
+	 * 
+	 * boolean checkLike = tservice.LikeIsTrue(param);
+	 * model.addAttribute(checkLike); // ldto.setId(mdto.getId()); //
+	 * ldto.setName(mdto.getName()); // ldto.setEmail(mdto.getEmail()); //
+	 * ldto.setPhone_country(mdto.getPhone_country()); //
+	 * ldto.setPhone(mdto.getPhone()); // ldto.setSysname(mdto.getSysname());
+	 * 
+	 * tservice.lessonAppUpdateProc(ldto); model.addAttribute("ldto",ldto);
+	 * 
+	 * return "/tutor/lessonView"; }
+	 */
 	
-	//강의 신청서 수정
-	@RequestMapping("lessonAppUpdateProc")
-	public String lessonAppUpdateProc(LessonDTO ldto, Model model) throws Exception{
-		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
-		
-		System.out.println(ldto.getPrice());
-		model.addAttribute("loginInfo", session.getAttribute("loginInfo"));
-		String id = mdto.getId();
-		Map<Object, Object> param = new HashMap<>();
-		param.put("id", id);
-		param.put("parent_seq", ldto.getSeq());
-		
-		boolean checkLike = tservice.LikeIsTrue(param);
-		model.addAttribute(checkLike);
-//		ldto.setId(mdto.getId());
-//		ldto.setName(mdto.getName());
-//		ldto.setEmail(mdto.getEmail());
-//		ldto.setPhone_country(mdto.getPhone_country());
-//		ldto.setPhone(mdto.getPhone());
-//		ldto.setSysname(mdto.getSysname());
-
-		tservice.lessonAppUpdateProc(ldto);
-		model.addAttribute("ldto",ldto);
-		
-		return "/tutor/lessonView";
-	}
-
 	//같은사람이 게시물 신고했는지 확인
 	@RequestMapping("report")
 	@ResponseBody
@@ -389,6 +518,14 @@ public class TutorController {
 		tservice.reportProc(rldto);
 		return "redirect: /tutor/lessonView?seq="+rldto.getParent_seq();
 	}
-
 	
+	//리뷰 갯수랑 평점 업데이트
+	@RequestMapping("reviewUpdate")
+	public String reviewUpdate(Model model, ReviewDTO rdto) throws Exception{
+		System.out.println(rdto.getParent_seq() + rdto.getCategory());
+		tservice.reviewUpdate(rdto);
+		return "redirect: /tutor/lessonView?seq="+ rdto.getParent_seq();
+	}
+	
+
 }

@@ -24,8 +24,11 @@ $(document).ready(function(){
     
     // 탭 개수에 따른 width
     var tab = $(".tab_s1");
-    if(tab.length){
+    var tab2 = $(".tab_s2");
+    if(tab.length || tab2.length){
+    	
     	var tabLength = tab.find("li").length;
+    	var tabLength2 = tab2.find("li").length;
     	switch(tabLength){
     		case 1 : tab.find("li").css({ width:100+"%"});
     		break;
@@ -35,12 +38,25 @@ $(document).ready(function(){
     		break;
     		case 4 : tab.find("li").css({ width:23.5+"%" });
     		break;
-    		case 5 : tab.find("li").css({ width:18.5+"%" });
+    		case 5 : tab.find("li").css({ width:18.4+"%" });
     		break;
+    	}
+    	switch(tabLength2){
+    	case 1 : tab2.find("li").css({ width:100+"%"});
+    	break;
+    	case 2 : tab2.find("li").css({ width:50+"%" });
+    	break;
+    	case 3 : tab2.find("li").css({ width:33.3333333+"%" });
+    	break;
+    	case 4 : tab2.find("li").css({ width:25+"%" });
+    	break;
+    	case 5 : tab2.find("li").css({ width:20+"%" });
+    	break;
     	}
     	
     	
     	var tabContWrap = $("#tabContWrap");
+    	
     	tab.find("li").click(function(){
     		var idx = $(this).index();
     		tab.find("li").removeClass("on");
@@ -52,7 +68,10 @@ $(document).ready(function(){
     
     //tutor일때 튜터신청 이미 했다고 말해주려고
     $("#tutorApp").on("click", function(){
-
+    	if($(this).data("grade") == "tutor"){
+    		alert("이미 튜터입니다.");
+    		return false;
+    	}
     	$.ajax({
     		url: "/tutor/tutorTrue",
     		type: 'POST'
@@ -82,8 +101,37 @@ $(document).ready(function(){
     });
     
     
+    
+	$("input[type='text'],input[type='password'],textarea").blur(function(){
+		var thisVal = $(this).val();
+		$(this).val(textChk(thisVal,$(this)));
+	})
+ 	$(".note-editable").blur(function(){
+		var thisVal = $(this).html();
+		$(this).text(textChk(thisVal,$(this)));
+	});
+	
+	
 });
-
+function textChk(thisVal, obj){
+	var replaceId  = /(script)/gi;
+	var textVal = thisVal;
+    if (textVal.length > 0) {
+        if (textVal.match(replaceId)) {
+        	console.log(obj)
+        	if(obj.val().length){
+	        	obj.val("");
+	        	$(".wordsize .current").text(0)
+	        	textVal = obj.val();
+        	}else{
+	        	obj.html("");
+	        	$(".wordsize .current").text(0)
+	        	textVal = obj.val();
+        	}
+        }
+    }
+    return textVal;
+}
 
 function init(){
 	$gnb = $(".gnb");

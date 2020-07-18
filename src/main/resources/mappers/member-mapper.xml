@@ -33,6 +33,16 @@
 		insert into files values(files_seq.nextval, #{sysname}, #{oriname}, #{realpath}, #{category}, 0)
 	</insert>
 	
+	<!-- 회원가입 sns -->
+	<insert id ="memberInsertSns">
+		insert into member values(
+			#{mem_type}, #{id}, #{pw}, #{name}, ${age},
+			#{gender}, #{email}, #{phone_country}, #{phone}, #{address}, #{bank_name},
+			#{account}, #{sysname}, #{country}, #{lang_can}, #{lang_learn}, #{hobby}, #{grade},
+			#{introduce}, default, default
+		)
+	</insert>
+	
 	<!-- 마이페이지 출력 -->	
 	<resultMap id="MemProfile" type="kh.pingpong.dto.MemberDTO">
     	<result property="sysname" column="profile"/>
@@ -48,7 +58,9 @@
 	</resultMap>
 
 	<select id="isIdPwSame" resultType="Integer">
-		select count(*) from member where id=#{id} and pw=#{pw}
+		select count(*) from member where id=#{id}
+		<if test="pw != null">and pw=#{pw}</if>
+
 	</select>
 	
 	<select id="loginInfo" resultMap="MemProfile">
@@ -85,13 +97,86 @@
 		delete from files where sysname=#{sysname} 
 	</delete>
 	
-	<!-- 회원정보 수정 -->
-	<update id="myInfoModifyProc">
-		update member set #{mdto.mem_type}, #{mdto.id}, #{mdto.pw}, #{mdto.name}, ${mdto.age},
-			#{mdto.gender}, #{mdto.email}, #{mdto.phone_country}, #{mdto.phone}, #{mdto.address}, #{mdto.bank_name},
-			#{mdto.account}, #{fdto.sysname}, #{mdto.country}, #{mdto.lang_can}, #{mdto.lang_learn}, #{mdto.hobby}, #{mdto.grade},
-			#{mdto.introduce}, default, default where id = #{id}
+	<!-- :::::: 회원정보 수정  :::::: -->
+	<!-- 전화번호 -->
+	<update id="myInfoMoPhone">
+		update member set phone_country=#{phone_country}, phone=#{phone} where id = #{id}
 	</update>
+	
+	<!-- 주소 -->
+	<update id="myInfoMoAddress">
+		update member set address=#{address} where id = #{id}
+	</update>
+	
+	<!-- 은행 -->
+	<update id="myInfoMobank">
+		update member set bank_name = #{bank_name}, account = #{account} where id = #{id}
+	</update>
+	
+	<!-- 프로필 member table :  멀티파트 에이작스로 해야함 -->
+	<update id="myInfoProfile">
+		update member set profile = #{fdto.sysname} where id = #{mdto.id}
+	</update>
+	<!-- 프로필  file table -->
+	<update id="myInfoProfileFile">
+		update files set sysname = #{fdto.sysname}, oriname = #{fdto.oriname}, realpath = #{fdto.realpath} where sysname = #{mdto.sysname}
+	</update>
+	
+	<!-- 나라 -->
+	<update id="myInfoCountry">
+		update member set country = #{country} where id = #{id}
+	</update>
+	
+	<!-- 할 수 있는 언어 -->
+	<update id="myInfoLang_can">
+		update member set lang_can = #{lang_can} where id = #{id}
+	</update>
+	
+	<!-- 배우고 싶은 언어 -->
+	<update id="myInfoLang_learn">
+		update member set lang_learn = #{lang_learn} where id = #{id}
+	</update>
+	
+	<!-- 취미 -->
+	<update id="myInfoHobby">
+		update member set hobby = #{hobby} where id = #{id}
+	</update>
+	
+	<!-- introduce -->
+	<update id="myInfoIntroduce">
+		update member set introduce = #{introduce} where id = #{id}
+	</update>
+	
+	<!-- 나이올리기 -->
+	<update id="scheduleAgeUp">
+		update member set age = age+1
+	</update>
+	
+	<!-- 언어 선호 수 올리기 -->
+	<update id="updateLangCount">
+		update language set lang_count = lang_count + 1 where language in
+		<foreach collection="array" item="eachLang" open="(" close=")" separator=", ">
+			#{eachLang}
+		</foreach>
+	</update>
+	
+	<!-- 지역 선호 수 올리기 -->
+	<update id="updateLocCount">
+		update location set loc_count = loc_count + 1 where loc_name = #{loc_name}
+	</update>
+	
+	<!-- 파트너 / 튜터 목록 가져오기  -->
+	<!-- <select id="personList" resultType="kh.pingpong.dto.MemberDTO">
+		select * from member where grade = #{value}
+	</select> -->
+	<select id="personList" resultMap="MemProfileFile">
+    	select * from member where grade = #{value}
+   	</select>
+	
+	<!-- 아이디로 회원 찾기 -->
+	<select id="getMemberInfo" resultMap="MemProfile">
+		select * from member where id = #{id}
+	</select>
 	
 </mapper>
 

@@ -1,7 +1,7 @@
 package kh.pingpong.controller;
 
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -29,46 +29,72 @@ public class ChatController {
 	private HttpSession session;
 	
 	@ResponseBody
-	@RequestMapping(value="create", produces="application/text;charset=utf8"
-)
+	@RequestMapping(value="create", produces="application/text;charset=utf8")
 	public String create(ChatRoomDTO chatDto) throws Exception{
 		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
-		String roomId = null;
-		String myName = mdto.getName();
-		String usersIds = mdto.getId() +"," +chatDto.getChatMemberId();
-		String usersNames = chatDto.getUsers() +","+myName;
+		String[] usersIdArray = {mdto.getId(),chatDto.getChatMemberId()};
+		Arrays.sort(usersIdArray);
+		//String usersIds = mdto.getId() +"," +chatDto.getChatMemberId();
+		String usersIds = usersIdArray[0]+","+usersIdArray[1];
+		String usersId = chatDto.getChatMemberId();
+		String usersNames = chatDto.getUsers() +","+mdto.getName();
+		System.out.println(Arrays.toString(usersIdArray));
 		
-		Map<String,String> chatInfo = Configuration.chatCreate;
-		chatInfo.put("usersName",usersNames);
-		chatInfo.put("usersIds",usersIds);
-		chatInfo.put("master",mdto.getId());
-		chatInfo.put("partner",chatDto.getChatMemberId());
-		
-		String chatRoomId = chatService.chatRoomIdSch(chatInfo);
-		System.out.println("chatRoomId = " +chatRoomId);
+		String chatRoomId = chatService.chatRoomIdSch(usersIdArray[0],usersIdArray[1]);
+		System.out.println("==== 방 ===" + chatRoomId);
 		int result = 0;
-		
 		if(chatRoomId == null) {
-			roomId = chatService.rndTxt();
-			chatInfo.put("roomId",roomId);
-			result = chatService.chatInsert(chatInfo);
-			chatRoomId = chatService.chatRoomIdSch(chatInfo);
+			String roomId = chatService.rndTxt();
+			Configuration.room = roomId;
+			chatDto.setUsers(usersNames);
+			chatDto.setChatMemberId(usersIds);	
+			chatDto.setRoomId(roomId);
+			result = chatService.chatInsert(chatDto);
+		}else {
+			Configuration.room = chatRoomId;
 		}
-		System.out.println("아이디 뭐지 :"+ chatRoomId);
-		List<ChatRecordDTO> chatRecord = chatService.chatRecordList(chatRoomId);
-		Configuration.chatRecord = chatRecord;
-		Configuration.chatCreate.put("roomId",chatRoomId);
 		
+		List<ChatRecordDTO> chatRecord = chatService.chatRecordList(Configuration.room);
+		//Configuration.chatRecord = chatRecord;
 		if(chatRecord.size() == 0) {
-			return new Gson().toJson(chatRoomId);
+			return new Gson().toJson(Configuration.room);
 		}else {
 			if(result > 0) {
 				return new Gson().toJson(chatRecord);
 			}else{
-				chatInfo.put("roomId",chatRoomId);
 				return new Gson().toJson(chatRecord);
 			}
 		}
 	}
+
+//		//System.out.println("chatRoomId = " +chatRoomId);
+//		int result = 0;
+//		
+//		if(chatRoomId == null) {
+//			roomId = chatService.rndTxt();
+//			session.setAttribute("roomId", roomId);
+//			chatDto.setUsers(usersNames);
+//			chatDto.setChatMemberId(usersIds);	
+//			chatDto.setRoomId(roomId);
+//			result = chatService.chatInsert(chatDto);
+//			chatRoomId = chatService.chatRoomIdSch(mdto.getId(),usersId);
+//		}
+//		session.setAttribute("roomId", chatRoomId);
+//		List<ChatRecordDTO> chatRecord = chatService.chatRecordList(chatRoomId);
+//		Configuration.chatRecord = chatRecord;
+//		
+//		if(chatRecord.size() == 0) {
+//			return new Gson().toJson(chatRoomId);
+//		}else {
+//			if(result > 0) {
+//				return new Gson().toJson(chatRecord);
+//			}else{
+//				//chatInfo.put("roomId",chatRoomId);
+//				return new Gson().toJson(chatRecord);
+//			}
+//		}
+//	}
+
+	
 	
 }

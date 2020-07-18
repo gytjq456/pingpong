@@ -14,10 +14,15 @@
 			#{contents}, default, 0, 0, 0, 0, 0, default, #{proceeding})
 	</insert>
 	
-	<select id="selectGroupList" resultType="kh.pingpong.dto.GroupDTO">
+	<!-- 그룹 목록 출력 -->
+	<resultMap id="GroupProFile" type="kh.pingpong.dto.GroupDTO">
+		<result property="sysname" column="profile"></result>
+	</resultMap>
+	<select id="selectGroupList" resultMap="GroupProFile">
 		select * from
-		(select grouplist.*, row_number() over(order by ${orderBy} desc, seq desc) rnum
-		from grouplist
+		(select g.*, m.profile, row_number() over(order by ${orderBy} desc, seq desc) rnum
+		from grouplist g inner join member m
+		on g.writer_id = m.id
 		<trim prefix="where" prefixOverrides="and">
 			<if test="ing != null">
 				${ing} = #{ingValue}
@@ -28,18 +33,13 @@
 					DBMS_LOB.INSTR(contents, #{keywordValue}) > 0
 				</if>
 				<if test="keywordType != 'contents'">
-					${keywordType} = #{keywordValue}
+					${keywordType} like '%${keywordValue}%'
 				</if>
 			</if>
-			<if test="hobby_type0 != null">
-				and (hobby_type like '%${hobby_type0}%'
-				<if test="hobby_type1 != null">
-					or hobby_type like '%${hobby_type1}%'
-				</if>
-				<if test="hobby_type2 != null">
-					or hobby_type like '%${hobby_type2}%'
-				</if>
-				)
+			<if test="hobby_type != null">
+				<foreach collection="hobby_type" item="hobby_type" open=" and " close="" separator="or">
+					hobby_type like '%${hobby_type}%'
+				</foreach>
 			</if>
 			<if test="period != null">
 				and period = #{period}
@@ -55,6 +55,7 @@
 		where rnum between #{start} and #{end}
 	</select>
 	
+	<!-- 그룹 페이징 -->
 	<select id="selectGroupCount" resultType="int">
 		select count(*) from
 		(select grouplist.*, row_number() over(order by ${orderBy} desc, seq desc) rnum
@@ -69,18 +70,13 @@
 					DBMS_LOB.INSTR(contents, #{keywordValue}) > 0
 				</if>
 				<if test="keywordType != 'contents'">
-					${keywordType} = #{keywordValue}
+					${keywordType} like '%${keywordValue}%'
 				</if>
 			</if>
-			<if test="hobby_type0 != null">
-				and (hobby_type like '%${hobby_type0}%'
-				<if test="hobby_type1 != null">
-					or hobby_type like '%${hobby_type1}%'
-				</if>
-				<if test="hobby_type2 != null">
-					or hobby_type like '%${hobby_type2}%'
-				</if>
-				)
+			<if test="hobby_type != null">
+				<foreach collection="hobby_type" item="hobby_type" open=" and " close="" separator="or">
+					hobby_type like '%${hobby_type}%'
+				</foreach>
 			</if>
 			<if test="period != null">
 				and period = #{period}
@@ -95,18 +91,25 @@
 		)
 	</select>
 	
-	<select id="selectBySeq" resultType="kh.pingpong.dto.GroupDTO">
-		select * from grouplist where seq = #{value}
+	<!-- 그룹 뷰 페이지 -->
+	<select id="selectBySeq" resultMap="GroupProFile">
+		select g.*,m.profile from 
+		grouplist g inner join member m
+		on g.writer_id = m.id
+		where seq = #{value}
 	</select>
 	
+	<!-- 시퀀스 -->
 	<select id="searchSeq" resultType="int">
 		select * from (select seq from grouplist where writer_id = #{value} order by seq desc) where rownum = 1
 	</select>
 	
+	<!-- 그룹 게시글 삭제 -->
 	<delete id="delete">
 		delete grouplist where seq = #{value}
 	</delete>
 	
+	<!-- 그룹 게시글 출력 -->
 	<update id="update">
 		update grouplist set title = #{title}, hobby_type = #{hobby_type},
 			apply_start = #{apply_start}, apply_end = #{apply_end},
@@ -120,31 +123,59 @@
 		select count(*) from grouplist
 	</select>
 	
+	<!-- 조회수 증가 -->
 	<update id="updateViewCount">
 		update grouplist set view_count = view_count + 1 where seq = #{seq}
 	</update>
 	
+	<!-- 그룹 신청서 등록 -->
 	<insert id="insertApp">
 		insert into group_app values(group_app_seq.nextval, #{id}, #{name}, #{age}, #{gender}, #{address},
 			#{profile}, #{lang_can}, #{lang_learn}, #{contents}, #{parent_seq})
 	</insert>
 	
+	<!-- 그룹 신청서 확인 -->
 	<select id="selectApplyForm" resultType="int">
 		select seq from group_app where parent_seq = #{parent_seq} and id = #{id}
 	</select>
 	
+	<!-- 그룹 신청서 삭제 -->
 	<delete id="deleteApplyForm">
 		delete group_app where seq = #{seq}
 	</delete>
 	
+	<!-- 그룹 탈퇴 신청서 -->
 	<insert id="insertDeleteApply">
 		insert into delete_app values(delete_app_seq.nextval, #{id}, '그룹', #{contents}, #{parent_seq})
 	</insert>
 	
-	<select id="selectGroupMemberById" resultType="kh.pingpong.dto.GroupMemberDTO">
-		select * from groupmember where id = #{id} and parent_seq = #{parent_seq}
+	<!-- 그룹 멤버 출력 -->
+	<resultMap id="GroupMemberProFile" type="kh.pingpong.dto.GroupMemberDTO">
+		<result property="sysname" column="profile"></result>
+	</resultMap>
+	<select id="selectGroupMemberList" resultMap="GroupMemberProFile">
+		select g.*, m.profile from groupmember g 
+		inner join member m
+		on g.id = m.id
+		where parent_seq = #{parent_seq}
 	</select>
 	
+	<!-- 그룹 멤버 아이디로 검색 -->
+	<select id="selectGroupMemberById" resultType="int">
+		select seq from groupmember where id = #{id} and parent_seq = #{parent_seq}
+	</select>
+	
+	<!-- 그룹 멤버 나가면 인원수 감소 -->
+	<update id="updateGroupMemberOut">
+		update grouplist set cur_num = cur_num - 1 where seq = #{seq}
+	</update>
+	
+	<!-- 그룹 멤버 삭제 -->
+	<delete id="deleteGroupMember">
+		delete groupmember where id = #{id} and parent_seq = #{parent_seq}
+	</delete>
+	
+	<!-- 그룹 탈퇴 신청 목록 -->
 	<select id="selectDeleteApplyList" resultType="kh.pingpong.dto.DeleteApplyDTO">
 		select * from delete_app where category = '그룹' and parent_seq = #{parent_seq}
 	</select>
@@ -170,11 +201,11 @@
 	</update>
 	
 	<update id="updateApplying">
-		update grouplist set applying = 'N' where apply_end = #{today_date}
+		update grouplist set applying = 'N' where #{today_date} > apply_end
 	</update>
 	
 	<update id="updateProceedingN">
-		update grouplist set proceeding = 'N' where end_date = #{today_date}
+		update grouplist set proceeding = 'N' where #{today_date} > end_date
 	</update>
 	
 	<update id="updateProceedingY">
@@ -206,9 +237,17 @@
 		select seq from jjim where id = #{id} and parent_seq = #{parent_seq} and category = '그룹'
 	</select>
 	
+	<select id="selectReport" resultType="int">
+		select count(*) from reportlist where parent_seq = #{parent_seq} and reporter = #{id} and category = '그룹'
+	</select>
+	
+	<insert id="insertReport">
+		insert into reportlist values(reportlist_seq.nextval, #{id}, #{reason}, #{reporter}, sysdate, #{parent_seq}, '그룹', default)
+	</insert>
+	
 	<!-- 리뷰 글쓰기  -->
 	<insert id="reviewWrite">
-		insert into review values(review_seq.nextval, #{writer}, #{point}, #{contents}, default, #{category}, #{parent_seq})
+		insert into review values(review_seq.nextval, #{writer}, #{point}, #{contents}, default, #{category}, #{parent_seq}, #{thumNail})
 	</insert>
 	
 	<!-- 리뷰 리스트 출력  -->
@@ -218,7 +257,7 @@
 	
 	<!-- 리큐 포인트 가져오기 -->
 	<select id="reviewAvg" resultType="java.lang.Double">
-		select round(avg(point),2) from review where parent_seq = #{value}
+		select round(avg(point),2) from review where parent_seq = #{value} 
 	</select>
 	
 	<!-- 리큐 포인트 가져오기 -->
@@ -236,4 +275,56 @@
 		update grouplist set review_count = ${reviewCount} where seq = ${seq}
 	</update>
 
+	<!-- 내가 등록한 그룹 신청서 관리 -->
+	<select id="allAppList" resultType="kh.pingpong.dto.GroupApplyDTO">
+		select * from group_app
+		<if test="list != null and list.size > 0">
+			where parent_seq in
+			<foreach collection="list" item="seq" open="(" close=")" separator=", ">
+				#{seq}
+			</foreach>
+		</if>
+	</select>
+	
+	<!-- 내가 작성한 그룹 신청서 관리 -->
+	<select id="myAppView" resultType="kh.pingpong.dto.GroupApplyDTO">
+		select * from group_app where parent_seq = #{seq} and id = #{id} order by seq desc
+	</select>
+	
+	<!-- 시퀀스로 그룹 신청서 찾기 -->
+	<select id="showApp" resultType="kh.pingpong.dto.GroupApplyDTO">
+		select * from group_app where seq = #{seq}
+	</select>
+	
+	<!-- 그룹 승인-시퀀스 -->
+	<delete id="deleteAppAsAccept">
+		delete group_app where seq = #{seq}
+	</delete>
+	
+	<!-- 그룹 승인-아이디 -->
+	<insert id="insertGroupMember">
+		insert into groupmember values(groupmember_seq.nextval, #{id}, #{name}, #{parent_seq}, #{parent_title})
+	</insert>
+	
+	<!-- 그룹 승인-부모 시퀀스 -->
+	<update id="updateCurNum">
+		update grouplist set cur_num = cur_num + 1 where seq = #{parent_seq}
+	</update>
+	
+	<!-- 그룹 신청 거절 -->
+	<delete id="refuseApp">
+		delete group_app where seq = #{seq}
+	</delete>
+	
+	<!-- 내 신청서 보기 -->
+	<select id="showMyApp" resultType="kh.pingpong.dto.GroupApplyDTO">
+		select * from group_app where id = #{id} and parent_seq = #{parent_seq}
+	</select>
+	
+	
+	<!-- 리뷰삭제  -->
+	<delete id="reviewDelete">
+		delete review where seq = #{value}
+	</delete>
+	
 </mapper>

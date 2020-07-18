@@ -12,26 +12,40 @@
 	.vertical_top{vertical-align: top; margin-top: 3px;}
 	#hobby_type{display: none;}
 	#map{margin-top: 10px;}
-	#writeProc .wordsize { float: right; transform: translate(-15px, -70px); color: #999; }
+	#writeProc .wordsize { float: right; transform: translate(-15px, -70px); color: #999; margin:0;}
 	#find_group_write #title { padding-right: 76px; }
 </style>
 <script>
 	$(function(){
-		$("input, textarea").blur(function(){
+		/* $("input[type='text'],textarea").blur(function(){
 			var thisVal = $(this).val();
-			$(this).val(textChk(thisVal));
+			$(this).val(textChk(thisVal,$(this)));
 		})
 		
-		function textChk(thisVal){
+	 	$(".note-editable").blur(function(){
+			var thisVal = $(this).html();
+			$(this).text(textChk(thisVal,$(this)));
+		});
+		
+		function textChk(thisVal, obj){
 			var replaceId  = /(script)/gi;
 			var textVal = thisVal;
 		    if (textVal.length > 0) {
+		    	alert(textVal)
 		        if (textVal.match(replaceId)) {
-		        	textVal = thisVal.replace(replaceId, "");
+		        	alert("asd")
+		        	if(obj.val().length){
+			        	obj.val("");
+			        	textVal = obj.val();
+		        	}else{
+			        	obj.html("");
+			        	textVal = obj.val();
+		        	}
 		        }
 		    }
 		    return textVal;
-		}
+		} */
+		
 		
 		$('#apply_start').datepicker({
 			dateFormat: 'yy-mm-dd',
@@ -43,6 +57,10 @@
 			dateFormat: 'yy-mm-dd',
 			minDate: new Date($('#apply_start').val())
 		});
+		
+
+		
+		
 		
 		$('#start_date').datepicker({
 			dateFormat: 'yy-mm-dd',
@@ -62,7 +80,7 @@
 			}
 		})
 		
-		$('#max_num').on('keyup', function(){
+		$('#max_num').blur(function(){
 			var num = $(this).val();
 			var regex = /^[0-9]*$/;
 			if (!regex.test(num)) {
@@ -80,19 +98,19 @@
 		})
 		
 		$("#title").keyup(function(){
-				var word = $(this).val();
-				var wordSize = word.length;
-				if(wordSize <= 100){
-					$("#writeProc .wordsize .current").text(wordSize);
-				}else{
-					word = word.substr(0,100);
-					$("#writeProc .wordsize .current").text(word.length);
-					$(this).val(word);
-					alert("제목은  100자 이하로 등록해 주세요.");
-				}
-			})
+			var word = $(this).val();
+			var wordSize = word.length;
+			if(wordSize <= 100){
+				$("#writeProc .wordsize .current").text(wordSize);
+			}else{
+				word = word.substr(0,100);
+				$("#writeProc .wordsize .current").text(word.length);
+				$(this).val(word);
+				alert("제목은  100자 이하로 등록해 주세요.");
+			}
+		})
 
-			$('#contents').summernote({
+		$('#contents').summernote({
 			height: 600,
 			lang: "ko-KR",
 			callbacks: {
@@ -101,6 +119,13 @@
 				}
 			}
 		})
+		
+		$('#back').on('click', function(){
+			location.href = "/group/main?orderBy=seq&ing=all&schType=keyword";
+		})
+		
+		
+		
 		function uploadSummernoteImageFile(file, editor) {
 			data = new FormData();
 			data.append("file", file);
@@ -115,7 +140,7 @@
 					$(editor).summernote('insertImage', data.url);
 				}
 			});
-		}	
+		}
 	})
 </script>
 	<div id="subWrap" class="hdMargin">
@@ -139,9 +164,14 @@
 								<h4>유형</h4>
 							</div>
 							<div class="group_sub_input">
+								<ul class="checkBox_s1">
 								<c:forEach var="hbdto" items="${hblist}">
-									<input type="checkbox" name="hobby" class="hobby_list" id="${hbdto.seq}" value="${hbdto.hobby}"><label for="${hbdto.seq}">${hbdto.hobby}</label>
+									<li class="">
+										<input type="checkbox" name="hobby" class="hobby_list" id="${hbdto.seq}" value="${hbdto.hobby}">
+										<label for="${hbdto.seq}"><span></span>${hbdto.hobby}</label>
+									</li>									
 								</c:forEach>
+								</ul>
 								<input type="text" name="hobby_type" id="hobby_type">
 							</div>
 						</div>
@@ -219,6 +249,59 @@
 		function writeProc_func(){
 			var hobbyCheckLength = $("input:checkbox[name='hobby']").length;
 			var hobbyList = [];
+			
+			var chkLength = $("input[name='hobby']:checked").length;
+			if($("#title").val() == ""){
+				alert("제목을 입력해 주세요.")
+				$("#title").focus();
+				return false;
+			}			
+			if(chkLength == 0){
+				alert("유형을 1개이상 선택해 주세요.")
+				$("input[name='hobby']").focus();
+				return false;
+			}			
+			
+			if($("#apply_end").val() == "" || $("#start_date").val() == "" || $("#end_date").val() == ""){
+				alert("날짜를 입력해주세요.")
+				$("#apply_end").focus();
+				return false;
+			}
+			
+			if($("#max_num").val() == ""){
+				alert("인원 수를 입력해주세요.")
+				$("#max_num").focus();
+				return false;
+			}
+			
+			if($("#sido1").val() == "시, 도 선택"){
+				alert("시, 도 선택를 선택해주세요.")
+				$("#sido1").focus();
+				return false;
+			}
+			
+			if($("#gugun1").val() == "구, 군 선택"){
+				alert("구, 군 선택를 선택해주세요.")
+				$("#gugun1").focus();
+				return false;
+			}
+			
+			var noteObj = $(".note-editable");
+			if(noteObj.text().replace(/\s|　/gi, "").length == 0){
+				alert("내용을 입력해주세요.")
+				noteObj.text("");
+				noteObj.focus();
+				return false;
+			}
+			
+			var replaceId  = /(script)/gi;
+			if(noteObj.text().match(replaceId)){
+				alert("부적절한 내용이 들어가있습니다.")
+				noteObj.focus();
+				noteObj.html("")
+				return false;
+			}
+			
 			
 			for (var i = 0; i < hobbyCheckLength; i++) {
 				if ($("input:checkbox[name='hobby']:eq(" + i + ")").prop('checked') == true) {
@@ -338,9 +421,9 @@
 			                if (result[i].region_type === 'H') {
 			                    var detailClickedLocation = result[i].address_name;
 			                    var detailSplit = detailClickedLocation.split(' ');
-			                    var detailThird = detailSplit[2];
-			                    var detailThirdLast = detailThird.charAt(detailThird.length - 1);
-			                    if (detailThirdLast == '구') {
+			                    if (detailSplit[1] == '용인시' || detailSplit[1] == '안양시' || detailSplit[1] == '안산시' || detailSplit[1] == '수원시'
+			                    		|| detailSplit[1] == '성남시' || detailSplit[1] == '고양시' || detailSplit[1] == '전주시' || detailSplit[1] == '청주시'
+			                    		|| detailSplit[1] == '포항시' || detailSplit[1] == '천안시') {
 			                    	detailSplit[1] = detailSplit[1] + ' ' + detailSplit[2];
 			                    }
 		                    	inputLocation = detailSplit[0] + ' ' + detailSplit[1];

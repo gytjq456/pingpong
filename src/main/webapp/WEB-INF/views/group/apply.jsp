@@ -4,6 +4,13 @@
 	$(function(){
 		var layerPop_s2 = $("#layerPop_s2");
 		$("#applyForm").on("click", function(){
+			var cur_num = ${gdto.cur_num};
+			var max_num = ${gdto.max_num};
+			
+			if (cur_num == max_num) {
+				alert('이미 정원이 다 찼습니다.');
+				return false;
+			}
 			layerPop_s2.stop().fadeIn();
 		})
 		
@@ -20,10 +27,7 @@
 		})
 	})
 </script>
-<style>
-	#layerPop_s2 { position:fixed; left:0; top:0; width:100%; height:100%; z-index:10001; display:none;  background:rgba(0,0,0,0.5); }
-	#layerPop_s2 .pop_body { position:absolute; left:50%; top:50%; transform:translate(-50%, -50%); max-width:640px; background:#fff;}
-</style>
+
 <article id="layerPop_s2">
 	<div class="pop_body">
 		<div class="tit_s3">
@@ -33,15 +37,22 @@
 			<input type="hidden" name="parent_seq" value="${gdto.seq}">
 			<section>
 				<article>
-					<input type="checkbox" id="agree" required><label for="agree">프로필 공유 동의</label><br>
-					* 프로필 공유에 동의하지 않으면 신청서 제출이 불가능합니다.<br>
-					<div>가입 이유/포부</div>
+					<div>
+						<ul class="checkBox_s1">
+							<li>
+								<input type="checkbox" id="agree" required>
+								<label for="agree" class="checkLabel"><span></span>프로필 공유 동의</label>
+							</li>
+						</ul>
+						<div class="checkAgree">* 프로필 공유에 동의하지 않으면 신청서 제출이 불가능합니다.</div>
+					</div>
+					<div class="tit">가입 이유/포부</div>
 					<div class="contents">
 						<textarea rows="30" cols="50" name="contents" id="app_contents"></textarea>
 					</div>
-					<div>
-						<button>제출</button>
-						<input type="button" id="back2" value="닫기">
+					<div class="btns_s3">
+						<p><button>제출</button></p>
+						<p><input type="button" id="back2" value="닫기"></p>
 					</div>
 				</article>
 			</section>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MainDB">
+	<resultMap id="GroupProFile" type="kh.pingpong.dto.GroupDTO">
+		<result property="sysname" column="profile"></result>
+	</resultMap>
+ 	<select id="groupClassList" resultMap="GroupProFile">
+		select * from ( select g.writer_id,g.title, g.contents, g.start_date, g.end_date, m.profile, row_number() over(order by seq desc) rnum 
+		from grouplist g inner join member m
+        on g.writer_id = m.id
+        where <![CDATA[start_date <= #{value} and #{value} <= end_date]]> ) <![CDATA[where rnum <= 2]]>
+	</select>
+
+	
+	<resultMap id="LessonProFile" type="kh.pingpong.dto.LessonDTO">
+		<result property="sysname" column="profile"></result>
+	</resultMap>	
+	 <select id="lessonClassList" resultMap="LessonProFile">
+		select * from ( select l.id,l.title, l.curriculum, l.start_date, l.end_date, m.profile, row_number() over(order by seq desc) rnum 
+		from lesson l inner join member m
+        on l.id = m.id
+        where <![CDATA[start_date <= #{value} and #{value} <= end_date]]> ) <![CDATA[where rnum <= 2]]>
+	</select>
+	
+	
+	<resultMap type="HashMap" id="groupListMap">
+		<id column="writer_name" property="writer_name"/>
+		<id column="hobby_type" property="hobby_type"/>
+		<id column="location" property="location"/>
+		<id column="location_lat" property="location_lat"/>
+		<id column="location_lng" property="location_lng"/>
+		<id column="profile" property="profile"/>
+		<id column="id" property="id"/>
+	</resultMap>
+	
+	<select id="groupList" resultMap="groupListMap">
+		select g.writer_name, g.hobby_type, g.location, g.location_lat, g.location_lng, m.profile, m.id from grouplist g
+		inner join member m
+		on g.writer_id = m.id
+		and g.location = #{value}
+	</select>
+	
+	
+	<resultMap type="HashMap" id="lessonListMap">
+		<id column="name" property="name"/>
+		<id column="title" property="title"/>
+		<id column="location" property="location"/>
+		<id column="location_lat" property="location_lat"/>
+		<id column="location_lng" property="location_lng"/>
+		<id column="profile" property="profile"/>
+		<id column="id" property="id"/>
+	</resultMap>
+ 	<select id="lessonList" resultMap="lessonListMap">
+		select g.name, g.title, g.category, g.location, g.location_lat, g.location_lng, m.profile, m.id from lesson g
+		inner join member m
+		on g.id = m.id
+		and g.location = #{value}
+		
+	</select>
+</mapper>

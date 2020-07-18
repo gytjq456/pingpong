@@ -3,20 +3,18 @@ package kh.pingpong.service;
 import java.util.List;
 import java.util.Map;
 
-import javax.mail.Message.RecipientType;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import kh.pingpong.config.Configuration;
 import kh.pingpong.dao.PartnerDAO;
 import kh.pingpong.dto.HobbyDTO;
+import kh.pingpong.dto.JjimDTO;
 import kh.pingpong.dto.LanguageDTO;
 import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.dto.PartnerDTO;
+import kh.pingpong.dto.ReportListDTO;
 import kh.pingpong.dto.ReviewDTO;
 
 @Service
@@ -25,8 +23,8 @@ public class PartnerService {
 	private PartnerDAO pdao;
 	
 	//파트너 게시글에서 파트너 찾기
-	public List<PartnerDTO> search(int cpage, Map<String, Object> search, PartnerDTO pdto/* ,String orderBy */) throws Exception{
-		return pdao.search(cpage, search, pdto/* , orderBy */);
+	public List<PartnerDTO> search(int cpage, Map<String, Object> search, PartnerDTO pdto) throws Exception{
+		return pdao.search(cpage, search, pdto);
 	}
 	
 	//취미 선택 
@@ -52,10 +50,18 @@ public class PartnerService {
 		return pdao.partnerListAll();
 	}
 	
+	//파트너 신고
+	public int selectReport(ReportListDTO rldto) {
+		return pdao.selectReport(rldto);
+	}
+	
+	public int insertReport(ReportListDTO rldto) {
+		return pdao.insertReport(rldto);
+	}
+	
 	//페이지 네비게이션
-	public String getPageNavi(int currentPage) throws Exception{
-
-		int recordTotalCount =pdao.getArticleCount(); 
+	public String getPageNavi(int currentPage, String align,Map<String, Object> search) throws Exception{
+		int recordTotalCount = pdao.getArticleCount(); 
 		int pageTotalCount = 0; 
 		//System.out.println(pdao.getArticleCount());
 	
@@ -86,17 +92,28 @@ public class PartnerService {
 		if(startNavi ==1) {needPrev = false;}
 		if(endNavi == pageTotalCount) {needNext = false;}		
 
-		StringBuilder sb = new StringBuilder(); // jsp濡� �꽆寃⑥＜湲� �쐞�빐 �꽔�� 寃�
-
-		if(needPrev) {
-			sb.append("<a href ='partnerList?cpage="+(startNavi-1)+"'>"+" <<  " + "</a>");
+		StringBuilder sb = new StringBuilder();
+		String alignType = align; 
+		//String selectOption = (String)search.get(key)
+		sb.append("<ul>");
+		if(alignType != null) {
+			if(needPrev) {
+				sb.append("<li><a href ='partnerList?cpage="+(startNavi-1)+"'>"+" <<  " + "</a></li>");
+			}
+			for(int i = startNavi; i<=endNavi; i++) {
+				if(currentPage == i) {
+					sb.append("<li class='on'><a href ='partnerList?cpage="+i+"&align="+alignType+"'> "+ i +"</a></li>");
+				}else {
+					sb.append("<li><a href ='partnerList?cpage="+i+"&align="+alignType+"'> "+ i +"</a></li>");
+				}
+			}
+			if(needNext) {
+				sb.append("<li><a href ='partnerList?cpage="+(endNavi+1)+"'>"+" >>" + "</a></li>");
+			}			
+		}else {
+			//if()
 		}
-		for(int i = startNavi; i<=endNavi; i++) {
-			sb.append("<a href ='partnerList?cpage="+i+"'> "+ i +"</a>");
-		}
-		if(needNext) {
-			sb.append("<a href ='partnerList?cpage="+(endNavi+1)+"'>"+" >>" + "</a>");
-		}				
+		sb.append("</ul>");
 		return sb.toString();
 	}
 	
@@ -105,18 +122,21 @@ public class PartnerService {
 		return pdao.selectMember(id);
 	}
 	
-	//파트너 등록
-	public int partnerInsert(Map<String, Object> insertP) throws Exception{
+	//파트너 등록, 파트너 등록 후 멤버 등급 변경
+	@Transactional("txManager")
+	public int partnerInsert(Map<String, Object> insertP,MemberDTO mdto) throws Exception{
+		pdao.updateMemberGrade(mdto);
 		return pdao.insertPartner(insertP);
 	}
-	
-	//파트너 등록 후 멤버 등급 변경
-	public int updateMemberGrade(MemberDTO mdto) throws Exception{
-		return pdao.updateMemberGrade(mdto);
-	}
+		
+//	public int updateMemberGrade(MemberDTO mdto) throws Exception{
+//		return pdao.updateMemberGrade(mdto);
+//	}
 	
 	//파트너 삭제
+	@Transactional("txManager")
 	public int deletePartner(MemberDTO mdto) throws Exception{
+		pdao.updateMemberGradeD(mdto);
 		return pdao.deletePartner(mdto);
 	}
 	
@@ -154,5 +174,19 @@ public class PartnerService {
 		return pdao.reviewWrite(redto);
 	}
 	
+	//찜하기
+	public int insertJjim(JjimDTO jdto) {
+		return pdao.insertJjim(jdto);
+	}
+	public int deleteJjim(JjimDTO jdto) {
+		return pdao.deleteJjim(jdto);
+	}
+	public boolean selectJjim(JjimDTO jdto) {
+		return pdao.selectJjim(jdto);
+	}
 	
+	//검색 최신순 / 평점순
+	public List<PartnerDTO> searchAlign(int cpage,String align) throws Exception{
+		return pdao.searchAlign(cpage,align);
+	}
 }

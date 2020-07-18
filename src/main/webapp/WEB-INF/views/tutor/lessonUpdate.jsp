@@ -21,7 +21,7 @@
 					uploadSummernoteImageFile(files[0], this);
 				}
 			}
-		});
+		});z
 
 	});
 </script>

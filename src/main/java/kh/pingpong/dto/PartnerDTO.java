@@ -20,15 +20,16 @@ public class PartnerDTO {
 	private String introduce;
 	private Timestamp partner_date;
 	private int review_count;
-	private int review_point;
+	private Double review_point;
 	private String contact;
 	
 	private String pemail;
 	
 	public PartnerDTO(int seq, String id, String name, int age, String gender, String email, String country,
 			String phone_country, String phone, String address, String sysname, String lang_can, String lang_learn,
-			String hobby, String introduce, Timestamp partner_date, int review_count, int review_point,
-			String contact, String pemail) {
+			String hobby, String introduce, Timestamp partner_date, int review_count, Double review_point,
+			String contact) {
+
 		super();
 		this.seq = seq;
 		this.id = id;
@@ -167,10 +168,10 @@ public class PartnerDTO {
 	public void setReview_count(int review_count) {
 		this.review_count = review_count;
 	}
-	public int getReview_point() {
+	public Double getReview_point() {
 		return review_point;
 	}
-	public void setReview_point(int review_point) {
+	public void setReview_point(Double review_point) {
 		this.review_point = review_point;
 	}
 	public String getContact() {

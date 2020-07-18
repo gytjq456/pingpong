@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,9 +18,9 @@
 <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script> -->
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="/resources/js/sojaeji.js"></script>
+<script src="/resources/js/slick.min.js"></script>
 <script src="/resources/js/common.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
 </head>
 	<body>
 	   <header>
@@ -27,7 +28,7 @@
 	         <div class="inner1200">
 	            <div class="util">
 	               <ul>
-						<li class="alram"><a href="#;"><img src="/resources/img/common/alram.png"><span class="length"></span></a></li>
+						<li class="alram"><a href="/alarm/alarm2"><img src="/resources/img/common/alram.png"><span class="length"><c:out value="${alarmCount}"/></span></a></li>
 						<c:choose>
 							<c:when test="${empty sessionScope.loginInfo}">
 								<li><a href="/member/login">Login</a></li>
@@ -35,12 +36,13 @@
 							</c:when>
 							<c:otherwise>
 								<li>
-		 							<a href="#;">MyPage</a>
+		 							<a href="/member/myInfo">MyPage </a>
 									<ul class="depth2">
 										<li><a href="/member/myInfo">나의 정보수정</a></li>
-										<li><a href="/mypage/tutorRecord">나의 튜터 목록</a></li>
+										<li><a href="/mypage/tutorRecord">나의 강의목록</a></li>
 										<li><a href="/mypage/groupRecord">모임기록</a></li>
 										<li><a href="/mypage/likeRecord">찜목록</a></li>
+										<li><a href="/letter/letterList">쪽지함</a></li>
 									</ul>
 								</li>
 								<li><a href="/member/logout">Logout</a></li>
@@ -52,44 +54,45 @@
 		</section>
 		<section id="hdBot">
 			<div class="inner1200 clearfix">
-				<h1 class="logo"><a href="#;"><img src="/resources/img/common/logo.png"/></a></h1>
+				<h1 class="logo"><a href="/"><img src="/resources/img/common/logo.png"/></a></h1>
 				<nav>
 					<div >
 						<ul class="clearfix gnb">
 							<li>
-								<a href="/partner/partnerList">Partner</a>
+								<a href="/partner/partnerList?cpage=1&align=recent">Partner</a>
 								<ul class="depth2">
-									<li><a href="/partner/partnerList">파트너 목록</a></li>
-									<li><a href="#;">파트너 등록</a></li>
+									<li><a href="/partner/partnerList?cpage=1&align=recent">파트너 목록</a></li>
+									<li><a href="#;" class="resiterPop">파트너 등록</a></li>
 								</ul>
 							</li>
 							<li>
-								<a href="/group/main?orderBy=seq">Group</a>
+								<a href="/group/main?schType=keyword&orderBy=seq&ing=all">Group</a>
 								<ul class="depth2">
-									<li><a href="/group/main?orderBy=seq">그룹 찾기</a></li>
+									<li><a href="/group/main?schType=keyword&orderBy=seq&ing=all">그룹 찾기</a></li>
 									<li><a href="/group/write">그룹 등록</a></li>
 								</ul>
 							</li>
 							<li>
 								<a href="/tutor/tutorList">Tutor</a>
 								<ul class="depth2">
-									<li><a href="/tutor/lessonList?orderBy=seq">강의 목록</a></li>
-									<li><a id="tutorApp">튜터 신청</a></li>
+									<li><a href="/tutor/tutorList" >튜터 목록</a></li>
+									<li><a href="#;" id="tutorApp" data-grade="${loginInfo.grade}">튜터 신청</a></li>
+									<li><a href="/tutor/lessonList?schType=keyword&orderBy=seq&keywordSelect=name">강의 목록</a></li>
 								</ul>
 							</li>												
 							<li>
-								<a href="/discussion/list">Board</a>
+								<a href="/discussion/list?cpage=1">Board</a>
 								<ul class="depth2">
-									<li><a href="/discussion/list">토론</a></li>
+									<li><a href="/discussion/list?cpage=1">토론</a></li>
 									<li><a href="/correct/correct_list">질문</a></li>
-									<li><a href="#;">소식</a></li>
+									<li><a href="/news/listProc">소식</a></li>
 								</ul>
 							</li>												
 							<li>
 								<a href="#;">Guide</a>
 							</li>												
 							<li>
-								<a href="#;">Developer</a>
+								<a href="/developer/list">Developer</a>
 							</li>												
 						</ul>
 					</div>
@@ -97,4 +100,4 @@
 			</div>
 		</section>
 	</header>
-
+	

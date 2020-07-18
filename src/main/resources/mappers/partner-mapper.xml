@@ -11,7 +11,7 @@
 	
 	<!-- 파트너 상세 검색 -->
 	<select id="search" resultType="kh.pingpong.dto.PartnerDTO">
-		select * from (select partner.*,row_number() over(order by <!-- {orderBy} desc, --> seq desc) rnum from partner 
+		select * from (select partner.*,row_number() over(order by seq desc) rnum from partner 
 		<trim prefix="where" prefixOverrides="and|or">
 			<if test="pdto.gender != null">
 				gender = #{pdto.gender}
@@ -32,11 +32,21 @@
 				and address like '%'||#{pdto.address}||'%'
 			</if>  
  			<if test="pdto.age != 0">
-				and age like '%'||#{pdto.age}||'%'
+				and age like #{pdto.age}||'%'
 			</if>
 			
 		</trim>
-		) where rnum between 1 and 10
+		) where rnum between #{start} and #{end}
+	</select>
+	
+	<!-- 검색 최신순 / 인기순 -->
+	<select id="alignT" resultType="kh.pingpong.dto.PartnerDTO">
+		select * from ( select partner.*, row_number() over (
+		<trim prefix="ORDER BY">
+	         <if test="align == 'recent'">  partner_date desc</if>
+	         <if test="align == 'point'">  review_point desc</if>
+		</trim>
+		) rnum from partner ) where rnum between #{start} and #{end} 
 	</select>
 	
 	<select resultType="int" id="getArticleCount">
@@ -51,7 +61,6 @@
 	<select id="selectByPageNo" resultType="kh.pingpong.dto.PartnerDTO">
 		select * from (select partner.*,row_number() over(order by seq desc) rnum from partner) where rnum between #{start} and #{end}
 	</select>
-
 
 	<!-- 파트너 등록 -->
 	<resultMap id="MemProfile" type="kh.pingpong.dto.MemberDTO">
@@ -82,15 +91,29 @@
 	<delete id="deletePartner">
 		delete from partner where id=#{id} and name=#{name}
 	</delete>
+	
+	<!-- 파트너 삭제로 멤버 업데이트 -->
+	<update id="updateMemberGradeD">
+		update member set grade = 'default' where id = #{id}
+	</update>
 
 	<!-- 전체 파트너  -->
 	<select id="partnerListAll" resultType="kh.pingpong.dto.PartnerDTO">
 		select * from partner
 	</select>
 	
+	<!-- 파트너 신고 -->
+	<select id="selectReport" resultType="int">
+		select count(*) from reportlist where parent_seq = #{parent_seq} and reporter = #{id} and category = '파트너'
+	</select>
+	
+	<insert id="insertReport">
+		insert into reportlist values(reportlist_seq.nextval, #{id}, #{reason}, #{reporter}, sysdate, #{parent_seq}, '파트너', default)
+	</insert>
+	
 	<!-- 리뷰 글쓰기  -->
 	<insert id="reviewWrite">
-		insert into review values(review_seq.nextval, #{writer}, #{point}, #{contents}, default, #{category}, #{parent_seq})
+		insert into review values(review_seq.nextval, #{writer}, #{point}, #{contents}, default, #{category}, #{parent_seq}, #{thumNail})
 	</insert>
 	
 	<!-- 리뷰 리스트 출력  -->
@@ -118,6 +141,16 @@
 		update partner set review_count = ${reviewCount} where seq = ${seq}
 	</update>
 	
+	<!-- 찜 -->
+	<insert id="insertJjim">
+		insert into jjim values(jjim_seq.nextval, #{id}, '파트너', #{parent_seq})
+	</insert>
 	
+	<delete id="deleteJjim">
+		delete jjim where id = #{id} and parent_seq = #{parent_seq} and category = '파트너'
+	</delete>
 	
+	<select id="selectJjim" resultType="int">
+		select seq from jjim where id = #{id} and parent_seq = #{parent_seq} and category = '파트너'
+	</select>
 </mapper>

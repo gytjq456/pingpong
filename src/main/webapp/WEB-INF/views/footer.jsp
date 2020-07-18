@@ -16,8 +16,11 @@
 			</div>
 		</section>
 	</footer>
+
 	<div id="chatOpenBtn"><button>채팅</button></div>
-	
 	<jsp:include page="chat.jsp"/>	
+	<jsp:include page="partnerResiter.jsp"/>	
+	
+	
 </body>
 </html>

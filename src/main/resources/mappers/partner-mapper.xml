@@ -104,7 +104,7 @@
 	
 	<!-- 파트너 신고 -->
 	<select id="selectReport" resultType="int">
-		select count(*) from reportlist where parent_seq = #{parent_seq} and id = #{id} and category = '파트너'
+		select count(*) from reportlist where parent_seq = #{parent_seq} and reporter = #{id} and category = '파트너'
 	</select>
 	
 	<insert id="insertReport">

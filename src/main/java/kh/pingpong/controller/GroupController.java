@@ -172,6 +172,7 @@ public class GroupController {
 		
 		model.addAttribute("orderBy", "seq");
 		model.addAttribute("ing", "all");
+		model.addAttribute("schType", "keyword");
 		
 		return "redirect:/group/main";
 	}

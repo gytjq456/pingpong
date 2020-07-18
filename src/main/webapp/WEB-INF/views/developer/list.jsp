@@ -55,7 +55,7 @@
 							<p><span>개발 : </span>파트너, 마이히스토리</p>
 						</div>
 						<div class="mail">
-							<i class="fa fa-envelope-o" aria-hidden="true"></i> gytjq456@naver.com
+							<i class="fa fa-envelope-o" aria-hidden="true"></i> jkl02138@naver.com
 						</div>
 					</li>
 					<li class="card_body">
@@ -70,7 +70,7 @@
 							<p><span>개발 : </span>질문게시판</p>
 						</div>
 						<div class="mail">
-							<i class="fa fa-envelope-o" aria-hidden="true"></i> gytjq456@naver.com
+							<i class="fa fa-envelope-o" aria-hidden="true"></i> s2sads2@naver.com
 						</div>
 					</li>
 					<li class="card_body">
@@ -85,7 +85,7 @@
 							<p><span>개발 : </span>회원가입, 소식</p>
 						</div>
 						<div class="mail">
-							<i class="fa fa-envelope-o" aria-hidden="true"></i> gytjq456@naver.com
+							<i class="fa fa-envelope-o" aria-hidden="true"></i> gptjs1124@naver.com
 						</div>
 					</li>
 					<li class="card_body">

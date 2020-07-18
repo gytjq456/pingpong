@@ -138,9 +138,9 @@ public class PartnerController {
 
 	@Transactional("txManager")
 	@RequestMapping("partnerView")
-	public String partnerView(int seq, Model model, String id) throws Exception{
+	public String partnerView(int seq, Model model) throws Exception{
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
-		//String id = loginInfo.getId();
+		String id = loginInfo.getId();
 		PartnerDTO pdto = pservice.selectBySeq(seq);
 
 		Map<Object, Object> param = new HashMap<>();

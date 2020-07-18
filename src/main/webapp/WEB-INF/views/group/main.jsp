@@ -333,8 +333,18 @@
     		tabContWrap.find("article:eq("+idx+")").stop().fadeIn();
 		}
 		
-		$('#date_start').datepicker({ dateFormat: 'yy-mm-dd' });
-		$('#date_end').datepicker({ dateFormat: 'yy-mm-dd' });
+		$('#date_start').datepicker({ 
+			dateFormat: 'yy-mm-dd',
+			onClose: function(){
+				if ($('#date_start').val() == "") {
+					return false;
+				}
+				$('#date_end').datepicker({
+					dateFormat: 'yy-mm-dd',
+					minDate: new Date($('#date_start').val())
+				});
+			}
+		});
 		
 		var orderBy = '${param.orderBy}';
 		if (orderBy != null) {
@@ -517,6 +527,11 @@
 			
 			if (dateStart == '' || dateEnd == '') {
 				alert('시작 날짜와 끝 날짜를 정확히 선택해 주세요.');
+				return false;
+			}
+			
+			if (dateEnd < dateStart) {
+				alert('끝 날짜는 시작 날짜보다 이전일 수 없습니다.');
 				return false;
 			}
 			

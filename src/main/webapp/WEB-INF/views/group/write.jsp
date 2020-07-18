@@ -25,19 +25,27 @@
 		
 		$('#apply_end').datepicker({
 			dateFormat: 'yy-mm-dd',
-			minDate: new Date($('#apply_start').val())
-		});
-		
-		$('#start_date').datepicker({
-			dateFormat: 'yy-mm-dd',
-			minDate: 0,
+			minDate: new Date($('#apply_start').val()),
 			onClose: function(){
-				$('#end_date').datepicker({
+				if ($('#apply_end').val() == "") {
+					return false;
+				}
+				$('#start_date').datepicker({
 					dateFormat: 'yy-mm-dd',
-					minDate: new Date($('#start_date').val())
-				})
+					minDate: 0,
+					onClose: function(){
+						if($("#start_date").val() == ""){
+							return false;
+						}
+						$('#end_date').datepicker({
+							dateFormat: 'yy-mm-dd',
+							minDate: new Date($('#start_date').val())
+						})
+					}
+				});
 			}
 		});
+		
 		
 		$('#start_date').on('change', function(){
 			var endDate = $('#end_date').val();

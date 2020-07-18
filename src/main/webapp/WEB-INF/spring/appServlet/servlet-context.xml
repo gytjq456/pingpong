@@ -97,25 +97,28 @@
       </aop:aspect>
    </aop:config>
 
-   <aop:config>
-      <aop:pointcut expression="execution(* kh.pingpong.controller.CorrectController.*(..))" id="correct"/>
-      <aop:aspect id="logCheck" ref="logaop">
-         <aop:around pointcut-ref="correct" method="aroundBoardLog"/>
-      </aop:aspect>
-   </aop:config>
-   
-   <aop:config>
-      <aop:pointcut expression="execution(* kh.pingpong.controller.NewsController.write(..))" id="news"/>
-      <aop:aspect id="logCheck" ref="logaop">
-         <aop:around pointcut-ref="news" method="aroundBoardLog"/>
-      </aop:aspect>
-   </aop:config>
-   
-   <aop:config>
-      <aop:pointcut expression="execution(* kh.pingpong.controller.MemberController.myInfo(..))" id="myInfo"/>
-      <aop:aspect id="logCheck" ref="logaop">
-         <aop:around pointcut-ref="myInfo" method="aroundBoardLog"/>
-      </aop:aspect>
-   </aop:config>   
-   
+	<aop:config>
+		<aop:pointcut expression="execution(* kh.pingpong.controller.CorrectController.*(..))" id="correct"/>
+		<aop:aspect id="logCheck" ref="logaop">
+			<aop:around pointcut-ref="correct" method="aroundBoardLog"/>
+		</aop:aspect>
+	</aop:config>
+	
+
+
+	<aop:config>
+		<aop:pointcut expression="execution(* kh.pingpong.controller.NewsController.write(..))" id="news"/>
+
+		<aop:aspect id="logCheck" ref="logaop">
+			<aop:around pointcut-ref="news" method="aroundBoardLog"/>
+		</aop:aspect>
+	</aop:config>
+	
+	<aop:config>
+		<aop:pointcut expression="execution(* kh.pingpong.controller.MemberController.myInfo(..))" id="myInfo"/>
+		<aop:aspect id="logCheck" ref="logaop">
+			<aop:around pointcut-ref="myInfo" method="aroundBoardLog"/>
+		</aop:aspect>
+	</aop:config>
+	
 </beans:beans>

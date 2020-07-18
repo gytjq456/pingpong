@@ -17,10 +17,14 @@
 </style>
 <script>
 	$(function() {
-		$("input, textarea").blur(function(){
+		$("input,textarea").blur(function(){
 			var thisVal = $(this).val();
-			$(this).val(textChk(thisVal));
+			$(this).val(textChk(thisVal,$(this)));
 		})
+	 	$(".note-editable").blur(function(){
+			var thisVal = $(this).html();
+			$(this).text(textChk(thisVal,$(this)));
+		});
 		
 		$("#back").on("click", function(){
 			var result = confirm("강의 목록으로 돌아가시겠습니까?");
@@ -31,17 +35,20 @@
 			}
 		})
 		
-		$("input, textarea").blur(function(){
-			var thisVal = $(this).val();
-			$(this).val(textChk(thisVal));
-		})
 		
-		function textChk(thisVal){
+		function textChk(thisVal, obj){
 			var replaceId  = /(script)/gi;
 			var textVal = thisVal;
 		    if (textVal.length > 0) {
 		        if (textVal.match(replaceId)) {
-		        	textVal = thisVal.replace(replaceId, "");
+		        	console.log(obj)
+		        	if(obj.val().length){
+			        	obj.val("");
+			        	textVal = obj.val();
+		        	}else{
+			        	obj.html("");
+			        	textVal = obj.val();
+		        	}
 		        }
 		    }
 		    return textVal;
@@ -123,10 +130,13 @@
 			}
 		})  */
 
-		$("#price").focusout(function() {
+		$("#price").blur(function() {
 			var priceVal = $(this).val();
 			if (priceVal>300000) {
-				alert("최대 30만원입니다.");
+				alert("최대 금액은 30만원입니다.");
+				$(this).val('');
+			}else if(priceVal < 100){
+				alert("최소 금액은 100원입니다.");
 				$(this).val('');
 			}
 		})
@@ -177,7 +187,7 @@
 		$("#frm").on("submit", function() {
 			var titleVal = $("#title").val();
 			var summernoteVal = $("#summernote").val();
-			var priceVal = $("#price").val()
+ 			var priceVal = $("#price").val();
 			var apply_startVal = $("#apply_start").val();
 			var apply_endVal = $("#apply_end").val();
 			var start_dateVal = $("#start_date").val();
@@ -188,36 +198,55 @@
 
 			if (titleVal.length == 0) {
 				alert("제목을 입력해주세요");
+				$("#title").focus();
 				return false;
-			} else if (priceVal == 0) {
+			} else if (priceVal == 0 || priceVal == "") {
 				alert("가격을 입력해주세요");
 				return false;
 			} else if (apply_startVal.length == 0) {
 				alert("모집시작 기간을 선택해주세요");
+				$("#apply_start").focus();
 				return false;
 			} else if (apply_endVal.length == 0) {
 				alert("모집마감 기간을 선택해주세요");
+				$("#apply_end").focus();
 				return false;
 			} else if (start_dateVal.length == 0) {
 				alert("수업시작 기간을 선택해주세요");
+				$("#start_date").focus();
 				return false;
 			} else if (end_dateVal.length == 0) {
 				alert("수업마감 기간을 선택해주세요");
+				$("#end_date").focus();
 				return false;
 			} else if (max_numVal.length == 0) {
 				alert("인원을 입력해주세요");
+				$("#max_num").focus();
 				return false;
 			} else if (sidoVal == '시, 도 선택') {
 				alert("시,도 를 선택해주세요.");
+				$("#sido1").focus();
 				return false;
 			} else if (gugunVal == '구, 군 선택') {
 				alert("구,군 을 선택해주세요.");
+				$("#gugun1").focus();
 				return false;
 			} else if (summernoteVal.length == 0) {
 				alert("내용을 입력해주세요");
 				return false;
 			}
+			
+			var noteObj = $(".note-editable");
+			var replaceId  = /(script)/gi;
+			if(noteObj.text().match(replaceId)){
+				alert("부적절한 내용이 들어가있습니다.")
+				noteObj.focus();
+				noteObj.html("")
+				return false;
+			}	
 		})
+		
+		
 
 		$('#summernote').summernote({
 			height: 300,

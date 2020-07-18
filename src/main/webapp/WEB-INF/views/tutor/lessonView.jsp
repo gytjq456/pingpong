@@ -209,6 +209,17 @@ $(function(){
 			var categoryVal= $("#category").val();
 			location.href="/tutor/reviewUpdate?parent_seq=${ldto.seq}&category="+categoryVal;
 		});
+		
+		
+		var noteObj = $(".note-editable");
+		var replaceId  = /(script)/gi;
+		if(noteObj.text().match(replaceId)){
+			alert("부적절한 내용이 들어가있습니다.")
+			noteObj.focus();
+			noteObj.html("")
+			return false;
+		}
+		
 		return false;
 	})
 		

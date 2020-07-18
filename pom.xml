@@ -148,23 +148,22 @@
 		</dependency>
 
 		<!-- 이메일 발송 관련 라이브러리 -->
-		<dependency>
+ 		<dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
 			<version>1.4.7</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context-support</artifactId>
-			<version>${org.springframework-version}</version>
-		</dependency>
+				
+		
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context-support</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
+
+
 
 
 
@@ -248,19 +247,6 @@
 			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>   
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-			<version>5.1.9.RELEASE</version>
-		</dependency>
-		<!-- spring junit을 사용하기 위해 추가 -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-			<version>5.1.9.RELEASE</version>
-		</dependency>
-		
-		<!-- 스프링 테스트 추가 -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>

@@ -347,9 +347,23 @@ public class AdminService {
 		
 		int report_count = adao.getReportCount(param.get("id").toString());
 		
-		if ((report_count != 0) && (report_count % 3 == 0)) {
-			adao.insertBlacklist(param);
+		if (report_count > 0 && report_count % 3 == 0) {
+			boolean black = adao.isBlacklist(id);
+			if (!black) {
+				adao.insertBlacklist(param);
+			}
 		}
+		
+		if (adao.isAlreadyReport(param) != null) {
+			List<Integer> seqs = adao.isAlreadyReport(param);
+			
+			if (seqs.size() > 0) {
+				for (int i = 0; i < seqs.size(); i++) {
+					adao.updateLessonPass(seqs.get(i));
+				}
+			}
+		}
+		
 		return adao.updateReportListPass((int)param.get("seq"));
 	}
 	
@@ -385,9 +399,22 @@ public class AdminService {
 		if (tableName.contentEquals("reportlist")) {
 			Map<String, Object> report = new HashMap<>();
 			for (int i = 0; i < seqList.size(); i++) {
+				Map<String, Object> black = new HashMap<>();
+				
 				int seq = Integer.parseInt(seqList.get(i));
 				String id = adao.getIdFromReportList(seq);
+				String name = adao.getNameForBlack(id);
+				
 				adao.updateReportCount(id);
+				
+				black.put("id", id);
+				black.put("name", name);
+				
+				int report_count = adao.getReportCount(id);
+				
+				if (report_count > 0 && report_count % 3 == 0) {
+					adao.insertBlacklist(black);
+				}
 				
 				String category = adao.getCategoryFromRep(seq);
 				

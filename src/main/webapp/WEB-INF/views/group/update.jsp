@@ -25,17 +25,28 @@
 		console.log(apply_start);
 		console.log(new Date(apply_start));
 		
-		$("input, textarea").blur(function(){
+		$("input,textarea").blur(function(){
 			var thisVal = $(this).val();
-			$(this).val(textChk(thisVal));
+			$(this).val(textChk(thisVal,$(this)));
 		})
+	 	$(".note-editable").blur(function(){
+			var thisVal = $(this).html();
+			$(this).text(textChk(thisVal,$(this)));
+		});
 		
-		function textChk(thisVal){
+		function textChk(thisVal, obj){
 			var replaceId  = /(script)/gi;
 			var textVal = thisVal;
 		    if (textVal.length > 0) {
 		        if (textVal.match(replaceId)) {
-		        	textVal = thisVal.replace(replaceId, "");
+		        	console.log(obj)
+		        	if(obj.val().length){
+			        	obj.val("");
+			        	textVal = obj.val();
+		        	}else{
+			        	obj.html("");
+			        	textVal = obj.val();
+		        	}
 		        }
 		    }
 		    return textVal;
@@ -176,9 +187,14 @@
 								<h4>유형</h4>
 							</div>
 							<div class="group_sub_input">
-								<c:forEach var="hbdto" items="${hblist}">
-									<input type="checkbox" name="hobby" class="hobby_list" id="${hbdto.seq}" value="${hbdto.hobby}"><label for="${hbdto.seq}">${hbdto.hobby}</label>
-								</c:forEach>
+								<ul class="checkBox_s1">
+										<c:forEach var="hbdto" items="${hblist}">
+									<li>
+											<input type="checkbox" name="hobby" class="hobby_list" id="${hbdto.seq}" value="${hbdto.hobby}">
+											<label for="${hbdto.seq}"><span></span>${hbdto.hobby}</label>
+									</li>
+										</c:forEach>
+								</ul>
 								<input type="text" name="hobby_type" id="hobby_type" value="${gdto.hobby_type}">
 							</div>
 						</div>
@@ -264,6 +280,17 @@
 			}
 			console.log(hobbyList);
 			$('#hobby_type').val(hobbyList);
+			
+			
+			var noteObj = $(".note-editable");
+			var replaceId  = /(script)/gi;
+			if(noteObj.text().match(replaceId)){
+				alert("부적절한 내용이 들어가있습니다.")
+				noteObj.focus();
+				noteObj.html("")
+				return false;
+			}
+			
 			
 			$('#updateProc').submit();
 		}

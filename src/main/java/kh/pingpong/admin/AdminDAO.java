@@ -333,4 +333,9 @@ public class AdminDAO {
 		
 		return result;
 	}
+	
+	// 신고된 게시글인지 확인
+	public List<Integer> isAlreadyReport(Map<String, Object> param) {
+		return mybatis.selectList("Admin.isAlreadyReport", param);
+	}
 }

@@ -216,10 +216,10 @@
 													<span>지역</span>
 													<p>${pdto.address}</p>
 												</li>
-												<li>
+												<!-- <li>
 													<span>은행</span>
 													<p>SC제일은행 ( 1111 )</p>
-												</li>
+												</li> -->
 											</ul>
 										</div>
 									</div>
@@ -249,7 +249,7 @@
 								<button id="sendLet">쪽지</button>
 								<!-- <button class="chat">채팅</button> -->
 								<button class="email_a">이메일</button>
-								<button class="report" data-id="${loginInfo.id}" data-thisseq="0" data-seq="${pdto.seq}" data-proc="/partner/reportProc" data-url="/partner/report">신고하기</button>
+								<button class="report" data-id="${pdto.id}" data-thisseq="" data-seq="${pdto.seq}" data-proc="/partner/reportProc" data-url="/partner/report">신고하기</button>
 								<button class="back">목록으로</button>
 								<c:if test="${sessionScope.loginInfo.id == pdto.id}">
 									<button class="delete">파트너 삭제</button>

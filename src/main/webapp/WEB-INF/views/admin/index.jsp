@@ -3,11 +3,16 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <jsp:include page="/WEB-INF/views/admin/aheader.jsp"/>
 <style>
-	#chartForLang, #chartForLoc { float: left; }
-	html,body{height:100%; width:100%;}
+	html,body{height:100%; width:100%; }
 </style>
+	<div id="table_wrap">
+	
+	
 	<c:choose>
 		<c:when test="${empty sessionScope.adminLog}">
+			<style>
+				html,body{ background:#124d79;}
+			</style>
 			<div id="login_wrap">
 				<div id="logo_and_form">
 					<div id="logo">PINGPONG</div>
@@ -23,21 +28,27 @@
 		</c:when>
 		<c:otherwise>
 			<div id="main_wrap">
-				<div>일일 방문자 수</div>
-				<canvas id="chartForVisitor" width="1200" height="500"></canvas>
-				<div>언어 선호도</div>
-				<canvas id="chartForLang" width="600" height="300"></canvas>
-				<div>지역 선호도</div>
-				<canvas id="chartForLoc" width="600" height="300"></canvas>
+				<div class="tit">일일 방문자 수</div>
+				<canvas id="chartForVisitor" width="1200" height="300"></canvas>
 				<c:forEach var="vlist" items="${vlist}">
 					<input type="hidden" id="${vlist.visit_date}" value="${vlist.visit_count}" class="dayInput">
 				</c:forEach>
-				<c:forEach var="llist" items="${llist}">
-					<input type="hidden" id="${llist.language}" value="${llist.lang_count}" class="langInput">
-				</c:forEach>
-				<c:forEach var="clist" items="${clist}">
-					<input type="hidden" id="${clist.loc_name}" value="${clist.loc_count}" class="locInput">
-				</c:forEach>
+				<div class="circleGraph clearfix">
+					<article>
+						<div class="tit">언어 선호도</div>
+						<canvas id="chartForLang" width="600" height="300"></canvas>
+						<c:forEach var="llist" items="${llist}">
+							<input type="hidden" id="${llist.language}" value="${llist.lang_count}" class="langInput">
+						</c:forEach>
+					</article>
+					<article>
+						<div class="tit">지역 선호도</div>
+						<canvas id="chartForLoc" width="600" height="300"></canvas>
+						<c:forEach var="clist" items="${clist}">
+							<input type="hidden" id="${clist.loc_name}" value="${clist.loc_count}" class="locInput">
+						</c:forEach>
+					</article>
+				</div>
 				<script>
 					function getFormatDate(date, number, type){
 					    var year = date.getFullYear();              //yyyy
@@ -199,5 +210,6 @@
 			</div>
 		</c:otherwise>
 	</c:choose>
+	</div>
 </body>
 </html>

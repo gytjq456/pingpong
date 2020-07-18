@@ -118,9 +118,17 @@ public class FileController {
 				if(!file.isEmpty()) {
 					FileDTO singlefdto = new FileDTO();
 					String write_date = new SimpleDateFormat("YYYY-MM-dd-ss").format(System.currentTimeMillis());
-					
+					System.out.println("하드디스크 파일 업로드 00 " +count);
 					/* 하드디스크 파일 업로드 */
-					if(filesAll.getFileAllSeq() != null){singlefdto.setSeq(filesAll.getFileAllSeq()[count++]);}					
+					if(filesAll.getFileAllSeq() != null){
+						System.out.println("하드디스크 파일 업로드 01 " +count);
+						singlefdto.setSeq(filesAll.getFileAllSeq()[count++]);
+						System.out.println("하드디스크 파일 업로드 02 " +count);
+					}else {
+						count++;
+						System.out.println("하드디스크 파일 업로드 02_else " +count);
+					}
+					System.out.println("하드디스크 파일 업로드 03 " +count);
 					singlefdto.setOriname(file.getOriginalFilename());
 					singlefdto.setSysname(write_date + "_"+"("+(count)+")" + file.getOriginalFilename());
 					singlefdto.setRealpath(realPath + file.getOriginalFilename());

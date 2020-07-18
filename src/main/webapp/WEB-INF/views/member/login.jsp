@@ -16,8 +16,15 @@
 			<input type="password" name="pw" id="pw" placeholder="Password"><br>
 			
 			<div class="idSave">
-				<input type="checkbox" name="rememberId" id="rememberId" name="rememberId"> <label for="rememberId">아이디 저장하기</label>
+				<ul class="checkBox_s1">
+					<li class="">
+						<input type="checkbox" name="rememberId" id="rememberId" name="rememberId"> 
+						<label for="rememberId"><span></span>아이디 저장하기</label>
+					</li>
+				</ul>
 			</div>
+			
+			
 			<div class="loginBtn">
 				
 				<div class="btnS1 center ">
@@ -41,6 +48,8 @@
 	<form id="kakoForm" action="/member/snsSignUp?mem_type=kakao" method="post">
 		<input type="hidden" name="kakaoId" id="kakaoId">
 		<input type="hidden" name="kakaoNickname" id="kakaoNickname">
+		<input type="hidden" name="kakaoProfile" id="kakaoProfile">
+		<input type="hidden" name="kakaothumnail" id="kakaothumnail">
 		<input type="hidden" name="pw" value="defalut">
 		<!--  <input type="hidden" name="kakaoEmail" id="kakaoEmail">-->
 	</form>
@@ -68,6 +77,9 @@
                                 document.getElementById("kakaoId").value = res.id;
                                 // @breif 닉네임
                                 document.getElementById("kakaoNickname").value = res.properties.nickname;
+                                document.getElementById("kakaoId").value = res.id;
+                                document.getElementById("kakaoProfile").value = res.properties.profile_image;
+                                document.getElementById("kakaothumnail").value = res.properties.thumbnail_image;
                                 document.getElementById("kakoForm").submit();
                                
                             }, fail: function (error) {

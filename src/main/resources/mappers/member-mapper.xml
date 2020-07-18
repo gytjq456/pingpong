@@ -33,6 +33,16 @@
 		insert into files values(files_seq.nextval, #{sysname}, #{oriname}, #{realpath}, #{category}, 0)
 	</insert>
 	
+	<!-- 회원가입 sns -->
+	<insert id ="memberInsertSns">
+		insert into member values(
+			#{mem_type}, #{id}, #{pw}, #{name}, ${age},
+			#{gender}, #{email}, #{phone_country}, #{phone}, #{address}, #{bank_name},
+			#{account}, #{sysname}, #{country}, #{lang_can}, #{lang_learn}, #{hobby}, #{grade},
+			#{introduce}, default, default
+		)
+	</insert>
+	
 	<!-- 마이페이지 출력 -->	
 	<resultMap id="MemProfile" type="kh.pingpong.dto.MemberDTO">
     	<result property="sysname" column="profile"/>

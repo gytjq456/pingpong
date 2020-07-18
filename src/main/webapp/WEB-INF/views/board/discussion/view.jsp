@@ -223,9 +223,6 @@
 				var thisVal = $(this).val();
 				$(this).val(textChk(thisVal));
 			})			
-		})
-
-		
 		// 댓글 좋아요, 싫어요 증가
 			var comment_likeBtn = $(".comment_likeBtn");
 			var comment_hateBtn = $(".comment_hateBtn");
@@ -234,6 +231,9 @@
 			likeHateCount(comment_hateBtn,"/discussion/commentHate","토론 댓글");
 			likeHateCount(discussion_likeBtn,"/discussion/like","토론 게시글");
 			console.log(likeHateCount);
+		})
+
+		
 			
 			
 		function likeHateCount(btn, url,category) {

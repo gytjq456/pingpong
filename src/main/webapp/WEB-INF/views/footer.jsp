@@ -9,9 +9,9 @@
 			</div>
 			<div class="sns">
 				<ul>
-					<li><a href="#;" title="페이스북 바로가기"><img src="/resources/img/common/faceBook_icon.png"/></a></li>
-					<li><a href="#;" title="인스타그램 바로가기"><img src="/resources/img/common/instagram_icon.png"/></a></li>
-					<li><a href="#;" title="유튜브 바로가기"><img src="/resources/img/common/youtube_icon.png"/></a></li>
+					<li><a href="#;" onclick="alert('준비중 입니다.');return false;" title="페이스북 바로가기"><img src="/resources/img/common/faceBook_icon.png"/></a></li>
+					<li><a href="#;" onclick="alert('준비중 입니다.');return false;" title="인스타그램 바로가기"><img src="/resources/img/common/instagram_icon.png"/></a></li>
+					<li><a href="#;" onclick="alert('준비중 입니다.');return false;" title="유튜브 바로가기"><img src="/resources/img/common/youtube_icon.png"/></a></li>
 				</ul>
 			</div>
 		</section>

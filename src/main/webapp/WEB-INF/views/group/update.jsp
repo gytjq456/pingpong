@@ -21,10 +21,7 @@
 		var apply_end = '${gdto.apply_end}';
 		var start_date = '${gdto.start_date}';
 		var end_date = '${gdto.end_date}';
-		
-		console.log(apply_start);
-		console.log(new Date(apply_start));
-		
+
 		$("input,textarea").blur(function(){
 			var thisVal = $(this).val();
 			$(this).val(textChk(thisVal,$(this)));
@@ -81,7 +78,7 @@
 			if (endDate != '') {
 				$('#end_date').val('');
 			}
-		});
+		})
 		
 		var selectedHobbyList = '${gdto.hobby_type}';
 		var selectedHobbyArr = selectedHobbyList.split(',');
@@ -270,6 +267,16 @@
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=033532d2fa35e423d2d5e723c0bfd1fe&libraries=services"></script>
 	<script>
 		function updateProc_func(){
+			var applyEndDate = new Date($('#apply_end').val());
+			var startDate = new Date($('#start_date').val());
+			var endDate = new Date($('#end_date').val());
+			
+			if (endDate < startDate || endDate < applyEndDate) {
+				alert('진행 종료 날짜는 모집 마감 날짜 또는 진행 시작 날짜보다 이전일 수 없습니다.');
+				$('#end_date').focus();
+				return false;
+			}
+			
 			var hobbyCheckLength = $("input:checkbox[name='hobby']").length;
 			var hobbyList = [];
 			
@@ -278,9 +285,7 @@
 					hobbyList.push($("input:checkbox[name='hobby']:eq(" + i + ")").val());
 				}
 			}
-			console.log(hobbyList);
 			$('#hobby_type').val(hobbyList);
-			
 			
 			var noteObj = $(".note-editable");
 			var replaceId  = /(script)/gi;
@@ -290,7 +295,6 @@
 				noteObj.html("")
 				return false;
 			}
-			
 			
 			$('#updateProc').submit();
 		}

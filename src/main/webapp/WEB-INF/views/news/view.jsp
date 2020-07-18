@@ -3,6 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
 
 <jsp:include page="/WEB-INF/views/header.jsp"/>
+	<style>
+		#listStyle1 .title {    white-space: break-spaces;}
+	</style>
 
 	<script>
 	$(function(){
@@ -36,6 +39,8 @@
 			}
 			
 		});
+		
+		
 	});
 		
 	</script>
@@ -120,11 +125,11 @@
 								</div>
 							</div>												
 						</div>
-						<div class="btnS1 center">
-							<button type="button" id="back">목록</button>
+						<div class="btnS1 right">
+							<div><button type="button" id="back">목록</button></div>
 							<c:if test="${sessionScope.loginInfo.id == ndto.writer}">
-								<button type="button" id="modify">수정</button>
-								<button type="button" id="delete">삭제</button>
+								<div><button type="button" id="modify">수정</button></div>
+								<div><button type="button" id="delete">삭제</button></div>
 							</c:if>
 						</div>
 					</div>

@@ -28,11 +28,11 @@ public class GroupDAO {
 	@Autowired
 	private SqlSessionTemplate mybatis;
 	
-	public List<HobbyDTO> selectHobby() {
+	public List<HobbyDTO> selectHobby() throws Exception {
 		return mybatis.selectList("Group.selectHobby");
 	}
 	
-	public int insertGroup(GroupDTO gdto) throws ParseException {
+	public int insertGroup(GroupDTO gdto) throws Exception {
 		String start_date = gdto.getStart_date();
 		String end_date = gdto.getEnd_date();
 
@@ -69,7 +69,7 @@ public class GroupDAO {
 		return mybatis.insert("Group.insert", gdto);
 	}
 	
-	public GroupDTO selectBySeq(int seq) throws Exception{
+	public GroupDTO selectBySeq(int seq) throws Exception {
 		Double reviewAvg = mybatis.selectOne("Group.reviewAvg", seq);
 		if(reviewAvg != null) {
 			reviewAvg = mybatis.selectOne("Group.reviewAvg", seq);
@@ -86,15 +86,15 @@ public class GroupDAO {
 		return mybatis.selectOne("Group.selectBySeq", seq);
 	}
 	
-	public int searchSeq(String writer_id) {
+	public int searchSeq(String writer_id) throws Exception {
 		return mybatis.selectOne("Group.searchSeq", writer_id);
 	}
 	
-	public int delete(int seq) {
+	public int delete(int seq) throws Exception {
 		return mybatis.delete("Group.delete", seq);
 	}
 	
-	public int update(GroupDTO gdto) throws ParseException {
+	public int update(GroupDTO gdto) throws Exception {
 		String start_date = gdto.getStart_date();
 		String end_date = gdto.getEnd_date();
 
@@ -122,27 +122,27 @@ public class GroupDAO {
 		return mybatis.update("Group.update", gdto);
 	}
 	
-	public int selectCount() {
+	public int selectCount() throws Exception {
 		return mybatis.selectOne("Group.selectCount");
 	}
 	
-	public int updateViewCount(int seq) {
+	public int updateViewCount(int seq) throws Exception {
 		return mybatis.update("Group.updateViewCount", seq);
 	}
 	
-	public int insertApp(GroupApplyDTO gadto) {
+	public int insertApp(GroupApplyDTO gadto) throws Exception {
 		return mybatis.insert("Group.insertApp", gadto);
 	}
 	
-	public int selectApplySeq(GroupApplyDTO gadto) {
+	public int selectApplySeq(GroupApplyDTO gadto) throws Exception {
 		return mybatis.selectOne("Group.selectApplyForm", gadto);
 	}
 	
-	public int cancelApply(int seq) {
+	public int cancelApply(int seq) throws Exception {
 		return mybatis.delete("Group.deleteApplyForm", seq);
 	}
 	
-	public boolean selectApplyForm(GroupApplyDTO gadto) {
+	public boolean selectApplyForm(GroupApplyDTO gadto) throws Exception {
 		Integer result = mybatis.selectOne("Group.selectApplyForm", gadto);
 		boolean checkApply = true;
 		if (result == null) {
@@ -151,11 +151,11 @@ public class GroupDAO {
 		return checkApply;
 	}
 	
-	public List<GroupMemberDTO> selectGroupMemberList(int parent_seq) {
+	public List<GroupMemberDTO> selectGroupMemberList(int parent_seq) throws Exception {
 		return mybatis.selectList("Group.selectGroupMemberList", parent_seq);
 	}
 	
-	public boolean selectGroupMemberById(GroupMemberDTO gmdto) {
+	public boolean selectGroupMemberById(GroupMemberDTO gmdto) throws Exception {
 		Integer result = mybatis.selectOne("Group.selectGroupMemberById", gmdto);
 		boolean checkMember = true;
 		if (result == null) {
@@ -164,27 +164,27 @@ public class GroupDAO {
 		return checkMember;
 	}
 	
-	public int updateGroupMemberOut(int seq) {
+	public int updateGroupMemberOut(int seq) throws Exception {
 		return mybatis.update("Group.updateGroupMemberOut", seq);
 	}
 	
-	public int deleteGroupMember(GroupMemberDTO gmdto) {
+	public int deleteGroupMember(GroupMemberDTO gmdto) throws Exception {
 		return mybatis.delete("Group.deleteGroupMember", gmdto);
 	}
 	
-	public int insertDeleteApply(DeleteApplyDTO dadto) {
+	public int insertDeleteApply(DeleteApplyDTO dadto) throws Exception {
 		return mybatis.insert("Group.insertDeleteApply", dadto);
 	}
 	
-	public int insertLike(LikeListDTO ldto) {
+	public int insertLike(LikeListDTO ldto) throws Exception {
 		return mybatis.insert("Group.insertLike", ldto);
 	}
 	
-	public int updateLike(int seq) {
+	public int updateLike(int seq) throws Exception {
 		return mybatis.update("Group.updateLike", seq);
 	}
 	
-	public boolean selectLike(Map<Object, Object> param) {
+	public boolean selectLike(Map<Object, Object> param) throws Exception {
 		Integer result = mybatis.selectOne("Group.selectLike", param);
 		boolean checkLike = true;
 		if (result == null) {
@@ -194,30 +194,30 @@ public class GroupDAO {
 		return checkLike;
 	}
 	
-	public int selectReport(ReportListDTO rldto) {
+	public int selectReport(ReportListDTO rldto) throws Exception {
 		return mybatis.selectOne("Group.selectReport", rldto);
 	}
 	
-	public int insertReport(ReportListDTO rldto) {
+	public int insertReport(ReportListDTO rldto) throws Exception {
 		return mybatis.insert("Group.insertReport", rldto);
 	}
 	
-	public int updateIngDate(String today_date) {
+	public int updateIngDate(String today_date) throws Exception {
 		int resultApplying = mybatis.update("Group.updateApplying", today_date);
 		int resultProceedingN = mybatis.update("Group.updateProceedingN", today_date);
 		int resultProceedingY = mybatis.update("Group.updateProceedingY", today_date);
 		return resultApplying + resultProceedingN + resultProceedingY;
 	}
 	
-	public List<GroupDTO> relatedGroup(List<String> hobby_arr) {
+	public List<GroupDTO> relatedGroup(List<String> hobby_arr) throws Exception {
 		return mybatis.selectList("Group.relatedGroup", hobby_arr);
 	}
 	
-	public int updateAppCount(int seq) {
+	public int updateAppCount(int seq) throws Exception {
 		return mybatis.update("Group.updateAppCount", seq);
 	}
 	
-	public List<GroupDTO> selectGroupList(int cpage, Map<String, Object> search) {
+	public List<GroupDTO> selectGroupList(int cpage, Map<String, Object> search) throws Exception {
 		int start = cpage * Configuration.RECORD_COUNT_PER_PAGE - (Configuration.RECORD_COUNT_PER_PAGE - 1);
 		int end = start + (Configuration.RECORD_COUNT_PER_PAGE - 1);
 		
@@ -227,22 +227,22 @@ public class GroupDAO {
 		return mybatis.selectList("Group.selectGroupList", search);
 	}
 	
-	public int selectGroupCount(Map<String, Object> search) {
+	public int selectGroupCount(Map<String, Object> search) throws Exception {
 		return mybatis.selectOne("Group.selectGroupCount", search);
 	}
 	
 	// 찜하기
-	public int insertJjim(JjimDTO jdto) {
+	public int insertJjim(JjimDTO jdto) throws Exception {
 		return mybatis.insert("Group.insertJjim", jdto);
 	}
 	
 	// 찜 취소
-	public int deleteJjim(JjimDTO jdto) {
+	public int deleteJjim(JjimDTO jdto) throws Exception {
 		return mybatis.delete("Group.deleteJjim", jdto);
 	}
 	
 	// 찜 확인
-	public boolean selectJjim(JjimDTO jdto) {
+	public boolean selectJjim(JjimDTO jdto) throws Exception {
 		Integer result = mybatis.selectOne("Group.selectJjim", jdto);
 		boolean checkJjim = true;
 		if (result == null) {
@@ -253,11 +253,11 @@ public class GroupDAO {
 	}
 	
 	//리뷰 글쓰기
-	public int reviewWrite(ReviewDTO redto) throws Exception{
+	public int reviewWrite(ReviewDTO redto) throws Exception {
 		return mybatis.insert("Group.reviewWrite",redto);
 	}
 	//리뷰 리스트
-	public List<ReviewDTO> reviewList(int seq) {
+	public List<ReviewDTO> reviewList(int seq) throws Exception {
 		return mybatis.selectList("Group.reviewList",seq);
 	}
 	
@@ -302,7 +302,7 @@ public class GroupDAO {
 	}
 	
 	// 리뷰 삭제하기
-	public int reviewDelete(int seq) throws Exception{
+	public int reviewDelete(int seq) throws Exception {
 		return mybatis.delete("Group.reviewDelete",seq);
 	}
 	

@@ -52,7 +52,7 @@
 											</div>
 											<%-- <div class="thumb"><img src="/resources/img/sub/${sessionScope.loginInfo.profile}"/></div> --%>
 											<div class="info">
-												<p class="userId">${i.writer}</p>
+												<p class="userId">${i.writer}(${i.id})</p>
 												<p class="writeDate">${i.dateString}</p>
 											</div>
 										</div>

@@ -36,53 +36,53 @@ public class GroupService {
 	@Autowired
 	private HttpSession session;
 	
-	public List<HobbyDTO> selectHobby() {
+	public List<HobbyDTO> selectHobby() throws Exception {
 		return gdao.selectHobby();
 	}
 	
 	@Transactional("txManager")
-	public int insertGroup(GroupDTO gdto) throws ParseException {
+	public int insertGroup(GroupDTO gdto) throws Exception {
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
 		String writer_id = loginInfo.getId();
 		gdao.insertGroup(gdto);
 		return gdao.searchSeq(writer_id);
 	}
 	
-	public GroupDTO selectBySeq(int seq) throws Exception{
+	public GroupDTO selectBySeq(int seq) throws Exception {
 		return gdao.selectBySeq(seq);
 	}
 	
-	public int delete(int seq) {
+	public int delete(int seq) throws Exception {
 		return gdao.delete(seq);
 	}
 	
 	@Transactional("txManager")
-	public int update(GroupDTO gdto) throws ParseException {
+	public int update(GroupDTO gdto) throws Exception {
 		return gdao.update(gdto);
 	}
 	
-	public int updateViewCount(int seq) {
+	public int updateViewCount(int seq) throws Exception {
 		return gdao.updateViewCount(seq);
 	}
 	
 	@Transactional("txManager")
-	public int insertApp(GroupApplyDTO gadto) {
+	public int insertApp(GroupApplyDTO gadto) throws Exception {
 		gdao.updateAppCount(gadto.getParent_seq());
 		return gdao.insertApp(gadto);
 	}
 	
 	@Transactional("txManager")
-	public int cancelApply(GroupApplyDTO gadto) {
+	public int cancelApply(GroupApplyDTO gadto) throws Exception {
 		int seq = gdao.selectApplySeq(gadto);
 		return gdao.cancelApply(seq);
 	}
 	
-	public boolean selectApplyForm(GroupApplyDTO gadto) {
+	public boolean selectApplyForm(GroupApplyDTO gadto) throws Exception {
 		return gdao.selectApplyForm(gadto);
 	}
 	
 	@Transactional("txManager")
-	public int insertDeleteApply(DeleteApplyDTO dadto) {
+	public int insertDeleteApply(DeleteApplyDTO dadto) throws Exception {
 		GroupMemberDTO gmdto = new GroupMemberDTO();
 		
 		gmdto.setId(dadto.getId());
@@ -93,61 +93,61 @@ public class GroupService {
 		return gdao.insertDeleteApply(dadto);
 	}
 	
-	public List<GroupMemberDTO> selectGroupMemberList(int parent_seq) {
+	public List<GroupMemberDTO> selectGroupMemberList(int parent_seq) throws Exception {
 		return gdao.selectGroupMemberList(parent_seq);
 	}
 	
-	public boolean selectGroupMemberById(GroupMemberDTO gmdto) {
+	public boolean selectGroupMemberById(GroupMemberDTO gmdto) throws Exception {
 		return gdao.selectGroupMemberById(gmdto);
 	}
 	
 	@Transactional("txManager")
-	public int insertLike(LikeListDTO ldto) {
+	public int insertLike(LikeListDTO ldto) throws Exception {
 		gdao.updateLike(ldto.getParent_seq());
 		return gdao.insertLike(ldto);
 	}
 	
-	public boolean selectLike(Map<Object, Object> param) {
+	public boolean selectLike(Map<Object, Object> param) throws Exception {
 		return gdao.selectLike(param);
 	}
 	
-	public int updateIngDate(String today_date) {
+	public int updateIngDate(String today_date) throws Exception {
 		return gdao.updateIngDate(today_date);
 	}
 	
-	public List<GroupDTO> relatedGroup(List<String> hobby_arr) {
+	public List<GroupDTO> relatedGroup(List<String> hobby_arr) throws Exception {
 		return gdao.relatedGroup(hobby_arr);
 	}
 	
-	public List<GroupDTO> selectGroupList(int cpage, Map<String, Object> search) {
+	public List<GroupDTO> selectGroupList(int cpage, Map<String, Object> search) throws Exception {
 		return gdao.selectGroupList(cpage, search);
 	}
 	
-	public int selectGroupCount(Map<String, Object> search) {
+	public int selectGroupCount(Map<String, Object> search) throws Exception {
 		return gdao.selectGroupCount(search);
 	}
 	
-	public int insertJjim(JjimDTO jdto) {
+	public int insertJjim(JjimDTO jdto) throws Exception {
 		return gdao.insertJjim(jdto);
 	}
 	
-	public int deleteJjim(JjimDTO jdto) {
+	public int deleteJjim(JjimDTO jdto) throws Exception {
 		return gdao.deleteJjim(jdto);
 	}
 	
-	public boolean selectJjim(JjimDTO jdto) {
+	public boolean selectJjim(JjimDTO jdto) throws Exception {
 		return gdao.selectJjim(jdto);
 	}
 	
-	public int selectReport(ReportListDTO rldto) {
+	public int selectReport(ReportListDTO rldto) throws Exception {
 		return gdao.selectReport(rldto);
 	}
 	
-	public int insertReport(ReportListDTO rldto) {
+	public int insertReport(ReportListDTO rldto) throws Exception {
 		return gdao.insertReport(rldto);
 	}
 	
-	public String getPageNav(int currentPage, Map<String, Object> search) throws Exception{
+	public String getPageNav(int currentPage, Map<String, Object> search) throws Exception {
 		// 총 게시물
 		int recordTotalCount = gdao.selectGroupCount(search);
 		String orderBy = search.get("orderBy").toString();
@@ -262,12 +262,12 @@ public class GroupService {
 	}
 	
 	// 리뷰 글쓰기
-	public int reviewWrite(ReviewDTO redto) throws Exception{
+	public int reviewWrite(ReviewDTO redto) throws Exception {
 		return gdao.reviewWrite(redto);
 	}
 	
 	//리뷰 리스트 출력
-	public List<ReviewDTO> reviewList(int seq) throws Exception{
+	public List<ReviewDTO> reviewList(int seq) throws Exception {
 		return gdao.reviewList(seq);
 	}
 	
@@ -331,7 +331,7 @@ public class GroupService {
 	
 	
 	// 리뷰 삭제
-	public int reviewDelete(int seq) throws Exception{
+	public int reviewDelete(int seq) throws Exception {
 		return gdao.reviewDelete(seq);
 	}
 	

@@ -17,36 +17,6 @@
 </style>
 <script>
 	$(function(){
-		/* $("input[type='text'],textarea").blur(function(){
-			var thisVal = $(this).val();
-			$(this).val(textChk(thisVal,$(this)));
-		})
-		
-	 	$(".note-editable").blur(function(){
-			var thisVal = $(this).html();
-			$(this).text(textChk(thisVal,$(this)));
-		});
-		
-		function textChk(thisVal, obj){
-			var replaceId  = /(script)/gi;
-			var textVal = thisVal;
-		    if (textVal.length > 0) {
-		    	alert(textVal)
-		        if (textVal.match(replaceId)) {
-		        	alert("asd")
-		        	if(obj.val().length){
-			        	obj.val("");
-			        	textVal = obj.val();
-		        	}else{
-			        	obj.html("");
-			        	textVal = obj.val();
-		        	}
-		        }
-		    }
-		    return textVal;
-		} */
-		
-		
 		$('#apply_start').datepicker({
 			dateFormat: 'yy-mm-dd',
 			minDate: 0,
@@ -55,27 +25,41 @@
 		
 		$('#apply_end').datepicker({
 			dateFormat: 'yy-mm-dd',
-			minDate: new Date($('#apply_start').val())
-		});
-		
-
-		
-		
-		
-		$('#start_date').datepicker({
-			dateFormat: 'yy-mm-dd',
-			minDate: 0,
+			minDate: new Date($('#apply_start').val()),
 			onClose: function(){
-				$('#end_date').datepicker({
+				if ($('#apply_end').val() == "") {
+					return false;
+				}
+				$('#start_date').datepicker({
 					dateFormat: 'yy-mm-dd',
-					minDate: new Date($('#start_date').val())
-				})
+					minDate: 0,
+					onClose: function(){
+						if($("#start_date").val() == ""){
+							return false;
+						}
+						$('#end_date').datepicker({
+							dateFormat: 'yy-mm-dd',
+							minDate: new Date($('#start_date').val())
+						})
+					}
+				});
 			}
 		});
+		
 		
 		$('#start_date').on('change', function(){
 			var endDate = $('#end_date').val();
 			if (endDate != '') {
+				$('#end_date').val('');
+			}
+		})
+		
+		$('#end_date').on('change', function(){
+			var applyEnd = new Date($('#apply_end').val());
+			var endDate = new Date($('#end_date').val());
+			
+			if (endDate < applyEnd) {
+				alert('모집 마감 날짜보다 이전 날짜로 설정하실 수 없습니다.');
 				$('#end_date').val('');
 			}
 		})

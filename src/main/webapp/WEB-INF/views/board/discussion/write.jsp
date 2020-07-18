@@ -23,10 +23,10 @@ $(function(){
 		var thisVal = $(this).val();
 		$(this).val(textChk(thisVal,$(this)));
 	})
- 	$(".note-editable").blur(function(){
+ /* 	$(".note-editable").blur(function(){
 		var thisVal = $(this).html();
 		$(this).text(textChk(thisVal,$(this)));
-	});
+	}); */
 	
 	$("#writeForm").on("submit",function(){
 		var titleVal = titleObj.val();
@@ -52,7 +52,14 @@ $(function(){
 		}
 		
 		
-
+		var noteObj = $(".note-editable");
+		var replaceId  = /(script)/gi;
+		if(noteObj.text().match(replaceId)){
+			alert("부적절한 내용이 들어가있습니다.")
+			noteObj.focus();
+			noteObj.html("")
+			return false;
+		}
 	})
 	
 })

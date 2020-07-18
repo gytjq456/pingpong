@@ -11,6 +11,7 @@ import kh.pingpong.config.Configuration;
 import kh.pingpong.dao.CorrectDAO;
 import kh.pingpong.dto.CorrectDTO;
 import kh.pingpong.dto.Correct_CommentDTO;
+import kh.pingpong.dto.DiscussionDTO;
 import kh.pingpong.dto.JjimDTO;
 import kh.pingpong.dto.LanguageDTO;
 import kh.pingpong.dto.LikeListDTO;
@@ -23,6 +24,10 @@ public class CorrectService {
 
 	public List<LanguageDTO> langSelectlAll() throws Exception{
 		return dao.langSelectlAll();
+	}
+	
+	public List<CorrectDTO> moreList(int seq) throws Exception{
+		return dao.moreList(seq);
 	}
 
 	public LanguageDTO langSelectlOne(String original_lang) throws Exception {

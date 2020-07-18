@@ -44,11 +44,11 @@
 									<c:forEach var="rlist" items="${rlist}">
 										<tr>
 											<td><input type="checkbox" class="select_one"></td>
-											<td class="seq_rec seq">${rlist.seq}</td>
-											<td class="rec_id">${rlist.from_id}</td>
+											<td class="seq_rec seq show_con">${rlist.seq}</td>
+											<td class="rec_id show_con">${rlist.from_id}</td>
 											<td class="show_con">${rlist.from_name} 님이 쪽지를 보냈습니다.</td>
-											<td>${fn:substring(rlist.write_date, 0, 10)}</td>
-											<td class="read">
+											<td class="show_con">${fn:substring(rlist.write_date, 0, 10)}</td>
+											<td class="read show_con">
 												<c:if test="${rlist.read == 'Y'}">읽음</c:if>
 												<c:if test="${rlist.read == 'N'}">읽지 않음</c:if>
 											</td>
@@ -92,11 +92,11 @@
 									<c:forEach var="slist" items="${slist}">
 										<tr>
 											<td><input type="checkbox" class="select_one"></td>
-											<td class="seq">${slist.seq}</td>
-											<td>${slist.to_id}</td>
+											<td class="seq show_con">${slist.seq}</td>
+											<td class="show_con">${slist.to_id}</td>
 											<td class="show_con">${slist.to_name} 님에게 보낸 쪽지입니다.</td>
-											<td>${fn:substring(slist.write_date, 0, 10)}</td>
-											<td>
+											<td class="show_con">${fn:substring(slist.write_date, 0, 10)}</td>
+											<td class="show_con">
 												<c:if test="${slist.read == 'Y'}">읽음</c:if>
 												<c:if test="${slist.read == 'N'}">읽지 않음</c:if>
 											</td>
@@ -130,8 +130,18 @@
 				var read = $(this).siblings('.read');
 				var readVal = read.html();
 				
+				if (readVal == null) {
+					read = $(this);
+					readVal = $(this).html();
+				}
+				
 				if (readVal != null && readVal.indexOf('읽지 않음') > -1) {
 					var seq = $(this).siblings('.seq_rec').html();
+					
+					if (seq == null) {
+						seq = $(this).html();
+					}
+					
 					$.ajax({
 						url: "/letter/updateRead",
 						data: {
@@ -176,6 +186,13 @@
 		})
 		
 		$('.del_selected_let').on('click', function(){
+			var isSelected = $(this).parent().next().find('.select_one:checked');
+			var isSelectedLength = isSelected.length;
+			if (isSelectedLength == 0) {
+				alert('선택된 항목이 없습니다.');
+				return false;
+			}
+			
 			var conf = confirm('선택한 항목들을 정말 삭제하시겠습니까?');
 			
 			if (conf) {

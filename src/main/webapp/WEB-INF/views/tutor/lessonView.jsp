@@ -396,11 +396,13 @@ $(function(){
 						<div id="group_title">${ldto.title}</div>
 						<div id="mini_option_wrap">
 							<span id="point_avg"><i class="fa fa-star" aria-hidden="true"></i>${ldto.review_point}</span>
+							<c:if test="${loginInfo.id != ldto.id}">
 							<div id="three_options">
 								<span id="like"><i id="like" class="fa fa-thumbs-up" style="color:"></i>추천</span>
 								<span id="jjim"><i id="" class="fa fa-heart-o"></i>찜하기</span>
 								<a id="report" data-seq="${seq}" data-thisseq="" data-id="${ldto.id}" data-url="/tutor/report" data-proc="/tutor/reportProc"><i class="fa fa-exclamation" aria-hidden="true"></i> 신고</a>
 							</div>
+							</c:if>
 						</div>
 					</div>
 					<div id="group_detail" class="base_info clearfix">

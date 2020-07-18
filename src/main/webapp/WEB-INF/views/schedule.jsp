@@ -190,7 +190,6 @@
 			}).done(function(resp){
 				if(resp.gList.length){
 					for(var i=0; i<resp.gList.length; i++){
-						console.log(resp.gList[i].contents)
 						var li = $("<li>");
 						var info = $('<div class="info">');
 						li.append('<div class="thum"><img src="/upload/member/'+resp.gList[i].writer_id+'/'+resp.gList[i].sysname+'"></div>')
@@ -215,7 +214,6 @@
 				if(resp.LessonList.length){
 					for(var i=0; i<resp.LessonList.length; i++){
 						var txt = resp.LessonList[i].curriculum;
-						console.log(txt);
 						var li = $("<li>");
 						var info = $('<div class="info">');
 						li.append('<div class="thum"><img src="/upload/member/'+resp.LessonList[i].id+'/'+resp.LessonList[i].sysname+'"></div>')

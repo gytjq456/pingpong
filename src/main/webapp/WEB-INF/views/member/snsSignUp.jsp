@@ -21,6 +21,7 @@
 							<input type="hidden" name="id" value="${mdto.id}">
 							<input type="hidden" name="name" value="${mdto.name}">
 							<input type="hidden" name="pw" value="${mdto.pw}">
+							<input type="hidden" name="sysname" value="${mdto.sysname}">
 							
 							
 							<div class="se_singup">
@@ -111,7 +112,8 @@
 							<div class="se_singup">
 								<div class="title">프로필 사진</div>
 								<div class="se_con">
-									<input type="file" id="profile" name="profile">
+									<img src="${mdto.sysname}" alt="카카오 프로필">
+									<!--  <input type="file" id="profile" name="profile">-->
 								</div>
 							</div>
 				

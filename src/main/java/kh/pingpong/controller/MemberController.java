@@ -541,7 +541,9 @@ public class MemberController {
 
 	/* sns jsp */
 	@RequestMapping("snsSignUp")
-	public String snsSignUp(String mem_type, String kakaoId, String kakaoNickname, String kakaoProfile, String kakaothumnail, String pw, Model model) throws Exception {
+	public String snsSignUp(String mem_type, String kakaoId, String kakaoNickname, String kakaoProfile, String pw, Model model) throws Exception {
+		System.out.println(kakaoProfile + "  profile");
+		
 		MemberDTO mdto = new MemberDTO();
 		mdto.setId(kakaoId);
 		mdto.setPw(pw);
@@ -574,27 +576,20 @@ public class MemberController {
 			mdto.setId(kakaoId);
 			mdto.setName(kakaoNickname);
 			mdto.setPw(pw);
-			System.out.println(mdto.getPw()+ " pw이이이");
+			mdto.setSysname(kakaoProfile);
 			model.addAttribute("mdto", mdto);
 
-			return "/member/snsSignUp";
+			return "redirect:/";
 		}
 
 	}
 
 	/* sns로그인 - 카카오 회원가입 */
 	@RequestMapping("snsSingUpProc")
-	public String snsSingUpProc(MemberDTO mdto, FileDTO fdto) throws Exception {
-		// 회원 파일 하나 저장
-		String realPath = session.getServletContext().getRealPath("upload/member/" + mdto.getId() + "/");
-		fdto = fcon.fileOneInsert(mdto, fdto, realPath);
-		mservice.memberInsert(mdto, fdto);
-
+	public String snsSingUpProc(MemberDTO mdto) throws Exception {
+		mservice.memberInsertSns(mdto);
 		return "redirect:/member/memberComplete";
 	}
-	
-	
-	
 	
 	// 파트너 / 튜터 목록 가져오기 //
 	@ResponseBody

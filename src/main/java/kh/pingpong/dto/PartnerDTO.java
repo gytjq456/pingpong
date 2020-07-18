@@ -23,10 +23,13 @@ public class PartnerDTO {
 	private Double review_point;
 	private String contact;
 	
+	private String pemail;
+	
 	public PartnerDTO(int seq, String id, String name, int age, String gender, String email, String country,
 			String phone_country, String phone, String address, String sysname, String lang_can, String lang_learn,
 			String hobby, String introduce, Timestamp partner_date, int review_count, Double review_point,
 			String contact) {
+
 		super();
 		this.seq = seq;
 		this.id = id;
@@ -47,6 +50,7 @@ public class PartnerDTO {
 		this.review_count = review_count;
 		this.review_point = review_point;
 		this.contact = contact;
+		this.pemail = pemail;
 	}
 	
 	public PartnerDTO() {
@@ -54,6 +58,14 @@ public class PartnerDTO {
 		// TODO Auto-generated constructor stub
 	}
 	
+	public String getPemail() {
+		return pemail;
+	}
+
+	public void setPemail(String pemail) {
+		this.pemail = pemail;
+	}
+
 	public int getSeq() {
 		return seq;
 	}

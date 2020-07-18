@@ -55,7 +55,6 @@ public class CorrectDAO {
 		return mybatis.insert("Correct.commentInsert",cdto);
 	}
 	public List<Correct_CommentDTO> selectc(int parent_seq) throws Exception{
-		System.out.println("제발 돼라"+ parent_seq);
 		return mybatis.selectList("Correct.selectc",parent_seq);
 	} 
 

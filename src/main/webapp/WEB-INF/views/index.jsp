@@ -35,7 +35,7 @@
 		
 		<section id="toDayClass">
 			<div class="tit_main left">
-			<h3>To Day Class</h3>
+			<h3>Today Class</h3>
 				<p>현재 모집중인 그룹 모임과 전문가와 함께하는 수업입니다.</p>
 			</div>		
 			<div class="inner1200 clearfix">
@@ -175,6 +175,8 @@
 						/* console.log("len = " + resp.gList.length)
 						console.log("len = " + resp.lessonList.length) */
 						var positions = [];
+						var cate = []
+						var imageSrc = "";
 						for (var i = 0; i < resp.gList.length; i++) {
 							positions.push({
 								content: '<div class="infoView">'+
@@ -185,11 +187,12 @@
 								'<div class="hoppy">'+resp.gList[i].hobby_type+'</div>'+
 								'</div>'+
 								'</div>',
-								latlng: new kakao.maps.LatLng(latArr[i], lanArr[i])
+								latlng: new kakao.maps.LatLng(latArr[i], lanArr[i]),
+								cate:"그룹"
 							});
 						}
 						for (var i = 0; i < resp.lessonList.length; i++) {
-							console.log(i)
+							//console.log(i)
 							positions.push({
 								content: '<div class="infoView">'+
 			 					'<div class="profile"><img src="/upload/member/'+resp.lessonList[i].id+'/'+resp.lessonList[i].profile+'"/></div>' + 
@@ -199,17 +202,29 @@
 								'<div class="hoppy">'+resp.lessonList[i].title+'</div>'+
 								'</div>'+
 								'</div>',
-								latlng: new kakao.maps.LatLng(latArr[i+1], lanArr[i+1])
+								latlng: new kakao.maps.LatLng(latArr[i+1], lanArr[i+1]),
+								cate:"강의"
 							});
 						}
-						
+						// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
 						// 마커 이미지의 이미지 주소입니다
 						for (var i = 0; i < positions.length; i ++) {
+						
+							if(positions[i].cate == "그룹"){
+								imageSrc = '/resources/img/main/groupMapImg.png';
+							}else{
+								imageSrc = '/resources/img/main/lessonMapImg.png'
+							}
+						    var	imageSize = new kakao.maps.Size(64, 69), // 마커이미지의 크기입니다
+						    	imageOption = {offset: new kakao.maps.Point(27, 69)};
+								var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption)
+								markerPosition = new kakao.maps.LatLng(positions[i].latlng)
 						    
 						    // 마커를 생성합니다
 						    var marker = new kakao.maps.Marker({
 						        map: map, // 마커를 표시할 지도
-						        position: positions[i].latlng // 마커의 위치
+						        position: positions[i].latlng, // 마커의 위치
+						        image: markerImage // 마커이미지 설정 
 						    });
 						    
 						    // 마커에 표시할 인포윈도우를 생성합니다 

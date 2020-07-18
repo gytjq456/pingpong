@@ -131,7 +131,7 @@
 											<!-- <div class="thumb"><img src="/resources/img/sub/userThum.jpg"/></div> -->
 											<div class="thumb"><img src="/upload/member/${i.id}/${i.thumNail}"/></div>
 											<div class="info">
-												<p class="userId">${i.writer}</p>
+												<p class="userId">${i.writer}(${i.id})</p>
 												<p class="writeDate">${i.dateString}</p>
 											</div>
 										</div>										

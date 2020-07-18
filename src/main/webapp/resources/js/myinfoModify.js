@@ -199,7 +199,7 @@ $(function() {
 		
 		//프로필 확장자 체크
 		if(!/\.(gif|jpg|jpeg|png)$/i.test(profile.val())){
-			alert("확장자 확인 하기 " + profile.val());
+			//alert("확장자 확인 하기 " + profile.val());
 			alert('gif, jpg, png 파일만 선택해 주세요.\n\n현재 파일 : ' + profile.val());
 			profile.focus();
 			return false;

@@ -192,6 +192,8 @@
 			var max_numVal = $("#max_num").val();
 			var sidoVal = $("#sido1").val();
 			var gugunVal = $("#gugun1").val();
+			var location_latVal = $("#location_lat").val();
+			var location_lngVal = $("#location_lng").val();
 
 			if (titleVal.length == 0) {
 				alert("제목을 입력해주세요");
@@ -220,7 +222,10 @@
 			} else if (gugunVal == '구, 군 선택') {
 				alert("구,군 을 선택해주세요.");
 				return false;
-			} else if (summernoteVal.length == 0) {
+			}else if(location_latVal.length==0){
+				alert("정확한 위치를 지도를 클릭하여 지정해 주세요.");
+				return false;
+			}else if (summernoteVal.length == 0) {
 				alert("내용을 입력해주세요");
 				return false;
 			}
@@ -457,11 +462,11 @@
 
 					var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 
-					// 결과값으로 받은 위치를 마커로 표시합니다
+					/* // 결과값으로 받은 위치를 마커로 표시합니다
 					var marker = new kakao.maps.Marker({
 						map : map,
 						position : coords
-					});  
+					}); */  
 
 					// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
 					map.setCenter(coords);
@@ -495,7 +500,6 @@
 		    
 		    $("#location_lat").val(latlng.getLat());
 		    $("#location_lng").val(latlng.getLng());
-		    
 		    //지도를 클릭했을 때 클릭 위치 좌표에 대한 주소정보를 표시하도록 이벤트를 등록
 		    searchDetailAddrFromCoords(mouseEvent.latLng, function(result, status) {
 		        if (status === kakao.maps.services.Status.OK) {

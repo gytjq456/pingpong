@@ -281,6 +281,17 @@
 			console.log(hobbyList);
 			$('#hobby_type').val(hobbyList);
 			
+			
+			var noteObj = $(".note-editable");
+			var replaceId  = /(script)/gi;
+			if(noteObj.text().match(replaceId)){
+				alert("부적절한 내용이 들어가있습니다.")
+				noteObj.focus();
+				noteObj.html("")
+				return false;
+			}
+			
+			
 			$('#updateProc').submit();
 		}
 		

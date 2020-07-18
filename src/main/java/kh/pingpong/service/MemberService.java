@@ -52,6 +52,11 @@ public class MemberService {
 		return result;
 	}
 	
+	public int memberInsertSns(MemberDTO mdto) throws Exception{	
+		int result = mdao.memberInsertSns(mdto);
+		return result;
+	}
+	
 	public MemberDTO memberSelect(MemberDTO loginInfo) throws Exception{
 		return mdao.memberSelect(loginInfo);
 	}

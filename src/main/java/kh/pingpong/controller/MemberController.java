@@ -66,7 +66,7 @@ public class MemberController {
 
 	/* 이메일 발송 */
 	public String sendEmail(String userMailSend, HttpServletResponse response) throws ServletException, IOException {
-
+		
 		// mail server 설정
 		String userMail = userMailSend;
 		String host = "smtp.naver.com";
@@ -117,7 +117,6 @@ public class MemberController {
 		});
 
 		// email 전송
-
 		try {
 			MimeMessage msg = new MimeMessage(session);
 			msg.setFrom(new InternetAddress(user, "pingpong"));
@@ -125,9 +124,9 @@ public class MemberController {
 			msg.addRecipient(Message.RecipientType.TO, new InternetAddress(to_email));
 
 			// 메일 제목
-			msg.setSubject("안녕하세요. pingpong 인증 메일입니다.");
+			msg.setSubject("Welecome to pingpong email.");
 			// 메일 내용
-			msg.setText("인증 번호는 :" + temp);
+			msg.setText("Put this code :" + temp);
 			Transport.send(msg);
 
 		} catch (Exception e) {
@@ -542,7 +541,9 @@ public class MemberController {
 
 	/* sns jsp */
 	@RequestMapping("snsSignUp")
-	public String snsSignUp(String mem_type, String kakaoId, String kakaoNickname, String kakaoProfile, String kakaothumnail, String pw, Model model) throws Exception {
+	public String snsSignUp(String mem_type, String kakaoId, String kakaoNickname, String kakaoProfile, String pw, Model model) throws Exception {
+		System.out.println(kakaoProfile + "  profile");
+		
 		MemberDTO mdto = new MemberDTO();
 		mdto.setId(kakaoId);
 		mdto.setPw(pw);
@@ -575,27 +576,20 @@ public class MemberController {
 			mdto.setId(kakaoId);
 			mdto.setName(kakaoNickname);
 			mdto.setPw(pw);
-			System.out.println(mdto.getPw()+ " pw이이이");
+			mdto.setSysname(kakaoProfile);
 			model.addAttribute("mdto", mdto);
 
-			return "/member/snsSignUp";
+			return "redirect:/";
 		}
 
 	}
 
 	/* sns로그인 - 카카오 회원가입 */
 	@RequestMapping("snsSingUpProc")
-	public String snsSingUpProc(MemberDTO mdto, FileDTO fdto) throws Exception {
-		// 회원 파일 하나 저장
-		String realPath = session.getServletContext().getRealPath("upload/member/" + mdto.getId() + "/");
-		fdto = fcon.fileOneInsert(mdto, fdto, realPath);
-		mservice.memberInsert(mdto, fdto);
-
+	public String snsSingUpProc(MemberDTO mdto) throws Exception {
+		mservice.memberInsertSns(mdto);
 		return "redirect:/member/memberComplete";
 	}
-	
-	
-	
 	
 	// 파트너 / 튜터 목록 가져오기 //
 	@ResponseBody

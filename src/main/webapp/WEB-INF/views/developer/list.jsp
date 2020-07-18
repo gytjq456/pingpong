@@ -90,7 +90,7 @@
 					</li>
 					<li class="card_body">
 						<div class="user">
-							<div class="img"><img src="/resources/img/sub/chenaeun2.jpg"/></div>
+							<div class="img"><img src="/resources/img/sub/chenaeun.jpg"/></div>
 							<div class="name">채나은</div>
 						</div>
 						<div class="intro">

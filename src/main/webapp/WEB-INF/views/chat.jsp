@@ -89,7 +89,7 @@
 			var uid = "";
 			
 			
-			if("${sessionScope.loginInfo.id}" != ""){
+			if("${sessionScope.loginInfo.id}" != "" && "${sessionScope.loginInfo.grade}" == "partner"){
 				var ws  =new WebSocket("ws://localhost/chat");
 				//var ws  =new WebSocket("ws://192.168.60.58/chat");
 				ws.onopen = function(){

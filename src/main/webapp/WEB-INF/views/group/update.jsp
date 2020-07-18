@@ -187,9 +187,14 @@
 								<h4>유형</h4>
 							</div>
 							<div class="group_sub_input">
-								<c:forEach var="hbdto" items="${hblist}">
-									<input type="checkbox" name="hobby" class="hobby_list" id="${hbdto.seq}" value="${hbdto.hobby}"><label for="${hbdto.seq}">${hbdto.hobby}</label>
-								</c:forEach>
+								<ul class="checkBox_s1">
+										<c:forEach var="hbdto" items="${hblist}">
+									<li>
+											<input type="checkbox" name="hobby" class="hobby_list" id="${hbdto.seq}" value="${hbdto.hobby}">
+											<label for="${hbdto.seq}"><span></span>${hbdto.hobby}</label>
+									</li>
+										</c:forEach>
+								</ul>
 								<input type="text" name="hobby_type" id="hobby_type" value="${gdto.hobby_type}">
 							</div>
 						</div>

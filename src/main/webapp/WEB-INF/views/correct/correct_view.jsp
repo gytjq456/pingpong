@@ -280,22 +280,21 @@
 										<div class="contents">${u.contents}</div>
 										<div class="countList">
 											<c:choose>
-												<c:when test="${loginInfo.id == dto.id}">
-													<ul>
+												<c:when test="${loginInfo.id == u.id}">
+												
 														<li>
 															<button class="comment_delete normal"
 																data-parent_seq="${u.parent_seq}"
 																data-seq="${u.comm_seq}">댓글삭제</button>
 														</li>
-													</ul>
+													
 												</c:when>
 												<c:otherwise>
-													<ul>
+												
+
 														<li>
 															<button class="comment_like" data-seq="${u.comm_seq}">좋아요
-																${u.like_count}</button>
-														</li>
-														<li>
+																:${u.like_count}</button>
 															<button type="button" class="comment_declaration report"
 																class="comment_report" data-thisSeq="${u.comm_seq}"
 																data-seq="${dto.seq}" data-id="${u.id}"
@@ -304,7 +303,7 @@
 																<i class="fa fa-bell color_white" aria-hidden="true"></i>신고하기
 															</button>
 														</li>
-													</ul>
+													
 												</c:otherwise>
 											</c:choose>
 										</div>
@@ -330,34 +329,33 @@
 									<div class="cont">
 										<div class="contents">${i.contents}</div>
 										<div class="countList">
-											<c:choose>
-												<c:when test="${loginInfo.id == dto.id}">
-													<ul>
-														<li>
-															<button class="comment_delete normal"
-																data-parent_seq="${i.parent_seq}"
-																data-seq="${i.comm_seq}">댓글삭제</button>
-														</li>
-													</ul>
-												</c:when>
-												<c:otherwise>
-													<ul>
-														<li>
-															<button class="comment_like" data-seq="${i.comm_seq}">좋아요
-																${i.like_count}</button>
-														</li>
-														<li>
-															<button type="button" class="comment_declaration report"
-																class="comment_report" data-thisSeq="${i.comm_seq}"
-																data-seq="${dto.seq}" data-id="${i.id}"
-																data-url="/correct/comment_report"
-																data-proc="/correct/comment_reportProc">
-																<i class="fa fa-bell color_white" aria-hidden="true"></i>신고하기
-															</button>
-														</li>
-													</ul>
-												</c:otherwise>
-											</c:choose>
+
+											<c:if test="${loginInfo.id == i.id}">
+												
+													<li>
+														<button class="comment_delete normal"
+															data-parent_seq="${i.parent_seq}"
+															data-seq="${i.comm_seq}">댓글삭제</button>
+													</li>
+												
+											</c:if>
+											<c:if test="${loginInfo.id != i.id}">
+												
+													<li>
+														<button class="comment_like" data-seq="${i.comm_seq}">좋아요
+															${i.like_count}</button>
+														<button type="button" class="comment_declaration report"
+															class="comment_report" data-thisSeq="${i.comm_seq}"
+															data-seq="${dto.seq}" data-id="${i.id}"
+															data-url="/correct/comment_report"
+															data-proc="/correct/comment_reportProc">
+															<i class="fa fa-bell color_white" aria-hidden="true"></i>신고하기
+														</button>
+													</li>
+												
+											</c:if>
+
+
 										</div>
 									</div>
 								</article>

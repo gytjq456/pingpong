@@ -92,6 +92,9 @@ public class CorrectController {
 
 	@RequestMapping("/writeProc")
 	public String writeProc(CorrectDTO dto) throws Exception{
+		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
+		String id = mdto.getId();
+		dto.setId(id);
 		cservice.insert(dto);
 		return "redirect:/correct/correct_list";	
 	}
@@ -118,6 +121,9 @@ public class CorrectController {
 	@ResponseBody
 	@RequestMapping("/commentProc")
 	public String commentProc(Correct_CommentDTO cdto, Model model) throws Exception{
+		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
+		String id = loginInfo.getId();
+		cdto.setId(id);
 		int result = cservice.commentInsert(cdto);
 		model.addAttribute("parent_seq", cdto.getParent_seq());
 		cservice.countrep(cdto);

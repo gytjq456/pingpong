@@ -440,6 +440,9 @@
 												<c:if test="${i.proceeding == 'Y'}">
 													<div class="group_proceeding">진행중</div>
 												</c:if>
+												<c:if test="${i.proceeding == 'B'}">
+													<div class="group_ready">준비중</div>
+												</c:if>
 												<c:if test="${i.proceeding == 'N' && i.applying == 'N'}">
 													<div class="group_done">마감</div>
 												</c:if>

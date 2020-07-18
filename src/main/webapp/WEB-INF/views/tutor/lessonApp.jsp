@@ -83,7 +83,12 @@
 			minDate : 0,
 			maxDate : '+1m',
 			onClose : function(selectedDate) {
-				if(selectedDate==null){return false;}
+				if($('#apply_end').val()==''){
+					alret("모집기간을 선택해 주세요");
+					$('#start_date').val('');
+					$('#end_date').val('');
+					return false;
+				}
 				$('#apply_start').datepicker("option", "maxDate", selectedDate);
 				$('#start_date').datepicker("option", "minDate", selectedDate);
 			}
@@ -94,6 +99,17 @@
 			minDate : 0,
 			maxDate : '+1m +7d',
 			onClose : function(selectedDate) {
+				if($('#apply_end').val()==''){
+					alert("모집기간부터 선택해주세요");
+					$('#start_date').val('');
+					$('#end_date').val('');
+					return false;
+				}
+				if($('#start_date').val()==''){
+					alert("수업 시작기간을 선택하세요");
+					$('#end_date').val('');
+					return false;
+				}
 				$('#end_date').datepicker("option", "minDate", selectedDate);
 			},
 			onSelect: function(dateText, inst){
@@ -117,19 +133,14 @@
 			minDate : 7,
 			maxDate : '+1m +7d',
 			onClose : function(selectedDate) {
+				if($('#start_date').val()==''){
+					alert("수업시작 기간부터 선택해 주세요");
+					$('#end_date').val('');
+					return false;
+				}
 				$('#start_date').datepicker("option", "maxDate", selectedDate);
 			}
 		});
-		
-		
-/* 
- 		
-		$('#start_date').on('change', function() {
-			var endDate = $('#end_date').val();
-			if (endDate != '') {
-				$('#end_date').val('');
-			}
-		})  */
 
 		$("#price").blur(function() {
 			var regexnum = /^[0-9]+$/g;
@@ -174,17 +185,15 @@
 			start_hourVal = $("#start_hour option:selected").text();
 			if($("#start_hour").val()>=end_hourVal && end_hourVal != '시'){
 				alert("끝나는 시간보다 빠른시간으로 설정해주세요.");
-				$('#start_hour option:first').attr("selected","selected");
-				//$("#end_hour").val('시');
+				$('#start_hour option:eq(0)').prop("selected",true);
 				return false;
 			}
 		})
 		$("#end_hour").focusout(function(){
 			end_hourVal = $("#end_hour option:selected").text();
-			if($("#end_hour").val()<=start_hourVal){
+			if($("#end_hour").val()<=start_hourVal && start_hourVal != '시'){
 				alert("시작시간보다 늦은시간으로 설정해주세요.");
-				//$('#end_hour option:eq(0)').attr("selected","selected");
-				$("#end_hour option:selected").text('시');
+				$("#end_hour option:eq(0)").prop('selected', true);
 				return false;
 			}
 		})
@@ -214,10 +223,10 @@
 			var apply_endVal = $("#apply_end").val();
 			var start_dateVal = $("#start_date").val();
 			var end_dateVal = $("#end_date").val();
-			var start_hourVal = $("#start_hour").val();
-			var start_minuteVal = $("#start_minute").val();
-			var end_hourVal = $("#end_hour").val();
-			var end_minuteVal = $("#end_minute").val();
+			var start_hourVal = $("#start_hour option:selected").text();
+			var end_hourVal = $("#end_hour option:selected").text();
+			var start_minuteVal = $("#start_minute option:selected").text();
+			var end_minuteVal = $("#end_minute option:selected").text();
 			var max_numVal = $("#max_num").val();
 			var sidoVal = $("#sido1").val();
 			var gugunVal = $("#gugun1").val();
@@ -288,6 +297,7 @@
 				noteObj.html("")
 				return false;
 			}	
+			alert("강의 신청이 완료되었습니다. 승인될 때까지 기다려주세요.");
 		})
 		
 		

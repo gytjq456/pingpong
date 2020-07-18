@@ -245,7 +245,7 @@ width:calc(100% - 340px);
 width:-moz-calc(100% - 340px);
 width:-webkit-calc(100% - 340px);
 border-right: 1px solid #ddd;
-min-height: 650px; 
+min-height: 700px; 
 }
 #group_view #group_optional { width: 340px; padding: 0 0 0 30px; }
 #group_view #group_view_card { position: relative; }

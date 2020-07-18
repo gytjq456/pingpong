@@ -338,6 +338,16 @@ public class AdminService {
 			adao.deleteOne(param);
 		}
 		
+		if (adao.isAlreadyReport(param) != null) {
+			List<Integer> seqs = adao.isAlreadyReport(param);
+			
+			if (seqs.size() > 0) {
+				for (int i = 0; i < seqs.size(); i++) {
+					adao.updateReportListPass(seqs.get(i));
+				}
+			}
+		}
+		
 		String id = param.get("id").toString();
 		String name = adao.getNameForBlack(id);
 		
@@ -351,16 +361,6 @@ public class AdminService {
 			boolean black = adao.isBlacklist(id);
 			if (!black) {
 				adao.insertBlacklist(param);
-			}
-		}
-		
-		if (adao.isAlreadyReport(param) != null) {
-			List<Integer> seqs = adao.isAlreadyReport(param);
-			
-			if (seqs.size() > 0) {
-				for (int i = 0; i < seqs.size(); i++) {
-					adao.updateLessonPass(seqs.get(i));
-				}
 			}
 		}
 		
@@ -417,11 +417,21 @@ public class AdminService {
 				}
 				
 				String category = adao.getCategoryFromRep(seq);
-				
 				int parent_seq = adao.getParentSeqFromRep(seq);
 				
+				report.put("category", category);
 				report.put("columnName", "seq");
 				report.put("columnValue", parent_seq);
+				
+				if (adao.isAlreadyReport(report) != null) {
+					List<Integer> seqs = adao.isAlreadyReport(report);
+					
+					if (seqs.size() > 0) {
+						for (int j = 0; j < seqs.size(); j++) {
+							adao.updateReportListPass(seqs.get(j));
+						}
+					}
+				}
 				
 				if (category.contentEquals("그룹")) {
 					report.put("tableName", "grouplist");

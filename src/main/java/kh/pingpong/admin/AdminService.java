@@ -579,6 +579,5 @@ public class AdminService {
 		sb.append("</ul>");
 
 		return sb.toString();
-
 	}
 }

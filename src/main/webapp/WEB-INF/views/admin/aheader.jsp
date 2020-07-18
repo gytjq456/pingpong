@@ -22,6 +22,19 @@
 	<body>
 		<c:if test="${!empty sessionScope.adminLog}">
 			<header>
+			<div id="header_opt">
+				<ul class="clearfix">
+					<li>
+						<a href="/admin/logout">로그아웃</a><br>
+					</li>
+					<li>
+						<a href="/admin">관리자 메인</a><br>
+					</li>
+					<li>
+						<a href="/">핑퐁 메인</a>
+					</li>
+				</ul>
+			</div>
 			<section id="ahdBot">
 				<div class="inner1200 clearfix">
 					<nav>
@@ -68,10 +81,6 @@
 					</nav>
 				</div>
 			</section>
-			<div id="header_opt">
-				<a href="/admin/logout">로그아웃</a><br>
-				<a href="/admin">관리자 메인</a><br>
-				<a href="/">핑퐁 메인</a>
-			</div>
+			
 		</header>
 	</c:if>

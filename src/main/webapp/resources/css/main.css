@@ -77,7 +77,7 @@
 #toDayClass .classWrap > section:last-child { margin:0; }
 #toDayClass .classWrap > section > div { margin-bottom:16px; }
 #toDayClass .classWrap > section > div:last-child { margin:0; }
-#toDayClass .classWrap .list { height:300px;}
+#toDayClass .classWrap .list { min-height: 300px;}
 #toDayClass .classWrap .list ul  {}
 #toDayClass .classWrap .list ul li { margin-bottom:14px; overflow:hidden; background:#fff; padding:20px; border-radius:6px; box-shadow:0 0 10px rgba(0,0,0,0.1); }
 #toDayClass .classWrap .list ul li:last-child { margin:0; }

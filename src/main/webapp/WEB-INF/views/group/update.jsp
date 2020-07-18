@@ -25,17 +25,28 @@
 		console.log(apply_start);
 		console.log(new Date(apply_start));
 		
-		$("input, textarea").blur(function(){
+		$("input,textarea").blur(function(){
 			var thisVal = $(this).val();
-			$(this).val(textChk(thisVal));
+			$(this).val(textChk(thisVal,$(this)));
 		})
+	 	$(".note-editable").blur(function(){
+			var thisVal = $(this).html();
+			$(this).text(textChk(thisVal,$(this)));
+		});
 		
-		function textChk(thisVal){
+		function textChk(thisVal, obj){
 			var replaceId  = /(script)/gi;
 			var textVal = thisVal;
 		    if (textVal.length > 0) {
 		        if (textVal.match(replaceId)) {
-		        	textVal = thisVal.replace(replaceId, "");
+		        	console.log(obj)
+		        	if(obj.val().length){
+			        	obj.val("");
+			        	textVal = obj.val();
+		        	}else{
+			        	obj.html("");
+			        	textVal = obj.val();
+		        	}
 		        }
 		    }
 		    return textVal;

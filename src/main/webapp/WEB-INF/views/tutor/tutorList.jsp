@@ -16,6 +16,7 @@
 
 			<div class="tit_s1">
 				<h2>튜터 목록</h2>
+				<p>PINGPONG와 함께하는 Tutor입니다.</p>
 			</div>
 			
 			<div id="list_s2">

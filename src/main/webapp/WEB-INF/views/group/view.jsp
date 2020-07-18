@@ -677,6 +677,10 @@
 <!-- 공통 신고하기  -->
 <jsp:include page="/WEB-INF/views/reportPage.jsp" />
 
-<jsp:include page="/WEB-INF/views/group/apply.jsp" />
-<jsp:include page="/WEB-INF/views/group/out.jsp" />
+<c:if test="${checkApply == false && (sessionScope.loginInfo.id != gdto.writer_id) && checkMember == false}">
+	<jsp:include page="/WEB-INF/views/group/apply.jsp" />
+</c:if>
+<c:if test="${checkMember == true}">
+	<jsp:include page="/WEB-INF/views/group/out.jsp" />
+</c:if>
 <jsp:include page="/WEB-INF/views/footer.jsp"/>

@@ -190,6 +190,7 @@
 			}).done(function(resp){
 				if(resp.gList.length){
 					for(var i=0; i<resp.gList.length; i++){
+						console.log(resp.gList[i].contents)
 						var li = $("<li>");
 						var info = $('<div class="info">');
 						li.append('<div class="thum"><img src="/upload/member/'+resp.gList[i].writer_id+'/'+resp.gList[i].sysname+'"></div>')
@@ -198,6 +199,13 @@
 						info.append('<div class="time">진행 기간 : '+resp.gList[i].start_date+' ~ '+resp.gList[i].end_date+'')
 						li.append(info);
 						$(".groupClass ul").append(li);
+						$(".txtBox").each(function(){
+							var text = $(this).text();
+							if(text.length >= 50) { 
+								text = text.substring(0,50)+"...";;
+							}
+							$(this).html(text);
+						})
 					}
 				}else{
 					var li = $("<li>");
@@ -216,6 +224,13 @@
 						info.append('<div class="time">진행 기간 : '+resp.LessonList[i].start_date+' ~ '+resp.LessonList[i].end_date+'')
 						li.append(info);
 						$(".tutorClass ul").append(li);
+						$(".txtBox").each(function(){
+							var text = $(this).text();
+							if(text.length >= 50) { 
+								text = text.substring(0,50)+"...";;
+							}
+							$(this).html(text);
+						})						
 					}
 				}else{
 					var li = $("<li>");

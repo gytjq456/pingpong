@@ -252,7 +252,6 @@
 			<artifactId>spring-test</artifactId>
 			<version>5.1.9.RELEASE</version>
 		</dependency>
-
 		
 	</dependencies>
 	<build>

@@ -178,8 +178,6 @@ function gnbOff(obj){
 	모바일 함수 
 */
 function initEvent_m(val){
-	
-
 	$gnb.children("li").children("a").off("mouseenter");
 	$gnb.children("li").children("a").on("click",function(e){
 		e.preventDefault();

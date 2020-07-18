@@ -38,6 +38,16 @@
 			}
 			totalSize = totalSize+size;
 			console.log(totalSize);
+			
+			/*
+			//프로필 확장자 체크
+	         if(!/\.(gif|jpg|jpeg|png|pdf|mp4)$/i.test($(this).val())){
+	            alert('gif, jpg, png, pdf 파일만 선택해 주세요.');
+	            $(this).val('');
+	            $(this).focus();
+	            return false;
+	         }
+			*/
 		})
 		
 		//파일 첨부 여러개

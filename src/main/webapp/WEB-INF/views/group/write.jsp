@@ -17,10 +17,11 @@
 </style>
 <script>
 	$(function(){
-		$("input,textarea").blur(function(){
+		/* $("input[type='text'],textarea").blur(function(){
 			var thisVal = $(this).val();
 			$(this).val(textChk(thisVal,$(this)));
 		})
+		
 	 	$(".note-editable").blur(function(){
 			var thisVal = $(this).html();
 			$(this).text(textChk(thisVal,$(this)));
@@ -30,8 +31,9 @@
 			var replaceId  = /(script)/gi;
 			var textVal = thisVal;
 		    if (textVal.length > 0) {
+		    	alert(textVal)
 		        if (textVal.match(replaceId)) {
-		        	console.log(obj)
+		        	alert("asd")
 		        	if(obj.val().length){
 			        	obj.val("");
 			        	textVal = obj.val();
@@ -42,7 +44,7 @@
 		        }
 		    }
 		    return textVal;
-		}
+		} */
 		
 		
 		$('#apply_start').datepicker({
@@ -55,6 +57,10 @@
 			dateFormat: 'yy-mm-dd',
 			minDate: new Date($('#apply_start').val())
 		});
+		
+
+		
+		
 		
 		$('#start_date').datepicker({
 			dateFormat: 'yy-mm-dd',
@@ -74,7 +80,7 @@
 			}
 		})
 		
-		$('#max_num').on('keyup', function(){
+		$('#max_num').blur(function(){
 			var num = $(this).val();
 			var regex = /^[0-9]*$/;
 			if (!regex.test(num)) {
@@ -268,6 +274,18 @@
 				return false;
 			}
 			
+			if($("#sido1").val() == "시, 도 선택"){
+				alert("시, 도 선택를 선택해주세요.")
+				$("#sido1").focus();
+				return false;
+			}
+			
+			if($("#gugun1").val() == "구, 군 선택"){
+				alert("구, 군 선택를 선택해주세요.")
+				$("#gugun1").focus();
+				return false;
+			}
+			
 			var noteObj = $(".note-editable");
 			if(noteObj.text().replace(/\s|　/gi, "").length == 0){
 				alert("내용을 입력해주세요.")
@@ -275,6 +293,15 @@
 				noteObj.focus();
 				return false;
 			}
+			
+			var replaceId  = /(script)/gi;
+			if(noteObj.text().match(replaceId)){
+				alert("부적절한 내용이 들어가있습니다.")
+				noteObj.focus();
+				noteObj.html("")
+				return false;
+			}
+			
 			
 			for (var i = 0; i < hobbyCheckLength; i++) {
 				if ($("input:checkbox[name='hobby']:eq(" + i + ")").prop('checked') == true) {

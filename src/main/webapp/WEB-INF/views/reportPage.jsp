@@ -25,7 +25,6 @@ $(function(){
 		var url = $(this).data("url");
 		var proc = $(this).data("proc");
 		var thisSeq = $(this).data("thisseq");
-		
 		if(thisSeq == ""){
 			thisSeq = 0;
 		}
@@ -33,6 +32,7 @@ $(function(){
 		$("input[name=parent_seq]").val(seq);
 		$("input[name=id]").val(idVal);
 		$("input[name=commSeq]").val(thisSeq);
+		$(".writer_id p").html(idVal);
 		reportFn(seq,idVal,url,thisSeq);
 		
 	})
@@ -59,7 +59,7 @@ $(function(){
 			url:url,
 			data:{
 				parent_seq: seq,
-				id : idVal,
+				id : "${loginInfo.id}",
 				commSeq:thisSeq
 			},
 			type: 'POST'

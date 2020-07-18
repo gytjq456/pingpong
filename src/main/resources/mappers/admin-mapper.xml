@@ -361,4 +361,9 @@
 	<select id="isBlacklist" resultType="Integer">
 		select seq from blacklist where id = #{id}
 	</select>
+	
+	<!-- 신고된 게시글인지 확인 -->
+	<select id="isAlreadyReport" resultType="Integer">
+		select seq from reportlist where category = #{category} and parent_seq = #{columnValue}
+	</select>
 </mapper>

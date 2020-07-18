@@ -398,6 +398,7 @@
 						<div class="mapWrap">
 							<div class="tit_s3">
 								<h4>장소</h4>
+								<span class="notice">*정확한 장소를 클릭하여 마커 표시를 해 주세요. 마커로 표시된 장소로 저장되어 보여집니다.</span>
 							</div>
 							<select name="sido1" id="sido1"></select> 
 							<select name="gugun1" id="gugun1"></select>
@@ -457,10 +458,10 @@
 					var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 
 					// 결과값으로 받은 위치를 마커로 표시합니다
-					/*  var marker = new kakao.maps.Marker({
+					var marker = new kakao.maps.Marker({
 						map : map,
 						position : coords
-					});  */
+					});  
 
 					// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
 					map.setCenter(coords);

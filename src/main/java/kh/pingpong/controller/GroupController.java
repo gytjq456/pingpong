@@ -73,14 +73,14 @@ public class GroupController {
 	
 	// 글 쓰기 페이지 이동
 	@RequestMapping("write")
-	public String groupWrite(Model model) {
+	public String groupWrite(Model model) throws Exception {
 		List<HobbyDTO> hblist = gservice.selectHobby();
 		model.addAttribute("hblist", hblist);
 		return "/group/write";
 	}
 	
 	@RequestMapping("writeProc")
-	public String groupWriteProc(GroupDTO gdto, Model model) throws ParseException {
+	public String groupWriteProc(GroupDTO gdto, Model model) throws Exception {
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
 		String id = loginInfo.getId();
 		String name = loginInfo.getName();
@@ -92,7 +92,7 @@ public class GroupController {
 	}
 	
 	@RequestMapping("beforeView")
-	public String groupBeforeView(int seq, Model model) {
+	public String groupBeforeView(int seq, Model model) throws Exception {
 		gservice.updateViewCount(seq);
 		model.addAttribute("seq", seq);
 		return "redirect:/group/view";
@@ -100,7 +100,7 @@ public class GroupController {
 	
 	@Transactional("txManager")
 	@RequestMapping("view")
-	public String groupView(int seq, Model model) throws Exception{
+	public String groupView(int seq, Model model) throws Exception {
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
 		String id = loginInfo.getId();
 		
@@ -167,7 +167,7 @@ public class GroupController {
 	}
 	
 	@RequestMapping("delete")
-	public String groupDelete(int seq, Model model) {
+	public String groupDelete(int seq, Model model) throws Exception {
 		gservice.delete(seq);
 		
 		model.addAttribute("orderBy", "seq");
@@ -187,14 +187,14 @@ public class GroupController {
 	}
 	
 	@RequestMapping("updateProc")
-	public String groupUpdateProc(GroupDTO gdto, Model model) throws ParseException {
+	public String groupUpdateProc(GroupDTO gdto, Model model) throws Exception {
 		gservice.update(gdto);
 		model.addAttribute("seq", gdto.getSeq());
 		return "redirect:/group/view";
 	}
 	
 	@RequestMapping("apply")
-	public String groupApply(GroupApplyDTO gadto, Model model) {
+	public String groupApply(GroupApplyDTO gadto, Model model) throws Exception {
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
 
 		gadto.setId(loginInfo.getId());
@@ -216,7 +216,7 @@ public class GroupController {
 	}
 	
 	@RequestMapping("deleteApplyForm")
-	public String deleteApplyForm(int seq, Model model) {
+	public String deleteApplyForm(int seq, Model model) throws Exception {
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
 		String id = loginInfo.getId();
 		
@@ -233,7 +233,7 @@ public class GroupController {
 	}
 	
 	@RequestMapping("out")
-	public String groupApplyDelete(DeleteApplyDTO dadto, Model model) {
+	public String groupApplyDelete(DeleteApplyDTO dadto, Model model) throws Exception {
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
 		String id = loginInfo.getId();
 		
@@ -249,7 +249,7 @@ public class GroupController {
 	
 	@RequestMapping("like")
 	@ResponseBody
-	public int groupInsertLike(LikeListDTO ldto) {
+	public int groupInsertLike(LikeListDTO ldto) throws Exception {
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
 		String id = loginInfo.getId();
 		
@@ -261,7 +261,7 @@ public class GroupController {
 	
 	@RequestMapping("jjim")
 	@ResponseBody
-	public int groupInsertJjim(JjimDTO jdto) {
+	public int groupInsertJjim(JjimDTO jdto) throws Exception {
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
 		String id = loginInfo.getId();
 		
@@ -273,7 +273,7 @@ public class GroupController {
 	
 	@RequestMapping("delJjim")
 	@ResponseBody
-	public int groupDeleteJjim(JjimDTO jdto) {
+	public int groupDeleteJjim(JjimDTO jdto) throws Exception {
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
 		String id = loginInfo.getId();
 		
@@ -285,7 +285,7 @@ public class GroupController {
 	
 	@RequestMapping("report")
 	@ResponseBody
-	public int report(ReportListDTO rldto, Model model) {
+	public int report(ReportListDTO rldto, Model model) throws Exception {
 		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
 		rldto.setReporter(mdto.getId());
 		
@@ -296,7 +296,7 @@ public class GroupController {
 	}
 	
 	@RequestMapping("reportProc")
-	public String reportProc(ReportListDTO rldto, Model model) {
+	public String reportProc(ReportListDTO rldto, Model model) throws Exception {
 		gservice.insertReport(rldto);
 		return "redirect:/group/view?seq=" + rldto.getParent_seq();
 	}
@@ -427,7 +427,7 @@ public class GroupController {
 	// 리뷰 글쓰기 
 	@ResponseBody
 	@RequestMapping("reviewWrite")
-	public String reviewWrite(ReviewDTO redto) throws Exception{
+	public String reviewWrite(ReviewDTO redto) throws Exception {
 		int result = gservice.reviewWrite(redto);
 		if(result > 0) { 
 			 return String.valueOf(true); 
@@ -489,7 +489,7 @@ public class GroupController {
 	// 리뷰 삭제
 	@ResponseBody
 	@RequestMapping("reviewDelete") 
-	public String reviewDelete(int seq) throws Exception{
+	public String reviewDelete(int seq) throws Exception {
 		int result = gservice.reviewDelete(seq);
 		if(result > 0) { 
 			 return String.valueOf(true); 

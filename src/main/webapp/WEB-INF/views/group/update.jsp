@@ -22,9 +22,6 @@
 		var start_date = '${gdto.start_date}';
 		var end_date = '${gdto.end_date}';
 		
-		console.log(apply_start);
-		console.log(new Date(apply_start));
-		
 		$("input,textarea").blur(function(){
 			var thisVal = $(this).val();
 			$(this).val(textChk(thisVal,$(this)));
@@ -82,6 +79,16 @@
 				$('#end_date').val('');
 			}
 		});
+		
+		$('#end_date').on('change', function(){
+			var applyEnd = new Date($('#apply_end').val());
+			var endDate = new Date($('#end_date').val());
+			
+			if (endDate < applyEnd) {
+				alert('모집 마감 날짜보다 이전 날짜로 설정하실 수 없습니다.');
+				$('#end_date').val('');
+			}
+		})
 		
 		var selectedHobbyList = '${gdto.hobby_type}';
 		var selectedHobbyArr = selectedHobbyList.split(',');

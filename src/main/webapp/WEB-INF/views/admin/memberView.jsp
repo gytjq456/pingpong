@@ -121,8 +121,8 @@
 					var conf = confirm('정말 삭제하시겠습니까?');
 					
 					if (conf) {
-						var seq = ${mdto.id};
-						location.href = "/admins/deleteBySeq?pageName=memberList&id=" + id;
+						var id = '${mdto.id}';
+						location.href = "/admins/deleteById?pageName=memberList&id=" + id;
 					}
 				})
 				

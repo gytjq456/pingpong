@@ -17,7 +17,7 @@
 						<form action="snsSingUpProc" method="post" id="joinProc" enctype="multipart/form-data">
 							<input type="hidden" name="mem_type" value="${mdto.mem_type}">
 							<input type="hidden" name="category" value="member">
-							<input type="hidden" name="grade" value="defalut">
+							<input type="hidden" name="grade" value="default">
 							<input type="hidden" name="id" value="${mdto.id}">
 							<input type="hidden" name="name" value="${mdto.name}">
 							<input type="hidden" name="pw" value="${mdto.pw}">

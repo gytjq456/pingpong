@@ -132,7 +132,7 @@
 
 	<select id="selectReport" resultType="int">
 		select count(*) from
-		reportlist where parent_seq = #{parent_seq} and id = #{id} and
+		reportlist where parent_seq = #{parent_seq} and reporter = #{id} and
 		category = '첨삭'
 	</select>
 

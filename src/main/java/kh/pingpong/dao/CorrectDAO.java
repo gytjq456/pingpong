@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import kh.pingpong.dto.CommentDTO;
 import kh.pingpong.dto.Correct_CommentDTO;
+import kh.pingpong.dto.DiscussionDTO;
 import kh.pingpong.dto.CorrectDTO;
 import kh.pingpong.dto.JjimDTO;
 import kh.pingpong.dto.LanguageDTO;
@@ -25,6 +26,10 @@ public class CorrectDAO {
 
 	public List<LanguageDTO> langSelectlAll() {
 		return mybatis.selectList("Correct.languageList");
+	}
+	
+	public List<CorrectDTO> moreList(int seq){
+		return mybatis.selectList("Correct.moreList", seq);
 	}
 
 	public LanguageDTO langSelectlOne(String original_lang) throws Exception {

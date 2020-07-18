@@ -6,6 +6,10 @@
 		resultType="kh.pingpong.dto.LanguageDTO">
 		select * from language
 	</select>
+	
+	<select id="moreList" resultType="kh.pingpong.dto.CorrectDTO">
+		select * from (select correct.*, row_number() over(order by view_count desc) rnum from correct where view_count>0) where seq != #{value} and rnum between 1 and 10
+	</select>
 
 	<select id="langSelectlOne"
 		resultType="kh.pingpong.dto.LanguageDTO">

@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 
 import kh.pingpong.dto.CommentDTO;
 import kh.pingpong.dto.Correct_CommentDTO;
+import kh.pingpong.dto.DiscussionDTO;
 import kh.pingpong.dto.CorrectDTO;
 import kh.pingpong.dto.JjimDTO;
 import kh.pingpong.dto.LanguageDTO;
@@ -65,6 +66,7 @@ public class CorrectController {
 		return "/correct/correct_write";
 	}
 
+	@Transactional("txManager")
 	@RequestMapping("/correct_view")
 	public String view(CorrectDTO dto, Correct_CommentDTO cdto, Model model, LikeListDTO ldto, JjimDTO jdto) throws Exception{
 		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
@@ -75,7 +77,11 @@ public class CorrectController {
 		List<Correct_CommentDTO> best_dto = cservice.bestcomm(dto.getSeq());
 
 		List<LanguageDTO> langList = cservice.langSelectlAll();
+		List<CorrectDTO> moreList = cservice.moreList(dto.getSeq());
+		
+		System.out.println("morelist :"+moreList);
 
+		model.addAttribute("moreList", moreList);
 		model.addAttribute("langList", langList);
 		model.addAttribute("dto", dto);
 		model.addAttribute("best_dto", best_dto);

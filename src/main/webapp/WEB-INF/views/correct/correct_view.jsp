@@ -334,6 +334,18 @@
 				</div>
 			</div>
 			<div class="body_right card_body">
+			<div class="moreList">
+				<div class="tit_s2">
+				<h3>질문 더 보기</h3>
+				</div>
+				<div class ="list">
+				<ul>
+				<c:forEach var="i" items="${moreList}">
+				<li><a href="/correct/correct_view?seq=${i.seq}">- ${i.title}</a></li>
+				</c:forEach>
+				</ul>
+				</div>
+				</div>
 				<div class="btns_s2">
 					<c:choose>
 						<c:when test="${loginInfo.id == dto.id}">

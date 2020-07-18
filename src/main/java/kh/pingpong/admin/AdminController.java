@@ -564,7 +564,7 @@ public class AdminController {
 		} else if (rdto.getCategory().contains("토론-")) {
 			int seq = Integer.parseInt(rdto.getCategory().split("-")[1]);
 			
-			param.put("tableName", "correcttb");
+			param.put("tableName", "commenttb");
 			param.put("columnName", "seq");
 			param.put("columnValue", seq);
 		} else if (rdto.getCategory().contains("첨삭-")) {

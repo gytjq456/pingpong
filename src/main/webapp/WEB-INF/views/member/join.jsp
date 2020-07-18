@@ -11,7 +11,7 @@
 			<div id="joinForm">
 				<div class="tit_s1">
 					<h2>MEMBER</h2>
-					<p>회원가입</p>
+					<p>회원가입을 통해 PINGPONG의 컨텐츠를 즐기실 수 있습니다.</p>
 				</div>
 				<div class="formBox card_body">
 								    

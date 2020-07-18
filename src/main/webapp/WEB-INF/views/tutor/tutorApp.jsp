@@ -30,9 +30,9 @@
 			
 			var size = f.size || f.fileSize;
 			console.log(f.size + ":" +f.fileSize);
-			var limit = 1024*1024*5;
+			var limit = 1024*1024*10;
 			if(size > limit){
-				alert("파일용량 5MB을 초과했습니다.");
+				alert("파일용량 10MB을 초과했습니다.");
 				$(this).val("");
 				return false;
 			}
@@ -100,9 +100,9 @@
 				return false;
 			}
 			
-			var limit = 1024*1024*5;
+			var limit = 1024*1024*30;
 			if(totalSize > limit){
-				alert("총 파일용량 5MB을 초과했습니다.");
+				alert("총 파일용량 30MB을 초과했습니다.");
 				$(this).val("");
 				return false;
 			}

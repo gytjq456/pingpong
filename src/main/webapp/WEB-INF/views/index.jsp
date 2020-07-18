@@ -35,7 +35,7 @@
 		
 		<section id="toDayClass">
 			<div class="tit_main left">
-			<h3>To Day Class</h3>
+			<h3>Today Class</h3>
 				<p>현재 모집중인 그룹 모임과 전문가와 함께하는 수업입니다.</p>
 			</div>		
 			<div class="inner1200 clearfix">

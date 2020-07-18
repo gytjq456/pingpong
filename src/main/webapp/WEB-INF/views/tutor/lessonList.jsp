@@ -406,7 +406,7 @@
 											<div class="group_background background_green"></div>
 										</c:if>
 										<div class="group_each_wrapper">
-											<div class="each_writer"><span class="each_name name">${i.name }</span></div>
+											<div class="each_writer"><span class="each_name name">${i.name}(${i.id})</span></div>
 											<div class="each_title title">${i.title}</div>
 											<div class="each_body">
 												<div class="language">

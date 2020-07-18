@@ -46,6 +46,11 @@ public class MemberDAO {
 		return mybatis.insert("Member.memberInsert",memberAdd);
 	}
 	
+	/* 회원가입 sns */
+	public int memberInsertSns(MemberDTO mdto) throws Exception{
+		return mybatis.insert("Member.memberInsertSns",mdto);
+	}
+	
 	/* 사진파일 데이터베이스에 저장 */
 	public int memberFile(FileDTO fdto) throws Exception{		
 		System.out.println(fdto.getRealpath());

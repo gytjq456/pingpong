@@ -98,7 +98,7 @@
 		select seq, title, writer, category, 
 		to_char(start_date,'yyyy-mm-dd') start_date, to_char(end_date,'yyyy-mm-dd') end_date, location, thumbnail,
         files, contents, to_char(write_date,'yyyy-mm-dd') write_date,view_count,like_count,comment_count
-		from (select news.*,row_number() over(order by seq desc) rnum from news)where rnum between #{start} and #{end} order by seq
+		from (select news.*,row_number() over(order by seq desc) rnum from news)where rnum between #{start} and #{end} order by seq desc
 	</select>
 	
 	<!-- 카운트 -->

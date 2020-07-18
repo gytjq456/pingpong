@@ -89,8 +89,8 @@
 							
 							<div class="news_write_sub">
 								<div class="tit_s3 f_all">
-									<h4>프로필</h4>
-									<span class="notice">* 프로필은 필수로 입력하야합니다. 프로필 사이즈 : 267px * 300px</span>
+									<h4>썸네일</h4>
+									<span class="notice">* 썸네일은 필수로 입력하야합니다. 프로필 사이즈 : 267px * 300px</span>
 									<div class="file_box"><input type="file" id="thumbnail" name="thumbnail"></div>	
 								</div>
 							</div>

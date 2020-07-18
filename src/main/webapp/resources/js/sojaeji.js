@@ -3,7 +3,10 @@ var sojaeji = function(sido, gugun) {
 
 	obj.sido = document.getElementById(sido);
 	obj.gugun = document.getElementById(gugun);
-	obj.update_sido();
+	
+	if(obj.sido.length == 0){
+		obj.update_sido();
+	}
 	obj.update_gugun.apply(obj);
 	obj.sido.onchange = function() {
 		obj.update_gugun.apply(obj);

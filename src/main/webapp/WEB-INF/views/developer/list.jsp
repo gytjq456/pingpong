@@ -75,7 +75,7 @@
 					</li>
 					<li class="card_body">
 						<div class="user">
-							<div class="img"><img src="/resources/img/sub/leehyosub.jpg"/></div>
+							<div class="img"><img src="/resources/img/sub/kimhyeseon.png"/></div>
 							<div class="name">김혜선</div>
 						</div>
 						<div class="intro">

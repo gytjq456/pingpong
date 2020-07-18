@@ -4,7 +4,11 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <jsp:include page="/WEB-INF/views/header.jsp" />
 <style>
-	.top .comment_declaration { position:absolute;right:30px; top:30px;}
+.top .comment_declaration {
+	position: absolute;
+	right: 30px;
+	top: 30px;
+}
 </style>
 
 <script>
@@ -186,12 +190,19 @@
 						<div class="info">
 							<p class="userId">${dto.writer}(${dto.id})</p>
 							<p class="writeDate">${dto.dateString}</p>
-							<button type="button" class="comment_declaration report"
-								class="comment_report" data-thisSeq="${dto.seq}"
-								data-seq="${dto.seq}" data-id="${dto.id}"
-								data-url="/correct/report" data-proc="/correct/reportProc">
-								<i class="fa fa-bell color_white" aria-hidden="true"></i>신고하기
-							</button>
+							<c:choose>
+								<c:when test="${loginInfo.id == dto.id}">
+								</c:when>
+								<c:otherwise>
+									<button type="button" class="comment_declaration report"
+										class="comment_report" data-thisSeq="${dto.seq}"
+										data-seq="${dto.seq}" data-id="${dto.id}"
+										data-url="/correct/report" data-proc="/correct/reportProc">
+										<i class="fa fa-bell color_white" aria-hidden="true"></i>신고하기
+									</button>
+								</c:otherwise>
+							</c:choose>
+
 						</div>
 					</div>
 					<div class="contents ">
@@ -228,11 +239,11 @@
 							</div>
 							<div class="comment_box">
 								<form id="form">
-									<input type="hidden" name="writer" value="${loginInfo.name}"> <input
-										type="hidden" name="parent_seq" value="${dto.seq}">
-										<input
-										type="hidden" name="id" value="${loginInfo.id}"> <input
-										type="hidden" name="thumNail" value="${loginInfo.sysname}">
+									<input type="hidden" name="writer" value="${loginInfo.name}">
+									<input type="hidden" name="parent_seq" value="${dto.seq}">
+									<input type="hidden" name="id" value="${loginInfo.id}">
+									<input type="hidden" name="thumNail"
+										value="${loginInfo.sysname}">
 									<div class="text">
 										<textarea name="contents" id="text"></textarea>
 									</div>
@@ -268,24 +279,34 @@
 									<div class="cont">
 										<div class="contents">${u.contents}</div>
 										<div class="countList">
-											<ul>
-												<li>
-													<button class="comment_delete normal"
-														data-parent_seq="${u.parent_seq}" data-seq="${u.comm_seq}">댓글삭제</button>
-												</li>
-												<li>
-													<button class="comment_like" data-seq="${u.comm_seq}">좋아요 ${u.like_count}</button>
-												</li>
-												<li>
-													<button type="button" class="comment_declaration report"
-														class="comment_report" data-thisSeq="${u.comm_seq}"
-														data-seq="${dto.seq}" data-id="${u.id}"
-														data-url="/correct/comment_report"
-														data-proc="/correct/comment_reportProc">
-														<i class="fa fa-bell color_white" aria-hidden="true"></i>신고하기
-													</button>
-												</li>
-											</ul>
+											<c:choose>
+												<c:when test="${loginInfo.id == dto.id}">
+													<ul>
+														<li>
+															<button class="comment_delete normal"
+																data-parent_seq="${u.parent_seq}"
+																data-seq="${u.comm_seq}">댓글삭제</button>
+														</li>
+													</ul>
+												</c:when>
+												<c:otherwise>
+													<ul>
+														<li>
+															<button class="comment_like" data-seq="${u.comm_seq}">좋아요
+																${u.like_count}</button>
+														</li>
+														<li>
+															<button type="button" class="comment_declaration report"
+																class="comment_report" data-thisSeq="${u.comm_seq}"
+																data-seq="${dto.seq}" data-id="${u.id}"
+																data-url="/correct/comment_report"
+																data-proc="/correct/comment_reportProc">
+																<i class="fa fa-bell color_white" aria-hidden="true"></i>신고하기
+															</button>
+														</li>
+													</ul>
+												</c:otherwise>
+											</c:choose>
 										</div>
 									</div>
 								</article>
@@ -309,22 +330,34 @@
 									<div class="cont">
 										<div class="contents">${i.contents}</div>
 										<div class="countList">
-											<ul>
-												<li>
-													<button class="comment_delete normal" data-parent_seq="${i.parent_seq}" data-seq="${i.comm_seq}">댓글삭제</button>
-												</li>
-												<li>
-													<button class="comment_like" data-seq="${i.comm_seq}">좋아요 ${i.like_count}</button>												</li>
-												<li>
-													<button type="button" class="comment_declaration report"
-														class="comment_report" data-thisSeq="${i.comm_seq}"
-														data-seq="${dto.seq}" data-id="${i.id}"
-														data-url="/correct/comment_report"
-														data-proc="/correct/comment_reportProc">
-														<i class="fa fa-bell color_white" aria-hidden="true"></i>신고하기
-													</button>
-												</li>
-											</ul>
+											<c:choose>
+												<c:when test="${loginInfo.id == dto.id}">
+													<ul>
+														<li>
+															<button class="comment_delete normal"
+																data-parent_seq="${i.parent_seq}"
+																data-seq="${i.comm_seq}">댓글삭제</button>
+														</li>
+													</ul>
+												</c:when>
+												<c:otherwise>
+													<ul>
+														<li>
+															<button class="comment_like" data-seq="${i.comm_seq}">좋아요
+																${i.like_count}</button>
+														</li>
+														<li>
+															<button type="button" class="comment_declaration report"
+																class="comment_report" data-thisSeq="${i.comm_seq}"
+																data-seq="${dto.seq}" data-id="${i.id}"
+																data-url="/correct/comment_report"
+																data-proc="/correct/comment_reportProc">
+																<i class="fa fa-bell color_white" aria-hidden="true"></i>신고하기
+															</button>
+														</li>
+													</ul>
+												</c:otherwise>
+											</c:choose>
 										</div>
 									</div>
 								</article>
@@ -334,17 +367,18 @@
 				</div>
 			</div>
 			<div class="body_right card_body">
-			<div class="moreList">
-				<div class="tit_s2">
-				<h3>질문 더 보기</h3>
-				</div>
-				<div class ="list">
-				<ul>
-				<c:forEach var="i" items="${moreList}">
-				<li><a href="/correct/correct_view?seq=${i.seq}">- ${i.title}</a></li>
-				</c:forEach>
-				</ul>
-				</div>
+				<div class="moreList">
+					<div class="tit_s2">
+						<h3>질문 더 보기</h3>
+					</div>
+					<div class="list">
+						<ul>
+							<c:forEach var="i" items="${moreList}">
+								<li><a href="/correct/correct_view?seq=${i.seq}">-
+										${i.title}</a></li>
+							</c:forEach>
+						</ul>
+					</div>
 				</div>
 				<div class="btns_s2">
 					<c:choose>

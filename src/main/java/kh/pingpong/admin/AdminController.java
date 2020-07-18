@@ -543,6 +543,7 @@ public class AdminController {
 		
 		param.put("seq", rdto.getSeq());
 		param.put("id", rdto.getId());
+		param.put("category", rdto.getCategory());
 		
 		if (rdto.getCategory().contentEquals("그룹")) {
 			param.put("tableName", "grouplist");
@@ -560,6 +561,18 @@ public class AdminController {
 			param.put("tableName", "news");
 			param.put("columnName", "seq");
 			param.put("columnValue", rdto.getParent_seq());
+		} else if (rdto.getCategory().contains("토론-")) {
+			int seq = Integer.parseInt(rdto.getCategory().split("-")[1]);
+			
+			param.put("tableName", "correcttb");
+			param.put("columnName", "seq");
+			param.put("columnValue", seq);
+		} else if (rdto.getCategory().contains("첨삭-")) {
+			int seq = Integer.parseInt(rdto.getCategory().split("-")[1]);
+			
+			param.put("tableName", "correctcomm");
+			param.put("columnName", "seq");
+			param.put("columnValue", seq);
 		}
 		
 		aservice.updateReportList(param);

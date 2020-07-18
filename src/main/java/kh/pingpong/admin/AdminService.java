@@ -348,8 +348,22 @@ public class AdminService {
 		int report_count = adao.getReportCount(param.get("id").toString());
 		
 		if (report_count > 0 && report_count % 3 == 0) {
-			adao.insertBlacklist(param);
+			boolean black = adao.isBlacklist(id);
+			if (!black) {
+				adao.insertBlacklist(param);
+			}
 		}
+		
+		if (adao.isAlreadyReport(param) != null) {
+			List<Integer> seqs = adao.isAlreadyReport(param);
+			
+			if (seqs.size() > 0) {
+				for (int i = 0; i < seqs.size(); i++) {
+					adao.updateLessonPass(seqs.get(i));
+				}
+			}
+		}
+		
 		return adao.updateReportListPass((int)param.get("seq"));
 	}
 	

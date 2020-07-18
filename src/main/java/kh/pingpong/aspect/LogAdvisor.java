@@ -9,6 +9,7 @@ public class LogAdvisor {
 	@Autowired
 	private HttpSession session;
 	
+	
 	public Object aroundBoardLog(ProceedingJoinPoint pjp) throws Throwable {
 		if (session.getAttribute("loginInfo") == null) {
 			return "redirect:/member/login";

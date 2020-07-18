@@ -153,11 +153,12 @@
 </script>
 
 <div id="subWrap" class="hdMargin">
-	<section id="subContents">
+	<section id="subContents" class="inner1200">
+		<div class="tit_s1">
+			<h2>이메일 인증</h2>
+			<p>이메일 인증을 받아야 회원가입을 진행하실 수 있습니다.</p>
+		</div>			
 		<div id="loginMail" >
-			<div class="tit_s1">
-				<h2>이메일 인증</h2>
-			</div>			
 			<div id="joinSendMail" class="card_body">
 				<div>
 					<div class="ov">

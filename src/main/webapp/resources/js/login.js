@@ -111,6 +111,10 @@ $(function() {
 				if (resp == 'true') {
 					alert("로그인이 되었습니다.");
 					location.href = "/";
+				} else if (resp == 'black') {
+					alert("블랙리스트로 등록되어 로그인하실 수 없습니다.");
+					$("#id").val("");
+					$("#pw").val("");
 				} else {
 					alert("로그인에 실패하였습니다.");
 					$("#pw").val("");

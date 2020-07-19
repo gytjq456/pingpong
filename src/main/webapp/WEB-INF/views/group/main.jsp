@@ -538,7 +538,7 @@
 				alert('끝 날짜는 시작 날짜보다 이전일 수 없습니다.');
 				return false;
 			}
-			
+			 
 			$.ajax({
 				url: '/group/searchDate',
 				data: {start_date: dateStart, end_date: dateEnd, orderBy: 'seq', ing: 'all'},

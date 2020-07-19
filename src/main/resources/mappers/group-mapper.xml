@@ -58,8 +58,9 @@
 	<!-- 그룹 페이징 -->
 	<select id="selectGroupCount" resultType="int">
 		select count(*) from
-		(select grouplist.*, row_number() over(order by ${orderBy} desc, seq desc) rnum
-		from grouplist
+		(select g.*, m.profile, row_number() over(order by ${orderBy} desc, seq desc) rnum
+		from grouplist g inner join member m
+		on g.writer_id = m.id
 		<trim prefix="where" prefixOverrides="and">
 			<if test="ing != null">
 				${ing} = #{ingValue}

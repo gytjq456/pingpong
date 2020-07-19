@@ -283,6 +283,19 @@
 				alert("내용을 입력해주세요");
 				return false;
 			}
+			
+			var noteObj = $(".note-editable");
+			if(noteObj.text() == "" && !noteObj.find("img").length){
+				alert("내용을 입력해주세요")
+				noteObj.focus();	
+				return false;
+			}
+			if(noteObj.text().replace(/\s|　/gi, "").length == 0 && !noteObj.find("img").length){
+				alert("공백만 입력할 수 없습니다.")
+				noteObj.focus();	
+				return false;
+			}
+			
 			if(!result_num){
 				alert("가격은 숫자만 입력해 주세요.");
 				return false;

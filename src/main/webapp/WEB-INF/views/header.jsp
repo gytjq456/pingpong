@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
@@ -21,6 +22,23 @@
 <script src="/resources/js/slick.min.js"></script>
 <script src="/resources/js/common.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+ <script type="text/javascript">
+     var windowWidth = window.screen.width
+     setViewPort(windowWidth);
+
+     function setViewPort(w_width) {
+         if (w_width <= 359) {
+             $("meta[name=viewport]").attr("content", "width=359, maximum-scale=2.0, user-scalable=no, target-densitydpi=medium-dpi");
+         } else {
+             $("meta[name=viewport]").attr("content", "width=device-width, initial-scale=1.0, maximum-scale=2.0, minimum-scale=1.0, user-scalable=no, target-densitydpi=medium-dpi");
+         }
+     }
+     $(window).resize(function() {
+         var windowWidth = window.screen.width
+         setViewPort(windowWidth);
+     });
+
+ </script>
 </head>
    <body>
       <header>
@@ -92,7 +110,7 @@
                         </ul>
                      </li>                                    
                      <li>
-                        <a href="#;">Guide</a>
+                        <a href="/guide/info">Guide</a>
                      </li>                                    
                      <li>
                         <a href="/developer/list">Developer</a>

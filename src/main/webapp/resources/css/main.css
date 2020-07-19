@@ -131,7 +131,7 @@
 .infoView .info > div { white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
 .infoView .info .writer {font-weight:700; }
 .infoView .info .hobby { }
-.infoView .cate { position:absolute; right:-15px; top:-15px; border-radius:50%;  width:32px; height:32px; text-align:center; line-height:32px; color:#fff;  font-size:11px;}
+.infoView .cate { position:absolute; left:-15px; top:-15px; border-radius:50%;  width:32px; height:32px; text-align:center; line-height:32px; color:#fff;  font-size:11px;}
 .infoView .group_cate { background:#fbaab0; }
 .infoView .lesson_cate { background:#4b98ff; }
 

@@ -531,8 +531,8 @@
       $('#search_cal_btn').on('click', function(){
          var orderByVal = $('#orderBy').val();
          var ing = '${param.ing}';
-         var dateStart = $('#date_start').val();
-         var dateEnd = $('#date_end').val();
+         var dateStart = $('#date_start').val().toString();
+         var dateEnd = $('#date_end').val().toString();
          
          if (dateStart == '' || dateEnd == '') {
             alert('시작 날짜와 끝 날짜를 정확히 선택해 주세요.');

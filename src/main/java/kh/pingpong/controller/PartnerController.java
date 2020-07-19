@@ -65,7 +65,7 @@ public class PartnerController {
 			
 			messageHelper.setFrom(setfrom); // 보내는사람 생략하면 정상작동을 안함
 			messageHelper.setTo(pemail); // 받는사람 이메일
-			messageHelper.setSubject(setfrom + "님이 보낸 메일입니다."); // 메일제목은 생략이 가능하다
+			messageHelper.setSubject("[PINGPONG]"+setfrom + "님이 보낸 메일입니다."); // 메일제목은 생략이 가능하다
 			messageHelper.setText(contents); // 메일 내용 
 	
 			mailSender.send(message);

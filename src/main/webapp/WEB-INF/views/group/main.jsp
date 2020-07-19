@@ -408,7 +408,7 @@
                   var dateStart = $('#date_start').val();
                   var dateEnd = $('#date_end').val();
                   
-                  location.href = '/group/searchDate?start_date=' + dateStart + '&end_date=' + dateEnd + '&orderBy=' + orderByVal + '&ing=' + ing;
+                  location.href = '/group/searchCal?start_date=' + dateStart + '&end_date=' + dateEnd + '&orderBy=' + orderByVal + '&ing=' + ing;
                
                   return false;
                } else if (tabName == '지도 검색') {
@@ -475,7 +475,7 @@
                   var dateStart = $('#date_start').val();
                   var dateEnd = $('#date_end').val();
                   
-                  location.href = '/group/searchDate?start_date=' + dateStart + '&end_date=' + dateEnd + '&orderBy=' + orderByVal + '&ing=' + ing;
+                  location.href = '/group/searchCal?start_date=' + dateStart + '&end_date=' + dateEnd + '&orderBy=' + orderByVal + '&ing=' + ing;
                
                   return false;
                } else if (tabName == '지도 검색') {
@@ -539,7 +539,7 @@
          } else if (dateEnd < dateStart) {
             alert('끝 날짜는 시작 날짜보다 이전일 수 없습니다.');
          } else {
-         	location.href = '/group/main?orderBy=' + orderByVal + '&ing=all';
+         	location.href = '/group/searchCal?orderBy=' + orderByVal + '&ing=' + ing + '&start_date=' + dateStart + '&end_date=' + dateEnd;
          }
       })
       

@@ -233,7 +233,7 @@ public class GroupService {
 		} 
 		
 		if (search.containsKey("start_date")) {
-			pagingUrl = pagingUrl + "searchDate?orderBy=" + orderBy + "&start_date=" + search.get("start_date").toString() + 
+			pagingUrl = pagingUrl + "searchCal?orderBy=" + orderBy + "&start_date=" + search.get("start_date").toString() + 
 					"&end_date=" + search.get("end_date").toString() + "&ing=" + ing;
 		}
 		

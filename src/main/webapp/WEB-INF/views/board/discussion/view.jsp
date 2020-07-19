@@ -322,11 +322,13 @@
 							<ul>
 								<li><i class="fa fa-eye"></i> ${disDto.view_count}</li>			
 								<li><i class="fa fa-commenting-o" aria-hidden="true"></i> ${disDto.comment_count}</li>
+								<c:if test="${loginInfo.id != disDto.id}">
 								<li>
 									<button class="discussion_likeBtn likeBtn" data-check="${boardCheckLike}" data-seq="${disDto.seq}">
 										<i class="fa fa-thumbs-up"></i> ${disDto.like_count}
 									</button>
 								</li>
+								</c:if>
 							</ul>
 						</div>
 					</div>
@@ -389,6 +391,7 @@
 											<div class="contents">${i.contents}</div>
 											<div class="countList">
 												<ul>
+													<c:if test="${loginInfo.id != i.id}">
 													<li>
 														<button class="comment_likeBtn likeBtn like-hate-btn" data-check="${checkLike[status.index]}" data-seq="${i.seq}"><i class="fa fa-thumbs-up"></i> ${i.like_count}</button>
 													</li>
@@ -398,6 +401,7 @@
 													<li>
 														<button class="comment_declaration report" data-thisSeq="${i.seq}" data-seq="${disDto.seq}" data-id="${i.id}" data-url="/discussion/report" data-proc="/discussion/reportProc"><i class="fa fa-bell color_white" aria-hidden="true"></i> 신고하기</button>
 													</li>
+													</c:if>
 													<c:if test="${loginInfo.id == i.id}">
 														<li>
 															<button class="comment_delete normal" data-seq="${i.seq}" data-parent_seq="${disDto.seq}">댓글삭제</button>
@@ -431,6 +435,7 @@
 											<div class="contents">${i.contents}</div>
 											<div class="countList">
 												<ul>
+													<c:if test="${loginInfo.id != i.id}">
 													<li>
 														<button class="comment_likeBtn likeBtn like-hate-btn" data-check="${checkLike[status.index]}" data-seq="${i.seq}"><i class="fa fa-thumbs-up"></i> ${i.like_count}</button>
 													</li>
@@ -440,6 +445,7 @@
 													<li>
 														<button class="comment_declaration report" data-thisSeq="${i.seq}" data-seq="${disDto.seq}" data-id="${i.id}" data-url="/discussion/report" data-proc="/discussion/reportProc"><i class="fa fa-bell color_white" aria-hidden="true"></i> 신고하기</button>
 													</li>
+													</c:if>
 													<c:if test="${loginInfo.id == i.id}">
 														<li>
 															<button class="comment_delete normal" data-seq="${i.seq}"  data-parent_seq="${disDto.seq}">댓글삭제</button>

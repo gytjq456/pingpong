@@ -182,34 +182,73 @@
 			}
 		})
 		
+		var winW = $(window).width();
+		fixedTap(winW)
 		var headHeight = $("header").height();
-		$(".tab_s2 ul li").click(function(){
-			var idx = $(this).index()+1;
-			var topPos = $("#tab_"+idx).offset().top;
-			$(".tab_s2 ul li").removeClass("on")
-			$(this).addClass("on");
-			if($(".tab_s2").hasClass("fixed")){
-				$("html,body").stop().animate({
-					scrollTop:topPos - headHeight - 80
-				})
-			}else{
-				$("html,body").stop().animate({
-					scrollTop:topPos - headHeight - 160
-				})
-			}
+		$(window).resize(function(){
+			headHeight = $("header").height();
+			fixedTap(winW)
 		})
 		
-		var menuObj = $("#group_tab_menu");
-		var menuTopPos = menuObj.offset().top;
-		$(window).scroll(function(){
-			var scrollTop = $(this).scrollTop();
-			if(menuTopPos <= scrollTop + headHeight){
-				menuObj.addClass("fixed");
+		function fixedTap(winW){
+			if(winW > 1200){
+				$(".tab_s2 ul li").click(function(){
+					var idx = $(this).index()+1;
+					var topPos = $("#tab_"+idx).offset().top;
+					$(".tab_s2 ul li").removeClass("on")
+					$(this).addClass("on");
+					if($(".tab_s2").hasClass("fixed")){
+						$("html,body").stop().animate({
+							scrollTop:topPos - headHeight - 80
+						})
+					}else{
+						$("html,body").stop().animate({
+							scrollTop:topPos - headHeight - 160
+						})
+					}
+				})		
+				
+				var menuObj = $("#group_tab_menu");
+				var menuTopPos = menuObj.offset().top;
+				$(window).scroll(function(){
+					var scrollTop = $(this).scrollTop();
+					if(menuTopPos <= scrollTop + headHeight){
+						menuObj.addClass("fixed");
+					}else{
+						menuObj.removeClass("fixed");
+					}
+				})				
 			}else{
-				menuObj.removeClass("fixed");
-			}
-			
-		})
+				$(".tab_s2 ul li").click(function(){
+					var idx = $(this).index()+1;
+					var topPos = $("#tab_"+idx).offset().top;
+					$(".tab_s2 ul li").removeClass("on")
+					$(this).addClass("on");
+					if($(".tab_s2").hasClass("mfixed")){
+						$("html,body").stop().animate({
+							scrollTop:topPos - headHeight - 80
+						})
+					}else{
+						$("html,body").stop().animate({
+							scrollTop:topPos - headHeight - 160
+						})
+					}
+				})
+				
+				var menuObj = $("#group_tab_menu");
+				var menuTopPos = menuObj.offset().top;
+				$(window).scroll(function(){
+					var scrollTop = $(this).scrollTop();
+					if(menuTopPos <= scrollTop + headHeight){
+						menuObj.addClass("mfixed");
+					}else{
+						menuObj.removeClass("mfixed");
+					}
+				})				
+			}			
+		}
+		
+
 		
 		
 		$(".reviewDelete").click(function(){
@@ -274,11 +313,13 @@
 							<div id="group_title">${gdto.title}</div>
 							<div id="mini_option_wrap">
 								<span id="point_avg"><i class="fa fa-star" aria-hidden="true"></i>${gdto.review_point}</span>
+								<c:if test="${loginInfo.id != gdto.writer_id}">
 								<div id="three_options">
 									<span id="like"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>추천</span>
 									<span id="jjim"><i class="fa fa-heart-o" aria-hidden="true"></i>찜하기</span>
 									<span id="report" data-seq="${gdto.seq}" data-id="${gdto.writer_id}" data-thisseq="" data-url="/group/report" data-proc="/group/reportProc"><i class="fa fa-exclamation" aria-hidden="true"></i>신고</span>
 								</div>
+								</c:if>
 							</div>
 						</div>
 						<div id="group_detail" class="base_info clearfix">
@@ -334,18 +375,25 @@
 						<li><a href="#;">관련 모임</a></li>
 						<li><a href="#;">리뷰(${gdto.review_count})</a></li>
 						<li>
-							<c:if test="${checkApply == true}">
-								<button id="applyCancel">신청 취소</button>
-							</c:if>
-							<c:if test="${checkApply == false && (sessionScope.loginInfo.id != gdto.writer_id) && checkMember == false}">
-								<button type="button" id="applyForm">신청하기</button>
-							</c:if>
-							<c:if test="${checkMember == true}">
-								<button id="deleteForm">탈퇴하기</button>
-							</c:if>
-							<c:if test="${sessionScope.loginInfo.id == gdto.writer_id}">
-								<button id="groupApplyManage">신청 현황</button>
-							</c:if>
+							<c:choose>
+								<c:when test="${gdto.applying == 'N'}">
+									<button>모집 마감</button>
+								</c:when>
+								<c:otherwise>
+									<c:if test="${checkApply == true}">
+										<button id="applyCancel">신청 취소</button>
+									</c:if>
+									<c:if test="${checkApply == false && (sessionScope.loginInfo.id != gdto.writer_id) && checkMember == false}">
+										<button type="button" id="applyForm">신청하기</button>
+									</c:if>
+									<c:if test="${checkMember == true}">
+										<button id="deleteForm">탈퇴하기</button>
+									</c:if>
+									<c:if test="${sessionScope.loginInfo.id == gdto.writer_id}">
+										<button id="groupApplyManage">신청 현황</button>
+									</c:if>
+								</c:otherwise>
+							</c:choose>
 						</li>
 					</ul>
 				</div>

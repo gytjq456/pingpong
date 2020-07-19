@@ -2,9 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 <jsp:include page="/WEB-INF/views/header.jsp"/>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <style>
@@ -122,6 +119,7 @@
 			}
 		})
 		
+
 		$(".reviewDelete").click(function(){
 			var result = confirm("리뷰를 삭제하시겠습니까?");
 			if(result){
@@ -137,6 +135,7 @@
 					location.href="/partner/partnerView?seq=${pdto.seq}"
 				});
 			}
+
 		})
 		
 		$("input,textarea").blur(function(){
@@ -260,7 +259,7 @@
 				</c:choose>
 				<script>
 					$(".back").on("click",function(){
-						location.href="/partner/partnerList";
+						location.href="/partner/partnerList?cpage=1&align=recent";
 					})
 					
 					/* 이메일 팝업창 생성
@@ -338,7 +337,7 @@
 									<div class="userInfo_s1 userInfo_s2">
 										<div class="thumb"><img src="/upload/member/${loginInfo.id}/${loginInfo.sysname}"/></div>
 										<div class="info">
-											<p class="userId">${loginInfo.name}</p>
+											<p class="userId">${loginInfo.name}(${loginInfo.id})</p>
 										</div>
 									</div>
 									<div>

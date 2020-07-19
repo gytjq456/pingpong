@@ -6,8 +6,8 @@
 <style>
 	
 </style>
-<div id="subWrap" class="hdMargin" style="padding-top: 155.8px;">
-	<section id="subContents">
+<div id="subWrap" class="hdMargin">
+	<section id="subContents" class="inner1200">
 		<div id="login" class="card_body">
 			<div class="tit_s1">
 				<h2>login</h2>

@@ -3,6 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
 
 <jsp:include page="/WEB-INF/views/header.jsp"/>
+	<style>
+		#listStyle1 .title {    white-space: break-spaces;}
+	</style>
 
 	<script>
 	$(function(){
@@ -36,6 +39,8 @@
 			}
 			
 		});
+		
+		
 	});
 		
 	</script>
@@ -125,6 +130,7 @@
 							<c:if test="${sessionScope.loginInfo.id == ndto.writer}">
 								<button type="button" id="modify" style="display:inline-block; margin-right:20px; float:right;">수정</button>
 								<button type="button" id="delete" style="display:inline-block; margin-right:20px; float:right;">삭제</button>
+
 							</c:if>
 						</div>
 					</div>

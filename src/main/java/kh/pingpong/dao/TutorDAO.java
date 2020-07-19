@@ -183,8 +183,9 @@ public class TutorDAO {
 		
 		int resultApplying = mybatis.update("Tutor.updateApplying", today_date);
 		int resultProceeding1 = mybatis.update("Tutor.updateProceeding1", today_date);
-		int resultProcedding2 = mybatis.update("Tutor.updateProceeding2", today_date);
-		return resultApplying + resultProceeding1 + resultProcedding2;
+		int resultProceeding2 = mybatis.update("Tutor.updateProceeding2", today_date);
+		int resultProceeding3 = mybatis.update("Tutor.updateProceeding3", today_date);
+		return resultApplying + resultProceeding1 + resultProceeding2+resultProceeding3;
 	}
 	
 	//키워드로 검색해서 리스트 뽑기
@@ -230,7 +231,7 @@ public class TutorDAO {
 	}
 	
 	//현재 강의 수강중인 튜티인원 뽑기
-	public List<TuteeDTO> tuteeList(int seq) throws Exception{
-		return mybatis.selectList("Tutor.tuteeList", seq);
+	public TuteeDTO tuteedto(Map<Object, Object> ttParam) throws Exception{
+		return mybatis.selectOne("Tutor.tuteedto", ttParam);
 	}
 }

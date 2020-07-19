@@ -406,7 +406,7 @@
 											<div class="group_background background_green"></div>
 										</c:if>
 										<div class="group_each_wrapper">
-											<div class="each_writer"><span class="each_name name">${i.name }</span></div>
+											<div class="each_writer"><span class="each_name name">${i.name}(${i.id})</span></div>
 											<div class="each_title title">${i.title}</div>
 											<div class="each_body">
 												<div class="language">
@@ -439,6 +439,9 @@
 												</c:if>
 												<c:if test="${i.proceeding == 'Y'}">
 													<div class="group_proceeding">진행중</div>
+												</c:if>
+												<c:if test="${i.proceeding == 'B'}">
+													<div class="group_ready">준비중</div>
 												</c:if>
 												<c:if test="${i.proceeding == 'N' && i.applying == 'N'}">
 													<div class="group_done">마감</div>

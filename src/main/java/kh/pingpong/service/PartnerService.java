@@ -140,7 +140,7 @@ public class PartnerService {
 		return pdao.deletePartner(mdto);
 	}
 	
-//	//이메일 전송
+	//이메일 전송
 //	public void SendMail(PartnerDTO pdto, MemberDTO mdto) {
 //		try {
 //			//이메일 객체

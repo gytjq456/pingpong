@@ -39,7 +39,7 @@ $(function () {
     			type:type
     		}
     	}).done(function(resp){
-    		console.log(resp);
+    		/*console.log(resp);*/
     		chatList.find(".list").html("");
     		var userTag = $("<ul class='clearfix'>");
     		for(var i=0; i<resp.length; i++){
@@ -52,21 +52,38 @@ $(function () {
     			chatList.find(".list").append(userTag);
     		};
     		if(chatList.find(".list li").length > 4){
-    				$('#personList .list ul').not(".slick-initialized").slick({
-    					slidesToShow:4,
-    					slidesToScroll:1,    		    
-    					autoplay: true,
-    					autoplaySpeed: 7000,
-    					infinite: true,
-    					dots: false,
-    					arrows: true,
-    					speed: 1000,
-    					swipe: false,
-    					pauseOnFocus: false,
-    					cssEase: 'cubic-bezier(0.7, 0, 0.3, 1)',
-    					focusOnSelect: false,
-    					pauseOnHover: false
-    				});   			
+				$('#personList .list ul').not(".slick-initialized").slick({
+					slidesToShow:4,
+					slidesToScroll:1,    		    
+					autoplay: true,
+					autoplaySpeed: 7000,
+					infinite: true,
+					dots: false,
+					arrows: true,
+					speed: 1000,
+					swipe: false,
+					pauseOnFocus: false,
+					cssEase: 'cubic-bezier(0.7, 0, 0.3, 1)',
+					focusOnSelect: false,
+					pauseOnHover: false,
+					  responsive: [
+							{
+							  breakpoint: 1024,
+							  settings: {
+								slidesToShow: 3,
+								slidesToScroll: 3,
+								infinite: true,
+							  }
+							},
+							{
+							  breakpoint: 640,
+							  settings: {
+								slidesToShow: 2,
+								slidesToScroll: 2
+							  }
+							},
+						  ]					
+				});   			
     		}
     	})
     }

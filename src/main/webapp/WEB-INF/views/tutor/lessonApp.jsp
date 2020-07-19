@@ -83,6 +83,12 @@
 			minDate : 0,
 			maxDate : '+1m',
 			onClose : function(selectedDate) {
+				if($('#apply_end').val()==''){
+					alret("모집기간을 선택해 주세요");
+					$('#start_date').val('');
+					$('#end_date').val('');
+					return false;
+				}
 				$('#apply_start').datepicker("option", "maxDate", selectedDate);
 				$('#start_date').datepicker("option", "minDate", selectedDate);
 			}
@@ -93,6 +99,17 @@
 			minDate : 0,
 			maxDate : '+1m +7d',
 			onClose : function(selectedDate) {
+				if($('#apply_end').val()==''){
+					alert("모집기간부터 선택해주세요");
+					$('#start_date').val('');
+					$('#end_date').val('');
+					return false;
+				}
+				if($('#start_date').val()==''){
+					alert("수업 시작기간을 선택하세요");
+					$('#end_date').val('');
+					return false;
+				}
 				$('#end_date').datepicker("option", "minDate", selectedDate);
 			},
 			onSelect: function(dateText, inst){
@@ -116,22 +133,20 @@
 			minDate : 7,
 			maxDate : '+1m +7d',
 			onClose : function(selectedDate) {
+				if($('#start_date').val()==''){
+					alert("수업시작 기간부터 선택해 주세요");
+					$('#end_date').val('');
+					return false;
+				}
 				$('#start_date').datepicker("option", "maxDate", selectedDate);
 			}
 		});
-		
-		
-/* 
- 		
-		$('#start_date').on('change', function() {
-			var endDate = $('#end_date').val();
-			if (endDate != '') {
-				$('#end_date').val('');
-			}
-		})  */
 
 		$("#price").blur(function() {
+			var regexnum = /^[0-9]+$/g;
 			var priceVal = $(this).val();
+			var result_num = regexnum.test(priceVal);
+			
 			if (priceVal>300000) {
 				alert("최대 금액은 30만원입니다.");
 				$(this).val('');
@@ -139,13 +154,17 @@
 				alert("최소 금액은 100원입니다.");
 				$(this).val('');
 			}
+			if(!result_num){
+				alert("숫자만 입력해 주세요.");
+				return false;
+			}
 		})
-
-		var start_hourVal = $("#start_hour").val();
-		var end_hourVal = $("#end_hour").val();
-
+		
 		$("#max_num").focusout(function() {
+			var regexnum = /^[0-9]+$/g;
 			var maxVal = $(this).val();
+			var result_num = regexnum.test(maxVal);
+			
 			if(maxVal<5){
 				alert("최소 5명입니다.");
 				$(this).val('');
@@ -153,18 +172,30 @@
 				alert("최대 30명입니다.");
 				$(this).val('');
 			}
+			if(!result_num){
+				alert("숫자만 입력해 주세요.");
+				return false;
+			}
 		})
 		
+		var start_hourVal = $("#start_hour option:selected").text();
+		var end_hourVal = $("#end_hour option:selected").text();
+		
 		$("#start_hour").on("change", function(){
-			var start_hourVal = $("#start_hour").val();
-			console.log(start_hourVal);
-			$("#end_hour").on("change", function(){
-				//$("select option[value<="+start_hourVal+"]").prop('disabled',true);
-				if($("#end_hour").val()<=start_hourVal){
-					alert("시작시간보다 늦은시간으로 설정해주세요.");
-					$("#end_hour").val('');
-				}
-			})
+			start_hourVal = $("#start_hour option:selected").text();
+			if($("#start_hour").val()>=end_hourVal && end_hourVal != '시'){
+				alert("끝나는 시간보다 빠른시간으로 설정해주세요.");
+				$('#start_hour option:eq(0)').prop("selected",true);
+				return false;
+			}
+		})
+		$("#end_hour").focusout(function(){
+			end_hourVal = $("#end_hour option:selected").text();
+			if($("#end_hour").val()<=start_hourVal && start_hourVal != '시'){
+				alert("시작시간보다 늦은시간으로 설정해주세요.");
+				$("#end_hour option:eq(0)").prop('selected', true);
+				return false;
+			}
 		})
 
 		wordSize($(".lessonApp_view").find("#title"));
@@ -192,51 +223,68 @@
 			var apply_endVal = $("#apply_end").val();
 			var start_dateVal = $("#start_date").val();
 			var end_dateVal = $("#end_date").val();
+			var start_hourVal = $("#start_hour option:selected").text();
+			var end_hourVal = $("#end_hour option:selected").text();
+			var start_minuteVal = $("#start_minute option:selected").text();
+			var end_minuteVal = $("#end_minute option:selected").text();
 			var max_numVal = $("#max_num").val();
 			var sidoVal = $("#sido1").val();
 			var gugunVal = $("#gugun1").val();
 			var location_latVal = $("#location_lat").val();
-			var location_lngVal = $("#location_lng").val();
-
+			
 			if (titleVal.length == 0) {
 				alert("제목을 입력해주세요");
 				$("#title").focus();
 				return false;
-			} else if (priceVal == 0 || priceVal == "") {
+			} 
+			if (priceVal == 0 || priceVal == "") {
 				alert("가격을 입력해주세요");
 				return false;
-			} else if (apply_startVal.length == 0) {
+			} 
+			if (apply_startVal.length == 0) {
 				alert("모집시작 기간을 선택해주세요");
 				$("#apply_start").focus();
 				return false;
-			} else if (apply_endVal.length == 0) {
+			} 
+			if (apply_endVal.length == 0) {
 				alert("모집마감 기간을 선택해주세요");
 				$("#apply_end").focus();
 				return false;
-			} else if (start_dateVal.length == 0) {
+			} 
+			if (start_dateVal.length == 0) {
 				alert("수업시작 기간을 선택해주세요");
 				$("#start_date").focus();
 				return false;
-			} else if (end_dateVal.length == 0) {
+			} 
+			if (end_dateVal.length == 0) {
 				alert("수업마감 기간을 선택해주세요");
 				$("#end_date").focus();
 				return false;
-			} else if (max_numVal.length == 0) {
+			} 
+			if(start_hourVal=='시' || end_hourVal=='시' || start_minuteVal=='분' ||end_minuteVal=='분'){
+				alert("시간을 선택해 주세요.");
+				return false;
+			} 
+			if (max_numVal.length == 0) {
 				alert("인원을 입력해주세요");
 				$("#max_num").focus();
 				return false;
-			} else if (sidoVal == '시, 도 선택') {
+			} 
+			if (sidoVal == '시, 도 선택') {
 				alert("시,도 를 선택해주세요.");
 				$("#sido1").focus();
 				return false;
-			} else if (gugunVal == '구, 군 선택') {
+			}
+			if (gugunVal == '구, 군 선택') {
 				alert("구,군 을 선택해주세요.");
 				$("#gugun1").focus();
 				return false;
-			}else if(location_latVal.length==0){
+			}
+			if(location_latVal.length==0){
 				alert("정확한 위치를 지도를 클릭하여 지정해 주세요.");
 				return false;
-			}else if (summernoteVal.length == 0) {
+			}
+			if (summernoteVal.length == 0) {
 				alert("내용을 입력해주세요");
 				return false;
 			}
@@ -249,6 +297,7 @@
 				noteObj.html("")
 				return false;
 			}	
+			alert("강의 신청이 완료되었습니다. 승인될 때까지 기다려주세요.");
 		})
 		
 		
@@ -370,6 +419,7 @@
 							<!-- <input type="time" id="start_hour" name="start_hour"> : 
 							<input type="time" id="end_hour" name="end_hour"> -->
 							<select id="start_hour" name="start_hour">
+								<option value="sHour" selected disabled>시</option>
 								<option value="07">07</option>
 								<option value="08">08</option>
 								<option value="09">09</option>
@@ -383,11 +433,13 @@
 								<option value="17">17</option>
 								<option value="18">18</option>
 							</select> : <select id="start_minute" name="start_minute">
+								<option selected disabled>분</option>
 								<option>00</option>
 								<option>15</option>
 								<option>30</option>
 								<option>45</option>
 							</select> ~ <select id="end_hour" name="end_hour">
+								<option value="eHour" selected disabled>시</option>
 								<option value="08">08</option>
 								<option value="09">09</option>
 								<option value="10">10</option>
@@ -404,6 +456,7 @@
 								<option value="21">21</option>
 								<option value="22">22</option>
 							</select> : <select id="end_minute" name="end_minute">
+								<option selected disabled>분</option>
 								<option>00</option>
 								<option>15</option>
 								<option>30</option>

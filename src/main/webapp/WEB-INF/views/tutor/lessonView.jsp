@@ -441,7 +441,9 @@ $(function(){
 					<li><a href="#;">강의문의</a></li>
 					<li><a href="#;">환불안내</a></li>
 					<li><a href="#;">리뷰</a></li>
-					<li id="pay"><a href="#;">결제하기</a></li>
+					<c:if test="${loginInfo.grade != 'tutor'}">
+						<li id="pay"><a href="#;">결제하기</a></li>
+					</c:if>
 				</ul>
 			</div>			
 

@@ -184,10 +184,13 @@
 	update lesson set applying ='N' where #{today_date} > apply_end  
 </update>
 <update id="updateProceeding1">
-	update lesson set proceeding ='Y' where start_date >= #{today_date} 
+	update lesson set proceeding ='Y' where start_date = #{today_date} 
 </update>
 <update id="updateProceeding2">
 	update lesson set proceeding ='N' where #{today_date} > end_date
+</update>
+<update id="updateProceeding3">
+	update lesson set proceeding ='B' where #{today_date} > apply_end and start_date > #{today_date}
 </update>
 
 

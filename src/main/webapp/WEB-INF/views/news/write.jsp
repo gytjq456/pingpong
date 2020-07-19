@@ -61,6 +61,42 @@
 									</div>					
 								</div>
 							</div>
+							<script>
+							   //오늘 날짜를 출력
+							    $("#today").text(new Date().toLocaleDateString());
+
+							    //datepicker 한국어로 사용하기 위한 언어설정
+							    $.datepicker.setDefaults($.datepicker.regional['ko']);
+							    
+							    //시작일.
+							    $('#apply_start').datepicker({
+							        dateFormat: "yy-mm-dd",             // 날짜의 형식
+							        minDate: 0,
+							        onClose: function( selectedDate ) {    
+							           if($("#apply_start").val() == ""){
+							              return false;
+							           }
+							            // 시작일(apply_start) datepicker가 닫힐때
+							            // 종료일(toDate)의 선택할수있는 최소 날짜(minDate)를 선택한 시작일로 지정
+							           // $("#apply_end").datepicker( "option", "minDate", selectedDate );
+							            $('#apply_end').datepicker({
+							              dateFormat: "yy-mm-dd",
+							              changeMonth: true,
+							              minDate : new Date($("#apply_start").val()),
+							              onClose: function( selectedDate ) {
+							                  // 종료일(toDate) datepicker가 닫힐때
+							                  // 시작일(fromDate)의 선택할수있는 최대 날짜(maxDate)를 선택한 종료일로 지정 
+							                  $("#apply_start").datepicker( "option", "maxDate", selectedDate );
+							              }                
+							          })
+							        }                
+							    });
+
+							    $('#apply_end').on("focus",function(){
+							       var start = $("#apply_start").val();
+							       
+							    });
+							</script>
 							
 							<div class="news_write_sub">
 								<div class="tit_s3">

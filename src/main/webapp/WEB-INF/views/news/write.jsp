@@ -17,6 +17,9 @@
 				<div id="tabContWrap">
 					<div class="card_body" id="find_news_write">
 						<form action="/news/writeProc" method="post" enctype="multipart/form-data" id="writeForm">
+							<input type="hidden" name="start_date" id="apply_start" value="">
+							<input type="hidden" name="end_date" id="apply_end" value="">
+							
 							<div class="news_write_sub">
 								<div class="tit_s3">
 									<h4>제목</h4>
@@ -38,6 +41,7 @@
 								</select>
 							</div>
 							
+							<!--  
 							<div class="news_write_sub">
 								<div class="tit_s3">
 									<h4>기간</h4>
@@ -97,6 +101,7 @@
 							       
 							    });
 							</script>
+							-->
 							
 							<div class="news_write_sub">
 								<div class="tit_s3">

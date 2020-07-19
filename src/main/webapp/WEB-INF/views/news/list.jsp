@@ -59,7 +59,7 @@
 											<div>행사기간 : ${list.start_date} ~ ${list.end_date}</div>
 										</c:when>
 										<c:otherwise>
-											<div>&nbsp;</div>
+											<div>&nbsp;&nbsp;</div>
 										</c:otherwise>
 									</c:choose>
 									

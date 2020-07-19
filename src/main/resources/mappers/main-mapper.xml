@@ -5,7 +5,7 @@
 		<result property="sysname" column="profile"></result>
 	</resultMap>
  	<select id="groupClassList" resultMap="GroupProFile">
-		select * from ( select g.writer_id,g.title, g.contents, g.start_date, g.end_date, m.profile, row_number() over(order by seq desc) rnum 
+		select * from ( select g.seq,g.writer_id,g.title, g.contents, g.start_date, g.end_date, m.profile, row_number() over(order by seq desc) rnum 
 		from grouplist g inner join member m
         on g.writer_id = m.id
         where <![CDATA[start_date <= #{value} and #{value} <= end_date]]> ) <![CDATA[where rnum <= 2]]>
@@ -16,7 +16,7 @@
 		<result property="sysname" column="profile"></result>
 	</resultMap>	
 	 <select id="lessonClassList" resultMap="LessonProFile">
-		select * from ( select l.id,l.title, l.curriculum, l.start_date, l.end_date, m.profile, row_number() over(order by seq desc) rnum 
+		select * from ( select l.seq,l.id,l.title, l.curriculum, l.start_date, l.end_date, m.profile, row_number() over(order by seq desc) rnum 
 		from lesson l inner join member m
         on l.id = m.id
         where <![CDATA[start_date <= #{value} and #{value} <= end_date]]> ) <![CDATA[where rnum <= 2]]>

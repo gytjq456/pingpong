@@ -154,10 +154,10 @@
 						</div>
 					</div>
 					
-					<div class="se_singup">
+					<div class="se_singup prifileWrap">
 						<div class="title">프로필 사진</div>
 						<div class="se_con">
-							<p><img src="/upload/member/${sessionScope.loginInfo.id}/${sessionScope.loginInfo.sysname}"></p>
+							<p class="img"><img src="/upload/member/${sessionScope.loginInfo.id}/${sessionScope.loginInfo.sysname}"></p>
 							<div>
 								<button type="button" class="modyBtn">수정</button>
 								<div class="show_input">

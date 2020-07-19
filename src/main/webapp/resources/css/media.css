@@ -32,6 +32,7 @@
 	
 	/* sub  */
 	#subContents { margin-top:40px; }
+	.tit_s1 { padding:0 20px;}
 }
 
 
@@ -130,7 +131,13 @@
 
 
 @media (max-width:480px){
+	/* 회원가입 수정 */
+	#joinForm input, #joinForm select, #joinForm button { max-width:100px !important;}
 	
+	/* sub */
+	.tit_s1 p { font-size:16px;}
+	
+	/* 메인 */
 	#mainVisual .txt_box h2 { font-size:32px;}
 	
 }

@@ -49,7 +49,14 @@ $(function(){
 			return false;
 		}
 		
-		if(noteObj.text() == ""){
+		if( noteObj.html().replace(blank_pattern, '' ) == ""){
+			alert("공백만 입력할 수 없습니다.")
+			noteObj.focus();	
+			return false;
+		}
+		
+		alert(noteObj.html())
+		if(noteObj.html() == ""){
 			alert("내용을 입력해주세요.니다.")
 			noteObj.focus();	
 			return false;

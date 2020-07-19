@@ -95,7 +95,7 @@
 </script>
 <style>
 	#layerPop_s2 { position:fixed; left:0; top:0; width:100%; height:100%; z-index:10001; display:none;  background:rgba(0,0,0,0.5); paddint: 15px; }
-	#layerPop_s2 .pop_body { position:absolute; left:50%; top:50%; transform:translate(-50%, -50%); max-width:640px; background:#fff;}
+	#layerPop_s2 .pop_body { position:absolute; left:50%; top:50%; transform:translate(-50%, -50%); max-width:640px; background:#fff; width:90%;}
 	#layerPop_s2 .tit_s3 { margin: 12px; text-align: center; font-size: 20px; font-weight: bold; }
 	#layerPop_s2 .checkAgree { color: #999; }
 	#layerPop_s2 .checkLabel { vertical-align: middle; }

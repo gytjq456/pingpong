@@ -60,7 +60,7 @@
 		select count(*) from
 		(select g.*, m.profile, row_number() over(order by ${orderBy} desc, seq desc) rnum
 		from grouplist g inner join member m
-		on g.writer_id = m.id
+		on g.writer_id = m.id 
 		<trim prefix="where" prefixOverrides="and">
 			<if test="ing != null">
 				${ing} = #{ingValue}

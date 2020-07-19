@@ -244,10 +244,15 @@
 									</ul>
 								</div>
 							</form>
+
 							<div class="button_li">
-								<button id="sendLet">쪽지</button>
+								<c:if test = "${fn : contains(pdto.contact, '쪽지')}">
+									<button id="sendLet">쪽지</button>
+								</c:if>
 								<!-- <button class="chat">채팅</button> -->
-								<button class="email_a">이메일</button>
+								<c:if test = "${fn : contains(pdto.contact, '이메일')}">
+									<button class="email_a">이메일</button>
+								</c:if>
 								<button class="report" data-id="${pdto.id}" data-thisseq="" data-seq="${pdto.seq}" data-proc="/partner/reportProc" data-url="/partner/report">신고하기</button>
 								<button class="back">목록으로</button>
 								<c:if test="${sessionScope.loginInfo.id == pdto.id}">

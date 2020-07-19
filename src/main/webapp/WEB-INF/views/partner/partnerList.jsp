@@ -62,7 +62,27 @@
 			}else{
 				$(this).find(".introduce p").text(tagGt);
 			}
-		})		
+		})	
+		
+		$("#searchAsKeyword").on("click",function(){
+			var orderByVal = $('#align').val();
+			location.href='/partnert/partnerSearch?align='+orderByVal;
+		})
+		/* $("#searchAsKeyword").on("click",function(){
+			var age = $('#age option:selected').val();
+			var gender = $('#gender option:selected').val();
+			var sido = $('#sido1 option:selected').val();
+			var gugun = $('#gugun1 option:selected').val();
+			var lang_can = $('#lang_can option:selected').val();
+			var lang_learn = $('#lang_learn option:selected').val();
+			var hobby = $('#hobby option:selected').val();
+			
+			if($('#keyword_input').val() == ''){
+				alert("파트너 이름을 입력하거나 유형을 선택 후 검색해 주세요.");
+			}else if(age =='' || gender =='' || sido =='' || gugun =='' || lang_can =='' || lang_learn =='' || hobby ==''){
+				alert("파트너 이름을 입력하거나 유형을 선택 후 검색해 주세요.");
+			}
+		}) */
 	});
 </script>
 <body>
@@ -180,6 +200,10 @@
 														<li>
 															<span>이름</span>
 															<p>${plist.name}(${plist.id}, ${plist.age}세, ${plist.gender}) </p>
+														</li>
+														<li>
+															<span>거주지</span>
+															<p>${plist.address }</p>
 														</li>
 														<li>
 															<span>이메일</span>

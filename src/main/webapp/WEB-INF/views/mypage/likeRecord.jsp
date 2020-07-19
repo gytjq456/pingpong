@@ -44,7 +44,7 @@
 									<c:forEach var="plist" items="${plist}">	
 									<tr>
 										<td>${plist.seq}</td>
-										<td><a href="/partner/partnerView?seq=${pdto.seq}">${plist.name}</a></td>
+										<td><a href="/partner/partnerView?seq=${plist.seq}">${plist.name}</a></td>
 										<td>${plist.age}</td>
 										<td>${plist.gender}</td>
 										<td>${plist.lang_can}</td>

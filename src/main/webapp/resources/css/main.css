@@ -81,7 +81,7 @@
 #toDayClass .classWrap .list ul  {}
 #toDayClass .classWrap .list ul li { margin-bottom:14px; overflow:hidden; background:#fff; padding:20px; border-radius:6px; box-shadow:0 0 10px rgba(0,0,0,0.1); }
 #toDayClass .classWrap .list ul li:last-child { margin:0; }
-#toDayClass .classWrap .list ul li > div { float:left; }  
+#toDayClass .classWrap .list ul li a > div { float:left; }  
 #toDayClass .classWrap .list ul li .info { margin-top:6px;
 	width:calc(100% - 130px);
 	width:-moz-calc(100% - 130px);
@@ -92,7 +92,7 @@
 #toDayClass .classWrap .list ul li .info > div br { display:none; }
 #toDayClass .classWrap .list ul li .tit { font-size:18px; font-weight:700; color:#333;}  
 #toDayClass .classWrap .list ul li .txtBox { font-size: 16px;}  
-#toDayClass .classWrap .list ul li .thum { width:100px; height:100px; border-radius:50%; overflow:hidden;  border:1px solid #ddd; box-sizing:borde-box; position:relative; margin-right:30px; font-size:12px; color:#999; }  
+#toDayClass .classWrap .list ul li .thum { width:100px; height:100px; border-radius:50%; overflow:hidden;  border:1px solid #ddd; box-sizing:border-box; position:relative; margin-right:30px; font-size:12px; color:#999; }  
 #toDayClass .classWrap .list ul li .thum img { position:absolute; left:50%; top:50%; transform:translate(-50%, -50%);}  
 #toDayClass .scheduleWrap {border-top:1px solid #ddd; padding-top:20px; }
 #toDayClass .scheduleWrap .tip { }

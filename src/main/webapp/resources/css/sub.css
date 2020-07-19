@@ -934,3 +934,5 @@ width:-webkit-calc(100% - 60px);
 #guide .tutoring ul li p {height:120px; line-height:120px; text-align:center; font-size:18px; font-weight:700; } 
 
 
+.prifileWrap .img { height:350px; text-align:center; }
+.prifileWrap img { height:100%; }

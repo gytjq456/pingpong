@@ -373,15 +373,11 @@ public class TutorController {
 		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
 		String id = mdto.getId();
 		
-		List<TuteeDTO> tuteeList = tservice.tuteeList(seq);
-		if(tuteeList.size()==0) {
-			System.out.println("===============nullnulll");
-		}
-		for(TuteeDTO i : tuteeList) {
-			System.out.println("======================"+i.getId());
-		}
-		
-		
+		Map<Object, Object> ttParam = new HashMap<>();
+		ttParam.put("id", id);
+		ttParam.put("parent_seq",seq);
+		TuteeDTO tuteedto = tservice.tuteedto(ttParam);
+
 		Map<Object, Object> param = new HashMap<>();
 		param.put("id", id);
 		param.put("parent_seq", seq);
@@ -404,7 +400,7 @@ public class TutorController {
 		model.addAttribute("checkLike", checkLike);
 		model.addAttribute("checkJjim",checkJjim);
 		model.addAttribute("reviewList", reviewList);
-		model.addAttribute("tuteeList", tuteeList);
+		model.addAttribute("tuteedto", tuteedto);
 		return "/tutor/lessonView";
 	}
 	

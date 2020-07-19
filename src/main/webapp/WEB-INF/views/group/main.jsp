@@ -539,7 +539,18 @@
 				return false;
 			}
 			
-			location.href = '/group/searchDate?start_date=' + dateStart + '&end_date=' + dateEnd + '&orderBy=seq&ing=all';
+			$.ajax({
+				url: '/group/searchDate',
+				data: {start_date: dateStart, end_date: dateEnd, orderBy: 'seq', ing: 'all'},
+				type: 'post'
+			}).done(function(resp){
+				location.href = '/group/main?orderBy=seq&ing=all&schType=keyword';
+			}).fail(function(error1, error2){
+				console.log(error1);
+				console.log(error2);
+			})
+			// location.href = '/group/searchDate?start_date=' + dateStart + '&end_date=' + dateEnd + '&orderBy=seq&ing=all';
+			
 		})
 		
 		$('#search_map_btn').on('click', function(){

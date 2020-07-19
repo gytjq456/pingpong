@@ -40,7 +40,6 @@
 			console.log(totalSize);
 			
 			//프로필 확장자 체크
-			return false;
 			if(!/\.(gif|jpg|jpeg|png|pdf)$/i.test($(this).val())){
 				alert('gif, jpg, png, pdf 파일만 선택해 주세요.');
 				$(this).focus();

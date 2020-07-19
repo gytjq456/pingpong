@@ -58,7 +58,7 @@
 							<li>수업 시작 날짜로부터 10일~15일 경과 - 전체금액 중 1/2 환불</li>
 							<li>수업 시작 날짜로부터 15일 이후 경과 - 환불 금액 없음</li>		
 						</ul>
-					</div>					
+					</div>		
 					<c:choose>
 						<c:when test="${loginInfo.grade == 'tutor'}">
 							<c:choose>
@@ -66,6 +66,7 @@
 									등록하신 강의가 없습니다.
 								</c:when>
 								<c:otherwise>
+								<div class="tableWrap">
 									<table>
 										<thead>
 											<tr>
@@ -99,9 +100,10 @@
 											</c:forEach>
 										</tbody>
 									</table>
+								</div>
+								<div class="navi_line">${trnavi}</div>
 								</c:otherwise>
 							</c:choose>
-							<div class="navi_line">${trnavi}</div>
 						</c:when>
 						<c:otherwise>
 							<c:choose>
@@ -109,6 +111,8 @@
 									수강 중인 강의가 없습니다.
 								</c:when>
 								<c:otherwise>
+								<div class="tableWrap">
+								
 									<table>
 										<thead>
 											<tr>
@@ -139,9 +143,10 @@
 										</c:forEach>
 										</tbody>
 									</table>
+								</div>
+								<div class="navi_line">${tenavi}</div>
 								</c:otherwise>
 							</c:choose>
-							<div class="navi_line">${tenavi}</div>
 						</c:otherwise>
 					</c:choose>
 				</section>

@@ -71,6 +71,21 @@
 	#list_s2 ul li:nth-child(4n) { margin-right:2%}
 	#list_s2 ul li:nth-child(3n) { margin-right:0}
 	
+	
+	.tableWrap { overflow-x:auto;}
+	#groupManage .tableWrap > div,
+	#jjimManage .listWrap table { width:1200px;}
+	
+	
+	/* 소식 */
+	#new_view #se_con .imgbox { text-align:center; position:relative;}
+	#new_view #se_con .imgbox img { width:auto; position:absolute; top:50%; left:50%;
+	transform:translate(-50%, -50%);
+	 }
+	#new_view #se_con .imgbox { margin-right:0;}
+	#new_view #se_con .imgbox,
+	#new_view #se_con .textbox { width:100% !important;}	
+	
 }
 
 
@@ -132,6 +147,9 @@
 	#list_s2 ul li:nth-child(2n) { margin-right:0}	
 	#list_s2 ul li .name { font-size:16px; }  
 	
+	
+	#new_view .contImg .title { font-size:24px; }
+	
 }
 
 
@@ -180,6 +198,11 @@
 	#group_view .info_with_icon .fa-calendar:first-child ~ span { display:block;}
 	#group_view #group_title { font-size:26px;}
 	.tab_s2 ul li button, .tab_s2 ul li a { font-size:14px;}
+	
+	#mypage .userInfo .thum .img,
+	#group_view #writer_profile { width:160px; height:160px;}
+	
+
 
 	
 }
@@ -260,6 +283,8 @@
 	
 	/* 튜터목록 */
 	#list_s2 ul li { width:100% !important; margin-right:0;}
+	
+	#group_view #group_tab_menu.mfixed { top: 102px; }
 }
 
 

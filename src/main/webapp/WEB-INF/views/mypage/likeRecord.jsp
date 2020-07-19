@@ -26,6 +26,7 @@
 							<p>찜한 파트너가 없습니다.<p>
 						</c:when>
 						<c:otherwise>
+						<div class="tableWrap">
 								<table>
 								<thead>
 									<tr>
@@ -56,6 +57,7 @@
 									</c:forEach>
 								</tbody>
 							</table>
+						</div>
 						</c:otherwise>
 					</c:choose>
 					<div class="navi_line">${pnavi}</div>
@@ -73,6 +75,7 @@
 								찜한 그룹이 없습니다.
 							</c:when>
 							<c:otherwise>
+								<div class="tableWrap">
 									<table>
 										<thead>
 											<tr>
@@ -108,6 +111,7 @@
 											</c:forEach>
 										</tbody>
 									</table>
+								</div>
 							</c:otherwise>
 						</c:choose>
 						<div class="navi_line">${gnavi}</div>
@@ -122,6 +126,7 @@
 							찜한 강의가 없습니다.
 						</c:when>
 						<c:otherwise>
+							<div class="tableWrap">
 								<table>
 									<thead>
 										<tr>
@@ -155,6 +160,7 @@
 										</c:forEach>
 									</tbody>
 								</table>	
+							</div>
 						</c:otherwise>
 					</c:choose>
 					<div class="navi_line">${lnavi}</div>

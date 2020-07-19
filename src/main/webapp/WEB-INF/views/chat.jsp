@@ -127,7 +127,7 @@
 						var member = chatWrap.find(".title p").text().split(",");
 						chatWrap.find(".title span").text(member.length);
 						txtInput.focus();
-						console.log(typeof resp)
+						//console.log(typeof resp)
 						if(typeof resp == 'string'){
 							chatRoom = resp
 							$(".chatBox .sysdate").html(theYear+"년 "+theMonth+"월 "+theDate+"일 "+todayLabel);
@@ -140,7 +140,7 @@
 							var userTag;
 							//console.log(record.length)
 							 for(var i=0; i<record.length; i++){
-								 console.log(record)
+								// console.log(record)
 								if(record[i].sendUser == "${sessionScope.loginInfo.name}"){
 									var userInfo_s1 = $("<div class='userInfo_s1 my'>");
 									var info = $("<div class='info'>"); 
@@ -184,12 +184,14 @@
 					for(var i=0; i<msg.length; i++){
 						if(msg[i].type == "login"){
 							var chatList = $("#chatList .list ul li");
-							chatList.each(function(){
-								var idx = $(this).index();
-								if(chatList.eq(idx).find("button").data("uid") == msg[i].userid){
-									$(this).addClass("on");
-								}
-							})
+							setTimeout(function(){
+								chatList.each(function(){
+									var idx = $(this).index();
+									if(chatList.eq(idx).find("button").data("uid") == msg[i].userid){
+										$(this).addClass("on");
+									}
+								})
+							},1000);
 						}
 					}
 					if(msg.type == "logout"){

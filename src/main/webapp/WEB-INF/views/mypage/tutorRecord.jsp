@@ -5,6 +5,7 @@
 <jsp:include page="/WEB-INF/views/header.jsp" />
 <style>
 	.hidden { display:none;}
+	
 </style>
 
 <script>
@@ -45,13 +46,19 @@
 			<div class="tit_s1">
 				<h2>나의 강의 목록</h2>
 			</div>
+			
+			
 			<div class="listWrap">
 				<section class="session card_body">		
 					<h4>강의 리스트</h4>
-					<span class="notice">*수업 시작 날짜전 환불 요정 - 전액 환불<br>
-							*수업 시작 날짜로부터 1일~10일 경과 - 전체금액 중 2/3 환불<br>
-							*수업 시작 날짜로부터 10일~15일 경과 - 전체금액 중 1/2 환불<br>
-							*수업 시작 날짜로부터 15일 이후 경과 - 환불 금액 없음</span>
+					<div class="tip">
+						<ul>
+							<li>수업 시작 날짜전 환불 요정 - 전액 환불</li>
+							<li>수업 시작 날짜로부터 1일~10일 경과 - 전체금액 중 2/3 환불</li>
+							<li>수업 시작 날짜로부터 10일~15일 경과 - 전체금액 중 1/2 환불</li>
+							<li>수업 시작 날짜로부터 15일 이후 경과 - 환불 금액 없음</li>		
+						</ul>
+					</div>					
 					<c:choose>
 						<c:when test="${loginInfo.grade == 'tutor'}">
 							<c:choose>

@@ -33,6 +33,15 @@
 	/* sub  */
 	#subContents { margin-top:40px; }
 	.tit_s1 { padding:0 20px;}
+	
+	
+	/* 토론  */
+	.viewPage_style1 .body_right { position:static; width:100%; margin-left:0;}
+	.viewPage_style1 > div { float:left; width:100% !important;}
+	
+	
+	/* 파트너  */
+	.partnerBox article { width:100%; margin-right:0 !important;}
 }
 
 
@@ -89,7 +98,7 @@
 	#map { height:350px;}
 	
 	
-	/* 토론 게시판 리스트 */
+	/* 토론 게시판 */
 	#listStyle1 .title { font-size:20px;}
 	#listStyle1 .contents { max-height: 47px; overflow: hidden;}
 	#listNav ul li, .navi_line ul li { margin:5px 8px 5px 0;}
@@ -98,6 +107,12 @@
 	.search_wrap { padding:30px 20px;}
 	.tit_s3 h4 { font-size:16px; }
 	.tit_s1 { margin-bottom:30px; padding-bottom:30px;}
+	.viewPage_style1 .title { font-size:20px;}
+	.tit_s2 h3 { font-size:18px;}
+	
+	
+	/* 파트너  */
+	.search_as_keyword .schCon { width:100% !important; }
 }
 @media (max-width:480px){
 	/* 헤더  */

@@ -77,6 +77,7 @@
          <div class="inner1200 clearfix">
             <h1 class="logo"><a href="/"><img src="/resources/img/common/logo.png"/></a></h1>
             <nav>
+            	<div class="mClose"><button type="button"><i class="fa fa-times" aria-hidden="true"></i></button></div>
                <div >
                   <ul class="clearfix gnb">
                      <li>
@@ -118,6 +119,7 @@
                   </ul>
                </div>
             </nav>
+            <div class="mMenu"><button type="button"><i class="fa fa-bars" aria-hidden="true"></i></button></div>
          </div>
       </section>
    </header>

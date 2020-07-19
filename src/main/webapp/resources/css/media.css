@@ -2,10 +2,18 @@
 
 @media (max-width:1200px){
 	.inner1200 { padding:0 20px;}
-	
+	.hdMargin { padding-top:100px;}
 	/* header */
-	header #hdBot nav { display:none;}
+	header #hdBot nav { position:fixed; top:0; width:90%; max-width:260px; background:#fff; height:100%; z-index:9999; right:-260px;}
+	header #hdBot nav .gnb > li { float:none; }
+	header #hdBot nav .gnb > li > .depth2 { position:static; } 
+	header #hdBot nav .gnb > li > .depth2 > li > a { text-align:left; padding:15px 30px;}
 	header #hdBot .logo { position:static; transform: translateY(0); margin:0 auto;}
+	.mClose { display:block; background:none; text-align:right; border-bottom:1px solid #ddd; padding:20px; z-index:999;}
+	.mClose button { background:none; border:1px solid #ddd; width:32px; height:32px; line-height:30px;}
+	.mMenu { position:absolute; right:10px; top:-2px; display:block;}
+	.mMenu button { border:none; background:none; }
+	.mMenu button i { font-size:24px; color:#fbaab0;}
 	
 	/* 메인 */
 	#mainVisual .visu article { height:540px;}
@@ -26,6 +34,9 @@
 	/* footer */
 	footer #ftTop { line-height:1.8;}
 	footer #ftTop .sns { right:20px; }
+	
+	
+
 	
 	/* developer */
 	#developer .list ul li { height:500px; }
@@ -85,6 +96,8 @@
 	#new_view #se_con .imgbox { margin-right:0;}
 	#new_view #se_con .imgbox,
 	#new_view #se_con .textbox { width:100% !important;}	
+	
+	
 	
 }
 
@@ -150,6 +163,9 @@
 	
 	#new_view .contImg .title { font-size:24px; }
 	
+	/* 멤버  */
+	.tit_s1 h3 { font-size:26px;}
+	
 }
 
 
@@ -202,6 +218,9 @@
 	#mypage .userInfo .thum .img,
 	#group_view #writer_profile { width:160px; height:160px;}
 	
+	
+	/* 멤버  */
+	.tit_s1 h3 { font-size:22px;}
 
 
 	
@@ -260,7 +279,9 @@
 
 
 	/* 회원가입 수정 */
-	#joinForm input, #joinForm select, #joinForm button { max-width:100px !important;}
+	.modifyJoin input, 
+	.modifyJoin select, 
+	.modifyJoin button { max-width:100px !important;}
 	
 	/* sub */
 	.tit_s1 p { font-size:16px;}

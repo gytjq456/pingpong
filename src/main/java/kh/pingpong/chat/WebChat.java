@@ -26,7 +26,7 @@ import kh.pingpong.dto.MemberDTO;
 import kh.pingpong.service.ChatService;
 
 
-@ServerEndpoint(value="/chat", configurator = HttpSessionCofigurator.class)
+@ServerEndpoint(value="/", configurator = HttpSessionCofigurator.class)
 public class WebChat {
 	private ChatService chatService = MyApplicationContextAware.getApplicationContext().getBean(ChatService.class);
 

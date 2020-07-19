@@ -125,11 +125,12 @@
 								</div>
 							</div>												
 						</div>
-						<div class="btnS1 right">
-							<div><button type="button" id="back">목록</button></div>
+						<div class="btnS1 center">
+							<button type="button" id="back" style="display:inline-block;float:right;">목록</button>
 							<c:if test="${sessionScope.loginInfo.id == ndto.writer}">
-								<div><button type="button" id="modify">수정</button></div>
-								<div><button type="button" id="delete">삭제</button></div>
+								<button type="button" id="modify" style="display:inline-block; margin-right:20px; float:right;">수정</button>
+								<button type="button" id="delete" style="display:inline-block; margin-right:20px; float:right;">삭제</button>
+
 							</c:if>
 						</div>
 					</div>

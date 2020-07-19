@@ -23,25 +23,30 @@ $(function(){
     //datepicker 한국어로 사용하기 위한 언어설정
     $.datepicker.setDefaults($.datepicker.regional['ko']);
     
-    //시작일.
+  //시작일.
     $('#apply_start').datepicker({
         dateFormat: "yy-mm-dd",             // 날짜의 형식
         minDate: 0,
         onClose: function( selectedDate ) {    
+        	if($("#apply_start").val() == ""){
+        		return false;
+        	}
             // 시작일(apply_start) datepicker가 닫힐때
             // 종료일(toDate)의 선택할수있는 최소 날짜(minDate)를 선택한 시작일로 지정
-            $("#apply_end").datepicker( "option", "minDate", selectedDate );
-        }                
-    });
-
-    //종료일
-    $('#apply_end').datepicker({
-        dateFormat: "yy-mm-dd",
-        changeMonth: true,
-        onClose: function( selectedDate ) {
-            // 종료일(toDate) datepicker가 닫힐때
-            // 시작일(fromDate)의 선택할수있는 최대 날짜(maxDate)를 선택한 종료일로 지정 
-            $("#apply_start").datepicker( "option", "maxDate", selectedDate );
+           // $("#apply_end").datepicker( "option", "minDate", selectedDate );
+            $('#apply_end').datepicker({
+              dateFormat: "yy-mm-dd",
+              changeMonth: true,
+              minDate : new Date($("#apply_start").val()),
+              onClose: function( selectedDate ) {
+              	if($("#apply_start").val() == ""){
+              		return false;
+              	}
+                  // 종료일(toDate) datepicker가 닫힐때
+                  // 시작일(fromDate)의 선택할수있는 최대 날짜(maxDate)를 선택한 종료일로 지정 
+                  $("#apply_start").datepicker( "option", "maxDate", selectedDate );
+              }                
+          })
         }                
     });
 	
@@ -93,9 +98,9 @@ $(function(){
 		}
 		
 		//프로필 용량
-		var limit = 1024*1024*5;
+		var limit = 1024*1024*10;
 		if(limit < thumbnail[0].files[0].size){
-			alert("파일용량 5MB을 초과했습니다. 다른 파일로 변경해주세요");
+			alert("파일용량 10MB을 초과했습니다. 다른 파일로 변경해주세요");
 			thumbnail.val("");
 			return false;
 		}
@@ -147,14 +152,21 @@ $(function(){
 		
 		var size = f.size || f.fileSize;
 		console.log(f.size + ":" +f.fileSize);
-		var limit = 1024*1024*5; //바이트
-		if(size > limit){
-			alert("파일용량 5MB을 초과했습니다.");
+		var limit = 1024*1024*10; //바이트
+		var limitAll = 1024*1024*30; //바이트
+		if(size>limitAll){
+			alert("총 파일용량이 30MB을 초과했습니다.");
 			$(this).val("");
 			return false;
 		}
 		totalSize = totalSize+size;
 		console.log(totalSize);
+	});
+	
+	//보내기 전에 용량 체크
+	$("#writeForm").submit(function(){
+	
+		
 	});
 	
 });

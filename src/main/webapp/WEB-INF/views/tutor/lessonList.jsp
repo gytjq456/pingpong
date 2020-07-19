@@ -287,7 +287,7 @@
 				<article id="tab_2" class="calendarSch <c:if test="${schType == 'schedule'}">on</c:if>">
 					<div class="search_as_calendar">
 						<div class="scheduleSchBox">
-							<div><span>수업기간</span></div>
+							<div class="tit"><span>수업기간</span></div>
 							<div class="schBar">
 								<p>
 								<label for="start_date" class="calendar_icon"> 
@@ -468,22 +468,22 @@
 	
 	<script>
 		//지도
-		var locationVal = '${location}'
+		 var locationVal = '${location}'
 		console.log(locationVal);
 		if(locationVal != null){
 			$("#location").val(locationVal);
 			var siguLocation = locationVal.split(' ');		
-			
+		/* 	
 			new sojaeji('sido1', 'gugun1');
 			$("#sido1").val(siguLocation[0]);
-			new sojaeji('sido1', 'gugun1');
-			$("#gugun1").val(siguLocation[1]);
+			 new sojaeji('sido1', 'gugun1');
+			$("#gugun1").val(siguLocation[1]);  */
 			
-		}else{
+		} else{
 			new sojaeji('sido1', 'gugun1');
 			$("#gugun1").val('구, 군 선택');
-		}
-		
+		} 
+		 
 		
 
 		new sojaeji('sido1', 'gugun1');
@@ -618,10 +618,15 @@
 					            
 					            var sido1Val = result[i].region_1depth_name;
 					            var gugun1Val = result[i].region_2depth_name;
+					            var dong1Val = result[i].region_3depth_name;
 					            
 					            $("#sido1").val(sido1Val);
 					            new sojaeji('sido1', 'gugun1');
-					            $("#gugun1").val(gugun1Val); 
+					            if(gugun1Val!=""){
+					      			$("#gugun1").val(gugun1Val); 
+					      		}else{
+					      			$("#gugun1").val(dong1Val);
+					      		}
 
 					            sidogugun = sido1Val + ' ' + gugun1Val;
 								$('#locationId').val(sidogugun);

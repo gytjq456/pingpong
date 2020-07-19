@@ -342,7 +342,7 @@
 									<div class="userInfo_s1 userInfo_s2">
 										<div class="thumb"><img src="/upload/member/${loginInfo.id}/${loginInfo.sysname}"/></div>
 										<div class="info">
-											<p class="userId">${loginInfo.name}</p>
+											<p class="userId">${loginInfo.name}(${loginInfo.id})</p>
 										</div>
 									</div>
 									<div>

@@ -25,19 +25,27 @@
 		
 		$('#apply_end').datepicker({
 			dateFormat: 'yy-mm-dd',
-			minDate: new Date($('#apply_start').val())
-		});
-		
-		$('#start_date').datepicker({
-			dateFormat: 'yy-mm-dd',
-			minDate: 0,
+			minDate: new Date($('#apply_start').val()),
 			onClose: function(){
-				$('#end_date').datepicker({
+				if ($('#apply_end').val() == "") {
+					return false;
+				}
+				$('#start_date').datepicker({
 					dateFormat: 'yy-mm-dd',
-					minDate: new Date($('#start_date').val())
-				})
+					minDate: 0,
+					onClose: function(){
+						if($("#start_date").val() == ""){
+							return false;
+						}
+						$('#end_date').datepicker({
+							dateFormat: 'yy-mm-dd',
+							minDate: new Date($('#start_date').val())
+						})
+					}
+				});
 			}
 		});
+		
 		
 		$('#start_date').on('change', function(){
 			var endDate = $('#end_date').val();
@@ -48,11 +56,19 @@
 		
 		$('#end_date').on('change', function(){
 			var applyEnd = new Date($('#apply_end').val());
+			var startDate = new Date($('#start_date').val());
 			var endDate = new Date($('#end_date').val());
 			
 			if (endDate < applyEnd) {
 				alert('모집 마감 날짜보다 이전 날짜로 설정하실 수 없습니다.');
 				$('#end_date').val('');
+				return false;
+			}
+			
+			if (endDate < startDate) {
+				alert('진행 시작 날짜보다 이전 날짜로 설정하실 수 없습니다.');
+				$('#end_date').val('');
+				return false;
 			}
 		})
 		
@@ -167,7 +183,7 @@
 						<div class="group_write_sub">
 							<div class="tit_s3">
 								<h4>진행 기간</h4>
-								<span class="notice">*시작 날짜를 설정해야만 종료 날짜를 설정하실 수 있습니다.</span>
+								<span class="notice">*모집 기간을 설정해야만 시작 날짜를 설정할 수 있고, 시작 날짜를 설정해야만 종료 날짜를 설정하실 수 있습니다.</span>
 							</div>
 							<div class="group_sub_input">
 								<label for="start_date" class="calendar_icon"><i class="fa fa-calendar" aria-hidden="true"></i></label>
@@ -263,12 +279,17 @@
 			}
 			
 			var noteObj = $(".note-editable");
-			if(noteObj.text().replace(/\s|　/gi, "").length == 0){
-				alert("내용을 입력해주세요.")
-				noteObj.text("");
-				noteObj.focus();
+			if(noteObj.text() == "" && !noteObj.find("img").length){
+				alert("내용을 입력해주세요")
+				noteObj.focus();	
+				return false;
+			if(noteObj.text().replace(/\s|　/gi, "").length == 0 && !noteObj.find("img").length){
+				alert("공백만 입력할 수 없습니다.")
+				noteObj.focus();	
 				return false;
 			}
+			
+			
 			
 			var replaceId  = /(script)/gi;
 			if(noteObj.text().match(replaceId)){

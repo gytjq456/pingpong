@@ -76,7 +76,7 @@ public class NewsController {
 	public String writeProc(NewsDTO ndto, FilesDTO filesAll) throws Exception{
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
 		ndto.setWriter(loginInfo.getId());
-		ndto.setLocation(ndto.getAddress() + ndto.getDetailAddress() + ndto.getExtraAddress());
+		ndto.setLocation(ndto.getAddress() + " " + ndto.getDetailAddress() + " " + ndto.getExtraAddress());
 		
 		FileDTO ftndto = new FileDTO();
 		// 썸네일 드라이브에 저장
@@ -110,7 +110,7 @@ public class NewsController {
 		
 		//주소변경 시
 		if(!ndto.getAddress().contentEquals("")) {
-			ndto.setLocation(ndto.getAddress() + ndto.getDetailAddress() + ndto.getExtraAddress());
+			ndto.setLocation(ndto.getAddress() + " " + ndto.getDetailAddress() + " " + ndto.getExtraAddress());
 		}
 		FileDTO ftndto = new FileDTO();
 		

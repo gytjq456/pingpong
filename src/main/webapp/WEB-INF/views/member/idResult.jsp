@@ -36,11 +36,6 @@
 									<p>${i.id}</p>
 								</c:forEach>
 							</li>
-							<li>
-								<c:forEach var="i" items="${mlist}">
-									<p>${i.id}</p>
-								</c:forEach>
-							</li>
 						</ul>
 					</div>
 					<div class="btnS1 center ">

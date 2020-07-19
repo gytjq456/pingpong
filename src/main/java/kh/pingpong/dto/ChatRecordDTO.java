@@ -10,6 +10,7 @@ public class ChatRecordDTO {
 	private String chatRecord;
 	private String realWriteDate;
 	private String writeDate;
+	private String thumNail;
 	
 	
 	public ChatRecordDTO() {
@@ -18,7 +19,7 @@ public class ChatRecordDTO {
 	}
 
 	public ChatRecordDTO(String roomId, int seq, String sendUser, String chatRecord, String realWriteDate,
-			String writeDate) {
+			String writeDate, String thumNail) {
 		super();
 		this.roomId = roomId;
 		this.seq = seq;
@@ -26,6 +27,7 @@ public class ChatRecordDTO {
 		this.chatRecord = chatRecord;
 		this.realWriteDate = realWriteDate;
 		this.writeDate = writeDate;
+		this.thumNail = thumNail;
 	}
 	
 	public String getRoomId() {
@@ -63,6 +65,15 @@ public class ChatRecordDTO {
 	}
 	public void setWriteDate(String writeDate) {
 		this.writeDate = writeDate;
+	}
+
+
+	public String getThumNail() {
+		return thumNail;
+	}
+
+	public void setThumNail(String thumNail) {
+		this.thumNail = thumNail;
 	}
 	
 	

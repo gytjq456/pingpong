@@ -34,15 +34,21 @@ $(function(){
 		var noteObj = $(".note-editable");
 		var replaceId  = /(script)/gi;
 		
+		var blank_pattern = /^\s+|\s+$/g;
+
+		
 		if(titleVal.replace(/\s|　/gi, "").length == 0){
 			alert("제목을 입력해주세요.")
 			titleObj.val("");
 			titleObj.focus();
 			return false;
-		}else if(noteObj.text().replace(/\s|　/gi, "").length == 0){
-			alert("내용을 입력해주세요.")
-			noteObj.text("");
-			noteObj.focus();
+		}else if(noteObj.text() == "" && !noteObj.find("img").length){
+			alert("내용을 입력해주세요")
+			noteObj.focus();	
+			return false;
+		}else if(noteObj.text().replace(/\s|　/gi, "").length == 0 && !noteObj.find("img").length){
+			alert("공백만 입력할 수 없습니다.")
+			noteObj.focus();	
 			return false;
 		}else if(cautionVal.replace(/\s|　/gi, "").length == 0){
 			alert("주의사항을 입력해주세요.")
@@ -51,6 +57,15 @@ $(function(){
 			return false;
 		}
 		
+
+		
+		// noteObj.text() == ""
+		/* else if(noteObj.text().replace(/\s|　/gi, "").length == 0){
+			alert("내용을 입력해주세요.")
+			noteObj.text("");
+			noteObj.focus();
+			return false;
+		} */
 		
 		var noteObj = $(".note-editable");
 		var replaceId  = /(script)/gi;
@@ -62,6 +77,37 @@ $(function(){
 		}
 	})
 	
+	
+	// 타이틀 글자수 체크
+	$("#discussion_write").find("#title").keyup(function(){
+		var word = $(this).val();
+		var wordSize = word.length;
+		console.log(wordSize)
+		if(wordSize <= 100){
+			$(this).siblings(".wordsize").find(".current").text(wordSize);
+		}else{
+			word = word.substr(0,100);
+			$(this).siblings(".wordsize").find(".current").text(word.length);
+			$(this).val(word);
+			alert("제목은  100자 이하로 등록해 주세요")
+		}
+		
+	})
+	$("#discussion_write").find("#caution").keyup(function(){
+		var word = $(this).val();
+		var wordSize = word.length;
+		console.log(wordSize)
+		if(wordSize <= 100){
+			$(this).siblings(".wordsize").find(".current").text(wordSize);
+		}else{
+			word = word.substr(0,1000);
+			$(this).siblings(".wordsize").find(".current").text(word.length);
+			$(this).val(word);
+			alert("주의사항은  1000자 이하로 등록해 주세요")
+		}
+	})
+	
+	
 })
 function textChk(thisVal, obj){
 	var replaceId  = /(script)/gi;
@@ -71,9 +117,11 @@ function textChk(thisVal, obj){
         	console.log(obj)
         	if(obj.val().length){
 	        	obj.val("");
+	        	$(".wordsize .current").text("0");
 	        	textVal = obj.val();
         	}else{
 	        	obj.html("");
+	        	$(".wordsize .current").text("0");
 	        	textVal = obj.val();
         	}
         }
@@ -115,6 +163,7 @@ function uploadSummernoteImageFile(file, editor) {
 								<h4>토론 주제</h4>
 							</div>
 							<input type="text" name="title" id="title">
+							<div class="wordsize"><span class="current">0</span>/100</div>
 						</section>
 						
 						<section>
@@ -143,6 +192,7 @@ function uploadSummernoteImageFile(file, editor) {
 							</div>
 							<div>
 								<textarea name="caution" id="caution"></textarea>
+								<div class="wordsize"><span class="current">0</span>/1000</div>
 							</div>
 						</section>
 						<div class="btnS1 right">

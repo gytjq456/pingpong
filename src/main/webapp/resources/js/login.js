@@ -47,17 +47,19 @@ $(function() {
 	//로그인
 	$("#isIdPwSame").on('click', function() {
 		var id = $("#id").val();
-		var pw = $("#pw").val();
+		var pw = $("#pw").val();		
 
 		if (id == "") {
 			alert("id를 입력해주세요.");
 			$("#id").focus();
 			return false;
+			
 		} else if (pw == "") {
 			alert("pw를 입력해주세요.");
 			$("#pw").focus();
 			return false;
 		}
+		
 
 		$.ajax({
 			type : "post",

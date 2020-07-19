@@ -210,6 +210,10 @@
 															<p>${plist.email}</p>
 														</li>
 														<li>
+															<span>지역</span>
+															<p>${plist.address}</p>
+														</li>
+														<li>
 															<span>구사 언어</span>
 															<p>${plist.lang_can}</p>
 														</li>

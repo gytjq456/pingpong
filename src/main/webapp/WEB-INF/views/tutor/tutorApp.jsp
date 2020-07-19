@@ -38,7 +38,15 @@
 			}
 			totalSize = totalSize+size;
 			console.log(totalSize);
-		})
+			
+			//프로필 확장자 체크
+			if(!/\.(gif|jpg|jpeg|png|pdf)$/i.test($(this).val())){
+				alert('gif, jpg, png, pdf 파일만 선택해 주세요.');
+				$(this).focus();
+				$(this).val('');
+				return false;
+			}
+		});
 		
 		//파일 첨부 여러개
 		$("#fileAdd").on("click", function() {
@@ -62,6 +70,7 @@
 				console.log(totalSize);
 				$(this).parent().remove();
 			}
+
 
 		})
 		
@@ -90,6 +99,7 @@
 		$("#frm").on("submit", function(){
 			var introduceVal = $("#introduce").val();
 			var titleVal = $("#title").val();
+			var fileVal = $(".file").val();
 			
 			if (introduceVal.length == 0) {
 				alert("자기소개를 입력해주세요");
@@ -103,9 +113,13 @@
 			var limit = 1024*1024*30;
 			if(totalSize > limit){
 				alert("총 파일용량 30MB을 초과했습니다.");
-				$(this).val("");
 				return false;
 			}
+			if(fileVal==""){
+				alert("사용하지 않는 파일은 지워주세요.");
+				return false;
+			}
+			
 		})
 		
 	})

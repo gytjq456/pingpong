@@ -188,15 +188,18 @@
 					day:day
 				}
 			}).done(function(resp){
+				console.log(resp)
 				if(resp.gList.length){
 					for(var i=0; i<resp.gList.length; i++){
 						var li = $("<li>");
+						var link = $("<a href='/group/view?seq="+resp.gList[i].seq+"'>");
 						var info = $('<div class="info">');
-						li.append('<div class="thum"><img src="/upload/member/'+resp.gList[i].writer_id+'/'+resp.gList[i].sysname+'"></div>')
+						link.append('<div class="thum"><img src="/upload/member/'+resp.gList[i].writer_id+'/'+resp.gList[i].sysname+'"></div>')
 						info.append('<div class="tit">'+resp.gList[i].title+'</div>')
 						info.append('<div class="txtBox">'+resp.gList[i].contents+' </div>')
 						info.append('<div class="time">진행 기간 : '+resp.gList[i].start_date+' ~ '+resp.gList[i].end_date+'')
-						li.append(info);
+						link.append(info);
+						li.append(link);
 						$(".groupClass ul").append(li);
 						$(".txtBox").each(function(){
 							var text = $(this).text();
@@ -205,6 +208,13 @@
 							}
 							$(this).html(text);
 						})
+						$(".groupClass .tit").each(function(){
+							var text = $(this).text();
+							if(text.length >= 50) { 
+								text = text.substring(0,50)+"...";;
+							}
+							$(this).html(text);
+						})	
 					}
 				}else{
 					var li = $("<li>");
@@ -215,14 +225,23 @@
 					for(var i=0; i<resp.LessonList.length; i++){
 						var txt = resp.LessonList[i].curriculum;
 						var li = $("<li>");
+						var link = $("<a href='/tutor/lessonView?seq="+resp.LessonList[i].seq+"'>");
 						var info = $('<div class="info">');
-						li.append('<div class="thum"><img src="/upload/member/'+resp.LessonList[i].id+'/'+resp.LessonList[i].sysname+'"></div>')
+						link.append('<div class="thum"><img src="/upload/member/'+resp.LessonList[i].id+'/'+resp.LessonList[i].sysname+'"></div>')
 						info.append('<div class="tit">'+resp.LessonList[i].title+'</div>')
 						info.append('<div class="txtBox">'+resp.LessonList[i].curriculum+' </div>')
 						info.append('<div class="time">진행 기간 : '+resp.LessonList[i].start_date+' ~ '+resp.LessonList[i].end_date+'')
-						li.append(info);
+						link.append(info);
+						li.append(link);
 						$(".tutorClass ul").append(li);
 						$(".txtBox").each(function(){
+							var text = $(this).text();
+							if(text.length >= 50) { 
+								text = text.substring(0,50)+"...";;
+							}
+							$(this).html(text);
+						})	
+						$(".tutorClass .tit").each(function(){
 							var text = $(this).text();
 							if(text.length >= 50) { 
 								text = text.substring(0,50)+"...";;

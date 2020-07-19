@@ -6,7 +6,7 @@
 select:focus, input:focus, checkbox:focus {box-shadow: 0 5px 8px 0 rgba(0,0,0,0.1);}
 
 /* login */
-#login{width:400px; margin:0 auto; font-size:13px;}
+#login{max-width:400px; margin:0 auto; font-size:13px;}
 #login .h1{text-align:center; font-size: 46px; font-family: 'Muli', sans-serif; margin-bottom: 20px; font-weight: 700;}
 #login input{ width:100%; padding:12px; margin-bottom:10px; border-radius:5px; border:1px solid #ddd;}
 #login .btnS1 input{ margin-bottom:0; padding:0; height:50px; line-height:50px;}
@@ -41,7 +41,7 @@ select:focus, input:focus, checkbox:focus {box-shadow: 0 5px 8px 0 rgba(0,0,0,0.
 .o_box{width:20%; display:inline-block;}
 
 /* 이메일 인증 */
-#loginMail{box-sizing: border-box; width:400px; margin:0 auto; font-size:13px; box-size:border-box;}
+#loginMail{box-sizing: border-box; max-width:400px; margin:0 auto; font-size:13px; box-sizing:border-box;}
 #loginMail h1{text-align:center; font-size: 44px; font-family: 'Muli', sans-serif; margin-bottom: 40px; font-weight: 600;}
 #loginMail .title{margin-top:20px; margin-bottom:5px;}
 #loginMail dt{padding:10px 0 7px; font-weight: 500; font-size:14px;}

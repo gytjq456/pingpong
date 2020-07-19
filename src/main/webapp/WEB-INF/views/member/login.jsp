@@ -6,8 +6,8 @@
 <style>
 	
 </style>
-<div id="subWrap" class="hdMargin" style="padding-top: 155.8px;">
-	<section id="subContents">
+<div id="subWrap" class="hdMargin">
+	<section id="subContents" class="inner1200">
 		<div id="login" class="card_body">
 			<div class="tit_s1">
 				<h2>login</h2>
@@ -51,12 +51,12 @@
 		<input type="hidden" name="kakaoProfile" id="kakaoProfile">
 		<input type="hidden" name="kakaothumnail" id="kakaothumnail">
 		<input type="hidden" name="pw" value="defalut">
-		<!--  <input type="hidden" name="kakaoEmail" id="kakaoEmail">-->
+		<!-- <input type="hidden" name="kakaoEmail" id="kakaoEmail">-->
 	</form>
 	<script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 	<script>
             // @details 카카오톡 Developer API 사이트에서 발급받은 JavaScript Key
-            Kakao.init("67c7c1d4f175618189bdbaf82c2e4f4c");
+            Kakao.init("51c6906054713d4819ea4a7363d66680");
             // @breif 카카오 로그인 버튼을 생성합니다.
             
             function loginFormWithKakao() {
@@ -75,13 +75,26 @@
                                 */
                              // @breif 아이디
                                 document.getElementById("kakaoId").value = res.id;
+                                
+                                /*
+                                var kakaoid = document.getElementById("kakaoId").value;
+                                kakaoid = res.id;
+                                
+                        			var regexid = /^(\d){8,10}/g;
+                        			if(kakaoid.test(id)){
+                        				alert("전화번호 로그인이 불가합니다.");
+                        				return false;
+                        			}
+                                */
+                                
+                                
                                 // @breif 닉네임
                                 document.getElementById("kakaoNickname").value = res.properties.nickname;
                                 document.getElementById("kakaoId").value = res.id;
                                 document.getElementById("kakaoProfile").value = res.properties.profile_image;
                                 document.getElementById("kakaothumnail").value = res.properties.thumbnail_image;
                                 document.getElementById("kakoForm").submit();
-                               
+                                
                             }, fail: function (error) {
                                 alert(JSON.stringify(error));
                             }

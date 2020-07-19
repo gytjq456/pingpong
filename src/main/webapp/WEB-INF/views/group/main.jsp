@@ -3,6 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:include page="/WEB-INF/views/header.jsp"/>
+<style>
+	.detail_msg { margin-top: 10px; color: #aaa; }
+</style>
 <script>
 	$(function(){
 		var firstTab = ${!empty keywordValue || !empty period || !empty hobbyType};
@@ -93,7 +96,7 @@
 						<article id="tab_2" class="calendarSch">
 							<div class="search_as_calendar">
 								<div class="scheduleSchBox">
-									<div><span>기간 선택</span></div>
+									<div class="tit"><span>기간 선택</span></div>
 									<div class="schBar">
 										<p>
 											<label for="date_start" class="calendar_icon"><i class="fa fa-calendar" aria-hidden="true"></i></label>
@@ -107,6 +110,7 @@
 											<input type="text" name="date_end" id="date_end" class="cal_input" readonly>
 										</p>
 									</div>
+									<p class="detail_msg">* 진행 기간 기준으로 검색됩니다.</p>
 								</div>
 								<div class="btnS1 center">
 									<div><button type="button" id="search_cal_btn">검색</button></div>
@@ -333,8 +337,18 @@
     		tabContWrap.find("article:eq("+idx+")").stop().fadeIn();
 		}
 		
-		$('#date_start').datepicker({ dateFormat: 'yy-mm-dd' });
-		$('#date_end').datepicker({ dateFormat: 'yy-mm-dd' });
+		$('#date_start').datepicker({ 
+			dateFormat: 'yy-mm-dd',
+			onClose: function(){
+				if ($('#date_start').val() == "") {
+					return false;
+				}
+				$('#date_end').datepicker({
+					dateFormat: 'yy-mm-dd',
+					minDate: new Date($('#date_start').val())
+				});
+			}
+		});
 		
 		var orderBy = '${param.orderBy}';
 		if (orderBy != null) {
@@ -520,7 +534,23 @@
 				return false;
 			}
 			
-			location.href = '/group/searchDate?start_date=' + dateStart + '&end_date=' + dateEnd + '&orderBy=seq&ing=all';
+			if (dateEnd < dateStart) {
+				alert('끝 날짜는 시작 날짜보다 이전일 수 없습니다.');
+				return false;
+			}
+			 
+			$.ajax({
+				url: '/group/searchDate',
+				data: {start_date: dateStart, end_date: dateEnd, orderBy: 'seq', ing: 'all'},
+				type: 'post'
+			}).done(function(resp){
+				location.href = '/group/main?orderBy=seq&ing=all&schType=keyword';
+			}).fail(function(error1, error2){
+				console.log(error1);
+				console.log(error2);
+			})
+			// location.href = '/group/searchDate?start_date=' + dateStart + '&end_date=' + dateEnd + '&orderBy=seq&ing=all';
+			
 		})
 		
 		$('#search_map_btn').on('click', function(){

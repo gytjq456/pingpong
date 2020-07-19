@@ -90,7 +90,8 @@
 			
 			
 			if("${sessionScope.loginInfo.id}" != "" && "${sessionScope.loginInfo.grade}" == "partner"){
-				var ws  =new WebSocket("ws://localhost/chat");
+				//var ws  =new WebSocket("ws://localhost/chat");
+				var ws  =new WebSocket("ws://pingpong196.com/chat");
 				//var ws  =new WebSocket("ws://192.168.60.58/chat");
 				ws.onopen = function(){
 					var msg = {
@@ -139,17 +140,18 @@
 							var userTag;
 							//console.log(record.length)
 							 for(var i=0; i<record.length; i++){
+								 console.log(record)
 								if(record[i].sendUser == "${sessionScope.loginInfo.name}"){
 									var userInfo_s1 = $("<div class='userInfo_s1 my'>");
 									var info = $("<div class='info'>"); 
 									userInfo_s1.append("<div class='info'><p class='userId'>"+record[i].sendUser+"</p>")
-									userInfo_s1.append("<div class='thumb'><img src='/resources/img/sub/userThum.jpg'>")
+									userInfo_s1.append("<div class='thumb'><img src='/upload/member/${sessionScope.loginInfo.id}/"+record[i].thumNail+"'>")
 									userInfo_s1.append("<div class='chatTxt'><span class='writeDate'>"+record[i].writeDate+"</span><p>"+record[i].chatRecord+"</p>")
 									//userTag.append(userInfo_s1);
 									$(".chatBox .txtRow").append(userInfo_s1);	
 								}else{
 									var userInfo_s1 = $("<div class='userInfo_s1 other'>");
-									userInfo_s1.append("<div class='thumb'><img src='/resources/img/sub/userThum.jpg'>")
+									userInfo_s1.append("<div class='thumb'><img src='/upload/member/"+uid+"/"+record[i].thumNail+"'>")
 									userInfo_s1.append("<div class='info'><p class='userId'>"+record[i].sendUser+"</p>")
 									userInfo_s1.append("<div class='chatTxt'><p>"+record[i].chatRecord+"</p><span class='writeDate'>"+record[i].writeDate+"</span>")
 									//userTag.append(userInfo_s1);
@@ -163,7 +165,8 @@
 							type:"register",
 							userid:"${sessionScope.loginInfo.id}",
 							userName:"${sessionScope.loginInfo.name}",
-							targetId:uid
+							targetId:uid,
+							thumNail:"${sessionScope.loginInfo.sysname}"
 						}
 						ws.send(JSON.stringify(msg));
 					}).fail(function(){
@@ -207,9 +210,10 @@
 						}
 					}
 					if(msg.type == "message"){
+						console.log(msg)
 						var userInfo_s1 = $("<div class='userInfo_s1 other'>");
-						userInfo_s1.append("<div class='thumb'><img src='/resources/img/sub/userThum.jpg'>")
-						userInfo_s1.append("<div class='info'><p class='userId'>2222"+msg.userName+"</p>")
+						userInfo_s1.append("<div class='thumb'><img src='/upload/member/"+uid+"/"+msg.thumNail+"'>")
+						userInfo_s1.append("<div class='info'><p class='userId'>"+msg.userName+"</p>")
 						userInfo_s1.append("<div class='chatTxt'><p>"+msg.text+"</p><span class='writeDate'>"+msg.date+"</span></div>")
 						$(".chatBox .txtRow").append(userInfo_s1);
 						var rightPos = $("#chatWrap #chatRoom").css("right").replace(/[^-\d\.]/g, '');
@@ -250,7 +254,7 @@
 					var chatTxt = txtInput.text();
 					var userInfo_s1 = $("<div class='userInfo_s1 my'>");
 					userInfo_s1.append("<div class='info'><p class='userId'>${sessionScope.loginInfo.name}</p>")
-					userInfo_s1.append("<div class='thumb'><img src='/resources/img/sub/userThum.jpg'>")
+					userInfo_s1.append("<div class='thumb'><img src='/upload/member/${sessionScope.loginInfo.id}/${sessionScope.loginInfo.sysname}'>")
 					userInfo_s1.append("<div class='chatTxt'><span class='writeDate'>"+timeResult+"</span><p>"+chatTxt+"</p>")
 					
 					var msg = {
@@ -260,7 +264,8 @@
 						userid:"${sessionScope.loginInfo.id}",
 						userName:"${sessionScope.loginInfo.name}",
 						date: timeResult,
-						targetId:uid
+						targetId:uid,
+						thumNail:"${sessionScope.loginInfo.sysname}"
 					};
 					
 					$(".chatBox .txtRow").append(userInfo_s1);

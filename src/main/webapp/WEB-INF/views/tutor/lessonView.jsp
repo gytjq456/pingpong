@@ -5,7 +5,7 @@
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=521d781cfe9fe7597693f2dc29a10601&libraries=services"></script>
 
  <style>
-
+	#magam{text-decoration: none;}
 	.refund_guid { line-height:1.6; }
 	.refund_guid li { margin-bottom:6px; position:relative; padding-left:12px;}
 	.refund_guid li:last-child { margin:0; }
@@ -297,33 +297,75 @@ $(function(){
 		});
 		
 		
+		var winW = $(window).width();
+		fixedTap(winW)
 		var headHeight = $("header").height();
-		$(".tab_s2 ul li").click(function(){
-			var idx = $(this).index()+1;
-			var topPos = $("#tab_"+idx).offset().top;
-			$(".tab_s2 ul li").removeClass("on")
-			$(this).addClass("on");
-			if($(".tab_s2").hasClass("fixed")){
-				$("html,body").stop().animate({
-					scrollTop:topPos - headHeight - 80
-				})
-			}else{
-				$("html,body").stop().animate({
-					scrollTop:topPos - headHeight - 160
-				})
-			}
+		$(window).resize(function(){
+			headHeight = $("header").height();
+			fixedTap(winW)
 		})
 		
-		var menuObj = $("#group_tab_menu");
-		var menuTopPos = menuObj.offset().top;
-		$(window).scroll(function(){
-			var scrollTop = $(this).scrollTop();
-			if(menuTopPos <= scrollTop + headHeight){
-				menuObj.addClass("fixed");
+		function fixedTap(winW){
+			if(winW > 1200){
+				$(".tab_s2 ul li").click(function(){
+					var idx = $(this).index()+1;
+					var topPos = $("#tab_"+idx).offset().top;
+					$(".tab_s2 ul li").removeClass("on")
+					$(this).addClass("on");
+					if($(".tab_s2").hasClass("fixed")){
+						$("html,body").stop().animate({
+							scrollTop:topPos - headHeight - 80
+						})
+					}else{
+						$("html,body").stop().animate({
+							scrollTop:topPos - headHeight - 160
+						})
+					}
+				})		
+				
+				var menuObj = $("#group_tab_menu");
+				var menuTopPos = menuObj.offset().top;
+				$(window).scroll(function(){
+					var scrollTop = $(this).scrollTop();
+					if(menuTopPos <= scrollTop + headHeight){
+						menuObj.addClass("fixed");
+					}else{
+						menuObj.removeClass("fixed");
+					}
+				})				
 			}else{
-				menuObj.removeClass("fixed");
-			}
-		})
+				$(".tab_s2 ul li").click(function(){
+					var idx = $(this).index()+1;
+					var topPos = $("#tab_"+idx).offset().top;
+					$(".tab_s2 ul li").removeClass("on")
+					$(this).addClass("on");
+					if($(".tab_s2").hasClass("mfixed")){
+						$("html,body").stop().animate({
+							scrollTop:topPos - headHeight - 80
+						})
+					}else{
+						$("html,body").stop().animate({
+							scrollTop:topPos - headHeight - 160
+						})
+					}
+				})
+				
+				var menuObj = $("#group_tab_menu");
+				var menuTopPos = menuObj.offset().top;
+				$(window).scroll(function(){
+					var scrollTop = $(this).scrollTop();
+					if(menuTopPos <= scrollTop + headHeight){
+						menuObj.addClass("mfixed");
+					}else{
+						menuObj.removeClass("mfixed");
+					}
+				})				
+			}			
+		}
+		
+		
+		
+		
 		
 		$(".reviewDelete").click(function(){
 			var result = confirm("리뷰를 삭제하시겠습니까?");
@@ -441,7 +483,14 @@ $(function(){
 					<li><a href="#;">강의문의</a></li>
 					<li><a href="#;">환불안내</a></li>
 					<li><a href="#;">리뷰</a></li>
-					<li id="pay"><a href="#;">결제하기</a></li>
+					<c:choose>
+						<c:when test="${loginInfo.grade != 'tutor' && ldto.applying == 'Y'}">
+							<li id="pay"><a href="#;">결제하기</a></li>
+						</c:when>
+						<c:when test="${ldto.applying == 'N'}">
+							<li id="magam"><a>모집마감</a></li>
+						</c:when>
+					</c:choose>
 				</ul>
 			</div>			
 
@@ -550,40 +599,32 @@ $(function(){
 											<p class="userId">${loginInfo.id }</p>
 										</div>
 									</div>
-									<c:if test="${empty tuteeList}">
-										<div>
-											<textarea name="contents" id="textCont" class="not_member" placeholder="수강 학생만 작성할 수 있습니다." readonly></textarea>
-										</div>
-									</c:if>
-									<c:forEach var="i" items="${tuteeList }">
-										<c:choose>
-											<c:when test="${sessionScope.loginInfo.id !=i.id} ||${sessionScope.loginInfo.id != ldto.id }">
-												<div>
-													<textarea name="contents" id="textCont" class="not_member" placeholder="수강 학생만 작성할 수 있습니다." readonly></textarea>
-												</div>
-											</c:when>
-											<c:otherwise>
-												<div>
-													<textarea name="contents" id="textCont"></textarea>
-													<div class="wordsize"><span class="current">0</span>/1000</div>
-												</div>
-											</c:otherwise>
-										</c:choose>
-									</c:forEach>
+									
+									<c:choose>
+										<c:when test="${sessionScope.loginInfo.id != tuteedto.id}">
+											<div>
+												<textarea name="contents" id="textCont" class="not_member" placeholder="수강 학생만 작성할 수 있습니다." readonly></textarea>
+											</div>
+										</c:when>
+										<c:otherwise>
+											<div>
+												<textarea name="contents" id="textCont"></textarea>
+												<div class="wordsize"><span class="current">0</span>/1000</div>
+											</div>
+										</c:otherwise>
+									</c:choose>
 
 								</div>
-								<c:forEach var="i" items="${tuteeList }">
-									<c:choose>
-										<c:when test="${sessionScope.loginInfo.id ==i.id || sessionScope.loginInfo.id == ldto.id}">
-											<div class="btnS1 right">
-												<div><input type="submit" value="작성" class="on"></div>
-												<div>
-													<input type="reset" value="취소">
-												</div>
-											</div>					
-										</c:when>
-									</c:choose>
-								</c:forEach>	
+								<c:choose>
+									<c:when test="${sessionScope.loginInfo.id ==tuteedto.id || sessionScope.loginInfo.id == ldto.id}">
+										<div class="btnS1 right">
+											<div><input type="submit" value="작성" class="on"></div>
+											<div>
+												<input type="reset" value="취소">
+											</div>
+										</div>					
+									</c:when>
+								</c:choose>
 							</form>
 						</div>
 					</div>	

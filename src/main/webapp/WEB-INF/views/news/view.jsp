@@ -3,6 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
 
 <jsp:include page="/WEB-INF/views/header.jsp"/>
+	<style>
+		#listStyle1 .title {    white-space: break-spaces;}
+	</style>
 
 	<script>
 	$(function(){
@@ -36,6 +39,8 @@
 			}
 			
 		});
+		
+		
 	});
 		
 	</script>
@@ -77,7 +82,7 @@
 														<li>${ndto.start_date} ~ ${ndto.end_date}</li>
 													</c:when>
 													<c:otherwise>
-														<li>&nbsp;</li>
+														<li>-</li>
 													</c:otherwise>
 												</c:choose>
 											</ul>
@@ -88,11 +93,11 @@
 											<ul>
 												<li>행사장소</li>
 												<c:choose>
-													<c:when test="${not empty ndto.location}">
+													<c:when test="${ndto.location != '  '}">
 														<li>${ndto.location}</li>
 													</c:when>
 													<c:otherwise>
-														<li>&nbsp;</li>
+														<li>-</li>
 													</c:otherwise>
 												</c:choose>
 											</ul>
@@ -121,10 +126,11 @@
 							</div>												
 						</div>
 						<div class="btnS1 center">
-							<button type="button" id="back">목록</button>
+							<button type="button" id="back" style="display:inline-block;float:right;">목록</button>
 							<c:if test="${sessionScope.loginInfo.id == ndto.writer}">
-								<button type="button" id="modify">수정</button>
-								<button type="button" id="delete">삭제</button>
+								<button type="button" id="modify" style="display:inline-block; margin-right:20px; float:right;">수정</button>
+								<button type="button" id="delete" style="display:inline-block; margin-right:20px; float:right;">삭제</button>
+
 							</c:if>
 						</div>
 					</div>

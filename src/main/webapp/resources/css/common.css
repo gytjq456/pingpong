@@ -70,4 +70,10 @@ footer #ftTop .sns ul li a img { width:100%; }
 .modal { z-index:10001; }
 .modal-backdrop {z-index:10000; }
 
+
+
+.mClose,
+.mMenu { display:none; }
+
+
  

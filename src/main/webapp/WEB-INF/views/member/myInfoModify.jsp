@@ -36,7 +36,7 @@
 
     <div id="subWrap" class="hdMargin" style="padding-top: 155.8px;">
 		<section id="subContents">
-			<div id="joinForm">
+			<div id="joinForm" class="modifyJoin">
 				<div class="tit_s1">
 					<h2>MEMBER</h2>
 					<p>다양한 사람들을 원하시나요?<br>관심사가 비슷한 사람들과 함께 소통해 보세요.</p>
@@ -154,10 +154,10 @@
 						</div>
 					</div>
 					
-					<div class="se_singup">
+					<div class="se_singup prifileWrap">
 						<div class="title">프로필 사진</div>
 						<div class="se_con">
-							<p><img src="/upload/member/${sessionScope.loginInfo.id}/${sessionScope.loginInfo.sysname}"></p>
+							<p class="img"><img src="/upload/member/${sessionScope.loginInfo.id}/${sessionScope.loginInfo.sysname}"></p>
 							<div>
 								<button type="button" class="modyBtn">수정</button>
 								<div class="show_input">

@@ -12,7 +12,7 @@
                 <article class="item item1">
 					<div class="txt_box">
 		                <h2>Enjoy Your Language Life </h2>
-		                <a href="#;">이용가이드</a>
+		                <a href="/guide/info">이용가이드</a>
 		            </div>
                 </article>
                 <article class="item item2">
@@ -21,11 +21,6 @@
 		                <a href="/partner/partnerList?align=recent">바로가기</a>
 		            </div>
                 </article>
-                <!-- <article class="item item3">
-					<div class="txt_box">
-		                <h2>텍스트 텍스트 텍스트 텍스트 텍스트 </h2>
-		            </div>
-                </article> -->
             </div>
             
         </section>
@@ -39,6 +34,13 @@
 				<p>현재 모집중인 그룹 모임과 전문가와 함께하는 수업입니다.</p>
 			</div>		
 			<div class="inner1200 clearfix">
+				<article class="scheduleWrap">
+					<jsp:include page="schedule.jsp"/>
+					<div class="tip">
+						<p>진행중인 일정을 확인 할 수 있습니다.</p>
+						<p>진행 기간 기준으로 노출이 됩니다.</p>
+					</div>
+				</article>
 				<article class="classList">
 					<div class="classWrap">
 						<section class="groupClass">
@@ -57,13 +59,6 @@
 								</ul>
 							</div>
 						</section>
-					</div>
-				</article>
-				<article class="scheduleWrap">
-					<jsp:include page="schedule.jsp"/>
-					<div class="tip">
-						<p>진행중인 일정을 확인 할 수 있습니다.</p>
-						<p>진행 기간 기준으로 노출이 됩니다.</p>
 					</div>
 				</article>
 			</div>
@@ -224,12 +219,15 @@
 						    var marker = new kakao.maps.Marker({
 						        map: map, // 마커를 표시할 지도
 						        position: positions[i].latlng, // 마커의 위치
-						        image: markerImage // 마커이미지 설정 
+						        image: markerImage, // 마커이미지 설정 
+						        clickable: true
 						    });
 						    
+							var iwRemoveable = true;
 						    // 마커에 표시할 인포윈도우를 생성합니다 
 						    var infowindow = new kakao.maps.InfoWindow({
-						        content: positions[i].content // 인포윈도우에 표시할 내용
+						        content: positions[i].content, // 인포윈도우에 표시할 내용
+						        removable : iwRemoveable
 						    });
 							
 						    // 마커에 mouseover 이벤트와 mouseout 이벤트를 등록합니다
@@ -237,6 +235,8 @@
 						    // for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
 						    kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
 						    kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
+						    kakao.maps.event.addListener(marker, 'mousemove', makeOutListener(infowindow));
+						    kakao.maps.event.addListener(marker, 'click', makeOverListener(map, marker, infowindow));
 						}
 			
 						// 인포윈도우를 표시하는 클로저를 만드는 함수입니다 

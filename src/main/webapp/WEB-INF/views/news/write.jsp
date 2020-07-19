@@ -43,16 +43,22 @@
 									<h4>기간</h4>
 									<span class="notice">* 모집기간이 있을 경우에만 작성해주세요.</span>
 								</div>
-								<div class="group_sub_input calendar_wrapper">						
-									<label for="apply_start" class="calendar_icon">
-										<i class="fa fa-calendar" aria-hidden="true"></i>
-									</label>
-									<input type="text" name="start_date" id="apply_start" class="cal_input" readonly>
-									<span class="between_calendar">~</span>
-									<label for="apply_end" class="calendar_icon">
-										<i class="fa fa-calendar" aria-hidden="true"></i>
-									</label>
-									<input type="text" name="end_date" id="apply_end" class="cal_input" readonly>
+								<div class="group_sub_input calendar_wrapper">	
+									<div>
+										<label for="apply_start" class="calendar_icon">
+											<i class="fa fa-calendar" aria-hidden="true"></i>
+										</label>
+										<input type="text" name="start_date" id="apply_start" class="cal_input" readonly>
+									</div>
+									<div>
+										<span class="between_calendar">~</span>
+									</div>
+									<div>
+										<label for="apply_end" class="calendar_icon">
+											<i class="fa fa-calendar" aria-hidden="true"></i>
+										</label>
+										<input type="text" name="end_date" id="apply_end" class="cal_input" readonly>
+									</div>					
 								</div>
 							</div>
 							
@@ -63,13 +69,15 @@
 								</div>
 								<div class="news_sub_input">
 									<div class="se_con">
-										<div class="post_code">
-											<input type="text" name="postcode" id="sample3_postcode" class="post_css" placeholder="우편번호">
-											<span class="btnS1"><input type="button" id="postbtn" value="우편번호 찾기" class="post_btn on"></span>
+										<div class="post_code clearfix">
+											<p><input type="text" name="postcode" id="sample3_postcode" class="post_css" placeholder="우편번호"></p>
+											<p><span class="btnS1"><input type="button" id="postbtn" value="우편번호 찾기" class="post_btn on"></span></p>
 										</div>
-										<input type="text" name="address" id="sample3_address" class="address_css" placeholder="주소">
-										<input type="text" name="detailAddress" id="sample3_detailAddress" class="addressD_css" placeholder="상세주소">
-										<input type="text" name="extraAddress" id="sample3_extraAddress" class="addressR_css" placeholder="참고항목">
+										<div class="post_input clearfix">
+											<p><input type="text" name="address" id="sample3_address" class="address_css" placeholder="주소"></p>
+											<p><input type="text" name="detailAddress" id="sample3_detailAddress" class="addressD_css" placeholder="상세주소"></p>
+											<p><input type="text" name="extraAddress" id="sample3_extraAddress" class="addressR_css" placeholder="참고항목"></p>
+										</div>
 										
 										<div id="wrap" style="display:none;border:1px solid;width:500px;height:300px;margin:5px 0;position:relative">
 											<img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="foldDaumPostcode(wrap)" alt="접기 버튼">

@@ -4,7 +4,7 @@
 	
 	<insert id="newsInsert">
 		insert into news values(
-			news_seq.nextval, #{ndto.title}, #{ndto.writer}, #{ndto.category}, #{ndto.start_date}, #{ndto.end_date},
+			news_seq.nextval, #{ndto.title}, #{ndto.writer}, #{ndto.category}, to_timestamp(#{ndto.start_date}, 'yyyy-mm-dd hh24:mi:ss'), to_timestamp(#{ndto.end_date}, 'yyyy-mm-dd hh24:mi:ss'),
 			#{ndto.location}, #{ftndto.sysname}, #{ndto.files_name}, #{ndto.contents}, default, 0, 0, 0
 		)
 	</insert>

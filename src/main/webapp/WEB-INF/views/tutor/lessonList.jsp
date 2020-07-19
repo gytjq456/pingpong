@@ -287,7 +287,7 @@
 				<article id="tab_2" class="calendarSch <c:if test="${schType == 'schedule'}">on</c:if>">
 					<div class="search_as_calendar">
 						<div class="scheduleSchBox">
-							<div><span>수업기간</span></div>
+							<div class="tit"><span>수업기간</span></div>
 							<div class="schBar">
 								<p>
 								<label for="start_date" class="calendar_icon"> 

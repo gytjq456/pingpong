@@ -65,6 +65,12 @@
 	#group_view .group_info { float:none; width:100% !important;}
 	#group_view #group_contents { border-right:none; min-height:inherit;}
 	#group_view #group_optional { border-top:1px solid #ddd; padding-top:20px; margin-top:20px; padding-left:0; }
+	
+	/* 튜터목록 */
+	#list_s2 ul li { width:32%; margin-right:2%;}
+	#list_s2 ul li:nth-child(4n) { margin-right:2%}
+	#list_s2 ul li:nth-child(3n) { margin-right:0}
+	
 }
 
 
@@ -118,6 +124,13 @@
 	.back_and_wrap:nth-child(3) {
 	    margin-top: 35px;
 	}		
+	
+	
+	/* 튜터목록 */
+	#list_s2 ul li { width:49%; margin-right:2%;}
+	#list_s2 ul li:nth-child(3n) { margin-right:2%}
+	#list_s2 ul li:nth-child(2n) { margin-right:0}	
+	#list_s2 ul li .name { font-size:16px; }  
 	
 }
 
@@ -244,6 +257,9 @@
 	.back_and_wrap:nth-child(2) {
 	    margin-top: 35px;
 	}		
+	
+	/* 튜터목록 */
+	#list_s2 ul li { width:100% !important; margin-right:0;}
 }
 
 

@@ -541,7 +541,7 @@ public class MemberController {
 
 	/* sns jsp */
 	@RequestMapping("snsSignUp")
-	public String snsSignUp(String mem_type, String kakaoId, String kakaoNickname, String kakaoProfile, String pw, Model model) throws Exception {
+	public String snsSignUp(String mem_type, String kakaoId, String kakaoNickname, String kakaoEmail, String kakaoProfile, String pw, Model model) throws Exception {
 		System.out.println(kakaoProfile + "  profile");
 		
 		MemberDTO mdto = new MemberDTO();
@@ -575,11 +575,12 @@ public class MemberController {
 			mdto.setMem_type(mem_type);
 			mdto.setId(kakaoId);
 			mdto.setName(kakaoNickname);
+			mdto.setEmail(kakaoEmail);
 			mdto.setPw(pw);
 			mdto.setSysname(kakaoProfile);
 			model.addAttribute("mdto", mdto);
 
-			return "redirect:/";
+			return "/member/snsSignUp";
 		}
 
 	}
@@ -588,7 +589,7 @@ public class MemberController {
 	@RequestMapping("snsSingUpProc")
 	public String snsSingUpProc(MemberDTO mdto) throws Exception {
 		mservice.memberInsertSns(mdto);
-		return "redirect:/member/memberComplete";
+		return "redirect:/";
 	}
 	
 	// 파트너 / 튜터 목록 가져오기 //

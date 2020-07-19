@@ -93,7 +93,7 @@
 						<article id="tab_2" class="calendarSch">
 							<div class="search_as_calendar">
 								<div class="scheduleSchBox">
-									<div><span>기간 선택</span></div>
+									<div class="tit"><span>기간 선택</span></div>
 									<div class="schBar">
 										<p>
 											<label for="date_start" class="calendar_icon"><i class="fa fa-calendar" aria-hidden="true"></i></label>

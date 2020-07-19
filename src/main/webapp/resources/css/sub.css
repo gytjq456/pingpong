@@ -238,7 +238,10 @@ width:-webkit-calc(100% - 108px);
 #group_view .info_with_icon { float:left; width:25%; position: relative; text-align: center; padding-bottom: 20px; padding-top: 40px; vertical-align: top; }
 #group_view .info_with_icon i { font-size:30px; margin-bottom: 15px; }
 #group_view #group_tab_menu { width: 100%; }
-#group_view #group_tab_menu.fixed { position:fixed; top:156px; z-index:9998; left:0; background:#fff; border-right:none; }
+#group_view #group_tab_menu.mfixed,
+#group_view #group_tab_menu.fixed { position:fixed; top:153px; z-index:9998; left:0; background:#fff; border-right:none; }
+#group_view #group_tab_menu.mfixed { top:112px;}
+#group_view #group_tab_menu.mfixed > ul,
 #group_view #group_tab_menu.fixed > ul { max-width:1200px; margin:0 auto;}
 #group_view #group_contents_wrapper { position: relative; }
 #group_view #group_contents { padding-right:30px;box-sizing:border-box;

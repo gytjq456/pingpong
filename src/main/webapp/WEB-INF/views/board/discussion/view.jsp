@@ -162,11 +162,29 @@
 						console.log("qqq"+json);
 						var obj = JSON.parse(json);
 						console.log("ttt:"+obj.errorCode)
+						if(obj.errorCode == "N2MT01"){
+							alert("source 파라미터가 필요합니다.");
+						}
 						if(obj.errorCode == "N2MT04" || obj.errorCode == "N2MT02"){
 							alert("지원하지 않는 언어 입니다.");
 						}
+						if(obj.errorCode == "N2MT03"){
+							alert("target 파라미터가 필요합니다.");
+						}
 						if(obj.errorCode == "N2MT05"){
 							alert("원본언어와 동일합니다.");
+						}
+						if(obj.errorCode == "N2MT06"){
+							alert("source->target 번역기가 없습니다.");
+						}
+						if(obj.errorCode == "N2MT07"){
+							alert("text 파라미터가 필요합니다.");
+						}
+						if(obj.errorCode == "N2MT08"){
+							alert("text 파라미터가 최대 용량을 초과했습니다.");
+						}
+						if(obj.errorCode == "N2MT99"){
+							alert("Internal server errors");
 						}
 						
 						if(obj.errorCode == "undefined"){

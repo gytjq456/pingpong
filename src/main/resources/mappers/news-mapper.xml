@@ -4,7 +4,7 @@
 	
 	<insert id="newsInsert">
 		insert into news values(
-			news_seq.nextval, #{ndto.title}, #{ndto.writer}, #{ndto.category}, to_timestamp(#{ndto.start_date}, 'yyyy-mm-dd hh24:mi:ss'), to_timestamp(#{ndto.end_date}, 'yyyy-mm-dd hh24:mi:ss'),
+			news_seq.nextval, #{ndto.title}, #{ndto.writer}, #{ndto.category}, to_date(#{ndto.start_date}, 'yyyy-mm-dd'), to_date(#{ndto.end_date}, 'yyyy-mm-dd'),
 			#{ndto.location}, #{ftndto.sysname}, #{ndto.files_name}, #{ndto.contents}, default, 0, 0, 0
 		)
 	</insert>
@@ -64,8 +64,12 @@
 	<!-- 수정 파일All -->
 	<update id="modifyProc_news">
 		update news set title= #{title}, writer=#{writer}, category=#{category}
-		, start_date=#{start_date}, end_date=#{end_date}, location=#{location}, contents=#{contents}
+		, start_date= to_timestamp(#{ndto.start_date}, 'yyyy-mm-dd hh24:mi:ss'), end_date= to_timestamp(#{ndto.end_date}, 'yyyy-mm-dd hh24:mi:ss'), location=#{location}, contents=#{contents}
 		where seq = #{seq}
+<!-- 		update news set title= #{title}, writer=#{writer}, category=#{category}
+		, start_date=#{start_date}, end_date=#{end_date}, location=#{location}, contents=#{contents}
+		where seq = #{seq} -->
+		
 	</update>
 
 	<!-- 파일들 select -->

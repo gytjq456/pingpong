@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:include page="/WEB-INF/views/header.jsp"/>
+<!--%load_js_plugin("ui.datepicker")-->
 <style>
    .detail_msg { margin-top: 10px; color: #aaa; }
 </style>
@@ -244,6 +245,9 @@
    </div>
    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=033532d2fa35e423d2d5e723c0bfd1fe&libraries=services"></script>
    <script>
+   	$(function(){
+   		
+   	
       console.log("${searchType}")
       var ing = ${param.ing != null};
       if (ing) {
@@ -727,5 +731,6 @@
             }
          }, 100)
       }
+   	})
    </script>
 <jsp:include page="/WEB-INF/views/footer.jsp"/>

@@ -115,7 +115,7 @@
 				alert("총 파일용량 30MB을 초과했습니다.");
 				return false;
 			}
-			if(fileVal==null){
+			if(fileVal==""){
 				alert("사용하지 않는 파일은 지워주세요.");
 				return false;
 			}

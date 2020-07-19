@@ -224,7 +224,8 @@
 			
 			var regexnum = /^[0-9]+$/g;
 			var result_num = regexnum.test(priceVal);
-			var result_num2 = regexnum.test(max_numVal);
+			var regexnum2 = /^[0-9]+$/g;
+			var result_num2 = regexnum2.test(max_numVal);
 			
 			if (titleVal.length == 0) {
 				alert("제목을 입력해주세요");
@@ -287,7 +288,7 @@
 				return false;
 			}
 			if(!result_num2){
-				alert("인원은 숫자만 입력해 주세요.");
+				alert("최대 인원은 숫자만 입력해 주세요.");
 				return false;
 			}
 			

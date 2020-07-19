@@ -176,63 +176,62 @@ $(function(){
       var end = $("#apply_end");
       var thumbnail = $("#thumbnail");
 
-      
-      if(title.val() == ""){
-         alert("제목을 입력해주세요");
-         $("#title").focus();
-         return false;
-      }
-      
-      if(category.val() == ""){
-         alert("카테고리를 입력해주세요");
-         $('#category').focus();
-         return false;
-      }
-      
-      if(start.val() != ""){
-         if(end.val() == ""){
-            alert("끝나는 기간을 알려주세요.");
-            end.focus();
-            return false;
-         }
-      }
-      
-      if(contents.val() == ""){
-         alert("내용를 입력해주세요");
-         $('div.note-editable').focus();
-         return false;
-      }
-      
-      //프로필 넣었는지 안넣었는지
-      if(thumbnail.val() == ""){
-         alert("썸네일을 입력해주세요");
-         $('#thumbnail').focus();
-         return false;
-      }
-      
-      //파일 용량 체크
-      var limit = 1024*1024*30;
-      if(limit < totalSize){
-         alert("파일용량 30MB을 초과했습니다. 파일을 삭제해주세요");
-         return false;
-      }
-      if(thumbnail == ""){
-         alert("썸네일을 입력해주세요");
-         thumbnail.focus();
-         return false;
-      }
-      
-      
-      var noteObj = $(".note-editable");
-      var replaceId  = /(script)/gi;
-      if(noteObj.text().match(replaceId)){
-         alert("부적절한 내용이 들어가있습니다.")
-         noteObj.focus();
-         noteObj.html("")
-         return false;
-      }
-   });
-   
+		if(title.val() == ""){
+			alert("제목을 입력해주세요");
+			$("#title").focus();
+			return false;
+		}
+		
+		if(category.val() == ""){
+			alert("카테고리를 입력해주세요");
+			$('#category').focus();
+			return false;
+		}
+		
+		if(start.val() != ""){
+			if(end.val() == ""){
+				alert("끝나는 기간을 알려주세요.");
+				end.focus();
+				return false;
+			}
+		}
+		
+		if(contents.val() == ""){
+			alert("내용를 입력해주세요");
+			$('div.note-editable').focus();
+			return false;
+		}
+		
+		//프로필 넣었는지 안넣었는지
+		if(thumbnail.val() == ""){
+			alert("썸네일을 입력해주세요");
+			$('#thumbnail').focus();
+			return false;
+		}
+		
+		//파일 용량 체크
+		var limit = 1024*1024*30;
+		if(limit < totalSize){
+			alert("파일용량 30MB을 초과했습니다. 파일을 삭제해주세요");
+			return false;
+		}
+		if(thumbnail == ""){
+			alert("썸네일을 입력해주세요");
+			thumbnail.focus();
+			return false;
+		}
+		
+		
+		var noteObj = $(".note-editable");
+		var replaceId  = /(script)/gi;
+		if(noteObj.text().match(replaceId)){
+			alert("부적절한 내용이 들어가있습니다.")
+			noteObj.focus();
+			noteObj.html("")
+			return false;
+		}
+	});
+	
 });
 
 

@@ -62,6 +62,37 @@ $(function(){
 		}
 	})
 	
+	
+	// 타이틀 글자수 체크
+	$("#discussion_write").find("#title").keyup(function(){
+		var word = $(this).val();
+		var wordSize = word.length;
+		console.log(wordSize)
+		if(wordSize <= 100){
+			$(this).siblings(".wordsize").find(".current").text(wordSize);
+		}else{
+			word = word.substr(0,100);
+			$(this).siblings(".wordsize").find(".current").text(word.length);
+			$(this).val(word);
+			alert("제목은  100자 이하로 등록해 주세요")
+		}
+		
+	})
+	$("#discussion_write").find("#caution").keyup(function(){
+		var word = $(this).val();
+		var wordSize = word.length;
+		console.log(wordSize)
+		if(wordSize <= 100){
+			$(this).siblings(".wordsize").find(".current").text(wordSize);
+		}else{
+			word = word.substr(0,1000);
+			$(this).siblings(".wordsize").find(".current").text(word.length);
+			$(this).val(word);
+			alert("주의사항은  1000자 이하로 등록해 주세요")
+		}
+	})
+	
+	
 })
 function textChk(thisVal, obj){
 	var replaceId  = /(script)/gi;
@@ -71,9 +102,11 @@ function textChk(thisVal, obj){
         	console.log(obj)
         	if(obj.val().length){
 	        	obj.val("");
+	        	$(".wordsize .current").text("0");
 	        	textVal = obj.val();
         	}else{
 	        	obj.html("");
+	        	$(".wordsize .current").text("0");
 	        	textVal = obj.val();
         	}
         }
@@ -115,6 +148,7 @@ function uploadSummernoteImageFile(file, editor) {
 								<h4>토론 주제</h4>
 							</div>
 							<input type="text" name="title" id="title">
+							<div class="wordsize"><span class="current">0</span>/100</div>
 						</section>
 						
 						<section>
@@ -143,6 +177,7 @@ function uploadSummernoteImageFile(file, editor) {
 							</div>
 							<div>
 								<textarea name="caution" id="caution"></textarea>
+								<div class="wordsize"><span class="current">0</span>/1000</div>
 							</div>
 						</section>
 						<div class="btnS1 right">

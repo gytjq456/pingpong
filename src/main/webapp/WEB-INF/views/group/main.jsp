@@ -3,6 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:include page="/WEB-INF/views/header.jsp"/>
+<style>
+	.detail_msg { margin-top: 10px; color: #aaa; }
+</style>
 <script>
 	$(function(){
 		var firstTab = ${!empty keywordValue || !empty period || !empty hobbyType};
@@ -107,6 +110,7 @@
 											<input type="text" name="date_end" id="date_end" class="cal_input" readonly>
 										</p>
 									</div>
+									<p class="detail_msg">* 진행 기간 기준으로 검색됩니다.</p>
 								</div>
 								<div class="btnS1 center">
 									<div><button type="button" id="search_cal_btn">검색</button></div>

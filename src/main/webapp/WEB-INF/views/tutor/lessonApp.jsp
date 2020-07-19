@@ -143,37 +143,27 @@
 		});
 
 		$("#price").blur(function() {
-			var regexnum = /^[0-9]+$/g;
 			var priceVal = $(this).val();
-			var result_num = regexnum.test(priceVal);
-			
 			if (priceVal>300000) {
 				alert("최대 금액은 30만원입니다.");
-				$(this).val('');
+				$(this).val('300000');
+				return false;
 			}else if(priceVal < 100){
 				alert("최소 금액은 100원입니다.");
-				$(this).val('');
-			}
-			if(!result_num){
-				alert("숫자만 입력해 주세요.");
+				$(this).val('100');
 				return false;
 			}
 		})
 		
-		$("#max_num").focusout(function() {
-			var regexnum = /^[0-9]+$/g;
+		$("#max_num").blur(function() {
 			var maxVal = $(this).val();
-			var result_num = regexnum.test(maxVal);
-			
 			if(maxVal<5){
 				alert("최소 5명입니다.");
-				$(this).val('');
+				$(this).val('5');
+				return false;
 			}else if(maxVal>30){
 				alert("최대 30명입니다.");
-				$(this).val('');
-			}
-			if(!result_num){
-				alert("숫자만 입력해 주세요.");
+				$(this).val('30');
 				return false;
 			}
 		})
@@ -232,6 +222,10 @@
 			var gugunVal = $("#gugun1").val();
 			var location_latVal = $("#location_lat").val();
 			
+			var regexnum = /^[0-9]+$/g;
+			var result_num = regexnum.test(priceVal);
+			var result_num2 = regexnum.test(max_numVal);
+			
 			if (titleVal.length == 0) {
 				alert("제목을 입력해주세요");
 				$("#title").focus();
@@ -286,6 +280,14 @@
 			}
 			if (summernoteVal.length == 0) {
 				alert("내용을 입력해주세요");
+				return false;
+			}
+			if(!result_num){
+				alert("가격은 숫자만 입력해 주세요.");
+				return false;
+			}
+			if(!result_num2){
+				alert("인원은 숫자만 입력해 주세요.");
 				return false;
 			}
 			

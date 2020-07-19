@@ -17,7 +17,21 @@
 			}
 		});
 		
-
+		
+		$("#modifyProc").submit(function(){
+			var noteObj = $(".note-editable");
+			if(noteObj.text() == "" && !noteObj.find("img").length){
+				alert("내용을 입력해주세요")
+				noteObj.focus();	
+				return false;
+			}
+			if(noteObj.text().replace(/\s|　/gi, "").length == 0 && !noteObj.find("img").length){
+				alert("공백만 입력할 수 없습니다.")
+				noteObj.focus();	
+				return false;
+			}
+		})
+		
 	})
 	function uploadSummernoteImageFile(file, editor) {
 		data = new FormData();
@@ -46,7 +60,7 @@
 				<p>새 질문 게시하기</p>
 			</div>
 			<div class="card_body">
-				<form action="/correct/modifyProc" method="post">
+				<form action="/correct/modifyProc" method="post" id="modifyProc">
 					<input type="hidden" name="seq" value="${dto.seq}"> <input
 						type="hidden" name="writer" value="${dto.writer}"> <input
 						type="hidden" name="language" value="${dto.language}">

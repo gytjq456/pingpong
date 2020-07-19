@@ -42,6 +42,14 @@ $(function(){
 			titleObj.val("");
 			titleObj.focus();
 			return false;
+		}else if(noteObj.text() == "" && !noteObj.find("img").length){
+			alert("내용을 입력해주세요")
+			noteObj.focus();	
+			return false;
+		}else if(noteObj.text().replace(/\s|　/gi, "").length == 0 && !noteObj.find("img").length){
+			alert("공백만 입력할 수 없습니다.")
+			noteObj.focus();	
+			return false;
 		}else if(cautionVal.replace(/\s|　/gi, "").length == 0){
 			alert("주의사항을 입력해주세요.")
 			cautionObj.val("");
@@ -49,11 +57,7 @@ $(function(){
 			return false;
 		}
 		
-		if(noteObj.text() == ""){
-			alert("내용을 입력해주세요.니다.")
-			noteObj.focus();	
-			return false;
-		}
+
 		
 		// noteObj.text() == ""
 		/* else if(noteObj.text().replace(/\s|　/gi, "").length == 0){

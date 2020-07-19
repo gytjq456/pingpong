@@ -82,7 +82,7 @@
 														<li>${ndto.start_date} ~ ${ndto.end_date}</li>
 													</c:when>
 													<c:otherwise>
-														<li>&nbsp;</li>
+														<li>-</li>
 													</c:otherwise>
 												</c:choose>
 											</ul>
@@ -93,11 +93,11 @@
 											<ul>
 												<li>행사장소</li>
 												<c:choose>
-													<c:when test="${not empty ndto.location}">
+													<c:when test="${ndto.location != '  '}">
 														<li>${ndto.location}</li>
 													</c:when>
 													<c:otherwise>
-														<li>&nbsp;</li>
+														<li>-</li>
 													</c:otherwise>
 												</c:choose>
 											</ul>

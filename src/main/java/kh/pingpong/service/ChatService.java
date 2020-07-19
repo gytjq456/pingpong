@@ -81,10 +81,12 @@ public class ChatService {
 		String userid = (String) jsonObj.get("userid");
 		String userName = (String) jsonObj.get("userName");
 		String date = (String) jsonObj.get("date");
+		String thumNail = (String) jsonObj.get("thumNail");
 		chatDto.setRoomId(chatRoom);
 		chatDto.setSendUser(userName);
 		chatDto.setChatRecord(txt);
 		chatDto.setWriteDate(date);
+		chatDto.setThumNail(thumNail);
 		int result = chatDao.chatTxtInsert(chatDto);
 		return result;
 	}

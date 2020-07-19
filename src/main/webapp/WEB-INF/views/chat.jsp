@@ -140,17 +140,18 @@
 							var userTag;
 							//console.log(record.length)
 							 for(var i=0; i<record.length; i++){
+								 console.log(record)
 								if(record[i].sendUser == "${sessionScope.loginInfo.name}"){
 									var userInfo_s1 = $("<div class='userInfo_s1 my'>");
 									var info = $("<div class='info'>"); 
 									userInfo_s1.append("<div class='info'><p class='userId'>"+record[i].sendUser+"</p>")
-									userInfo_s1.append("<div class='thumb'><img src='/upload/member/${sessionScope.loginInfo.id}/${sessionScope.loginInfo.sysname}")
+									userInfo_s1.append("<div class='thumb'><img src='/upload/member/${sessionScope.loginInfo.id}/"+record[i].thumNail+"'>")
 									userInfo_s1.append("<div class='chatTxt'><span class='writeDate'>"+record[i].writeDate+"</span><p>"+record[i].chatRecord+"</p>")
 									//userTag.append(userInfo_s1);
 									$(".chatBox .txtRow").append(userInfo_s1);	
 								}else{
 									var userInfo_s1 = $("<div class='userInfo_s1 other'>");
-									userInfo_s1.append("<div class='thumb'><img src='/upload/member/${sessionScope.loginInfo.id}/${sessionScope.loginInfo.sysname}")
+									userInfo_s1.append("<div class='thumb'><img src='/upload/member/"+uid+"/"+record[i].thumNail+"'>")
 									userInfo_s1.append("<div class='info'><p class='userId'>"+record[i].sendUser+"</p>")
 									userInfo_s1.append("<div class='chatTxt'><p>"+record[i].chatRecord+"</p><span class='writeDate'>"+record[i].writeDate+"</span>")
 									//userTag.append(userInfo_s1);

@@ -297,33 +297,75 @@ $(function(){
 		});
 		
 		
+		var winW = $(window).width();
+		fixedTap(winW)
 		var headHeight = $("header").height();
-		$(".tab_s2 ul li").click(function(){
-			var idx = $(this).index()+1;
-			var topPos = $("#tab_"+idx).offset().top;
-			$(".tab_s2 ul li").removeClass("on")
-			$(this).addClass("on");
-			if($(".tab_s2").hasClass("fixed")){
-				$("html,body").stop().animate({
-					scrollTop:topPos - headHeight - 80
-				})
-			}else{
-				$("html,body").stop().animate({
-					scrollTop:topPos - headHeight - 160
-				})
-			}
+		$(window).resize(function(){
+			headHeight = $("header").height();
+			fixedTap(winW)
 		})
 		
-		var menuObj = $("#group_tab_menu");
-		var menuTopPos = menuObj.offset().top;
-		$(window).scroll(function(){
-			var scrollTop = $(this).scrollTop();
-			if(menuTopPos <= scrollTop + headHeight){
-				menuObj.addClass("fixed");
+		function fixedTap(winW){
+			if(winW > 1200){
+				$(".tab_s2 ul li").click(function(){
+					var idx = $(this).index()+1;
+					var topPos = $("#tab_"+idx).offset().top;
+					$(".tab_s2 ul li").removeClass("on")
+					$(this).addClass("on");
+					if($(".tab_s2").hasClass("fixed")){
+						$("html,body").stop().animate({
+							scrollTop:topPos - headHeight - 80
+						})
+					}else{
+						$("html,body").stop().animate({
+							scrollTop:topPos - headHeight - 160
+						})
+					}
+				})		
+				
+				var menuObj = $("#group_tab_menu");
+				var menuTopPos = menuObj.offset().top;
+				$(window).scroll(function(){
+					var scrollTop = $(this).scrollTop();
+					if(menuTopPos <= scrollTop + headHeight){
+						menuObj.addClass("fixed");
+					}else{
+						menuObj.removeClass("fixed");
+					}
+				})				
 			}else{
-				menuObj.removeClass("fixed");
-			}
-		})
+				$(".tab_s2 ul li").click(function(){
+					var idx = $(this).index()+1;
+					var topPos = $("#tab_"+idx).offset().top;
+					$(".tab_s2 ul li").removeClass("on")
+					$(this).addClass("on");
+					if($(".tab_s2").hasClass("mfixed")){
+						$("html,body").stop().animate({
+							scrollTop:topPos - headHeight - 80
+						})
+					}else{
+						$("html,body").stop().animate({
+							scrollTop:topPos - headHeight - 160
+						})
+					}
+				})
+				
+				var menuObj = $("#group_tab_menu");
+				var menuTopPos = menuObj.offset().top;
+				$(window).scroll(function(){
+					var scrollTop = $(this).scrollTop();
+					if(menuTopPos <= scrollTop + headHeight){
+						menuObj.addClass("mfixed");
+					}else{
+						menuObj.removeClass("mfixed");
+					}
+				})				
+			}			
+		}
+		
+		
+		
+		
 		
 		$(".reviewDelete").click(function(){
 			var result = confirm("리뷰를 삭제하시겠습니까?");

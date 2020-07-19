@@ -45,9 +45,6 @@ $(function(){
               changeMonth: true,
               minDate : new Date($("#apply_start").val()),
               onClose: function( selectedDate ) {
-              	if($("#apply_start").val() == ""){
-              		return false;
-              	}
                   // 종료일(toDate) datepicker가 닫힐때
                   // 시작일(fromDate)의 선택할수있는 최대 날짜(maxDate)를 선택한 종료일로 지정 
                   $("#apply_start").datepicker( "option", "maxDate", selectedDate );
@@ -196,8 +193,8 @@ $(function(){
 			if(end.val() == ""){
 				alert("끝나는 기간을 알려주세요.");
 				end.focus();
+				return false;
 			}
-			return false;
 		}
 		
 		if(contents.val() == ""){

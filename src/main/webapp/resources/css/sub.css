@@ -454,9 +454,13 @@ textarea { resize:none; height:120px; line-height:1.6;}
 #new_view .count_news_eye li{display:inline-block; padding:0 0 0 10px;}
 #new_view .count_news_eye li i{font-size: 20px; display: inline-block; vertical-align: text-top; color: #b3b3b3; margin-right: 4px;}
 #new_view #se_con{overflow:auto;}
-#new_view #se_con .imgbox{width:40%; float:left; margin-right:5%;}
+#new_view #se_con .imgbox{width:400px; height:400px; float:left; margin-right:60px;}
 #new_view #se_con .imgbox img{width:100%;}
-#new_view #se_con .textbox{width:55%; float:left;}
+#new_view #se_con .textbox{ float:left;
+width:calc(100% - 460px);
+-moz-width:calc(100% - 460px);
+-webkit-width:calc(100% - 460px);
+}
 #new_view #se_con .textbox .downloadF{padding:0 0 8px 0; display:block;}
 #new_view .contents{width:100%; overflow:hidden; word-wrap:break-word; margin-top:36px;}
 #new_view .textbox .tb_se ul{font-size:14px;}

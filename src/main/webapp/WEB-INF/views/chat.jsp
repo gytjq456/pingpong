@@ -184,12 +184,14 @@
 					for(var i=0; i<msg.length; i++){
 						if(msg[i].type == "login"){
 							var chatList = $("#chatList .list ul li");
-							chatList.each(function(){
-								var idx = $(this).index();
-								if(chatList.eq(idx).find("button").data("uid") == msg[i].userid){
-									$(this).addClass("on");
-								}
-							})
+							setTimeout(function(){
+								chatList.each(function(){
+									var idx = $(this).index();
+									if(chatList.eq(idx).find("button").data("uid") == msg[i].userid){
+										$(this).addClass("on");
+									}
+								})
+							},1000);
 						}
 					}
 					if(msg.type == "logout"){

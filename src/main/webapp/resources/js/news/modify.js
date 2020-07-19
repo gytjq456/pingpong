@@ -16,7 +16,7 @@ $(function(){
 		}
 	});
 	
-	/** 달력 **/
+	/** 달력 
 	//오늘 날짜를 출력
     $("#today").text(new Date().toLocaleDateString());
 
@@ -49,7 +49,7 @@ $(function(){
           })
         }                
     });
-	
+	**/
 	
 	/** 다음 지도 **/
 	$("#postbtn").click(function(){

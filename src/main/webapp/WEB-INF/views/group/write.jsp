@@ -283,6 +283,7 @@
 				alert("내용을 입력해주세요")
 				noteObj.focus();	
 				return false;
+			}
 			if(noteObj.text().replace(/\s|　/gi, "").length == 0 && !noteObj.find("img").length){
 				alert("공백만 입력할 수 없습니다.")
 				noteObj.focus();	

@@ -57,10 +57,7 @@ public class PartnerController {
 		String email = request.getParameter("email"); // 받는 사람 이메일
 		String subject = request.getParameter("subject"); // 제목
 		String contents = request.getParameter("contents"); // 내용
-		System.out.println(setfrom);
-		System.out.println(email);
-		System.out.println(subject);
-		System.out.println(contents);
+		
 		try {
 			MimeMessage message = mailSender.createMimeMessage();
 			MimeMessageHelper messageHelper = new MimeMessageHelper(message,
@@ -68,9 +65,9 @@ public class PartnerController {
 			
 			messageHelper.setFrom(setfrom); // 보내는사람 생략하면 정상작동을 안함
 			messageHelper.setTo(pemail); // 받는사람 이메일
-			messageHelper.setSubject(subject); // 메일제목은 생략이 가능하다
-			messageHelper.setText(contents); // 메일 내용
-
+			messageHelper.setSubject("[PINGPONG]"+setfrom + "님이 보낸 메일입니다."); // 메일제목은 생략이 가능하다
+			messageHelper.setText(contents); // 메일 내용 
+	
 			mailSender.send(message);
 			return true;
 		} catch (Exception e) {
@@ -79,8 +76,6 @@ public class PartnerController {
 
 		return result;
 	}
-
-
 
 	//이메일 작성(일단 여기까지는 넘어감)
 	@RequestMapping("selectPartnerEmail")
@@ -95,7 +90,7 @@ public class PartnerController {
 	//이메일 보내기
 	@ResponseBody
 	@RequestMapping("send")
-	public String send(PartnerDTO pdto, MemberDTO mdto,  Model model, HttpServletRequest request, HttpServletResponse response,String subject) throws Exception{
+	public String send(PartnerDTO pdto, MemberDTO mdto,  Model model, HttpServletRequest request, HttpServletResponse response) throws Exception{
 		System.out.println("================== test ================");
 		System.out.println(pdto.getEmail());
 		boolean result = this.mail(request, response, pdto.getEmail());
@@ -226,6 +221,7 @@ public class PartnerController {
 		model.addAttribute("navi", navi);
 		model.addAttribute("hdto", hdto);
 		model.addAttribute("ldto", ldto);
+		model.addAttribute("align", align);
 
 		return "/partner/partnerList";
 	}

@@ -222,6 +222,9 @@
 	/* 멤버  */
 	.tit_s1 h3 { font-size:22px;}
 
+	/* 소식 */
+	.post_input { margin-top:20px;}
+	.post_input > p { width:100%; margin-right:0; margin-bottom:10px;}
 
 	
 }
@@ -306,6 +309,12 @@
 	#list_s2 ul li { width:100% !important; margin-right:0;}
 	
 	#group_view #group_tab_menu.mfixed { top: 102px; }
+	
+	/* 소식 */
+	.calendar_wrapper > div { display:block; }
+	.calendar_wrapper > div input { width:88% !important;}
+	
+	#find_news_write #addFile { padding:2px 14px;top:-14px; } 
 }
 
 

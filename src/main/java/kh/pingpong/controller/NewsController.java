@@ -110,7 +110,7 @@ public class NewsController {
 		
 		//주소변경 시
 		if(!ndto.getAddress().contentEquals("")) {
-			ndto.setLocation(ndto.getAddress() + ndto.getDetailAddress() + ndto.getExtraAddress());
+			ndto.setLocation(ndto.getAddress() + " " + ndto.getDetailAddress() + " " + ndto.getExtraAddress());
 		}
 		FileDTO ftndto = new FileDTO();
 		

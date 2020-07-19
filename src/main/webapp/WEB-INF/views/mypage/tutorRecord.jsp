@@ -48,6 +48,10 @@
 			<div class="listWrap">
 				<section class="session card_body">		
 					<h4>강의 리스트</h4>
+					<span class="notice">*수업 시작 날짜전 환불 요정 - 전액 환불<br>
+							*수업 시작 날짜로부터 1일~10일 경과 - 전체금액 중 2/3 환불<br>
+							*수업 시작 날짜로부터 10일~15일 경과 - 전체금액 중 1/2 환불<br>
+							*수업 시작 날짜로부터 15일 이후 경과 - 환불 금액 없음</span>
 					<c:choose>
 						<c:when test="${loginInfo.grade == 'tutor'}">
 							<c:choose>

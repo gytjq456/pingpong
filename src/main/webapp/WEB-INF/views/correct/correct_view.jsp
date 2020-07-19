@@ -279,6 +279,8 @@
 									<div class="cont">
 										<div class="contents">${u.contents}</div>
 										<div class="countList">
+											<ul>
+											
 											<c:choose>
 												<c:when test="${loginInfo.id == u.id}">
 												
@@ -306,6 +308,7 @@
 													
 												</c:otherwise>
 											</c:choose>
+											</ul>
 										</div>
 									</div>
 								</article>
@@ -329,7 +332,8 @@
 									<div class="cont">
 										<div class="contents">${i.contents}</div>
 										<div class="countList">
-
+											<ul>
+											
 											<c:if test="${loginInfo.id == i.id}">
 												
 													<li>
@@ -355,7 +359,7 @@
 												
 											</c:if>
 
-
+											</ul>
 										</div>
 									</div>
 								</article>

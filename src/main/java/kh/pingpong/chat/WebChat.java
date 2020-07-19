@@ -41,6 +41,7 @@ public class WebChat {
 	private static Set<String> loginList = new HashSet<String>();
 	
 	private static Map<Session,String> test = Collections.synchronizedMap(new HashMap<>());
+	private static Map<String,Session> targetMap = Collections.synchronizedMap(new HashMap<>());
 	
 	// 세션값
 	private HttpSession session;
@@ -74,7 +75,7 @@ public class WebChat {
 		if(type.contentEquals("login")) {
 			loginList.add(message);
 			test.put(session,message);
-			System.out.println(loginList);
+			System.out.println("---"+loginList+"---");
 			synchronized (loginClients) {
 				for(Session client : loginClients) {
 					System.out.println(client.getId());
@@ -88,6 +89,8 @@ public class WebChat {
 		if(type.contentEquals("register")) {
 			//clients에 세션정보와 방의 번호를 저장
 			clients.put(session , chatRoom);
+			System.out.println("session ==" + session);
+			targetMap.put(targetId,session);
 			System.out.println(clients.size());
 			// members 내에 roomNum 방번호가 존재하면 방을 만들지 않음, 존재하지 않으면 방을 만듬
 			boolean memberExist = true;

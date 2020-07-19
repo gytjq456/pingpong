@@ -93,6 +93,19 @@
 				var ws  =new WebSocket("ws://localhost/chat");
 				//var ws  =new WebSocket("ws://192.168.60.58/chat");
 				ws.onopen = function(){
+					$.ajax({
+						url:"/chatting/create",
+						type:"post",
+						dataType:"json",
+						data:{
+							chatMemberId:uid,
+							users:"${sessionScope.loginInfo.name}"
+						}
+					}).done(function(resp){
+						// 채팅방 열림
+						console.log("???"+ resp);
+					});
+					
 					var msg = {
 						type:"login",
 						userid:"${sessionScope.loginInfo.id}",

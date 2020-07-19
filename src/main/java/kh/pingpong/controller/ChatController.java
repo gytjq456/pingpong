@@ -41,7 +41,7 @@ public class ChatController {
 		System.out.println(Arrays.toString(usersIdArray));
 		
 		String chatRoomId = chatService.chatRoomIdSch(usersIdArray[0],usersIdArray[1]);
-		System.out.println("==== 방 ===" + chatRoomId);
+		//System.out.println("==== 방 ===" + chatRoomId);
 		int result = 0;
 		if(chatRoomId == null) {
 			String roomId = chatService.rndTxt();

@@ -532,24 +532,12 @@
 			if (dateStart == '' || dateEnd == '') {
 				alert('시작 날짜와 끝 날짜를 정확히 선택해 주세요.');
 				return false;
-			}
-			
-			if (dateEnd < dateStart) {
+			} else if (dateEnd < dateStart) {
 				alert('끝 날짜는 시작 날짜보다 이전일 수 없습니다.');
 				return false;
 			}
 			 
-			$.ajax({
-				url: '/group/searchDate',
-				data: {start_date: dateStart, end_date: dateEnd, orderBy: 'seq', ing: 'all'},
-				type: 'post'
-			}).done(function(resp){
-				location.href = '/group/main?orderBy=seq&ing=all&schType=keyword';
-			}).fail(function(error1, error2){
-				console.log(error1);
-				console.log(error2);
-			})
-			// location.href = '/group/searchDate?start_date=' + dateStart + '&end_date=' + dateEnd + '&orderBy=seq&ing=all';
+			location.href = '/group/searchDate?start_date=' + dateStart + '&end_date=' + dateEnd + '&orderBy=seq&ing=all';
 			
 		})
 		

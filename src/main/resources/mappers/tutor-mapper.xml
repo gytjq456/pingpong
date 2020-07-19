@@ -18,8 +18,8 @@
 </update>
 
 <!-- 현재 강의 수강중인 튜티 뽑기 -->
-<select id="tuteeList" resultType="kh.pingpong.dto.TuteeDTO">
-	select * from tutee where parent_seq = #{seq}
+<select id="tuteedto" resultType="kh.pingpong.dto.TuteeDTO">
+	select * from tutee where parent_seq = #{parent_seq} and id=#{id}
 </select>
 
 <!-- 결제한사람이 또 결제하는지 -->

@@ -818,7 +818,10 @@ width:-webkit-calc(100% - 60px);
 #jjimManage .listWrap table th { background:#4c98ff; color:#fff; font-weight:700; }
 
 .refund { border:none; background:#fbaab0; color:#fff; border-radius:3px; font-size:12px; padding:3px 10px; }
-
+.tip { margin-bottom:20px; border-bottom:1px solid #ddd; padding-bottom:20px; }
+.tip ul {}
+.tip ul li { line-height:1.6; padding-left:10px; position:relative;}
+.tip ul li:before { content:""; width:4px; height:4px; background:#333; border-radius:50%; display:block; position:absolute; left:0; top:10px;}
 
 
 

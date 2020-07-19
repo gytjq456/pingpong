@@ -210,9 +210,9 @@ public class TutorService {
 	}
 	
 	//해당 게시물의 튜티 뽑기
-	public List<TuteeDTO> tuteeList(int seq) throws Exception{
-		List<TuteeDTO> tuteeList = tdao.tuteeList(seq);
-		return tuteeList;
+	public TuteeDTO tuteedto(Map<Object, Object> ttParam) throws Exception{
+		TuteeDTO tuteedto = tdao.tuteedto(ttParam);
+		return tuteedto;
 	}
 
 	//레슨 페이징 만 이동

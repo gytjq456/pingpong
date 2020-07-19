@@ -180,10 +180,24 @@ function gnbOff(obj){
 function initEvent_m(val){
 	$gnb.children("li").children("a").off("mouseenter");
 	$gnb.children("li").children("a").on("click",function(e){
-		e.preventDefault();
+		if($(this).siblings(".depth2").length){
+			e.preventDefault();
+		}
 		$gnb.find(".depth2").stop().slideUp();
 		$(this).siblings(".depth2").stop().slideDown();
+		
 	});
+	
+	$(".mMenu").click(function(){
+		$("header nav").stop().animate({
+			right:0
+		})
+	})
+	$(".mClose").click(function(){
+		$("header nav").stop().animate({
+			right:-260
+		})
+	})
 	
 
 };

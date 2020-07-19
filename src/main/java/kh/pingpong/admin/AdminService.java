@@ -306,6 +306,11 @@ public class AdminService {
 		return adao.deleteTutee((int)param.get("parent_seq"));
 	}
 	
+	// 튜티 환불
+	public int refundTutee(Map<String, Object> param) {
+		return adao.deleteOne(param);
+	}
+	
 	// 튜터 승인
 	@Transactional("txManager")
 	public int updateTutorApp(int seq, String id) {
@@ -371,9 +376,10 @@ public class AdminService {
 	@Transactional("txManager")
 	public int deleteAll(Map<String, Object> param) {
 		String tableName = param.get("tableName").toString();
+		String pageName = param.get("pageName").toString();
 		if (tableName.contentEquals("partner")) {
 			adao.deleteSelectedPartner(param);
-		} else if (tableName.contentEquals("tutee")) {
+		} else if (tableName.contentEquals("tutee") && pageName.contentEquals("tuteeList")) {
 			Object[] valueList = (Object[])param.get("valueList");
 			int val = 0;
 			for (int i = 0; i < valueList.length; i++) {

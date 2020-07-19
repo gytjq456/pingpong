@@ -36,7 +36,7 @@
 
     <div id="subWrap" class="hdMargin" style="padding-top: 155.8px;">
 		<section id="subContents">
-			<div id="joinForm">
+			<div id="joinForm" class="modifyJoin">
 				<div class="tit_s1">
 					<h2>MEMBER</h2>
 					<p>다양한 사람들을 원하시나요?<br>관심사가 비슷한 사람들과 함께 소통해 보세요.</p>

@@ -34,15 +34,13 @@ $(function(){
 		var noteObj = $(".note-editable");
 		var replaceId  = /(script)/gi;
 		
+		var blank_pattern = /^\s+|\s+$/g;
+
+		
 		if(titleVal.replace(/\s|　/gi, "").length == 0){
 			alert("제목을 입력해주세요.")
 			titleObj.val("");
 			titleObj.focus();
-			return false;
-		}else if(noteObj.text().replace(/\s|　/gi, "").length == 0){
-			alert("내용을 입력해주세요.")
-			noteObj.text("");
-			noteObj.focus();
 			return false;
 		}else if(cautionVal.replace(/\s|　/gi, "").length == 0){
 			alert("주의사항을 입력해주세요.")
@@ -51,6 +49,26 @@ $(function(){
 			return false;
 		}
 		
+		if( noteObj.html().replace(blank_pattern, '' ) == ""){
+			alert("공백만 입력할 수 없습니다.")
+			noteObj.focus();	
+			return false;
+		}
+		
+		alert(noteObj.html())
+		if(noteObj.html() == ""){
+			alert("내용을 입력해주세요.니다.")
+			noteObj.focus();	
+			return false;
+		}
+		
+		// noteObj.text() == ""
+		/* else if(noteObj.text().replace(/\s|　/gi, "").length == 0){
+			alert("내용을 입력해주세요.")
+			noteObj.text("");
+			noteObj.focus();
+			return false;
+		} */
 		
 		var noteObj = $(".note-editable");
 		var replaceId  = /(script)/gi;

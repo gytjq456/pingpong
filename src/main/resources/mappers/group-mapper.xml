@@ -37,7 +37,7 @@
 				</if>
 			</if>
 			<if test="hobby_type != null">
-				<foreach collection="hobby_type" item="hobby_type" open=" and " close="" separator="or">
+				<foreach collection="hobby_type" item="hobby_type" open=" and (" close=")" separator="or">
 					hobby_type like '%${hobby_type}%'
 				</foreach>
 			</if>

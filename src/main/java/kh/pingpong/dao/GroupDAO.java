@@ -37,7 +37,7 @@ public class GroupDAO {
 		String end_date = gdto.getEnd_date();
 
 		SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
-
+ 
 		Date start = fm.parse(start_date);
 		Date end = fm.parse(end_date);
 		

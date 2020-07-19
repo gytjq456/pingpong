@@ -359,8 +359,8 @@ public class GroupController {
 		return "/group/main";
 	}
 	
-	@RequestMapping("searchDate")
-	public String searchDate(String orderBy, String ing, String start_date, String end_date, HttpServletRequest request, Model model) throws Exception {
+	@RequestMapping("searchCal")
+	public String searchCal(String orderBy, String ing, String start_date, String end_date, HttpServletRequest request, Model model) throws Exception {
 		int cpage = 1;
         try {
            cpage = Integer.parseInt(request.getParameter("cpage"));

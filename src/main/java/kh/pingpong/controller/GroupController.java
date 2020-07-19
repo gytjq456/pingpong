@@ -57,6 +57,10 @@ public class GroupController {
         	search.put("ingValue", "Y");
         }
         
+        if (schType == null) {
+        	schType = "keyword";
+        }
+        
         List<HobbyDTO> hblist = gservice.selectHobby();
 		List<GroupDTO> glist = gservice.selectGroupList(cpage, search);
 		

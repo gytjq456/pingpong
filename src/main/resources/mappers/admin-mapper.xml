@@ -110,7 +110,7 @@
 	<!-- 튜티 목록 -->
 	<select id="tuteeList" resultType="kh.pingpong.dto.TuteeDTO">
 		select * from
-		(select tutee.*, row_number() over(order by seq desc) rnum from tutee)
+		(select tutee.*, row_number() over(order by seq desc) rnum from tutee where cancle = 'N')
 		where rnum between #{start} and #{end}
 	</select>
 	

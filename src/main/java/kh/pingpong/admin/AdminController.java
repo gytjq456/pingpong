@@ -640,8 +640,10 @@ public class AdminController {
 			param.put("tableName", "news");
 		}
 		
-		if (pageName.contentEquals("tuteeList") || pageName.contentEquals("refundList")) {
+		if (pageName.contentEquals("tuteeList")) {
 			aservice.deleteTutee(param);
+		} else if (pageName.contentEquals("refundList")) {
+			aservice.refundTutee(param);
 		} else {
 			aservice.deleteOne(param);
 		}
@@ -676,6 +678,7 @@ public class AdminController {
 		} else if (pageName.contentEquals("reportList")) {
 			param.put("tableName", "reportlist");
 		} else if (pageName.contentEquals("tuteeList") || pageName.contentEquals("refundList")) {
+			param.put("pageName", pageName);
 			param.put("tableName", "tutee");
 		} else if (pageName.contentEquals("tutorAppList")) {
 			param.put("tableName", "tutor_app");

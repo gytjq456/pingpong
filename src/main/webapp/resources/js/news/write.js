@@ -3,6 +3,11 @@ $(function(){
 	var totalSize=0;
 	var thumbnail = $("#thumbnail");
 	
+	/** 목록으로 돌이가기 **/
+	$("#back").on("click",function(){
+		location.href="/news/listProc";
+	});
+	
 	/** 타이틀 숫자 카운트 **/
 	$("#title").keyup(function(e){
 		var word = $("#title").val();
@@ -29,21 +34,31 @@ $(function(){
         dateFormat: "yy-mm-dd",             // 날짜의 형식
         minDate: 0,
         onClose: function( selectedDate ) {    
+        	if($("#apply_start").val() == ""){
+        		return false;
+        	}
             // 시작일(apply_start) datepicker가 닫힐때
             // 종료일(toDate)의 선택할수있는 최소 날짜(minDate)를 선택한 시작일로 지정
-            $("#apply_end").datepicker( "option", "minDate", selectedDate );
+           // $("#apply_end").datepicker( "option", "minDate", selectedDate );
+            $('#apply_end').datepicker({
+              dateFormat: "yy-mm-dd",
+              changeMonth: true,
+              minDate : new Date($("#apply_start").val()),
+              onClose: function( selectedDate ) {
+              	if($("#apply_start").val() == ""){
+              		return false;
+              	}
+                  // 종료일(toDate) datepicker가 닫힐때
+                  // 시작일(fromDate)의 선택할수있는 최대 날짜(maxDate)를 선택한 종료일로 지정 
+                  $("#apply_start").datepicker( "option", "maxDate", selectedDate );
+              }                
+          })
         }                
     });
 
-    //종료일
-    $('#apply_end').datepicker({
-        dateFormat: "yy-mm-dd",
-        changeMonth: true,
-        onClose: function( selectedDate ) {
-            // 종료일(toDate) datepicker가 닫힐때
-            // 시작일(fromDate)의 선택할수있는 최대 날짜(maxDate)를 선택한 종료일로 지정 
-            $("#apply_start").datepicker( "option", "maxDate", selectedDate );
-        }                
+    $('#apply_end').on("focus",function(){
+    	var start = $("#apply_start").val();
+    	
     });
 	
 	
@@ -160,6 +175,8 @@ $(function(){
 		var title = $("#title");
 		var category = $('#category');
 		var contents = $("#contents");
+		var start = $("#apply_start");
+		var end = $("#apply_end");
 		var thumbnail = $("#thumbnail");
 
 		
@@ -172,6 +189,14 @@ $(function(){
 		if(category.val() == ""){
 			alert("카테고리를 입력해주세요");
 			$('#category').focus();
+			return false;
+		}
+		
+		if(start.val() != ""){
+			if(end.val() == ""){
+				alert("끝나는 기간을 알려주세요.");
+				end.focus();
+			}
 			return false;
 		}
 		
@@ -189,9 +214,9 @@ $(function(){
 		}
 		
 		//파일 용량 체크
-		var limit = 1024*1024*10;
+		var limit = 1024*1024*30;
 		if(limit < totalSize){
-			alert("파일용량 10MB을 초과했습니다. 파일을 삭제해주세요");
+			alert("파일용량 30MB을 초과했습니다. 파일을 삭제해주세요");
 			return false;
 		}
 		if(thumbnail == ""){

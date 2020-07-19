@@ -231,7 +231,7 @@ public class TutorDAO {
 	}
 	
 	//현재 강의 수강중인 튜티인원 뽑기
-	public List<TuteeDTO> tuteeList(int seq) throws Exception{
-		return mybatis.selectList("Tutor.tuteeList", seq);
+	public TuteeDTO tuteedto(Map<Object, Object> ttParam) throws Exception{
+		return mybatis.selectOne("Tutor.tuteedto", ttParam);
 	}
 }

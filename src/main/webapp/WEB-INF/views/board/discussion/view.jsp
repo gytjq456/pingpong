@@ -250,9 +250,10 @@
 				}).done(function(resp) {
 					if(resp == "cancel"){
 						if(btn.hasClass("comment_likeBtn")){
-							alert("좋아요 취소")
+							alert("좋아요가 취소되었습니다")
 						}else if(btn.hasClass("comment_hateBtn")){
-							alert('싫어요 취소');
+							alert('싫어요가 취소되었습니다');
+							
 						}
 					}else{
 						var isBoolean = JSON.parse(resp);

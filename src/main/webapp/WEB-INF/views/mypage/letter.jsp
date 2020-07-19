@@ -29,6 +29,7 @@
 						</c:when>
 						<c:otherwise>
 							<div class="all_del_btn"><button class="del_selected_let" id="receive_letter">삭제</button></div>
+							<div class="tableWrap">
 							<table>
 								<thead>
 									<tr>
@@ -65,6 +66,7 @@
 									</c:forEach>
 								</tbody>
 							</table>
+							</div>
 						</c:otherwise>
 					</c:choose>
 					<div class="navi_line">${rnavi}</div>
@@ -77,6 +79,7 @@
 						</c:when>
 						<c:otherwise>
 							<div class="all_del_btn"><button class="del_selected_let" id="send_letter">삭제</button></div>
+							<div class="tableWrap">
 							<table>
 								<thead>
 									<tr>
@@ -112,6 +115,7 @@
 									</c:forEach>
 								</tbody>
 							</table>
+							</div>
 						</c:otherwise>
 					</c:choose>
 					<div class="navi_line">${snavi}</div>

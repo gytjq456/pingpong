@@ -21,6 +21,25 @@
 			var thisVal = $(this).val();
 			$(this).val(textChk(thisVal));
 		})
+		
+		
+		
+		
+		// 타이틀 글자수 체크
+		$("#discussion_write").find("#title").keyup(function(){
+			var word = $(this).val();
+			var wordSize = word.length;
+			console.log(wordSize)
+			if(wordSize <= 100){
+				$(this).siblings(".wordsize").find(".current").text(wordSize);
+			}else{
+				word = word.substr(0,100);
+				$(this).siblings(".wordsize").find(".current").text(word.length);
+				$(this).val(word);
+				alert("제목은  100자 이하로 등록해 주세요")
+			}
+		})
+
 
 	})
 
@@ -74,7 +93,8 @@
 						<div class="tit_s3">
 							<h4>제목</h4>
 						</div>
-						<input type="text" name="title" required>
+						<input type="text" name="title" required id="title">
+						<div class="wordsize"><span class="current">0</span>/100</div>
 					</section>
 
 					<section>

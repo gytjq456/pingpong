@@ -17,6 +17,8 @@
 			<div class="groupWrap">
 				<section id="my_group_manage" class="card_body">
 					<div class="cate">주선자</div>
+					<div class="tableWrap">
+					
 					<div class="title_wrap">
 						<div class="my_seq">글번호</div>
 						<div class="my_title">제목</div>
@@ -100,24 +102,26 @@
 							</c:forEach>
 						</c:otherwise>
 					</c:choose>
+					</div>
 					<div class="navi_line">${lnavi}</div>
 				</section>
 				<section id="group_manage" class="card_body">
 					<div class="cate">그룹원</div>
-					<div class="title_wrap">
-						<div class="mem_seq">글번호</div>
-						<div class="mem_title">제목</div>
-						<div class="mem_num">인원</div>
-						<div class="mem_loc">장소</div>
-						<div class="mem_leader">주선자</div>
-						<div class="mem_proceeding">진행</div>
-					</div>
-					<c:choose>
-						<c:when test="${empty gm_list}">
-							<div class="show_app">그룹 멤버로서 기록이 존재하지 않습니다.</div>
-						</c:when>
-						<c:otherwise>
-							<c:forEach var="gm_list" items="${gm_list}">
+					<div class="tableWrap">
+						<div class="title_wrap">
+							<div class="mem_seq">글번호</div>
+							<div class="mem_title">제목</div>
+							<div class="mem_num">인원</div>
+							<div class="mem_loc">장소</div>
+							<div class="mem_leader">주선자</div>
+							<div class="mem_proceeding">진행</div>
+						</div>
+						<c:choose>
+							<c:when test="${empty gm_list}">
+								<div class="show_app">그룹 멤버로서 기록이 존재하지 않습니다.</div>
+							</c:when>
+							<c:otherwise>
+								<c:forEach var="gm_list" items="${gm_list}">
 										<div class="option_wrap">
 											<div class="mem_seq">${gm_list.seq}</div>
 											<div class="mem_title">
@@ -133,8 +137,9 @@
 											</div>
 										</div>
 									</c:forEach>
-						</c:otherwise>
-					</c:choose>
+							</c:otherwise>
+						</c:choose>
+					</div>
 					<div class="navi_line">${mnavi}</div>
 				</section>
 			</div>

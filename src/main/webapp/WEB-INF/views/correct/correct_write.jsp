@@ -39,6 +39,20 @@
 				alert("제목은  100자 이하로 등록해 주세요")
 			}
 		})
+		
+		$("#writeProc").submit(function(){
+			var noteObj = $(".note-editable");
+			if(noteObj.text() == "" && !noteObj.find("img").length){
+				alert("내용을 입력해주세요")
+				noteObj.focus();	
+				return false;
+			}
+			if(noteObj.text().replace(/\s|　/gi, "").length == 0 && !noteObj.find("img").length){
+				alert("공백만 입력할 수 없습니다.")
+				noteObj.focus();	
+				return false;
+			}
+		})
 
 
 	})
@@ -79,7 +93,7 @@
 				<p>새 질문 게시하기</p>
 			</div>
 			<div class="card_body">
-				<form action="/correct/writeProc" method="post">
+				<form action="/correct/writeProc" method="post" id="writeProc">
 					<input type="hidden" value="${sessionScope.loginInfo.name}"
 						name="writer"> 
 						<input type="hidden" value="${sessionScope.loginInfo.id}"

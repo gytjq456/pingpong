@@ -31,6 +31,7 @@
 			$(this).text(textChk(thisVal,$(this)));
 		});
 		
+		
 		function textChk(thisVal, obj){
 			var replaceId  = /(script)/gi;
 			var textVal = thisVal;
@@ -136,6 +137,7 @@
 		
 		$('#contents').summernote({
 			height: 600,
+			lang: "ko-KR",
 			callbacks: {
 				onImageUpload: function(files) {
 					uploadSummernoteImageFile(files[0], this);
@@ -151,15 +153,16 @@
 			data = new FormData();
 			data.append("file", file);
 			$.ajax({
-				data: data,
-				type: "POST",
-				url: "/group/imgUpload",
-				contentType: false,
-				processData: false,
-				success: function(data) {
+				data : data,
+				type : "POST",
+				url : "/summerNote/uploadSummernoteImageFile",
+				contentType : false,
+				processData : false,
+				success : function(data) {
+		        	//항상 업로드된 파일의 url이 있어야 한다.
 					$(editor).summernote('insertImage', data.url);
 				}
-			})
+			});
 		}
 	})
 </script>
@@ -295,6 +298,18 @@
 				noteObj.html("")
 				return false;
 			}
+			
+			var noteObj = $(".note-editable");
+			if(noteObj.text() == "" && !noteObj.find("img").length){
+				alert("내용을 입력해주세요")
+				noteObj.focus();	
+				return false;
+			}
+			if(noteObj.text().replace(/\s|　/gi, "").length == 0 && !noteObj.find("img").length){
+				alert("공백만 입력할 수 없습니다.")
+				noteObj.focus();	
+				return false;
+			}	
 			
 			$('#updateProc').submit();
 		}

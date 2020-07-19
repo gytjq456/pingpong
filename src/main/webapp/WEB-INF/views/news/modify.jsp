@@ -18,6 +18,9 @@
 					<div class="card_body" id="find_news_write">
 						<form action="/news/modifyProc" method="post" enctype="multipart/form-data" id="writeForm">
 							<input type="hidden" name="seq" id="seq" value="${ndto.seq}">
+							<input type="hidden" name="start_date" id="apply_start" value="">
+							<input type="hidden" name="end_date" id="apply_end" value="">
+							
 							<div class="news_write_sub">
 								<div class="tit_s3">
 									<h4>제목</h4>
@@ -48,7 +51,7 @@
 								</select>
 							</div>
 							
-							<div class="news_write_sub">
+							<!--<div class="news_write_sub">
 								<div class="tit_s3">
 									<h4>모집 기간</h4>
 									<span class="notice">* 모집기간이 있을 경우에만 작성해주세요.</span>
@@ -100,6 +103,7 @@
 						        }                
 						    });
 							</script>
+							-->
 							
 							<div class="news_write_sub">
 								<div class="tit_s3">

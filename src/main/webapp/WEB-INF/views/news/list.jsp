@@ -54,6 +54,7 @@
 									<div>${list.writer}</div>
 									<div>유형 : ${list.category}</div>
 									
+									<!--  
 									<c:choose>
 										<c:when test="${not empty list.start_date || not empty list.end_date}">
 											<div>행사기간 : ${list.start_date} ~ ${list.end_date}</div>
@@ -62,6 +63,7 @@
 											<div>&nbsp;&nbsp;</div>
 										</c:otherwise>
 									</c:choose>
+									-->
 									
 									<span>${list.write_date_st}</span>
 									<div class="countList" style="position:static;">

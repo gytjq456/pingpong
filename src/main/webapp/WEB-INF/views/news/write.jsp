@@ -40,7 +40,7 @@
 							
 							<div class="news_write_sub">
 								<div class="tit_s3">
-									<h4>모집 기간</h4>
+									<h4>기간</h4>
 									<span class="notice">* 모집기간이 있을 경우에만 작성해주세요.</span>
 								</div>
 								<div class="group_sub_input calendar_wrapper">						

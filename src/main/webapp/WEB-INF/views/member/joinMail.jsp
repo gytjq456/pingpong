@@ -63,6 +63,7 @@
 					}
 				}).done(function(resp){	
 					alert("인증번호가 발송되었습니다.");
+					$('#code').prop('readonly','');
 					sendEmailCode = resp;
 					console.log(sendEmailCode + "코드");
 					clearInterval(tid);
@@ -167,7 +168,7 @@
 					<dl>
 						<dt>인증번호</dt>
 						<dd>
-							<input type="text" id="code" name="code" placeholder="인증번호 입력해주세요">
+							<input type="text" id="code" name="code" placeholder="인증번호 입력해주세요" readonly="readonly">
 							<span id="timer"></span>
 							<span id="codeCk"></span>
 						</dd>

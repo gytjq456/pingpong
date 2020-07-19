@@ -46,8 +46,7 @@
 				$(this).val('');
 				return false;
 			}
-
-		})
+		});
 		
 		//파일 첨부 여러개
 		$("#fileAdd").on("click", function() {

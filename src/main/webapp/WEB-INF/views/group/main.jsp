@@ -342,6 +342,7 @@
       }
       
       $('#date_start').datepicker({ 
+    	 <!--%load_js_plugin("ui.datepicker")-->
          dateFormat: 'yy-mm-dd',
          onClose: function(){
             if ($('#date_start').val() == "") {
@@ -538,7 +539,7 @@
          } else if (dateEnd < dateStart) {
             alert('끝 날짜는 시작 날짜보다 이전일 수 없습니다.');
          } else {
-         	location.href = '/group/searchDate?start_date=' + dateStart + '&end_date=' + dateEnd + '&orderBy=seq&ing=all';
+         	location.href = '/group/main?orderBy=' + orderByVal + '&ing=all';
          }
       })
       

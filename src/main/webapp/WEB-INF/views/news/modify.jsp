@@ -18,8 +18,8 @@
                <div class="card_body" id="find_news_write">
                   <form action="/news/modifyProc" method="post" enctype="multipart/form-data" id="writeForm">
                      <input type="hidden" name="seq" id="seq" value="${ndto.seq}">
-                     <input type="hidden" name="start_date" value="">
-                     <input type="hidden" name="end_date" value="">
+                     <!-- <input type="hidden" name="start_date" value="">
+                     <input type="hidden" name="end_date" value=""> -->
                      
                      <div class="news_write_sub">
                         <div class="tit_s3">

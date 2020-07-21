@@ -89,8 +89,8 @@
 				
 				
 				if("${sessionScope.loginInfo.id}" != "" && "${sessionScope.loginInfo.grade}" == "partner"){
-					//var ws  =new WebSocket("ws://localhost/");
-					var ws  =new WebSocket("ws://pingpong196.com/");
+					var ws  =new WebSocket("ws://localhost/");
+					//var ws  =new WebSocket("ws://pingpong196.com/");
 					//var ws  =new WebSocket("ws://192.168.60.58/chat");
 					ws.onopen = function(){
 						var msg = {

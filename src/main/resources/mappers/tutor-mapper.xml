@@ -127,7 +127,10 @@
 </resultMap>
 
 <select id="lessonView" resultMap="lessonViewProfile">
-	select * from lesson where seq=#{value}
+	select l.*, m.profile from 
+	lesson l inner join member m
+	on l.id = m.id
+	where seq=#{value}
 </select>
 
 <!-- 튜터 프로필 뿌려주려고 -->
@@ -155,7 +158,10 @@
  
 <!-- 여기서부터 세개 강의리스트 페이징 -->
 <select id="selectLessonList" resultMap="LessonProfile">
-	select * from (select lesson.*, row_number() over(order by ${orderBy} desc) rnum from lesson where pass='Y') 
+	select * from (select l.*, m.profile, row_number() over(order by ${orderBy} desc) rnum 
+	from lesson l inner join member m
+		on l.id = m.id 
+	where pass='Y') 
 	where rnum between #{start} and #{end}
 </select>
 

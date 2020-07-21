@@ -17,8 +17,8 @@
             <div id="tabContWrap">
                <div class="card_body" id="find_news_write">
                   <form action="/news/writeProc" method="post" enctype="multipart/form-data" id="writeForm">
-                     <input type="hidden" name="start_date" value="">
-                     <input type="hidden" name="end_date"value="">
+                     <!-- <input type="hidden" name="start_date" value="">
+                     <input type="hidden" name="end_date"value=""> -->
                      
                      <div class="news_write_sub">
                         <div class="tit_s3">

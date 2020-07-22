@@ -4,7 +4,7 @@
 	
 	<insert id="newsInsert">
 		insert into news values(
-			news_seq.nextval, #{ndto.title}, #{ndto.writer}, #{ndto.category}, to_timestamp(#{ndto.start_date}, 'yyyy-mm-dd hh24:mi:ss'), to_timestamp(#{ndto.end_date}, 'yyyy-mm-dd hh24:mi:ss'),
+			news_seq.nextval, #{ndto.title}, #{ndto.writer}, #{ndto.category}, to_date(#{ndto.start_date}, 'yyyy-mm-dd'), to_date(#{ndto.end_date}, 'yyyy-mm-dd'),
 			#{ndto.location}, #{ftndto.sysname}, #{ndto.files_name}, #{ndto.contents}, default, 0, 0, 0
 		)
 	</insert>
@@ -47,7 +47,7 @@
 	<!-- 수정 프로필 수정 -->
 	<update id="newsUpdate_new">
 		update news set title= #{ndto.title}, writer=#{ndto.writer}, category=#{ndto.category}
-		, start_date=#{ndto.start_date}, end_date=#{ndto.end_date}, location=#{ndto.location}, contents=#{ndto.contents}
+		, start_date= to_date(#{ndto.start_date}, 'yyyy-mm-dd'), end_date= to_date(#{ndto.end_date}, 'yyyy-mm-dd'), location=#{ndto.location}, contents=#{ndto.contents}
 		<if test="ftndto.sysname != null">
 			,thumbnail = #{ftndto.sysname}
 		</if>		
@@ -57,15 +57,21 @@
 	<!-- 수정 파일All -->
 	<update id="newsUpdate_new_filesAll">
 		update news set title= #{title}, writer=#{writer}, category=#{category}
-		, start_date=#{start_date}, end_date=#{end_date}, location=#{location}, contents=#{contents},
+		, start_date = to_date(#{start_date}, 'yyyy-mm-dd'), end_date = to_date(#{end_date}, 'yyyy-mm-dd'), location=#{location}, contents=#{contents},
 		files=#{files_name} where seq = #{seq}
 	</update>
 	
 	<!-- 수정 파일All -->
 	<update id="modifyProc_news">
+	
 		update news set title= #{title}, writer=#{writer}, category=#{category}
-		, start_date=#{start_date}, end_date=#{end_date}, location=#{location}, contents=#{contents}
+		, start_date= to_date(#{start_date}, 'yyyy-mm-dd'), end_date = to_date(#{end_date}, 'yyyy-mm-dd'), location=#{location}, contents=#{contents}
 		where seq = #{seq}
+		
+<!-- 		update news set title= #{title}, writer=#{writer}, category=#{category}
+		, start_date=#{start_date}, end_date=#{end_date}, location=#{location}, contents=#{contents}
+		where seq = #{seq} -->
+		
 	</update>
 
 	<!-- 파일들 select -->

@@ -38,13 +38,14 @@ public class PaymentsController {
 	//결제한사람이 또 결제하는지
 	@RequestMapping("payTrue")
 	@ResponseBody
-	public int payTrue(TuteeDTO ttdto) throws Exception{
+	public int payTrue(TuteeDTO ttdto, Model model) throws Exception{
 		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
 		String id = mdto.getId();
 		System.out.println(ttdto.getParent_seq() + id);
 		ttdto.setId(id);
 		int result = tservice.payTrue(ttdto);
 		System.out.println(result);
+		model.addAttribute("retult", result);
 		return result;
 	}
 

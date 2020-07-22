@@ -594,6 +594,10 @@ button.comment_declaration { background:#fbaab0 !important; border-radius:6px; p
  .tab_s2 ul li.on { }
  .tab_s2 ul li.on button,
  .tab_s2 ul li.on a { background:#f1989f; font-weight:500; color:#fff; }
+ .tab_s2 ul li.off {}
+ .tab_s2 ul li.off a { cursor:default; background:#fafafc;}
+ .tab_s2 ul li.off a:hover,
+ .tab_s2 ul li.off a:focus {background:#fafafc; outline:none;}
  
  /* #tabContWrap { display:none; } */
  #tabContWrap > article { display:none;}

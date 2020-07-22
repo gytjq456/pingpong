@@ -13,7 +13,7 @@
 					<c:otherwise>
 						<div id="card_left">
 							<div id="profile">
-								<img src="/resources/img/sub/userThum.jpg"/>
+								<img src="/upload/member/${trdto.id}/${trdto.sysname}"/>
 							</div>
 							<div class="card_line">
 								<div class="left_left">

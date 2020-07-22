@@ -8,8 +8,14 @@
 		where rnum between #{start} and #{end}
 	</select>
 	
+	
+		<!-- 마이페이지 출력 -->	
+	<resultMap id="MemProfile" type="kh.pingpong.dto.MemberDTO">
+    	<result property="sysname" column="profile"/>
+    	<!-- sysname에 profile을 넣겠다. -->
+    </resultMap>
 	<!-- 회원 뷰 -->
-	<select id="memberView" resultType="kh.pingpong.dto.MemberDTO">
+	<select id="memberView" resultMap="MemProfile">
 		select * from member where id = #{value}
 	</select>
 	
@@ -45,7 +51,7 @@
 	</select>
 	
 	<!-- 튜터 뷰 -->
-	<select id="tutorView" resultType="kh.pingpong.dto.MemberDTO">
+	<select id="tutorView" resultMap="MemProfile">
 		select * from member where grade = 'tutor' and id = #{value}
 	</select>
 	

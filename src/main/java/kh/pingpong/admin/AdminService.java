@@ -375,8 +375,11 @@ public class AdminService {
 	// 체크박스로 여러 개 삭제
 	@Transactional("txManager")
 	public int deleteAll(Map<String, Object> param) {
+		String pageName = "";
 		String tableName = param.get("tableName").toString();
-		String pageName = param.get("pageName").toString();
+		if (param.containsKey("pageName")) {
+		pageName = param.get("pageName").toString();
+		}
 		if (tableName.contentEquals("partner")) {
 			adao.deleteSelectedPartner(param);
 		} else if (tableName.contentEquals("tutee") && pageName.contentEquals("tuteeList")) {

@@ -22,7 +22,8 @@ public class NewsDAO {
 		
 		Map<String, Object> newsAdd = new HashMap<>(); 
 		newsAdd.put("ndto", ndto);
-		newsAdd.put("ftndto", ftndto);		
+		newsAdd.put("ftndto", ftndto);	
+		System.out.println("날짜1 ="+ ndto.getStart_date());
 		
 		return mybatis.insert("News.newsInsert", newsAdd);
 	}

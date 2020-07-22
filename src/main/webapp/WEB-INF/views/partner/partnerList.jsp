@@ -201,10 +201,10 @@
 															<span>이름</span>
 															<p>${plist.name}(${plist.id}, ${plist.age}세, ${plist.gender}) </p>
 														</li>
-														<li>
+														<%-- <li>
 															<span>거주지</span>
 															<p>${plist.address }</p>
-														</li>
+														</li> --%>
 														<li>
 															<span>이메일</span>
 															<p>${plist.email}</p>
@@ -227,7 +227,7 @@
 														</li>
 														<li class="introduce">
 															<span>자기소개</span>
-															<p>${plist.introduce}${plist.introduce}</p>
+															<p>${plist.introduce}</p>
 														</li>
 													</ul>
 												</div>

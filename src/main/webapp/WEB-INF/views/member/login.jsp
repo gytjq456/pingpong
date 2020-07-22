@@ -93,8 +93,20 @@
                                 document.getElementById("kakaoId").value = res.id;
                                 document.getElementById("kakaoProfile").value = res.properties.profile_image;
                                 document.getElementById("kakaothumnail").value = res.properties.thumbnail_image;
-                                document.getElementById("kakoForm").submit();
                                 
+                                var id = $('#kakaoId').val();
+                                
+                                $.ajax({
+                                	url: "/member/isBlackForKakao",
+                                	data: {id: id},
+                                	type: "post"
+                                }).done(function(resp){
+                                	if (resp) {
+                                		alert('블랙리스트로 등록되어 로그인하실 수 없습니다.');
+                                	} else {
+		                                document.getElementById("kakoForm").submit();
+                                	}
+                                })
                             }, fail: function (error) {
                                 alert(JSON.stringify(error));
                             }

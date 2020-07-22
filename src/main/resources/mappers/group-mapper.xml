@@ -213,9 +213,11 @@
 		update grouplist set proceeding = 'Y' where start_date = #{today_date}
 	</update>
 	
-	<select id="relatedGroup" resultType="kh.pingpong.dto.GroupDTO">
+	<select id="relatedGroup" resultMap="GroupProFile">
 		select * from 
-		(select grouplist.*, row_number() over(order by seq desc) rnum from grouplist
+		(select g.*, m.profile, row_number() over(order by seq desc) rnum 
+		from grouplist g inner join member m
+		on g.writer_id = m.id 
 		<foreach collection="list" item="hobby_arr" open="where " close="" separator=" or ">
 			hobby_type like '%${hobby_arr}%'
    		</foreach>

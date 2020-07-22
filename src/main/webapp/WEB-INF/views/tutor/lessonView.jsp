@@ -32,7 +32,27 @@ $(function(){
 		$("#jjim").css('color','rgb(240,7,7)')
 	}
 	
+	
+	
 	//같은사람이 결제하기 또 눌렀는지 확인
+	$.ajax({
+		url:"/payments/payTrue",
+		data:{
+			parent_seq : "${ldto.seq}"
+		},
+		type: "POST"
+	}).done(function(resp){
+		if(resp>0){
+			$("#pay").off("click");
+			$("#pay").addClass("off");
+			$("#pay a").text("결제완료")
+			return false;
+		}
+	}).fail(function(error1, error2) {
+		console.log(error1);
+		console.log(error2);
+	})
+	
 	$("#pay").on("click", function(){
 		var max_numVal = ${ldto.max_num};
 		var cur_numVal = ${ldto.cur_num};
@@ -52,7 +72,7 @@ $(function(){
 			console.log(resp);
 			if(resp>0){
 				alert("이미 결제한 강의 입니다.");
-				location.href="/tutor/lessonView?seq="+seq;
+				//location.href="/tutor/lessonView?seq="+seq;
 				return false;
 			}else{
 				location.href="/payments/payMain?parent_seq=${ldto.seq }&title=${ldto.title}&price=${ldto.price}";
@@ -616,7 +636,7 @@ $(function(){
 
 								</div>
 								<c:choose>
-									<c:when test="${sessionScope.loginInfo.id ==tuteedto.id || sessionScope.loginInfo.id == ldto.id}">
+									<c:when test="${sessionScope.loginInfo.id == tuteedto.id }">
 										<div class="btnS1 right">
 											<div><input type="submit" value="작성" class="on"></div>
 											<div>

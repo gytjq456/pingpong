@@ -316,6 +316,10 @@
             idx = 1;
          } else if (searchType == 'map') {
             var searchLocation = '${param.location}';
+            
+            if (searchLocation == null) {
+            	searchLocation = '서울특별시 중구';
+            }
 
             $('#location').val(searchLocation);
             
@@ -413,6 +417,11 @@
                   return false;
                } else if (tabName == '지도 검색') {
                   var locationVal = $('#location').val();
+                  
+                  if (locationVal == '') {
+                	  locationVal = '서울특별시 중구';
+                  }
+                  
                   location.href = '/group/searchLocation?location=' + locationVal + '&orderBy=' + orderByVal + '&ing=' + ing;
                
                   return false;
@@ -480,6 +489,11 @@
                   return false;
                } else if (tabName == '지도 검색') {
                   var locationVal = $('#location').val();
+                  
+                  if (locationVal == '') {
+                	  locationVal = '서울특별시 중구';
+                  }
+                  
                   location.href = '/group/searchLocation?location=' + locationVal + '&orderBy=' + orderByVal + '&ing=' + ing;
                
                   return false;

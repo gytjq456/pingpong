@@ -241,6 +241,13 @@ public class MemberController {
 		}
 		return result;
 	}
+	
+	/* 카카오 블랙리스트 확인 */
+	@ResponseBody
+	@RequestMapping("isBlackForKakao")
+	public boolean isBlackForKakao(String id) throws Exception {
+		return aservice.isBlacklist(id);
+	}
 
 	/* 로그아웃 */
 	@RequestMapping("logout")

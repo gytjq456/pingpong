@@ -77,6 +77,7 @@ public class NewsController {
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
 		ndto.setWriter(loginInfo.getId());
 		ndto.setLocation(ndto.getAddress() + " " + ndto.getDetailAddress() + " " + ndto.getExtraAddress());
+		System.out.println(ndto.getStart_date() + " " + ndto.getEnd_date() + "날짜");
 		
 		FileDTO ftndto = new FileDTO();
 		// 썸네일 드라이브에 저장

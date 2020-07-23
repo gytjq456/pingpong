@@ -71,25 +71,27 @@
 					time = 180;
 					setTimer();
 					
+					//인증번호 비교
+					$("#code").keyup(function(){			
+						code = $("#code").val();
+						
+						if(sendEmailCode == code){
+							$("#codeCk").text("인증번호가 일치합니다.");
+							clearInterval(tid);
+						}else{
+							$("#codeCk").text("인증번호가 불일치합니다.");
+							clearInterval(tid);
+							setTimer();
+						}
+					});
+					
 				}).fail(function(error1, error2){
 					alert("인증번호 발송이 실패하였습니다.");
 				});
 			}			
 		});	
 		
-		//인증번호 비교
-		$("#code").keyup(function(){			
-			code = $("#code").val();
-			
-			if(sendEmailCode == code){
-				$("#codeCk").text("인증번호가 일치합니다.");
-				clearInterval(tid);
-			}else{
-				$("#codeCk").text("인증번호가 불일치합니다.");
-				clearInterval(tid);
-				setTimer();
-			}
-		});
+		
 		
 		//전체약관
 		$("#ckboxAll").click(function(){
@@ -148,7 +150,6 @@
 					return false;
 				}
 			}
-			return false;
 		});
 	});
 </script>

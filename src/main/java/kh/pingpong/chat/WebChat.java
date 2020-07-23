@@ -109,6 +109,11 @@ public class WebChat {
 
 			members.get(chatRoom).add(session);
 		}
+		
+		if(type.contentEquals("close")) {
+			members.get(chatRoom).remove(session);
+		}
+		
 
 		if(type.contentEquals("message")) {
 			System.out.println("chatRoom===" + chatRoom);

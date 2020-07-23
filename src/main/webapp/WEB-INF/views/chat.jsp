@@ -238,14 +238,24 @@
 						$("#chatRoom").removeClass("on");
 						$("#chatBox .txtRow").html("");
 					})
+					$(".txtInput").html("");
 					txtInput.keyup(function(e){
 						if(e.keyCode == 13){
-							$("#transfer").click();
-							return false;
+							if($(".txtInput").text() == ""){
+								$(".txtInput").html("")
+								return false;		
+							}else{
+								$("#transfer").click();
+								return false;
+							}
 						}
+						return false;
 					})
 					$("#transfer").click(function(){
-						
+						if($(".txtInput").text() == ""){
+							$(".txtInput").html("");
+							return false;
+						}
 						if(theMinutes < 10){
 							theMinutes = "0"+theMinutes
 						}
@@ -280,7 +290,19 @@
 						
 						ws.send(JSON.stringify(msg));	
 					})
-				
+					
+					
+					$("#close").click(function(){
+						
+						var msg = {
+							chatRoom : chatRoom,
+							type:"close",
+							userid:"${sessionScope.loginInfo.id}",
+							userName:"${sessionScope.loginInfo.name}",
+							targetId:uid
+						}
+						ws.send(JSON.stringify(msg));
+					})
 				
 				}
 			})

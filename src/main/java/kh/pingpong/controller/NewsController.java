@@ -77,17 +77,15 @@ public class NewsController {
 		MemberDTO loginInfo = (MemberDTO)session.getAttribute("loginInfo");
 		ndto.setWriter(loginInfo.getId());
 		ndto.setLocation(ndto.getAddress() + " " + ndto.getDetailAddress() + " " + ndto.getExtraAddress());
-<<<<<<< HEAD
 		System.out.println(ndto.getStart_date() + " " + ndto.getEnd_date() + "날짜");
 		
-=======
-		String[] start = ndto.getStart_date().split(",");
+		/*String[] start = ndto.getStart_date().split(",");
 		String[] end = ndto.getEnd_date().split(",");
 		ndto.setStart_date(start[1]);
 		ndto.setEnd_date(end[1]);
 		System.out.println("컨트롤러 ="+ ndto.getStart_date());
-		System.out.println("컨트롤러 ="+ ndto.getEnd_date());
->>>>>>> 0ad9583bbfb4af5c0f772db4ffeae07a52acdbbc
+		System.out.println("컨트롤러 ="+ ndto.getEnd_date());*/
+
 		FileDTO ftndto = new FileDTO();
 		// 썸네일 드라이브에 저장
 		String realPath = session.getServletContext().getRealPath("upload/news/thumbnail/");

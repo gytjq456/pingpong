@@ -1,6 +1,12 @@
 //글쓰기 페이지
 $(function(){
 	var totalSize=0;
+	var thumbnail = $("#thumbnail");
+	
+	$("#back").on("click",function(){
+		location.href="/news/listProc";
+	});
+	
 	
 	/** 타이틀 숫자 카운트 **/
 	$("#title").keyup(function(e){
@@ -16,41 +22,7 @@ $(function(){
 		}
 	});
 	
-	/** 달력 
-	//오늘 날짜를 출력
-    $("#today").text(new Date().toLocaleDateString());
-
-    //datepicker 한국어로 사용하기 위한 언어설정
-    $.datepicker.setDefaults($.datepicker.regional['ko']);
-    
-  //시작일.
-    $('#apply_start').datepicker({
-        dateFormat: "yy-mm-dd",             // 날짜의 형식
-        minDate: 0,
-        onClose: function( selectedDate ) {    
-        	if($("#apply_start").val() == ""){
-        		return false;
-        	}
-            // 시작일(apply_start) datepicker가 닫힐때
-            // 종료일(toDate)의 선택할수있는 최소 날짜(minDate)를 선택한 시작일로 지정
-           // $("#apply_end").datepicker( "option", "minDate", selectedDate );
-            $('#apply_end').datepicker({
-              dateFormat: "yy-mm-dd",
-              changeMonth: true,
-              minDate : new Date($("#apply_start").val()),
-              onClose: function( selectedDate ) {
-              	if($("#apply_start").val() == ""){
-              		return false;
-              	}
-                  // 종료일(toDate) datepicker가 닫힐때
-                  // 시작일(fromDate)의 선택할수있는 최대 날짜(maxDate)를 선택한 종료일로 지정 
-                  $("#apply_start").datepicker( "option", "maxDate", selectedDate );
-              }                
-          })
-        }                
-    });
-	**/
-	
+		
 	/** 다음 지도 **/
 	$("#postbtn").click(function(){
 		/* Daum map */
@@ -106,44 +78,6 @@ $(function(){
 		}
 	});
 	
-	/** 첨부파일 삭제 **/
-	$(".x").click(function(){
-		var data_seq = $(this).data('seq');
-		var files_name = $(this).data('files_name');
-		alert(data_seq);
-		
-		$.ajax({
-			type : "post",
-			url : "/news/dele_fileOne",
-			data:{
-				seq : data_seq,
-				files_name : files_name,
-				category : "news"
-			}
-		}).done(function(resp){
-			alert(resp);
-			if(resp>0){
-				alert("첨부파일이 삭제되었습니다.");
-				location.href="/news/modify?seq="+data_seq;
-			}
-			
-		}).fail(function(error1,error2){
-			alert("관리자에게 문의주세요.")
-		});
-	});
-	
-	/** 첨부파일 **/
-	var countf = 0;
-	$("#addFile").click(function(){	
-		var count = $(".f_all ul li").length;
-		if(count<3){
-			$("#fileSpace").append(
-					"<div class='file_box'><input type='file' name='files' class='files'> <button type='button' class='minus'>-</button></div>"
-			);
-		}else{
-			alert("파일은 3개 까지 생성 가능합니다.");
-		}		
-	});
 	
 	//첨부파일 용량 제한하기
 	$("#fileSpace").on('change','input[type=file]',function(e){
@@ -163,9 +97,28 @@ $(function(){
 		console.log(totalSize);
 	});
 	
+	//파일 첨부한거 지우기 / 사이즈도 같이지우기
+	   $("#fileSpace input[type='file']").on('change',function(){
+		   alert('들어왔니?');
+		   var f = $(this)[0];
+		   var size = f.size || f.fileSize;
+           alert(size + " 파일 사이즈");
+		   
+	       
+	            totalSize = totalSize-size;
+	            console.log(totalSize);
+	            $(this).parent().remove();
+	            return false;
+	   });
+	
 	//보내기 전에 용량 체크
 	$("#writeForm").submit(function(){
-	
+		//파일 용량 체크
+		var limit = 1024*1024*30;
+		if(limit < totalSize){
+			alert("파일용량 30MB을 초과했습니다. 파일을 삭제해주세요");
+			return false;
+		}
 		
 	});
 	

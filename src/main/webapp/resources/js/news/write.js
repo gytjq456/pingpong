@@ -103,9 +103,8 @@ $(function(){
       var size = f.size || f.fileSize;
       console.log(f.size + ":" +f.fileSize);
       var limit = 1024*1024*10; //바이트
-      var limitAll = 1024*1024*30; //바이트
-      if(size>limitAll){
-         alert("총 파일용량이 30MB을 초과했습니다.");
+      if(size>limit){
+         alert("총 파일용량이 10MB을 초과했습니다.");
          $(this).val("");
          return false;
       }

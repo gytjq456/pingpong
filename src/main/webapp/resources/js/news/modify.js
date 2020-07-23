@@ -87,29 +87,14 @@ $(function(){
 		var size = f.size || f.fileSize;
 		console.log(f.size + ":" +f.fileSize);
 		var limit = 1024*1024*10; //바이트
-		var limitAll = 1024*1024*30; //바이트
-		if(size>limitAll){
-			alert("총 파일용량이 30MB을 초과했습니다.");
+		if(size>limit){
+			alert("총 파일용량이 10MB을 초과했습니다.");
 			$(this).val("");
 			return false;
 		}
 		totalSize = totalSize+size;
 		console.log(totalSize);
 	});
-	
-	//파일 첨부한거 지우기 / 사이즈도 같이지우기
-	   $("#fileSpace input[type='file']").on('change',function(){
-		   alert('들어왔니?');
-		   var f = $(this)[0];
-		   var size = f.size || f.fileSize;
-           alert(size + " 파일 사이즈");
-		   
-	       
-	            totalSize = totalSize-size;
-	            console.log(totalSize);
-	            $(this).parent().remove();
-	            return false;
-	   });
 	
 	//보내기 전에 용량 체크
 	$("#writeForm").submit(function(){

@@ -164,7 +164,6 @@ public class NewsController {
 	/* 글 정렬 */
 	@RequestMapping("schAlign")
 	public String schAlign(HttpServletRequest request, String schAlign, Model model) throws Exception{
-		System.out.println(schAlign + "  아쿠");
 		int cpage =1;
 		try {
 			cpage = Integer.parseInt(request.getParameter("cpage"));

@@ -43,6 +43,7 @@ public class MemberDAO {
 		Map<String, Object> memberAdd = new HashMap<>();
 		memberAdd.put("mdto",mdto);
 		memberAdd.put("fdto",fdto);
+		System.out.println("회원가입 DAO 1");
 		return mybatis.insert("Member.memberInsert",memberAdd);
 	}
 	

@@ -41,7 +41,7 @@ public class MemberService {
 	}
 	
 	@Transactional("txManager")
-	public int memberInsert(MemberDTO mdto, FileDTO fdto) throws Exception{	
+	public int memberInsert(MemberDTO mdto, FileDTO fdto) throws Exception{
 		int result = mdao.memberInsert(mdto,fdto);
 		mdao.memberFile(fdto);
 		String[] language = mdto.getLang_learn().split(",");

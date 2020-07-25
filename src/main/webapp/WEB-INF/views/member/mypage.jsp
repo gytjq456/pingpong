@@ -104,7 +104,6 @@
 							</li>
 						</ul>
 					</div>
-					<%-- <img src ="/upload/member/${mdto.id}/${mdto.sysname}"> --%>
 				</form>
 				
 				<div class="btnS1 right">

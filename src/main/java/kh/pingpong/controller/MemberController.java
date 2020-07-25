@@ -72,7 +72,7 @@ public class MemberController {
 		String host = "smtp.naver.com";
 		// 발송자 : 관리자 이메일
 		String user = "gptjs1124@naver.com"; // 자신의 네이버 계정
-		String password = "gpffh_5125";// 자신의 네이버 패스워드
+		String password = "gpffh^5125";// 자신의 네이버 패스워드
 
 		// 메일 받을 주소
 		String to_email = userMail;

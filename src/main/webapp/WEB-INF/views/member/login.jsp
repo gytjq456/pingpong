@@ -23,20 +23,13 @@
 			</div>
 			
 			
-			<div class="loginBtn">
-				
+			<div class="loginBtn">				
 				<div class="btnS1 center ">
 					<input type="button" value="Login" id="isIdPwSame">
 				</div>
 				<a id="login-form-btn" href="#;" onclick="loginFormWithKakao()">
 					<span class="icon"><img src="/resources/img/login/kakao_login_large_wide.png" alt="카카오 로그인"></span>
 				</a>
-				<!-- 네이버 로그인 창으로 이동 
-				<div id="naver_id_login" style="text-align:center">
-					<a href="${url}">
-						<img width="223" src="https://developers.naver.com/doc/review_201802/CK_bEFnWMeEBjXpQ5o8N_20180202_7aot50.png"/>
-					</a>
-				</div>-->
 			</div>
 
 			<div id="other_text">
@@ -70,27 +63,9 @@
                         Kakao.API.request({
                             url: "/v2/user/me",
                             success: function (res) {
-                                /*
-                                	res.id
-                                	res.kaccount_email
-                                	res.properties.nickname;
-                               		res.properties.profile_image;
-                               		res.properties.thumbnail_image;
-                                */
-                             // @breif 아이디
+                               
+                             	// @breif 아이디
                                 document.getElementById("kakaoId").value = res.id;
-                                
-                                /*
-                                var kakaoid = document.getElementById("kakaoId").value;
-                                kakaoid = res.id;
-                                
-                        			var regexid = /^(\d){8,10}/g;
-                        			if(kakaoid.test(id)){
-                        				alert("전화번호 로그인이 불가합니다.");
-                        				return false;
-                        			}
-                                */
-                                
                                 
                                 // @breif 닉네임
                                 document.getElementById("kakaoNickname").value = res.properties.nickname;

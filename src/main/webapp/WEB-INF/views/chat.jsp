@@ -216,21 +216,27 @@
 						}
 						if(msg.type == "message"){
 							console.log(msg)
-							var userInfo_s1 = $("<div class='userInfo_s1 other'>");
-							userInfo_s1.append("<div class='thumb'><img src='/upload/member/"+uid+"/"+msg.thumNail+"'>")
-							userInfo_s1.append("<div class='info'><p class='userId'>"+msg.userName+"</p>")
-							userInfo_s1.append("<div class='chatTxt'><p>"+msg.text+"</p><span class='writeDate'>"+msg.date+"</span></div>")
-							$(".chatBox .txtRow").append(userInfo_s1);
+							console.log("방 =" + chatRoom)
+							console.log("방 =" + msg.chatRoom)
+							console.log("아이디 =" + uid)
+							console.log("아이디 =" + msg.userid)
 							var rightPos = $("#chatWrap #chatRoom").css("right").replace(/[^-\d\.]/g, '');
-							if(rightPos < 0){
+							if(chatRoom == msg.chatRoom){
+								var userInfo_s1 = $("<div class='userInfo_s1 other'>");
+								userInfo_s1.append("<div class='thumb'><img src='/upload/member/"+uid+"/"+msg.thumNail+"'>")
+								userInfo_s1.append("<div class='info'><p class='userId'>"+msg.userName+"</p>")
+								userInfo_s1.append("<div class='chatTxt'><p>"+msg.text+"</p><span class='writeDate'>"+msg.date+"</span></div>")
+								$(".chatBox .txtRow").append(userInfo_s1);
+								updateScroll();
+							}
+							if(msg.targetId == "${sessionScope.loginInfo.id}"){
 								$("#chatList .list ul li").each(function(){
-									var uid = $(this).find("button").data("uid")
+									var uid = $(this).find("button").data("uid");
 									if(uid == msg.userid){
 										$(this).addClass("addMsg");
 									}
 								})
 							}
-							updateScroll();
 						}
 						
 					}
@@ -292,8 +298,7 @@
 					})
 					
 					
-					$("#close").click(function(){
-						
+					/* $("#close").click(function(){
 						var msg = {
 							chatRoom : chatRoom,
 							type:"close",
@@ -302,7 +307,7 @@
 							targetId:uid
 						}
 						ws.send(JSON.stringify(msg));
-					})
+					}) */
 				
 				}
 			})

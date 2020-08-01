@@ -34,30 +34,31 @@ public class ChatController {
 		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
 		String[] usersIdArray = {mdto.getId(),chatDto.getChatMemberId()};
 		Arrays.sort(usersIdArray);
-		//String usersIds = mdto.getId() +"," +chatDto.getChatMemberId();
 		String usersIds = usersIdArray[0]+","+usersIdArray[1];
 		String usersId = chatDto.getChatMemberId();
 		String usersNames = chatDto.getUsers() +","+mdto.getName();
+		
 		System.out.println(Arrays.toString(usersIdArray));
+		String room;
 		
 		String chatRoomId = chatService.chatRoomIdSch(usersIdArray[0],usersIdArray[1]);
-		System.out.println("==== 방 ===" + chatRoomId);
 		int result = 0;
 		if(chatRoomId == null) {
 			String roomId = chatService.rndTxt();
-			Configuration.room = roomId;
+			room = roomId;
 			chatDto.setUsers(usersNames);
 			chatDto.setChatMemberId(usersIds);	
 			chatDto.setRoomId(roomId);
 			result = chatService.chatInsert(chatDto);
 		}else {
-			Configuration.room = chatRoomId;
+			room = chatRoomId;
 		}
 		
-		List<ChatRecordDTO> chatRecord = chatService.chatRecordList(Configuration.room);
+		List<ChatRecordDTO> chatRecord = chatService.chatRecordList(room);
+		session.setAttribute("room", room);
 		//Configuration.chatRecord = chatRecord;
 		if(chatRecord.size() == 0) {
-			return new Gson().toJson(Configuration.room);
+			return new Gson().toJson(room);
 		}else {
 			if(result > 0) {
 				return new Gson().toJson(chatRecord);

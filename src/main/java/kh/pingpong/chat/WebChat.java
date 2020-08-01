@@ -30,28 +30,32 @@ import kh.pingpong.service.ChatService;
 public class WebChat {
 	private ChatService chatService = MyApplicationContextAware.getApplicationContext().getBean(ChatService.class);
 
+	private static Set<Session> loginClients = Collections.synchronizedSet(new HashSet<Session>());
+
 	// clients : 현재 접속한 세션이 어떤 방에 접속중인지 방 번호를 저장 
 	private static Map<Session , String> clients = Collections.synchronizedMap(new HashMap<>());
-	private static Set<Session> loginClients = Collections.synchronizedSet(new HashSet<Session>());
 
 	// memebers : 방번호마다 현재 접속하고 있는 멤버의 목록을 저장  
 	private static Map<String , List<Session>> members = Collections.synchronizedMap(new HashMap<>());
-	
-	
+	private static Map<String , List<Integer>> membersChk = Collections.synchronizedMap(new HashMap<>());
+
+
 	private static Set<String> loginList = new HashSet<String>();
-	
-	private static Map<Session,String> test = Collections.synchronizedMap(new HashMap<>());
-	
+
 	// 세션값
 	private HttpSession session;
-	// 로그인 정보,들어온 방의 번호 : 세션값을 통해 가져옴
+
+	// 로그인 정보
 	private MemberDTO mdto;
+	private Session client;
 	@OnOpen
 	public void onConnect(Session client, EndpointConfig config) throws Exception{
 		System.out.println(client.getId() + "님이 접속했습니다.");
 		this.session = (HttpSession)config.getUserProperties().get("session");
 		mdto = (MemberDTO)this.session.getAttribute("loginInfo");
+
 		loginClients.add(client);
+
 	}
 
 
@@ -59,42 +63,38 @@ public class WebChat {
 	@OnMessage
 	public void onMessage(Session session, String message) throws Exception{
 		MemberDTO mdto = (MemberDTO)this.session.getAttribute("loginInfo");
-//		JSONParser jsonParser = new JSONParser();                       
-//		org.json.simple.JSONObject jsonObject =  (org.json.simple.JSONObject) jsonParser.parse(message);
-//		String chatRoom = (String) jsonObject.get("chatRoom");
 		JSONParser parser = new JSONParser();
 		Object obj = parser.parse( message );
 		JSONObject jsonObj = (JSONObject) obj;		
+
+
+
 		String type = (String) jsonObj.get("type");
 		String chatRoom = (String) jsonObj.get("chatRoom");
 		String targetId = (String) jsonObj.get("targetId");
 		String userName = (String) jsonObj.get("userName");
 		String userid = (String) jsonObj.get("userid");
 		System.out.println("message = " + message);
+
+
 		if(type.contentEquals("login")) {
 			loginList.add(message);
-			test.put(session,message);
-			System.out.println(loginList);
 			synchronized (loginClients) {
 				for(Session client : loginClients) {
-					System.out.println(client.getId());
 					Basic basic = client.getBasicRemote();					
 					basic.sendText(loginList.toString());	
 				}
 			}
 		}
-		
-		
+
+
 		if(type.contentEquals("register")) {
 			//clients에 세션정보와 방의 번호를 저장
-			clients.put(session , chatRoom);
-			System.out.println(clients.size());
+			clients.put(this.client , chatRoom);
 			// members 내에 roomNum 방번호가 존재하면 방을 만들지 않음, 존재하지 않으면 방을 만듬
 			boolean memberExist = true;
 			for(String i : members.keySet()) {
-				System.out.println("i = " + 	i);
 				if(i.contentEquals(chatRoom)) {
-					System.out.println("중복");
 					memberExist = false;
 					break;
 				}
@@ -102,36 +102,48 @@ public class WebChat {
 			if(memberExist) {
 				members.put(chatRoom, new ArrayList<>());
 			}
-
 			try{members.get(chatRoom).remove(session);}catch(Exception e) {
 				e.printStackTrace();
 			}
-
+			// members 맵에 해당 방번호 list에 세션정보를 추가한다 
 			members.get(chatRoom).add(session);
+
 		}
-		
+
 		if(type.contentEquals("close")) {
-			members.get(chatRoom).remove(session);
+			//members.get(chatRoom).remove(session);
 		}
-		
+
 
 		if(type.contentEquals("message")) {
 			System.out.println("chatRoom===" + chatRoom);
 			System.out.println(members.get(chatRoom).size());
 			ChatRoomDTO chatDto = new ChatRoomDTO();
 			synchronized (members.get(chatRoom)) {		
-				for(Session client : members.get(chatRoom)) {				
-					if(!client.getId().contentEquals(session.getId())) {					
-						Basic basic = client.getBasicRemote();					
-						basic.sendText(message);						
+//				for(Session client : members.get(chatRoom)) {
+//					System.out.println("getClient =" + clients.get(this.client));
+//					//if(clients.get(this.client).contentEquals(chatRoom)) {
+//						Basic basic = client.getBasicRemote();					
+//						if(!client.getId().contentEquals(session.getId())) {					
+//							basic.sendText(message);						
+//						}
+//					//}
+//				}
+				
+				synchronized (loginClients) {
+					for(Session client : loginClients) {
+						if(!client.getId().contentEquals(session.getId())) {
+							Basic basic = client.getBasicRemote();					
+							basic.sendText(message);	
+						}
 					}
-				}		
+				}
 				chatService.chatTxtInsert(message);
 			}
 		}
 	}
-	
-	
+
+
 	@OnClose
 	public void onClose(Session session){
 		JSONObject jo1 = new JSONObject();
@@ -147,34 +159,20 @@ public class WebChat {
 				}
 			}
 		}
-		
-		try {
-			for(String st : loginList) {
-				if(test.get(session).contentEquals(st)) {
-					test.remove(session);
-					loginList.remove(st);
-				}
-			}
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-		
-		System.out.println("종료");
-		clients.remove(session);
+
 		loginClients.remove(session);
 		for(String st : members.keySet()) {
 			members.get(st).remove(session);
 		}
-		
-		
-	
+
+
+
 	}
 
 	@OnError
 	public void onError(Session session, Throwable t) {
 		System.out.println("에러");
 		t.printStackTrace();
-		clients.remove(session);
 		loginClients.remove(session);
 		for(String st : members.keySet()) {
 			members.get(st).remove(session);

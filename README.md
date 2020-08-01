@@ -1,3 +1,1 @@
 # pingpong
-
-test

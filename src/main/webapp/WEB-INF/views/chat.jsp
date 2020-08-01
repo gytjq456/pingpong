@@ -233,7 +233,11 @@
 								$("#chatList .list ul li").each(function(){
 									var uid = $(this).find("button").data("uid");
 									if(uid == msg.userid){
-										$(this).addClass("addMsg");
+										if(rightPos >= 0 && chatRoom == msg.chatRoom){
+											$(this).removeClass("addMsg");
+										}else{
+											$(this).addClass("addMsg");
+										}
 									}
 								})
 							}

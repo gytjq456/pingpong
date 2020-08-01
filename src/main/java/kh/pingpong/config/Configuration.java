@@ -19,8 +19,6 @@ public class Configuration {
 	
 	
 	public static Map<String,Room> chatCreate = new HashMap<>();
-	//public static String room;
-	//public static Map<String,String> room = new HashMap<>();
 	
 	//이메일 인증번호
 	public static String emailKey;

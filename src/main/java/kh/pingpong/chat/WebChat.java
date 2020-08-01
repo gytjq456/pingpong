@@ -119,7 +119,7 @@ public class WebChat {
 			System.out.println("chatRoom===" + chatRoom);
 			System.out.println(members.get(chatRoom).size());
 			ChatRoomDTO chatDto = new ChatRoomDTO();
-			synchronized (members.get(chatRoom)) {		
+//			synchronized (members.get(chatRoom)) {		
 //				for(Session client : members.get(chatRoom)) {
 //					System.out.println("getClient =" + clients.get(this.client));
 //					//if(clients.get(this.client).contentEquals(chatRoom)) {
@@ -129,17 +129,16 @@ public class WebChat {
 //						}
 //					//}
 //				}
-				
-				synchronized (loginClients) {
-					for(Session client : loginClients) {
-						if(!client.getId().contentEquals(session.getId())) {
-							Basic basic = client.getBasicRemote();					
-							basic.sendText(message);	
-						}
+//			}
+			synchronized (loginClients) {
+				for(Session client : loginClients) {
+					if(!client.getId().contentEquals(session.getId())) {
+						Basic basic = client.getBasicRemote();					
+						basic.sendText(message);	
 					}
 				}
 				chatService.chatTxtInsert(message);
-			}
+			}				
 		}
 	}
 

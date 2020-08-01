@@ -55,8 +55,6 @@ public class ChatController {
 		}
 		
 		List<ChatRecordDTO> chatRecord = chatService.chatRecordList(room);
-		session.setAttribute("room", room);
-		//Configuration.chatRecord = chatRecord;
 		if(chatRecord.size() == 0) {
 			return new Gson().toJson(room);
 		}else {
@@ -67,35 +65,4 @@ public class ChatController {
 			}
 		}
 	}
-
-//		//System.out.println("chatRoomId = " +chatRoomId);
-//		int result = 0;
-//		
-//		if(chatRoomId == null) {
-//			roomId = chatService.rndTxt();
-//			session.setAttribute("roomId", roomId);
-//			chatDto.setUsers(usersNames);
-//			chatDto.setChatMemberId(usersIds);	
-//			chatDto.setRoomId(roomId);
-//			result = chatService.chatInsert(chatDto);
-//			chatRoomId = chatService.chatRoomIdSch(mdto.getId(),usersId);
-//		}
-//		session.setAttribute("roomId", chatRoomId);
-//		List<ChatRecordDTO> chatRecord = chatService.chatRecordList(chatRoomId);
-//		Configuration.chatRecord = chatRecord;
-//		
-//		if(chatRecord.size() == 0) {
-//			return new Gson().toJson(chatRoomId);
-//		}else {
-//			if(result > 0) {
-//				return new Gson().toJson(chatRecord);
-//			}else{
-//				//chatInfo.put("roomId",chatRoomId);
-//				return new Gson().toJson(chatRecord);
-//			}
-//		}
-//	}
-
-	
-	
 }

@@ -204,15 +204,13 @@
 									$(this).removeClass("on");
 								}
 							})
-							ws.onclose = function(){
-								var msg = {
-									type:"logout==",
-									userid:"${sessionScope.loginInfo.id}",
-									userName:"${sessionScope.loginInfo.name}",
-									targetId:uid
-								}
-								ws.send(JSON.stringify(msg));
+							var msg = {
+								type:"logout",
+								userid:"${sessionScope.loginInfo.id}",
+								userName:"${sessionScope.loginInfo.name}",
+								targetId:uid
 							}
+							ws.send(JSON.stringify(msg));
 						}
 						if(msg.type == "message"){
 							console.log(msg)
@@ -244,6 +242,8 @@
 						}
 						
 					}
+					
+					
 					$("#chatWrap #close").click(function(){
 						$("#chatRoom").removeClass("on");
 						$("#chatBox .txtRow").html("");

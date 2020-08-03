@@ -40,7 +40,7 @@ public class WebChat {
 	private static Map<String , List<Integer>> membersChk = Collections.synchronizedMap(new HashMap<>());
 
 
-	private static Set<String> loginList = new HashSet<String>();
+	private static List<String> loginList = Collections.synchronizedList(new ArrayList<String>());
 
 	// 세션값
 	private HttpSession session;
@@ -48,6 +48,7 @@ public class WebChat {
 	// 로그인 정보
 	private MemberDTO mdto;
 	private Session client;
+	String userid;
 	@OnOpen
 	public void onConnect(Session client, EndpointConfig config) throws Exception{
 		System.out.println(client.getId() + "님이 접속했습니다.");
@@ -73,11 +74,12 @@ public class WebChat {
 		String chatRoom = (String) jsonObj.get("chatRoom");
 		String targetId = (String) jsonObj.get("targetId");
 		String userName = (String) jsonObj.get("userName");
-		String userid = (String) jsonObj.get("userid");
+		this.userid = (String) jsonObj.get("userid");
 		System.out.println("message = " + message);
 
 
 		if(type.contentEquals("login")) {
+			System.out.println("로그인 =" + loginList);
 			loginList.add(message);
 			synchronized (loginClients) {
 				for(Session client : loginClients) {
@@ -110,11 +112,7 @@ public class WebChat {
 
 		}
 
-		if(type.contentEquals("close")) {
-			//members.get(chatRoom).remove(session);
-		}
-
-
+		
 		if(type.contentEquals("message")) {
 			System.out.println("chatRoom===" + chatRoom);
 			System.out.println(members.get(chatRoom).size());
@@ -148,7 +146,7 @@ public class WebChat {
 		JSONObject jo1 = new JSONObject();
 		jo1.put("type", "logout");
 		jo1.put("userid", mdto.getId());
-
+		loginClients.remove(session);
 		synchronized (loginClients) {
 			for(Session client : loginClients) {
 				Basic basic = client.getBasicRemote();
@@ -158,8 +156,14 @@ public class WebChat {
 				}
 			}
 		}
+		
+		for(int i=0; i<loginList.size(); i++) {
+			if(loginList.get(i).contains(this.userid)) {
+				loginList.remove(i);
+			}
+		}
 
-		loginClients.remove(session);
+		
 		for(String st : members.keySet()) {
 			members.get(st).remove(session);
 		}

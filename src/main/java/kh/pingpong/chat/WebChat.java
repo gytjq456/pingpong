@@ -37,7 +37,6 @@ public class WebChat {
 
 	// memebers : 방번호마다 현재 접속하고 있는 멤버의 목록을 저장  
 	private static Map<String , List<Session>> members = Collections.synchronizedMap(new HashMap<>());
-	private static Map<String , List<Integer>> membersChk = Collections.synchronizedMap(new HashMap<>());
 
 
 	private static List<String> loginList = Collections.synchronizedList(new ArrayList<String>());
@@ -79,7 +78,6 @@ public class WebChat {
 
 
 		if(type.contentEquals("login")) {
-			System.out.println("로그인 =" + loginList);
 			loginList.add(message);
 			synchronized (loginClients) {
 				for(Session client : loginClients) {
@@ -88,46 +86,9 @@ public class WebChat {
 				}
 			}
 		}
-
-
-		if(type.contentEquals("register")) {
-			//clients에 세션정보와 방의 번호를 저장
-			clients.put(this.client , chatRoom);
-			// members 내에 roomNum 방번호가 존재하면 방을 만들지 않음, 존재하지 않으면 방을 만듬
-			boolean memberExist = true;
-			for(String i : members.keySet()) {
-				if(i.contentEquals(chatRoom)) {
-					memberExist = false;
-					break;
-				}
-			}
-			if(memberExist) {
-				members.put(chatRoom, new ArrayList<>());
-			}
-			try{members.get(chatRoom).remove(session);}catch(Exception e) {
-				e.printStackTrace();
-			}
-			// members 맵에 해당 방번호 list에 세션정보를 추가한다 
-			members.get(chatRoom).add(session);
-
-		}
-
 		
 		if(type.contentEquals("message")) {
-			System.out.println("chatRoom===" + chatRoom);
-			System.out.println(members.get(chatRoom).size());
 			ChatRoomDTO chatDto = new ChatRoomDTO();
-//			synchronized (members.get(chatRoom)) {		
-//				for(Session client : members.get(chatRoom)) {
-//					System.out.println("getClient =" + clients.get(this.client));
-//					//if(clients.get(this.client).contentEquals(chatRoom)) {
-//						Basic basic = client.getBasicRemote();					
-//						if(!client.getId().contentEquals(session.getId())) {					
-//							basic.sendText(message);						
-//						}
-//					//}
-//				}
-//			}
 			synchronized (loginClients) {
 				for(Session client : loginClients) {
 					if(!client.getId().contentEquals(session.getId())) {
@@ -163,10 +124,6 @@ public class WebChat {
 			}
 		}
 
-		
-		for(String st : members.keySet()) {
-			members.get(st).remove(session);
-		}
 
 
 
@@ -177,9 +134,6 @@ public class WebChat {
 		System.out.println("에러");
 		t.printStackTrace();
 		loginClients.remove(session);
-		for(String st : members.keySet()) {
-			members.get(st).remove(session);
-		}
 	}
 
 }

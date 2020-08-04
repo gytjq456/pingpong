@@ -35,10 +35,7 @@ public class ChatController {
 		String[] usersIdArray = {mdto.getId(),chatDto.getChatMemberId()};
 		Arrays.sort(usersIdArray);
 		String usersIds = usersIdArray[0]+","+usersIdArray[1];
-		String usersId = chatDto.getChatMemberId();
 		String usersNames = chatDto.getUsers() +","+mdto.getName();
-		
-		System.out.println(Arrays.toString(usersIdArray));
 		String room;
 		
 		String chatRoomId = chatService.chatRoomIdSch(usersIdArray[0],usersIdArray[1]);

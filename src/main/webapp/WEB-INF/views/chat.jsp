@@ -91,7 +91,6 @@
 				if("${sessionScope.loginInfo.id}" != "" && "${sessionScope.loginInfo.grade}" == "partner"){
 					var ws  =new WebSocket("ws://localhost/");
 					//var ws  =new WebSocket("ws://pingpong196.com/");
-					//var ws  =new WebSocket("ws://192.168.60.58/chat");
 					ws.onopen = function(){
 						var msg = {
 							type:"login",
@@ -106,7 +105,7 @@
 						$(this).closest(".addMsg").removeClass("addMsg");
 						if(!$(this).closest("li").hasClass("on")){
 							alert("로그아웃된 파트너 입니다.")
-							return false;
+							return false;	
 						}					
 						uid = $(this).data("uid");
 						var uname = $(this).data("name");
@@ -137,23 +136,19 @@
 								$(".chatBox .sysdate").html(record[0].realWriteDate);
 								$(".chatBox .txtRow").html("");
 								var userTag;
-								//console.log(record.length)
 								 for(var i=0; i<record.length; i++){
-									// console.log(record)
 									if(record[i].sendUser == "${sessionScope.loginInfo.name}"){
 										var userInfo_s1 = $("<div class='userInfo_s1 my'>");
 										var info = $("<div class='info'>"); 
 										userInfo_s1.append("<div class='info'><p class='userId'>"+record[i].sendUser+"</p>")
 										userInfo_s1.append("<div class='thumb'><img src='/upload/member/${sessionScope.loginInfo.id}/"+record[i].thumNail+"'>")
 										userInfo_s1.append("<div class='chatTxt'><span class='writeDate'>"+record[i].writeDate+"</span><p>"+record[i].chatRecord+"</p>")
-										//userTag.append(userInfo_s1);
 										$(".chatBox .txtRow").append(userInfo_s1);	
 									}else{
 										var userInfo_s1 = $("<div class='userInfo_s1 other'>");
 										userInfo_s1.append("<div class='thumb'><img src='/upload/member/"+uid+"/"+record[i].thumNail+"'>")
 										userInfo_s1.append("<div class='info'><p class='userId'>"+record[i].sendUser+"</p>")
 										userInfo_s1.append("<div class='chatTxt'><p>"+record[i].chatRecord+"</p><span class='writeDate'>"+record[i].writeDate+"</span>")
-										//userTag.append(userInfo_s1);
 										$(".chatBox .txtRow").append(userInfo_s1);								
 									}
 								}
@@ -185,10 +180,8 @@
 						for(var i=0; i<msg.length; i++){
 							if(msg[i].type == "login"){
 								console.log(msg[i].userid)
-								
 								//alert(chatList.length)
 								chatList.each(function(){
-									
 									var idx = $(this).index();
 									if(chatList.eq(idx).find("button").data("uid") == msg[i].userid){
 										$(this).addClass("on");
@@ -213,11 +206,6 @@
 							ws.send(JSON.stringify(msg));
 						}
 						if(msg.type == "message"){
-							console.log(msg)
-							console.log("방 =" + chatRoom)
-							console.log("방 =" + msg.chatRoom)
-							console.log("아이디 =" + uid)
-							console.log("아이디 =" + msg.userid)
 							var rightPos = $("#chatWrap #chatRoom").css("right").replace(/[^-\d\.]/g, '');
 							if(chatRoom == msg.chatRoom){
 								var userInfo_s1 = $("<div class='userInfo_s1 other'>");

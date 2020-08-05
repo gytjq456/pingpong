@@ -36,6 +36,12 @@
 				<a href="#" class="side" id="idFind">id찾기</a>
 				<a href="#"	class="side" id="pwFind">비밀번호 찾기</a>
 				<a href="#" class="side" id="signup">회원가입</a>
+				<!--  네이버 로그인
+				<div id="naver_id_login" style="text-align:center">
+				<a href="${url}">
+					<img width="223" src="https://developers.naver.com/doc/review_201802/CK_bEFnWMeEBjXpQ5o8N_20180202_7aot50.png"/>
+				</a></div>
+				-->
 			</div>
 		</div>
 	</section>
@@ -53,7 +59,7 @@
 	<script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 	<script>
             // @details 카카오톡 Developer API 사이트에서 발급받은 JavaScript Key
-            Kakao.init("51c6906054713d4819ea4a7363d66680");
+            Kakao.init("411bb7998017afb0dc4ddfcd1429e957");
             // @breif 카카오 로그인 버튼을 생성합니다.
             
             function loginFormWithKakao() {

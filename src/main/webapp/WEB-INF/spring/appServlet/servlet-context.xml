@@ -41,7 +41,7 @@
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<beans:property name="maxUploadSize" value="31457280"/>
 	</beans:bean>
-
+	
    <context:component-scan base-package="kh.pingpong"/>
    
    <beans:bean class="kh.pingpong.admin.AdminLog" id="adminlog" />
@@ -103,8 +103,6 @@
 			<aop:around pointcut-ref="correct" method="aroundBoardLog"/>
 		</aop:aspect>
 	</aop:config>
-	
-
 
 	<aop:config>
 		<aop:pointcut expression="execution(* kh.pingpong.controller.NewsController.write(..))" id="news"/>
@@ -120,5 +118,18 @@
 			<aop:around pointcut-ref="myInfo" method="aroundBoardLog"/>
 		</aop:aspect>
 	</aop:config>
+	
+	<!-- 네이버 -->
+	<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+	http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+		<!-- NaverLoginBO Class에 대한 Bean설정 추가 -->
+		<context:component-scan base-package="kh.pingpong"/>
+		<beans:bean id="naverLoginBO" class="kh.pingpong.controller.NaverLoginBO" />
+	</beans:beans>
 	
 </beans:beans>

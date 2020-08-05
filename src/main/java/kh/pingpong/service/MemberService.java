@@ -52,8 +52,19 @@ public class MemberService {
 		return result;
 	}
 	
-	public int memberInsertSns(MemberDTO mdto) throws Exception{	
-		int result = mdao.memberInsertSns(mdto);
+	@Transactional("txManager")
+	public int memberInsertSns(MemberDTO mdto, FileDTO fdto) throws Exception{	
+		int result = mdao.memberInsertSns(mdto, fdto);
+		
+		//파일 저장
+		if(mdto.getProfile() != null) {
+			mdao.memberFile(fdto);
+		}
+		String[] language = mdto.getLang_learn().split(",");
+		mdao.updateLangCount(language);
+		String location = mdto.getAddress();
+		String loc_name = location.split(" ")[0];
+		mdao.updateLocCount(loc_name);
 		return result;
 	}
 	

@@ -56,7 +56,13 @@ $(function(){
 			return false;
 		}		
 		
-		//나이		
+		//나이
+		if(age.val() == ""){
+			alert("나이를 입력해주세요.");
+			age.focus();
+			return false;
+		}
+		
 		var regexAge = /^(\d){0,3}$/gm;
 		var result_age = regexAge.test(age.val());
 		if(!result_age){
@@ -74,10 +80,18 @@ $(function(){
 		}
 		
 		//email
-		if(email == 'null'){
+		if(email.val() == ""){
 			alert("이메일을 입력해주세요.");
-			$('#email').focus();			
+			email.focus();
 			return false;
+		}
+		
+		if(email.object == undefined){
+			if(email.val == 'null'){
+				alert("이메일을 입력해주세요.");
+				$('#email').focus();
+				return false;
+			}
 		}
 		
 		//전화번호 (앞자리)
@@ -87,14 +101,16 @@ $(function(){
 			return false;
 		}
 		
-		//전화번호	(뒷자리)
-		var regexPhone = /^(\d){4,15}$/g;
+		
+		// 전화번호 (뒷자리)
+		var regexPhone = /^(?!010|070|011)(\d){8}$/gm;
 		var result_phone = regexPhone.test(phone.val());
 		if(!result_phone){
-			alert("전화번호 : 숫자이며 4~15글자입니다.");
+			alert("전화번호 : 숫자이며 8글자입니다. 010 / 011 / 070 빼주세요.");
 			phone.focus();
 			return false;
-		}		
+		}
+		
 		
 		//주소
 		var sidoVal = $("#sido1").val();
@@ -212,12 +228,20 @@ $(function(){
 		}
 		
 		//값이 비워있을 때
+		var sysname = $("#sysname").val();
 		if(
 				name.val() == "" ||
 				email.val()=="" || age.val() == "" || phone_country == "" || address.val() == "" || bank_name =="" ||
-				account.val() =="" || phone.val() == "" || !profile.val() || ckIsNull == false ||
+				account.val() =="" || ckIsNull == false ||
 				ckIsNull2 == false || ckIsNull3 == false || introduce.val().length < 100
 		){
+			if(sysname == ""){
+				if(!profile.val()){
+					alert("프로필을 입력해주세요");
+					profile.focus();
+					return false;	
+				}
+			}
 			return false;		
 	 	}
 	});

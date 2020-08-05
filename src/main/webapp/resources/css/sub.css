@@ -903,7 +903,7 @@ width:-webkit-calc(100% - 60px);
 
 /* 레이어 팝업 */
 #layerPop_s4 { position:fixed; left:0; top:0; width:100%; height:100%; z-index:10001; display:none; background:rgba(0,0,0,0.5); }
-#layerPop_s4 .pop_body { position:absolute; left:50%; top:50%; transform:translate(-50%, -50%); max-width:640px; background:#fff; padding:20px; }
+#layerPop_s4 .pop_body { position:absolute; left:50%; top:50%; transform:translate(-50%, -50.2%); max-width:640px; background:#fff; padding:20px; }
 #layerPop_s4 .tit_s3 {text-align: center; font-size: 20px; font-weight: bold; border-bottom:1px solid #ddd; padding-bottom:12px; margin-bottom:12px;}
 #layerPop_s4 .checkAgree { color: #999; }
 #layerPop_s4 .checkLabel { vertical-align: middle; }

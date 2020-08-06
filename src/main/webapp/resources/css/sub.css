@@ -366,6 +366,7 @@ button.normal:hover { background:#c7c7c7 !important; color:#fff; }
 }
 .viewPage_style1 .body_right { width:360px; margin-left:20px; position:absolute; right:0; top:0;}
 .viewPage_style1 .body_right > div { border-bottom:1px solid #ddd; padding-bottom:30px; margin-bottom:30px; }
+.viewPage_style1 .body_right > div.caution .txt { white-space: pre-line; }
 .viewPage_style1 .body_right > div.moreList,
 .viewPage_style1 .body_right > div:last-child { margin:0; padding:0; border:none;  }
 .viewPage_style1 .body_right .tit_s2 { margin-bottom:10px;}

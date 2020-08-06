@@ -62,20 +62,13 @@ public class WebChat {
 	// 메세지 보내기
 	@OnMessage
 	public void onMessage(Session session, String message) throws Exception{
-		MemberDTO mdto = (MemberDTO)this.session.getAttribute("loginInfo");
 		JSONParser parser = new JSONParser();
 		Object obj = parser.parse( message );
 		JSONObject jsonObj = (JSONObject) obj;		
 
-
-
 		String type = (String) jsonObj.get("type");
-		String chatRoom = (String) jsonObj.get("chatRoom");
-		String targetId = (String) jsonObj.get("targetId");
-		String userName = (String) jsonObj.get("userName");
 		this.userid = (String) jsonObj.get("userid");
 		System.out.println("message = " + message);
-
 
 		if(type.contentEquals("login")) {
 			loginList.add(message);
@@ -88,7 +81,6 @@ public class WebChat {
 		}
 		
 		if(type.contentEquals("message")) {
-			ChatRoomDTO chatDto = new ChatRoomDTO();
 			synchronized (loginClients) {
 				for(Session client : loginClients) {
 					if(!client.getId().contentEquals(session.getId())) {

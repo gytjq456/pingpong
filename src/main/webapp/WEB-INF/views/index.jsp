@@ -223,7 +223,6 @@
 						    // for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
 						    kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
 						    kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
-						    kakao.maps.event.addListener(marker, 'mousemove', makeOutListener(infowindow));
 						    kakao.maps.event.addListener(marker, 'click', makeOverListener(map, marker, infowindow));
 						}
 			

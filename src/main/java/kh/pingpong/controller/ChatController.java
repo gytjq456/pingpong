@@ -55,11 +55,7 @@ public class ChatController {
 		if(chatRecord.size() == 0) {
 			return new Gson().toJson(room);
 		}else {
-			if(result > 0) {
-				return new Gson().toJson(chatRecord);
-			}else{
-				return new Gson().toJson(chatRecord);
-			}
+			return new Gson().toJson(chatRecord);
 		}
 	}
 }

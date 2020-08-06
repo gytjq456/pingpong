@@ -144,7 +144,7 @@
 			$('#jsonConvertStringSend').click(function() {
 				//번역할 object를 생성
 				var text = $(".viewPage_style1 .originTxt").text();
-				var test = {
+				var papagoData = {
 					"original_str" : text,
 					"original_lang" : "${disDto.language}",
 					"change_lang" : langCountryVal
@@ -153,13 +153,12 @@
 					type : "POST",
 					url : "/discussion/papago",
 					dataType:"json",
-					data : test, //json을 보내는 방법
+					data : papagoData, //json을 보내는 방법
 					success : function(data) { //서블렛을 통한 결과 값을 받을 수 있습니다.
 						console.log(data);
 						//결과값을 textarea에 넣기 위해서
 						
 						var json = data[1];
-						console.log("qqq"+json);
 						var obj = JSON.parse(json);
 						console.log("ttt:"+obj.errorCode)
 						if(obj.errorCode == "N2MT01"){
@@ -199,7 +198,10 @@
 							}else if(data[0] == "zh-TW"){
 								alert(lanArr.zhTW+"만 번역이 가능합니다.")
 							}
-							
+							if(obj.errorCode == "024"){
+								alert("인증에 실패 했습니다.")
+								return false;
+							}
 						}else{
 							if(obj.errorCode != "010"){
 								var text = obj.message.result.translatedText;
@@ -248,11 +250,7 @@
 			likeHateCount(comment_likeBtn,"/discussion/commentLike","토론 댓글");
 			likeHateCount(comment_hateBtn,"/discussion/commentHate","토론 댓글");
 			likeHateCount(discussion_likeBtn,"/discussion/like","토론 게시글");
-			console.log(likeHateCount);
 		})
-
-		
-			
 			
 		function likeHateCount(btn, url,category) {
 			btn.click(function() {
@@ -283,7 +281,6 @@
 							}
 						}
 					}
-					
 					location.href = "/discussion/view?seq=${disDto.seq}"
 				})
 			})

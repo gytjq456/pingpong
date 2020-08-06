@@ -310,7 +310,7 @@ public class DiscussionController {
 	}
 
 	
-	//같은사람이 게시물 신고했는지 확인
+		//같은사람이 게시물 신고했는지 확인
 		@RequestMapping("report")
 		@ResponseBody
 		public int report(Model model, ReportListDTO rldto) throws Exception {

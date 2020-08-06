@@ -96,7 +96,6 @@
 							type:"login",
 							userid:"${sessionScope.loginInfo.id}",
 							userName:"${sessionScope.loginInfo.name}",
-							targetId:uid
 						}
 						ws.send(JSON.stringify(msg));
 					}
@@ -125,12 +124,10 @@
 							var member = chatWrap.find(".title p").text().split(",");
 							chatWrap.find(".title span").text(member.length);
 							txtInput.focus();
-							//console.log(typeof resp)
 							if(typeof resp == 'string'){
 								chatRoom = resp
 								$(".chatBox .sysdate").html(theYear+"년 "+theMonth+"월 "+theDate+"일 "+todayLabel);
 							}else{
-								console.log(resp);
 								var record = resp;
 								chatRoom = record[0].roomId;
 								$(".chatBox .sysdate").html(record[0].realWriteDate);
@@ -169,25 +166,19 @@
 					})
 					
 					ws.onmessage = function(e){
-						console.log(e.data);
 						var msg = JSON.parse(e.data);
 						var time = new Date(msg.date);
 						var timeStr = time.toLocaleTimeString();
 						
-						//console.log(msg[0])
 						var chatList = $("#chatList .list ul li");
-						console.log(chatList)
 						for(var i=0; i<msg.length; i++){
 							if(msg[i].type == "login"){
-								console.log(msg[i].userid)
-								//alert(chatList.length)
 								chatList.each(function(){
 									var idx = $(this).index();
 									if(chatList.eq(idx).find("button").data("uid") == msg[i].userid){
 										$(this).addClass("on");
 									}
 								})
-								
 							}
 						}
 						if(msg.type == "logout"){

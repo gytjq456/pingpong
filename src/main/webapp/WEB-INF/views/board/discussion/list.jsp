@@ -19,6 +19,7 @@
 					$(this).find(".contents").text(tagGt);
 				}
 			})
+			
 			// 정렬 
 			$("#align").on("change",function(){
 				var selVal = $(this).val();
@@ -29,7 +30,6 @@
 
 			
 			// 제목 / 글제목 / 글내욕
-			
 			$("#searchAsKeyword").click(function(){
 				var keywordType = $("#keyword_type").val();
 				var keywordInput = $("#keyword_input").val();

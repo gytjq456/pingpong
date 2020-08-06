@@ -40,7 +40,6 @@ public class PapagoService {
 			
 			
 			// post request
-			//String postParams = "source="+lang.getLanguage_country()+"&target="+change_lang+"&text=" + text;
 			String postParams =  "query="  + text+"&target="+change_lang;
 			con.setDoOutput(true);
 			DataOutputStream wr = new DataOutputStream(con.getOutputStream());
@@ -61,7 +60,7 @@ public class PapagoService {
 			}
 			br.close();
 			//
-			 HashMap<String, Object> rs = new ObjectMapper().readValue(response.toString(), HashMap.class) ;
+			HashMap<String, Object> rs = new ObjectMapper().readValue(response.toString(), HashMap.class) ;
             String langCode = (String)rs.get("langCode") ;
             System.out.println("1"+langCode);
             System.out.println("2"+change_lang);

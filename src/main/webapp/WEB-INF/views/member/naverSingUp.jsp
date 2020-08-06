@@ -14,13 +14,18 @@
 				    	<p>SNS 회원가입</p>
 				    </div>
 				    <div class="formBox card_body">
-						<form action="snsSingUpProc" method="post" id="snsSignUp" enctype="multipart/form-data">
+						<form action="snsNaverSignUp" method="post" id="joinProc" enctype="multipart/form-data">
 							<input type="hidden" name="mem_type" value="${mdto.mem_type}">
 							<input type="hidden" name="category" value="member">
 							<input type="hidden" name="grade" value="default">
 							<input type="hidden" name="id" value="${mdto.id}">
 							<input type="hidden" name="name" value="${mdto.name}">
+							<input type="hidden" name="age" value="${mdto.age}">
+							<input type="hidden" name="gender" value="${mdto.gender}">
+							<input type="hidden" name="email" value="${mdto.email}">
 							<input type="hidden" name="pw" value="${mdto.pw}">
+							<input type="hidden" name="sysname" value="${mdto.sysname}">
+							
 							
 							<div class="se_singup">
 								<div class="title">아이디</div>
@@ -40,17 +45,12 @@
 								<div class="title">나이</div>
 								<div class="se_con clearfix">
 									<div class="age">
-										<input type="text" id="age" name="age" class="w70"> 세				
+										${mdto.age} 세				
 									</div>
 									<div class="gender">
 										<ul class="radio_s1">
 											<li>
-												<input type="radio" name="gender" value="남자" id="m">
-												<label for="m"><span></span>남자</label>
-											</li>
-											<li>
-												<input type="radio" name="gender" value="여자" id="g">
-												<label for="g"><span></span>여자</label>
+												${mdto.gender} 성별
 											</li>
 										</ul>									
 									</div>
@@ -60,7 +60,7 @@
 							<div class="se_singup">
 								<div class="title">e-mail</div>
 								<div class="se_con">
-									<input type="text" id="email" name="email" class="w100" placeholder="이메일을 올려주세요">
+									${mdto.email}
 								</div>
 							</div>
 				
@@ -110,16 +110,8 @@
 							<div class="se_singup">
 								<div class="title">프로필 사진</div>
 								<div class="se_con">
-									<c:choose>
-										<c:when test="${mdto.sysname == 'undefined'}">
-											<div>등록된 프로필이 없습니다.</div>											
-											<input type="file" id="profile" name="profile">
-										</c:when>
-										<c:otherwise>
-											<img src="${mdto.sysname}" alt="카카오 프로필">
-											<input type="hidden" name="sysname" id="sysname" value="${mdto.sysname}">
-										</c:otherwise>
-									</c:choose>
+									<img src="${mdto.sysname}" alt="카카오 프로필">
+									<!--  <input type="file" id="profile" name="profile">-->
 								</div>
 							</div>
 				
@@ -180,7 +172,7 @@
 							<div class="se_singup">
 								<div class="title">자기소개</div>
 								<div class="se_con">
-									<textarea id="introduce" name="introduce" class="w100" placeholder="자기소개를 최소 50글자 이상 작성해주세요."></textarea>
+									<textarea id="introduce" name="introduce" class="w100"> </textarea>
 									<span id="counter">(0 / 최대 500자)</span>
 								</div>
 							</div>

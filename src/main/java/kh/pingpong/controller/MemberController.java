@@ -17,12 +17,19 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.github.scribejava.core.model.OAuth2AccessToken;
+
+import kh.pingpong.controller.NaverLoginBO;
 
 import kh.pingpong.admin.AdminService;
 import kh.pingpong.config.Configuration;
@@ -49,6 +56,15 @@ public class MemberController {
 	
 	@Autowired
 	private AdminService aservice;
+	
+	/* NaverLoginBO */
+	private NaverLoginBO naverLoginBO;
+	private String apiResult = null;
+	
+	@Autowired
+	private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
+		this.naverLoginBO = naverLoginBO;
+	}
 
 	/* 비밀번호 암호화 sha 512 */
 	public String getSHA512(String input) {
@@ -215,8 +231,63 @@ public class MemberController {
 
 	/* 로그인 jsp */
 	@RequestMapping("login")
-	public String login() throws Exception {
+	public String login(Model model) throws Exception {
+		/* 네이버아이디로 인증 URL을 생성하기 위하여 naverLoginBO클래스의 getAuthorizationUrl메소드 호출 */
+		String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
+		//https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=sE***************&
+		//redirect_uri=http%3A%2F%2F211.63.89.90%3A8090%2Flogin_project%2Fcallback&state=e68c269c-5ba9-4c31-85da-54c16c658125
+		System.out.println("네이버:" + naverAuthUrl);
+		//네이버
+		model.addAttribute("url", naverAuthUrl);
 		return "/member/login";
+	}
+	
+	//네이버 로그인 성공시 callback호출 메소드
+	@RequestMapping("callback")
+	public String callback(Model model, @RequestParam String code, @RequestParam String state) throws IOException, ParseException {
+		System.out.println("여기는 callback");
+		OAuth2AccessToken oauthToken;
+		oauthToken = naverLoginBO.getAccessToken(session, code, state);
+		//1. 로그인 사용자 정보를 읽어온다.
+		apiResult = naverLoginBO.getUserProfile(oauthToken); //String형식의 json데이터
+		/** apiResult json 구조
+		{"resultcode":"00",
+		"message":"success",
+		"response":{"id":"33666449","nickname":"shinn****","age":"20-29","gender":"M","email":"sh@naver.com","name":"\uc2e0\ubc94\ud638"}}
+		**/
+		System.out.println("apiResult 값 " + apiResult);
+			
+		//2. String형식인 apiResult를 json형태로 바꿈
+		JSONParser parser = new JSONParser();
+		Object obj = parser.parse(apiResult);
+		JSONObject jsonObj = (JSONObject) obj;
+		System.out.println("jsonObj 값 " + jsonObj);
+			
+		//3. 데이터 파싱
+		//Top레벨 단계 _response 파싱
+		JSONObject response_obj = (JSONObject)jsonObj.get("response");
+		System.out.println("response_obj 값 " + response_obj);
+		System.out.println("아이디값 값 " + response_obj.get("id"));
+			
+		//response의 id값 파싱
+		String id = (String)response_obj.get("id");
+		String name = (String)response_obj.get("name");
+		String age = (String)response_obj.get("age");
+		String gender = (String)response_obj.get("gender");
+		String email = (String)response_obj.get("email");
+		
+		
+		//4.파싱 닉네임 세션으로 저장
+		session.setAttribute("sessionId",id); //세션 생성
+		model.addAttribute("result", apiResult);
+		model.addAttribute("mem_type", "naver");
+		model.addAttribute("id", id);
+		model.addAttribute("name", name);
+		model.addAttribute("age", age);
+		model.addAttribute("gender", gender);
+		model.addAttribute("email", email);
+		
+		return "/member/naverSingUp";
 	}
 
 	/* 로그인 - 아디 비번체크 + loginInfo */
@@ -594,10 +665,68 @@ public class MemberController {
 
 	/* sns로그인 - 카카오 회원가입 */
 	@RequestMapping("snsSingUpProc")
-	public String snsSingUpProc(MemberDTO mdto) throws Exception {
-		mservice.memberInsertSns(mdto);
+	public String snsNSingUpProc(MemberDTO mdto, FileDTO fdto) throws Exception {
+		System.out.println(mdto.getProfile() + " 첨부파일로 들어갔을 때 히힛");
+		System.out.println(mdto.getSysname() + " 카카오 프로필이 있는 경우 히힛");
+		
+		System.out.println("컨트롤러로 들어왔나?");
+		if(mdto.getProfile() != null) {
+			// 회원 파일 하나 저장
+			String realPath = session.getServletContext().getRealPath("upload/member/" + mdto.getId() + "/");
+			fdto = fcon.fileOneInsert(mdto, fdto, realPath);
+		}
+		
+		mservice.memberInsertSns(mdto, fdto);
 		return "redirect:/";
 	}
+	
+	/* Naver login */
+	/* sns jsp */
+	@RequestMapping("snsNaverSignUp")
+	public String snsNaverSignUp(String mem_type, String kakaoId, String kakaoNickname, String kakaoEmail, String kakaoProfile, String pw, Model model) throws Exception {
+		System.out.println(kakaoProfile + "  profile");
+		
+		MemberDTO mdto = new MemberDTO();
+		mdto.setId(kakaoId);
+		mdto.setPw(pw);
+		Boolean result = mservice.isIdPwSame(mdto);
+		if (result) {
+			System.out.println("로그인 되는 곳");
+			MemberDTO loginInfo = mservice.loginInfo(mdto);
+			session.setAttribute("loginInfo", loginInfo);
+			return "redirect:/";
+			
+		} else {
+			System.out.println("로그인 안되는 것");
+			// 은행
+			List<BankDTO> bankList = mservice.bankList();
+			model.addAttribute("bankList", bankList);
+
+			// 나라
+			List<CountryDTO> countryList = mservice.countryList();
+			model.addAttribute("countryList", countryList);
+
+			// 언어
+			List<LanguageDTO> lanList = mservice.lanList();
+			model.addAttribute("lanList", lanList);
+
+			// 취미
+			List<HobbyDTO> hobbyList = mservice.hobbyList();
+			model.addAttribute("hobbyList", hobbyList);
+
+			mdto.setMem_type(mem_type);
+			mdto.setId(kakaoId);
+			mdto.setName(kakaoNickname);
+			mdto.setEmail(kakaoEmail);
+			mdto.setPw(pw);
+			mdto.setSysname(kakaoProfile);
+			model.addAttribute("mdto", mdto);
+
+			return "/member/snsSignUp";
+		}
+
+	}
+
 	
 	// 파트너 / 튜터 목록 가져오기 //
 	@ResponseBody

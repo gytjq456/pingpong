@@ -32,7 +32,8 @@
 
 	<!-- 채팅 내용 입력 -->
 	<insert id="chatTxtInsert">
-		insert into chatRecord values(#{roomId}, chatRecord_seq.nextval, #{sendUser}, #{chatRecord}, to_char(sysdate,'yyyy"년" mm"월" dd"일" DAY'), #{writeDate}, #{thumNail})
+		<!-- insert into chatRecord values(#{roomId}, chatRecord_seq.nextval, #{sendUser}, #{chatRecord}, to_char(sysdate,'yyyy"년" mm"월" dd"일" DAY'), #{writeDate}, #{thumNail}) -->
+		insert into chatRecord values(#{roomId}, chatRecord_seq.nextval, #{sendUser}, #{chatRecord}, to_char(sysdate,'yyyy"년" mm"월" dd"일" DAY','NLS_DATE_LANGUAGE=korean'), #{writeDate}, #{thumNail})
 	</insert>
 	
 

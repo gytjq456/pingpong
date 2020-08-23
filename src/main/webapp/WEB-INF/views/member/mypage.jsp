@@ -42,7 +42,6 @@
 	  function unlinkApp() {
 		  var result = confirm("회원탈퇴를 진행하시겠습니까?");
 			if(result){ 
-				alert("회원탈퇴");
 			    Kakao.API.request({
 			      url: '/v1/user/unlink',
 			      success: function(res) {
@@ -61,7 +60,7 @@
 			      },
 			      fail: function(err) {
 			        //alert('fail: ' + JSON.stringify(err))
-			        alert("회원 탈퇴 애러");
+			        alert("회원 탈퇴 애러 , 관리자에게 문의 주세요");
 			      },
 			    });
 			}

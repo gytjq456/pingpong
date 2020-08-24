@@ -173,7 +173,7 @@
 								<ul class="checkBox_s1">
 								<c:forEach var="i" items="${hobbyList}" varStatus="status">		
 									<li>
-										<input type="checkbox" name="hobby" value="${i.hobby}" id="test3${status.index}" name="hobby">
+										<input type="checkbox" name="hobby" value="${i.hobby}" id="test3${status.index}">
 										<label for="test3${status.index}"><span></span>${i.hobby}</label>
 									</li>
 								</c:forEach>

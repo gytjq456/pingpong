@@ -138,10 +138,10 @@
 							<div class="se_singup">
 								<div class="title">구사 가능 언어 (최대 3개)</div>
 								<div class="se_con">
-									<ul class="checkBox_s1">
+									<ul class="checkBox_s1" id="lang_can">
 										<c:forEach var="i" items="${lanList}" varStatus="status">	
 										<li>
-											<input type="checkbox" name="lang_can" value="${i.language}" id="test${status.index}" name="lang_can"/>
+											<input type="checkbox" name="lang_can" value="${i.language}" id="test${status.index}"/>
 											<label for="test${status.index}" ><span></span>${i.language}</label>
 										</li>
 										</c:forEach>
@@ -152,7 +152,7 @@
 							<div class="se_singup">
 								<div class="title">배우고 싶은 언어 (최대 3개)</div>
 								<div class="se_con">
-									<ul class="checkBox_s1">
+									<ul class="checkBox_s1" id="lang_learn">
 										<c:forEach var="i" items="${lanList}" varStatus="status">	
 										<li>
 											<input type="checkbox" name="lang_learn" value="${i.language}" id="test2${status.index}" />
@@ -169,7 +169,7 @@
 									<ul class="checkBox_s1">
 										<c:forEach var="i" items="${hobbyList}" varStatus="status">		
 										<li>
-											<input type="checkbox" name="hobby" value="${i.hobby}" id="test3${status.index}" name="hobby">
+											<input type="checkbox" name="hobby" value="${i.hobby}" id="test3${status.index}">
 											<label for="test3${status.index}"><span></span>${i.hobby}</label>
 										</li>
 										</c:forEach>

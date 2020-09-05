@@ -1,5 +1,19 @@
 # pingpong
 Language Exchange 언어 교환 사이트 구현
+- 이용자들끼리 자신만의 레시피를 공유하고, 본인이 가진 재료들을 선택해서 그에 해당하는 레시피를 검색하여 제공받을 수 있는 사이트
+
+
+```
+
+서버 : apache-tomcat
+
+Java EE IDE : Eclipse
+
+Database : Oracle SQL Developer
+
+사용언어 : java, HTML, CSS, JavaScript, Jquery, JSP, SQL, AJAX, EL/JSTL, MVC2
+
+```
 
 
 # work

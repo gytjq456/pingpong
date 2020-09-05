@@ -1,17 +1,21 @@
 # pingpong
 Language Exchange 언어 교환 사이트 구현
-- 이용자들끼리 자신만의 레시피를 공유하고, 본인이 가진 재료들을 선택해서 그에 해당하는 레시피를 검색하여 제공받을 수 있는 사이트
+- 서로 모국어 및 자신이 할 수 있는 언어를 다른 사람들과 교환을 하여 언어를 학습 할 수 있는 사이트
 
 
 ```
 
-서버 : apache-tomcat
+서버 : EC2 ( Amazone ) , Apache Tomcat v8.5
 
-Java EE IDE : Eclipse
+Java EE IDE(통합개발환경) : Eclipse, Spring
 
-Database : Oracle SQL Developer
+Database : ORACLE SQL Developer, mybatis
 
-사용언어 : java, HTML, CSS, JavaScript, Jquery, JSP, SQL, AJAX, EL/JSTL, MVC2
+사용언어 : JAVA, HTML, CSS, Javascript, JSP, SQL, EL/JSTL
+
+라이브러리 : jQuery, AJAX, Bootstrap, Web Socket, sojaeji.js, chart.js, datepicker-ko.js
+
+API : Kakao Login, kakao MAP, kakao Address, PAPAGO, summer note API, i'mport, 
 
 ```
 

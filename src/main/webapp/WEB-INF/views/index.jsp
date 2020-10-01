@@ -105,7 +105,6 @@
 	    new sojaeji('sido1', 'gugun1');
 	    $("#gugun1 option:eq(1)").attr("selected", "selected");
         
-	    
 		var sido = $("#sido1");
 		var gugun = $("#gugun1");
 		var placeArrd = $("#placeAddr");
@@ -131,8 +130,6 @@
 					addr:addr	
 				}
 			}).done(function(resp){
-				/* console.log(resp) */
-					//&& !resp.gList.length || !resp.lessonList.length
 				if(typeFn == "init" && !resp.gList.length && !resp.lessonList.length){
 					var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 				    mapOption = { 
@@ -160,15 +157,6 @@
 						
 						$("#map").html("");
 						var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
-						
-						/* console.log(latArr)
-						console.log(lanArr) */
-						
-						// 커스텀 오버레이가 표시될 위치입니다 
-						//var position = new kakao.maps.LatLng(37.49887, 127.026581);
-						// 마커를 표시할 위치와 title 객체 배열입니다 
-						/* console.log("len = " + resp.gList.length)
-						console.log("len = " + resp.lessonList.length) */
 						var positions = [];
 						var cate = []
 						var imageSrc = "";
@@ -235,7 +223,6 @@
 						    // for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
 						    kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
 						    kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
-						    kakao.maps.event.addListener(marker, 'mousemove', makeOutListener(infowindow));
 						    kakao.maps.event.addListener(marker, 'click', makeOverListener(map, marker, infowindow));
 						}
 			
@@ -260,7 +247,6 @@
 				
 			})
 		}
-		
 	</script>
 	
 	

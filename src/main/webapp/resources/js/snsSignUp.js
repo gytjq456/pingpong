@@ -56,7 +56,13 @@ $(function(){
 			return false;
 		}		
 		
-		//나이		
+		//나이
+		if(age.val() == ""){
+			alert("나이를 입력해주세요.");
+			age.focus();
+			return false;
+		}
+		
 		var regexAge = /^(\d){0,3}$/gm;
 		var result_age = regexAge.test(age.val());
 		if(!result_age){
@@ -74,10 +80,18 @@ $(function(){
 		}
 		
 		//email
-		if(email == 'null'){
+		if(email.val() == ""){
 			alert("이메일을 입력해주세요.");
-			$('#email').focus();			
+			email.focus();
 			return false;
+		}
+		
+		if(email.object == undefined){
+			if(email.val == 'null'){
+				alert("이메일을 입력해주세요.");
+				$('#email').focus();
+				return false;
+			}
 		}
 		
 		//전화번호 (앞자리)
@@ -87,14 +101,16 @@ $(function(){
 			return false;
 		}
 		
-		//전화번호	(뒷자리)
-		var regexPhone = /^(\d){4,15}$/g;
+		
+		// 전화번호 (뒷자리)
+		var regexPhone = /^(?!010|070|011)(\d){8}$/gm;
 		var result_phone = regexPhone.test(phone.val());
 		if(!result_phone){
-			alert("전화번호 : 숫자이며 4~15글자입니다.");
+			alert("전화번호 : 숫자이며 8글자입니다. 010 / 011 / 070 빼주세요.");
 			phone.focus();
 			return false;
-		}		
+		}
+		
 		
 		//주소
 		var sidoVal = $("#sido1").val();
@@ -150,27 +166,25 @@ $(function(){
 		
 		/* 구사가능언어 */
 		//체크박스 체크여부 확인
-		var langCan = $("input:checkbox[name=lang_can]");
-		var ckIsNull = langCan.is(":checked") == true;		
+		var langCan = $("input[name='lang_can']");
+		var ckIsNull = langCan.is(":checked");		
 		var count = $('input:checkbox[name="lang_can"]:checked').length;
-		
+
 		if(ckIsNull == false){
 			langCan.focus();
 			alert("구사가능 언어를 선택해주세요");
 			return false;
 		}else{
 			if(count > 3){
-				langCan.focus();
-				alert("최대 3개까지만 선택가능합니다.");
-				langCan.prop("checked", false);
+				max3Call(langCan);
 				return false;
 			}
 		};
 		
-		/* 배우고 싶은 언어 */
+		/* 배우고 싶은 언어*/
 		//체크박스 체크여부 확인
-		var langLearn = $("input:checkbox[name=lang_learn]");
-		var ckIsNull2 = langLearn.is(":checked") == true;		
+		var langLearn = $("input[name='lang_learn']");
+		var ckIsNull2 = langLearn.is(":checked");		
 		var count2 = $('input:checkbox[name="lang_learn"]:checked').length;
 		
 		if(ckIsNull2 == false){
@@ -179,16 +193,14 @@ $(function(){
 			return false;
 		}else{
 			if(count2 > 3){
-				langLearn.focus();
-				alert("최대 3개까지만 선택가능합니다.");
-				$('input:checkbox[name="lang_learn"]').prop("checked", false);
+				max3Call(langLearn);
 				return false;
 			}
-		}
+		}; 
 		
 		/* 취미  */
-		var hobby = $("input:checkbox[name=hobby]");
-		var ckIsNull3 = hobby.is(":checked") == true;		
+		var hobby = $("input[name='hobby']");
+		var ckIsNull3 = hobby.is(":checked");		
 		var count3 = $('input:checkbox[name="hobby"]:checked').length;
 		
 		if(ckIsNull3 == false){
@@ -197,29 +209,41 @@ $(function(){
 			return false;
 		}else{
 			if(count3 > 3){
-				hobby.focus();
-				alert("최대 3개까지만 선택가능합니다.");
-				$('input:checkbox[name="hobby"]').prop("checked", false);
+				max3Call(hobby);
 				return false;
 			}
-		}
+		};
+		
+		/* 공통함수 */
+		function max3Call(lang){
+			lang.focus();
+			alert("최대 3개까지만 선택가능합니다.");
+			lang.prop("checked", false);
+		};
 		
 		/* 자기소개  */
 		if(introduce.val().length < 50){
 			introduce.focus();
 			alert("자기소개를 최소 50글자 이상 작성해주세요.");
 			return false;
-		}
+		};
 		
 		//값이 비워있을 때
+		var sysname = $("#sysname").val();
 		if(
 				name.val() == "" ||
 				email.val()=="" || age.val() == "" || phone_country == "" || address.val() == "" || bank_name =="" ||
-				account.val() =="" || phone.val() == "" || !profile.val() || ckIsNull == false ||
-				ckIsNull2 == false || ckIsNull3 == false || introduce.val().length < 100
+				account.val() =="" || ckIsNull == false ||ckIsNull2 == false || ckIsNull3 == false
 		){
+			if(sysname == ""){
+				if(!profile.val()){
+					alert("프로필을 입력해주세요");
+					profile.focus();
+					return false;	
+				}
+			}
 			return false;		
-	 	}
+	 	};
 	});
 	
 });

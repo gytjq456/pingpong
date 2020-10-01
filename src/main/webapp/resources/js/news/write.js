@@ -22,42 +22,6 @@ $(function(){
       }
    });
    
-   /** 달력 
-   //오늘 날짜를 출력
-    $("#today").text(new Date().toLocaleDateString());
-
-    //datepicker 한국어로 사용하기 위한 언어설정
-    $.datepicker.setDefaults($.datepicker.regional['ko']);
-    
-    //시작일.
-    $('#apply_start').datepicker({
-        dateFormat: "yy-mm-dd",             // 날짜의 형식
-        minDate: 0,
-        onClose: function( selectedDate ) {    
-           if($("#apply_start").val() == ""){
-              return false;
-           }
-            // 시작일(apply_start) datepicker가 닫힐때
-            // 종료일(toDate)의 선택할수있는 최소 날짜(minDate)를 선택한 시작일로 지정
-           // $("#apply_end").datepicker( "option", "minDate", selectedDate );
-            $('#apply_end').datepicker({
-              dateFormat: "yy-mm-dd",
-              changeMonth: true,
-              minDate : new Date($("#apply_start").val()),
-              onClose: function( selectedDate ) {
-                  // 종료일(toDate) datepicker가 닫힐때
-                  // 시작일(fromDate)의 선택할수있는 최대 날짜(maxDate)를 선택한 종료일로 지정 
-                  $("#apply_start").datepicker( "option", "maxDate", selectedDate );
-              }                
-          })
-        }                
-    });
-
-    $('#apply_end').on("focus",function(){
-       var start = $("#apply_start").val();
-       
-    });
-   **/
    
    /** 다음 지도 **/
    $("#postbtn").click(function(){
@@ -139,9 +103,8 @@ $(function(){
       var size = f.size || f.fileSize;
       console.log(f.size + ":" +f.fileSize);
       var limit = 1024*1024*10; //바이트
-      var limitAll = 1024*1024*30; //바이트
-      if(size>limitAll){
-         alert("총 파일용량이 30MB을 초과했습니다.");
+      if(size>limit){
+         alert("총 파일용량이 10MB을 초과했습니다.");
          $(this).val("");
          return false;
       }

@@ -129,10 +129,6 @@
 		
 		// 날짜를 클릭하면 해당 날짜 스타일 변경되고 왼쪽의 날짜와 요일이 업데이트 됩니다.
 		
-		/* function showMain(){
-		    mainTodayDay.innerHTML = dayList[today.getDay()];
-		    mainTodayDate.innerHTML = today.getDate();
-		} */
 		var clickedDate1 = document.getElementById(today.getDate());
 		clickedDate1.classList.add('active');
 		var prevBtn = document.getElementById('prev');
@@ -158,9 +154,7 @@
 		    clickedDate1 = e.currentTarget;
 		    clickedDate1.classList.add('active');
 		    today = new Date(today.getFullYear(), today.getMonth(), clickedDate1.id);
-		    //showMain();
 		    keyValue = today.getFullYear() + '' + today.getMonth()+ '' + today.getDate();
-		    //reshowingList();
 		    classSchFn();
 		}
 		

@@ -36,10 +36,19 @@
 	<!-- 회원가입 sns -->
 	<insert id ="memberInsertSns">
 		insert into member values(
-			#{mem_type}, #{id}, #{pw}, #{name}, ${age},
-			#{gender}, #{email}, #{phone_country}, #{phone}, #{address}, #{bank_name},
-			#{account}, #{sysname}, #{country}, #{lang_can}, #{lang_learn}, #{hobby}, #{grade},
-			#{introduce}, default, default
+			#{mdto.mem_type}, #{mdto.id}, #{mdto.pw}, #{mdto.name}, ${mdto.age},
+			#{mdto.gender}, #{mdto.email}, #{mdto.phone_country}, #{mdto.phone}, #{mdto.address}, #{mdto.bank_name},
+			#{mdto.account},
+			<choose>
+				<when test="mdto.sysname != null">
+					#{mdto.sysname},
+				</when>
+				<otherwise>
+					#{fdto.sysname},
+				</otherwise>
+			</choose>
+			#{mdto.country}, #{mdto.lang_can}, #{mdto.lang_learn}, #{mdto.hobby}, #{mdto.grade},
+			#{mdto.introduce}, default, default
 		)
 	</insert>
 	

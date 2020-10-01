@@ -366,6 +366,7 @@ button.normal:hover { background:#c7c7c7 !important; color:#fff; }
 }
 .viewPage_style1 .body_right { width:360px; margin-left:20px; position:absolute; right:0; top:0;}
 .viewPage_style1 .body_right > div { border-bottom:1px solid #ddd; padding-bottom:30px; margin-bottom:30px; }
+.viewPage_style1 .body_right > div.caution .txt { white-space: pre-line; }
 .viewPage_style1 .body_right > div.moreList,
 .viewPage_style1 .body_right > div:last-child { margin:0; padding:0; border:none;  }
 .viewPage_style1 .body_right .tit_s2 { margin-bottom:10px;}
@@ -675,7 +676,7 @@ width:-moz-calc(100% - 100px);
 }
 #chatWrap .txtInputBox #transfer { position:absolute; padding:5px 15px; border:1px solid #ddd; background:#3162a4; color:#fff; border-radius:6px; right:10px; top:10px;}
 #chatWrap #chatRoom,
-#chatList { position:absolute; right:0; top:0; background:#fff;  z-index:9997; width:100%; height:100%;     box-shadow: 0 7px 25px 0 rgba(0,0,0,0.1);}
+#chatList { position:absolute; right:0; top:0; background:#fff;  z-index:9997; width:100%; height:100%;     box-shadow: 0 7px 25px 0 rgba(0,0,0,0.1); overflow-y:auto;}
 #chatList {padding:20px; }
 #chatList .userInfo_s1 .thumb { width:50px; height:50px; }
 #chatList .tit { font-size:20px; font-weight:700; margin-bottom:20px;}
@@ -903,7 +904,7 @@ width:-webkit-calc(100% - 60px);
 
 /* 레이어 팝업 */
 #layerPop_s4 { position:fixed; left:0; top:0; width:100%; height:100%; z-index:10001; display:none; background:rgba(0,0,0,0.5); }
-#layerPop_s4 .pop_body { position:absolute; left:50%; top:50%; transform:translate(-50%, -50%); max-width:640px; background:#fff; padding:20px; }
+#layerPop_s4 .pop_body { position:absolute; left:50%; top:50%; transform:translate(-50%, -50.2%); max-width:640px; background:#fff; padding:20px; }
 #layerPop_s4 .tit_s3 {text-align: center; font-size: 20px; font-weight: bold; border-bottom:1px solid #ddd; padding-bottom:12px; margin-bottom:12px;}
 #layerPop_s4 .checkAgree { color: #999; }
 #layerPop_s4 .checkLabel { vertical-align: middle; }

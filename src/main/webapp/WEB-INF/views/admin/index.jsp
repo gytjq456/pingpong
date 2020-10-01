@@ -53,13 +53,38 @@
 					function getFormatDate(date, number, type){
 					    var year = date.getFullYear();              //yyyy
 					    var month = (1 + date.getMonth());          //M
-					    month = month >= 10 ? month : '0' + month;  //month 두자리로 저장
 					    var day = date.getDate() - number;          //d
+					    
+					    if (day < 1) {
+					    	month -= 1;
+					    	
+					    	if ((month < 8 && month % 2 == 1) || (month >= 8 && month % 2 == 0)) {
+					    		day += 31;
+					    	} else if (month == 2) {
+					    		if (year % 4 == 0) {
+					    			if (year % 100 == 0) {
+					    				if (year % 400 == 0) {
+					    					day += 29;
+					    				} else {
+					    					day += 28;
+					    				}
+					    			} else {
+					    				day += 29;
+					    			}
+					    		} else {
+						    		day += 28;
+					    		}
+					    	} else {
+					    		day += 30;
+					    	}
+					    }
+					    
+					    month = month >= 10 ? month : '0' + month;  //month 두자리로 저장
 					    day = day >= 10 ? day : '0' + day;          //day 두자리로 저장
 					    if (type == 'full') {
 					    	return year + '/' + month + '/' + day;
 					    } else {
-					    	return  month + '/' + day;       //'-' 추가하여 yyyy-mm-dd 형태 생성 가능
+					    	return  month + '/' + day;
 					    }
 					}
 					
@@ -80,6 +105,7 @@
 						dayList[i] = document.getElementById(getFormatDate(today, i, 'full')).value;
 					}
 			
+					// 일일 방문자 수
 					var ctx1 = document.getElementById('chartForVisitor').getContext('2d');
 					var chartForVisitor = new Chart(ctx1, {
 					    type: 'bar',
@@ -130,6 +156,7 @@
 						langNameList[i] = $($('.langInput')[i]).attr('id');
 					}
 					
+					// 언어 선호도
 					var ctx2 = document.getElementById('chartForLang').getContext('2d');
 					var chartForLang = new Chart(ctx2, {
 					    type: 'doughnut',
@@ -173,6 +200,7 @@
 						locNameList[i] = $($('.locInput')[i]).attr('id');
 					}
 					
+					// 지역 선호도
 					var ctx3 = document.getElementById('chartForLoc').getContext('2d');
 					var chartForLang = new Chart(ctx3, {
 					    type: 'doughnut',
